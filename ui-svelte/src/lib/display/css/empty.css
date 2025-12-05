@@ -1,0 +1,8 @@
+@layer components {
+	.empty {
+		@apply flex flex-col items-center justify-center w-full gap-4 p-4 text-center;
+		.empty-icon {
+			@apply max-h-64 w-full;
+		}
+	}
+}

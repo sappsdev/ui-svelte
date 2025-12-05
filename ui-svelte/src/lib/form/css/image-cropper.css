@@ -1,0 +1,155 @@
+@layer components {
+	.image-cropper {
+		@apply flex flex-col gap-4 w-full;
+	}
+
+	.image-cropper-container {
+		@apply relative w-full overflow-hidden;
+		@apply bg-muted rounded-ui;
+		@apply flex items-center justify-center;
+		min-height: 400px;
+		max-height: 600px;
+	}
+
+	.image-cropper-image {
+		@apply block max-w-full max-h-full;
+		@apply select-none pointer-events-none;
+		-webkit-user-drag: none;
+	}
+
+	.image-cropper-overlay {
+		@apply absolute inset-0 pointer-events-none;
+	}
+
+	.overlay-top,
+	.overlay-bottom,
+	.overlay-left,
+	.overlay-right {
+		@apply absolute bg-black/50 pointer-events-none;
+	}
+
+	.overlay-top {
+		@apply left-0 right-0 top-0;
+	}
+
+	.overlay-bottom {
+		@apply left-0 right-0 bottom-0;
+	}
+
+	.overlay-middle {
+		@apply absolute left-0 right-0;
+		@apply flex;
+	}
+
+	.overlay-left {
+		@apply h-full;
+	}
+
+	.overlay-right {
+		@apply absolute h-full;
+	}
+
+	.crop-area {
+		@apply absolute pointer-events-auto;
+		@apply border-2 border-primary;
+		@apply cursor-move;
+		@apply transition-shadow duration-200;
+		box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+	}
+
+	.crop-area:hover {
+		@apply border-primary/80;
+	}
+
+	.crop-grid {
+		@apply absolute inset-0 pointer-events-none;
+		@apply opacity-0 transition-opacity duration-200;
+	}
+
+	.crop-area:hover .crop-grid,
+	.crop-area:active .crop-grid {
+		@apply opacity-100;
+	}
+
+	.grid-line {
+		@apply absolute bg-primary/30;
+	}
+
+	.grid-line-v {
+		@apply top-0 bottom-0 w-px;
+	}
+
+	.grid-line-h {
+		@apply left-0 right-0 h-px;
+	}
+
+	.resize-handle {
+		@apply absolute bg-primary border-2 border-background;
+		@apply transition-all duration-200;
+		@apply opacity-0;
+		@apply z-10;
+	}
+
+	.crop-area:hover .resize-handle {
+		@apply opacity-100;
+	}
+
+	.resize-handle.handle-nw {
+		@apply -top-1 -left-1 w-3 h-3 cursor-nw-resize rounded-tl-sm;
+	}
+
+	.resize-handle.handle-n {
+		@apply -top-1 left-1/2 -translate-x-1/2 w-8 h-2 cursor-n-resize rounded-t-sm;
+	}
+
+	.resize-handle.handle-ne {
+		@apply -top-1 -right-1 w-3 h-3 cursor-ne-resize rounded-tr-sm;
+	}
+
+	.resize-handle.handle-e {
+		@apply top-1/2 -translate-y-1/2 -right-1 w-2 h-8 cursor-e-resize rounded-r-sm;
+	}
+
+	.resize-handle.handle-se {
+		@apply -bottom-1 -right-1 w-3 h-3 cursor-se-resize rounded-br-sm;
+	}
+
+	.resize-handle.handle-s {
+		@apply -bottom-1 left-1/2 -translate-x-1/2 w-8 h-2 cursor-s-resize rounded-b-sm;
+	}
+
+	.resize-handle.handle-sw {
+		@apply -bottom-1 -left-1 w-3 h-3 cursor-sw-resize rounded-bl-sm;
+	}
+
+	.resize-handle.handle-w {
+		@apply top-1/2 -translate-y-1/2 -left-1 w-2 h-8 cursor-w-resize rounded-l-sm;
+	}
+
+	.resize-handle:hover {
+		@apply scale-125 bg-primary/90;
+	}
+
+	.image-cropper-controls {
+		@apply flex items-center justify-end gap-2;
+	}
+
+	.image-cropper-canvas {
+		@apply hidden;
+	}
+
+	/* Responsive */
+	@media (max-width: 640px) {
+		.image-cropper-container {
+			min-height: 300px;
+		}
+
+		.image-cropper-controls {
+			@apply flex-col w-full;
+		}
+
+		.image-cropper-controls .btn {
+			@apply w-full;
+		}
+	}
+}

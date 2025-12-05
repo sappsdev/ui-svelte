@@ -1,0 +1,188 @@
+@layer components {
+	.chatbox {
+		@apply relative flex h-full w-full flex-col overflow-hidden rounded-ui;
+		@apply bg-surface;
+	}
+
+	.chatbox-header {
+		@apply flex items-center justify-between gap-3 border-b border-muted px-4 py-3;
+		@apply bg-background text-on-background;
+	}
+
+	.chatbox-header-start {
+		@apply flex items-center gap-3;
+	}
+
+	.chatbox-header-center {
+		@apply flex flex-1 flex-col items-start gap-0.5;
+	}
+
+	.chatbox-header-name {
+		@apply text-sm font-semibold leading-none text-on-surface;
+	}
+
+	.chatbox-header-status {
+		@apply text-xs leading-none text-on-muted;
+	}
+
+	.chatbox-header-end {
+		@apply flex items-center gap-2;
+	}
+
+	.chatbox-messages {
+		@apply flex flex-1 flex-col gap-2 overflow-y-auto px-4 py-4;
+		@apply bg-surface;
+	}
+
+	.chatbox-messages::-webkit-scrollbar {
+		@apply w-1.5;
+	}
+
+	.chatbox-messages::-webkit-scrollbar-track {
+		@apply bg-transparent;
+	}
+
+	.chatbox-messages::-webkit-scrollbar-thumb {
+		@apply rounded-full bg-muted/30;
+	}
+
+	.chatbox-messages::-webkit-scrollbar-thumb:hover {
+		@apply bg-muted/50;
+	}
+
+	.message-wrapper {
+		@apply flex w-full;
+		animation: messageSlideIn 0.2s ease-out;
+	}
+
+	.message-wrapper.own {
+		@apply justify-end;
+	}
+
+	.message-wrapper:not(.own) {
+		@apply justify-start;
+	}
+
+	@keyframes messageSlideIn {
+		from {
+			opacity: 0;
+			transform: translateY(0.5rem);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.message {
+		@apply relative max-w-[70%] rounded-2xl px-3 py-2;
+		@apply text-sm leading-relaxed;
+	}
+
+	.message:not(.own) {
+		@apply rounded-bl-md bg-surface text-on-surface;
+	}
+
+	.message.own {
+		@apply rounded-br-md;
+	}
+
+	.message-content {
+		@apply mb-1 whitespace-pre-wrap wrap-break-word leading-relaxed;
+	}
+
+	.message-meta {
+		@apply flex items-center justify-end gap-1;
+	}
+
+	.message-time {
+		@apply text-[10px] opacity-70;
+	}
+
+	.message-status {
+		@apply text-xs opacity-80;
+	}
+
+	.message-status-read {
+		@apply text-info;
+	}
+
+	.message-image {
+		@apply mb-1 block max-w-full rounded-lg;
+	}
+
+	.message-file {
+		@apply flex items-center gap-2 py-1;
+	}
+
+	.message-file-icon {
+		@apply text-xl;
+	}
+
+	.message-file-name {
+		@apply text-sm;
+	}
+
+	/* Variantes de color para mensajes propios */
+	.chatbox-primary .message.own {
+		@apply bg-primary text-on-primary;
+	}
+
+	.chatbox-secondary .message.own {
+		@apply bg-secondary text-on-secondary;
+	}
+
+	.chatbox-success .message.own {
+		@apply bg-success text-on-success;
+	}
+
+	.chatbox-info .message.own {
+		@apply bg-info text-on-info;
+	}
+
+	.chatbox-warning .message.own {
+		@apply bg-warning text-on-warning;
+	}
+
+	.chatbox-danger .message.own {
+		@apply bg-danger text-on-danger;
+	}
+
+	.chatbox-soft .message.own {
+		@apply bg-primary/10 text-primary;
+	}
+
+	.chatbox-outlined .message.own {
+		@apply border border-primary bg-transparent text-primary;
+	}
+
+	.chatbox-footer {
+		@apply border-t border-surface text-on-background p-2;
+	}
+
+	.chatbox-input {
+		@apply appearance-none w-full h-full outline-none;
+	}
+
+	.chatbox-input-wrapper {
+		@apply flex items-center gap-2 bg-background rounded-ui p-2;
+		box-shadow: 0 0 3px 0 var(--color-muted);
+	}
+
+	.chatbox-input-actions {
+		@apply flex items-center gap-1;
+	}
+
+	.chatbox-record-overlay {
+		@apply absolute inset-x-0 bottom-0 z-10;
+		@apply border-t border-muted bg-surface/95 backdrop-blur-sm;
+		@apply px-4 py-3;
+	}
+
+	.load-more-btn {
+		@apply mx-auto mb-2 block rounded-full px-4 py-2 text-xs font-medium;
+		@apply bg-surface text-on-surface shadow-sm transition-all;
+		@apply hover:shadow-md;
+		@apply disabled:cursor-not-allowed disabled:opacity-50;
+	}
+}

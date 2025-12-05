@@ -1,0 +1,133 @@
+@layer components {
+	.dropzone {
+		@apply relative w-full flex flex-col;
+	}
+
+	.dropzone-input {
+		@apply flex justify-center items-center border-2 border-dashed h-48 w-full;
+		@apply border-muted p-6 transition-all rounded-ui cursor-pointer;
+	}
+
+	.dropzone-input.is-active {
+		@apply border-primary bg-primary/5;
+	}
+
+	.dropzone-input.is-disabled {
+		@apply opacity-50 cursor-not-allowed;
+	}
+
+	.dropzone-input.is-error {
+		@apply border-danger;
+	}
+
+	.dropzone-input.is-primary {
+		@apply bg-on-primary border-primary;
+	}
+
+	.dropzone-input.is-solid.is-primary {
+		@apply bg-primary border-primary;
+	}
+
+	.dropzone-input.is-secondary {
+		@apply bg-on-secondary border-secondary;
+	}
+
+	.dropzone-input.is-solid.is-secondary {
+		@apply bg-secondary border-secondary;
+	}
+
+	.dropzone-input.is-muted {
+		@apply bg-muted border-muted;
+	}
+
+	.dropzone-input.is-solid.is-muted {
+		@apply bg-on-muted border-on-muted;
+	}
+
+	.dropzone-input.is-outlined {
+		@apply border-muted;
+	}
+
+	.dropzone-input.is-outlined.is-active {
+		@apply border-primary;
+	}
+
+	.dropzone-input.is-line {
+		@apply border-0 border-b-2 border-muted rounded-none;
+	}
+
+	.dropzone-input.is-line.is-active {
+		@apply border-primary;
+	}
+
+	.dropzone-input.is-sm {
+		@apply h-32 text-sm;
+	}
+
+	.dropzone-input.is-md {
+		@apply h-48 text-base;
+	}
+
+	.dropzone-input.is-lg {
+		@apply h-64 text-lg;
+	}
+
+	.dropzone-content {
+		@apply flex flex-col items-center gap-2;
+	}
+
+	.dropzone-icon {
+		@apply h-8 w-8 opacity-50;
+	}
+
+	.dropzone-placeholder {
+		@apply text-sm text-center opacity-70;
+	}
+
+	.dropzone-files {
+		@apply mt-4 flex flex-col gap-2;
+	}
+
+	.dropzone-file {
+		@apply flex items-center justify-between gap-3 p-3 rounded-ui;
+		@apply border border-muted bg-muted/30;
+	}
+
+	.dropzone-file-preview {
+		@apply relative size-10 overflow-hidden rounded shrink-0;
+	}
+
+	.dropzone-file-image {
+		@apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+		@apply w-full h-full object-cover;
+	}
+
+	.dropzone-file-icon {
+		@apply size-full flex items-center justify-center bg-muted;
+	}
+
+	.dropzone-file-icon svg {
+		@apply h-5 w-5 opacity-50;
+	}
+
+	.dropzone-file-info {
+		@apply flex flex-col min-w-0 flex-1;
+	}
+
+	.dropzone-file-name {
+		@apply text-sm font-medium truncate;
+	}
+
+	.dropzone-file-size {
+		@apply text-xs opacity-70;
+	}
+
+	.dropzone-file-remove {
+		@apply shrink-0 p-1.5 rounded transition-colors;
+		@apply hover:bg-muted/50;
+	}
+
+	.dropzone-file-remove svg {
+		@apply h-4 w-4;
+	}
+}

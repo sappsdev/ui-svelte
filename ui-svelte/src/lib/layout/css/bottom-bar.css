@@ -1,0 +1,12 @@
+@layer components {
+	.dock {
+		@apply w-full fixed bottom-0 z-30;
+		@apply transition-all duration-300 ease-in-out;
+
+		.dock-content {
+			@apply w-full px-2 gap-4 relative;
+			@apply flex flex-row flex-nowrap items-center justify-between;
+			@apply overflow-hidden;
+		}
+	}
+}

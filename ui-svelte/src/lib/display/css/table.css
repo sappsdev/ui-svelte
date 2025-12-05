@@ -1,0 +1,361 @@
+@layer components {
+	.table-container {
+		@apply relative w-full overflow-x-auto;
+
+		.table {
+			@apply relative w-full text-left rtl:text-right;
+
+			.table-header {
+				@apply bg-muted whitespace-nowrap text-sm font-semibold rounded-ui;
+				th {
+					&:first-child {
+						@apply rounded-l-ui pl-6;
+					}
+
+					&:last-child {
+						@apply rounded-r-ui;
+					}
+				}
+
+				.table-head {
+					@apply py-3 px-4 text-left text-sm font-semibold text-on-muted;
+				}
+			}
+
+			.table-body {
+				tr {
+					@apply transition-colors duration-150;
+				}
+
+				td {
+					@apply px-4 py-4 text-sm whitespace-nowrap;
+
+					&:first-child {
+						@apply pl-6;
+					}
+				}
+			}
+		}
+	}
+
+	.table.has-dividers {
+		.table-body {
+			@apply divide-y divide-muted/40;
+		}
+	}
+
+	.table.is-striped {
+		tbody {
+			tr {
+				&:nth-child(even) {
+					@apply bg-muted/50;
+
+					td {
+						&:first-child {
+							@apply rounded-l-ui;
+						}
+
+						&:last-child {
+							@apply rounded-r-ui;
+						}
+					}
+				}
+
+				&:hover {
+					@apply bg-muted/70;
+				}
+			}
+		}
+	}
+
+	.table.is-bordered {
+		@apply border border-muted/40 rounded-lg overflow-hidden;
+
+		.table-body {
+			tr {
+				td {
+					@apply border-r border-muted/40;
+
+					&:last-child {
+						@apply border-r-0;
+					}
+				}
+			}
+		}
+	}
+
+	.table.is-sm {
+		.table-header {
+			.table-head {
+				@apply text-xs py-2 px-3;
+			}
+		}
+
+		.table-body {
+			td {
+				@apply text-xs py-2 px-3;
+
+				&:first-child {
+					@apply pl-4;
+				}
+			}
+		}
+	}
+
+	.table.is-md {
+		.table-header {
+			.table-head {
+				@apply text-sm py-3 px-4;
+			}
+		}
+
+		.table-body {
+			td {
+				@apply text-sm py-4 px-4;
+
+				&:first-child {
+					@apply pl-6;
+				}
+			}
+		}
+	}
+
+	.table.is-lg {
+		.table-header {
+			.table-head {
+				@apply text-base py-4 px-5;
+			}
+		}
+
+		.table-body {
+			td {
+				@apply text-base py-5 px-5;
+
+				&:first-child {
+					@apply pl-7;
+				}
+			}
+		}
+	}
+
+	.table-loading-row {
+		@apply animate-pulse;
+	}
+
+	.skeleton-loader {
+		@apply h-4 bg-muted/50 rounded-md animate-pulse;
+	}
+
+	.table-empty-row {
+		@apply border-0;
+	}
+
+	.table-empty-cell {
+		@apply border-0 py-12;
+	}
+
+	.empty-state {
+		@apply flex flex-col items-center justify-center gap-4 text-center;
+	}
+
+	.empty-icon {
+		@apply text-on-muted/40;
+
+		.empty-state-icon {
+			@apply w-16 h-16;
+		}
+	}
+
+	.empty-content {
+		@apply flex flex-col gap-1;
+	}
+
+	.empty-title {
+		@apply text-lg font-semibold text-on-background;
+	}
+
+	.empty-description {
+		@apply text-sm text-on-muted;
+	}
+
+	.table-toolbar {
+		@apply flex items-center justify-between gap-4 py-3 flex-wrap;
+	}
+
+	.table-toolbar-start {
+		@apply flex items-center gap-3 flex-1 min-w-[200px];
+	}
+
+	.table-toolbar-end {
+		@apply flex items-center gap-3;
+	}
+
+	.table-search {
+		@apply min-w-full max-w-full md:min-w-xs md:max-w-xs;
+	}
+
+	.table-rows-per-page {
+		@apply flex items-center gap-2;
+	}
+
+	.table-rows-per-page-label {
+		@apply text-sm text-on-muted whitespace-nowrap;
+	}
+
+	.table-rows-per-page-select {
+		@apply min-w-[70px];
+	}
+
+	@media (max-width: 640px) {
+		.table-toolbar {
+			@apply flex-col items-stretch;
+		}
+
+		.table-toolbar-start,
+		.table-toolbar-end {
+			@apply w-full justify-between;
+		}
+	}
+
+	.table-selection-bar {
+		@apply flex items-center justify-between gap-4 px-4 py-3 bg-primary/10 border border-primary/20 rounded-ui mb-3;
+
+		@media (max-width: 640px) {
+			@apply flex-col items-start gap-3;
+		}
+	}
+
+	.table-selection-info {
+		@apply flex items-center gap-4;
+	}
+
+	.table-selection-count {
+		@apply text-sm font-medium text-primary;
+	}
+
+	.table-selection-clear {
+		@apply text-sm text-primary bg-transparent border-0 cursor-pointer underline p-0;
+
+		&:hover {
+			@apply text-primary/80;
+		}
+	}
+
+	.table-selection-actions {
+		@apply flex items-center gap-2;
+
+		@media (max-width: 640px) {
+			@apply w-full justify-start;
+		}
+	}
+
+	.table-checkbox-cell {
+		@apply w-12 pl-4 pr-2;
+	}
+
+	.table-checkbox {
+		@apply m-0;
+
+		&.is-indeterminate input {
+			@apply opacity-60;
+		}
+	}
+
+	.skeleton-checkbox {
+		@apply w-4 h-4 rounded-sm;
+	}
+
+	.table-row-selected {
+		@apply bg-primary/10;
+
+		&:hover {
+			@apply bg-primary/15;
+		}
+	}
+
+	.table-wrapper {
+		@apply flex flex-col gap-2;
+	}
+
+	.table-footer-info {
+		@apply flex items-center justify-between gap-4 px-2 py-3;
+
+		@media (max-width: 640px) {
+			@apply flex-col items-stretch gap-3;
+		}
+	}
+
+	.pagination-container {
+		@apply flex w-full py-2 items-center justify-between gap-4;
+
+		@media (max-width: 640px) {
+			@apply flex-col items-stretch;
+		}
+	}
+
+	.pagination {
+		@apply flex items-center gap-1;
+	}
+
+	.pagination-btn {
+		@apply flex items-center justify-center min-w-9 h-9 px-2 rounded-ui border border-transparent bg-transparent text-sm font-medium cursor-pointer transition-all duration-150;
+
+		.icon {
+			@apply h-5 w-auto;
+		}
+
+		&:hover:not(:disabled):not(.active) {
+			@apply bg-muted;
+		}
+
+		&.active {
+			@apply bg-primary text-on-primary;
+		}
+
+		&:disabled {
+			@apply opacity-50 cursor-not-allowed;
+		}
+	}
+
+	.pagination-ellipsis {
+		@apply flex items-center justify-center min-w-9 h-9 text-sm opacity-60;
+	}
+
+	.table-total {
+		@apply text-sm text-on-muted whitespace-nowrap;
+	}
+
+	.table-head-content {
+		@apply flex items-center gap-1;
+	}
+
+	.table-head-label {
+		@apply shrink-0;
+	}
+
+	.table-head.sortable {
+		@apply cursor-pointer select-none;
+
+		&:hover {
+			.table-sort-btn {
+				@apply opacity-80;
+			}
+		}
+	}
+
+	.table-head.sorted {
+		@apply text-primary;
+	}
+
+	.table-sort-btn {
+		@apply opacity-40 transition-opacity duration-150 shrink-0;
+
+		&:hover {
+			@apply opacity-80;
+		}
+
+		&.is-active {
+			@apply opacity-100 text-primary;
+		}
+	}
+}

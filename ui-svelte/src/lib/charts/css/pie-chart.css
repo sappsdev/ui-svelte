@@ -1,0 +1,199 @@
+@layer components {
+	.pie-chart-container {
+		@apply relative w-full flex flex-col md:flex-row justify-center items-center gap-4;
+	}
+
+	.pie-chart {
+		@apply relative flex items-center justify-center w-auto h-56 text-on-muted;
+	}
+
+	.pie-chart-svg {
+		@apply w-full h-full overflow-visible;
+	}
+
+	.pie-chart-slice {
+		stroke-width: 2;
+		@apply cursor-pointer transition-all duration-200 ease-in-out;
+		transform-origin: center;
+	}
+
+	.pie-chart-slice:hover {
+		opacity: 0.8;
+		transform: scale(1.02);
+	}
+
+	.pie-chart-slice.is-primary {
+		@apply fill-primary stroke-on-primary;
+	}
+
+	.pie-chart-slice.is-secondary {
+		@apply fill-secondary stroke-on-secondary;
+	}
+
+	.pie-chart-slice.is-success {
+		@apply fill-success stroke-on-success;
+	}
+
+	.pie-chart-slice.is-info {
+		@apply fill-info stroke-on-info;
+	}
+
+	.pie-chart-slice.is-warning {
+		@apply fill-warning stroke-on-warning;
+	}
+
+	.pie-chart-slice.is-danger {
+		@apply fill-danger stroke-on-danger;
+	}
+
+	.pie-chart-slice.is-muted {
+		@apply fill-muted stroke-on-muted;
+	}
+
+	.pie-chart-slice-label {
+		fill: white;
+		pointer-events: none;
+		@apply text-xs font-medium;
+	}
+
+	.pie-chart-center-value {
+		@apply fill-on-muted text-2xl font-bold;
+	}
+
+	.pie-chart-center-label {
+		@apply fill-on-muted text-xs opacity-70;
+	}
+
+	.pie-chart-tooltip {
+		position: fixed;
+		pointer-events: none;
+		z-index: 50;
+		background: var(--color-on-muted, #1f2937);
+		color: var(--color-muted, #f9fafb);
+		padding: 0.5rem 0.75rem;
+		border-radius: 0.375rem;
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+		font-size: 0.75rem;
+		font-weight: 500;
+		white-space: nowrap;
+		transform: translateY(-50%);
+	}
+
+	.pie-chart-tooltip-title {
+		@apply font-semibold mb-1;
+	}
+
+	.pie-chart-tooltip-row {
+		@apply flex items-center gap-2;
+	}
+
+	.pie-chart-tooltip-color {
+		@apply w-2 h-2 rounded-full;
+	}
+
+	.pie-chart-tooltip-color.is-primary {
+		@apply bg-primary;
+	}
+
+	.pie-chart-tooltip-color.is-secondary {
+		@apply bg-secondary;
+	}
+
+	.pie-chart-tooltip-color.is-success {
+		@apply bg-success;
+	}
+
+	.pie-chart-tooltip-color.is-info {
+		@apply bg-info;
+	}
+
+	.pie-chart-tooltip-color.is-warning {
+		@apply bg-warning;
+	}
+
+	.pie-chart-tooltip-color.is-danger {
+		@apply bg-danger;
+	}
+
+	.pie-chart-tooltip-color.is-muted {
+		@apply bg-muted;
+	}
+
+	.pie-chart-tooltip-value {
+		@apply font-semibold;
+	}
+
+	.pie-chart-legend {
+		@apply flex flex-wrap md:flex-col gap-2 items-center justify-center text-sm text-on-muted text-nowrap;
+	}
+
+	.pie-chart-legend-item {
+		@apply flex items-center gap-2 cursor-pointer transition-opacity duration-200;
+	}
+
+	.pie-chart-legend-item:hover {
+		@apply opacity-80;
+	}
+
+	.pie-chart-legend-color {
+		@apply w-3 h-3 rounded-sm;
+	}
+
+	.pie-chart-legend-color.is-primary {
+		@apply bg-primary;
+	}
+
+	.pie-chart-legend-color.is-secondary {
+		@apply bg-secondary;
+	}
+
+	.pie-chart-legend-color.is-success {
+		@apply bg-success;
+	}
+
+	.pie-chart-legend-color.is-info {
+		@apply bg-info;
+	}
+
+	.pie-chart-legend-color.is-warning {
+		@apply bg-warning;
+	}
+
+	.pie-chart-legend-color.is-danger {
+		@apply bg-danger;
+	}
+
+	.pie-chart-legend-color.is-muted {
+		@apply bg-muted;
+	}
+
+	.pie-chart-legend-value {
+		@apply text-xs opacity-70;
+	}
+
+	.pie-chart-loading {
+		@apply absolute inset-0 flex items-center justify-center bg-muted rounded-md;
+	}
+
+	.pie-chart-loading-spinner {
+		@apply w-8 h-8 text-primary;
+		animation: pie-chart-spin 1s linear infinite;
+	}
+
+	@keyframes pie-chart-spin {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	.pie-chart-empty {
+		@apply absolute inset-0 flex flex-col items-center justify-center text-on-muted opacity-50 text-sm;
+	}
+
+	.pie-chart-empty-icon {
+		@apply w-12 h-12 mb-2;
+	}
+}

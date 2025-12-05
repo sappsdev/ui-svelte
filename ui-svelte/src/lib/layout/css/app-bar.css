@@ -1,0 +1,35 @@
+@layer components {
+	.appbar {
+		@apply w-full fixed top-0 z-30 bg-background;
+		@apply transition-all duration-300 ease-in-out;
+
+		&.is-blurred {
+			@apply backdrop-blur-lg bg-transparent;
+		}
+
+		&.is-bordered {
+			@apply border-b border-muted;
+		}
+
+		&.is-hidden {
+			@apply -translate-y-full;
+		}
+
+		.appbar-content {
+			@apply flex flex-nowrap items-center justify-between relative;
+			@apply w-full px-2 h-full min-h-12;
+
+			.appbar-start {
+				@apply flex flex-nowrap justify-start items-center p-2 md:p-3 gap-2 md:gap-3 relative;
+			}
+
+			.appbar-center {
+				@apply flex flex-1 flex-nowrap justify-center items-center p-2 md:p-3 gap-2 md:gap-3 relative;
+			}
+
+			.appbar-end {
+				@apply flex flex-nowrap justify-end items-center p-2 md:p-3 gap-2 md:gap-3 relative;
+			}
+		}
+	}
+}

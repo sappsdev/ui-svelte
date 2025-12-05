@@ -1,0 +1,202 @@
+@layer components {
+	.line-chart-container {
+		@apply relative w-full h-full;
+	}
+
+	.line-chart {
+		@apply relative w-full h-full text-on-muted;
+	}
+
+	.line-chart-svg {
+		@apply w-full h-full overflow-visible;
+	}
+
+	.line-chart-axis-line {
+		@apply stroke-muted;
+		stroke-width: 1;
+	}
+
+	.line-chart-axis-label {
+		@apply fill-on-muted text-xs;
+	}
+
+	.line-chart-grid-line {
+		@apply stroke-muted;
+		stroke-opacity: 0.3;
+		stroke-width: 1;
+		stroke-dasharray: 2, 2;
+	}
+
+	.line-chart-line {
+		fill: none;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		@apply transition-all duration-200 ease-in-out;
+	}
+
+	.line-chart-line.is-primary {
+		@apply stroke-primary;
+	}
+
+	.line-chart-line.is-secondary {
+		@apply stroke-secondary;
+	}
+
+	.line-chart-line.is-success {
+		@apply stroke-success;
+	}
+
+	.line-chart-line.is-info {
+		@apply stroke-info;
+	}
+
+	.line-chart-line.is-warning {
+		@apply stroke-warning;
+	}
+
+	.line-chart-line.is-danger {
+		@apply stroke-danger;
+	}
+
+	.line-chart-line.is-muted {
+		@apply stroke-muted;
+	}
+
+	.line-chart-point {
+		stroke-width: 2;
+		@apply cursor-pointer transition-all duration-200 ease-in-out;
+	}
+
+	.line-chart-point:hover {
+		r: 5;
+	}
+
+	.line-chart-point.is-primary {
+		@apply fill-primary stroke-on-primary;
+	}
+
+	.line-chart-point.is-secondary {
+		@apply fill-secondary stroke-on-secondary;
+	}
+
+	.line-chart-point.is-success {
+		@apply fill-success stroke-on-success;
+	}
+
+	.line-chart-point.is-info {
+		@apply fill-info stroke-on-info;
+	}
+
+	.line-chart-point.is-warning {
+		@apply fill-warning stroke-on-warning;
+	}
+
+	.line-chart-point.is-danger {
+		@apply fill-danger stroke-on-danger;
+	}
+
+	.line-chart-point.is-muted {
+		@apply fill-muted stroke-on-muted;
+	}
+
+	.line-chart-tooltip {
+		position: fixed;
+		pointer-events: none;
+		z-index: 50;
+		background: var(--color-on-muted, #1f2937);
+		color: var(--color-muted, #f9fafb);
+		padding: 0.5rem 0.75rem;
+		border-radius: 0.375rem;
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+		font-size: 0.75rem;
+		font-weight: 500;
+		white-space: nowrap;
+		transform: translateY(-50%);
+	}
+
+	.line-chart-tooltip-title {
+		@apply font-semibold mb-1;
+	}
+
+	.line-chart-tooltip-row {
+		@apply flex items-center gap-2;
+	}
+
+	.line-chart-tooltip-label {
+		opacity: 0.8;
+	}
+
+	.line-chart-tooltip-value {
+		@apply font-semibold;
+	}
+
+	.line-chart-legend {
+		@apply flex flex-wrap gap-4 items-center justify-center mt-4 text-sm text-on-muted;
+	}
+
+	.line-chart-legend-item {
+		@apply flex items-center gap-2 cursor-pointer transition-opacity duration-200;
+	}
+
+	.line-chart-legend-item:hover {
+		@apply opacity-80;
+	}
+
+	.line-chart-legend-color {
+		@apply w-3 h-3 rounded-sm;
+	}
+
+	.line-chart-legend-color.is-primary {
+		@apply bg-primary;
+	}
+
+	.line-chart-legend-color.is-secondary {
+		@apply bg-secondary;
+	}
+
+	.line-chart-legend-color.is-success {
+		@apply bg-success;
+	}
+
+	.line-chart-legend-color.is-info {
+		@apply bg-info;
+	}
+
+	.line-chart-legend-color.is-warning {
+		@apply bg-warning;
+	}
+
+	.line-chart-legend-color.is-danger {
+		@apply bg-danger;
+	}
+
+	.line-chart-legend-color.is-muted {
+		@apply bg-muted;
+	}
+
+	.line-chart-loading {
+		@apply absolute inset-0 flex items-center justify-center bg-muted rounded-md;
+	}
+
+	.line-chart-loading-spinner {
+		@apply w-8 h-8 text-primary;
+		animation: line-chart-spin 1s linear infinite;
+	}
+
+	@keyframes line-chart-spin {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	.line-chart-empty {
+		@apply absolute inset-0 flex flex-col items-center justify-center text-on-muted opacity-50 text-sm;
+	}
+
+	.line-chart-empty-icon {
+		@apply w-12 h-12 mb-2;
+	}
+}

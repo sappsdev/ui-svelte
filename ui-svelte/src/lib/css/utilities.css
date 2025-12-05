@@ -1,0 +1,136 @@
+@utility scrollbar-hide {
+	scrollbar-width: none;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+@utility boxed {
+	@apply container mx-auto;
+}
+
+@utility row {
+	@apply flex flex-row;
+}
+
+@utility row-reverse {
+	@apply flex flex-row-reverse;
+}
+
+@utility wrap {
+	@apply flex flex-wrap;
+}
+
+@utility column {
+	@apply flex flex-col;
+}
+
+@utility column-reverse {
+	@apply flex flex-col-reverse;
+}
+
+@utility center {
+	@apply items-center justify-center;
+}
+
+@utility grid-1 {
+	@apply grid grid-cols-1;
+}
+@utility grid-2 {
+	@apply grid grid-cols-2;
+}
+@utility grid-3 {
+	@apply grid grid-cols-3;
+}
+@utility grid-4 {
+	@apply grid grid-cols-4;
+}
+@utility grid-5 {
+	@apply grid grid-cols-5;
+}
+@utility grid-6 {
+	@apply grid grid-cols-6;
+}
+@utility grid-7 {
+	@apply grid grid-cols-7;
+}
+@utility grid-8 {
+	@apply grid grid-cols-8;
+}
+@utility grid-10 {
+	@apply grid grid-cols-10;
+}
+@utility grid-12 {
+	@apply grid grid-cols-12;
+}
+
+/* Grid auto-fit (responsive) */
+@utility grid-auto-fit {
+	@apply grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))];
+}
+@utility grid-auto-fill {
+	@apply grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))];
+}
+
+/* Viewport Height Utilities */
+/* These utilities set the height to 100vh minus a specified rem value */
+
+@utility vh-8 {
+	height: calc(100vh - 2rem);
+}
+
+@utility vh-10 {
+	height: calc(100vh - 2.5rem);
+}
+
+@utility vh-12 {
+	height: calc(100vh - 3rem);
+}
+
+@utility vh-14 {
+	height: calc(100vh - 3.5rem);
+}
+
+@utility vh-16 {
+	height: calc(100vh - 4rem);
+}
+
+@utility vh-18 {
+	height: calc(100vh - 4.5rem);
+}
+
+@utility vh-20 {
+	height: calc(100vh - 5rem);
+}
+
+@utility vh-24 {
+	height: calc(100vh - 6rem);
+}
+
+@utility vh-28 {
+	height: calc(100vh - 7rem);
+}
+
+@utility vh-32 {
+	height: calc(100vh - 8rem);
+}
+
+@utility vh-36 {
+	height: calc(100vh - 9rem);
+}
+
+@utility vh-40 {
+	height: calc(100vh - 10rem);
+}
+
+@utility vh-48 {
+	height: calc(100vh - 12rem);
+}
+
+@utility vh-56 {
+	height: calc(100vh - 14rem);
+}
+
+@utility vh-64 {
+	height: calc(100vh - 16rem);
+}

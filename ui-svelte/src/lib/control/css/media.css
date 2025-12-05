@@ -1,0 +1,78 @@
+@layer components {
+	/* Base styles compartidos */
+	.media {
+		@apply relative flex items-center gap-3 rounded-ui;
+		@apply transition-colors duration-300 ease-in-out;
+		@apply p-3 max-w-md select-none;
+	}
+
+	.media-waveform {
+		@apply flex-1 h-10 flex items-center relative;
+	}
+
+	.media-waveform.clickable {
+		@apply cursor-pointer;
+	}
+
+	.media-loading {
+		@apply text-xs opacity-50;
+	}
+
+	.media-bars {
+		@apply flex items-center gap-0.5 w-full h-full;
+	}
+
+	.media-bar {
+		@apply flex-1 rounded-sm transition-all duration-100;
+		@apply min-h-1 bg-current opacity-30;
+	}
+
+	.media-bar.active {
+		@apply opacity-100;
+	}
+
+	.media-bar.recording {
+		@apply opacity-100 animate-pulse;
+	}
+
+	.media-time {
+		@apply shrink-0 text-sm font-medium min-w-10 text-right;
+	}
+
+	/* Variantes */
+	.media.primary {
+		@apply bg-primary text-on-primary;
+	}
+
+	.media.secondary {
+		@apply bg-secondary text-on-secondary;
+	}
+
+	.media.soft {
+		@apply bg-on-primary text-primary;
+	}
+
+	.media.outlined {
+		@apply inset-ring inset-ring-muted bg-background text-on-background;
+	}
+
+	.media.ghost {
+		@apply bg-transparent text-on-background;
+	}
+
+	.media.success {
+		@apply bg-success text-on-success;
+	}
+
+	.media.warning {
+		@apply bg-warning text-on-warning;
+	}
+
+	.media.info {
+		@apply bg-info text-on-info;
+	}
+
+	.media.danger {
+		@apply bg-danger text-on-danger;
+	}
+}

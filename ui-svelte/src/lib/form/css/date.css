@@ -1,0 +1,56 @@
+@layer components {
+	.date-popover {
+		@apply h-auto overflow-y-auto drop-shadow-sm flex flex-col gap-1 p-2 my-1 scrollbar-hide w-72;
+		@apply bg-background text-on-background rounded-ui;
+		@apply invisible opacity-0 transition-opacity duration-300 ease-in-out;
+		position: fixed;
+		z-index: 9999;
+
+		&.is-open {
+			@apply visible opacity-100;
+		}
+	}
+	.date-option {
+		@apply outline-hidden hover:bg-muted hover:text-on-muted;
+		@apply flex w-full items-center gap-2 overflow-hidden rounded-ui p-2 text-left h-8;
+		@apply transition-[width,height,padding] focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50;
+		&.active {
+			@apply bg-muted text-on-muted;
+		}
+		&[data-focused='1'] {
+			@apply bg-muted text-on-muted;
+		}
+	}
+
+	.date-picker-header {
+		@apply flex items-center justify-between;
+		.date-arrow {
+			@apply size-6 rounded-ui p-2 hover:bg-muted hover:text-on-muted;
+		}
+	}
+
+	.date-picker-weekdays {
+		@apply grid grid-cols-7 gap-1 my-2 bg-muted text-on-muted rounded-ui;
+
+		.weekday {
+			@apply flex items-center justify-center w-8 h-8 text-xs;
+		}
+	}
+
+	.date-picker-days {
+		@apply grid grid-cols-7 gap-1 h-52;
+	}
+
+	.date-picker-day-button {
+		@apply outline-hidden hover:bg-muted hover:text-on-muted rounded-ui;
+		@apply flex items-center justify-center w-8 h-8 text-sm transition-colors;
+
+		&.selected {
+			@apply bg-primary text-on-primary rounded-ui;
+		}
+
+		&.today {
+			@apply font-semibold;
+		}
+	}
+}

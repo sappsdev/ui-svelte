@@ -1,0 +1,17 @@
+@layer components {
+	.sidebar {
+		@apply flex h-full flex-col bg-background text-on-background;
+
+		.sidebar-header {
+			@apply flex flex-col gap-3 p-3;
+		}
+
+		.sidebar-footer {
+			@apply flex flex-col gap-3 p-3;
+		}
+
+		.sidebar-body {
+			@apply flex min-h-0 flex-1 flex-col gap-3 p-3 overflow-auto;
+		}
+	}
+}

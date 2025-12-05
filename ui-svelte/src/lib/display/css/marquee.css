@@ -1,0 +1,138 @@
+@layer components {
+	.marquee {
+		@apply relative w-full overflow-hidden;
+
+		&.is-vertical {
+			@apply h-full w-auto;
+		}
+	}
+
+	.marquee-viewport {
+		@apply relative w-full overflow-hidden;
+
+		&.is-vertical {
+			@apply h-full w-auto;
+		}
+	}
+
+	.marquee-container {
+		@apply flex gap-0 w-max;
+		will-change: transform;
+
+		&.is-animating {
+			animation: marquee-scroll var(--marquee-duration) linear infinite;
+		}
+
+		&.is-paused {
+			animation-play-state: paused;
+		}
+
+		&.is-vertical {
+			@apply flex-col h-max w-auto;
+
+			&.is-animating {
+				animation: marquee-scroll-vertical var(--marquee-duration) linear infinite;
+			}
+		}
+
+		&.is-reverse {
+			animation-direction: reverse;
+		}
+	}
+
+	.marquee-content {
+		@apply flex shrink-0 gap-0;
+
+		&.is-vertical {
+			@apply flex-col;
+		}
+	}
+
+	.marquee-item {
+		@apply shrink-0 flex items-center justify-center;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+
+		img {
+			@apply pointer-events-none;
+			-webkit-user-drag: none;
+		}
+	}
+
+	/* Animaciones */
+	@keyframes marquee-scroll {
+		0% {
+			transform: translateX(0);
+		}
+		100% {
+			transform: translateX(-50%);
+		}
+	}
+
+	@keyframes marquee-scroll-vertical {
+		0% {
+			transform: translateY(0);
+		}
+		100% {
+			transform: translateY(-50%);
+		}
+	}
+
+	/* Variantes de velocidad */
+	.marquee-container {
+		&.is-slow {
+			--marquee-duration: 40s;
+		}
+
+		&.is-normal {
+			--marquee-duration: 20s;
+		}
+
+		&.is-fast {
+			--marquee-duration: 10s;
+		}
+	}
+
+	/* Efecto de fade en los bordes */
+	.marquee {
+		&.has-fade {
+			&::before,
+			&::after {
+				@apply absolute top-0 z-10 pointer-events-none;
+				content: '';
+				width: 100px;
+				height: 100%;
+			}
+
+			&::before {
+				@apply left-0;
+				background: linear-gradient(to right, var(--fade-color, white), transparent);
+			}
+
+			&::after {
+				@apply right-0;
+				background: linear-gradient(to left, var(--fade-color, white), transparent);
+			}
+
+			&.is-vertical {
+				&::before,
+				&::after {
+					width: 100%;
+					height: 100px;
+				}
+
+				&::before {
+					@apply top-0 left-0;
+					background: linear-gradient(to bottom, var(--fade-color, white), transparent);
+				}
+
+				&::after {
+					@apply bottom-0 left-0 top-auto;
+					background: linear-gradient(to top, var(--fade-color, white), transparent);
+				}
+			}
+		}
+	}
+}

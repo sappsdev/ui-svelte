@@ -1,0 +1,158 @@
+@layer components {
+	.avatar {
+		@apply relative flex items-center justify-center;
+		@apply rounded-ui;
+		@apply transition-all duration-200;
+	}
+
+	.avatar.is-primary {
+		@apply bg-primary text-on-primary;
+	}
+
+	.avatar.is-secondary {
+		@apply bg-secondary text-on-secondary;
+	}
+
+	.avatar.is-muted {
+		@apply bg-muted text-on-muted;
+	}
+
+	.avatar.is-success {
+		@apply bg-success text-on-success;
+	}
+
+	.avatar.is-warning {
+		@apply bg-warning text-on-warning;
+	}
+
+	.avatar.is-danger {
+		@apply bg-danger text-on-danger;
+	}
+
+	.avatar.is-info {
+		@apply bg-info text-on-info;
+	}
+
+	.avatar.is-bordered {
+		.avatar-image {
+			@apply ring-2 ring-muted;
+		}
+	}
+
+	.avatar.is-transparent {
+		@apply bg-transparent;
+	}
+
+	.avatar-status {
+		@apply absolute bottom-0 right-0 translate-x-[25%];
+	}
+
+	.avatar-indicator {
+		@apply ring ring-background rounded-full;
+	}
+
+	.avatar-indicator.is-online {
+		@apply bg-success;
+	}
+
+	.avatar-indicator.is-busy {
+		@apply bg-warning;
+	}
+
+	.avatar-indicator.is-away {
+		@apply bg-danger;
+	}
+
+	.avatar-indicator.is-offline {
+		@apply bg-muted;
+	}
+
+	.avatar.is-xs {
+		@apply size-5;
+
+		.avatar-image {
+			@apply size-5 object-cover rounded-ui;
+		}
+
+		.avatar-name {
+			@apply text-xs;
+		}
+
+		.avatar-indicator {
+			@apply size-1;
+		}
+	}
+
+	.avatar.is-sm {
+		@apply size-6;
+
+		.avatar-image {
+			@apply size-6 object-cover rounded-ui;
+		}
+
+		.avatar-name {
+			@apply text-base;
+		}
+
+		.avatar-indicator {
+			@apply size-2;
+		}
+	}
+
+	.avatar.is-md {
+		@apply size-7;
+
+		.avatar-image {
+			@apply size-7 object-cover rounded-ui;
+		}
+
+		.avatar-name {
+			@apply text-xl;
+		}
+
+		.avatar-indicator {
+			@apply size-2;
+		}
+	}
+
+	.avatar.is-lg {
+		@apply size-10;
+
+		.avatar-image {
+			@apply size-10 object-cover rounded-ui;
+		}
+
+		.avatar-name {
+			@apply text-3xl;
+		}
+
+		.avatar-indicator {
+			@apply size-3;
+		}
+	}
+
+	.avatar.is-xl {
+		@apply size-14;
+
+		.avatar-image {
+			@apply size-14 object-cover rounded-ui;
+		}
+
+		.avatar-name {
+			@apply text-5xl;
+		}
+
+		.avatar-indicator {
+			@apply size-3;
+		}
+	}
+
+	.avatar-group {
+		@apply inline-flex;
+		& > .avatar {
+			@apply -ml-2 first:ml-0;
+			@apply outline-2 outline-muted;
+			@apply transition-transform hover:z-10 hover:scale-110;
+		}
+	}
+}

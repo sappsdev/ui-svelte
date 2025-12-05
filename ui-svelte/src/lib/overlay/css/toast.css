@@ -1,0 +1,80 @@
+@layer components {
+	.toast-container {
+		@apply fixed z-50 pointer-events-none;
+		max-width: 420px;
+		width: 100%;
+		perspective: 1000px;
+		min-height: 80px;
+
+		&.is-top-left {
+			@apply top-4 left-1/2 lg:left-4 -translate-x-1/2 lg:translate-x-0;
+		}
+		&.is-top-right {
+			@apply top-4 right-1/2 lg:right-4 translate-x-1/2 lg:translate-x-0;
+		}
+
+		&.is-bottom-left {
+			@apply bottom-4 left-1/2 lg:left-4 -translate-x-1/2 lg:translate-x-0;
+		}
+
+		&.is-bottom-right {
+			@apply bottom-4 right-1/2 lg:right-4 translate-x-1/2 lg:translate-x-0;
+		}
+	}
+
+	.toast {
+		@apply absolute inset-x-0 flex items-center gap-3 p-4 pointer-events-auto rounded-ui;
+		@apply transition-all duration-300 ease-out shadow-sm;
+
+		transform: translateY(calc((var(--toast-total) - var(--toast-index) - 1) * -8px))
+			scale(calc(1 - (var(--toast-total) - var(--toast-index) - 1) * 0.05));
+		opacity: calc(1 - (var(--toast-total) - var(--toast-index) - 1) * 0.2);
+		z-index: calc(50 + var(--toast-index));
+
+		&.is-success {
+			@apply bg-on-success text-success;
+
+			&.is-solid {
+				@apply bg-success text-on-success;
+			}
+		}
+
+		&.is-danger {
+			@apply bg-on-danger text-danger;
+
+			&.is-solid {
+				@apply bg-danger text-on-danger;
+			}
+		}
+
+		&.is-warning {
+			@apply bg-on-warning text-warning;
+
+			&.is-solid {
+				@apply bg-warning text-on-warning;
+			}
+		}
+
+		&.is-info {
+			@apply bg-on-info text-info;
+
+			&.is-solid {
+				@apply bg-info text-on-info;
+			}
+		}
+
+		.toast-icon {
+			@apply h-8 w-auto;
+		}
+
+		.toast-content {
+			@apply flex-1 flex flex-col gap-1;
+			.toast-title {
+				@apply text-sm font-semibold leading-tight;
+			}
+			.toast-description {
+				@apply text-sm leading-relaxed opacity-90;
+			}
+		}
+	}
+}

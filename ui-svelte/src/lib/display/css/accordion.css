@@ -1,0 +1,98 @@
+@layer components {
+	.accordion {
+		@apply flex flex-col gap-2 w-full;
+
+		&.is-primary {
+			.accordion-item {
+				@apply border border-primary/20 rounded-lg overflow-hidden;
+				.accordion-header {
+					@apply bg-primary/5 hover:bg-primary/10;
+					&.is-open {
+						@apply bg-primary/10 text-primary;
+					}
+				}
+			}
+		}
+
+		&.is-secondary {
+			.accordion-item {
+				@apply border border-secondary/20 rounded-lg overflow-hidden;
+				.accordion-header {
+					@apply bg-secondary/5 hover:bg-secondary/10;
+					&.is-open {
+						@apply bg-secondary/10 text-secondary;
+					}
+				}
+			}
+		}
+
+		&.is-muted {
+			.accordion-item {
+				@apply border border-muted rounded-lg overflow-hidden;
+				.accordion-header {
+					@apply bg-muted/30 hover:bg-muted/50;
+					&.is-open {
+						@apply bg-muted text-on-muted;
+					}
+				}
+			}
+		}
+
+		&.is-outline {
+			.accordion-item {
+				@apply border border-muted rounded-lg overflow-hidden;
+				.accordion-header {
+					@apply hover:bg-muted/30;
+					&.is-open {
+						@apply bg-muted/20;
+					}
+				}
+			}
+		}
+
+		.accordion-item {
+			@apply transition-all duration-200;
+
+			&.is-disabled {
+				@apply opacity-50 pointer-events-none;
+			}
+
+			.accordion-header {
+				@apply flex justify-between items-center gap-3 px-4 py-3 cursor-pointer select-none transition-all duration-200;
+
+				.accordion-start {
+					@apply flex items-center gap-3 flex-1;
+
+					.accordion-icon {
+						@apply h-5 w-auto shrink-0;
+					}
+
+					.accordion-label {
+						@apply font-medium text-sm;
+					}
+				}
+
+				.accordion-end {
+					@apply flex items-center;
+
+					.accordion-arrow {
+						@apply size-5 transition-transform duration-200 text-on-muted;
+						&.is-active {
+							@apply rotate-180;
+						}
+					}
+				}
+
+				&:hover:not(.is-disabled) {
+					.accordion-arrow {
+						@apply text-on-surface;
+					}
+				}
+			}
+
+			.accordion-content {
+				@apply px-4 py-3 text-sm text-on-surface/80;
+			}
+		}
+	}
+}

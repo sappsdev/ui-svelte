@@ -1,0 +1,149 @@
+@layer components {
+	.item {
+		@apply relative flex items-center gap-3 w-full;
+		@apply rounded-ui outline-none;
+		@apply transition-all duration-200;
+		@apply cursor-default select-none;
+	}
+
+	.is-interactive {
+		@apply cursor-pointer;
+		@apply focus-visible:outline-none;
+		@apply active:scale-[0.98];
+		@apply disabled:cursor-not-allowed disabled:opacity-50;
+		@apply disabled:hover:bg-transparent disabled:active:scale-100;
+	}
+
+	.item.is-sm {
+		@apply p-2 gap-2;
+
+		.item-label {
+			@apply text-sm;
+		}
+
+		.item-description {
+			@apply text-xs;
+		}
+	}
+
+	.item.is-md {
+		@apply p-3 gap-3;
+
+		.item-label {
+			@apply text-base;
+		}
+
+		.item-description {
+			@apply text-sm;
+		}
+	}
+
+	.item.is-lg {
+		@apply p-4 gap-4;
+
+		.item-label {
+			@apply text-lg;
+		}
+
+		.item-description {
+			@apply text-base;
+		}
+	}
+
+	.item.is-ghost {
+		@apply bg-transparent;
+	}
+
+	.item.is-interactive {
+		@apply hover:bg-muted hover:text-on-muted;
+		@apply focus-visible:bg-muted;
+	}
+
+	.item.is-outlined {
+		@apply border border-muted bg-transparent;
+	}
+
+	.item.is-surface {
+		@apply bg-surface text-on-surface;
+	}
+
+	.item.is-primary.is-active {
+		@apply bg-on-primary text-primary;
+	}
+
+	.item.is-primary.is-solid.is-active {
+		@apply bg-primary text-on-primary;
+	}
+
+	.item.is-secondary.is-active {
+		@apply bg-on-secondary text-secondary;
+	}
+
+	.item.is-secondary.is-solid.is-active {
+		@apply bg-secondary text-on-secondary;
+	}
+
+	.item.is-muted.is-active {
+		@apply bg-muted text-on-muted;
+	}
+
+	.item.is-muted.is-solid.is-active {
+		@apply bg-on-muted text-muted;
+	}
+
+	.item.is-focused {
+		@apply bg-muted text-on-muted;
+	}
+
+	.item.is-disabled {
+		@apply opacity-50 cursor-not-allowed;
+		@apply pointer-events-none;
+	}
+
+	.item-body {
+		@apply flex flex-col gap-1 flex-1 min-w-0 text-left;
+	}
+
+	.item-label {
+		@apply font-medium leading-none;
+		@apply truncate;
+	}
+
+	.item-description {
+		@apply text-on-muted leading-none;
+		@apply truncate;
+	}
+
+	.item-actions {
+		@apply flex items-center justify-end gap-2;
+		@apply shrink-0;
+	}
+
+	.item.has-divider {
+		@apply border-b border-muted rounded-none;
+	}
+
+	.item.has-shadow {
+		@apply shadow-md shadow-muted;
+	}
+
+	.item.is-compact {
+		@apply py-1.5 px-2;
+	}
+
+	.item.is-compact .item-label {
+		@apply text-sm;
+	}
+
+	.item.is-compact .item-description {
+		@apply text-xs;
+	}
+
+	.item.has-icon-only {
+		@apply justify-center p-2;
+	}
+
+	.item.has-icon-only .item-body {
+		@apply hidden;
+	}
+}

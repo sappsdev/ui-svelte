@@ -1,0 +1,57 @@
+@layer components {
+	.radio-group {
+		@apply flex flex-wrap gap-4 justify-start;
+
+		.radio-item {
+			@apply flex justify-start items-center gap-3;
+
+			.radio {
+				@apply relative appearance-none border-2 border-muted rounded-full cursor-pointer;
+				@apply focus:outline-none;
+				@apply transition-colors duration-200;
+
+				&.is-primary {
+					@apply checked:border-primary;
+					&:checked {
+						@apply after:bg-primary;
+					}
+				}
+				&.is-secondary {
+					@apply checked:border-secondary;
+					&:checked {
+						@apply after:bg-secondary;
+					}
+				}
+				&.is-muted {
+					@apply checked:border-on-muted;
+					&:checked {
+						@apply after:bg-on-muted;
+					}
+				}
+
+				&.is-sm {
+					@apply w-4 h-4;
+					&:checked {
+						@apply after:w-2 after:h-2;
+					}
+				}
+				&.is-md {
+					@apply w-5 h-5;
+					&:checked {
+						@apply after:w-3 after:h-3;
+					}
+				}
+				&.is-lg {
+					@apply w-6 h-6;
+					&:checked {
+						@apply after:w-3.5 after:h-3.5;
+					}
+				}
+			}
+			.radio:checked {
+				@apply after:content-[''] after:absolute after:rounded-full;
+				@apply after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2;
+			}
+		}
+	}
+}

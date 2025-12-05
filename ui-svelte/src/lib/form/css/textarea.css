@@ -1,0 +1,130 @@
+@layer components {
+	.textarea-control {
+		@apply relative flex w-full gap-2 px-3 outline-0 ring-0;
+		@apply transition-all duration-300 ease-in-out;
+	}
+
+	.textarea-control-label {
+		@apply absolute left-3 top-3;
+		@apply transition-all duration-300;
+	}
+
+	.textarea-control-label.is-active {
+		@apply text-xs left-3 top-1 translate-y-px!;
+	}
+
+	.textarea-control.is-sm {
+		@apply text-sm py-2;
+	}
+
+	.textarea-control.is-md {
+		@apply text-base py-2.5;
+	}
+
+	.textarea-control.is-lg {
+		@apply text-xl py-3;
+
+		.textarea-control-label.is-active {
+			@apply text-sm;
+		}
+	}
+
+	.textarea-control.is-float.is-sm {
+		@apply pt-5 pb-2;
+	}
+
+	.textarea-control.is-float.is-md {
+		@apply pt-6 pb-2.5;
+	}
+
+	.textarea-control.is-float.is-lg {
+		@apply pt-7 pb-3;
+	}
+
+	.textarea-control.is-primary {
+		@apply bg-on-primary text-primary rounded-ui;
+	}
+
+	.textarea-control.is-solid.is-primary {
+		@apply bg-primary text-on-primary;
+	}
+
+	.textarea-control.is-primary.is-active {
+		@apply bg-on-primary/90;
+	}
+
+	.textarea-control.is-solid.is-primary.is-active {
+		@apply bg-primary/90;
+	}
+
+	.textarea-control.is-secondary {
+		@apply bg-on-secondary text-secondary rounded-ui;
+	}
+
+	.textarea-control.is-solid.is-secondary {
+		@apply bg-secondary text-on-secondary;
+	}
+
+	.textarea-control.is-secondary.is-active {
+		@apply bg-on-secondary/90;
+	}
+
+	.textarea-control.is-solid.is-secondary.is-active {
+		@apply bg-secondary/90;
+	}
+
+	.textarea-control.is-muted {
+		@apply bg-muted text-on-muted rounded-ui;
+	}
+
+	.textarea-control.is-solid.is-muted {
+		@apply bg-on-muted text-muted;
+	}
+
+	.textarea-control.is-muted.is-active {
+		@apply bg-muted/90;
+	}
+
+	.textarea-control.is-solid.is-muted.is-active {
+		@apply bg-on-muted/90;
+	}
+
+	.textarea-control.is-outlined {
+		@apply inset-ring-2 inset-ring-muted rounded-ui;
+	}
+
+	.textarea-control.is-outlined.is-active {
+		@apply inset-ring-2 inset-ring-primary;
+	}
+
+	.textarea-control.is-line {
+		@apply box-border border-b-2 border-muted text-on-muted px-0;
+
+		.textarea-control-label {
+			@apply left-0!;
+		}
+	}
+
+	.textarea-control.is-line.is-active {
+		@apply border-primary;
+	}
+
+	.textarea-control-input {
+		@apply appearance-none flex-1 w-full border-none outline-none;
+		@apply placeholder:transition-opacity placeholder:duration-200;
+		@apply bg-transparent;
+		@apply min-h-12;
+	}
+
+	.textarea-control-input.invisible {
+		@apply opacity-0;
+	}
+
+	.textarea-control-input {
+		resize: none;
+	}
+
+	.textarea-control-input.is-resizable {
+		resize: both;
+	}
+}

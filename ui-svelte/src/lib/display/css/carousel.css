@@ -1,0 +1,156 @@
+@layer components {
+	.carousel {
+		@apply flex flex-col gap-4 relative w-full overflow-hidden;
+
+		&.is-vertical {
+			@apply flex-row;
+		}
+	}
+
+	.carousel-viewport {
+		@apply relative w-full overflow-hidden touch-pan-y;
+		cursor: grab;
+		min-height: 200px;
+
+		&:active {
+			cursor: grabbing;
+		}
+
+		&.is-dragging {
+			cursor: grabbing;
+		}
+	}
+
+	.carousel-container {
+		@apply flex transition-transform duration-300 ease-out;
+		will-change: transform;
+		height: 100%;
+
+		&.is-dragging {
+			@apply transition-none;
+		}
+
+		&.is-vertical {
+			@apply flex-col;
+		}
+	}
+
+	.carousel-slide {
+		@apply shrink-0 w-full select-none;
+		height: 100%;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+
+		img {
+			@apply pointer-events-none;
+			-webkit-user-drag: none;
+		}
+	}
+
+	.carousel-controls {
+		@apply flex items-center justify-center gap-2;
+
+		&.is-vertical {
+			@apply flex-col;
+		}
+	}
+
+	.carousel-indicators {
+		@apply flex items-center justify-center gap-2;
+
+		&.is-vertical {
+			@apply flex-col;
+		}
+	}
+
+	.carousel-indicator {
+		@apply h-2 rounded-full transition-all cursor-pointer;
+		@apply bg-muted hover:bg-muted/70;
+
+		&.is-active {
+			@apply bg-primary;
+		}
+
+		&.is-sm {
+			@apply w-6;
+			&.is-active {
+				@apply w-8;
+			}
+		}
+
+		&.is-md {
+			@apply w-8;
+			&.is-active {
+				@apply w-12;
+			}
+		}
+
+		&.is-lg {
+			@apply w-10;
+			&.is-active {
+				@apply w-16;
+			}
+		}
+
+		&.is-dot {
+			@apply rounded-full;
+			&.is-sm {
+				@apply w-2 h-2;
+				&.is-active {
+					@apply w-2 h-2 scale-125;
+				}
+			}
+			&.is-md {
+				@apply w-2.5 h-2.5;
+				&.is-active {
+					@apply w-2.5 h-2.5 scale-125;
+				}
+			}
+			&.is-lg {
+				@apply w-3 h-3;
+				&.is-active {
+					@apply w-3 h-3 scale-125;
+				}
+			}
+		}
+	}
+
+	.carousel-nav {
+		@apply absolute top-1/2 -translate-y-1/2 z-10;
+		@apply flex items-center justify-center rounded-full;
+		@apply bg-surface/90 text-on-surface hover:bg-primary hover:text-on-primary;
+		@apply border border-muted shadow-sm backdrop-blur-sm;
+		@apply transition-all opacity-0 pointer-events-none;
+		@apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-surface/90 disabled:hover:text-on-surface;
+
+		.carousel:hover & {
+			@apply opacity-100 pointer-events-auto;
+		}
+
+		&.is-prev {
+			@apply left-4;
+		}
+
+		&.is-next {
+			@apply right-4;
+		}
+
+		&.is-sm {
+			@apply h-8 w-8 text-sm;
+		}
+
+		&.is-md {
+			@apply h-10 w-10 text-base;
+		}
+
+		&.is-lg {
+			@apply h-12 w-12 text-lg;
+		}
+	}
+
+	.carousel-counter {
+		@apply text-sm text-on-surface/70 text-center font-medium;
+	}
+}

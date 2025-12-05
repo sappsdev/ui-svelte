@@ -1,0 +1,75 @@
+@layer components {
+	.drawer-panel {
+		@apply fixed inset-0 z-50;
+		@apply flex flex-col justify-center items-center;
+
+		.drawer-overlay {
+			@apply absolute inset-0 bg-overlay;
+		}
+		.drawer {
+			@apply absolute bg-surface flex flex-col;
+			@apply transition-all duration-300 ease-in-out;
+
+			&.is-start {
+				@apply inset-y-0 left-0 right-auto rounded-r-ui;
+				@apply transform -translate-x-full;
+			}
+
+			&.is-end {
+				@apply inset-y-0 right-0 left-auto rounded-l-ui;
+				@apply transform translate-x-full;
+			}
+
+			&.is-top {
+				@apply inset-x-0 top-0 bottom-auto rounded-b-ui;
+				@apply transform -translate-y-full;
+			}
+
+			&.is-bottom {
+				@apply inset-x-0 bottom-0 top-auto rounded-t-ui;
+				@apply transform translate-y-full;
+			}
+
+			&.is-active {
+				@apply transform translate-x-0! translate-y-0!;
+			}
+
+			&.is-ghost {
+				@apply bg-background text-on-background;
+			}
+			&.is-surface {
+				@apply bg-surface text-on-surface;
+			}
+			&.is-primary {
+				@apply bg-on-primary text-primary;
+			}
+			&.is-secondary {
+				@apply bg-on-secondary text-secondary;
+			}
+			&.is-muted {
+				@apply bg-muted text-on-muted;
+			}
+			&.is-primary.is-solid {
+				@apply bg-primary text-on-primary;
+			}
+			&.is-secondary.is-solid {
+				@apply bg-secondary text-on-secondary;
+			}
+			&.is-muted.is-solid {
+				@apply bg-on-muted text-muted;
+			}
+
+			.drawer-header {
+				@apply row gap-3 p-3;
+			}
+
+			.drawer-footer {
+				@apply row gap-3 p-3;
+			}
+
+			.drawer-body {
+				@apply flex min-h-0 flex-1 flex-col gap-3 p-3 overflow-auto;
+			}
+		}
+	}
+}

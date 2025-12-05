@@ -1,0 +1,24 @@
+@layer components {
+	.dropdown {
+		@apply relative inline-flex w-fit cursor-pointer select-none;
+	}
+	.dropdown-popover {
+		@apply overflow-y-auto flex flex-col gap-2 p-2 my-1;
+		@apply bg-background text-on-background rounded-ui;
+		@apply invisible opacity-0 transition-opacity duration-300 ease-in-out;
+		@apply shadow shadow-muted;
+		position: fixed;
+		z-index: 9999;
+
+		&.is-active {
+			@apply visible opacity-100;
+		}
+	}
+	.dropdown-options {
+		@apply flex flex-1 w-full min-w-0 flex-col gap-1 overflow-y-auto scrollbar-hide;
+
+		.dropdown-options-divider {
+			@apply my-1 h-px w-full bg-muted;
+		}
+	}
+}

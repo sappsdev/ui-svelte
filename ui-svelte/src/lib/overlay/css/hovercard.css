@@ -1,0 +1,11 @@
+@layer components {
+	.hovercard {
+		@apply relative inline-flex w-fit;
+	}
+	.hovercard-content {
+		@apply overflow-y-auto drop-shadow-sm flex flex-col gap-2 my-1;
+		@apply bg-background text-on-background border border-muted rounded-ui;
+		position: fixed;
+		z-index: 9999;
+	}
+}

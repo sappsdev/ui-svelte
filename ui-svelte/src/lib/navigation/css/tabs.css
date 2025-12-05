@@ -1,0 +1,118 @@
+@layer components {
+	.tabs {
+		@apply flex relative;
+		&.is-top {
+			@apply flex-col;
+		}
+		&.is-bottom {
+			@apply flex-col-reverse;
+		}
+		&.is-start {
+			@apply flex-row h-fit gap-1;
+			.tabs-list {
+				@apply flex-col;
+			}
+		}
+		&.is-end {
+			@apply flex-row-reverse h-fit gap-1;
+			.tabs-list {
+				@apply flex-col;
+			}
+		}
+		.tabs-list {
+			@apply flex w-auto max-w-min overflow-x-auto scrollbar-hide gap-2 p-1 relative select-none;
+			&.is-primary {
+				@apply bg-primary/10 text-on-surface rounded-xl py-1;
+				.tab {
+					@apply flex flex-nowrap cursor-pointer px-4 py-1 relative rounded-lg transition-colors;
+					&.on-active {
+						@apply bg-primary text-on-primary;
+					}
+				}
+			}
+			&.is-secondary {
+				@apply bg-secondary/10 text-on-surface rounded-xl py-1;
+				.tab {
+					@apply flex flex-nowrap cursor-pointer px-4 py-1 relative rounded-lg transition-colors;
+					&.on-active {
+						@apply bg-secondary text-on-secondary;
+					}
+				}
+			}
+			&.is-muted {
+				@apply bg-muted text-on-muted rounded-xl py-1;
+				.tab {
+					@apply flex flex-nowrap cursor-pointer px-4 py-1 relative rounded-lg transition-colors;
+					&.on-active {
+						@apply bg-on-muted text-muted;
+					}
+				}
+			}
+			&.is-outline {
+				@apply border border-muted rounded-xl;
+				.tab {
+					@apply flex flex-nowrap cursor-pointer px-4 py-1 relative rounded-lg transition-colors;
+					&.on-active {
+						@apply bg-primary text-on-primary;
+					}
+				}
+			}
+			&.is-line {
+				@apply gap-4;
+				.tab {
+					@apply flex flex-nowrap cursor-pointer px-4 py-1 relative;
+					&.on-active {
+						@apply text-primary border-b-2 border-primary;
+					}
+				}
+			}
+			&.is-ghost {
+				.tab {
+					@apply flex flex-nowrap cursor-pointer px-4 py-1 relative;
+					&.on-active {
+						@apply text-primary;
+					}
+				}
+			}
+			.tab {
+				.tabs-icon {
+					@apply mr-2 shrink-0 h-6 w-auto;
+				}
+				.tabs-label {
+					@apply whitespace-nowrap;
+				}
+			}
+		}
+		&.is-top,
+		&.is-bottom {
+			.tabs-list {
+				&.is-pill:not(.is-line) {
+					@apply rounded-full;
+					.tab {
+						@apply rounded-full;
+					}
+				}
+			}
+		}
+		&.is-start {
+			.tabs-list.is-line {
+				.tab.on-active {
+					@apply border-b-0 border-l-2 border-primary;
+				}
+			}
+		}
+		&.is-end {
+			.tabs-list.is-line {
+				.tab.on-active {
+					@apply border-b-0 border-r-2 border-primary;
+				}
+			}
+		}
+		.tabs-wrapper {
+			@apply flex flex-1 overflow-hidden relative;
+			.tabs-content {
+				@apply relative w-full;
+			}
+		}
+	}
+}
