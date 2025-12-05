@@ -110,7 +110,6 @@
 			visualize();
 		} catch (error) {
 			console.error('Error accessing microphone:', error);
-			alert('No se pudo acceder al micrófono');
 		}
 	}
 
@@ -135,11 +134,8 @@
 			if (!response.ok) {
 				throw new Error(`Upload failed: ${response.statusText}`);
 			}
-
-			console.log('Audio uploaded successfully');
 		} catch (error) {
 			console.error('Error uploading audio:', error);
-			alert('Error al subir el audio');
 		} finally {
 			isUploading = false;
 		}
@@ -354,7 +350,7 @@
 
 <div class={baseClasses}>
 	{#if isReviewing}
-		<Button onclick={togglePlayback} size="md" variant="ghost">
+		<Button onclick={togglePlayback} size="md" {variant}>
 			{#if isPlaying}
 				<Icon icon={Pause24RegularIcon} />
 			{:else}
@@ -376,18 +372,18 @@
 		<span class="media-time">{formatTime(recordingTime)}</span>
 
 		<div class="flex gap-2">
-			<Button onclick={discardRecording} size="md" variant="ghost">
+			<Button onclick={discardRecording} size="md" {variant}>
 				<Icon icon={Delete24RegularIcon} />
 			</Button>
-			<Button onclick={continueRecording} size="md" variant="ghost">
+			<Button onclick={continueRecording} size="md" {variant}>
 				<Icon icon={Record24RegularIcon} />
 			</Button>
-			<Button onclick={confirmRecording} size="md" variant="ghost">
+			<Button onclick={confirmRecording} size="md" {variant}>
 				<Icon icon={Checkmark24RegularIcon} />
 			</Button>
 		</div>
 	{:else if !isRecording}
-		<Button onclick={startRecording} size="md" variant="ghost">
+		<Button onclick={startRecording} size="md" {variant}>
 			<Icon icon={Record24RegularIcon} />
 		</Button>
 
@@ -401,7 +397,7 @@
 
 		<span class="media-time">{formatTime(recordingTime)}</span>
 	{:else}
-		<Button onclick={handleToggleRecording} size="md" variant="ghost">
+		<Button onclick={handleToggleRecording} size="md" {variant}>
 			{#if isPaused}
 				<Icon icon={Play24RegularIcon} />
 			{:else}
@@ -423,7 +419,7 @@
 
 		<span class="media-time">{formatTime(recordingTime)}</span>
 
-		<Button onclick={stopRecording} size="md" variant="ghost" isLoading={isUploading}>
+		<Button onclick={stopRecording} size="md" {variant} isLoading={isUploading}>
 			<Icon icon={RecordStop24RegularIcon} />
 		</Button>
 	{/if}

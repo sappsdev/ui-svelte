@@ -43,9 +43,9 @@
 		class: className,
 		variant = 'primary',
 		size = 'md',
-		isWide = false,
-		isCompact = false,
-		isCollapsible = false
+		isWide,
+		isCompact,
+		isCollapsible
 	}: Props = $props();
 
 	let openSubmenus = $state<Record<number, boolean>>(

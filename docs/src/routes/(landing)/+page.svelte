@@ -8,11 +8,13 @@
 	import { Chip, Section, Card, Button, Icon } from 'ui-svelte';
 </script>
 
-<Section bodyClass="items-center gap-6 text-center px-4 mt-6 md:mt-10 xl:mt-16">
+<Section bodyClass="items-center gap-6 text-center px-4 pt-6 md:pt-10 xl:pt-16">
 	<Chip startIcon={StarsMinimalisticLinearIcon} size="md" isSolid>Modern UI Component Library</Chip>
 
 	<h1 class="hero-title max-w-4xl">
-		Build beautiful web apps <span class="gradient-text">faster</span> with UiSvelte
+		Build beautiful web apps <span
+			class="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">faster</span
+		> with UiSvelte
 	</h1>
 
 	<p class="hero-subtitle max-w-2xl">
@@ -25,7 +27,7 @@
 		<Button variant="outlined" size="lg" href="/docs/display/card">View Components</Button>
 	</div>
 
-	<p class="text-sm opacity-70">No credit card required · Open source</p>
+	<p class="text-sm opacity-70">Open source</p>
 </Section>
 
 <Section isBoxed bodyClass="gap-12 py-20">
@@ -63,13 +65,6 @@
 </Section>
 
 <style>
-	.gradient-text {
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-	}
-
 	.icon-wrapper {
 		width: 64px;
 		height: 64px;

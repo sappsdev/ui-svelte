@@ -1,12 +1,14 @@
 <script lang="ts">
-	import { Avatar } from '$lib/index.js';
+	import { Avatar, Icon } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
 	import type { Snippet } from 'svelte';
+	import type { IconData } from './Icon.svelte';
 
 	type Props = {
 		id?: string | number;
 		label?: string;
 		description?: string;
+		icon?: IconData;
 		src?: string;
 		variant?: 'ghost' | 'outlined' | 'surface' | 'primary' | 'secondary' | 'muted';
 		size?: 'sm' | 'md' | 'lg';
@@ -29,6 +31,7 @@
 		label,
 		description,
 		src,
+		icon,
 		variant = 'ghost',
 		size = 'md',
 		status,
@@ -88,6 +91,9 @@
 </script>
 
 {#snippet itemContent()}
+	{#if icon}
+		<Icon {icon} />
+	{/if}
 	{#if src}
 		<Avatar {src} {status} size={avatarSizes[size]} variant="transparent" />
 	{/if}

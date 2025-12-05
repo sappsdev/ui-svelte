@@ -17,6 +17,10 @@
 	.item.is-sm {
 		@apply p-2 gap-2;
 
+		.icon {
+			@apply w-4 h-4;
+		}
+
 		.item-label {
 			@apply text-sm;
 		}
@@ -29,6 +33,10 @@
 	.item.is-md {
 		@apply p-3 gap-3;
 
+		.icon {
+			@apply w-5 h-5;
+		}
+
 		.item-label {
 			@apply text-base;
 		}
@@ -40,6 +48,10 @@
 
 	.item.is-lg {
 		@apply p-4 gap-4;
+
+		.icon {
+			@apply w-6 h-6;
+		}
 
 		.item-label {
 			@apply text-lg;

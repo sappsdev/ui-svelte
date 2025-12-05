@@ -1,7 +1,11 @@
 @layer components {
 	.appbar {
-		@apply w-full fixed top-0 z-30 bg-background;
+		@apply w-full z-30 bg-background;
 		@apply transition-all duration-300 ease-in-out;
+
+		&.is-sticky {
+			@apply fixed top-0;
+		}
 
 		&.is-blurred {
 			@apply backdrop-blur-lg bg-transparent;
@@ -20,15 +24,15 @@
 			@apply w-full px-2 h-full min-h-12;
 
 			.appbar-start {
-				@apply flex flex-nowrap justify-start items-center p-2 md:p-3 gap-2 md:gap-3 relative;
+				@apply flex flex-nowrap justify-start items-center p-3 gap-3 relative;
 			}
 
 			.appbar-center {
-				@apply flex flex-1 flex-nowrap justify-center items-center p-2 md:p-3 gap-2 md:gap-3 relative;
+				@apply flex flex-1 flex-nowrap justify-center items-center p-3 gap-3 relative;
 			}
 
 			.appbar-end {
-				@apply flex flex-nowrap justify-end items-center p-2 md:p-3 gap-2 md:gap-3 relative;
+				@apply flex flex-nowrap justify-end items-center p-3 gap-3 relative;
 			}
 		}
 	}

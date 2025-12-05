@@ -15,6 +15,7 @@
 		isBlurred?: boolean;
 		isBordered?: boolean;
 		hideOnScroll?: boolean;
+		isSticky?: boolean;
 	};
 
 	const {
@@ -28,6 +29,7 @@
 		endClass,
 		isBordered,
 		isBlurred,
+		isSticky,
 		hideOnScroll
 	}: Props = $props();
 
@@ -71,6 +73,7 @@
 		isBordered && 'is-bordered',
 		shouldBlur && 'is-blurred',
 		isHidden && 'is-hidden',
+		isSticky && 'is-sticky',
 		className
 	)}
 >

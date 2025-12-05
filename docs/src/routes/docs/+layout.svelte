@@ -22,6 +22,7 @@
 		Footer
 	} from 'ui-svelte';
 	import { storeApp } from '$lib/store/store.svelte';
+	import { theme } from 'ui-svelte';
 
 	let { children } = $props();
 
@@ -30,13 +31,12 @@
 	$effect(() => {
 		const root = document.documentElement;
 		const colors = storeApp.themeColors;
+		const darkColors = storeApp.darkThemeColors;
 
 		root.style.setProperty('--primary', colors.primary);
 		root.style.setProperty('--on-primary', colors.onPrimary);
 		root.style.setProperty('--secondary', colors.secondary);
 		root.style.setProperty('--on-secondary', colors.onSecondary);
-		root.style.setProperty('--muted', colors.muted);
-		root.style.setProperty('--on-muted', colors.onMuted);
 		root.style.setProperty('--success', colors.success);
 		root.style.setProperty('--on-success', colors.onSuccess);
 		root.style.setProperty('--info', colors.info);
@@ -45,8 +45,22 @@
 		root.style.setProperty('--on-warning', colors.onWarning);
 		root.style.setProperty('--danger', colors.danger);
 		root.style.setProperty('--on-danger', colors.onDanger);
-		root.style.setProperty('--surface', colors.surface);
-		root.style.setProperty('--on-surface', colors.onSurface);
+
+		if (theme.isDark) {
+			root.style.setProperty('--muted', darkColors.muted);
+			root.style.setProperty('--on-muted', darkColors.onMuted);
+			root.style.setProperty('--background', darkColors.background);
+			root.style.setProperty('--on-background', darkColors.onBackground);
+			root.style.setProperty('--surface', darkColors.surface);
+			root.style.setProperty('--on-surface', darkColors.onSurface);
+		} else {
+			root.style.setProperty('--muted', colors.muted);
+			root.style.setProperty('--on-muted', colors.onMuted);
+			root.style.setProperty('--background', colors.background);
+			root.style.setProperty('--on-background', colors.onBackground);
+			root.style.setProperty('--surface', colors.surface);
+			root.style.setProperty('--on-surface', colors.onSurface);
+		}
 	});
 
 	const uiItems: any = [
@@ -325,7 +339,7 @@
 		{
 			label: 'Docs',
 			icon: 'fluent:info-24-regular',
-			href: '/docs/display/card'
+			href: '/docs'
 		}
 	];
 </script>
@@ -336,7 +350,7 @@
 	bodyClass="boxed"
 >
 	{#snippet appBar()}
-		<AppBar class="h-16" contentClass="boxed" isBlurred>
+		<AppBar class="h-16" contentClass="boxed" isSticky>
 			{#snippet start()}
 				<IconButton
 					icon={LineHorizontal324RegularIcon}

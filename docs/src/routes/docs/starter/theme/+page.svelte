@@ -23,6 +23,11 @@
 			description: 'Subtle background color for less prominent elements'
 		},
 		{
+			key: 'background',
+			label: 'Background',
+			description: 'Main background color for the application'
+		},
+		{
 			key: 'success',
 			label: 'Success',
 			description: 'Indicates successful operations and positive states'
@@ -37,23 +42,55 @@
 		}
 	];
 
+	const darkThemeColorPairs = [
+		{
+			key: 'muted',
+			label: 'Muted',
+			description: 'Dark mode subtle background color'
+		},
+		{
+			key: 'background',
+			label: 'Background',
+			description: 'Dark mode main background color'
+		},
+		{
+			key: 'surface',
+			label: 'Surface',
+			description: 'Dark mode background for cards and elevated surfaces'
+		}
+	];
+
 	let openColorPicker = $state(false);
-	let selectedColorKey = $state<ThemeColorKey>('primary');
+	let selectedColorKey = $state<ThemeColorKey | keyof typeof storeApp.darkThemeColors>('primary');
 	let selectedColorType = $state<'main' | 'on'>('main');
+	let selectedColorMode = $state<'light' | 'dark'>('light');
 	let showCssDrawer = $state(false);
 
-	function openPicker(colorKey: ThemeColorKey, type: 'main' | 'on') {
+	function openPicker(
+		colorKey: ThemeColorKey | keyof typeof storeApp.darkThemeColors,
+		type: 'main' | 'on',
+		mode: 'light' | 'dark' = 'light'
+	) {
 		selectedColorKey = colorKey;
 		selectedColorType = type;
+		selectedColorMode = mode;
 		openColorPicker = true;
 	}
 
 	function handleColorSelect(colorName: string, shade: number, colorValue: string) {
-		const key =
-			selectedColorType === 'main'
-				? selectedColorKey
-				: (`on${selectedColorKey.charAt(0).toUpperCase()}${selectedColorKey.slice(1)}` as ThemeColorKey);
-		storeApp.setThemeColor(key, colorValue);
+		if (selectedColorMode === 'dark') {
+			const key =
+				selectedColorType === 'main'
+					? selectedColorKey
+					: (`on${(selectedColorKey as string).charAt(0).toUpperCase()}${(selectedColorKey as string).slice(1)}` as keyof typeof storeApp.darkThemeColors);
+			storeApp.setDarkThemeColor(key, colorValue);
+		} else {
+			const key =
+				selectedColorType === 'main'
+					? selectedColorKey
+					: (`on${(selectedColorKey as string).charAt(0).toUpperCase()}${(selectedColorKey as string).slice(1)}` as ThemeColorKey);
+			storeApp.setThemeColor(key as ThemeColorKey, colorValue);
+		}
 		openColorPicker = false;
 	}
 
@@ -64,6 +101,8 @@
 		storeApp.setThemeColor('onSecondary', 'oklch(95.3% 0.051 180.801)');
 		storeApp.setThemeColor('muted', 'oklch(87.2% 0.01 258.338)');
 		storeApp.setThemeColor('onMuted', 'oklch(37.2% 0.044 257.287)');
+		storeApp.setThemeColor('background', 'oklch(98.5% 0.002 247.839)');
+		storeApp.setThemeColor('onBackground', 'oklch(21% 0.034 264.665)');
 		storeApp.setThemeColor('success', 'oklch(62.7% 0.194 149.214)');
 		storeApp.setThemeColor('onSuccess', 'oklch(96.2% 0.044 156.743)');
 		storeApp.setThemeColor('info', 'oklch(58.8% 0.158 241.966)');
@@ -74,10 +113,18 @@
 		storeApp.setThemeColor('onDanger', 'oklch(93.6% 0.032 17.717)');
 		storeApp.setThemeColor('surface', 'oklch(96.7% 0.003 264.542)');
 		storeApp.setThemeColor('onSurface', 'oklch(27.9% 0.041 260.031)');
+
+		storeApp.setDarkThemeColor('muted', 'oklch(37.3% 0.034 259.733)');
+		storeApp.setDarkThemeColor('onMuted', 'oklch(87.2% 0.01 258.338)');
+		storeApp.setDarkThemeColor('background', 'oklch(13% 0.028 261.692)');
+		storeApp.setDarkThemeColor('onBackground', 'oklch(96.7% 0.003 264.542)');
+		storeApp.setDarkThemeColor('surface', 'oklch(21% 0.034 264.665)');
+		storeApp.setDarkThemeColor('onSurface', 'oklch(92.8% 0.006 264.531)');
 	}
 
 	function generateAppCss() {
 		const colors = storeApp.themeColors;
+		const darkColors = storeApp.darkThemeColors;
 		return `@import 'tailwindcss';
 @import 'ui-svelte/css';
 
@@ -126,14 +173,14 @@ body {
 }
 
 .dark {
-	--muted: oklch(37.3% 0.034 259.733);
-	--on-muted: oklch(87.2% 0.01 258.338);
+	--muted: ${darkColors.muted};
+	--on-muted: ${darkColors.onMuted};
 
-	--background: oklch(13% 0.028 261.692);
-	--on-background: oklch(96.7% 0.003 264.542);
+	--background: ${darkColors.background};
+	--on-background: ${darkColors.onBackground};
 
-	--surface: oklch(21% 0.034 264.665);
-	--on-surface: oklch(92.8% 0.006 264.531);
+	--surface: ${darkColors.surface};
+	--on-surface: ${darkColors.onSurface};
 }`;
 	}
 </script>
@@ -219,6 +266,86 @@ body {
 						style="background-color: {storeApp.themeColors[mainKey]}; color: {storeApp.themeColors[
 							onKey
 						]};"
+					>
+						<p class="text-sm font-medium">
+							Example: {colorPair.label} with On-{colorPair.label} text
+						</p>
+					</div>
+				</div>
+			</Card>
+		{/each}
+	</div>
+</Section>
+
+<Section>
+	<h2 class="text-2xl font-bold mb-4">Dark Mode Colors</h2>
+	<Alert status="info">
+		<strong>Dark Mode Specific Colors:</strong> These colors are only applied when dark mode is active.
+		Toggle dark mode using the button in the top right to see your changes.
+	</Alert>
+
+	<div class="grid gap-6 mt-4">
+		{#each darkThemeColorPairs as colorPair}
+			{@const mainKey = colorPair.key as keyof typeof storeApp.darkThemeColors}
+			{@const onKey =
+				`on${colorPair.key.charAt(0).toUpperCase()}${colorPair.key.slice(1)}` as keyof typeof storeApp.darkThemeColors}
+			<Card>
+				<div class="p-6">
+					<h3 class="text-lg font-semibold mb-2">{colorPair.label}</h3>
+					<p class="text-sm text-on-muted mb-4">{colorPair.description}</p>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div>
+							<div class="flex items-center justify-between mb-2">
+								<span class="text-sm font-medium">{colorPair.label}</span>
+								<button
+									onclick={() => openPicker(mainKey, 'main', 'dark')}
+									class="px-3 py-1 text-xs rounded-md bg-muted hover:bg-muted/80 transition-colors"
+								>
+									Change
+								</button>
+							</div>
+							<button
+								onclick={() => openPicker(mainKey, 'main', 'dark')}
+								class="w-full h-24 rounded-lg shadow-md transition-transform hover:scale-105 flex items-center justify-center font-medium"
+								style="background-color: {storeApp.darkThemeColors[mainKey]}; color: {storeApp
+									.darkThemeColors[onKey]};"
+							>
+								Click to customize
+							</button>
+							<div class="mt-2">
+								<Code code={storeApp.darkThemeColors[mainKey]} lang="css" />
+							</div>
+						</div>
+
+						<div>
+							<div class="flex items-center justify-between mb-2">
+								<span class="text-sm font-medium">On {colorPair.label}</span>
+								<button
+									onclick={() => openPicker(mainKey, 'on', 'dark')}
+									class="px-3 py-1 text-xs rounded-md bg-muted hover:bg-muted/80 transition-colors"
+								>
+									Change
+								</button>
+							</div>
+							<button
+								onclick={() => openPicker(mainKey, 'on', 'dark')}
+								class="w-full h-24 rounded-lg shadow-md transition-transform hover:scale-105 flex items-center justify-center font-medium"
+								style="background-color: {storeApp.darkThemeColors[onKey]}; color: {storeApp
+									.darkThemeColors[mainKey]};"
+							>
+								Click to customize
+							</button>
+							<div class="mt-2">
+								<Code code={storeApp.darkThemeColors[onKey]} lang="css" />
+							</div>
+						</div>
+					</div>
+
+					<div
+						class="mt-4 p-4 rounded-lg"
+						style="background-color: {storeApp.darkThemeColors[mainKey]}; color: {storeApp
+							.darkThemeColors[onKey]};"
 					>
 						<p class="text-sm font-medium">
 							Example: {colorPair.label} with On-{colorPair.label} text

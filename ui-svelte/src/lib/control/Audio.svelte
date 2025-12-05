@@ -9,7 +9,7 @@
 		variant?:
 			| 'primary'
 			| 'secondary'
-			| 'soft'
+			| 'muted'
 			| 'outlined'
 			| 'ghost'
 			| 'success'
@@ -176,7 +176,7 @@
 <div class={baseClasses}>
 	<audio bind:this={audio} {src}></audio>
 
-	<Button onclick={togglePlay} size="md" variant="ghost">
+	<Button onclick={togglePlay} size="md" {variant}>
 		{#if isPlaying}
 			<Icon icon={Pause24RegularIcon} />
 		{:else}

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Item } from '$lib/index.js';
+	import type { IconData } from '$lib/types.js';
 	import { onMount, type Snippet } from 'svelte';
 
 	type Option = {
@@ -7,6 +8,7 @@
 		label: string;
 		description?: string;
 		src?: string;
+		icon?: IconData;
 		href?: string;
 		onclick?: (option: Option) => void;
 	};
@@ -125,6 +127,7 @@
 				<Item
 					label={item.label}
 					src={item.src}
+					icon={item.icon}
 					description={item.description}
 					id={item.id}
 					href={item.href}
