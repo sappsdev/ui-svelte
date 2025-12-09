@@ -1,0 +1,54 @@
+@layer components {
+	.divider-horizontal {
+		@apply flex items-center w-full;
+		&:before,
+		&:after {
+			@apply content-[''] h-px flex-1 bg-muted;
+		}
+		& > * {
+			@apply px-4;
+		}
+	}
+	.divider-vertical {
+		@apply flex flex-col items-center h-full;
+
+		&:before,
+		&:after {
+			@apply content-[''] w-px flex-1 bg-muted;
+		}
+
+		& > * {
+			@apply py-4;
+		}
+	}
+
+	.divider-horizontal,
+	.divider-vertical {
+		&.divider-default,
+		&.divider-surface {
+			&:before,
+			&:after {
+				@apply bg-muted;
+			}
+		}
+
+		&.divider-primary {
+			&:before,
+			&:after {
+				@apply bg-primary;
+			}
+		}
+		&.divider-secondary {
+			&:before,
+			&:after {
+				@apply bg-secondary;
+			}
+		}
+		&.divider-muted {
+			&:before,
+			&:after {
+				@apply bg-on-muted;
+			}
+		}
+	}
+}

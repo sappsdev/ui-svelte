@@ -1,0 +1,197 @@
+@layer components {
+	.candlestick-chart-container {
+		@apply relative w-full h-full;
+	}
+
+	.candlestick-chart {
+		@apply relative w-full h-56 text-on-muted;
+	}
+
+	.candlestick-chart-svg {
+		@apply w-full h-full overflow-visible;
+	}
+
+	.candlestick-chart-axis-line {
+		@apply stroke-muted;
+		stroke-width: 1;
+	}
+
+	.candlestick-chart-axis-label {
+		@apply fill-on-muted text-xs;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+	}
+
+	.candlestick-chart-grid-line {
+		@apply stroke-muted;
+		stroke-opacity: 0.3;
+		stroke-width: 1;
+		stroke-dasharray: 2, 2;
+	}
+
+	.candlestick-chart-candle {
+		@apply cursor-pointer;
+	}
+
+	.candlestick-chart-candle:hover {
+		@apply opacity-80;
+	}
+
+	.candlestick-chart-candle.is-primary {
+		@apply fill-primary stroke-primary;
+	}
+
+	.candlestick-chart-candle.is-secondary {
+		@apply fill-secondary stroke-secondary;
+	}
+
+	.candlestick-chart-candle.is-success {
+		@apply fill-success stroke-success;
+	}
+
+	.candlestick-chart-candle.is-info {
+		@apply fill-info stroke-info;
+	}
+
+	.candlestick-chart-candle.is-warning {
+		@apply fill-warning stroke-warning;
+	}
+
+	.candlestick-chart-candle.is-danger {
+		@apply fill-danger stroke-danger;
+	}
+
+	.candlestick-chart-candle.is-muted {
+		@apply fill-muted stroke-muted;
+	}
+
+	.candlestick-chart-wick.is-primary {
+		@apply stroke-primary;
+	}
+
+	.candlestick-chart-wick.is-secondary {
+		@apply stroke-secondary;
+	}
+
+	.candlestick-chart-wick.is-success {
+		@apply stroke-success;
+	}
+
+	.candlestick-chart-wick.is-info {
+		@apply stroke-info;
+	}
+
+	.candlestick-chart-wick.is-warning {
+		@apply stroke-warning;
+	}
+
+	.candlestick-chart-wick.is-danger {
+		@apply stroke-danger;
+	}
+
+	.candlestick-chart-wick.is-muted {
+		@apply stroke-muted;
+	}
+
+	.candlestick-chart-volume {
+		@apply opacity-30;
+	}
+
+	.candlestick-chart-volume.is-primary {
+		@apply fill-primary;
+	}
+
+	.candlestick-chart-volume.is-secondary {
+		@apply fill-secondary;
+	}
+
+	.candlestick-chart-volume.is-success {
+		@apply fill-success;
+	}
+
+	.candlestick-chart-volume.is-info {
+		@apply fill-info;
+	}
+
+	.candlestick-chart-volume.is-warning {
+		@apply fill-warning;
+	}
+
+	.candlestick-chart-volume.is-danger {
+		@apply fill-danger;
+	}
+
+	.candlestick-chart-volume.is-muted {
+		@apply fill-muted;
+	}
+
+	.candlestick-chart-tooltip {
+		position: fixed;
+		pointer-events: none;
+		z-index: 50;
+		background: var(--color-on-muted, #1f2937);
+		color: var(--color-muted, #f9fafb);
+		padding: 0.5rem 0.75rem;
+		border-radius: 0.375rem;
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+		font-size: 0.75rem;
+		font-weight: 500;
+		white-space: nowrap;
+		transform: translateY(-50%);
+	}
+
+	.candlestick-chart-tooltip-title {
+		@apply font-semibold text-sm mb-1.5;
+	}
+
+	.candlestick-chart-tooltip-rows {
+		@apply flex flex-col gap-0.5;
+	}
+
+	.candlestick-chart-tooltip-row {
+		@apply flex items-center justify-between gap-3;
+	}
+
+	.candlestick-chart-tooltip-label {
+		@apply opacity-80;
+	}
+
+	.candlestick-chart-tooltip-value {
+		@apply font-semibold;
+	}
+
+	.candlestick-chart-tooltip-volume {
+		@apply pt-1 mt-1;
+		border-top: 1px solid rgba(255, 255, 255, 0.2);
+	}
+
+	.candlestick-chart-loading {
+		@apply flex flex-col items-center justify-center h-full;
+	}
+
+	.candlestick-chart-loading-icon {
+		@apply h-12 w-auto text-primary;
+	}
+
+	.candlestick-chart-empty {
+		@apply absolute inset-0 flex flex-col items-center justify-center text-on-muted opacity-50 text-sm;
+	}
+
+	.candlestick-chart-empty-icon {
+		@apply w-12 h-12 mb-2;
+	}
+
+	.candlestick-chart-dragging {
+		cursor: grabbing !important;
+	}
+
+	.candlestick-chart-svg {
+		cursor: grab;
+	}
+
+	.candlestick-chart-scrollbar {
+		@apply relative w-full h-2 bg-muted rounded-full mt-2;
+	}
+}

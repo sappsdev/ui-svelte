@@ -1,0 +1,47 @@
+@layer components {
+	.badge {
+		@apply relative w-fit;
+	}
+	.badge-content {
+		@apply absolute flex items-center justify-center rounded-ui;
+		@apply inset-ring inset-ring-muted;
+		@apply h-5 min-w-5 px-1;
+	}
+	.badge-text {
+		@apply text-xs leading-none;
+	}
+	.is-top-left .badge-text {
+		@apply top-0 left-0 translate-x-[-50%] translate-y-[-50%];
+	}
+	.is-top-right .badge-text {
+		@apply top-0 right-0 translate-x-[50%] translate-y-[-50%];
+	}
+	.is-bottom-left .badge-text {
+		@apply bottom-0 left-0 translate-x-[-50%] translate-y-[50%];
+	}
+	.is-bottom-right .badge-text {
+		@apply bottom-0 right-0 translate-x-[50%] translate-y-[50%];
+	}
+
+	.is-primary .badge-text {
+		@apply bg-primary text-on-primary;
+	}
+	.is-secondary .badge-text {
+		@apply bg-secondary text-on-secondary;
+	}
+	.is-muted .badge-text {
+		@apply bg-muted text-on-muted;
+	}
+	.is-success .badge-text {
+		@apply bg-success text-on-success;
+	}
+	.is-warning .badge-text {
+		@apply bg-warning text-on-warning;
+	}
+	.is-danger .badge-text {
+		@apply bg-danger text-on-danger;
+	}
+	.is-info .badge-text {
+		@apply bg-info text-on-info;
+	}
+}

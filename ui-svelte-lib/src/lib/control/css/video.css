@@ -1,0 +1,58 @@
+@layer components {
+	.video {
+		@apply relative aspect-video;
+		video {
+			@apply rounded-ui absolute z-0;
+		}
+	}
+	.video.horizontal {
+		@apply aspect-video;
+	}
+	.video.vertical {
+		@apply aspect-9/16;
+	}
+	.video.square {
+		@apply aspect-square;
+	}
+	.video-poster {
+		@apply absolute inset-0 z-10 h-full w-full object-cover;
+	}
+	.video-controls {
+		@apply absolute inset-x-0 bottom-0 w-full z-20 flex flex-col;
+	}
+	.video-control-play {
+		@apply flex justify-center items-center flex-1;
+	}
+	.video-control-actions {
+		@apply flex justify-between items-center w-full px-2 md:px-3 py-2;
+	}
+	.video-actions-start {
+		@apply flex justify-start items-center w-full gap-2;
+	}
+	.video-actions-center {
+		@apply flex-1 flex justify-center items-center w-full gap-2;
+	}
+	.video-actions-end {
+		@apply flex justify-end items-center w-full gap-2;
+	}
+	.video-control-progress {
+		@apply px-2 md:px-3 pb-2 rounded-b-lg pt-2;
+		@apply flex justify-between items-center gap-2;
+	}
+	.video-duration-info {
+		@apply text-sm text-white;
+	}
+	.video-btn {
+		@apply flex items-center justify-center gap-1 p-1;
+		@apply bg-black/30 hover:bg-black/50 rounded-ui cursor-pointer;
+	}
+	.video-btn-icon {
+		@apply size-5 text-white;
+	}
+	.video-volume {
+		@apply max-w-28 flex items-center;
+	}
+	.video-volume-wrapper {
+		@apply flex items-center h-full gap-2;
+	}
+}

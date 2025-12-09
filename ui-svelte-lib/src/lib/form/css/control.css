@@ -1,0 +1,177 @@
+@layer components {
+	.control {
+		@apply relative flex items-center justify-between w-full gap-2 px-3 outline-0 ring-0;
+		@apply transition-all duration-300 ease-in-out;
+	}
+
+	.control-label {
+		@apply absolute left-3 top-1/2 -translate-y-1/2;
+		@apply transition-all duration-300;
+	}
+
+	.control-label.is-active {
+		@apply text-xs left-3 top-px! translate-y-px!;
+	}
+
+	.control.is-sm {
+		@apply h-8 text-sm;
+	}
+
+	.control.is-sm .control-icon {
+		@apply h-5 w-auto;
+	}
+
+	.control.is-float.is-sm {
+		@apply h-10 pt-3;
+	}
+
+	.control.is-md {
+		@apply h-10 text-base;
+	}
+
+	.control.is-md .control-icon {
+		@apply h-6 w-auto;
+	}
+
+	.control.is-float.is-md {
+		@apply h-12 pt-3.5;
+	}
+
+	.control.is-lg {
+		@apply h-12 text-xl;
+
+		.control-label.is-active {
+			@apply text-sm;
+		}
+	}
+
+	.control.is-lg .control-icon {
+		@apply h-8 w-auto;
+	}
+
+	.control.is-float.is-lg {
+		@apply h-14 pt-3.5;
+	}
+
+	.control.is-primary {
+		@apply bg-on-primary text-primary rounded-ui;
+	}
+
+	.control.is-solid.is-primary {
+		@apply bg-primary text-on-primary;
+	}
+
+	.control.is-primary.is-active {
+		@apply bg-on-primary/90;
+	}
+
+	.control.is-solid.is-primary.is-active {
+		@apply bg-primary/90;
+	}
+
+	.control.is-secondary {
+		@apply bg-on-secondary text-secondary rounded-ui;
+	}
+
+	.control.is-solid.is-secondary {
+		@apply bg-secondary text-on-secondary;
+	}
+
+	.control.is-secondary.is-active {
+		@apply bg-on-secondary/90;
+	}
+
+	.control.is-solid.is-secondary.is-active {
+		@apply bg-secondary/90;
+	}
+
+	.control.is-muted {
+		@apply bg-muted text-on-muted rounded-ui;
+	}
+
+	.control.is-solid.is-muted {
+		@apply bg-on-muted text-muted;
+	}
+
+	.control.is-muted.is-active {
+		@apply bg-muted/90;
+	}
+
+	.control.is-solid.is-muted.is-active {
+		@apply bg-on-muted/90;
+	}
+
+	.control.is-outlined {
+		@apply inset-ring-2 inset-ring-muted rounded-ui;
+	}
+
+	.control.is-outlined.is-active {
+		@apply inset-ring-2 inset-ring-primary;
+	}
+
+	.control.is-line {
+		@apply box-border border-b-2  border-muted text-on-muted px-0;
+
+		.control-label {
+			@apply left-0!;
+		}
+	}
+
+	.control.is-line.is-active {
+		@apply border-primary;
+	}
+
+	.control-btn {
+		@apply absolute right-2 top-1/2 -translate-y-1/2;
+	}
+
+	.control:has(> .control-btn) {
+		@apply pr-8;
+	}
+
+	.control-arrow {
+		@apply size-4 transition-transform;
+		@apply transition-all duration-300 ease-in-out;
+	}
+
+	.control-arrow.is-active {
+		@apply rotate-90;
+	}
+
+	.control-selected {
+		@apply flex-1 text-left truncate;
+	}
+
+	.control-input {
+		@apply appearance-none flex-1 border-none outline-none;
+		@apply placeholder:transition-opacity placeholder:duration-200;
+
+		&::-webkit-outer-spin-button,
+		&::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+
+		&[type='number'] {
+			appearance: textfield;
+			-moz-appearance: textfield;
+		}
+
+		&:-webkit-autofill,
+		&:-webkit-autofill:hover,
+		&:-webkit-autofill:focus,
+		&:-webkit-autofill:active {
+			-webkit-box-shadow: 0 0 0 30px transparent inset !important;
+			-webkit-text-fill-color: inherit !important;
+			background-color: transparent !important;
+			background-image: none !important;
+			color: inherit !important;
+			transition: background-color 5000000s ease-in-out 0s !important;
+		}
+
+		&:-moz-autofill {
+			background-color: transparent !important;
+			color: inherit !important;
+		}
+	}
+}

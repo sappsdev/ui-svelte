@@ -1,0 +1,86 @@
+@layer components {
+	.collapsible {
+		@apply w-full transition-all duration-200;
+
+		&.is-primary {
+			@apply border border-primary/20 rounded-lg overflow-hidden;
+			.collapsible-header {
+				@apply bg-primary/5 hover:bg-primary/10;
+				&.is-open {
+					@apply bg-primary/10 text-primary;
+				}
+			}
+		}
+
+		&.is-secondary {
+			@apply border border-secondary/20 rounded-lg overflow-hidden;
+			.collapsible-header {
+				@apply bg-secondary/5 hover:bg-secondary/10;
+				&.is-open {
+					@apply bg-secondary/10 text-secondary;
+				}
+			}
+		}
+
+		&.is-muted {
+			@apply border border-muted rounded-lg overflow-hidden;
+			.collapsible-header {
+				@apply bg-muted/30 hover:bg-muted/50;
+				&.is-open {
+					@apply bg-muted text-on-muted;
+				}
+			}
+		}
+
+		&.is-outline {
+			@apply border border-muted rounded-lg overflow-hidden;
+			.collapsible-header {
+				@apply hover:bg-muted/30;
+				&.is-open {
+					@apply bg-muted/20;
+				}
+			}
+		}
+
+		&.is-disabled {
+			@apply opacity-50 pointer-events-none;
+		}
+
+		.collapsible-header {
+			@apply flex justify-between items-center gap-3 px-4 py-3 cursor-pointer select-none transition-all duration-200;
+
+			.collapsible-start {
+				@apply flex items-center gap-3 flex-1;
+
+				.collapsible-icon {
+					@apply h-5 w-auto shrink-0;
+				}
+
+				.collapsible-label {
+					@apply font-medium text-sm;
+				}
+			}
+
+			.collapsible-end {
+				@apply flex items-center;
+
+				.collapsible-arrow {
+					@apply size-5 transition-transform duration-200 text-on-muted;
+					&.is-active {
+						@apply rotate-180;
+					}
+				}
+			}
+
+			&:hover:not(.is-disabled) {
+				.collapsible-arrow {
+					@apply text-on-surface;
+				}
+			}
+		}
+
+		.collapsible-content {
+			@apply px-4 py-3 text-sm text-on-surface/80;
+		}
+	}
+}

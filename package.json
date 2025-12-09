@@ -1,0 +1,16 @@
+{
+  "name": "ui-svelte",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "workspaces": [
+    "ui-svelte-lib",
+    "ui-svelte-docs"
+  ]
+}

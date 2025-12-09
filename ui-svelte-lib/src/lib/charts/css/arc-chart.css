@@ -1,0 +1,237 @@
+@layer components {
+	.arc-chart-container {
+		@apply relative w-full flex flex-col md:flex-row justify-center items-center gap-4;
+	}
+
+	.arc-chart {
+		@apply relative flex items-center justify-center w-auto h-56;
+	}
+
+	.arc-chart-svg {
+		@apply w-full h-full overflow-visible;
+	}
+
+	.arc-chart-background {
+		@apply fill-none stroke-muted;
+		stroke-opacity: 0.2;
+		stroke-linecap: round;
+	}
+
+	.arc-chart-arc {
+		@apply fill-none transition-all duration-200 ease-in-out cursor-pointer;
+		stroke-linecap: round;
+	}
+
+	.arc-chart-arc:hover {
+		opacity: 0.8;
+		transform: scale(1.02);
+		transform-origin: center;
+	}
+
+	.arc-chart-arc.is-primary {
+		@apply stroke-primary;
+	}
+
+	.arc-chart-arc.is-secondary {
+		@apply stroke-secondary;
+	}
+
+	.arc-chart-arc.is-success {
+		@apply stroke-success;
+	}
+
+	.arc-chart-arc.is-info {
+		@apply stroke-info;
+	}
+
+	.arc-chart-arc.is-warning {
+		@apply stroke-warning;
+	}
+
+	.arc-chart-arc.is-danger {
+		@apply stroke-danger;
+	}
+
+	.arc-chart-arc.is-muted {
+		@apply stroke-muted;
+	}
+
+	.arc-chart-point {
+		@apply transition-all duration-200 ease-in-out;
+		stroke-width: 2;
+	}
+
+	.arc-chart-point.is-primary {
+		@apply fill-primary stroke-on-primary;
+	}
+
+	.arc-chart-point.is-secondary {
+		@apply fill-secondary stroke-on-secondary;
+	}
+
+	.arc-chart-point.is-success {
+		@apply fill-success stroke-on-success;
+	}
+
+	.arc-chart-point.is-info {
+		@apply fill-info stroke-on-info;
+	}
+
+	.arc-chart-point.is-warning {
+		@apply fill-warning stroke-on-warning;
+	}
+
+	.arc-chart-point.is-danger {
+		@apply fill-danger stroke-on-danger;
+	}
+
+	.arc-chart-point.is-muted {
+		@apply fill-muted stroke-on-muted;
+	}
+
+	.arc-chart-value {
+		@apply fill-on-background font-bold;
+	}
+
+	.arc-chart-label {
+		@apply fill-on-background opacity-70;
+	}
+
+	.arc-chart-min-max {
+		@apply fill-on-background;
+	}
+
+	.arc-chart-tooltip {
+		position: fixed;
+		pointer-events: none;
+		z-index: 50;
+		background: var(--color-on-muted, #1f2937);
+		color: var(--color-muted, #f9fafb);
+		padding: 0.5rem 0.75rem;
+		border-radius: 0.375rem;
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+		font-size: 0.75rem;
+		font-weight: 500;
+		white-space: nowrap;
+		transform: translateY(-50%);
+	}
+
+	.arc-chart-tooltip-title {
+		font-weight: 600;
+		margin-bottom: 0.25rem;
+	}
+
+	.arc-chart-tooltip-row {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.arc-chart-tooltip-color {
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 50%;
+	}
+
+	.arc-chart-tooltip-color.is-primary {
+		background: var(--color-primary, #3b82f6);
+	}
+
+	.arc-chart-tooltip-color.is-secondary {
+		background: var(--color-secondary, #6366f1);
+	}
+
+	.arc-chart-tooltip-color.is-success {
+		background: var(--color-success, #22c55e);
+	}
+
+	.arc-chart-tooltip-color.is-info {
+		background: var(--color-info, #06b6d4);
+	}
+
+	.arc-chart-tooltip-color.is-warning {
+		background: var(--color-warning, #f59e0b);
+	}
+
+	.arc-chart-tooltip-color.is-danger {
+		background: var(--color-danger, #ef4444);
+	}
+
+	.arc-chart-tooltip-color.is-muted {
+		background: var(--color-muted, #9ca3af);
+	}
+
+	.arc-chart-tooltip-value {
+		font-weight: 600;
+	}
+
+	.arc-chart-loading {
+		@apply absolute inset-0 flex items-center justify-center bg-muted rounded-md;
+	}
+
+	.arc-chart-loading-spinner {
+		@apply w-8 h-8 text-primary;
+		animation: arc-chart-spin 1s linear infinite;
+	}
+
+	@keyframes arc-chart-spin {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	.arc-chart-empty {
+		@apply absolute inset-0 flex flex-col items-center justify-center text-on-muted opacity-50 text-sm;
+	}
+
+	.arc-chart-legend {
+		@apply flex flex-wrap md:flex-col gap-2 items-center justify-center text-sm text-on-muted text-nowrap;
+	}
+
+	.arc-chart-legend-item {
+		@apply flex items-center gap-2 cursor-pointer transition-opacity duration-200;
+	}
+
+	.arc-chart-legend-item:hover {
+		@apply opacity-80;
+	}
+
+	.arc-chart-legend-color {
+		@apply w-3 h-3 rounded-sm;
+	}
+
+	.arc-chart-legend-color.is-primary {
+		@apply bg-primary;
+	}
+
+	.arc-chart-legend-color.is-secondary {
+		@apply bg-secondary;
+	}
+
+	.arc-chart-legend-color.is-success {
+		@apply bg-success;
+	}
+
+	.arc-chart-legend-color.is-info {
+		@apply bg-info;
+	}
+
+	.arc-chart-legend-color.is-warning {
+		@apply bg-warning;
+	}
+
+	.arc-chart-legend-color.is-danger {
+		@apply bg-danger;
+	}
+
+	.arc-chart-legend-color.is-muted {
+		@apply bg-muted;
+	}
+
+	.arc-chart-legend-value {
+		@apply text-xs opacity-70;
+	}
+}

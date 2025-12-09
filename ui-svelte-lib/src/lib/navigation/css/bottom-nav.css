@@ -1,0 +1,134 @@
+@layer components {
+    .bottomnav {
+        @apply fixed bottom-0 left-0 right-0 z-50;
+        @apply flex items-center justify-around;
+        @apply bg-background text-on-background;
+        @apply border-t border-muted;
+        @apply shadow-lg;
+        padding-bottom: env(safe-area-inset-bottom);
+
+        .bottomnav-item {
+            @apply flex flex-col items-center justify-center gap-1;
+            @apply flex-1 py-2 px-1;
+            @apply cursor-pointer select-none outline-none;
+            @apply transition-all duration-200;
+            @apply relative;
+
+            .bottomnav-icon {
+                @apply h-6 w-6 shrink-0;
+                @apply transition-all duration-200;
+            }
+
+            .bottomnav-label {
+                @apply text-xs font-medium whitespace-nowrap;
+                @apply transition-all duration-200;
+            }
+
+            &:hover {
+                @apply bg-muted/50;
+            }
+
+            &.is-active {
+                @apply text-primary;
+
+                .bottomnav-icon {
+                    @apply text-primary;
+                }
+            }
+        }
+
+        &.is-sm {
+            .bottomnav-item {
+                @apply gap-0.5 py-1.5;
+
+                .bottomnav-icon {
+                    @apply h-5 w-5;
+                }
+
+                .bottomnav-label {
+                    @apply text-[10px];
+                }
+            }
+        }
+
+        &.is-md {
+            .bottomnav-item {
+                @apply gap-1 py-2;
+
+                .bottomnav-icon {
+                    @apply h-6 w-6;
+                }
+
+                .bottomnav-label {
+                    @apply text-xs;
+                }
+            }
+        }
+
+        &.is-lg {
+            .bottomnav-item {
+                @apply gap-1.5 py-3;
+
+                .bottomnav-icon {
+                    @apply h-7 w-7;
+                }
+
+                .bottomnav-label {
+                    @apply text-sm;
+                }
+            }
+        }
+
+        &.is-icon-only {
+            .bottomnav-item {
+                @apply gap-0;
+
+                .bottomnav-icon {
+                    @apply h-7 w-7;
+                }
+            }
+        }
+
+        &.bottomnav-primary {
+            .bottomnav-item.is-active {
+                @apply text-primary;
+
+                .bottomnav-icon {
+                    @apply text-primary;
+                }
+
+                .bottomnav-label {
+                    @apply text-primary;
+                }
+            }
+        }
+
+        &.bottomnav-secondary {
+            .bottomnav-item.is-active {
+                @apply text-secondary;
+
+                .bottomnav-icon {
+                    @apply text-secondary;
+                }
+
+                .bottomnav-label {
+                    @apply text-secondary;
+                }
+            }
+        }
+
+        &.bottomnav-muted {
+            .bottomnav-item.is-active {
+                @apply bg-muted text-on-muted;
+
+                .bottomnav-icon {
+                    @apply text-on-muted;
+                }
+
+                .bottomnav-label {
+                    @apply text-on-muted;
+                }
+            }
+        }
+    }
+}

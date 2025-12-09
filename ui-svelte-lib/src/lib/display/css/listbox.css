@@ -1,0 +1,24 @@
+@layer components {
+	.listbox {
+		@apply flex w-full flex-col gap-2;
+	}
+	.listbox-items {
+		@apply flex flex-1 w-full min-w-0 flex-col gap-1 overflow-y-auto scrollbar-hide;
+	}
+	.listbox-item {
+		@apply flex items-center gap-2 px-2 py-1 text-base select-none;
+		@apply outline-hidden overflow-hidden rounded-ui text-left w-full;
+	}
+	.listbox-item-body {
+		@apply flex flex-col w-full;
+	}
+	.listbox-item-label {
+		@apply text-sm;
+	}
+	.listbox-item-description {
+		@apply text-xs;
+	}
+	.listbox-item-check {
+		@apply ml-auto h-4 w-4;
+	}
+}

@@ -1,0 +1,51 @@
+@layer components {
+	.modal-dialog {
+		@apply fixed inset-0 z-50;
+		@apply flex flex-col justify-center items-center;
+		.modal-overlay {
+			@apply absolute inset-0 bg-overlay;
+		}
+		.modal {
+			@apply relative flex flex-col gap-4 md:gap-6 rounded-ui py-4 md:py-6 max-w-[95vw] max-h-[95vh] overflow-hidden overflow-y-auto;
+
+			&.is-ghost {
+				@apply bg-background text-on-background;
+			}
+			&.is-surface {
+				@apply bg-surface text-on-surface;
+			}
+			&.is-primary {
+				@apply bg-on-primary text-primary;
+			}
+			&.is-secondary {
+				@apply bg-on-secondary text-secondary;
+			}
+			&.is-muted {
+				@apply bg-muted text-on-muted;
+			}
+			&.is-primary.is-solid {
+				@apply bg-primary text-on-primary;
+			}
+			&.is-secondary.is-solid {
+				@apply bg-secondary text-on-secondary;
+			}
+			&.is-muted.is-solid {
+				@apply bg-on-muted text-muted;
+			}
+			.modal-content {
+				@apply px-4 md:px-6;
+			}
+
+			.modal-header {
+				@apply grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-4 md:px-6;
+			}
+
+			.modal-footer {
+				@apply [.border-t]:pt-4 md:[.border-t]:pt-6 flex items-center px-4 md:px-6;
+			}
+		}
+		.modal-btn-close {
+			@apply absolute top-1 right-1 float-right z-50 size-6 p-1 hover:bg-muted rounded-full flex items-center justify-center text-on-muted hover:text-danger cursor-pointer;
+		}
+	}
+}

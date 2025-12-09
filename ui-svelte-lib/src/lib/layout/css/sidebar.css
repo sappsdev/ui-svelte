@@ -1,0 +1,17 @@
+@layer components {
+	.sidebar {
+		@apply flex w-fit h-full flex-col;
+
+		.sidebar-header {
+			@apply relative flex flex-col gap-3 p-3;
+		}
+
+		.sidebar-footer {
+			@apply relative flex flex-col gap-3 p-3;
+		}
+
+		.sidebar-body {
+			@apply relative flex min-h-0 w-full flex-col gap-3 p-3 overflow-hidden hover:overflow-y-auto;
+		}
+	}
+}

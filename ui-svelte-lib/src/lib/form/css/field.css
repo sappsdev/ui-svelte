@@ -1,0 +1,17 @@
+@layer components {
+	.field {
+		@apply flex flex-col gap-2 w-full;
+	}
+
+	.field-label {
+		@apply text-sm font-semibold;
+	}
+
+	.field-help {
+		@apply text-xs leading-none -mt-1;
+	}
+
+	.field-help.is-danger {
+		@apply text-danger;
+	}
+}

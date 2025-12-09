@@ -1,0 +1,202 @@
+@layer components {
+	.btn {
+		@apply relative flex items-center justify-center w-fit flex-nowrap;
+		@appls font-medium whitespace-nowrap;
+		@apply rounded-ui outline-none;
+		@apply cursor-pointer select-none;
+		@apply transition-all duration-200 active:scale-[0.98];
+		@apply disabled:cursor-not-allowed disabled:opacity-50;
+		@apply disabled:transition-none disabled:active:scale-100;
+	}
+
+	.btn-loading {
+		@apply absolute inset-0 flex items-center justify-center;
+	}
+
+	.btn.is-xs:not(.is-icon) {
+		@apply h-6 gap-2 px-2 text-xs;
+
+		.icon {
+			@apply h-4 w-auto;
+		}
+
+		.loading-icon {
+			@apply h-6 w-auto;
+		}
+	}
+
+	.btn.is-sm:not(.is-icon) {
+		@apply h-8 gap-2 px-2 text-xs;
+
+		.icon {
+			@apply h-4 w-auto;
+		}
+
+		.loading-icon {
+			@apply h-8 w-auto;
+		}
+	}
+
+	.btn.is-md:not(.is-icon) {
+		@apply h-10 gap-3 px-3 text-sm;
+
+		.icon {
+			@apply h-5 w-auto;
+		}
+
+		.loading-icon {
+			@apply h-10 w-auto;
+		}
+	}
+
+	.btn.is-lg:not(.is-icon) {
+		@apply h-12 gap-3 px-4 text-lg;
+
+		.icon {
+			@apply h-6 w-auto;
+		}
+
+		.loading-icon {
+			@apply h-12 w-auto;
+		}
+	}
+
+	.btn.is-icon.is-xs {
+		@apply h-6 w-6;
+
+		.icon {
+			@apply h-4 w-4;
+		}
+
+		.loading-icon {
+			@apply h-5 w-5;
+		}
+	}
+
+	.btn.is-icon.is-sm {
+		@apply h-8 w-8;
+
+		.icon {
+			@apply h-5 w-5;
+		}
+
+		.loading-icon {
+			@apply h-6 w-6;
+		}
+	}
+
+	.btn.is-icon.is-md {
+		@apply h-10 w-10;
+
+		.icon {
+			@apply h-6 w-6;
+		}
+
+		.loading-icon {
+			@apply h-8 w-8;
+		}
+	}
+
+	.btn.is-icon.is-lg {
+		@apply h-12 w-12;
+
+		.icon {
+			@apply h-8 w-8;
+		}
+
+		.loading-icon {
+			@apply h-10 w-10;
+		}
+	}
+
+	.btn.is-icon.is-xl {
+		@apply h-14 w-14;
+
+		.icon {
+			@apply h-10 w-10;
+		}
+
+		.loading-icon {
+			@apply h-12 w-12;
+		}
+	}
+
+	.btn.is-wide {
+		@apply w-full;
+	}
+
+	.btn:disabled {
+		@apply opacity-50;
+	}
+
+	.btn.is-primary {
+		@apply bg-on-primary text-primary hover:bg-on-primary/90;
+	}
+
+	.btn.is-solid.is-primary {
+		@apply bg-primary text-on-primary hover:bg-primary/90;
+	}
+
+	.btn.is-secondary {
+		@apply bg-on-secondary text-secondary hover:bg-on-secondary/90;
+	}
+
+	.btn.is-solid.is-secondary {
+		@apply bg-secondary text-on-secondary hover:bg-secondary/90;
+	}
+
+	.btn.is-muted {
+		@apply bg-muted text-on-muted hover:bg-muted/90;
+	}
+
+	.btn.is-solid.is-muted {
+		@apply bg-on-muted text-muted hover:bg-on-muted/90;
+	}
+
+	.btn.is-success {
+		@apply bg-on-success text-success hover:bg-on-success/90;
+	}
+
+	.btn.is-solid.is-success {
+		@apply bg-success text-on-success hover:bg-success/90;
+	}
+
+	.btn.is-info {
+		@apply bg-on-info text-info hover:bg-on-info/90;
+	}
+
+	.btn.is-solid.is-info {
+		@apply bg-info text-on-info hover:bg-info/90;
+	}
+
+	.btn.is-warning {
+		@apply bg-on-warning text-warning hover:bg-on-warning/90;
+	}
+
+	.btn.is-solid.is-warning {
+		@apply bg-warning text-on-warning hover:bg-warning/90;
+	}
+
+	.btn.is-danger {
+		@apply bg-on-danger text-danger hover:bg-on-danger/90;
+	}
+
+	.btn.is-solid.is-danger {
+		@apply bg-danger text-on-danger hover:bg-danger/90;
+	}
+
+	.btn.is-outlined {
+		@apply inset-ring inset-ring-muted text-on-muted hover:bg-muted;
+	}
+
+	.btn.is-ghost {
+		@apply text-on-muted hover:bg-muted;
+	}
+
+	.btn-close {
+		@apply absolute right-1 top-1;
+	}
+	.btn-close-icon {
+		@apply h-4 w-4 cursor-pointer;
+	}
+}

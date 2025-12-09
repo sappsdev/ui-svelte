@@ -1,0 +1,289 @@
+@layer components {
+	.area-chart-container {
+		@apply relative w-full flex flex-col md:flex-row justify-center items-center gap-4;
+	}
+
+	.area-chart {
+		@apply relative flex items-center justify-center w-auto h-56 text-on-muted;
+	}
+
+	.area-chart-svg {
+		@apply w-full h-full overflow-visible;
+	}
+
+	.area-chart-axis-line {
+		@apply stroke-muted;
+		stroke-width: 1;
+	}
+
+	.area-chart-axis-label {
+		@apply fill-on-muted text-xs;
+	}
+
+	.area-chart-grid-line {
+		@apply stroke-muted;
+		stroke-opacity: 0.3;
+		stroke-width: 1;
+		stroke-dasharray: 2, 2;
+	}
+
+	.area-chart-area.is-primary {
+		@apply fill-primary;
+	}
+
+	.area-chart-area.is-secondary {
+		@apply fill-secondary;
+	}
+
+	.area-chart-area.is-success {
+		@apply fill-success;
+	}
+
+	.area-chart-area.is-info {
+		@apply fill-info;
+	}
+
+	.area-chart-area.is-warning {
+		@apply fill-warning;
+	}
+
+	.area-chart-area.is-danger {
+		@apply fill-danger;
+	}
+
+	.area-chart-area.is-muted {
+		@apply fill-muted;
+	}
+
+	.area-chart-gradient-start.is-primary {
+		@apply fill-primary;
+		stop-color: var(--color-primary, #3b82f6);
+	}
+
+	.area-chart-gradient-start.is-secondary {
+		@apply fill-secondary;
+		stop-color: var(--color-secondary, #6366f1);
+	}
+
+	.area-chart-gradient-start.is-success {
+		@apply fill-success;
+		stop-color: var(--color-success, #22c55e);
+	}
+
+	.area-chart-gradient-start.is-info {
+		@apply fill-info;
+		stop-color: var(--color-info, #06b6d4);
+	}
+
+	.area-chart-gradient-start.is-warning {
+		@apply fill-warning;
+		stop-color: var(--color-warning, #f59e0b);
+	}
+
+	.area-chart-gradient-start.is-danger {
+		@apply fill-danger;
+		stop-color: var(--color-danger, #ef4444);
+	}
+
+	.area-chart-gradient-start.is-muted {
+		@apply fill-muted;
+		stop-color: var(--color-muted, #9ca3af);
+	}
+
+	.area-chart-gradient-end.is-primary {
+		@apply fill-primary;
+		stop-color: var(--color-primary, #3b82f6);
+	}
+
+	.area-chart-gradient-end.is-secondary {
+		@apply fill-secondary;
+		stop-color: var(--color-secondary, #6366f1);
+	}
+
+	.area-chart-gradient-end.is-success {
+		@apply fill-success;
+		stop-color: var(--color-success, #22c55e);
+	}
+
+	.area-chart-gradient-end.is-info {
+		@apply fill-info;
+		stop-color: var(--color-info, #06b6d4);
+	}
+
+	.area-chart-gradient-end.is-warning {
+		@apply fill-warning;
+		stop-color: var(--color-warning, #f59e0b);
+	}
+
+	.area-chart-gradient-end.is-danger {
+		@apply fill-danger;
+		stop-color: var(--color-danger, #ef4444);
+	}
+
+	.area-chart-gradient-end.is-muted {
+		@apply fill-muted;
+		stop-color: var(--color-muted, #9ca3af);
+	}
+
+	.area-chart-line {
+		@apply fill-none;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.area-chart-line.is-primary {
+		@apply stroke-primary;
+	}
+
+	.area-chart-line.is-secondary {
+		@apply stroke-secondary;
+	}
+
+	.area-chart-line.is-success {
+		@apply stroke-success;
+	}
+
+	.area-chart-line.is-info {
+		@apply stroke-info;
+	}
+
+	.area-chart-line.is-warning {
+		@apply stroke-warning;
+	}
+
+	.area-chart-line.is-danger {
+		@apply stroke-danger;
+	}
+
+	.area-chart-line.is-muted {
+		@apply stroke-muted;
+	}
+
+	.area-chart-point {
+		@apply cursor-pointer transition-all duration-200 ease-in-out;
+		stroke-width: 2;
+	}
+
+	.area-chart-point:hover {
+		r: 5;
+	}
+
+	.area-chart-point.is-primary {
+		@apply fill-primary stroke-on-primary;
+	}
+
+	.area-chart-point.is-secondary {
+		@apply fill-secondary stroke-on-secondary;
+	}
+
+	.area-chart-point.is-success {
+		@apply fill-success stroke-on-success;
+	}
+
+	.area-chart-point.is-info {
+		@apply fill-info stroke-on-info;
+	}
+
+	.area-chart-point.is-warning {
+		@apply fill-warning stroke-on-warning;
+	}
+
+	.area-chart-point.is-danger {
+		@apply fill-danger stroke-on-danger;
+	}
+
+	.area-chart-point.is-muted {
+		@apply fill-muted stroke-on-muted;
+	}
+
+	.area-chart-tooltip {
+		@apply fixed pointer-events-none z-50 bg-on-muted text-muted px-3 py-2 rounded-md shadow-sm text-xs font-medium whitespace-nowrap;
+		transform: translateY(-50%);
+	}
+
+	.area-chart-tooltip-title {
+		@apply font-semibold mb-1;
+	}
+
+	.area-chart-tooltip-row {
+		@apply flex items-center gap-2;
+	}
+
+	.area-chart-tooltip-label {
+		@apply opacity-80;
+	}
+
+	.area-chart-tooltip-value {
+		@apply font-semibold;
+	}
+
+	.area-chart-legend {
+		@apply flex flex-wrap md:flex-col gap-2 items-center justify-center text-sm text-on-muted text-nowrap;
+	}
+
+	.area-chart-legend-item {
+		@apply flex items-center gap-2 cursor-pointer transition-opacity duration-200;
+	}
+
+	.area-chart-legend-item:hover {
+		@apply opacity-80;
+	}
+
+	.area-chart-legend-color {
+		@apply w-3 h-3 rounded-sm;
+	}
+
+	.area-chart-legend-color.is-primary {
+		@apply bg-primary;
+	}
+
+	.area-chart-legend-color.is-secondary {
+		@apply bg-secondary;
+	}
+
+	.area-chart-legend-color.is-success {
+		@apply bg-success;
+	}
+
+	.area-chart-legend-color.is-info {
+		@apply bg-info;
+	}
+
+	.area-chart-legend-color.is-warning {
+		@apply bg-warning;
+	}
+
+	.area-chart-legend-color.is-danger {
+		@apply bg-danger;
+	}
+
+	.area-chart-legend-color.is-muted {
+		@apply bg-muted;
+	}
+
+	.area-chart-loading {
+		@apply absolute inset-0 flex items-center justify-center bg-muted rounded-md;
+	}
+
+	.area-chart-loading-spinner {
+		@apply w-8 h-8 text-primary;
+		animation: area-chart-spin 1s linear infinite;
+	}
+
+	@keyframes area-chart-spin {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	.area-chart-empty {
+		@apply absolute inset-0 flex flex-col items-center justify-center text-on-muted opacity-50 text-sm;
+	}
+
+	.area-chart-empty-icon {
+		@apply w-12 h-12 mb-2;
+	}
+}

@@ -1,0 +1,57 @@
+@import 'tailwindcss';
+@import 'ui-svelte/css';
+
+@custom-variant dark (&:is(.dark *));
+
+body {
+	font-family: 'Montserrat Variable', sans-serif;
+}
+
+:root {
+	--primary: oklch(54.6% 0.245 262.881);
+	--on-primary: oklch(93.2% 0.032 255.585);
+
+	--secondary: oklch(0.592 0.249 0.584);
+	--on-secondary: oklch(0.948 0.028 342.258);
+
+	--muted: oklch(87.2% 0.01 258.338);
+	--on-muted: oklch(37.2% 0.044 257.287);
+
+	--background: oklch(98.5% 0.002 247.839);
+	--on-background: oklch(21% 0.034 264.665);
+
+	--surface: oklch(96.7% 0.003 264.542);
+	--on-surface: oklch(27.9% 0.041 260.031);
+
+	--outline: oklch(70.7% 0.022 261.325);
+	--on-outline: oklch(21% 0.034 264.665);
+
+	--overlay: oklch(0 0 0 / 60%);
+	--on-overlay: oklch(1 0 0);
+
+	--success: oklch(62.7% 0.194 149.214);
+	--on-success: oklch(96.2% 0.044 156.743);
+
+	--info: oklch(58.8% 0.158 241.966);
+	--on-info: oklch(95.1% 0.026 236.824);
+
+	--warning: oklch(68.1% 0.162 75.834);
+	--on-warning: oklch(97.3% 0.071 103.193);
+
+	--danger: oklch(57.7% 0.245 27.325);
+	--on-danger: oklch(93.6% 0.032 17.717);
+
+	--radius-ui: 0.75rem;
+	--scrollbar-size: 6px;
+}
+
+.dark {
+	--muted: oklch(37.3% 0.034 259.733);
+	--on-muted: oklch(87.2% 0.01 258.338);
+
+	--background: oklch(13% 0.028 261.692);
+	--on-background: oklch(96.7% 0.003 264.542);
+
+	--surface: oklch(21% 0.034 264.665);
+	--on-surface: oklch(92.8% 0.006 264.531);
+}

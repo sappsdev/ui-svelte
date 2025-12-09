@@ -1,0 +1,91 @@
+@layer components {
+	.chip {
+		@apply relative flex items-center justify-center w-fit;
+		@appls font-medium whitespace-nowrap;
+		@apply rounded-ui outline-none;
+	}
+
+	.chip.is-sm {
+		@apply min-h-6 gap-2 px-2 text-xs;
+
+		.icon {
+			@apply h-4 w-auto;
+		}
+	}
+
+	.chip.is-md {
+		@apply min-h-8 gap-3 px-3 text-sm;
+
+		.icon {
+			@apply h-4 w-auto;
+		}
+	}
+
+	.chip.is-lg {
+		@apply min-h-10 gap-3 px-4 text-lg;
+
+		.icon {
+			@apply h-6 w-auto;
+		}
+	}
+
+	.chip.has-shadow {
+		@apply shadow-sm;
+	}
+
+	.chip.is-solid.is-primary {
+		@apply bg-primary text-on-primary;
+	}
+
+	.chip.is-solid.is-secondary {
+		@apply bg-secondary text-on-secondary;
+	}
+
+	.chip.is-solid.is-muted {
+		@apply bg-on-muted text-muted;
+	}
+
+	.chip.is-solid.is-success {
+		@apply bg-success text-on-success;
+	}
+
+	.chip.is-solid.is-warning {
+		@apply bg-warning text-on-warning;
+	}
+
+	.chip.is-solid.is-danger {
+		@apply bg-danger text-on-danger;
+	}
+
+	.chip.is-solid.is-info {
+		@apply bg-info text-on-info;
+	}
+
+	.chip.is-primary {
+		@apply bg-on-primary text-primary;
+	}
+
+	.chip.is-secondary {
+		@apply bg-on-secondary text-secondary;
+	}
+
+	.chip.is-muted {
+		@apply bg-muted text-on-muted;
+	}
+
+	.chip.is-success {
+		@apply bg-on-success text-success;
+	}
+
+	.chip.is-warning {
+		@apply bg-on-warning text-warning;
+	}
+
+	.chip.is-danger {
+		@apply bg-on-danger text-danger;
+	}
+
+	.chip.is-info {
+		@apply bg-on-info text-info;
+	}
+}

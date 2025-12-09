@@ -1,0 +1,89 @@
+@layer components {
+	.tooltip {
+		@apply relative w-fit;
+	}
+
+	.tooltip-popover {
+		@apply flex items-center gap-2 px-3 py-2;
+		@apply rounded-ui text-sm;
+		@apply invisible opacity-0 transition-opacity duration-300 ease-in-out;
+		@apply shadow shadow-muted;
+		@apply whitespace-nowrap;
+		position: fixed;
+		z-index: 9999;
+		pointer-events: none;
+	}
+
+	.tooltip-popover.is-active {
+		@apply visible opacity-100;
+	}
+
+	.tooltip-popover.is-primary {
+		@apply bg-on-primary text-primary;
+	}
+
+	.tooltip-popover.is-solid.is-primary {
+		@apply bg-primary text-on-primary;
+	}
+
+	.tooltip-popover.is-secondary {
+		@apply bg-on-secondary text-secondary;
+	}
+
+	.tooltip-popover.is-solid.is-secondary {
+		@apply bg-secondary text-on-secondary;
+	}
+
+	.tooltip-popover.is-muted {
+		@apply bg-muted text-on-muted;
+	}
+
+	.tooltip-popover.is-solid.is-muted {
+		@apply bg-on-muted text-muted;
+	}
+
+	.tooltip-arrow {
+		@apply absolute w-2 h-2 rotate-45;
+		position: absolute;
+	}
+
+	.tooltip-arrow.is-primary {
+		@apply bg-on-primary;
+	}
+
+	.tooltip-arrow.is-solid.is-primary {
+		@apply bg-primary;
+	}
+
+	.tooltip-arrow.is-secondary {
+		@apply bg-on-secondary;
+	}
+
+	.tooltip-arrow.is-solid.is-secondary {
+		@apply bg-secondary;
+	}
+
+	.tooltip-arrow.is-muted {
+		@apply bg-muted;
+	}
+
+	.tooltip-arrow.is-solid.is-muted {
+		@apply bg-on-muted;
+	}
+
+	.tooltip-popover.position-top .tooltip-arrow {
+		@apply -bottom-1 left-1/2 -translate-x-1/2;
+	}
+
+	.tooltip-popover.position-bottom .tooltip-arrow {
+		@apply -top-1 left-1/2 -translate-x-1/2;
+	}
+
+	.tooltip-popover.position-start .tooltip-arrow {
+		@apply -right-1 top-1/2 -translate-y-1/2;
+	}
+
+	.tooltip-popover.position-end .tooltip-arrow {
+		@apply -left-1 top-1/2 -translate-y-1/2;
+	}
+}
