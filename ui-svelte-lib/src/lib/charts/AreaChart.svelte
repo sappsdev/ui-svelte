@@ -45,7 +45,7 @@
 		loading?: boolean;
 		empty?: boolean;
 		emptyText?: string;
-		class?: string;
+		rootClass?: string;
 	};
 
 	let {
@@ -65,7 +65,7 @@
 		loading = false,
 		empty = false,
 		emptyText = 'No data available',
-		class: className
+		rootClass
 	}: Props = $props();
 
 	let containerEl: HTMLDivElement | undefined = $state();
@@ -321,7 +321,7 @@
 	});
 </script>
 
-<div class={cn('area-chart-container', className)}>
+<div class={cn('area-chart-container', rootClass)}>
 	{#if loading}
 		<div class="area-chart-loading">
 			<svg class="area-chart-loading-spinner" viewBox="0 0 24 24">

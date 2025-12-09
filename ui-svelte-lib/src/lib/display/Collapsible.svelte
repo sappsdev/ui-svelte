@@ -12,7 +12,7 @@
 		disabled?: boolean;
 		defaultOpen?: boolean;
 		variant?: 'primary' | 'secondary' | 'muted' | 'outline';
-		class?: string;
+		rootClass?: string;
 		headerClass?: string;
 		contentClass?: string;
 	};
@@ -24,7 +24,7 @@
 		disabled = false,
 		defaultOpen = false,
 		variant = 'muted',
-		class: className,
+		rootClass,
 		headerClass,
 		contentClass
 	}: Props = $props();
@@ -44,7 +44,7 @@
 	}
 </script>
 
-<div class={cn('collapsible', variants[variant], className, disabled && 'is-disabled')}>
+<div class={cn('collapsible', variants[variant], rootClass, disabled && 'is-disabled')}>
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div class={cn('collapsible-header', headerClass, isOpen && 'is-open')} onclick={toggle}>

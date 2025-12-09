@@ -7,7 +7,7 @@
 		href?: string;
 		onclick?: () => void;
 	};
-	let { type = 'template', class: className }: Props = $props();
+	let { type = 'template', class: className, title, description }: Props = $props();
 </script>
 
 <div class="empty">
@@ -455,8 +455,14 @@
 			/>
 		</svg>
 	{/if}
-	<div>
-		<h6>Title</h6>
-		<p>Description Error</p>
-	</div>
+	{#if title || description}
+		<div class="column center">
+			{#if title}
+				<h6>{title}</h6>
+			{/if}
+			{#if description}
+				<p>{description}</p>
+			{/if}
+		</div>
+	{/if}
 </div>

@@ -7,7 +7,6 @@
 	} from '$lib/icons';
 	import { Chip, Section, Card, Button, Icon } from 'ui-svelte';
 
-	// Configuración de features
 	const features = [
 		{
 			icon: Rocket24RegularIcon,
@@ -30,7 +29,6 @@
 		}
 	] as const;
 
-	// Configuración de CTAs
 	const ctas = [
 		{
 			label: 'Get Started',
@@ -47,7 +45,6 @@
 	] as const;
 </script>
 
-<!-- Hero Section -->
 <Section bodyClass="items-center gap-6 text-center px-4 pt-6 md:pt-10 xl:pt-16">
 	<Chip startIcon={StarsMinimalisticLinearIcon} size="md" isSolid>Modern UI Component Library</Chip>
 
@@ -75,14 +72,12 @@
 	<p class="text-sm opacity-70">Open source</p>
 </Section>
 
-<!-- Features Section -->
 <Section isBoxed bodyClass="gap-12 py-20">
 	<div class="grid-1 md:grid-3 gap-6">
 		{#each features as { icon, variant, title, description }}
 			<Card
 				{variant}
-				hasShadow
-				class="hover:-translate-y-2 transition-transform duration-300"
+				rootClass="hover:-translate-y-2 transition-transform duration-300"
 				bodyClass="center gap-4 text-center"
 			>
 				<div class="size-16 row center rounded-ui">

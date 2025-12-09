@@ -85,7 +85,7 @@
 
 <Scaffold mainClass="vh-16 mt-16">
 	{#snippet appBar()}
-		<AppBar class="bg-background h-16" isBoxed isSticky centerClass="invisible lg:visible">
+		<AppBar rootClass="bg-background h-16" isBoxed isSticky centerClass="invisible lg:visible">
 			{#snippet start()}
 				<h4>UiSvelte</h4>
 			{/snippet}

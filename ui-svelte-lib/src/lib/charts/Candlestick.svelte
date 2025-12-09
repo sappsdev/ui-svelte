@@ -51,7 +51,7 @@
 		initialVisibleCandles?: number;
 		minVisibleCandles?: number;
 		maxVisibleCandles?: number;
-		class?: string;
+		rootClass?: string;
 		chartClass?: string;
 	};
 
@@ -72,7 +72,7 @@
 		initialVisibleCandles = 50,
 		minVisibleCandles = 10,
 		maxVisibleCandles = 200,
-		class: className,
+		rootClass,
 		chartClass
 	}: Props = $props();
 
@@ -345,7 +345,7 @@
 	});
 </script>
 
-<div bind:this={containerEl} class={cn('candlestick-chart-container', className)}>
+<div bind:this={containerEl} class={cn('candlestick-chart-container', rootClass)}>
 	{#if loading}
 		<div class="candlestick-chart-loading"></div>
 	{:else if empty || data.length === 0}

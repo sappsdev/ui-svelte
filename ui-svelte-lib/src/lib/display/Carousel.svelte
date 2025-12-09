@@ -28,13 +28,13 @@
 		variant?: 'primary' | 'secondary' | 'muted' | 'default';
 		size?: 'sm' | 'md' | 'lg';
 		indicatorType?: 'bar' | 'dot';
-		class?: string;
+		rootClass?: string;
 		slideClass?: string;
 		onSlideChange?: (index: number) => void;
 	};
 
 	const {
-		class: className,
+		rootClass,
 		slideClass,
 		slides = [],
 		autoplay = false,
@@ -256,7 +256,7 @@
 	});
 </script>
 
-<div class={cn('carousel', isVertical && 'is-vertical', className)}>
+<div class={cn('carousel', isVertical && 'is-vertical', rootClass)}>
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		class="carousel-viewport"

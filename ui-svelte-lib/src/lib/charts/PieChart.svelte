@@ -34,7 +34,7 @@
 		loading?: boolean;
 		empty?: boolean;
 		emptyText?: string;
-		class?: string;
+		rootClass?: string;
 		chartClass?: string;
 	};
 
@@ -54,7 +54,7 @@
 		loading = false,
 		empty = false,
 		emptyText = 'No data available',
-		class: className,
+		rootClass,
 		chartClass
 	}: Props = $props();
 
@@ -175,7 +175,7 @@
 	});
 </script>
 
-<div class={cn('pie-chart-container', className)}>
+<div class={cn('pie-chart-container', rootClass)}>
 	{#if loading}
 		<div class="pie-chart-loading">
 			<svg class="pie-chart-loading-spinner" viewBox="0 0 24 24">

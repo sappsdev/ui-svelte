@@ -10,7 +10,7 @@
 	}
 
 	.control-label.is-active {
-		@apply text-xs left-3 top-px! translate-y-px!;
+		@apply text-xs left-3 top-[1.2px]! translate-y-px!;
 	}
 
 	.control.is-sm {

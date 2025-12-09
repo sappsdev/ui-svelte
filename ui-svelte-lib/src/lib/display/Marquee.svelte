@@ -17,13 +17,13 @@
 		fade?: boolean;
 		fadeColor?: string;
 		gap?: string;
-		class?: string;
+		rootClass?: string;
 		itemClass?: string;
 		children?: Snippet;
 	};
 
 	const {
-		class: className,
+		rootClass,
 		itemClass,
 		items = [],
 		speed = 'normal',
@@ -106,7 +106,7 @@
 </script>
 
 <div
-	class={cn('marquee', isVertical && 'is-vertical', fade && 'has-fade', className)}
+	class={cn('marquee', isVertical && 'is-vertical', fade && 'has-fade', rootClass)}
 	bind:this={containerEl}
 	onmouseenter={handleMouseEnter}
 	onmouseleave={handleMouseLeave}

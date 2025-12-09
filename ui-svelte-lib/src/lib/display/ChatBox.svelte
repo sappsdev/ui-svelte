@@ -13,7 +13,7 @@
 	import type { Snippet } from 'svelte';
 
 	type Props = {
-		class?: string;
+		rootClass?: string;
 		chat: ChatState;
 		currentUserId: string;
 		variant?:
@@ -35,7 +35,7 @@
 	};
 
 	let {
-		class: className,
+		rootClass,
 		chat,
 		currentUserId,
 		variant = 'primary',
@@ -124,7 +124,7 @@
 	});
 </script>
 
-<div class={cn('chatbox', `chatbox-${variant}`, className)}>
+<div class={cn('chatbox', `chatbox-${variant}`, rootClass)}>
 	<!-- Header -->
 	<div class="chatbox-header">
 		<div class="chatbox-header-start">

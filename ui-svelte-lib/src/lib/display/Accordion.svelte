@@ -18,7 +18,7 @@
 		items: AccordionItem[];
 		variant?: 'primary' | 'secondary' | 'muted' | 'outline';
 		multiple?: boolean;
-		class?: string;
+		rootClass?: string;
 		itemClass?: string;
 		headerClass?: string;
 		contentClass?: string;
@@ -28,7 +28,7 @@
 		items = [],
 		variant = 'muted',
 		multiple = false,
-		class: className,
+		rootClass,
 		itemClass,
 		headerClass,
 		contentClass
@@ -65,7 +65,7 @@
 	}
 </script>
 
-<div class={cn('accordion', variants[variant], className)}>
+<div class={cn('accordion', variants[variant], rootClass)}>
 	{#each items as item}
 		<div class={cn('accordion-item', itemClass, item.disabled && 'is-disabled')}>
 			<!-- svelte-ignore a11y_click_events_have_key_events -->

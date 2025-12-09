@@ -400,22 +400,22 @@ function hello() {'{'}
 </Section>
 
 <Section bodyClass="mt-8 grid gap-4 md:grid-cols-2 pb-8">
-	<div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-		<h4 class="font-semibold text-blue-900 mb-2">💡 When to use Prose</h4>
-		<p class="text-blue-800 text-sm">
+	<Card variant="primary">
+		<h4>💡 When to use Prose</h4>
+		<p>
 			Use the <code class="px-1 py-0.5 bg-blue-100 rounded">prose</code> class for rich text content like
 			blog posts, articles, and documentation where you need consistent spacing and styling for all typography
 			elements.
 		</p>
-	</div>
+	</Card>
 
-	<div class="p-4 bg-green-50 border border-green-200 rounded-lg">
-		<h4 class="font-semibold text-green-900 mb-2">✨ Utility Classes</h4>
-		<p class="text-green-800 text-sm">
+	<Card variant="success">
+		<h4>✨ Utility Classes</h4>
+		<p>
 			Use utility classes like <code class="px-1 py-0.5 bg-green-100 rounded">lead</code>,
 			<code class="px-1 py-0.5 bg-green-100 rounded">tiny</code>, and
 			<code class="px-1 py-0.5 bg-green-100 rounded">label</code> for specific text elements that need
 			custom styling outside of prose containers.
 		</p>
-	</div>
+	</Card>
 </Section>

@@ -60,6 +60,4 @@
 			</div>
 		{/if}
 	</div>
-
-	<div class="alert-end"></div>
 </div>

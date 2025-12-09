@@ -60,7 +60,7 @@
 		loading?: boolean;
 		empty?: boolean;
 		emptyText?: string;
-		class?: string;
+		rootClass?: string;
 	};
 
 	let {
@@ -80,7 +80,7 @@
 		loading = false,
 		empty = false,
 		emptyText = 'No data available',
-		class: className
+		rootClass
 	}: Props = $props();
 
 	let containerEl: HTMLDivElement | undefined = $state();
@@ -282,7 +282,7 @@
 	});
 </script>
 
-<div bind:this={containerEl} class={cn('bar-chart-container', className)}>
+<div bind:this={containerEl} class={cn('bar-chart-container', rootClass)}>
 	{#if loading}
 		<div class="bar-chart-loading">
 			<svg class="bar-chart-loading-spinner" viewBox="0 0 24 24">

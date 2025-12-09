@@ -24,7 +24,7 @@
 		emptyText?: string;
 		showLegend?: boolean;
 		showValues?: boolean;
-		class?: string;
+		rootClass?: string;
 		chartClass?: string;
 	};
 
@@ -41,7 +41,7 @@
 		emptyText = 'No data',
 		showLegend = true,
 		showValues = true,
-		class: className,
+		rootClass,
 		chartClass
 	}: Props = $props();
 
@@ -194,7 +194,7 @@
 	}
 </script>
 
-<div class={cn('arc-chart-container', className)}>
+<div class={cn('arc-chart-container', rootClass)}>
 	{#if loading}
 		<div class="arc-chart-loading">
 			<svg class="arc-chart-loading-spinner" viewBox="0 0 24 24">
