@@ -19,9 +19,9 @@
 	}
 </script>
 
-<div class={cn('footer-links', className)}>
+<div class={cn('footer-nav', className)}>
 	{#each links as link}
-		<a href={link.href} class={cn('footer-link', isLinkActive(link.href) && 'is-active')}>
+		<a href={link.href} class={cn('footer-nav-link', isLinkActive(link.href) && 'is-active')}>
 			{link.label}
 		</a>
 	{/each}

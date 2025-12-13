@@ -25,12 +25,11 @@
 
 	type Props = {
 		items: MenuItem[];
-		variant?: 'primary' | 'secondary' | 'muted';
 		size?: 'sm' | 'md' | 'lg';
 		class?: string;
 	};
 
-	const { items = [], class: className, variant = 'primary', size = 'md' }: Props = $props();
+	const { items = [], class: className, size = 'md' }: Props = $props();
 
 	let openSubmenuIndex = $state<number | null>(null);
 	let triggerElements = $state<Record<number, HTMLElement>>({});
@@ -42,12 +41,6 @@
 		isBottomHalf: false,
 		isMegamenu: false
 	});
-
-	const variantClasses = {
-		primary: 'navmenu-primary',
-		secondary: 'navmenu-secondary',
-		muted: 'navmenu-muted'
-	};
 
 	const sizeClasses = {
 		sm: 'is-sm',
@@ -172,7 +165,7 @@
 	});
 </script>
 
-<nav class={cn('navmenu', variantClasses[variant], sizeClasses[size], className)}>
+<nav class={cn('navmenu', sizeClasses[size], className)}>
 	{#each items as item, index}
 		{#if item.href && !item.subitems && !item.megamenu}
 			<a href={item.href} class={cn('navmenu-item', isItemActive(item.href) && 'is-active')}>
@@ -206,6 +199,7 @@
 	<div
 		class={cn(
 			'navmenu-popover',
+			sizeClasses[size],
 			openSubmenuIndex !== null && 'is-active',
 			position.isMegamenu && 'is-megamenu'
 		)}

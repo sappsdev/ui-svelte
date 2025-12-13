@@ -1,8 +1,10 @@
+import type { IconData } from '$lib/types.svelte.js';
+
 export interface SearchOption {
 	id: string | number;
 	label: string;
 	description?: string;
-	icon?: string;
+	icon?: IconData;
 	src?: string;
 	disabled?: boolean;
 	[key: string]: unknown;

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import DocHeader from '$lib/components/doc/DocHeader.svelte';
+	import DocPreview from '$lib/components/doc/DocPreview.svelte';
 	import { Icon, Button, Section, TextField, Select, toast, Code, Drawer, Alert } from 'ui-svelte';
 	import { onMount } from 'svelte';
 
@@ -122,85 +123,92 @@
 	});
 </script>
 
+{#snippet preview()}
+	{#if loading}
+		<div class="flex justify-center items-center py-12">loading</div>
+	{:else if icons.length === 0}
+		<div class="text-center py-12 text-gray-500">No icons found matching your search.</div>
+	{:else}
+		<div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-4">
+			{#each icons as icon (icon.id)}
+				<button
+					onclick={() => handleIcon(icon)}
+					class="flex flex-col items-center justify-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group"
+					title={icon.name}
+				>
+					<Icon icon={{ body: icon.body, viewbox: icon.viewbox }} class="w-8 h-8 mb-2" />
+					<span
+						class="text-xs text-gray-600 dark:text-gray-400 truncate w-full text-center group-hover:text-gray-900 dark:group-hover:text-gray-100"
+					>
+						{icon.name.split(':')[1] || icon.name}
+					</span>
+				</button>
+			{/each}
+		</div>
+
+		{#if pagination.totalPages > 1}
+			<div class="flex justify-center items-center gap-2 mt-8">
+				<Button
+					variant="ghost"
+					size="sm"
+					onclick={() => handlePageChange(pagination.page - 1)}
+					isDisabled={pagination.page === 1}
+				>
+					Previous
+				</Button>
+
+				<span class="text-sm text-gray-600 dark:text-gray-400">
+					Page {pagination.page} of {pagination.totalPages}
+					({pagination.total} icons)
+				</span>
+
+				<Button
+					variant="ghost"
+					size="sm"
+					onclick={() => handlePageChange(pagination.page + 1)}
+					isDisabled={pagination.page === pagination.totalPages}
+				>
+					Next
+				</Button>
+			</div>
+		{/if}
+	{/if}
+{/snippet}
+
+{#snippet builder()}
+	<TextField
+		label="Search"
+		name="icon-search"
+		placeholder="Search icons..."
+		oninput={handleSearch}
+		size="sm"
+		bind:value={searchValue}
+	/>
+
+	<Select
+		label="Icon Set"
+		name="icon-set"
+		options={availableSets}
+		onchange={handleSearch}
+		size="sm"
+		bind:value={selectedSet}
+	/>
+{/snippet}
+
 <DocHeader title="Icons">
 	Icons are visual symbols that represent ideas, actions, or objects.
 </DocHeader>
 
 <Section>
-	<div class="mb-6 flex gap-4">
-		<TextField
-			name="icon-search"
-			placeholder="Search icons..."
-			variant="outlined"
-			oninput={handleSearch}
-			size="sm"
-			bind:value={searchValue}
-			class="max-w-xs"
-		/>
-
-		<Select
-			name="icon-set"
-			placeholder="Filter by set"
-			options={availableSets}
-			onchange={handleSearch}
-			size="sm"
-			bind:value={selectedSet}
-			class="max-w-xs"
-		/>
-	</div>
-
-	<div class="p-4">
-		{#if loading}
-			<div class="flex justify-center items-center py-12">loading</div>
-		{:else if icons.length === 0}
-			<div class="text-center py-12 text-gray-500">No icons found matching your search.</div>
-		{:else}
-			<div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-4">
-				{#each icons as icon (icon.id)}
-					<button
-						onclick={() => handleIcon(icon)}
-						class="flex flex-col items-center justify-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group"
-						title={icon.name}
-					>
-						<Icon icon={{ body: icon.body, viewbox: icon.viewbox }} class="w-8 h-8 mb-2" />
-						<span
-							class="text-xs text-gray-600 dark:text-gray-400 truncate w-full text-center group-hover:text-gray-900 dark:group-hover:text-gray-100"
-						>
-							{icon.name.split(':')[1] || icon.name}
-						</span>
-					</button>
-				{/each}
-			</div>
-
-			{#if pagination.totalPages > 1}
-				<div class="flex justify-center items-center gap-2 mt-8">
-					<Button
-						variant="ghost"
-						size="sm"
-						onclick={() => handlePageChange(pagination.page - 1)}
-						isDisabled={pagination.page === 1}
-					>
-						Previous
-					</Button>
-
-					<span class="text-sm text-gray-600 dark:text-gray-400">
-						Page {pagination.page} of {pagination.totalPages}
-						({pagination.total} icons)
-					</span>
-
-					<Button
-						variant="ghost"
-						size="sm"
-						onclick={() => handlePageChange(pagination.page + 1)}
-						isDisabled={pagination.page === pagination.totalPages}
-					>
-						Next
-					</Button>
-				</div>
-			{/if}
-		{/if}
-	</div>
+	<Alert status="info">
+		<strong>Icon Library:</strong> Browse and search through thousands of icons from multiple sets. Click
+		any icon to view its code and add it to your project.
+	</Alert>
 </Section>
+
+<DocPreview {builder}>
+	{@render preview()}
+</DocPreview>
 <Drawer bind:open={showCode} position="bottom" onclose={() => (icon = undefined)}>
 	{#snippet header()}
 		{#if icon}
@@ -211,5 +219,5 @@
 		{/if}
 	{/snippet}
 
-	<Code code={code()} lang="svelte" showCopy />
+	<Code code={code()} lang="svelte" />
 </Drawer>

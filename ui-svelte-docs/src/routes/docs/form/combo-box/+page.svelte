@@ -31,7 +31,6 @@
 		{ id: 'lg', label: 'lg' }
 	];
 
-	// Options data
 	const basicOptions = [
 		{ id: '1', label: 'Apple' },
 		{ id: '2', label: 'Banana' },
@@ -67,7 +66,6 @@
 		{ id: '5', label: 'Available Option 3' }
 	];
 
-	// UI States
 	let variant: any = $state('outlined');
 	let size: any = $state('md');
 	let label = $state('');
@@ -78,7 +76,6 @@
 	let isClearable = $state(false);
 	let isDisabled = $state(false);
 
-	// Search instances for each example
 	const basicSearch = useSearch({
 		options: basicOptions,
 		clientSide: true
@@ -135,7 +132,6 @@
 
 	let value = $state<string | number | null>(null);
 
-	// Reset value when example changes
 	$effect(() => {
 		currentExample;
 		value = null;
@@ -239,7 +235,6 @@
 />`;
 	});
 
-	// Props definitions
 	const comboBoxProps = [
 		{ prop: 'search', type: 'SearchState', initial: '', required: true },
 		{ prop: 'name', type: 'string', initial: '' },
@@ -483,19 +478,19 @@
 
 <DocCode code={code()} />
 
-<Section class="prose mt-8">
+<Section bodyClass="prose mt-8">
 	<h3>useSearch Hook Configuration</h3>
 	<p>
 		The useSearch hook accepts a configuration object. When <code>clientSide: true</code> is set
 		with
-		<code>options</code>, it filters locally. When <code>url</code> is provided, it fetches from the
-		API with automatic pagination support.
+		<code>options</code>, it filters locally. When <code>url</code> is provided, it fetches from the API
+		with automatic pagination support.
 	</p>
 </Section>
 
 <DocProps props={useSearchConfigProps} />
 
-<Section class="prose mt-8">
+<Section bodyClass="prose mt-8">
 	<h3>SearchState (Return Value)</h3>
 	<p>
 		The useSearch hook returns a reactive state object with the following properties and methods:
@@ -504,21 +499,21 @@
 
 <DocProps props={searchStateProps} />
 
-<Section class="prose mt-8">
+<Section bodyClass="prose mt-8">
 	<h3>ComboBox Props</h3>
 	<p>The ComboBox component accepts these props for customization:</p>
 </Section>
 
 <DocProps props={comboBoxProps} />
 
-<Section class="prose mt-8">
+<Section bodyClass="prose mt-8">
 	<h3>SearchOption Type</h3>
 	<p>Each option should follow this structure:</p>
 </Section>
 
 <DocProps props={optionProps} />
 
-<Section class="prose mt-8">
+<Section bodyClass="prose mt-8">
 	<h3>Key Features</h3>
 	<ul>
 		<li>

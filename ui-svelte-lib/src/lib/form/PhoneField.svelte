@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { Avatar, Icon, Item } from '$lib/index.js';
+	import { Avatar, Icon, Item, type IconData } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
 	import { onMount, tick } from 'svelte';
-	import { normalizedCountries, type Country } from './js/countries.js';
-	import type { IconName } from '$lib/types.js';
 	import { ChevronDown24RegularIcon, DotsMoveIcon, Search24RegularIcon } from '$lib/icons/index.js';
+	import { countryFlagsIcons } from '$lib/assets/country-flags.js';
+	import { normalizedCountries, type Country } from '$lib/assets/countries.js';
 
 	type Props = {
 		value?: string;
@@ -395,7 +395,10 @@
 			aria-label="Select country"
 		>
 			{#if selectedCountry}
-				<Avatar name={selectedCountry.name} {size} variant="transparent" />
+				<Icon
+					icon={countryFlagsIcons[`country-flags:${countryCode}`] as IconData}
+					class="h-5 w-5"
+				/>
 				<span class="phone-dial-code">+{dialCode}</span>
 			{:else}
 				<Avatar name="Select country" {size} variant="transparent" />
@@ -444,6 +447,7 @@
 					<li>
 						<Item
 							label={item.name}
+							icon={countryFlagsIcons[`country-flags:${item.id}`] as IconData}
 							description="+{item.dialCode}"
 							id={item.id}
 							onclick={() => handleSelect(item)}

@@ -186,79 +186,77 @@ body {
 
 <Section>
 	<Card>
-		<div class="p-6">
-			<h3 class="text-lg font-semibold mb-4">Color Weight Guidelines</h3>
-			<p class="text-sm text-on-muted mb-4">
-				When selecting colors for your theme, follow these recommended weight patterns for optimal
-				contrast and visual hierarchy:
-			</p>
+		<h3 class="text-lg font-semibold mb-4">Color Weight Guidelines</h3>
+		<p class="text-sm text-on-muted mb-4">
+			When selecting colors for your theme, follow these recommended weight patterns for optimal
+			contrast and visual hierarchy:
+		</p>
 
-			<div class="space-y-4">
-				<div>
-					<h4 class="font-medium mb-2">Brand Colors (Primary, Secondary)</h4>
-					<ul class="list-disc list-inside space-y-1 text-sm text-on-muted">
-						<li>
-							<strong>Main color:</strong> Use weight <code>600</code> (e.g., <code>blue-600</code>,
-							<code>pink-600</code>)
-						</li>
-						<li>
-							<strong>On color:</strong> Use weight <code>100</code> (e.g., <code>blue-100</code>,
-							<code>pink-100</code>)
-						</li>
-					</ul>
-				</div>
+		<div class="space-y-4">
+			<div>
+				<h4 class="font-medium mb-2">Brand Colors (Primary, Secondary)</h4>
+				<ul class="list-disc list-inside space-y-1 text-sm text-on-muted">
+					<li>
+						<strong>Main color:</strong> Use weight <code>600</code> (e.g., <code>blue-600</code>,
+						<code>pink-600</code>)
+					</li>
+					<li>
+						<strong>On color:</strong> Use weight <code>100</code> (e.g., <code>blue-100</code>,
+						<code>pink-100</code>)
+					</li>
+				</ul>
+			</div>
 
-				<div>
-					<h4 class="font-medium mb-2">Semantic Colors (Success, Info, Warning, Danger)</h4>
-					<ul class="list-disc list-inside space-y-1 text-sm text-on-muted">
-						<li>
-							<strong>Main color:</strong> Use weight <code>600</code> (e.g.,
-							<code>green-600</code>,
-							<code>sky-600</code>, <code>yellow-600</code>, <code>red-600</code>)
-						</li>
-						<li>
-							<strong>On color:</strong> Use weight <code>100</code> (e.g., <code>green-100</code>,
-							<code>sky-100</code>, <code>yellow-100</code>, <code>red-100</code>)
-						</li>
-					</ul>
-				</div>
+			<div>
+				<h4 class="font-medium mb-2">Semantic Colors (Success, Info, Warning, Danger)</h4>
+				<ul class="list-disc list-inside space-y-1 text-sm text-on-muted">
+					<li>
+						<strong>Main color:</strong> Use weight <code>600</code> (e.g.,
+						<code>green-600</code>,
+						<code>sky-600</code>, <code>yellow-600</code>, <code>red-600</code>)
+					</li>
+					<li>
+						<strong>On color:</strong> Use weight <code>100</code> (e.g., <code>green-100</code>,
+						<code>sky-100</code>, <code>yellow-100</code>, <code>red-100</code>)
+					</li>
+				</ul>
+			</div>
 
-				<div>
-					<h4 class="font-medium mb-2">Neutral Colors (Surface, Background, Muted)</h4>
-					<p class="text-sm text-on-muted mb-2">
-						Use neutral tones: <code>slate</code>, <code>gray</code>, <code>zinc</code>,
-						<code>neutral</code>, or <code>stone</code>
-					</p>
-					<ul class="list-disc list-inside space-y-1 text-sm text-on-muted">
-						<li>
-							<strong>Background:</strong> Use weight <code>50</code> for light mode,
-							<code>950</code>
-							for dark mode
-						</li>
-						<li>
-							<strong>On Background:</strong> Use weight <code>900</code> for light mode,
-							<code>100</code> for dark mode
-						</li>
-						<li>
-							<strong>Surface:</strong> Use weight <code>100</code> for light mode, <code>900</code> for
-							dark mode
-						</li>
-						<li>
-							<strong>On Surface:</strong> Use weight <code>800</code> for light mode,
-							<code>200</code>
-							for dark mode
-						</li>
-						<li>
-							<strong>Muted:</strong> Use weight <code>300</code> for light mode, <code>700</code> for
-							dark mode
-						</li>
-						<li>
-							<strong>On Muted:</strong> Use weight <code>700</code> for light mode,
-							<code>300</code>
-							for dark mode
-						</li>
-					</ul>
-				</div>
+			<div>
+				<h4 class="font-medium mb-2">Neutral Colors (Surface, Background, Muted)</h4>
+				<p class="text-sm text-on-muted mb-2">
+					Use neutral tones: <code>slate</code>, <code>gray</code>, <code>zinc</code>,
+					<code>neutral</code>, or <code>stone</code>
+				</p>
+				<ul class="list-disc list-inside space-y-1 text-sm text-on-muted">
+					<li>
+						<strong>Background:</strong> Use weight <code>50</code> for light mode,
+						<code>950</code>
+						for dark mode
+					</li>
+					<li>
+						<strong>On Background:</strong> Use weight <code>900</code> for light mode,
+						<code>100</code> for dark mode
+					</li>
+					<li>
+						<strong>Surface:</strong> Use weight <code>100</code> for light mode, <code>900</code> for
+						dark mode
+					</li>
+					<li>
+						<strong>On Surface:</strong> Use weight <code>800</code> for light mode,
+						<code>200</code>
+						for dark mode
+					</li>
+					<li>
+						<strong>Muted:</strong> Use weight <code>300</code> for light mode, <code>700</code> for dark
+						mode
+					</li>
+					<li>
+						<strong>On Muted:</strong> Use weight <code>700</code> for light mode,
+						<code>300</code>
+						for dark mode
+					</li>
+				</ul>
 			</div>
 		</div>
 	</Card>
@@ -278,72 +276,71 @@ body {
 	</div>
 
 	<Card>
-		<div class="p-6">
-			<div class="grid gap-6">
-				{#each themeColorPairs as colorPair}
-					{@const mainKey = colorPair.key as ThemeColorKey}
-					{@const onKey =
-						`on${colorPair.key.charAt(0).toUpperCase()}${colorPair.key.slice(1)}` as ThemeColorKey}
-					<div class="border-b border-muted last:border-b-0 pb-6 last:pb-0">
-						<div class="mb-3">
-							<h3 class="text-base font-semibold">{colorPair.label}</h3>
-							<p class="text-xs text-on-muted">{colorPair.description}</p>
-						</div>
+		<div class="grid gap-6">
+			{#each themeColorPairs as colorPair}
+				{@const mainKey = colorPair.key as ThemeColorKey}
+				{@const onKey =
+					`on${colorPair.key.charAt(0).toUpperCase()}${colorPair.key.slice(1)}` as ThemeColorKey}
+				<div class="border-b border-muted last:border-b-0 pb-6 last:pb-0">
+					<div class="mb-3">
+						<h3 class="text-base font-semibold">{colorPair.label}</h3>
+						<p class="text-xs text-on-muted">{colorPair.description}</p>
+					</div>
 
-						<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-							<div class="flex items-center gap-3">
-								<button
-									onclick={() => openPicker(mainKey, 'main')}
-									class="size-16 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0"
-									style="background-color: {storeApp.themeColors[mainKey]}; color: {storeApp
-										.themeColors[onKey]};"
-									title="Click to customize {colorPair.label}"
-								>
-								</button>
-								<div class="flex-1 min-w-0">
-									<div class="flex items-center justify-between mb-1">
-										<span class="text-xs font-medium">{colorPair.label}</span>
-										<Button onclick={() => openPicker(mainKey, 'main')} variant="ghost" size="xs">
-											Change
-										</Button>
-									</div>
-									<Code code={storeApp.themeColors[mainKey]} lang="css" />
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+						<div class="flex items-center gap-3">
+							<button
+								onclick={() => openPicker(mainKey, 'main')}
+								class="size-16 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0"
+								style="background-color: {storeApp.themeColors[mainKey]}; color: {storeApp
+									.themeColors[onKey]};"
+								title="Click to customize {colorPair.label}"
+							>
+							</button>
+							<div class="flex-1 min-w-0">
+								<div class="flex items-center justify-between mb-1">
+									<span class="text-xs font-medium">{colorPair.label}</span>
+									<Button onclick={() => openPicker(mainKey, 'main')} variant="ghost" size="xs">
+										Change
+									</Button>
 								</div>
-							</div>
-
-							<div class="flex items-center gap-3">
-								<button
-									onclick={() => openPicker(mainKey, 'on')}
-									class="size-16 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0"
-									style="background-color: {storeApp.themeColors[onKey]}; color: {storeApp
-										.themeColors[mainKey]};"
-									title="Click to customize On {colorPair.label}"
-								>
-								</button>
-								<div class="flex-1 min-w-0">
-									<div class="flex items-center justify-between mb-1">
-										<span class="text-xs font-medium">On {colorPair.label}</span>
-										<Button onclick={() => openPicker(mainKey, 'on')} variant="ghost" size="xs">
-											Change
-										</Button>
-									</div>
-									<Code code={storeApp.themeColors[onKey]} lang="css" />
-								</div>
+								<Code code={storeApp.themeColors[mainKey]} lang="css" />
 							</div>
 						</div>
 
-						<div
-							class="mt-3 p-3 rounded-lg text-center"
-							style="background-color: {storeApp.themeColors[mainKey]}; color: {storeApp
-								.themeColors[onKey]};"
-						>
-							<p class="text-xs font-medium">
-								Example: {colorPair.label} with On-{colorPair.label} text
-							</p>
+						<div class="flex items-center gap-3">
+							<button
+								onclick={() => openPicker(mainKey, 'on')}
+								class="size-16 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0"
+								style="background-color: {storeApp.themeColors[onKey]}; color: {storeApp
+									.themeColors[mainKey]};"
+								title="Click to customize On {colorPair.label}"
+							>
+							</button>
+							<div class="flex-1 min-w-0">
+								<div class="flex items-center justify-between mb-1">
+									<span class="text-xs font-medium">On {colorPair.label}</span>
+									<Button onclick={() => openPicker(mainKey, 'on')} variant="ghost" size="xs">
+										Change
+									</Button>
+								</div>
+								<Code code={storeApp.themeColors[onKey]} lang="css" />
+							</div>
 						</div>
 					</div>
-				{/each}
-			</div>
+
+					<div
+						class="mt-3 p-3 rounded-lg text-center"
+						style="background-color: {storeApp.themeColors[mainKey]}; color: {storeApp.themeColors[
+							onKey
+						]};"
+					>
+						<p class="text-xs font-medium">
+							Example: {colorPair.label} with On-{colorPair.label} text
+						</p>
+					</div>
+				</div>
+			{/each}
 		</div>
 	</Card>
 </Section>
@@ -356,80 +353,78 @@ body {
 	</Alert>
 
 	<Card>
-		<div class="p-6">
-			<div class="grid gap-6">
-				{#each darkThemeColorPairs as colorPair}
-					{@const mainKey = colorPair.key as keyof typeof storeApp.darkThemeColors}
-					{@const onKey =
-						`on${colorPair.key.charAt(0).toUpperCase()}${colorPair.key.slice(1)}` as keyof typeof storeApp.darkThemeColors}
-					<div class="border-b border-muted last:border-b-0 pb-6 last:pb-0">
-						<div class="mb-3">
-							<h3 class="text-base font-semibold">{colorPair.label}</h3>
-							<p class="text-xs text-on-muted">{colorPair.description}</p>
-						</div>
+		<div class="grid gap-6">
+			{#each darkThemeColorPairs as colorPair}
+				{@const mainKey = colorPair.key as keyof typeof storeApp.darkThemeColors}
+				{@const onKey =
+					`on${colorPair.key.charAt(0).toUpperCase()}${colorPair.key.slice(1)}` as keyof typeof storeApp.darkThemeColors}
+				<div class="border-b border-muted last:border-b-0 pb-6 last:pb-0">
+					<div class="mb-3">
+						<h3 class="text-base font-semibold">{colorPair.label}</h3>
+						<p class="text-xs text-on-muted">{colorPair.description}</p>
+					</div>
 
-						<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-							<div class="flex items-center gap-3">
-								<button
-									onclick={() => openPicker(mainKey, 'main', 'dark')}
-									class="size-16 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0"
-									style="background-color: {storeApp.darkThemeColors[mainKey]}; color: {storeApp
-										.darkThemeColors[onKey]};"
-									title="Click to customize {colorPair.label}"
-								>
-								</button>
-								<div class="flex-1 min-w-0">
-									<div class="flex items-center justify-between mb-1">
-										<span class="text-xs font-medium">{colorPair.label}</span>
-										<Button
-											onclick={() => openPicker(mainKey, 'main', 'dark')}
-											variant="ghost"
-											size="xs"
-										>
-											Change
-										</Button>
-									</div>
-									<Code code={storeApp.darkThemeColors[mainKey]} lang="css" />
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+						<div class="flex items-center gap-3">
+							<button
+								onclick={() => openPicker(mainKey, 'main', 'dark')}
+								class="size-16 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0"
+								style="background-color: {storeApp.darkThemeColors[mainKey]}; color: {storeApp
+									.darkThemeColors[onKey]};"
+								title="Click to customize {colorPair.label}"
+							>
+							</button>
+							<div class="flex-1 min-w-0">
+								<div class="flex items-center justify-between mb-1">
+									<span class="text-xs font-medium">{colorPair.label}</span>
+									<Button
+										onclick={() => openPicker(mainKey, 'main', 'dark')}
+										variant="ghost"
+										size="xs"
+									>
+										Change
+									</Button>
 								</div>
-							</div>
-
-							<div class="flex items-center gap-3">
-								<button
-									onclick={() => openPicker(mainKey, 'on', 'dark')}
-									class="size-16 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0"
-									style="background-color: {storeApp.darkThemeColors[onKey]}; color: {storeApp
-										.darkThemeColors[mainKey]};"
-									title="Click to customize On {colorPair.label}"
-								>
-								</button>
-								<div class="flex-1 min-w-0">
-									<div class="flex items-center justify-between mb-1">
-										<span class="text-xs font-medium">On {colorPair.label}</span>
-										<Button
-											onclick={() => openPicker(mainKey, 'on', 'dark')}
-											variant="ghost"
-											size="xs"
-										>
-											Change
-										</Button>
-									</div>
-									<Code code={storeApp.darkThemeColors[onKey]} lang="css" />
-								</div>
+								<Code code={storeApp.darkThemeColors[mainKey]} lang="css" />
 							</div>
 						</div>
 
-						<div
-							class="mt-3 p-3 rounded-lg text-center"
-							style="background-color: {storeApp.darkThemeColors[mainKey]}; color: {storeApp
-								.darkThemeColors[onKey]};"
-						>
-							<p class="text-xs font-medium">
-								Example: {colorPair.label} with On-{colorPair.label} text
-							</p>
+						<div class="flex items-center gap-3">
+							<button
+								onclick={() => openPicker(mainKey, 'on', 'dark')}
+								class="size-16 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0"
+								style="background-color: {storeApp.darkThemeColors[onKey]}; color: {storeApp
+									.darkThemeColors[mainKey]};"
+								title="Click to customize On {colorPair.label}"
+							>
+							</button>
+							<div class="flex-1 min-w-0">
+								<div class="flex items-center justify-between mb-1">
+									<span class="text-xs font-medium">On {colorPair.label}</span>
+									<Button
+										onclick={() => openPicker(mainKey, 'on', 'dark')}
+										variant="ghost"
+										size="xs"
+									>
+										Change
+									</Button>
+								</div>
+								<Code code={storeApp.darkThemeColors[onKey]} lang="css" />
+							</div>
 						</div>
 					</div>
-				{/each}
-			</div>
+
+					<div
+						class="mt-3 p-3 rounded-lg text-center"
+						style="background-color: {storeApp.darkThemeColors[mainKey]}; color: {storeApp
+							.darkThemeColors[onKey]};"
+					>
+						<p class="text-xs font-medium">
+							Example: {colorPair.label} with On-{colorPair.label} text
+						</p>
+					</div>
+				</div>
+			{/each}
 		</div>
 	</Card>
 </Section>

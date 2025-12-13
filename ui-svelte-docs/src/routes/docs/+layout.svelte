@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { LineHorizontal324RegularIcon, Heart24RegularIcon, GithubIconIcon } from '$lib/icons';
+	import {
+		LineHorizontal324RegularIcon,
+		Heart24RegularIcon,
+		GithubIconIcon,
+		List24RegularIcon
+	} from '$lib/icons';
 	import {
 		Scaffold,
 		Drawer,
@@ -68,18 +73,27 @@
 	];
 </script>
 
+<svelte:head>
+	<title>UiSvelte Docs</title>
+</svelte:head>
+
 <Scaffold
 	mainClass="lg:p-4 pb-16"
 	startClass="invisible lg:visible lg:w-56"
-	endClass="invisible lg:visible lg:w-56"
 	bodyClass="bg-background mt-16"
 	isBoxed
 >
 	{#snippet appBar()}
-		<AppBar rootClass="bg-background h-16" isSticky isBoxed centerClass="invisible lg:visible">
+		<AppBar
+			rootClass="bg-background h-16"
+			isSticky
+			isBoxed
+			isBordered
+			centerClass="invisible lg:visible"
+		>
 			{#snippet start()}
 				<IconButton
-					icon={LineHorizontal324RegularIcon}
+					icon={List24RegularIcon}
 					onclick={() => (drawerOpen = !drawerOpen)}
 					variant="ghost"
 					size="sm"
@@ -117,11 +131,6 @@
 			<IconButton icon={Heart24RegularIcon} variant="ghost" href="https://www.sappsdev.com" />
 		{/snippet}
 	</Footer>
-	{#snippet end()}
-		<Sidebar rootClass="pb-8 vh-16">
-			<SideNav items={sideMenuItems} />
-		</Sidebar>
-	{/snippet}
 </Scaffold>
 <Drawer bind:open={drawerOpen} onclose={() => (drawerOpen = false)} class="w-56">
 	<SideNav items={sideMenuItems} />

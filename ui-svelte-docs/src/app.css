@@ -1,8 +1,6 @@
 @import 'tailwindcss';
 @import 'ui-svelte/css';
 
-@custom-variant dark (&:is(.dark *));
-
 body {
 	font-family: 'Montserrat Variable', sans-serif;
 }

@@ -1,0 +1,26 @@
+@layer components {
+	.footer-group {
+		@apply flex flex-col gap-2;
+
+		.footer-group-title {
+			@apply text-base font-semibold;
+			@apply mb-2;
+		}
+
+		.footer-group-links {
+			@apply flex flex-col gap-2;
+			@apply list-none p-0 m-0;
+
+			.footer-group-link {
+				@apply text-sm;
+				@apply transition-colors duration-200;
+				@apply hover:underline;
+				@apply inline-flex items-center gap-1;
+			}
+		}
+
+		.footer-group-content {
+			@apply flex flex-col gap-2;
+		}
+	}
+}

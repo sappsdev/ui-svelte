@@ -14,9 +14,20 @@
 		endClass?: string;
 		isBlurred?: boolean;
 		isBordered?: boolean;
+		borderOnScrollOnly?: boolean;
 		hideOnScroll?: boolean;
 		isSticky?: boolean;
 		isBoxed?: boolean;
+		variant?:
+			| 'primary'
+			| 'secondary'
+			| 'muted'
+			| 'success'
+			| 'info'
+			| 'warning'
+			| 'danger'
+			| 'surface'
+			| 'ghost';
 	};
 
 	const {
@@ -29,9 +40,11 @@
 		centerClass,
 		endClass,
 		isBordered,
+		borderOnScrollOnly = false,
 		isBlurred,
 		isSticky,
 		isBoxed,
+		variant = 'ghost',
 		hideOnScroll
 	}: Props = $props();
 
@@ -41,6 +54,18 @@
 	let isHidden = $state<boolean>(false);
 
 	const scroll = useScroll();
+
+	const variantClasses = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger',
+		surface: 'is-surface',
+		ghost: 'is-ghost'
+	};
 
 	$effect(() => {
 		if (headerElement) {
@@ -70,13 +95,15 @@
 	});
 
 	const shouldBlur = $derived(isBlurred && scroll.isScrolled);
+	const shouldShowBorder = $derived(isBordered && (!borderOnScrollOnly || scroll.isScrolled));
 </script>
 
 <header
 	bind:this={headerElement}
 	class={cn(
 		'appbar',
-		isBordered && 'is-bordered',
+		variantClasses[variant],
+		shouldShowBorder && 'is-bordered',
 		shouldBlur && 'is-blurred',
 		isHidden && 'is-hidden',
 		isSticky && 'is-sticky',

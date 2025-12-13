@@ -72,16 +72,6 @@
 		@apply bg-surface text-on-surface;
 	}
 
-	.card.is-surface.has-divider {
-		.card-header {
-			@apply border-on-surface;
-		}
-
-		.card-footer {
-			@apply border-on-surface;
-		}
-	}
-
 	.card.is-ghost {
 		@apply bg-transparent;
 	}

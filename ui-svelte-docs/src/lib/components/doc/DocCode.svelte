@@ -9,5 +9,5 @@
 </script>
 
 <Section>
-	<Code lang="svelte" {code} showCopy showLang />
+	<Code lang="svelte" {code} />
 </Section>

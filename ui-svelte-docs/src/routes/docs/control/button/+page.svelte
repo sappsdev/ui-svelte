@@ -1,22 +1,21 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { Button, Checkbox, Select } from 'ui-svelte';
+	import { Button, Card, Checkbox, Section, Select } from 'ui-svelte';
 	import { HeartAngleLinearIcon, BalloonLinearIcon } from '$lib/icons';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsPreview from '$lib/components/DocsPreview.svelte';
+	import DocsCode from '$lib/components/DocsCode.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
 	const variantOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
-		{ id: 'outlined', label: 'Outlined' },
-		{ id: 'ghost', label: 'Ghost' },
 		{ id: 'success', label: 'Success' },
 		{ id: 'info', label: 'Info' },
 		{ id: 'danger', label: 'Danger' },
-		{ id: 'warning', label: 'Warning' }
+		{ id: 'warning', label: 'Warning' },
+		{ id: 'outlined', label: 'Outlined' },
+		{ id: 'ghost', label: 'Ghost' }
 	];
 
 	const sizeOptions = [
@@ -43,7 +42,6 @@
 	let isLoading = $state(false);
 	let isWide = $state(false);
 	let isDisabled = $state(false);
-	let hasShadow = $state(false);
 	let isSolid = $state(false);
 
 	let hasProps = $derived(
@@ -57,8 +55,7 @@
 			isLoading,
 			isWide,
 			isSolid,
-			isDisabled,
-			hasShadow
+			isDisabled
 		].some(Boolean)
 	);
 
@@ -87,7 +84,6 @@
 			isWide && `\tisWide`,
 			isSolid && `\tisSolid`,
 			isDisabled && `\tisDisabled`,
-			hasShadow && `\thasShadow`,
 			hasProps && `>`,
 			hasProps && `\tLabel`,
 			hasProps && `</Button>`,
@@ -101,6 +97,7 @@
 		{ prop: 'onclick', type: '() => void', initial: '' },
 		{ prop: 'type', type: 'button | submit | reset', initial: 'button' },
 		{ prop: 'href', type: 'string', initial: '' },
+		{ prop: 'target', type: '_self | _blank | _parent | _top', initial: '' },
 		{
 			prop: 'variant',
 			type: 'primary | secondary | muted | outline | ghost | success | info | danger | warning',
@@ -113,7 +110,6 @@
 		{ prop: 'isLoading', type: 'boolean', initial: 'false' },
 		{ prop: 'isWide', type: 'boolean', initial: 'false' },
 		{ prop: 'isDisabled', type: 'boolean', initial: 'false' },
-		{ prop: 'hasShadow', type: 'boolean', initial: 'false' },
 		{ prop: 'isSolid', type: 'boolean', initial: 'false' }
 	];
 </script>
@@ -128,36 +124,115 @@
 		{isLoading}
 		{isDisabled}
 		{isWide}
-		{hasShadow}
 		{isSolid}
 	>
-		Label
+		Button Label
 	</Button>
 {/snippet}
 
-{#snippet builder()}
-	<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-	<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
-	<Select label="Type" size="sm" options={typeOptions} bind:value={type} />
+<DocsHeader title="Button">Buttons allow users to take actions with a single tap.</DocsHeader>
 
-	<DocOptions title="Props">
-		<Checkbox bind:checked={startIcon} label="startIcon" />
-		<Checkbox bind:checked={endIcon} label="endIcon" />
-		<Checkbox onchange={(v) => (v ? (href = '/example') : (href = ''))} name="href" label="Link" />
-		<Checkbox bind:checked={isLoading} label="Loading" />
-		<Checkbox bind:checked={isWide} label="Wide" />
-		<Checkbox bind:checked={isDisabled} label="Disabled" />
-		<Checkbox bind:checked={hasShadow} label="Shadow" />
-		<Checkbox bind:checked={isSolid} label="Solid" />
-	</DocOptions>
-{/snippet}
+<Section bodyClass="md:grid-3">
+	<DocsPreview>
+		<Button
+			startIcon={startIcon ? HeartAngleLinearIcon : undefined}
+			endIcon={endIcon ? BalloonLinearIcon : undefined}
+			{variant}
+			{size}
+			{type}
+			{isLoading}
+			{isDisabled}
+			{isWide}
+			{isSolid}
+		>
+			Button Label
+		</Button>
+	</DocsPreview>
+	<Card>
+		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
+		<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
+		<Select label="Type" size="sm" options={typeOptions} bind:value={type} />
+		<div class="grid-2 gap-2">
+			<Checkbox bind:checked={startIcon} label="startIcon" />
+			<Checkbox bind:checked={endIcon} label="endIcon" />
+			<Checkbox
+				onchange={(v) => (v ? (href = '/example') : (href = ''))}
+				name="href"
+				label="Link"
+			/>
+			<Checkbox bind:checked={isLoading} label="Loading" />
+			<Checkbox bind:checked={isWide} label="Wide" />
+			<Checkbox bind:checked={isDisabled} label="Disabled" />
+			<Checkbox bind:checked={isSolid} label="Solid" />
+		</div>
+	</Card>
+	<DocsCode code={code()} />
+</Section>
 
-<DocHeader title="Button">Buttons allow users to take actions with a single tap.</DocHeader>
+<Section>
+	<Card bodyClass="grid-3 md:grid-6 center">
+		{#snippet header()}
+			<h4>Button Variants</h4>
+		{/snippet}
+		{#each variantOptions as item}
+			<Button variant={item.id as any}>{item.label}</Button>
+		{/each}
+	</Card>
+</Section>
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section>
+	<Card bodyClass="grid-3 md:grid-6 center">
+		{#snippet header()}
+			<h4>Button Solid</h4>
+		{/snippet}
+		{#each variantOptions as item}
+			<Button variant={item.id as any} isSolid>{item.label}</Button>
+		{/each}
+	</Card>
+</Section>
 
-<DocCode code={code()} />
+<Section bodyClass="grid-2 md:grid-4">
+	<!-- Botón CTA primario con icono -->
+	<Button variant="primary" size="lg" isWide startIcon={HeartAngleLinearIcon}>
+		Get Started Free
+	</Button>
 
-<DocProps {props} />
+	<!-- Botón de descarga -->
+	<Button variant="success" isSolid size="lg" isWide>⬇️ Download Now</Button>
+
+	<!-- Botón de suscripción -->
+	<Button variant="info" size="lg" isWide endIcon={BalloonLinearIcon}>Subscribe</Button>
+
+	<!-- Botón outline con hover -->
+	<Button variant="outlined" size="lg" isWide>Learn More →</Button>
+
+	<!-- Botón de loading -->
+	<Button variant="primary" isLoading isWide>Processing...</Button>
+
+	<!-- Botón de peligro -->
+	<Button variant="danger" isSolid isWide>🗑️ Delete Account</Button>
+
+	<!-- Botón secundario con iconos -->
+	<Button variant="secondary" isWide startIcon={HeartAngleLinearIcon} endIcon={BalloonLinearIcon}>
+		Add to Favorites
+	</Button>
+
+	<!-- Botón ghost -->
+	<Button variant="ghost" isWide>Skip for now</Button>
+
+	<!-- Grupo de tamaños -->
+	<div class="flex gap-2 items-center">
+		<Button variant="primary" size="xs">XS</Button>
+		<Button variant="primary" size="sm">SM</Button>
+		<Button variant="primary" size="md">MD</Button>
+		<Button variant="primary" size="lg">LG</Button>
+	</div>
+
+	<!-- Botón warning -->
+	<Button variant="warning" isSolid isWide>⚠️ Proceed with Caution</Button>
+
+	<!-- Botón muted -->
+	<Button variant="muted" isWide>Cancel</Button>
+</Section>
+
+<DocsProps {props} />

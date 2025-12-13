@@ -25,6 +25,10 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/starter/flex-utilities'
 			},
 			{
+				label: 'I18n',
+				href: '/docs/starter/i18n'
+			},
+			{
 				label: 'Icons',
 				href: '/docs/starter/icons'
 			},
@@ -46,6 +50,7 @@ export const sideMenuItems: SideNavItem[] = [
 		type: 'submenu',
 		icon: LayoutRowTwoSplitBottom24RegularIcon,
 		label: 'Layout',
+		open: true,
 		subitems: [
 			{
 				label: 'AppBar',
@@ -69,6 +74,7 @@ export const sideMenuItems: SideNavItem[] = [
 		type: 'submenu',
 		icon: HandDraw24RegularIcon,
 		label: 'Control',
+		open: true,
 		subitems: [
 			{
 				label: 'Button',
@@ -87,6 +93,10 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/control/record'
 			},
 			{
+				label: 'ToggleGroup',
+				href: '/docs/control/toggle-group'
+			},
+			{
 				label: 'Video',
 				href: '/docs/control/video'
 			}
@@ -96,6 +106,7 @@ export const sideMenuItems: SideNavItem[] = [
 		type: 'submenu',
 		icon: PersonChat24RegularIcon,
 		label: 'Display',
+		open: true,
 		subitems: [
 			{
 				label: 'Accordion',
@@ -108,6 +119,10 @@ export const sideMenuItems: SideNavItem[] = [
 			{
 				label: 'Avatar',
 				href: '/docs/display/avatar'
+			},
+			{
+				label: 'AvatarGroup',
+				href: '/docs/display/avatar-group'
 			},
 			{
 				label: 'Card',
@@ -134,10 +149,6 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/display/empty'
 			},
 			{
-				label: 'Icon',
-				href: '/docs/display/icon'
-			},
-			{
 				label: 'Item',
 				href: '/docs/display/item'
 			},
@@ -159,6 +170,7 @@ export const sideMenuItems: SideNavItem[] = [
 		type: 'submenu',
 		icon: Form24RegularIcon,
 		label: 'Form',
+		open: true,
 		subitems: [
 			{
 				label: 'Checkbox',
@@ -167,6 +179,10 @@ export const sideMenuItems: SideNavItem[] = [
 			{
 				label: 'CsvField',
 				href: '/docs/form/csv-field'
+			},
+			{
+				label: 'ComboBox',
+				href: '/docs/form/combo-box'
 			},
 			{
 				label: 'DateField',
@@ -218,6 +234,7 @@ export const sideMenuItems: SideNavItem[] = [
 		type: 'submenu',
 		icon: LayoutColumnOneThirdRight24RegularIcon,
 		label: 'Overlay',
+		open: true,
 		subitems: [
 			{
 				label: 'Drawer',
@@ -245,6 +262,7 @@ export const sideMenuItems: SideNavItem[] = [
 		type: 'submenu',
 		icon: StreetSign24RegularIcon,
 		label: 'Navigation',
+		open: true,
 		subitems: [
 			{
 				label: 'BottomNav',
@@ -268,6 +286,7 @@ export const sideMenuItems: SideNavItem[] = [
 		type: 'submenu',
 		icon: LayoutColumnOneThirdRight24RegularIcon,
 		label: 'Charts',
+		open: true,
 		subitems: [
 			{
 				label: 'Arc',

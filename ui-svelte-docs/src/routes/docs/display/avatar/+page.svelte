@@ -1,24 +1,18 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { Avatar, Checkbox, Select } from 'ui-svelte';
-
-	const sourceOptions = [
-		{ id: 'image', label: 'Image' },
-		{ id: 'name', label: 'Name' }
-	];
+	import { Avatar, Card, Checkbox, Section, Select } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsPreview from '$lib/components/DocsPreview.svelte';
+	import DocsCode from '$lib/components/DocsCode.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
 	const variantOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
 		{ id: 'success', label: 'Success' },
-		{ id: 'warning', label: 'Warning' },
-		{ id: 'danger', label: 'Danger' },
 		{ id: 'info', label: 'Info' },
+		{ id: 'danger', label: 'Danger' },
+		{ id: 'warning', label: 'Warning' },
 		{ id: 'transparent', label: 'Transparent' }
 	];
 
@@ -31,30 +25,22 @@
 	];
 
 	const statusOptions = [
-		{ id: 'none', label: 'None' },
+		{ id: '', label: 'None' },
 		{ id: 'online', label: 'Online' },
 		{ id: 'offline', label: 'Offline' },
 		{ id: 'busy', label: 'Busy' },
 		{ id: 'away', label: 'Away' }
 	];
 
-	// Selects
-	let source: any = $state('image');
 	let variant: any = $state('primary');
 	let size: any = $state('lg');
-	let statusValue: any = $state('none');
+	let status: any = $state('');
 
-	// States
+	let useImage = $state(true);
 	let isBordered = $state(false);
 
 	let hasProps = $derived(
-		[
-			source !== 'image',
-			variant !== 'primary',
-			size !== 'md',
-			statusValue !== 'none',
-			isBordered
-		].some(Boolean)
+		[variant !== 'primary', size !== 'lg', status, useImage, isBordered].some(Boolean)
 	);
 
 	let code = $derived(() => {
@@ -66,14 +52,15 @@
 
 		const componentLines = [
 			hasProps && `<Avatar`,
-			source === 'image' && `\tsrc="/avatar-1.jpeg"`,
-			source === 'name' && `\tname="J"`,
+			useImage && `\tsrc="https://i.pravatar.cc/150?img=3"`,
+			!useImage && `\tname="John Doe"`,
+			`\talt="User avatar"`,
 			variant !== 'primary' && `\tvariant="${variant}"`,
-			size !== 'md' && `\tsize="${size}"`,
-			statusValue !== 'none' && `\tstatus="${statusValue}"`,
+			size !== 'lg' && `\tsize="${size}"`,
+			status && `\tstatus="${status}"`,
 			isBordered && `\tisBordered`,
 			hasProps && `/>`,
-			!hasProps && `<Avatar src="/avatar-1.jpeg" />`
+			!hasProps && `<Avatar name="John Doe" />`
 		].filter(Boolean);
 
 		return [...scriptLines, ...componentLines].join('\n');
@@ -82,10 +69,10 @@
 	const props = [
 		{ prop: 'src', type: 'string', initial: '' },
 		{ prop: 'name', type: 'string', initial: '' },
-		{ prop: 'alt', type: 'string', initial: '' },
+		{ prop: 'alt', type: 'string', initial: 'Avatar' },
 		{
 			prop: 'variant',
-			type: 'primary | secondary | muted | success | warning | error | info | transparent',
+			type: 'primary | secondary | muted | success | warning | danger | info | transparent',
 			initial: 'primary'
 		},
 		{ prop: 'size', type: 'xs | sm | md | lg | xl', initial: 'lg' },
@@ -95,36 +82,102 @@
 	];
 </script>
 
-{#snippet preview()}
-	<Avatar
-		src={source === 'image' ? '/images/avatar-1.jpeg' : undefined}
-		name={source === 'name' ? 'J' : undefined}
-		{variant}
-		{size}
-		status={statusValue !== 'none' ? statusValue : undefined}
-		{isBordered}
-	/>
-{/snippet}
-
-{#snippet builder()}
-	<Select label="Source" size="sm" options={sourceOptions} bind:value={source} />
-	<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-	<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
-	<Select label="Status" size="sm" options={statusOptions} bind:value={statusValue} />
-
-	<DocOptions title="Props">
-		<Checkbox bind:checked={isBordered} label="Bordered" />
-	</DocOptions>
-{/snippet}
-
-<DocHeader title="Avatar"
-	>Avatars are used to show a thumbnail representation of an individual or business.</DocHeader
+<DocsHeader title="Avatar">Avatars represent a user or entity with an image or initials.</DocsHeader
 >
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section bodyClass="md:grid-3">
+	<DocsPreview>
+		<Avatar
+			src={useImage ? 'https://i.pravatar.cc/150?img=3' : undefined}
+			name={!useImage ? 'John Doe' : undefined}
+			alt="User avatar"
+			{variant}
+			{size}
+			status={status || undefined}
+			{isBordered}
+		/>
+	</DocsPreview>
+	<Card>
+		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
+		<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
+		<Select label="Status" size="sm" options={statusOptions} bind:value={status} />
+		<div class="grid-2 gap-2">
+			<Checkbox bind:checked={useImage} label="Use Image" />
+			<Checkbox bind:checked={isBordered} label="Bordered" />
+		</div>
+	</Card>
+	<DocsCode code={code()} />
+</Section>
 
-<DocCode code={code()} />
+<Section>
+	<Card bodyClass="grid-4 md:grid-8 center">
+		{#snippet header()}
+			<h4>Avatar Variants</h4>
+		{/snippet}
+		{#each variantOptions as item}
+			<Avatar variant={item.id as any} name={item.label} />
+		{/each}
+	</Card>
+</Section>
 
-<DocProps {props} />
+<Section>
+	<Card bodyClass="grid-4 md:grid-8 center">
+		{#snippet header()}
+			<h4>Avatar with Border</h4>
+		{/snippet}
+		{#each variantOptions as item, i}
+			<Avatar
+				variant={item.id as any}
+				src={`https://i.pravatar.cc/150?img=${i + 10}`}
+				alt={item.label}
+				isBordered
+			/>
+		{/each}
+	</Card>
+</Section>
+
+<Section bodyClass="grid-2 md:grid-4">
+	<!-- Avatar con imagen -->
+	<Avatar src="https://i.pravatar.cc/150?img=1" alt="User 1" size="xl" />
+
+	<!-- Avatar con iniciales -->
+	<Avatar name="Alice Brown" variant="secondary" size="xl" />
+
+	<!-- Avatar con status online -->
+	<Avatar src="https://i.pravatar.cc/150?img=5" alt="User online" size="xl" status="online" />
+
+	<!-- Avatar con status offline -->
+	<Avatar name="Bob Smith" variant="muted" size="xl" status="offline" />
+
+	<!-- Avatar con status busy -->
+	<Avatar
+		src="https://i.pravatar.cc/150?img=8"
+		alt="User busy"
+		size="xl"
+		status="busy"
+		isBordered
+	/>
+
+	<!-- Avatar con status away -->
+	<Avatar name="Carol Davis" variant="warning" size="xl" status="away" isBordered />
+
+	<!-- Grupo de tamaños -->
+	<div class="flex gap-2 items-center">
+		<Avatar name="XS" variant="primary" size="xs" />
+		<Avatar name="SM" variant="primary" size="sm" />
+		<Avatar name="MD" variant="primary" size="md" />
+		<Avatar name="LG" variant="primary" size="lg" />
+		<Avatar name="XL" variant="primary" size="xl" />
+	</div>
+
+	<!-- Avatar con borde -->
+	<Avatar
+		src="https://i.pravatar.cc/150?img=12"
+		alt="Bordered avatar"
+		size="xl"
+		isBordered
+		variant="success"
+	/>
+</Section>
+
+<DocsProps {props} />

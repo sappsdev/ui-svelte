@@ -1,8 +1,18 @@
 <script lang="ts">
-	import { GithubIconIcon, Heart24RegularIcon } from '$lib/icons';
+	import { GithubIconIcon, Heart24RegularIcon, List24RegularIcon } from '$lib/icons';
 	import { storeApp } from '$lib/store/store.svelte';
 	import { onMount } from 'svelte';
-	import { Scaffold, AppBar, ToggleTheme, NavMenu, Footer, IconButton, theme } from 'ui-svelte';
+	import {
+		Scaffold,
+		AppBar,
+		ToggleTheme,
+		NavMenu,
+		Footer,
+		IconButton,
+		theme,
+		Drawer,
+		Button
+	} from 'ui-svelte';
 
 	let { children } = $props();
 
@@ -18,6 +28,8 @@
 			href: '/docs'
 		}
 	];
+
+	let openMenu = $state(false);
 
 	onMount(() => {
 		storeApp.setThemeColor('primary', 'oklch(54.6% 0.245 262.881)');
@@ -83,11 +95,30 @@
 	});
 </script>
 
+<svelte:head>
+	<title>UiSvelte Library</title>
+</svelte:head>
+
 <Scaffold mainClass="vh-16 mt-16">
 	{#snippet appBar()}
-		<AppBar rootClass="bg-background h-16" isBoxed isSticky centerClass="invisible lg:visible">
+		<AppBar
+			rootClass="bg-background h-16"
+			isBoxed
+			isSticky
+			isBordered
+			borderOnScrollOnly
+			centerClass="invisible lg:visible"
+		>
 			{#snippet start()}
-				<h4>UiSvelte</h4>
+				<IconButton
+					icon={List24RegularIcon}
+					variant="ghost"
+					class="md:hidden"
+					onclick={() => (openMenu = true)}
+				/>
+				<a href="/">
+					<h4>UiSvelte</h4>
+				</a>
 			{/snippet}
 			{#snippet center()}
 				<NavMenu items={menuItems} />
@@ -103,7 +134,7 @@
 		</AppBar>
 	{/snippet}
 	{@render children()}
-	<Footer isBoxed>
+	<Footer isBoxed isBordered>
 		{#snippet start()}
 			<p class="text-sm text-muted-foreground">© {new Date().getFullYear()} UiSvelte</p>
 		{/snippet}
@@ -113,3 +144,10 @@
 		{/snippet}
 	</Footer>
 </Scaffold>
+<Drawer bind:open={openMenu} position="top">
+	{#each menuItems as item}
+		<Button variant="ghost" isWide href={item.href}>
+			{item.label}
+		</Button>
+	{/each}
+</Drawer>

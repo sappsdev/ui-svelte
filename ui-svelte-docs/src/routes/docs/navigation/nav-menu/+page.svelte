@@ -342,7 +342,10 @@
 		<li>Customizable megamenus with full HTML/Svelte snippet support</li>
 		<li>Three color variants: primary, secondary, and muted</li>
 		<li>Click-outside detection to automatically close dropdowns</li>
-		<li>Responsive sizing with sm, md, and lg options</li>
+		<li>
+			Responsive sizing with sm, md, and lg options (affects navigation items, popovers, and submenu
+			elements)
+		</li>
 		<li>Smooth transitions and animations</li>
 	</ul>
 

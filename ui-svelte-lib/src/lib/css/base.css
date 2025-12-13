@@ -30,11 +30,13 @@
 	@supports not selector(::-webkit-scrollbar) {
 		* {
 			scrollbar-width: thin;
-			scrollbar-color: color-mix(in oklch, currentColor 80%, transparent) color-mix(in oklch, currentColor 20%, transparent);
+			scrollbar-color: color-mix(in oklch, currentColor 80%, transparent)
+				color-mix(in oklch, currentColor 20%, transparent);
 		}
 
 		body {
-			scrollbar-color: color-mix(in oklch, currentColor 80%, transparent) color-mix(in oklch, currentColor 20%, transparent);
+			scrollbar-color: color-mix(in oklch, currentColor 80%, transparent)
+				color-mix(in oklch, currentColor 20%, transparent);
 		}
 	}
 
@@ -127,6 +129,12 @@
 		@apply pl-4 md:pl-5 lg:pl-6;
 	}
 
+	p code {
+		@apply relative rounded bg-muted text-on-muted font-mono font-semibold;
+		@apply px-[0.3rem] py-[0.2rem];
+		@apply text-[0.75rem] md:text-[0.875rem] lg:text-base;
+	}
+
 	.prose {
 		/* Base font size and line height - responsive */
 		@apply text-sm md:text-base lg:text-lg;
@@ -181,9 +189,9 @@
 		}
 
 		/* Reset margins after headings */
-		h2+*,
-		h3+*,
-		h4+* {
+		h2 + *,
+		h3 + *,
+		h4 + * {
 			@apply mt-0;
 		}
 
@@ -220,18 +228,18 @@
 			@apply pl-1.5 md:pl-1.5 lg:pl-1.5;
 		}
 
-		>ul>li p,
-		>ol>li p {
+		> ul > li p,
+		> ol > li p {
 			@apply mt-2 md:mt-3 lg:mt-3 mb-2 md:mb-3 lg:mb-3;
 		}
 
-		>ul>li>p:first-child,
-		>ol>li>p:first-child {
+		> ul > li > p:first-child,
+		> ol > li > p:first-child {
 			@apply mt-4 md:mt-5 lg:mt-5;
 		}
 
-		>ul>li>p:last-child,
-		>ol>li>p:last-child {
+		> ul > li > p:last-child,
+		> ol > li > p:last-child {
 			@apply mb-4 md:mb-5 lg:mb-5;
 		}
 
@@ -304,7 +312,7 @@
 			@apply my-10 md:my-12 lg:my-12;
 		}
 
-		hr+* {
+		hr + * {
 			@apply mt-0;
 		}
 
@@ -316,7 +324,7 @@
 			@apply rounded-ui;
 		}
 
-		picture>img {
+		picture > img {
 			@apply mt-0 mb-0;
 		}
 
@@ -325,7 +333,7 @@
 			@apply mt-6 md:mt-8 lg:mt-8 mb-6 md:mb-8 lg:mb-8;
 		}
 
-		figure>* {
+		figure > * {
 			@apply mt-0 mb-0;
 		}
 

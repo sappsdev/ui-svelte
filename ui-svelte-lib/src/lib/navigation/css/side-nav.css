@@ -1,38 +1,38 @@
 @layer components {
 	.sidenav {
-		@apply flex w-full min-w-0 flex-col gap-0.5 text-on-muted;
+		@apply flex w-full min-w-0 flex-col gap-0.5;
 
 		.sidenav-divider {
 			@apply my-2 h-px w-full bg-muted;
 		}
 
 		.sidenav-header {
-			@apply flex items-center gap-2 px-3 py-3 text-sm font-bold text-on-surface;
+			@apply flex items-center gap-2 px-3 py-3;
 			@apply mt-4 mb-1 first:mt-0;
 			@apply justify-start;
 
 			.icon {
-				@apply h-5 w-5 shrink-0 text-on-surface;
+				@apply shrink-0;
 			}
 
 			.sidenav-header-content {
 				@apply flex flex-1 flex-col overflow-hidden;
 
 				.sidenav-header-label {
-					@apply truncate font-bold uppercase text-xs tracking-wider text-left;
+					@apply text-sm truncate font-semibold tracking-wide text-left;
+					@apply opacity-75;
 				}
 
 				.sidenav-header-description {
-					@apply truncate text-xs font-normal text-on-muted/70 text-left;
+					@apply truncate font-light text-left;
 				}
 			}
 
-			&.sidenav-header-link {
-				@apply cursor-pointer rounded-ui outline-none;
-				@apply hover:bg-muted/50;
+			&.sidenav-header-link .sidenav-header-content {
+				@apply cursor-pointer;
 
-				&.is-active {
-					@apply bg-muted;
+				.sidenav-header-label {
+					@apply font-bold;
 				}
 			}
 
@@ -40,7 +40,7 @@
 				@apply flex shrink-0 items-center justify-center ml-auto;
 
 				.sidenav-arrow {
-					@apply h-4 w-4 transition-transform duration-200;
+					@apply transition-transform duration-200;
 
 					&.is-open {
 						@apply rotate-90;
@@ -52,7 +52,6 @@
 		.sidenav-item {
 			@apply relative flex w-fit items-center gap-2 rounded-ui px-3 py-2;
 			@apply cursor-pointer select-none outline-none;
-			@apply hover:bg-muted;
 
 			&.is-wide {
 				@apply w-full;
@@ -60,21 +59,17 @@
 
 			.sidenav-icon-wrapper {
 				@apply flex shrink-0 items-center justify-center;
-
-				.sidenav-icon {
-					@apply h-5 w-5;
-				}
 			}
 
 			.sidenav-content {
 				@apply flex flex-1 flex-col overflow-hidden;
 
 				.sidenav-label {
-					@apply truncate font-medium text-sm;
+					@apply truncate font-light hover:font-semibold;
 				}
 
 				.sidenav-description {
-					@apply truncate text-xs text-on-muted/70;
+					@apply truncate font-light;
 				}
 			}
 
@@ -82,7 +77,7 @@
 				@apply flex shrink-0 items-center;
 
 				.sidenav-status {
-					@apply rounded-full bg-muted px-2 py-0.5 text-xs font-medium;
+					@apply rounded-full bg-muted px-2 py-0.5 font-medium;
 				}
 			}
 
@@ -90,7 +85,7 @@
 				@apply flex shrink-0 items-center justify-center;
 
 				.sidenav-arrow {
-					@apply h-4 w-4 transition-transform duration-200;
+					@apply transition-transform duration-200;
 
 					&.is-open {
 						@apply rotate-90;
@@ -99,56 +94,156 @@
 			}
 		}
 
+		.sidenav-item.is-active .sidenav-label {
+			@apply font-semibold;
+		}
+
 		&.is-sm {
 			.sidenav-item {
-				@apply gap-1.5 px-2 py-1.5 text-xs;
+				@apply gap-1.5 px-2 py-1.5;
 
 				.sidenav-icon-wrapper .sidenav-icon {
 					@apply h-4 w-4;
 				}
+
+				.sidenav-content {
+					.sidenav-label {
+						@apply text-xs;
+					}
+
+					.sidenav-description {
+						@apply text-[10px];
+					}
+				}
+
+				.sidenav-status-wrapper .sidenav-status {
+					@apply text-[10px];
+				}
+
+				.sidenav-arrow-wrapper .sidenav-arrow {
+					@apply h-3 w-3;
+				}
 			}
 
 			.sidenav-header {
-				@apply gap-1.5 px-2 py-1.5 text-xs;
+				@apply gap-1.5 px-2 py-1.5;
 
-				.sidenav-header-icon {
+				.icon {
 					@apply h-4 w-4;
+				}
+
+				.sidenav-header-content {
+					.sidenav-header-label {
+						@apply text-xs;
+					}
+
+					.sidenav-header-description {
+						@apply text-[10px];
+					}
+				}
+
+				.sidenav-arrow-wrapper .sidenav-arrow {
+					@apply h-3 w-3;
 				}
 			}
 		}
 
 		&.is-md {
 			.sidenav-item {
-				@apply gap-2 px-3 py-2 text-sm;
+				@apply gap-2 px-3 py-2;
 
 				.sidenav-icon-wrapper .sidenav-icon {
 					@apply h-5 w-5;
 				}
+
+				.sidenav-content {
+					.sidenav-label {
+						@apply text-sm;
+					}
+
+					.sidenav-description {
+						@apply text-xs;
+					}
+				}
+
+				.sidenav-status-wrapper .sidenav-status {
+					@apply text-xs;
+				}
+
+				.sidenav-arrow-wrapper .sidenav-arrow {
+					@apply h-4 w-4;
+				}
 			}
 
 			.sidenav-header {
-				@apply gap-2 px-3 py-2 text-sm;
+				@apply gap-2 px-3 py-2;
 
-				.sidenav-header-icon {
+				.icon {
 					@apply h-5 w-5;
+				}
+
+				.sidenav-header-content {
+					.sidenav-header-label {
+						@apply text-sm;
+					}
+
+					.sidenav-header-description {
+						@apply text-xs;
+					}
+				}
+
+				.sidenav-arrow-wrapper .sidenav-arrow {
+					@apply h-4 w-4;
 				}
 			}
 		}
 
 		&.is-lg {
 			.sidenav-item {
-				@apply gap-3 px-4 py-3 text-base;
+				@apply gap-3 px-4 py-3;
 
 				.sidenav-icon-wrapper .sidenav-icon {
-					@apply h-6 w-6;
+					@apply h-7 w-7;
+				}
+
+				.sidenav-content {
+					.sidenav-label {
+						@apply text-base;
+					}
+
+					.sidenav-description {
+						@apply text-sm;
+					}
+				}
+
+				.sidenav-status-wrapper .sidenav-status {
+					@apply text-sm;
+				}
+
+				.sidenav-arrow-wrapper .sidenav-arrow {
+					@apply h-5 w-5;
 				}
 			}
 
 			.sidenav-header {
-				@apply gap-3 px-4 py-3 text-base;
+				@apply gap-3 px-4 py-3;
 
-				.sidenav-header-icon {
-					@apply h-6 w-6;
+				.icon {
+					@apply h-7 w-7;
+				}
+
+				.sidenav-header-content {
+					.sidenav-header-label {
+						@apply text-base;
+					}
+
+					.sidenav-header-description {
+						@apply text-sm;
+					}
+				}
+
+				.sidenav-arrow-wrapper .sidenav-arrow {
+					@apply h-5 w-5;
 				}
 			}
 		}
@@ -191,51 +286,17 @@
 			}
 		}
 
-		&.sidenav-primary {
-			.sidenav-item.is-active {
-				@apply bg-on-primary text-primary;
-
-				.sidenav-icon {
-					@apply text-primary;
-				}
-			}
-		}
-
-		&.sidenav-secondary {
-			.sidenav-item.is-active {
-				@apply bg-on-secondary text-secondary;
-
-				.sidenav-icon {
-					@apply text-secondary;
-				}
-			}
-		}
-
-		&.sidenav-muted {
-			.sidenav-item.is-active {
-				@apply bg-muted text-on-muted;
-
-				.sidenav-icon {
-					@apply text-on-muted;
-				}
-			}
-		}
-
 		.sidenav-submenu-wrapper {
 			@apply flex flex-col gap-0.5;
 
 			.sidenav-submenu-trigger {
 				@apply w-full cursor-pointer rounded-ui outline-none;
-				@apply hover:bg-muted/50;
+				@apply hover:font-semibold;
 				@apply justify-start;
 			}
 
 			.sidenav-submenu-content {
 				@apply ml-5 flex flex-col gap-0.5 border-l border-muted pl-2;
-
-				.sidenav-subitem {
-					@apply text-sm;
-				}
 			}
 		}
 	}

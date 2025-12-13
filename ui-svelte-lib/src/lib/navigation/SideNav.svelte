@@ -31,7 +31,6 @@
 
 	type Props = {
 		items: SideNavItem[];
-		variant?: 'primary' | 'secondary' | 'muted';
 		size?: 'sm' | 'md' | 'lg';
 		class?: string;
 		isWide?: boolean;
@@ -42,7 +41,6 @@
 	const {
 		items = [],
 		class: className,
-		variant = 'primary',
 		size = 'md',
 		isWide,
 		isCompact,
@@ -69,12 +67,6 @@
 	$effect(() => {
 		isExpanded = !isCollapsible;
 	});
-
-	const variantClasses = {
-		primary: 'sidenav-primary',
-		secondary: 'sidenav-secondary',
-		muted: 'sidenav-muted'
-	};
 
 	const sizeClasses = {
 		sm: 'is-sm',
@@ -119,7 +111,6 @@
 <nav
 	class={cn(
 		'sidenav',
-		variantClasses[variant],
 		sizeClasses[size],
 		isCompact && 'is-compact',
 		isCollapsible && 'is-collapsible',

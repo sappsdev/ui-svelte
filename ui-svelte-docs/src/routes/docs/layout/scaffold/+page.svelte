@@ -1,92 +1,146 @@
 <script lang="ts">
 	import DocCode from '$lib/components/doc/DocCode.svelte';
 	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
 	import DocPreview from '$lib/components/doc/DocPreview.svelte';
 	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { Scaffold, AppBar, Sidebar, Card, Checkbox } from 'ui-svelte';
+	import { Select, Section } from 'ui-svelte';
 
-	// States
-	let showAppBar = $state(true);
-	let showBottomBar = $state(false);
-	let showStart = $state(true);
-	let showEnd = $state(true);
+	type ExampleType = 'landing' | 'dashboard' | 'mobile';
+	let exampleType = $state<ExampleType>('landing');
 
-	let hasProps = $derived([showAppBar, showBottomBar, showStart, showEnd].some(Boolean));
+	const exampleOptions = [
+		{ id: 'landing', label: 'Landing Page' },
+		{ id: 'dashboard', label: 'Dashboard Layout' },
+		{ id: 'mobile', label: 'Mobile with BottomNav' }
+	];
 
-	let code = $derived(() => {
-		const scriptLines = [
-			`<script lang="ts">`,
-			`\timport { Scaffold, AppBar, Sidebar, Card } from 'ui-svelte';`,
-			`\tlet { children } = $props();`,
-			`<\/script>`
-		];
+	const landingCode = `<script lang="ts">
+\timport { Scaffold, AppBar, Footer, NavMenu } from 'ui-svelte';
+\tlet { children } = $props();
 
-		const openingTag = hasProps
-			? [
-					`<Scaffold`,
-					showAppBar && `\tbodyClass="mt-16"`,
-					showStart && `\tstartClass="w-48"`,
-					showEnd && `\tendClass="w-56"`,
-					`>`
-				]
-			: [`<Scaffold>`];
+\tconst navItems = [
+\t\t{ label: 'Home', icon: 'fluent:home-24-regular', href: '/' },
+\t\t{ label: 'Docs', icon: 'fluent:info-24-regular', href: '/docs' }
+\t];
+<\/script>
 
-		const appBar = showAppBar
-			? [
-					`\t{#snippet appBar()}`,
-					`\t\t<AppBar class="h-16">`,
-					`\t\t\t<!-- AppBar content -->`,
-					`\t\t</AppBar>`,
-					`\t{/snippet}\n`
-				]
-			: [];
+<Scaffold mainClass="vh-16 mt-16">
+\t{#snippet appBar()}
+\t\t<AppBar class="h-16" isBoxed isSticky>
+\t\t\t{#snippet start()}
+\t\t\t\t<h4>Brand</h4>
+\t\t\t{/snippet}
+\t\t\t{#snippet center()}
+\t\t\t\t<NavMenu items={navItems} />
+\t\t\t{/snippet}
+\t\t\t{#snippet end()}
+\t\t\t\t<ToggleTheme />
+\t\t\t{/snippet}
+\t\t</AppBar>
+\t{/snippet}
 
-		const start = showStart
-			? [
-					`\t{#snippet start()}`,
-					`\t\t<Sidebar class="${showAppBar ? 'vh-16 ' : ''}pb-8">`,
-					`\t\t\t<!-- Sidebar content -->`,
-					`\t\t</Sidebar>`,
-					`\t{/snippet}\n`
-				]
-			: [];
+\t<!-- Main content -->
+\t{@render children()}
 
-		const mainContent = [`\t<!-- Main content -->`, `\t{@render children()}`];
+\t{#snippet footer()}
+\t\t<Footer isBoxed>
+\t\t\t{#snippet start()}
+\t\t\t\t<p class="text-sm text-muted-foreground">© 2024 Company</p>
+\t\t\t{/snippet}
+\t\t</Footer>
+\t{/snippet}
+</Scaffold>`;
 
-		const end = showEnd
-			? [
-					`\n\t{#snippet end()}`,
-					`\t\t<Sidebar class="${showAppBar ? 'vh-16 ' : ''}pb-8">`,
-					`\t\t\t<!-- End sidebar content -->`,
-					`\t\t</Sidebar>`,
-					`\t{/snippet}`
-				]
-			: [];
+	const dashboardCode = `<script lang="ts">
+\timport { Scaffold, AppBar, Sidebar, SideNav, Footer } from 'ui-svelte';
+\tlet { children } = $props();
 
-		const bottomBar = showBottomBar
-			? [
-					`\n\t{#snippet bottomBar()}`,
-					`\t\t<AppBar class="h-16">`,
-					`\t\t\t<!-- BottomBar content -->`,
-					`\t\t</AppBar>`,
-					`\t{/snippet}`
-				]
-			: [];
+\tconst navItems = [
+\t\t{ label: 'Dashboard', icon: 'fluent:home-24-regular', href: '/dashboard' },
+\t\t{ label: 'Projects', icon: 'fluent:folder-24-regular', href: '/projects' },
+\t\t{ label: 'Settings', icon: 'fluent:settings-24-regular', href: '/settings' }
+\t];
+<\/script>
 
-		const closingTag = [`</Scaffold>`];
+<Scaffold
+\tmainClass="lg:p-4 pb-16"
+\tstartClass="invisible lg:visible lg:w-56"
+\tendClass="invisible lg:visible lg:w-56"
+\tbodyClass="bg-background mt-16"
+\tisBoxed
+>
+\t{#snippet appBar()}
+\t\t<AppBar class="h-16" isSticky isBoxed>
+\t\t\t{#snippet start()}
+\t\t\t\t<IconButton
+\t\t\t\t\ticon="fluent:navigation-24-regular"
+\t\t\t\t\tonclick={() => drawerOpen = true}
+\t\t\t\t\tclass="lg:hidden"
+\t\t\t\t/>
+\t\t\t\t<h4>Dashboard</h4>
+\t\t\t{/snippet}
+\t\t\t{#snippet end()}
+\t\t\t\t<ToggleTheme />
+\t\t\t{/snippet}
+\t\t</AppBar>
+\t{/snippet}
 
-		return [
-			...scriptLines,
-			...openingTag.filter(Boolean),
-			...appBar,
-			...start,
-			...mainContent,
-			...end,
-			...bottomBar,
-			...closingTag
-		].join('\n');
-	});
+\t{#snippet start()}
+\t\t<Sidebar class="pb-8 vh-16">
+\t\t\t{#snippet header()}
+\t\t\t\t<h3 class="text-lg font-semibold">Navigation</h3>
+\t\t\t{/snippet}
+\t\t\t<SideNav items={navItems} />
+\t\t</Sidebar>
+\t{/snippet}
+
+\t<!-- Main content -->
+\t{@render children()}
+
+\t{#snippet end()}
+\t\t<Sidebar class="pb-8 vh-16">
+\t\t\t<h4 class="font-semibold mb-4">Activity</h4>
+\t\t\t<!-- Right sidebar content -->
+\t\t</Sidebar>
+\t{/snippet}
+
+\t{#snippet footer()}
+\t\t<Footer isBordered>
+\t\t\t{#snippet start()}
+\t\t\t\t<p class="text-sm text-muted-foreground">© 2024 Company</p>
+\t\t\t{/snippet}
+\t\t</Footer>
+\t{/snippet}
+</Scaffold>`;
+
+	const mobileCode = `<script lang="ts">
+\timport { Scaffold, AppBar, BottomNav } from 'ui-svelte';
+\tlet { children } = $props();
+
+\tconst bottomNavItems = [
+\t\t{ id: 'home', label: 'Home', icon: 'fluent:home-24-regular', href: '/' },
+\t\t{ id: 'search', label: 'Search', icon: 'fluent:search-24-regular', href: '/search' },
+\t\t{ id: 'favorites', label: 'Favorites', icon: 'fluent:heart-24-regular', href: '/favorites' },
+\t\t{ id: 'profile', label: 'Profile', icon: 'fluent:person-24-regular', href: '/profile' }
+\t];
+<\/script>
+
+<Scaffold mainClass="mt-16 pb-16" bodyClass="mt-16">
+\t{#snippet appBar()}
+\t\t<AppBar class="h-16">
+\t\t\t{#snippet center()}
+\t\t\t\t<h4>Mobile App</h4>
+\t\t\t{/snippet}
+\t\t</AppBar>
+\t{/snippet}
+
+\t<!-- Main content -->
+\t{@render children()}
+
+\t{#snippet bottomBar()}
+\t\t<BottomNav items={bottomNavItems} />
+\t{/snippet}
+</Scaffold>`;
 
 	const props = [
 		{ prop: 'children', type: 'Snippet', initial: '', required: true },
@@ -94,310 +148,394 @@
 		{ prop: 'start', type: 'Snippet', initial: '' },
 		{ prop: 'end', type: 'Snippet', initial: '' },
 		{ prop: 'bottomBar', type: 'Snippet', initial: '' },
+		{ prop: 'footer', type: 'Snippet', initial: '' },
 		{ prop: 'bodyClass', type: 'string', initial: '' },
 		{ prop: 'mainClass', type: 'string', initial: '' },
 		{ prop: 'startClass', type: 'string', initial: '' },
-		{ prop: 'endClass', type: 'string', initial: '' }
+		{ prop: 'endClass', type: 'string', initial: '' },
+		{ prop: 'isBoxed', type: 'boolean', initial: 'false' }
 	];
 </script>
 
-{#snippet appBarSnippet()}
-	<AppBar class="h-12 text-xs">
-		{#snippet center()}
-			<span class="text-xs">AppBar (fixed)</span>
-		{/snippet}
-	</AppBar>
-{/snippet}
-
-{#snippet startSnippet()}
-	<Sidebar class="w-32 bg-primary/10 h-full">
-		<div class="flex items-center justify-center h-full">
-			<p class="text-xs transform -rotate-90 whitespace-nowrap">Start (fixed)</p>
-		</div>
-	</Sidebar>
-{/snippet}
-
-{#snippet endSnippet()}
-	<Card class="w-32 bg-secondary/10 h-full">
-		<div class="flex items-center justify-center h-full">
-			<p class="text-xs transform -rotate-90 whitespace-nowrap">End (fixed)</p>
-		</div>
-	</Card>
-{/snippet}
-
-{#snippet bottomBarSnippet()}
-	<AppBar class="h-12 text-xs">
-		{#snippet center()}
-			<span class="text-xs">BottomBar (fixed)</span>
-		{/snippet}
-	</AppBar>
-{/snippet}
-
-{#snippet preview()}
-	<div class="w-full h-96 border-2 border-dashed rounded relative overflow-hidden">
-		<Scaffold
-			bodyClass={showAppBar ? 'mt-12' : ''}
-			startClass="w-32"
-			endClass="w-32"
-			appBar={showAppBar ? appBarSnippet : undefined}
-			bottomBar={showBottomBar ? bottomBarSnippet : undefined}
-		>
-			<div class="flex w-full">
-				{#if showStart}
-					<Sidebar class="w-32 bg-primary/10 h-full">
-						<div class="flex items-center justify-center h-full">
-							<p class="text-xs transform -rotate-90 whitespace-nowrap">Start (fixed)</p>
-						</div>
-					</Sidebar>
-				{/if}
-
-				<div class="p-4 h-full overflow-auto flex-1">
-					<Card variant="surface" bodyClass="column gap-4">
-						<h3 class="text-sm font-semibold">Main Content</h3>
-						<p class="text-xs">This is the main scrollable content area.</p>
-					</Card>
-				</div>
-				{#if showEnd}
-					<Card class="w-32 bg-secondary/10 h-full">
-						<div class="flex items-center justify-center h-full">
-							<p class="text-xs transform -rotate-90 whitespace-nowrap">End (fixed)</p>
-						</div>
-					</Card>
-				{/if}
+{#snippet landingPreview()}
+	<div class="w-full h-[500px] border border-border rounded-lg overflow-hidden bg-background">
+		<!-- Simulated AppBar -->
+		<div class="h-16 bg-surface border-b border-border flex items-center justify-between px-4">
+			<div class="font-semibold">Brand</div>
+			<div class="flex gap-4 text-sm">
+				<span>Home</span>
+				<span>Docs</span>
 			</div>
-		</Scaffold>
+			<div class="w-8 h-8 bg-muted rounded"></div>
+		</div>
+
+		<!-- Main Content -->
+		<div class="h-[calc(100%-8rem)] overflow-auto p-8">
+			<div class="max-w-4xl mx-auto space-y-6">
+				<div class="h-32 bg-primary/10 rounded flex items-center justify-center">
+					<p class="text-sm text-muted-foreground">Hero Section</p>
+				</div>
+				<div class="h-48 bg-secondary/10 rounded flex items-center justify-center">
+					<p class="text-sm text-muted-foreground">Features Section</p>
+				</div>
+				<div class="h-32 bg-muted/30 rounded flex items-center justify-center">
+					<p class="text-sm text-muted-foreground">CTA Section</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Simulated Footer -->
+		<div class="h-16 bg-surface border-t border-border flex items-center justify-center px-4">
+			<p class="text-xs text-muted-foreground">© 2024 Company</p>
+		</div>
+	</div>
+{/snippet}
+
+{#snippet dashboardPreview()}
+	<div
+		class="w-full h-[500px] border border-border rounded-lg overflow-hidden bg-background flex flex-col"
+	>
+		<!-- Simulated AppBar -->
+		<div
+			class="h-16 bg-surface border-b border-border flex items-center justify-between px-4 shrink-0"
+		>
+			<div class="flex items-center gap-2">
+				<div class="w-6 h-6 bg-muted rounded lg:hidden"></div>
+				<div class="font-semibold">Dashboard</div>
+			</div>
+			<div class="w-8 h-8 bg-muted rounded"></div>
+		</div>
+
+		<!-- Body with sidebars -->
+		<div class="flex-1 flex overflow-hidden">
+			<!-- Start Sidebar -->
+			<div class="hidden lg:block w-56 bg-surface border-r border-border overflow-auto">
+				<div class="p-4 space-y-2">
+					<div class="font-semibold mb-4">Navigation</div>
+					<div class="h-8 bg-primary/20 rounded px-3 flex items-center text-xs">Dashboard</div>
+					<div class="h-8 bg-muted/30 rounded px-3 flex items-center text-xs">Projects</div>
+					<div class="h-8 bg-muted/30 rounded px-3 flex items-center text-xs">Settings</div>
+				</div>
+			</div>
+
+			<!-- Main Content -->
+			<div class="flex-1 overflow-auto p-4">
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+					<div class="h-32 bg-primary/10 rounded flex items-center justify-center">
+						<p class="text-sm text-muted-foreground">Card 1</p>
+					</div>
+					<div class="h-32 bg-secondary/10 rounded flex items-center justify-center">
+						<p class="text-sm text-muted-foreground">Card 2</p>
+					</div>
+					<div class="h-32 bg-muted/30 rounded flex items-center justify-center">
+						<p class="text-sm text-muted-foreground">Card 3</p>
+					</div>
+					<div class="h-32 bg-info/10 rounded flex items-center justify-center">
+						<p class="text-sm text-muted-foreground">Card 4</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- End Sidebar -->
+			<div class="hidden lg:block w-56 bg-surface border-l border-border overflow-auto">
+				<div class="p-4">
+					<div class="font-semibold mb-4">Activity</div>
+					<div class="space-y-3">
+						<div class="h-12 bg-muted/30 rounded"></div>
+						<div class="h-12 bg-muted/30 rounded"></div>
+						<div class="h-12 bg-muted/30 rounded"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Simulated Footer -->
+		<div
+			class="h-12 bg-surface border-t border-border flex items-center justify-center px-4 shrink-0"
+		>
+			<p class="text-xs text-muted-foreground">© 2024 Company</p>
+		</div>
+	</div>
+{/snippet}
+
+{#snippet mobilePreview()}
+	<div
+		class="w-full h-[500px] border border-border rounded-lg overflow-hidden bg-background flex flex-col"
+	>
+		<!-- Simulated AppBar -->
+		<div
+			class="h-16 bg-surface border-b border-border flex items-center justify-center px-4 shrink-0"
+		>
+			<div class="font-semibold">Mobile App</div>
+		</div>
+
+		<!-- Main Content -->
+		<div class="flex-1 overflow-auto p-4">
+			<div class="space-y-4">
+				<div class="h-48 bg-primary/10 rounded flex items-center justify-center">
+					<p class="text-sm text-muted-foreground">Content Card 1</p>
+				</div>
+				<div class="h-48 bg-secondary/10 rounded flex items-center justify-center">
+					<p class="text-sm text-muted-foreground">Content Card 2</p>
+				</div>
+				<div class="h-48 bg-muted/30 rounded flex items-center justify-center">
+					<p class="text-sm text-muted-foreground">Content Card 3</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Simulated BottomNav -->
+		<div
+			class="h-16 bg-surface border-t border-border flex items-center justify-around px-4 shrink-0"
+		>
+			<div class="flex flex-col items-center gap-1">
+				<div class="w-6 h-6 bg-primary rounded"></div>
+				<span class="text-xs">Home</span>
+			</div>
+			<div class="flex flex-col items-center gap-1">
+				<div class="w-6 h-6 bg-muted rounded"></div>
+				<span class="text-xs text-muted-foreground">Search</span>
+			</div>
+			<div class="flex flex-col items-center gap-1">
+				<div class="w-6 h-6 bg-muted rounded"></div>
+				<span class="text-xs text-muted-foreground">Favorites</span>
+			</div>
+			<div class="flex flex-col items-center gap-1">
+				<div class="w-6 h-6 bg-muted rounded"></div>
+				<span class="text-xs text-muted-foreground">Profile</span>
+			</div>
+		</div>
 	</div>
 {/snippet}
 
 {#snippet builder()}
-	<DocOptions title="Sections">
-		<Checkbox bind:checked={showAppBar} label="AppBar" />
-		<Checkbox bind:checked={showBottomBar} label="BottomBar" />
-		<Checkbox bind:checked={showStart} label="Start Sidebar" />
-		<Checkbox bind:checked={showEnd} label="End Sidebar" />
-	</DocOptions>
+	<Select label="Layout Example" size="sm" options={exampleOptions} bind:value={exampleType} />
 {/snippet}
 
 <DocHeader title="Scaffold">
-	Scaffold is a layout component that provides a base structure for your application with support
-	for AppBar, side Sidebars (start/end), and BottomBar.
+	Scaffold is a comprehensive layout component that provides the foundation for your application. It
+	manages the positioning and coordination of AppBar, Sidebar, Footer, and BottomNav components to
+	create professional, responsive layouts.
 </DocHeader>
 
 <DocPreview {builder}>
-	{@render preview()}
+	{#if exampleType === 'landing'}
+		{@render landingPreview()}
+	{:else if exampleType === 'dashboard'}
+		{@render dashboardPreview()}
+	{:else if exampleType === 'mobile'}
+		{@render mobilePreview()}
+	{/if}
 </DocPreview>
 
-<DocCode code={code()} />
+<DocCode
+	code={exampleType === 'landing'
+		? landingCode
+		: exampleType === 'dashboard'
+			? dashboardCode
+			: mobileCode}
+/>
 
 <DocProps {props} />
 
-<!-- Important Usage Section -->
-<div class="mt-8 p-6 bg-info/10 rounded-lg border border-info/20">
-	<h3 class="text-lg font-semibold mb-4 text-info">💡 Important: Scaffold Layout System</h3>
+<Section class="prose mt-8">
+	<h2>Layout System Overview</h2>
 
-	<div class="space-y-4 text-sm">
-		<div>
-			<h4 class="font-semibold mb-2">How Scaffold Works</h4>
-			<p class="mb-2">
-				The Scaffold component uses <code class="px-2 py-1 bg-surface rounded">fixed</code>
-				positioning internally for the <code class="px-2 py-1 bg-surface rounded">start</code> and
-				<code class="px-2 py-1 bg-surface rounded">end</code> sidebars. This means:
-			</p>
-			<ul class="list-disc list-inside space-y-1 ml-2">
-				<li>
-					<strong>No margins needed</strong> - The component automatically handles the layout
-				</li>
-				<li>
-					<strong>Just set widths</strong> - Use width classes like
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">w-48</code> or
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">w-56</code> on
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">startClass</code> and
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">endClass</code>
-				</li>
-				<li>
-					<strong>Responsive visibility</strong> - Use
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">invisible lg:visible</code> to hide sidebars
-					on mobile
-				</li>
-			</ul>
+	<h3>How Scaffold Works</h3>
+	<p>
+		The Scaffold component uses <code>fixed</code> positioning for AppBar, Sidebar (start/end), BottomNav,
+		and Footer components. This creates a stable layout where:
+	</p>
+	<ul>
+		<li>AppBar stays fixed at the top</li>
+		<li>Sidebars stay fixed on the left/right</li>
+		<li>BottomNav stays fixed at the bottom (mobile)</li>
+		<li>Footer stays at the bottom of the page</li>
+		<li>Main content scrolls independently</li>
+	</ul>
+
+	<h3>Key Concepts</h3>
+
+	<h4>1. Body Class - AppBar Spacing</h4>
+	<p>
+		When using an AppBar, add top margin to <code>bodyClass</code> to prevent content from being hidden
+		under the fixed AppBar:
+	</p>
+	<ul>
+		<li>
+			If AppBar has <code>h-16</code>, use <code>bodyClass="mt-16"</code>
+		</li>
+		<li>
+			If AppBar has <code>h-20</code>, use <code>bodyClass="mt-20"</code>
+		</li>
+	</ul>
+
+	<h4>2. Start/End Class - Sidebar Width</h4>
+	<p>
+		Set the width of sidebars using <code>startClass</code> and <code>endClass</code>. The Scaffold
+		automatically handles the fixed positioning:
+	</p>
+	<ul>
+		<li>
+			<code>startClass="w-56"</code> - Left sidebar with 56 width units
+		</li>
+		<li>
+			<code>startClass="invisible lg:visible lg:w-56"</code> - Responsive sidebar (hidden on mobile)
+		</li>
+	</ul>
+
+	<h4>3. vh Utilities - Sidebar Height</h4>
+	<p>
+		Apply <code>vh-*</code> utilities directly to the Sidebar component (not to startClass/endClass) to
+		ensure proper height calculation:
+	</p>
+	<ul>
+		<li>
+			<code>vh-16</code> = <code>calc(100vh - 4rem)</code> - Use with AppBar h-16
+		</li>
+		<li>
+			<code>vh-32</code> = <code>calc(100vh - 8rem)</code> - Use with AppBar + BottomNav (both h-16)
+		</li>
+	</ul>
+
+	<h4>4. Main Class - Content Styling</h4>
+	<p>
+		Use <code>mainClass</code> to style the main content area:
+	</p>
+	<ul>
+		<li>
+			<code>mainClass="p-4"</code> - Add padding
+		</li>
+		<li>
+			<code>mainClass="lg:p-4 pb-16"</code> - Responsive padding with bottom space for BottomNav
+		</li>
+		<li>
+			<code>mainClass="vh-16 mt-16"</code> - Full height content (landing pages)
+		</li>
+	</ul>
+
+	<h3>Common Patterns</h3>
+
+	<h4>Landing Page</h4>
+	<ul>
+		<li>AppBar at top</li>
+		<li>Full-width content</li>
+		<li>Optional Footer at bottom</li>
+		<li>No sidebars</li>
+	</ul>
+
+	<h4>Dashboard</h4>
+	<ul>
+		<li>AppBar at top</li>
+		<li>Left sidebar for navigation</li>
+		<li>Optional right sidebar for activity/info</li>
+		<li>Responsive (sidebars hidden on mobile)</li>
+		<li>Optional Footer</li>
+	</ul>
+
+	<h4>Mobile App</h4>
+	<ul>
+		<li>AppBar at top</li>
+		<li>BottomNav for primary navigation</li>
+		<li>Full-width content</li>
+		<li>No sidebars</li>
+	</ul>
+
+	<h3>Integration with Components</h3>
+
+	<h4>AppBar</h4>
+	<p>
+		Use the <code>appBar</code> snippet to add a fixed header. The AppBar component provides start, center,
+		and end sections for flexible layouts.
+	</p>
+
+	<h4>Sidebar</h4>
+	<p>
+		Use <code>start</code> and <code>end</code> snippets for left and right sidebars. Sidebars support
+		header and footer sections for additional structure.
+	</p>
+
+	<h4>Footer</h4>
+	<p>
+		Use the <code>footer</code> snippet to add a footer at the bottom of the page. The Footer component
+		supports start, center, and end sections.
+	</p>
+
+	<h4>BottomNav</h4>
+	<p>
+		Use the <code>bottomBar</code> snippet for mobile-style bottom navigation. Perfect for mobile apps
+		and responsive layouts.
+	</p>
+
+	<h3>Responsive Design</h3>
+	<p>Use Tailwind's responsive prefixes to create adaptive layouts:</p>
+	<ul>
+		<li>
+			<code>startClass="invisible lg:visible lg:w-56"</code> - Show sidebar only on large screens
+		</li>
+		<li>
+			<code>mainClass="lg:p-4 pb-16"</code> - Different padding on desktop vs mobile
+		</li>
+		<li>Combine with Drawer component for mobile sidebar navigation</li>
+	</ul>
+
+	<h3>Available vh Utilities</h3>
+	<div class="grid grid-cols-2 md:grid-cols-3 gap-2 not-prose">
+		<div class="p-2 bg-surface rounded text-sm">
+			<code>vh-8</code>
+			<span class="text-xs text-muted-foreground block">calc(100vh - 2rem)</span>
 		</div>
-
-		<div>
-			<h4 class="font-semibold mb-2">AppBar Spacing</h4>
-			<p class="mb-2">
-				When using an <code class="px-2 py-1 bg-surface rounded">AppBar</code>, you need to add top
-				margin to the <code class="px-2 py-1 bg-surface rounded">bodyClass</code>:
-			</p>
-			<ul class="list-disc list-inside space-y-1 ml-2">
-				<li>
-					If AppBar has <code class="px-1 py-0.5 bg-surface rounded text-xs">h-16</code>, add
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">mt-16</code> to
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">bodyClass</code>
-				</li>
-				<li>This creates space for the fixed AppBar at the top</li>
-			</ul>
+		<div class="p-2 bg-surface rounded text-sm">
+			<code>vh-10</code>
+			<span class="text-xs text-muted-foreground block">calc(100vh - 2.5rem)</span>
 		</div>
-
-		<div>
-			<h4 class="font-semibold mb-2">vh Utilities for Sidebar Height</h4>
-			<p class="mb-2">
-				Use <code class="px-2 py-1 bg-surface rounded">vh-*</code> utilities on sidebars to ensure they
-				fill the viewport correctly:
-			</p>
-			<ul class="list-disc list-inside space-y-1 ml-2">
-				<li>
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">vh-16</code> =
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">calc(100vh - 4rem)</code> - Use when
-					there's an AppBar with <code class="px-1 py-0.5 bg-surface rounded text-xs">h-16</code>
-				</li>
-				<li>
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">vh-32</code> =
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">calc(100vh - 8rem)</code> - Use when
-					there's both AppBar and BottomBar with
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">h-16</code> each
-				</li>
-			</ul>
-			<p class="mt-2">
-				Apply these to the <strong>Sidebar component</strong> inside the start/end snippets, not to
-				<code class="px-1 py-0.5 bg-surface rounded text-xs">startClass</code> or
-				<code class="px-1 py-0.5 bg-surface rounded text-xs">endClass</code>.
-			</p>
+		<div class="p-2 bg-surface rounded text-sm">
+			<code>vh-12</code>
+			<span class="text-xs text-muted-foreground block">calc(100vh - 3rem)</span>
 		</div>
-
-		<div>
-			<h4 class="font-semibold mb-2">Dashboard Example</h4>
-			<div class="bg-surface rounded p-4 overflow-x-auto">
-				<pre class="text-xs"><code
-						>{`<Scaffold
-  mainClass="lg:p-4 pb-16"
-  startClass="invisible lg:visible lg:w-56"
-  endClass="invisible lg:visible lg:w-56"
-  bodyClass="bg-background mt-16"
-  isBoxed
->
-  {#snippet appBar()}
-    <AppBar class="h-16" isSticky isBoxed>
-      <!-- AppBar content -->
-    </AppBar>
-  {/snippet}
-
-  {#snippet start()}
-    <Sidebar class="pb-8 vh-16">
-      <!-- Sidebar navigation -->
-    </Sidebar>
-  {/snippet}
-
-  <!-- Main content -->
-  {@render children()}
-
-  {#snippet end()}
-    <Sidebar class="pb-8 vh-16">
-      <!-- Right sidebar content -->
-    </Sidebar>
-  {/snippet}
-</Scaffold>`}</code
-					></pre>
-			</div>
-			<p class="mt-2 text-xs">Key points:</p>
-			<ul class="list-disc list-inside space-y-1 ml-2 text-xs">
-				<li>
-					<code class="px-1 py-0.5 bg-surface rounded text-xs"
-						>startClass="invisible lg:visible lg:w-56"</code
-					>
-					- Sidebar is 56 width units on large screens, hidden on mobile
-				</li>
-				<li>
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">bodyClass="mt-16"</code> - Creates space
-					for the h-16 AppBar
-				</li>
-				<li>
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">vh-16</code> on Sidebar - Fills viewport
-					minus AppBar height
-				</li>
-				<li>
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">isBoxed</code> - Centers content with max-width
-					container
-				</li>
-			</ul>
+		<div class="p-2 bg-surface rounded text-sm">
+			<code>vh-14</code>
+			<span class="text-xs text-muted-foreground block">calc(100vh - 3.5rem)</span>
 		</div>
-
-		<div>
-			<h4 class="font-semibold mb-2">Landing Page Example</h4>
-			<div class="bg-surface rounded p-4 overflow-x-auto">
-				<pre class="text-xs"><code
-						>{`<Scaffold mainClass="vh-16 mt-16">
-  {#snippet appBar()}
-    <AppBar class="h-16" isBoxed isSticky>
-      <!-- AppBar content -->
-    </AppBar>
-  {/snippet}
-
-  <!-- Main content -->
-  {@render children()}
-</Scaffold>`}</code
-					></pre>
-			</div>
-			<p class="mt-2 text-xs">Key points:</p>
-			<ul class="list-disc list-inside space-y-1 ml-2 text-xs">
-				<li>
-					<code class="px-1 py-0.5 bg-surface rounded text-xs">mainClass="vh-16 mt-16"</code> - Main content
-					fills viewport minus AppBar, with top margin for AppBar
-				</li>
-				<li>No sidebars needed for simple landing pages</li>
-			</ul>
+		<div class="p-2 bg-surface rounded text-sm">
+			<code>vh-16</code>
+			<span class="text-xs text-muted-foreground block">calc(100vh - 4rem)</span>
 		</div>
-
-		<div class="mt-4 p-4 bg-warning/10 rounded border border-warning/20">
-			<p class="text-xs">
-				<strong>⚠️ Common Mistake:</strong> Don't add margin classes to
-				<code class="px-1 py-0.5 bg-surface rounded text-xs">mainClass</code> for sidebars (like
-				<code class="px-1 py-0.5 bg-surface rounded text-xs">ml-48</code> or
-				<code class="px-1 py-0.5 bg-surface rounded text-xs">mr-56</code>). The component handles
-				this automatically with fixed positioning.
-			</p>
+		<div class="p-2 bg-surface rounded text-sm">
+			<code>vh-20</code>
+			<span class="text-xs text-muted-foreground block">calc(100vh - 5rem)</span>
+		</div>
+		<div class="p-2 bg-surface rounded text-sm">
+			<code>vh-24</code>
+			<span class="text-xs text-muted-foreground block">calc(100vh - 6rem)</span>
+		</div>
+		<div class="p-2 bg-surface rounded text-sm">
+			<code>vh-32</code>
+			<span class="text-xs text-muted-foreground block">calc(100vh - 8rem)</span>
+		</div>
+		<div class="p-2 bg-surface rounded text-sm">
+			<code>vh-40</code>
+			<span class="text-xs text-muted-foreground block">calc(100vh - 10rem)</span>
 		</div>
 	</div>
-</div>
 
-<!-- Sección de vh Utilities Disponibles -->
-<div class="mt-8 p-6 bg-surface rounded-lg border">
-	<h3 class="text-lg font-semibold mb-4">Available vh Utilities</h3>
-	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-		<div class="p-3 bg-background rounded">
-			<code class="text-sm font-mono">vh-8</code>
-			<p class="text-xs mt-1 text-muted-foreground">calc(100vh - 2rem)</p>
-		</div>
-		<div class="p-3 bg-background rounded">
-			<code class="text-sm font-mono">vh-10</code>
-			<p class="text-xs mt-1 text-muted-foreground">calc(100vh - 2.5rem)</p>
-		</div>
-		<div class="p-3 bg-background rounded">
-			<code class="text-sm font-mono">vh-12</code>
-			<p class="text-xs mt-1 text-muted-foreground">calc(100vh - 3rem)</p>
-		</div>
-		<div class="p-3 bg-background rounded">
-			<code class="text-sm font-mono">vh-14</code>
-			<p class="text-xs mt-1 text-muted-foreground">calc(100vh - 3.5rem)</p>
-		</div>
-		<div class="p-3 bg-background rounded">
-			<code class="text-sm font-mono">vh-16</code>
-			<p class="text-xs mt-1 text-muted-foreground">calc(100vh - 4rem)</p>
-		</div>
-		<div class="p-3 bg-background rounded">
-			<code class="text-sm font-mono">vh-20</code>
-			<p class="text-xs mt-1 text-muted-foreground">calc(100vh - 5rem)</p>
-		</div>
-		<div class="p-3 bg-background rounded">
-			<code class="text-sm font-mono">vh-24</code>
-			<p class="text-xs mt-1 text-muted-foreground">calc(100vh - 6rem)</p>
-		</div>
-		<div class="p-3 bg-background rounded">
-			<code class="text-sm font-mono">vh-32</code>
-			<p class="text-xs mt-1 text-muted-foreground">calc(100vh - 8rem)</p>
-		</div>
-		<div class="p-3 bg-background rounded">
-			<code class="text-sm font-mono">vh-40</code>
-			<p class="text-xs mt-1 text-muted-foreground">calc(100vh - 10rem)</p>
-		</div>
-	</div>
-</div>
+	<h3>Best Practices</h3>
+	<ul>
+		<li>
+			<strong>Don't</strong> add margin classes to <code>mainClass</code> for sidebars - Scaffold handles
+			this automatically
+		</li>
+		<li>
+			<strong>Do</strong> use <code>bodyClass</code> for AppBar spacing
+		</li>
+		<li>
+			<strong>Do</strong> apply <code>vh-*</code> utilities to Sidebar components, not to startClass/endClass
+		</li>
+		<li>
+			<strong>Do</strong> use responsive classes for mobile-friendly layouts
+		</li>
+		<li>
+			<strong>Do</strong> combine with Drawer for mobile sidebar navigation
+		</li>
+	</ul>
+</Section>

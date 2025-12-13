@@ -24,7 +24,7 @@
 		hasOverlay?: boolean;
 	};
 
-	const {
+	let {
 		rootClass,
 		bodyClass,
 		coverClass,

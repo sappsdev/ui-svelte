@@ -194,7 +194,7 @@
 	}
 
 	.btn-close {
-		@apply absolute right-1 top-1;
+		@apply absolute right-2 top-2;
 	}
 	.btn-close-icon {
 		@apply h-4 w-4 cursor-pointer;

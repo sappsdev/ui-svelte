@@ -16,25 +16,86 @@
 		{ id: 'json', label: 'JSON' }
 	];
 
-	const themeOptions = [
-		{ id: 'catppuccin-frappe', label: 'Catppuccin Frappe' },
-		{ id: 'github-dark', label: 'GitHub Dark' },
+	const lightThemeOptions = [
+		{ id: 'min-light', label: 'Min Light' },
 		{ id: 'github-light', label: 'GitHub Light' },
+		{ id: 'catppuccin-latte', label: 'Catppuccin Latte' },
+		{ id: 'solarized-light', label: 'Solarized Light' },
+		{ id: 'one-light', label: 'One Light' }
+	];
+
+	const darkThemeOptions = [
+		{ id: 'github-dark', label: 'GitHub Dark' },
+		{ id: 'catppuccin-frappe', label: 'Catppuccin Frappe' },
 		{ id: 'nord', label: 'Nord' },
 		{ id: 'one-dark-pro', label: 'One Dark Pro' },
 		{ id: 'dracula', label: 'Dracula' }
 	];
 
-	let lang: any = $state('javascript');
-	let theme: any = $state('catppuccin-frappe');
-	let codeContent = $state(`function greet(name) {
+	const codeExamples: Record<string, string> = {
+		html: `<div class="container">
+  <h1>Hello World</h1>
+  <p>Welcome to ui-svelte</p>
+</div>`,
+		javascript: `function greet(name) {
   console.log(\`Hello, \${name}!\`);
   return true;
-}`);
+}`,
+		typescript: `interface User {
+  name: string;
+  age: number;
+}
 
+const user: User = {
+  name: 'John',
+  age: 30
+};`,
+		css: `:root {
+  --primary: oklch(54.6% 0.245 262.881);
+  --on-primary: oklch(93.2% 0.032 255.585);
+}
+
+.button {
+  background: var(--primary);
+  color: var(--on-primary);
+}`,
+		svelte: `<script lang="ts">
+  import { Button } from 'ui-svelte';
+
+  let count = $state(0);
+<\/script>
+
+<Button onclick={() => count++}>
+  Clicks: {count}
+</Button>`,
+		python: `def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+print(fibonacci(10))`,
+		json: `{
+  "name": "ui-svelte",
+  "version": "1.0.0",
+  "type": "module"
+}`
+	};
+
+	let lang: any = $state('javascript');
+	let lightTheme: any = $state('catppuccin-latte');
+	let darkTheme: any = $state('catppuccin-frappe');
 	let showCopy = $state(true);
 
-	let hasProps = $derived([lang !== 'html', theme !== 'catppuccin-frappe', showCopy].some(Boolean));
+	let codeContent = $derived(codeExamples[lang] || codeExamples.javascript);
+
+	let hasProps = $derived(
+		[
+			lang !== 'html',
+			lightTheme !== 'catppuccin-latte',
+			darkTheme !== 'catppuccin-frappe',
+			showCopy
+		].some(Boolean)
+	);
 
 	let code = $derived(() => {
 		const scriptLines = [
@@ -49,7 +110,8 @@
 			hasProps && `<Code`,
 			`\tcode={code}`,
 			lang !== 'html' && `\tlang="${lang}"`,
-			theme !== 'catppuccin-frappe' && `\ttheme="${theme}"`,
+			lightTheme !== 'catppuccin-latte' && `\tlightTheme="${lightTheme}"`,
+			darkTheme !== 'catppuccin-frappe' && `\tdarkTheme="${darkTheme}"`,
 			showCopy && `\tshowCopy`,
 			hasProps && `/>`,
 			!hasProps && `<Code code={code} />`
@@ -61,28 +123,29 @@
 	const props = [
 		{ prop: 'code', type: 'string', initial: '' },
 		{ prop: 'lang', type: 'string', initial: 'html' },
-		{ prop: 'theme', type: 'string', initial: 'catppuccin-frappe' },
+		{ prop: 'lightTheme', type: 'string', initial: 'catppuccin-latte' },
+		{ prop: 'darkTheme', type: 'string', initial: 'catppuccin-frappe' },
 		{ prop: 'showCopy', type: 'boolean', initial: 'false' }
 	];
 </script>
 
 {#snippet preview()}
-	<Code code={codeContent} {lang} {theme} {showCopy} />
+	<Code code={codeContent} {lang} {lightTheme} {darkTheme} {showCopy} />
 {/snippet}
 
 {#snippet builder()}
 	<Select label="Language" size="sm" options={langOptions} bind:value={lang} />
-	<Select label="Theme" size="sm" options={themeOptions} bind:value={theme} />
+	<Select label="Light Theme" size="sm" options={lightThemeOptions} bind:value={lightTheme} />
+	<Select label="Dark Theme" size="sm" options={darkThemeOptions} bind:value={darkTheme} />
 
 	<DocOptions title="Props">
 		<Checkbox bind:checked={showCopy} label="Show Copy Button" />
 	</DocOptions>
-
-	<TextField label="Code Content" bind:value={codeContent} />
 {/snippet}
 
 <DocHeader title="Code"
-	>Display syntax-highlighted code blocks with optional copy functionality.</DocHeader
+	>Display syntax-highlighted code blocks with automatic theme switching and optional copy
+	functionality.</DocHeader
 >
 
 <DocPreview {builder}>

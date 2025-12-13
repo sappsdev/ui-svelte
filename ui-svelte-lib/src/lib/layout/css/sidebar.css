@@ -14,4 +14,67 @@
 			@apply relative flex min-h-0 w-full flex-col gap-3 p-3 overflow-hidden hover:overflow-y-auto;
 		}
 	}
+	.sidebar.is-primary {
+		@apply bg-on-primary text-primary;
+	}
+
+	.sidebar.is-primary.is-solid {
+		@apply bg-primary text-on-primary;
+	}
+
+	.sidebar.is-secondary {
+		@apply bg-on-secondary text-secondary;
+	}
+
+	.sidebar.is-secondary.is-solid {
+		@apply bg-secondary text-on-secondary;
+	}
+
+	.sidebar.is-success {
+		@apply bg-on-success text-success;
+	}
+
+	.sidebar.is-success.is-solid {
+		@apply bg-success text-on-success;
+	}
+
+	.sidebar.is-info {
+		@apply bg-on-info text-info;
+	}
+
+	.sidebar.is-info.is-solid {
+		@apply bg-info text-on-info;
+	}
+
+	.sidebar.is-warning {
+		@apply bg-on-warning text-warning;
+	}
+
+	.sidebar.is-warning.is-solid {
+		@apply bg-warning text-on-warning;
+	}
+
+	.sidebar.is-danger {
+		@apply bg-on-danger text-danger;
+	}
+
+	.sidebar.is-danger.is-solid {
+		@apply bg-danger text-on-danger;
+	}
+
+	.sidebar.is-muted {
+		@apply bg-muted text-on-muted;
+	}
+
+	.sidebar.is-muted.is-solid {
+		@apply bg-on-muted text-muted;
+	}
+
+	.sidebar.is-ghost {
+		@apply bg-background text-on-background;
+	}
+
+	.sidebar.is-surface {
+		@apply bg-surface text-on-surface;
+	}
 }

@@ -10,13 +10,43 @@
 		contentClass?: string;
 		headerClass?: string;
 		footerClass?: string;
+		variant?:
+			| 'primary'
+			| 'secondary'
+			| 'muted'
+			| 'success'
+			| 'info'
+			| 'warning'
+			| 'danger'
+			| 'surface'
+			| 'ghost';
 	};
 
-	const { children, header, footer, rootClass, contentClass, headerClass, footerClass }: Props =
-		$props();
+	const {
+		children,
+		header,
+		footer,
+		rootClass,
+		contentClass,
+		headerClass,
+		footerClass,
+		variant = 'ghost'
+	}: Props = $props();
+
+	const variantClasses = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger',
+		surface: 'is-surface',
+		ghost: 'is-ghost'
+	};
 </script>
 
-<aside class={cn('sidebar', rootClass)}>
+<aside class={cn('sidebar', variantClasses[variant], rootClass)}>
 	{#if header}
 		<div class={cn('sidebar-header', headerClass)}>
 			{@render header()}

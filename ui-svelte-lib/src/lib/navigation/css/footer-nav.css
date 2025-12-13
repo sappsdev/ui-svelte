@@ -1,11 +1,11 @@
 @layer components {
-	.footer-links {
+	.footer-nav {
 		@apply column md:row items-start md:items-center gap-3 md:gap-6;
 
-		.footer-link {
+		.footer-nav-link {
 			@apply text-sm opacity-70;
 			@apply transition-all duration-200;
-			@apply hover:opacity-100;
+			@apply hover:underline;
 			@apply focus:outline-none;
 			@apply cursor-pointer select-none;
 

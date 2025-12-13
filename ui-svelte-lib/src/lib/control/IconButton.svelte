@@ -7,6 +7,7 @@
 	type Props = {
 		onclick?: () => void;
 		href?: string;
+		target?: '_self' | '_blank' | '_parent' | '_top';
 		type?: 'button' | 'submit' | 'reset';
 		variant?:
 			| 'primary'
@@ -29,6 +30,7 @@
 	const {
 		onclick,
 		href,
+		target,
 		type = 'button',
 		variant = 'primary',
 		size = 'md',
@@ -76,7 +78,7 @@
 {/snippet}
 
 {#if href}
-	<a class={baseClasses} {href}>
+	<a class={baseClasses} {href} {target}>
 		{@render content()}
 	</a>
 {:else}

@@ -10,11 +10,13 @@ import Button from '$lib/control/Button.svelte';
 import IconButton from '$lib/control/IconButton.svelte';
 import Record from '$lib/control/Record.svelte';
 import ToggleTheme from '$lib/control/ToggleTheme.svelte';
+import ToggleGroup from '$lib/control/ToggleGroup.svelte';
 import Video from '$lib/control/Video.svelte';
 
 import Accordion from '$lib/display/Accordion.svelte';
 import Alert from '$lib/display/Alert.svelte';
 import Avatar from '$lib/display/Avatar.svelte';
+import AvatarGroup from '$lib/display/AvatarGroup.svelte';
 import Badge from '$lib/display/Badge.svelte';
 import Carousel from '$lib/display/Carousel.svelte';
 import Card from '$lib/display/Card.svelte';
@@ -49,12 +51,13 @@ import Toggle from '$lib/form/Toggle.svelte';
 import AppBar from '$lib/layout/AppBar.svelte';
 import Provider from '$lib/layout/Provider.svelte';
 import Footer from '$lib/layout/Footer.svelte';
-import FooterLinks from '$lib/layout/FooterLinks.svelte';
 import Scaffold from '$lib/layout/Scaffold.svelte';
 import Sidebar from '$lib/layout/Sidebar.svelte';
 
 import NavMenu from '$lib/navigation/NavMenu.svelte';
 import BottomNav from '$lib/navigation/BottomNav.svelte';
+import FooterNav from '$lib/navigation/FooterNav.svelte';
+import FooterGroup from '$lib/navigation/FooterGroup.svelte';
 import SideNav, { type SideNavItem, type SideNavSubItem } from '$lib/navigation/SideNav.svelte';
 import Tabs from '$lib/navigation/Tabs.svelte';
 
@@ -105,6 +108,7 @@ export {
 	AppBar,
 	Accordion,
 	Avatar,
+	AvatarGroup,
 	Audio,
 	Badge,
 	Button,
@@ -126,7 +130,8 @@ export {
 	Dropdown,
 	Empty,
 	Footer,
-	FooterLinks,
+	FooterNav,
+	FooterGroup,
 	formatCurrency,
 	formatDate,
 	formatNumber,
@@ -164,6 +169,7 @@ export {
 	Toast,
 	toast,
 	Toggle,
+	ToggleGroup,
 	ToggleTheme,
 	Tooltip,
 	useAuth,

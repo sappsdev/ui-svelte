@@ -16,6 +16,16 @@
 		isBordered?: boolean;
 		isBoxed?: boolean;
 		hideOnScroll?: boolean;
+		variant?:
+			| 'primary'
+			| 'secondary'
+			| 'muted'
+			| 'success'
+			| 'info'
+			| 'warning'
+			| 'danger'
+			| 'surface'
+			| 'ghost';
 	};
 
 	const {
@@ -30,7 +40,8 @@
 		isBordered,
 		isBlurred,
 		isBoxed,
-		hideOnScroll
+		hideOnScroll,
+		variant = 'ghost'
 	}: Props = $props();
 
 	let footerElement = $state<HTMLElement | null>(null);
@@ -39,6 +50,18 @@
 	let isHidden = $state<boolean>(false);
 
 	const scroll = useScroll();
+
+	const variantClasses = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger',
+		surface: 'is-surface',
+		ghost: 'is-ghost'
+	};
 
 	$effect(() => {
 		if (footerElement) {
@@ -70,6 +93,7 @@
 	bind:this={footerElement}
 	class={cn(
 		'footer',
+		variantClasses[variant],
 		isBordered && 'is-bordered',
 		shouldBlur && 'is-blurred',
 		isHidden && 'is-hidden',

@@ -194,18 +194,14 @@
 		aria-valuemin="0"
 		aria-valuemax="100"
 	>
-		{#if isAnalyzing}
-			<div class="media-loading">Analizando...</div>
-		{:else}
-			<div class="media-bars">
-				{#each waveformData as height, i}
-					{@const progress = duration > 0 ? currentTime / duration : 0}
-					{@const barPosition = (i + 0.5) / waveformData.length}
-					{@const isPlayed = barPosition <= progress}
-					<div class="media-bar" class:active={isPlayed} style="height: {height * 100}%"></div>
-				{/each}
-			</div>
-		{/if}
+		<div class="media-bars">
+			{#each waveformData as height, i}
+				{@const progress = duration > 0 ? currentTime / duration : 0}
+				{@const barPosition = (i + 0.5) / waveformData.length}
+				{@const isPlayed = barPosition <= progress}
+				<div class="media-bar" class:active={isPlayed} style="height: {height * 100}%"></div>
+			{/each}
+		</div>
 	</div>
 
 	<span class="media-time">{duration > 0 ? formatTime(duration - currentTime) : '0:00'}</span>

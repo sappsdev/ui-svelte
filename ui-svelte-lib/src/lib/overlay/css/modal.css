@@ -6,7 +6,7 @@
 			@apply absolute inset-0 bg-overlay;
 		}
 		.modal {
-			@apply relative flex flex-col gap-4 md:gap-6 rounded-ui py-4 md:py-6 max-w-[95vw] max-h-[95vh] overflow-hidden overflow-y-auto;
+			@apply relative flex flex-col gap-4 md:gap-6 rounded-ui py-4 md:py-6 max-w-[95vw] max-h-[95vh];
 
 			&.is-ghost {
 				@apply bg-background text-on-background;
@@ -33,7 +33,7 @@
 				@apply bg-on-muted text-muted;
 			}
 			.modal-content {
-				@apply px-4 md:px-6;
+				@apply px-4 md:px-6 overflow-hidden overflow-y-auto;
 			}
 
 			.modal-header {

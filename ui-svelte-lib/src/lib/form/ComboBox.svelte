@@ -1,7 +1,12 @@
 <script lang="ts">
 	import type { SearchState, SearchOption } from '$lib/hooks/use-search.svelte.js';
-	import { Avatar, Icon, Item } from '$lib/index.js';
-	import type { IconName } from '$lib/types.js';
+	import {
+		ArrowDown24RegularIcon,
+		Dismiss24RegularIcon,
+		DotsMoveIcon,
+		Search24RegularIcon
+	} from '$lib/icons/index.js';
+	import { Avatar, Icon, Item, type IconData } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
 	import { onMount, tick } from 'svelte';
 
@@ -27,7 +32,7 @@
 		isSolid?: boolean;
 		isClearable?: boolean;
 		isDisabled?: boolean;
-		arrowIcon?: IconName;
+		arrowIcon?: IconData;
 	};
 
 	let {
@@ -52,7 +57,7 @@
 		isSolid,
 		isClearable = false,
 		isDisabled = false,
-		arrowIcon = 'fluent:arrow-sort-down-24-regular'
+		arrowIcon = ArrowDown24RegularIcon
 	}: Props = $props();
 
 	const variantClasses = {
@@ -356,13 +361,8 @@
 			</span>
 		{/if}
 
-		{#if selected?.src || selected?.icon}
-			<Avatar
-				src={selected.src}
-				name={selected.label}
-				icon={selected.icon as IconName}
-				size={avatarSizes[size]}
-			/>
+		{#if selected?.src}
+			<Avatar src={selected.src} name={selected.label} size={avatarSizes[size]} />
 		{/if}
 
 		<div class="control-selected">
@@ -386,10 +386,10 @@
 					onclick={handleClear}
 					aria-label="Clear selection"
 				>
-					<Icon name="fluent:dismiss-16-regular" />
+					<Icon icon={Dismiss24RegularIcon} />
 				</button>
 			{/if}
-			<Icon name={arrowIcon} class={cn('control-arrow', isOpen && 'is-active')} />
+			<Icon icon={arrowIcon} class={cn('control-arrow', isOpen && 'is-active')} />
 		</div>
 	</button>
 
@@ -399,7 +399,7 @@
 
 	<div class:is-active={isOpen} class="combo-box-popover" bind:this={contentEl} {style}>
 		<div class={cn('combo-box-search', variantClasses[variant])}>
-			<Icon name="fluent:search-24-regular" class="combo-box-search-icon" />
+			<Icon icon={Search24RegularIcon} class="combo-box-search-icon" />
 			<input
 				type="text"
 				class="combo-box-search-input"
@@ -410,7 +410,7 @@
 
 		{#if search.isLoading}
 			<div class="combo-box-loading">
-				<Icon name="fluent:spinner-ios-20-regular" class="combo-box-loading-spinner" />
+				<Icon icon={DotsMoveIcon} class="combo-box-loading-spinner" />
 				<span>{loadingText}</span>
 			</div>
 		{:else if search.options.length === 0 && hasSearched}
@@ -421,7 +421,7 @@
 					<li>
 						<Item
 							label={item.label}
-							icon={item.icon as IconName}
+							icon={item.icon as IconData}
 							src={item.src}
 							description={item.description}
 							id={item.id}
@@ -438,7 +438,7 @@
 
 				{#if search.isLoadingMore}
 					<li class="combo-box-loading-more">
-						<Icon name="fluent:spinner-ios-20-regular" class="combo-box-loading-spinner" />
+						<Icon icon={DotsMoveIcon} class="combo-box-loading-spinner" />
 						<span>{loadingMoreText}</span>
 					</li>
 				{/if}

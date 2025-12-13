@@ -4,13 +4,8 @@
 	import DocOptions from '$lib/components/doc/DocOptions.svelte';
 	import DocPreview from '$lib/components/doc/DocPreview.svelte';
 	import DocProps from '$lib/components/doc/DocProps.svelte';
+	import { Heart24RegularIcon, Rocket24RegularIcon } from '$lib/icons';
 	import { SideNav, Select, Checkbox, Section } from 'ui-svelte';
-
-	const variantOptions = [
-		{ id: 'primary', label: 'Primary' },
-		{ id: 'secondary', label: 'Secondary' },
-		{ id: 'muted', label: 'Muted' }
-	];
 
 	const sizeOptions = [
 		{ id: 'sm', label: 'sm' },
@@ -18,11 +13,8 @@
 		{ id: 'lg', label: 'lg' }
 	];
 
-	// Selects
-	let variant: any = $state('primary');
 	let size: any = $state('md');
 
-	// States
 	let withIcons = $state(true);
 	let withDescriptions = $state(false);
 	let withStatus = $state(false);
@@ -37,51 +29,51 @@
 		const baseItems = [
 			{
 				label: 'Dashboard',
-				icon: withIcons ? 'fluent:home-24-regular' : undefined,
+				icon: withIcons ? Rocket24RegularIcon : undefined,
 				description: withDescriptions ? 'Main overview' : undefined,
-				href: '/dashboard',
+				href: '#!',
 				status: withStatus ? '3' : undefined
 			},
 			{
 				label: 'Projects',
-				icon: withIcons ? 'fluent:folder-24-regular' : undefined,
+				icon: withIcons ? Rocket24RegularIcon : undefined,
 				description: withDescriptions ? 'Your projects' : undefined,
-				href: '/projects',
+				href: '#!',
 				status: withStatus ? 'New' : undefined
 			},
 			{
 				label: 'Team',
-				icon: withIcons ? 'fluent:people-24-regular' : undefined,
+				icon: withIcons ? Rocket24RegularIcon : undefined,
 				description: withDescriptions ? 'Team members' : undefined,
-				href: '/team'
+				href: '#!'
 			}
 		];
 
 		const submenuItem = {
 			type: 'submenu' as const,
 			label: 'Settings',
-			icon: withIcons ? 'fluent:settings-24-regular' : undefined,
+			icon: withIcons ? Rocket24RegularIcon : undefined,
 			description: withDescriptions ? 'Configuration' : undefined,
 			open: true,
 			subitems: [
 				{
 					label: 'Profile',
-					icon: withIcons ? 'fluent:person-24-regular' : undefined,
+					icon: withIcons ? Rocket24RegularIcon : undefined,
 					description: withDescriptions ? 'Edit profile' : undefined,
-					href: '/settings/profile'
+					href: '#!'
 				},
 				{
 					label: 'Security',
-					icon: withIcons ? 'fluent:shield-24-regular' : undefined,
+					icon: withIcons ? Rocket24RegularIcon : undefined,
 					description: withDescriptions ? 'Security settings' : undefined,
-					href: '/settings/security',
+					href: '#!',
 					status: withStatus ? '!' : undefined
 				},
 				{
 					label: 'Notifications',
-					icon: withIcons ? 'fluent:alert-24-regular' : undefined,
+					icon: withIcons ? Rocket24RegularIcon : undefined,
 					description: withDescriptions ? 'Manage alerts' : undefined,
-					href: '/settings/notifications'
+					href: '#!'
 				}
 			]
 		};
@@ -96,7 +88,7 @@
 			result.unshift({
 				type: 'header' as const,
 				label: 'Navigation',
-				icon: withIcons ? 'fluent:navigation-24-regular' : undefined,
+				icon: withIcons ? Heart24RegularIcon : undefined,
 				description: withDescriptions ? 'Main menu' : undefined
 			});
 		}
@@ -108,9 +100,7 @@
 		return result;
 	});
 
-	let hasProps = $derived(
-		[variant !== 'primary', size !== 'md', isWide, isCompact, isCollapsible].some(Boolean)
-	);
+	let hasProps = $derived([size !== 'md', isWide, isCompact, isCollapsible].some(Boolean));
 
 	let code = $derived(() => {
 		const scriptLines = [
@@ -167,19 +157,19 @@
 				`\t\t\tsubitems: [`,
 				`\t\t\t\t{`,
 				`\t\t\t\t\tlabel: 'Profile',`,
-				withIcons ? `\t\t\t\t\ticon: 'fluent:person-24-regular',` : '',
+				withIcons ? `\t\t\t\t\ticon: Rocket24RegularIcon,` : '',
 				withDescriptions ? `\t\t\t\t\tdescription: 'Edit profile',` : '',
 				`\t\t\t\t\thref: '/settings/profile'`,
 				`\t\t\t\t},`,
 				`\t\t\t\t{`,
 				`\t\t\t\t\tlabel: 'Security',`,
-				withIcons ? `\t\t\t\t\ticon: 'fluent:shield-24-regular',` : '',
+				withIcons ? `\t\t\t\t\ticon: Rocket24RegularIcon,` : '',
 				withDescriptions ? `\t\t\t\t\tdescription: 'Security settings',` : '',
 				`\t\t\t\t\thref: '/settings/security'${withStatus ? ",\n\t\t\t\t\tstatus: '!'" : ''}`,
 				`\t\t\t\t},`,
 				`\t\t\t\t{`,
 				`\t\t\t\t\tlabel: 'Notifications',`,
-				withIcons ? `\t\t\t\t\ticon: 'fluent:alert-24-regular',` : '',
+				withIcons ? `\t\t\t\t\ticon: Rocket24RegularIcon,` : '',
 				withDescriptions ? `\t\t\t\t\tdescription: 'Manage alerts',` : '',
 				`\t\t\t\t\thref: '/settings/notifications'`,
 				`\t\t\t\t}`,
@@ -193,7 +183,6 @@
 		const componentLines = [
 			hasProps && `<SideNav`,
 			hasProps && `\t{items}`,
-			variant !== 'primary' && `\tvariant="${variant}"`,
 			size !== 'md' && `\tsize="${size}"`,
 			isWide && `\tisWide`,
 			isCompact && `\tisCompact`,
@@ -207,7 +196,6 @@
 
 	const props = [
 		{ prop: 'items', type: 'NavItem[]', initial: '[]', required: true },
-		{ prop: 'variant', type: 'primary | secondary | muted', initial: 'primary' },
 		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
 		{ prop: 'class', type: 'string', initial: '' },
 		{ prop: 'isWide', type: 'boolean', initial: 'false' },
@@ -239,12 +227,11 @@
 
 {#snippet preview()}
 	<div class="row center h-96 overflow-hidden p-4 w-64">
-		<SideNav {items} {variant} {size} {isWide} {isCompact} {isCollapsible} />
+		<SideNav {items} {size} {isWide} {isCompact} {isCollapsible} />
 	</div>
 {/snippet}
 
 {#snippet builder()}
-	<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
 	<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
 
 	<DocOptions title="Item Features">

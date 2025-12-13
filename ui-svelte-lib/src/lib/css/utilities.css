@@ -60,10 +60,55 @@
 	@apply grid grid-cols-12;
 }
 
+@utility span-2 {
+	@apply col-span-2;
+}
+
+@utility span-3 {
+	@apply col-span-3;
+}
+
+@utility span-4 {
+	@apply col-span-4;
+}
+
+@utility span-5 {
+	@apply col-span-5;
+}
+
+@utility span-6 {
+	@apply col-span-6;
+}
+
+@utility span-7 {
+	@apply col-span-7;
+}
+
+@utility span-8 {
+	@apply col-span-8;
+}
+
+@utility span-9 {
+	@apply col-span-9;
+}
+
+@utility span-10 {
+	@apply col-span-10;
+}
+
+@utility span-11 {
+	@apply col-span-11;
+}
+
+@utility span-12 {
+	@apply col-span-12;
+}
+
 /* Grid auto-fit (responsive) */
 @utility grid-auto-fit {
 	@apply grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))];
 }
+
 @utility grid-auto-fill {
 	@apply grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))];
 }

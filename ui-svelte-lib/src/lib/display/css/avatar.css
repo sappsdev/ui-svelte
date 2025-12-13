@@ -146,13 +146,4 @@
 			@apply size-3;
 		}
 	}
-
-	.avatar-group {
-		@apply inline-flex;
-		& > .avatar {
-			@apply -ml-2 first:ml-0;
-			@apply outline-2 outline-muted;
-			@apply transition-transform hover:z-10 hover:scale-110;
-		}
-	}
 }
