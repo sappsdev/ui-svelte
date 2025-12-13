@@ -1,10 +1,43 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { Candlestick, Select, Checkbox, Section, Slider } from 'ui-svelte';
+	import { Candlestick, Card, Checkbox, Section, Select, Slider } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsPreview from '$lib/components/DocsPreview.svelte';
+	import DocsCode from '$lib/components/DocsCode.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
+
+	const sizeOptions = [
+		{ id: 'sm', label: 'Small' },
+		{ id: 'md', label: 'Medium' },
+		{ id: 'lg', label: 'Large' },
+		{ id: 'xl', label: 'Extra Large' }
+	];
+
+	const themeOptions = [
+		{ id: 'default', label: 'Default' },
+		{ id: 'tradingview', label: 'TradingView' },
+		{ id: 'dark', label: 'Dark' },
+		{ id: 'light', label: 'Light' }
+	];
+
+	const candleStyleOptions = [
+		{ id: 'filled', label: 'Filled' },
+		{ id: 'hollow', label: 'Hollow' },
+		{ id: 'heikinashi', label: 'Heikin-Ashi' },
+		{ id: 'line', label: 'Line' },
+		{ id: 'area', label: 'Area' }
+	];
+
+	const scaleTypeOptions = [
+		{ id: 'linear', label: 'Linear' },
+		{ id: 'log', label: 'Logarithmic' }
+	];
+
+	const gridStyleOptions = [
+		{ id: 'dashed', label: 'Dashed' },
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'dotted', label: 'Dotted' },
+		{ id: 'none', label: 'None' }
+	];
 
 	const colorOptions = [
 		{ id: 'primary', label: 'Primary' },
@@ -49,216 +82,353 @@
 
 	const candleData = generateCandleData(150);
 
+	let size: any = $state('md');
+	let theme: any = $state('default');
+	let candleStyle: any = $state('filled');
+	let scaleType: any = $state('linear');
+	let gridStyle: any = $state('dashed');
 	let bullishColor: any = $state('success');
 	let bearishColor: any = $state('danger');
-	let candleWidth: any = $state(8);
-	let wickWidth: any = $state(1);
-	let initialVisibleCandles: any = $state(50);
-	let minVisibleCandles: any = $state(10);
-	let maxVisibleCandles: any = $state(100);
+
+	let candleWidth = $state(8);
+	let wickWidth = $state(1);
+	let initialVisibleCandles = $state(50);
 
 	let showVolume = $state(true);
 	let showGrid = $state(true);
+	let showCrosshair = $state(true);
+	let showLastPrice = $state(true);
 	let enableZoom = $state(true);
 	let enableScroll = $state(true);
 	let loading = $state(false);
 	let empty = $state(false);
 
-	let hasProps = $derived(
-		[
-			showVolume !== true,
-			showGrid !== true,
-			candleWidth !== 8,
-			bullishColor !== 'success',
-			bearishColor !== 'danger',
-			wickWidth !== 1,
-			enableZoom !== true,
-			enableScroll !== true,
-			initialVisibleCandles !== 50,
-			minVisibleCandles !== 10,
-			maxVisibleCandles !== 100,
-			loading,
-			empty
-		].some(Boolean)
-	);
+	let showSMA = $state(false);
+	let smaPeriod = $state(20);
+	let showEMA = $state(false);
+	let emaPeriod = $state(12);
+	let showBollinger = $state(false);
+	let bollingerPeriod = $state(20);
+
+	let indicators: any = $derived(() => {
+		const result: any[] = [];
+		if (showSMA) result.push({ type: 'sma', period: smaPeriod, color: 'info' });
+		if (showEMA) result.push({ type: 'ema', period: emaPeriod, color: 'warning' });
+		if (showBollinger)
+			result.push({ type: 'bollinger', period: bollingerPeriod, color: 'secondary' });
+		return result;
+	});
 
 	let code = $derived(() => {
-		const scriptLines = [
-			`<script lang="ts">`,
-			`\timport { Candlestick } from 'ui-svelte';`,
-			`\n\tconst data = [`,
-			`\t\t{ date: '2024-01-01', open: 100, high: 110, low: 95, close: 105, volume: 1000000 },`,
-			`\t\t{ date: '2024-01-02', open: 105, high: 115, low: 103, close: 112, volume: 1200000 },`,
-			`\t\t// ... more data`,
-			`\t];`,
-			`<\/script>`
-		].filter(Boolean);
+		const dataStr = `[
+		{ date: '2024-01-01', open: 100, high: 110, low: 95, close: 105, volume: 1000000 },
+		{ date: '2024-01-02', open: 105, high: 115, low: 103, close: 112, volume: 1200000 },
+		// ... more data
+	]`;
 
-		const componentLines = [
-			hasProps && `<Candlestick`,
-			hasProps && `\tdata={data}`,
-			showVolume !== true && `\tshowVolume={${showVolume}}`,
-			showGrid !== true && `\tshowGrid={${showGrid}}`,
-			candleWidth !== 8 && `\tcandleWidth={${candleWidth}}`,
+		const indicatorsStr =
+			showSMA || showEMA || showBollinger
+				? `[
+		${showSMA ? `{ type: 'sma', period: ${smaPeriod}, color: 'info' },` : ''}
+		${showEMA ? `{ type: 'ema', period: ${emaPeriod}, color: 'warning' },` : ''}
+		${showBollinger ? `{ type: 'bollinger', period: ${bollingerPeriod}, color: 'secondary' },` : ''}
+	]`
+				: '';
+
+		const propsLines = [
+			`<Candlestick`,
+			`\tdata={${dataStr}}`,
+			size !== 'md' && `\tsize="${size}"`,
+			theme !== 'default' && `\ttheme="${theme}"`,
+			candleStyle !== 'filled' && `\tcandleStyle="${candleStyle}"`,
+			scaleType !== 'linear' && `\tscaleType="${scaleType}"`,
+			gridStyle !== 'dashed' && `\tgridStyle="${gridStyle}"`,
 			bullishColor !== 'success' && `\tbullishColor="${bullishColor}"`,
 			bearishColor !== 'danger' && `\tbearishColor="${bearishColor}"`,
-			wickWidth !== 1 && `\twickWidth={${wickWidth}}`,
-			enableZoom !== true && `\tenableZoom={${enableZoom}}`,
-			enableScroll !== true && `\tenableScroll={${enableScroll}}`,
-			initialVisibleCandles !== 50 && `\tinitialVisibleCandles={${initialVisibleCandles}}`,
-			minVisibleCandles !== 10 && `\tminVisibleCandles={${minVisibleCandles}}`,
-			maxVisibleCandles !== 100 && `\tmaxVisibleCandles={${maxVisibleCandles}}`,
+			candleWidth !== 8 && `\tcandleWidth={${candleWidth}}`,
+			showVolume && `\tshowVolume`,
+			showGrid && `\tshowGrid`,
+			showCrosshair && `\tshowCrosshair`,
+			showLastPrice && `\tshowLastPrice`,
+			enableZoom && `\tenableZoom`,
+			enableScroll && `\tenableScroll`,
+			(showSMA || showEMA || showBollinger) && `\tindicators={${indicatorsStr}}`,
 			loading && `\tloading`,
 			empty && `\tempty`,
-			hasProps && `/>`,
-			!hasProps && `<Candlestick data={data} />`
+			`/>`
 		].filter(Boolean);
 
-		return [...scriptLines, ...componentLines].join('\n');
+		return propsLines.join('\n');
 	});
 
 	const props = [
 		{ prop: 'data', type: 'CandleData[]', initial: '[]' },
-		{ prop: 'margin', type: 'Margin', initial: '{ top: 20, right: 20, bottom: 40, left: 60 }' },
+		{ prop: 'size', type: 'sm | md | lg | xl', initial: 'md' },
+		{ prop: 'theme', type: 'default | tradingview | dark | light', initial: 'default' },
+		{ prop: 'candleStyle', type: 'filled | hollow | heikinashi | line | area', initial: 'filled' },
+		{ prop: 'scaleType', type: 'linear | log', initial: 'linear' },
+		{ prop: 'gridStyle', type: 'solid | dashed | dotted | none', initial: 'dashed' },
 		{ prop: 'showVolume', type: 'boolean', initial: 'false' },
-		{ prop: 'showGrid', type: 'boolean', initial: 'true' },
+		{ prop: 'showGrid', type: 'boolean', initial: 'false' },
+		{ prop: 'showCrosshair', type: 'boolean', initial: 'false' },
+		{ prop: 'showLastPrice', type: 'boolean', initial: 'false' },
+		{ prop: 'showYAxisLabels', type: 'boolean', initial: 'false' },
+		{ prop: 'showXAxisLabels', type: 'boolean', initial: 'false' },
 		{ prop: 'candleWidth', type: 'number', initial: '8' },
+		{ prop: 'wickWidth', type: 'number', initial: '1' },
 		{ prop: 'bullishColor', type: 'Color', initial: 'success' },
 		{ prop: 'bearishColor', type: 'Color', initial: 'danger' },
-		{ prop: 'wickWidth', type: 'number', initial: '1' },
-		{ prop: 'enableZoom', type: 'boolean', initial: 'true' },
-		{ prop: 'enableScroll', type: 'boolean', initial: 'true' },
+		{ prop: 'indicators', type: 'Indicator[]', initial: '[]' },
+		{ prop: 'enableZoom', type: 'boolean', initial: 'false' },
+		{ prop: 'enableScroll', type: 'boolean', initial: 'false' },
 		{ prop: 'initialVisibleCandles', type: 'number', initial: '50' },
 		{ prop: 'minVisibleCandles', type: 'number', initial: '10' },
 		{ prop: 'maxVisibleCandles', type: 'number', initial: '200' },
+		{ prop: 'onClick', type: '(candle, index) => void', initial: '' },
+		{ prop: 'onRangeChange', type: '(start, end) => void', initial: '' },
+		{ prop: 'priceFormatter', type: '(value: number) => string', initial: '' },
+		{ prop: 'dateFormatter', type: '(date: Date) => string', initial: '' },
+		{ prop: 'animated', type: 'boolean', initial: 'false' },
 		{ prop: 'loading', type: 'boolean', initial: 'false' },
 		{ prop: 'empty', type: 'boolean', initial: 'false' },
 		{ prop: 'emptyText', type: 'string', initial: 'No data available' },
-		{ prop: 'class', type: 'string', initial: '' }
+		{ prop: 'tooltipContent', type: 'Snippet', initial: '' },
+		{ prop: 'rootClass', type: 'string', initial: '' },
+		{ prop: 'chartClass', type: 'string', initial: '' }
 	];
 
 	const candleDataProps = [
-		{ prop: 'date', type: 'string | Date', initial: '', required: true },
-		{ prop: 'open', type: 'number', initial: '', required: true },
-		{ prop: 'high', type: 'number', initial: '', required: true },
-		{ prop: 'low', type: 'number', initial: '', required: true },
-		{ prop: 'close', type: 'number', initial: '', required: true },
+		{ prop: 'date', type: 'string | Date', initial: 'required' },
+		{ prop: 'open', type: 'number', initial: 'required' },
+		{ prop: 'high', type: 'number', initial: 'required' },
+		{ prop: 'low', type: 'number', initial: 'required' },
+		{ prop: 'close', type: 'number', initial: 'required' },
 		{ prop: 'volume', type: 'number', initial: '' }
 	];
 
-	const marginProps = [
-		{ prop: 'top', type: 'number', initial: '', required: true },
-		{ prop: 'right', type: 'number', initial: '', required: true },
-		{ prop: 'bottom', type: 'number', initial: '', required: true },
-		{ prop: 'left', type: 'number', initial: '', required: true }
-	];
-
-	const colorType: any = [
-		{
-			prop: 'Color',
-			type: "'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'muted'"
-		}
+	const indicatorProps = [
+		{ prop: 'type', type: 'sma | ema | bollinger', initial: 'required' },
+		{ prop: 'period', type: 'number', initial: 'required' },
+		{ prop: 'color', type: 'Color', initial: 'primary' },
+		{ prop: 'stdDev', type: 'number', initial: '2 (bollinger only)' }
 	];
 </script>
 
-{#snippet preview()}
-	<Candlestick
-		data={empty ? [] : candleData}
-		{showVolume}
-		{showGrid}
-		{candleWidth}
-		{bullishColor}
-		{bearishColor}
-		{wickWidth}
-		{enableZoom}
-		{enableScroll}
-		{initialVisibleCandles}
-		{minVisibleCandles}
-		{maxVisibleCandles}
-		{loading}
-		{empty}
-	/>
-{/snippet}
+<DocsHeader title="Candlestick">
+	Professional candlestick chart for financial data with interactive zoom, scroll, crosshair,
+	technical indicators (SMA, EMA, Bollinger Bands), multiple candle styles, and theme support.
+</DocsHeader>
 
-{#snippet builder()}
-	<Select label="Bullish Color" size="sm" options={colorOptions} bind:value={bullishColor} />
-	<Select label="Bearish Color" size="sm" options={colorOptions} bind:value={bearishColor} />
-
-	<DocOptions title="Display Options">
-		<Checkbox bind:checked={showVolume} label="Show Volume" />
-		<Checkbox bind:checked={showGrid} label="Show Grid" />
-	</DocOptions>
-
-	<DocOptions title="Zoom & Scroll">
-		<Checkbox bind:checked={enableZoom} label="Enable Zoom" />
-		<Checkbox bind:checked={enableScroll} label="Enable Scroll" />
-	</DocOptions>
-
-	<DocOptions title="Visible Candles">
-		<Slider
-			size="sm"
-			min={10}
-			max={150}
-			bind:value={initialVisibleCandles}
-			label="Initial Visible"
+<Section bodyClass="md:grid-3">
+	<DocsPreview>
+		<Candlestick
+			data={empty ? [] : candleData}
+			{size}
+			{theme}
+			{candleStyle}
+			{scaleType}
+			{gridStyle}
+			{bullishColor}
+			{bearishColor}
+			{candleWidth}
+			{wickWidth}
+			{showVolume}
+			{showGrid}
+			{showCrosshair}
+			{showLastPrice}
+			{enableZoom}
+			{enableScroll}
+			{initialVisibleCandles}
+			indicators={indicators()}
+			{loading}
+			{empty}
 		/>
-		<Slider size="sm" min={5} max={50} bind:value={minVisibleCandles} label="Min Visible" />
-		<Slider size="sm" min={50} max={150} bind:value={maxVisibleCandles} label="Max Visible" />
-	</DocOptions>
+	</DocsPreview>
+	<Card>
+		<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
+		<Select label="Theme" size="sm" options={themeOptions} bind:value={theme} />
+		<Select label="Candle Style" size="sm" options={candleStyleOptions} bind:value={candleStyle} />
+		<Select label="Scale" size="sm" options={scaleTypeOptions} bind:value={scaleType} />
+		<Select label="Grid Style" size="sm" options={gridStyleOptions} bind:value={gridStyle} />
+		<Slider label="Candle Width" min={4} max={16} bind:value={candleWidth} />
+		<div class="grid-2 gap-2">
+			<Checkbox bind:checked={showVolume} label="Volume" />
+			<Checkbox bind:checked={showGrid} label="Grid" />
+			<Checkbox bind:checked={showCrosshair} label="Crosshair" />
+			<Checkbox bind:checked={showLastPrice} label="Last Price" />
+			<Checkbox bind:checked={enableZoom} label="Zoom" />
+			<Checkbox bind:checked={enableScroll} label="Scroll" />
+		</div>
+	</Card>
+	<DocsCode code={code()} />
+</Section>
 
-	<DocOptions title="States">
-		<Checkbox bind:checked={loading} label="Loading" />
-		<Checkbox bind:checked={empty} label="Empty" />
-	</DocOptions>
+<Section>
+	<Card bodyClass="grid-1 xl:grid-2 items-end">
+		{#snippet header()}
+			<h4>Sizes</h4>
+		{/snippet}
+		{#each sizeOptions as sizeOpt}
+			<div class="flex flex-col items-center gap-2">
+				<Candlestick
+					data={candleData.slice(0, 50)}
+					size={sizeOpt.id as any}
+					showGrid
+					showYAxisLabels
+				/>
+				<span class="text-sm text-on-muted">{sizeOpt.id}</span>
+			</div>
+		{/each}
+	</Card>
+</Section>
 
-	<DocOptions title="Dimensions">
-		<Slider size="sm" min={4} max={20} bind:value={candleWidth} label="Candle Width" />
-		<Slider size="sm" min={1} max={4} bind:value={wickWidth} label="Wick Width" />
-	</DocOptions>
-{/snippet}
+<Section>
+	<Card bodyClass="grid-2 md:grid-4 center">
+		{#snippet header()}
+			<h4>Themes</h4>
+		{/snippet}
+		{#each themeOptions as themeOpt}
+			<div class="flex flex-col items-center gap-2">
+				<Candlestick data={candleData.slice(0, 50)} size="sm" theme={themeOpt.id as any} showGrid />
+				<span class="text-sm text-on-muted">{themeOpt.label}</span>
+			</div>
+		{/each}
+	</Card>
+</Section>
 
-<DocHeader title="Candlestick">
-	Candlestick charts display financial data showing the open, high, low, and close prices for a
-	specific time period. Features interactive zoom and scroll for analyzing large datasets.
-</DocHeader>
+<Section>
+	<Card bodyClass="grid-2 md:grid-5 center">
+		{#snippet header()}
+			<h4>Candle Styles</h4>
+		{/snippet}
+		{#each candleStyleOptions as styleOpt}
+			<div class="flex flex-col items-center gap-2">
+				<Candlestick
+					data={candleData.slice(0, 50)}
+					size="sm"
+					candleStyle={styleOpt.id as any}
+					showGrid
+				/>
+				<span class="text-sm text-on-muted">{styleOpt.label}</span>
+			</div>
+		{/each}
+	</Card>
+</Section>
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section>
+	<Card>
+		{#snippet header()}
+			<h4>Technical Indicators</h4>
+		{/snippet}
+		<div class="grid-1 md:grid-3 gap-4 center">
+			<div class="flex flex-col items-center gap-2">
+				<Candlestick
+					data={candleData}
+					size="sm"
+					indicators={[{ type: 'sma', period: 20, color: 'info' }]}
+					showGrid
+				/>
+				<span class="text-sm text-on-muted">SMA (20)</span>
+			</div>
+			<div class="flex flex-col items-center gap-2">
+				<Candlestick
+					data={candleData}
+					size="sm"
+					indicators={[{ type: 'ema', period: 12, color: 'warning' }]}
+					showGrid
+				/>
+				<span class="text-sm text-on-muted">EMA (12)</span>
+			</div>
+			<div class="flex flex-col items-center gap-2">
+				<Candlestick
+					data={candleData}
+					size="sm"
+					indicators={[{ type: 'bollinger', period: 20, color: 'secondary' }]}
+					showGrid
+				/>
+				<span class="text-sm text-on-muted">Bollinger Bands</span>
+			</div>
+		</div>
+	</Card>
+</Section>
 
-<DocCode code={code()} />
+<Section>
+	<Card>
+		{#snippet header()}
+			<h4>Indicator Builder</h4>
+		{/snippet}
+		<div class="flex flex-col md:flex-row gap-4">
+			<div class="flex-1">
+				<Candlestick data={candleData} size="md" indicators={indicators()} showGrid />
+			</div>
+			<div class="flex flex-col gap-2 min-w-48">
+				<Checkbox bind:checked={showSMA} label="SMA" />
+				{#if showSMA}
+					<Slider size="sm" min={5} max={50} bind:value={smaPeriod} label="SMA Period" />
+				{/if}
+				<Checkbox bind:checked={showEMA} label="EMA" />
+				{#if showEMA}
+					<Slider size="sm" min={5} max={50} bind:value={emaPeriod} label="EMA Period" />
+				{/if}
+				<Checkbox bind:checked={showBollinger} label="Bollinger Bands" />
+				{#if showBollinger}
+					<Slider size="sm" min={10} max={50} bind:value={bollingerPeriod} label="BB Period" />
+				{/if}
+			</div>
+		</div>
+	</Card>
+</Section>
 
-<DocProps {props} />
+<Section>
+	<Card bodyClass="grid-2 md:grid-3 center">
+		{#snippet header()}
+			<h4>Scale Types</h4>
+		{/snippet}
+		{#each scaleTypeOptions as scaleOpt}
+			<div class="flex flex-col items-center gap-2">
+				<Candlestick
+					data={candleData.slice(0, 50)}
+					size="sm"
+					scaleType={scaleOpt.id as any}
+					showGrid
+				/>
+				<span class="text-sm text-on-muted">{scaleOpt.label}</span>
+			</div>
+		{/each}
+	</Card>
+</Section>
 
-<Section class="prose mt-8">
+<Section>
+	<Card bodyClass="grid-2 md:grid-3 center">
+		{#snippet header()}
+			<h4>States</h4>
+		{/snippet}
+		<div class="flex flex-col items-center gap-2">
+			<Candlestick data={candleData} size="sm" loading showGrid />
+			<span class="text-sm text-on-muted">Loading</span>
+		</div>
+		<div class="flex flex-col items-center gap-2">
+			<Candlestick data={[]} size="sm" empty emptyText="No data available" showGrid />
+			<span class="text-sm text-on-muted">Empty</span>
+		</div>
+		<div class="flex flex-col items-center gap-2">
+			<Candlestick data={candleData} size="sm" showVolume showGrid />
+			<span class="text-sm text-on-muted">With Volume</span>
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<h3>Candlestick Props</h3>
+	<DocsProps {props} />
+</Section>
+
+<Section>
 	<h3>CandleData Type</h3>
-	<p>Each data point in the data array should follow this structure:</p>
+	<DocsProps props={candleDataProps} />
 </Section>
 
-<DocProps props={candleDataProps} />
-
-<Section class="prose mt-8">
-	<h3>Margin Type</h3>
-	<p>The margin object defines the spacing around the chart:</p>
-</Section>
-
-<DocProps props={marginProps} />
-
-<Section class="prose mt-8">
-	<h3>Color Type</h3>
-	<p>Available color options for bullish and bearish candles:</p>
-</Section>
-
-<DocProps props={colorType} />
-
-<Section class="prose mt-8">
-	<h3>Interactive Features</h3>
-	<ul>
-		<li><strong>Zoom:</strong> Use mouse wheel or trackpad to zoom in/out on the chart</li>
-		<li><strong>Scroll:</strong> Click and drag to pan through historical data</li>
-		<li><strong>Touch Support:</strong> Full touch gesture support for mobile devices</li>
-		<li>
-			<strong>Scrollbar:</strong> Visual indicator showing the current position in the dataset
-		</li>
-	</ul>
+<Section>
+	<h3>Indicator Type</h3>
+	<DocsProps props={indicatorProps} />
 </Section>

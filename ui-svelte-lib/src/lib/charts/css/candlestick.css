@@ -3,17 +3,78 @@
 		@apply relative w-full h-full;
 	}
 
+	.candlestick-chart-container.is-sm {
+		height: 200px;
+	}
+
+	.candlestick-chart-container.is-md {
+		height: 350px;
+	}
+
+	.candlestick-chart-container.is-lg {
+		height: 500px;
+	}
+
+	.candlestick-chart-container.is-xl {
+		height: 700px;
+	}
+
+	.candlestick-chart-container.theme-tradingview {
+		--chart-text: #d1d4dc;
+		--chart-grid: #363c4e;
+	}
+
+	.candlestick-chart-container.theme-dark {
+		--chart-text: #e0e0e0;
+		--chart-grid: #2d2d44;
+	}
+
+	.candlestick-chart-container.theme-light {
+		--chart-text: #333333;
+		--chart-grid: #e0e0e0;
+	}
+
 	.candlestick-chart {
-		@apply relative w-full h-56 text-on-muted;
+		@apply relative w-full h-full text-on-muted;
+	}
+
+	.candlestick-chart.is-sm {
+		height: 200px;
+	}
+
+	.candlestick-chart.is-md {
+		height: 350px;
+	}
+
+	.candlestick-chart.is-lg {
+		height: 500px;
+	}
+
+	.candlestick-chart.is-xl {
+		height: 700px;
 	}
 
 	.candlestick-chart-svg {
 		@apply w-full h-full overflow-visible;
+		cursor: crosshair;
+	}
+
+	.candlestick-chart-svg:active {
+		cursor: grabbing;
+	}
+
+	.candlestick-chart-dragging {
+		cursor: grabbing !important;
 	}
 
 	.candlestick-chart-axis-line {
 		@apply stroke-muted;
 		stroke-width: 1;
+	}
+
+	.theme-tradingview .candlestick-chart-axis-line,
+	.theme-dark .candlestick-chart-axis-line {
+		stroke: var(--chart-grid);
 	}
 
 	.candlestick-chart-axis-label {
@@ -24,19 +85,35 @@
 		-ms-user-select: none;
 	}
 
+	.theme-tradingview .candlestick-chart-axis-label,
+	.theme-dark .candlestick-chart-axis-label,
+	.theme-light .candlestick-chart-axis-label {
+		fill: var(--chart-text);
+	}
+
 	.candlestick-chart-grid-line {
 		@apply stroke-muted;
 		stroke-opacity: 0.3;
 		stroke-width: 1;
-		stroke-dasharray: 2, 2;
+	}
+
+	.theme-tradingview .candlestick-chart-grid-line,
+	.theme-dark .candlestick-chart-grid-line {
+		stroke: var(--chart-grid);
+		stroke-opacity: 0.5;
 	}
 
 	.candlestick-chart-candle {
-		@apply cursor-pointer;
+		@apply cursor-pointer transition-opacity duration-150;
 	}
 
 	.candlestick-chart-candle:hover {
 		@apply opacity-80;
+	}
+
+	.candlestick-chart-candle.is-hollow {
+		fill: transparent !important;
+		stroke-width: 1.5;
 	}
 
 	.candlestick-chart-candle.is-primary {
@@ -127,6 +204,126 @@
 		@apply fill-muted;
 	}
 
+	.candlestick-chart-line.is-primary {
+		@apply stroke-primary;
+	}
+
+	.candlestick-chart-line.is-secondary {
+		@apply stroke-secondary;
+	}
+
+	.candlestick-chart-line.is-success {
+		@apply stroke-success;
+	}
+
+	.candlestick-chart-line.is-info {
+		@apply stroke-info;
+	}
+
+	.candlestick-chart-line.is-warning {
+		@apply stroke-warning;
+	}
+
+	.candlestick-chart-line.is-danger {
+		@apply stroke-danger;
+	}
+
+	.candlestick-chart-line.is-muted {
+		@apply stroke-muted;
+	}
+
+	.candlestick-chart-area {
+		@apply opacity-20;
+	}
+
+	.candlestick-chart-area.is-primary {
+		@apply fill-primary;
+	}
+
+	.candlestick-chart-area.is-secondary {
+		@apply fill-secondary;
+	}
+
+	.candlestick-chart-area.is-success {
+		@apply fill-success;
+	}
+
+	.candlestick-chart-area.is-info {
+		@apply fill-info;
+	}
+
+	.candlestick-chart-area.is-warning {
+		@apply fill-warning;
+	}
+
+	.candlestick-chart-area.is-danger {
+		@apply fill-danger;
+	}
+
+	.candlestick-chart-area.is-muted {
+		@apply fill-muted;
+	}
+
+	.candlestick-chart-indicator {
+		pointer-events: none;
+	}
+
+	.candlestick-chart-bollinger-band {
+		stroke-dasharray: 2, 2;
+	}
+
+	.candlestick-chart-last-price {
+		stroke-width: 1;
+	}
+
+	.candlestick-chart-last-price.is-success {
+		@apply stroke-success;
+	}
+
+	.candlestick-chart-last-price.is-danger {
+		@apply stroke-danger;
+	}
+
+	.candlestick-chart-last-price.is-primary {
+		@apply stroke-primary;
+	}
+
+	.candlestick-chart-last-price-label-bg {
+		@apply opacity-90;
+	}
+
+	.candlestick-chart-last-price-label-bg.is-success {
+		@apply fill-success;
+	}
+
+	.candlestick-chart-last-price-label-bg.is-danger {
+		@apply fill-danger;
+	}
+
+	.candlestick-chart-last-price-label-bg.is-primary {
+		@apply fill-primary;
+	}
+
+	.candlestick-chart-last-price-label {
+		@apply fill-on-primary font-semibold;
+	}
+
+	.candlestick-chart-crosshair {
+		@apply stroke-on-muted;
+		stroke-width: 1;
+		stroke-dasharray: 4, 4;
+		opacity: 0.7;
+		pointer-events: none;
+	}
+
+	.candlestick-chart-crosshair-label-bg {
+		@apply fill-on-muted opacity-90;
+	}
+
+	.candlestick-chart-crosshair-label {
+		@apply fill-muted font-medium;
+	}
+
 	.candlestick-chart-tooltip {
 		position: fixed;
 		pointer-events: none;
@@ -162,6 +359,19 @@
 		@apply font-semibold;
 	}
 
+	.candlestick-chart-tooltip-value.is-bullish {
+		color: var(--color-success, #22c55e);
+	}
+
+	.candlestick-chart-tooltip-value.is-bearish {
+		color: var(--color-danger, #ef4444);
+	}
+
+	.candlestick-chart-tooltip-change {
+		@apply pt-1 mt-1;
+		border-top: 1px solid rgba(255, 255, 255, 0.2);
+	}
+
 	.candlestick-chart-tooltip-volume {
 		@apply pt-1 mt-1;
 		border-top: 1px solid rgba(255, 255, 255, 0.2);
@@ -169,6 +379,27 @@
 
 	.candlestick-chart-loading {
 		@apply flex flex-col items-center justify-center h-full;
+	}
+
+	.candlestick-chart-loading-skeleton {
+		@apply w-full h-full bg-muted opacity-20 rounded-md;
+		background: linear-gradient(
+			90deg,
+			var(--color-muted) 25%,
+			var(--color-on-muted) 50%,
+			var(--color-muted) 75%
+		);
+		background-size: 200% 100%;
+		animation: candlestick-skeleton 1.5s ease-in-out infinite;
+	}
+
+	@keyframes candlestick-skeleton {
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -200% 0;
+		}
 	}
 
 	.candlestick-chart-loading-icon {
@@ -181,14 +412,6 @@
 
 	.candlestick-chart-empty-icon {
 		@apply w-12 h-12 mb-2;
-	}
-
-	.candlestick-chart-dragging {
-		cursor: grabbing !important;
-	}
-
-	.candlestick-chart-svg {
-		cursor: grab;
 	}
 
 	.candlestick-chart-scrollbar {

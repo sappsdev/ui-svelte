@@ -119,6 +119,9 @@
 	{#snippet start()}
 		<Sidebar rootClass="pb-8 vh-16">
 			<SideNav items={sideMenuItems} />
+			{#snippet footer()}
+				<p class="text-sm">© {new Date().getFullYear()} UiSvelte</p>
+			{/snippet}
 		</Sidebar>
 	{/snippet}
 	{@render children()}

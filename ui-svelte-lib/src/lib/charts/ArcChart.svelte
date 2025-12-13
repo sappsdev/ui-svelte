@@ -210,17 +210,28 @@
 			}
 		};
 
+		const handleScroll = () => {
+			if (isTooltipActive) {
+				isTooltipActive = false;
+				hoveredIndex = null;
+				tooltipData = null;
+			}
+		};
+
 		updateSize();
 		const resizeObserver = new ResizeObserver(updateSize);
 		if (containerEl) {
 			resizeObserver.observe(containerEl);
 		}
 
+		window.addEventListener('scroll', handleScroll, true);
+
 		return () => {
 			if (animationFrameId !== null) {
 				cancelAnimationFrame(animationFrameId);
 			}
 			resizeObserver.disconnect();
+			window.removeEventListener('scroll', handleScroll, true);
 		};
 	});
 
