@@ -155,7 +155,7 @@
 	}
 </script>
 
-<DocsHeader title="ArcChart">
+<DocsHeader title="ArcChart" llmUrl="https://ui-svelte.sappsdev.com/llm/charts/arc-chart.md">
 	A customizable arc chart component for visualizing progress, metrics, and proportional data with
 	multiple arcs, animations, and interactive features.
 </DocsHeader>

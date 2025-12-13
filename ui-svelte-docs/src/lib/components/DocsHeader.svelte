@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Alert, Button, Section } from 'ui-svelte';
+	import { Alert, Button, Section, useClipboard } from 'ui-svelte';
 	import type { Snippet } from 'svelte';
 	import { CopyRegularIcon } from '$lib/icons';
 
@@ -7,14 +7,24 @@
 		title: string;
 		children: Snippet;
 		textAlert?: string | Snippet;
+		llmUrl?: string;
 	};
-	let { title, children, textAlert }: Props = $props();
+	let { title, children, textAlert, llmUrl }: Props = $props();
+
+	const clipboard = useClipboard();
+	const handleCopy = () => {
+		clipboard.copy(`Read from ${llmUrl} so I can ask questions about it.`);
+	};
 </script>
 
 <Section bodyClass="prose">
 	<div class="row justify-between">
 		<h1>{title}</h1>
-		<Button startIcon={CopyRegularIcon} variant="muted" size="sm">Copy LLM</Button>
+		{#if llmUrl}
+			<Button onclick={handleCopy} startIcon={CopyRegularIcon} variant="muted" size="sm"
+				>Copy LLM</Button
+			>
+		{/if}
 	</div>
 	<p>{@render children()}</p>
 	{#if textAlert}

@@ -130,7 +130,9 @@
 	</Button>
 {/snippet}
 
-<DocsHeader title="Button">Buttons allow users to take actions with a single tap.</DocsHeader>
+<DocsHeader title="Button" llmUrl="https://ui-svelte.sappsdev.com/llm/control/button.md">
+	Buttons allow users to take actions with a single tap.
+</DocsHeader>
 
 <Section bodyClass="md:grid-3">
 	<DocsPreview>

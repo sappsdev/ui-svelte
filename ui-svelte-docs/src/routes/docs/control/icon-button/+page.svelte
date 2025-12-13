@@ -118,7 +118,6 @@
 		{href}
 		{isLoading}
 		{isDisabled}
-		{hasShadow}
 		{isSolid}
 	/>
 {/snippet}

@@ -130,8 +130,9 @@ npm run dev`
 	];
 </script>
 
-<DocsHeader title="Code">Display syntax-highlighted code blocks with copy functionality.</DocsHeader
->
+<DocsHeader title="Code" llmUrl="https://ui-svelte.sappsdev.com/llm/display/code.md">
+	Display syntax-highlighted code blocks with copy functionality.
+</DocsHeader>
 
 <Section bodyClass="md:grid-3">
 	<DocsPreview>

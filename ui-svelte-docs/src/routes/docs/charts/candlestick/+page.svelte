@@ -214,7 +214,7 @@
 	];
 </script>
 
-<DocsHeader title="Candlestick">
+<DocsHeader title="Candlestick" llmUrl="https://ui-svelte.sappsdev.com/llm/charts/candlestick.md">
 	Professional candlestick chart for financial data with interactive zoom, scroll, crosshair,
 	technical indicators (SMA, EMA, Bollinger Bands), multiple candle styles, and theme support.
 </DocsHeader>

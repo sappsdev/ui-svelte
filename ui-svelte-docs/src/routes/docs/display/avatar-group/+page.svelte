@@ -112,9 +112,12 @@
 	];
 </script>
 
-<DocsHeader title="Avatar Group"
-	>Display a group of avatars with stacked or separated layout.</DocsHeader
+<DocsHeader
+	title="Avatar Group"
+	llmUrl="https://ui-svelte.sappsdev.com/llm/display/avatar-group.md"
 >
+	Display a group of avatars with stacked or separated layout.
+</DocsHeader>
 
 <Section bodyClass="md:grid-3">
 	<DocsPreview>

@@ -82,8 +82,9 @@
 	];
 </script>
 
-<DocsHeader title="Avatar">Avatars represent a user or entity with an image or initials.</DocsHeader
->
+<DocsHeader title="Avatar" llmUrl="https://ui-svelte.sappsdev.com/llm/display/avatar.md">
+	Avatars represent a user or entity with an image or initials.
+</DocsHeader>
 
 <Section bodyClass="md:grid-3">
 	<DocsPreview>

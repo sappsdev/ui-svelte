@@ -77,9 +77,9 @@
 	];
 </script>
 
-<DocsHeader title="Card"
-	>Cards are surfaces that display content and actions on a single topic.</DocsHeader
->
+<DocsHeader title="Card" llmUrl="https://ui-svelte.sappsdev.com/llm/display/card.md">
+	Cards are surfaces that display content and actions on a single topic.
+</DocsHeader>
 
 <Section bodyClass="md:grid-3">
 	<DocsPreview>
