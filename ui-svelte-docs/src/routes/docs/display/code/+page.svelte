@@ -1,99 +1,98 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { Code, Checkbox, Select, TextField } from 'ui-svelte';
+	import { Card, Checkbox, Code, Section, Select } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsPreview from '$lib/components/DocsPreview.svelte';
+	import DocsCode from '$lib/components/DocsCode.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
 	const langOptions = [
-		{ id: 'html', label: 'HTML' },
 		{ id: 'javascript', label: 'JavaScript' },
 		{ id: 'typescript', label: 'TypeScript' },
+		{ id: 'html', label: 'HTML' },
 		{ id: 'css', label: 'CSS' },
 		{ id: 'svelte', label: 'Svelte' },
+		{ id: 'json', label: 'JSON' },
 		{ id: 'python', label: 'Python' },
-		{ id: 'json', label: 'JSON' }
+		{ id: 'bash', label: 'Bash' }
 	];
 
 	const lightThemeOptions = [
-		{ id: 'min-light', label: 'Min Light' },
-		{ id: 'github-light', label: 'GitHub Light' },
 		{ id: 'catppuccin-latte', label: 'Catppuccin Latte' },
-		{ id: 'solarized-light', label: 'Solarized Light' },
+		{ id: 'github-light', label: 'GitHub Light' },
+		{ id: 'min-light', label: 'Min Light' },
 		{ id: 'one-light', label: 'One Light' }
 	];
 
 	const darkThemeOptions = [
-		{ id: 'github-dark', label: 'GitHub Dark' },
 		{ id: 'catppuccin-frappe', label: 'Catppuccin Frappe' },
-		{ id: 'nord', label: 'Nord' },
+		{ id: 'catppuccin-mocha', label: 'Catppuccin Mocha' },
+		{ id: 'github-dark', label: 'GitHub Dark' },
 		{ id: 'one-dark-pro', label: 'One Dark Pro' },
 		{ id: 'dracula', label: 'Dracula' }
 	];
 
-	const codeExamples: Record<string, string> = {
-		html: `<div class="container">
-  <h1>Hello World</h1>
-  <p>Welcome to ui-svelte</p>
-</div>`,
-		javascript: `function greet(name) {
-  console.log(\`Hello, \${name}!\`);
-  return true;
-}`,
-		typescript: `interface User {
-  name: string;
-  age: number;
-}
+	let lang: any = $state('typescript');
+	let lightTheme: any = $state('catppuccin-latte');
+	let darkTheme: any = $state('catppuccin-frappe');
+	let disableCopy = $state(false);
+	let hideLang = $state(false);
 
-const user: User = {
-  name: 'John',
-  age: 30
-};`,
-		css: `:root {
-  --primary: oklch(54.6% 0.245 262.881);
-  --on-primary: oklch(93.2% 0.032 255.585);
-}
+	const sampleCodes: Record<string, string> = {
+		typescript: `const greeting = (name: string): string => {
+  return \`Hello, \${name}!\`;
+};
 
-.button {
-  background: var(--primary);
-  color: var(--on-primary);
+console.log(greeting('World'));`,
+		javascript: `const greeting = (name) => {
+  return \`Hello, \${name}!\`;
+};
+
+console.log(greeting('World'));`,
+		html: `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Hello World</title>
+  </head>
+  <body>
+    <h1>Welcome!</h1>
+  </body>
+</html>`,
+		css: `.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
 }`,
 		svelte: `<script lang="ts">
-  import { Button } from 'ui-svelte';
-
   let count = $state(0);
 <\/script>
 
-<Button onclick={() => count++}>
+<button onclick={() => count++}>
   Clicks: {count}
-</Button>`,
-		python: `def fibonacci(n):
-    if n <= 1:
-        return n
-    return fibonacci(n-1) + fibonacci(n-2)
-
-print(fibonacci(10))`,
+</button>`,
 		json: `{
   "name": "ui-svelte",
   "version": "1.0.0",
-  "type": "module"
-}`
+  "description": "A modern Svelte UI library"
+}`,
+		python: `def greeting(name: str) -> str:
+    return f"Hello, {name}!"
+
+print(greeting("World"))`,
+		bash: `#!/bin/bash
+echo "Installing dependencies..."
+npm install
+npm run dev`
 	};
 
-	let lang: any = $state('javascript');
-	let lightTheme: any = $state('catppuccin-latte');
-	let darkTheme: any = $state('catppuccin-frappe');
-	let showCopy = $state(true);
-
-	let codeContent = $derived(codeExamples[lang] || codeExamples.javascript);
+	let sampleCode = $derived(sampleCodes[lang] || sampleCodes.typescript);
 
 	let hasProps = $derived(
 		[
-			lang !== 'html',
 			lightTheme !== 'catppuccin-latte',
 			darkTheme !== 'catppuccin-frappe',
-			showCopy
+			disableCopy,
+			hideLang
 		].some(Boolean)
 	);
 
@@ -102,19 +101,19 @@ print(fibonacci(10))`,
 			`<script lang="ts">`,
 			`\timport { Code } from 'ui-svelte';`,
 			``,
-			`\tconst code = \\\`${codeContent}\\\`;`,
+			`\tconst code = \`const hello = "world";\`;`,
 			`<\/script>`
 		];
 
 		const componentLines = [
-			hasProps && `<Code`,
+			`<Code`,
 			`\tcode={code}`,
-			lang !== 'html' && `\tlang="${lang}"`,
+			`\tlang="${lang}"`,
 			lightTheme !== 'catppuccin-latte' && `\tlightTheme="${lightTheme}"`,
 			darkTheme !== 'catppuccin-frappe' && `\tdarkTheme="${darkTheme}"`,
-			showCopy && `\tshowCopy`,
-			hasProps && `/>`,
-			!hasProps && `<Code code={code} />`
+			disableCopy && `\tdisableCopy`,
+			hideLang && `\thideLang`,
+			`/>`
 		].filter(Boolean);
 
 		return [...scriptLines, ...componentLines].join('\n');
@@ -122,36 +121,76 @@ print(fibonacci(10))`,
 
 	const props = [
 		{ prop: 'code', type: 'string', initial: '' },
-		{ prop: 'lang', type: 'string', initial: 'html' },
+		{ prop: 'lang', type: 'string', initial: '' },
 		{ prop: 'lightTheme', type: 'string', initial: 'catppuccin-latte' },
 		{ prop: 'darkTheme', type: 'string', initial: 'catppuccin-frappe' },
-		{ prop: 'showCopy', type: 'boolean', initial: 'false' }
+		{ prop: 'disableCopy', type: 'boolean', initial: 'false' },
+		{ prop: 'hideLang', type: 'boolean', initial: 'false' },
+		{ prop: 'class', type: 'string', initial: '' }
 	];
 </script>
 
-{#snippet preview()}
-	<Code code={codeContent} {lang} {lightTheme} {darkTheme} {showCopy} />
-{/snippet}
-
-{#snippet builder()}
-	<Select label="Language" size="sm" options={langOptions} bind:value={lang} />
-	<Select label="Light Theme" size="sm" options={lightThemeOptions} bind:value={lightTheme} />
-	<Select label="Dark Theme" size="sm" options={darkThemeOptions} bind:value={darkTheme} />
-
-	<DocOptions title="Props">
-		<Checkbox bind:checked={showCopy} label="Show Copy Button" />
-	</DocOptions>
-{/snippet}
-
-<DocHeader title="Code"
-	>Display syntax-highlighted code blocks with automatic theme switching and optional copy
-	functionality.</DocHeader
+<DocsHeader title="Code">Display syntax-highlighted code blocks with copy functionality.</DocsHeader
 >
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section bodyClass="md:grid-3">
+	<DocsPreview>
+		<Code code={sampleCode} {lang} {lightTheme} {darkTheme} {disableCopy} {hideLang} />
+	</DocsPreview>
+	<Card>
+		<Select label="Language" size="sm" options={langOptions} bind:value={lang} />
+		<Select label="Light Theme" size="sm" options={lightThemeOptions} bind:value={lightTheme} />
+		<Select label="Dark Theme" size="sm" options={darkThemeOptions} bind:value={darkTheme} />
+		<div class="grid-2 gap-2">
+			<Checkbox bind:checked={disableCopy} label="Disable Copy" />
+			<Checkbox bind:checked={hideLang} label="Hide Lang" />
+		</div>
+	</Card>
+	<DocsCode code={code()} />
+</Section>
 
-<DocCode code={code()} />
+<Section>
+	<Card bodyClass="column gap-4">
+		{#snippet header()}
+			<h4>Multiple Languages</h4>
+		{/snippet}
+		<div class="grid-1 md:grid-2 gap-4">
+			<Code code={sampleCodes.typescript} lang="typescript" />
+			<Code code={sampleCodes.python} lang="python" />
+			<Code code={sampleCodes.html} lang="html" />
+			<Code code={sampleCodes.css} lang="css" />
+		</div>
+	</Card>
+</Section>
 
-<DocProps {props} />
+<Section>
+	<Card bodyClass="column gap-4">
+		{#snippet header()}
+			<h4>Svelte Component Example</h4>
+		{/snippet}
+		<Code code={sampleCodes.svelte} lang="svelte" />
+	</Card>
+</Section>
+
+<Section bodyClass="grid-2 md:grid-3">
+	<Card bodyClass="column gap-2">
+		{#snippet header()}
+			<h5>Default</h5>
+		{/snippet}
+		<Code code={`const x = 42;`} lang="typescript" />
+	</Card>
+	<Card bodyClass="column gap-2">
+		{#snippet header()}
+			<h5>No Copy Button</h5>
+		{/snippet}
+		<Code code={`const x = 42;`} lang="typescript" disableCopy />
+	</Card>
+	<Card bodyClass="column gap-2">
+		{#snippet header()}
+			<h5>Hidden Language</h5>
+		{/snippet}
+		<Code code={`const x = 42;`} lang="typescript" hideLang />
+	</Card>
+</Section>
+
+<DocsProps {props} />
