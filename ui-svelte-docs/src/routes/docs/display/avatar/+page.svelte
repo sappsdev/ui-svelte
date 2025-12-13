@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Avatar, Card, Checkbox, Section, Select } from 'ui-svelte';
+	import { Avatar, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
 	import DocsPreview from '$lib/components/DocsPreview.svelte';
 	import DocsCode from '$lib/components/DocsCode.svelte';
@@ -179,6 +179,38 @@
 		isBordered
 		variant="success"
 	/>
+</Section>
+
+<Section>
+	<Card bodyClass="column gap-4">
+		{#snippet header()}
+			<h4>Usage Examples</h4>
+		{/snippet}
+		<Code
+			lang="svelte"
+			code={`<!-- Avatar with Image -->
+<Avatar src="https://example.com/user.jpg" alt="User" />
+
+<!-- Avatar with Initials -->
+<Avatar name="John Doe" variant="secondary" />
+
+<!-- Avatar with Status -->
+<Avatar src="/user.jpg" alt="User" status="online" />
+<Avatar name="Jane" status="busy" />
+<Avatar name="Bob" status="away" />
+<Avatar name="Sam" status="offline" />
+
+<!-- Avatar Sizes -->
+<Avatar name="XS" size="xs" />
+<Avatar name="SM" size="sm" />
+<Avatar name="MD" size="md" />
+<Avatar name="LG" size="lg" />
+<Avatar name="XL" size="xl" />
+
+<!-- Avatar with Border -->
+<Avatar src="/user.jpg" alt="User" isBordered variant="success" />`}
+		/>
+	</Card>
 </Section>
 
 <DocsProps {props} />

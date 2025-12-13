@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Card, Checkbox, Section, Select } from 'ui-svelte';
+	import { Button, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
 	import { HeartAngleLinearIcon, BalloonLinearIcon } from '$lib/icons';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
 	import DocsPreview from '$lib/components/DocsPreview.svelte';
@@ -235,6 +235,52 @@
 
 	<!-- Botón muted -->
 	<Button variant="muted" isWide>Cancel</Button>
+</Section>
+
+<Section>
+	<Card bodyClass="column gap-4">
+		{#snippet header()}
+			<h4>Usage Examples</h4>
+		{/snippet}
+		<Code
+			lang="svelte"
+			code={`<!-- Button with Icon -->
+<Button variant="primary" startIcon={HeartIcon}>
+	Get Started
+</Button>
+
+<!-- Loading Button -->
+<Button variant="primary" isLoading>
+	Processing...
+</Button>
+
+<!-- Solid Variant -->
+<Button variant="success" isSolid>
+	Download Now
+</Button>
+
+<!-- Full Width Button -->
+<Button variant="info" isWide>
+	Subscribe
+</Button>
+
+<!-- Button as Link -->
+<Button variant="outlined" href="/pricing">
+	Learn More
+</Button>
+
+<!-- Button Sizes -->
+<Button variant="primary" size="xs">XS</Button>
+<Button variant="primary" size="sm">SM</Button>
+<Button variant="primary" size="md">MD</Button>
+<Button variant="primary" size="lg">LG</Button>
+
+<!-- Ghost Button -->
+<Button variant="ghost">
+	Skip for now
+</Button>`}
+		/>
+	</Card>
 </Section>
 
 <DocsProps {props} />

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Card, Checkbox, Section, Select } from 'ui-svelte';
+	import { Button, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
 	import DocsPreview from '$lib/components/DocsPreview.svelte';
 	import DocsCode from '$lib/components/DocsCode.svelte';
@@ -222,6 +222,56 @@
 				<Button size="sm" variant="warning">Renew Now</Button>
 			</div>
 		{/snippet}
+	</Card>
+</Section>
+
+<Section>
+	<Card bodyClass="column gap-4">
+		{#snippet header()}
+			<h4>Usage Examples</h4>
+		{/snippet}
+		<Code
+			lang="svelte"
+			code={`<!-- Card with Cover & Overlay -->
+<Card cover="https://picsum.photos/400/300" hasOverlay>
+	<p class="text-xs text-muted">CATEGORY</p>
+	<h4>Card Title</h4>
+</Card>
+
+<!-- Card with Header & Footer -->
+<Card>
+	{#snippet header()}
+		<h4>Card Header</h4>
+	{/snippet}
+	<p>Card content goes here.</p>
+	{#snippet footer()}
+		<Button size="sm">Action</Button>
+	{/snippet}
+</Card>
+
+<!-- Card with Footer Actions -->
+<Card cover="/image.jpg" hasOverlay>
+	<p class="text-xs">NEW</p>
+	<h4>Product Name</h4>
+	{#snippet footer()}
+		<div class="flex between items-center">
+			<p class="text-xs text-muted">Description</p>
+			<Button size="sm" variant="info">Notify Me</Button>
+		</div>
+	{/snippet}
+</Card>
+
+<!-- Card with Variant & Solid -->
+<Card variant="success" isSolid>
+	{#snippet header()}
+		<h4>Success!</h4>
+	{/snippet}
+	<p>Your action was completed successfully.</p>
+	{#snippet footer()}
+		<Button size="sm" variant="ghost">View Details</Button>
+	{/snippet}
+</Card>`}
+		/>
 	</Card>
 </Section>
 
