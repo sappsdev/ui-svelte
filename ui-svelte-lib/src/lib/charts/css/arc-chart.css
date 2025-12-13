@@ -1,10 +1,42 @@
 @layer components {
 	.arc-chart-container {
-		@apply relative w-full flex flex-col md:flex-row justify-center items-center gap-4;
+		@apply relative w-full flex justify-center items-center gap-4;
+	}
+
+	.arc-chart-container.flex-row {
+		@apply flex-col md:flex-row;
+	}
+
+	.arc-chart-container.flex-row-reverse {
+		@apply flex-col-reverse md:flex-row-reverse;
+	}
+
+	.arc-chart-container.flex-col {
+		@apply flex-col;
+	}
+
+	.arc-chart-container.flex-col-reverse {
+		@apply flex-col-reverse;
 	}
 
 	.arc-chart {
-		@apply relative flex items-center justify-center w-auto h-56;
+		@apply relative flex items-center justify-center w-auto;
+	}
+
+	.arc-chart.is-sm {
+		@apply h-[150px];
+	}
+
+	.arc-chart.is-md {
+		@apply h-56;
+	}
+
+	.arc-chart.is-lg {
+		@apply h-[300px];
+	}
+
+	.arc-chart.is-xl {
+		@apply h-[400px];
 	}
 
 	.arc-chart-svg {
@@ -14,18 +46,35 @@
 	.arc-chart-background {
 		@apply fill-none stroke-muted;
 		stroke-opacity: 0.2;
-		stroke-linecap: round;
 	}
 
 	.arc-chart-arc {
 		@apply fill-none transition-all duration-200 ease-in-out cursor-pointer;
-		stroke-linecap: round;
 	}
 
-	.arc-chart-arc:hover {
+	.arc-chart-arc:hover,
+	.arc-chart-arc.is-hovered {
 		opacity: 0.8;
 		transform: scale(1.02);
 		transform-origin: center;
+	}
+
+	.arc-chart-arc.is-selected {
+		stroke-width: calc(100% + 4px);
+		filter: brightness(1.1);
+	}
+
+	.arc-chart-arc.is-disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+	}
+
+	.arc-chart-arc.has-glow {
+		filter: drop-shadow(0 0 8px currentColor);
+	}
+
+	.arc-chart-arc.has-glow.is-selected {
+		filter: drop-shadow(0 0 12px currentColor) brightness(1.1);
 	}
 
 	.arc-chart-arc.is-primary {
@@ -97,8 +146,17 @@
 		@apply fill-on-background opacity-70;
 	}
 
+	.arc-chart-inline-label {
+		@apply fill-on-background font-medium;
+		pointer-events: none;
+	}
+
 	.arc-chart-min-max {
 		@apply fill-on-background;
+	}
+
+	.arc-chart-center-custom {
+		@apply flex items-center justify-center w-full h-full text-center;
 	}
 
 	.arc-chart-tooltip {
@@ -188,7 +246,15 @@
 	}
 
 	.arc-chart-legend {
-		@apply flex flex-wrap md:flex-col gap-2 items-center justify-center text-sm text-on-muted text-nowrap;
+		@apply flex gap-2 items-center justify-center text-sm text-on-muted text-nowrap;
+	}
+
+	.arc-chart-legend.flex-col {
+		@apply flex-wrap md:flex-col;
+	}
+
+	.arc-chart-legend.flex-row {
+		@apply flex-row flex-wrap;
 	}
 
 	.arc-chart-legend-item {
@@ -197,6 +263,10 @@
 
 	.arc-chart-legend-item:hover {
 		@apply opacity-80;
+	}
+
+	.arc-chart-legend-item.is-selected {
+		@apply font-semibold;
 	}
 
 	.arc-chart-legend-color {
