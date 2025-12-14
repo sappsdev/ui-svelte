@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Alert, Button, Section, useClipboard } from 'ui-svelte';
 	import type { Snippet } from 'svelte';
-	import { CopyRegularIcon } from '$lib/icons';
+	import { CheckmarkRegularIcon, CopyRegularIcon } from '$lib/icons';
 
 	type Props = {
 		title: string;
@@ -21,8 +21,11 @@
 	<div class="row justify-between">
 		<h1>{title}</h1>
 		{#if llmUrl}
-			<Button onclick={handleCopy} startIcon={CopyRegularIcon} variant="muted" size="sm"
-				>Copy LLM</Button
+			<Button
+				onclick={handleCopy}
+				startIcon={clipboard.copied ? CheckmarkRegularIcon : CopyRegularIcon}
+				variant="muted"
+				size="sm">Copy LLM</Button
 			>
 		{/if}
 	</div>

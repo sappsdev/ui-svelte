@@ -22,7 +22,7 @@ export const sideMenuItems: SideNavItem[] = [
 			},
 			{
 				label: 'Flex & Grid',
-				href: '/docs/starter/flex-utilities'
+				href: '/docs/starter/flex-grid'
 			},
 			{
 				label: 'I18n',

@@ -142,3 +142,8 @@ export const ArrowRightLinearIcon: IconData = {
 	body: '<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 12h16m0 0l-6-6m6 6l-6 6"/>',
 	viewbox: '0 0 24 24'
 };
+
+export const CheckmarkRegularIcon = {
+	body: '<path fill="currentColor" d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94z"/>',
+	viewbox: '0 0 24 24'
+}
