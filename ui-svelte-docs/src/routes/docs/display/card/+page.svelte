@@ -81,25 +81,25 @@
 	Cards are surfaces that display content and actions on a single topic.
 </DocsHeader>
 
+{#snippet header()}
+	<h4>Card Header</h4>
+{/snippet}
+
+{#snippet footer()}
+	<Button size="sm">Action</Button>
+{/snippet}
+
 <Section bodyClass="md:grid-3">
 	<DocsPreview>
 		<Card
 			{variant}
+			header={hasHeader ? header : undefined}
+			footer={hasFooter ? footer : undefined}
 			cover={hasCover ? 'https://picsum.photos/400/200' : undefined}
 			{isSolid}
 			{hasOverlay}
 		>
-			{#snippet header()}
-				{#if hasHeader}
-					<h4>Card Header</h4>
-				{/if}
-			{/snippet}
 			<p>This is the card body content. You can add any content here.</p>
-			{#snippet footer()}
-				{#if hasFooter}
-					<Button size="sm">Action</Button>
-				{/if}
-			{/snippet}
 		</Card>
 	</DocsPreview>
 	<Card>

@@ -50,6 +50,7 @@ Semantic components for building Svelte/SvelteKit **+page.svelte** files. Optimi
 
 ### Starter
 - [Flex & Grid](https://svelte.sappsdev.com/llm/starter/flex-grid.md): Layout utilities (`row`, `column`, `grid-*`, `gap-*`)
+- [Typography](https://svelte.sappsdev.com/llm/starter/typography.md): Text styles (`prose`, `lead`, `hero-title`, utility classes)
 - [Icons](https://svelte.sappsdev.com/llm/starter/icons.md): Icon component with API endpoint for searching icons
 - [i18n](https://svelte.sappsdev.com/llm/starter/i18n.md): Internationalization with translations, formatting, and pluralization
 
