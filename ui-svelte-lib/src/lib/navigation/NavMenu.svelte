@@ -26,10 +26,18 @@
 	type Props = {
 		items: MenuItem[];
 		size?: 'sm' | 'md' | 'lg';
+		isSolid?: boolean;
+		variant?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
 		class?: string;
 	};
 
-	const { items = [], class: className, size = 'md' }: Props = $props();
+	const {
+		items = [],
+		class: className,
+		size = 'md',
+		isSolid = false,
+		variant = 'muted'
+	}: Props = $props();
 
 	let openSubmenuIndex = $state<number | null>(null);
 	let triggerElements = $state<Record<number, HTMLElement>>({});
@@ -46,6 +54,18 @@
 		sm: 'is-sm',
 		md: 'is-md',
 		lg: 'is-lg'
+	};
+
+	const solidClass = $derived(isSolid ? 'is-filled' : 'is-default');
+
+	const variantClasses = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger'
 	};
 
 	const style = $derived(
@@ -165,11 +185,11 @@
 	});
 </script>
 
-<nav class={cn('navmenu', sizeClasses[size], className)}>
+<nav class={cn('navmenu', sizeClasses[size], solidClass, variantClasses[variant], className)}>
 	{#each items as item, index}
 		{#if item.href && !item.subitems && !item.megamenu}
 			<a href={item.href} class={cn('navmenu-item', isItemActive(item.href) && 'is-active')}>
-				<span class="navmenu-label">{item.label}</span>
+				<span class="navmenu-label" data-text={item.label}>{item.label}</span>
 			</a>
 		{:else}
 			<button
@@ -182,7 +202,7 @@
 				bind:this={triggerElements[index]}
 				onclick={() => handleItemClick(item, index)}
 			>
-				<span class="navmenu-label">{item.label}</span>
+				<span class="navmenu-label" data-text={item.label}>{item.label}</span>
 				{#if item.subitems || item.megamenu}
 					<Icon
 						icon={ChevronDown24RegularIcon}

@@ -300,4 +300,84 @@
 			}
 		}
 	}
+
+	/* Solid state style - hover/active with background colors */
+	.sidenav.is-solid .sidenav-item {
+		.sidenav-content .sidenav-label {
+			@apply font-normal hover:font-normal;
+		}
+
+		&:hover {
+			@apply bg-muted/50;
+		}
+
+		&.is-active {
+			@apply bg-muted;
+
+			.sidenav-content .sidenav-label {
+				@apply font-normal;
+			}
+		}
+	}
+
+	/* Variant colors for solid style */
+	.sidenav.is-solid.is-primary {
+		.sidenav-item:hover {
+			@apply bg-primary/20;
+		}
+
+		.sidenav-item.is-active {
+			@apply bg-primary text-on-primary;
+		}
+	}
+
+	.sidenav.is-solid.is-secondary {
+		.sidenav-item:hover {
+			@apply bg-secondary/20;
+		}
+
+		.sidenav-item.is-active {
+			@apply bg-secondary text-on-secondary;
+		}
+	}
+
+	.sidenav.is-solid.is-success {
+		.sidenav-item:hover {
+			@apply bg-success/20;
+		}
+
+		.sidenav-item.is-active {
+			@apply bg-success text-on-success;
+		}
+	}
+
+	.sidenav.is-solid.is-info {
+		.sidenav-item:hover {
+			@apply bg-info/20;
+		}
+
+		.sidenav-item.is-active {
+			@apply bg-info text-on-info;
+		}
+	}
+
+	.sidenav.is-solid.is-warning {
+		.sidenav-item:hover {
+			@apply bg-warning/20;
+		}
+
+		.sidenav-item.is-active {
+			@apply bg-warning text-on-warning;
+		}
+	}
+
+	.sidenav.is-solid.is-danger {
+		.sidenav-item:hover {
+			@apply bg-danger/20;
+		}
+
+		.sidenav-item.is-active {
+			@apply bg-danger text-on-danger;
+		}
+	}
 }

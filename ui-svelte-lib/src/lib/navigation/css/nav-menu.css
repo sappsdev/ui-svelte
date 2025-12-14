@@ -14,6 +14,21 @@
 			.navmenu-label {
 				@apply text-base whitespace-nowrap;
 				@apply font-light hover:font-semibold;
+				/* Prevent layout shift on font-weight change */
+				display: inline-flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+
+				&::after {
+					content: attr(data-text);
+					@apply font-semibold;
+					height: 0;
+					visibility: hidden;
+					overflow: hidden;
+					user-select: none;
+					pointer-events: none;
+				}
 			}
 
 			.navmenu-arrow {
@@ -223,6 +238,86 @@
 
 		.navmenu-header {
 			@apply px-3 py-2 text-xs font-semibold uppercase tracking-wide;
+		}
+	}
+
+	/* Filled state style - hover/active with background colors */
+	.navmenu.is-filled .navmenu-item {
+		.navmenu-label {
+			@apply font-normal hover:font-normal;
+		}
+
+		&:hover {
+			@apply bg-muted/50;
+		}
+
+		&.is-active {
+			@apply bg-muted;
+
+			.navmenu-label {
+				@apply font-normal;
+			}
+		}
+	}
+
+	/* Variant colors for filled style */
+	.navmenu.is-filled.is-primary {
+		.navmenu-item:hover {
+			@apply bg-primary/20;
+		}
+
+		.navmenu-item.is-active {
+			@apply bg-primary text-on-primary;
+		}
+	}
+
+	.navmenu.is-filled.is-secondary {
+		.navmenu-item:hover {
+			@apply bg-secondary/20;
+		}
+
+		.navmenu-item.is-active {
+			@apply bg-secondary text-on-secondary;
+		}
+	}
+
+	.navmenu.is-filled.is-success {
+		.navmenu-item:hover {
+			@apply bg-success/20;
+		}
+
+		.navmenu-item.is-active {
+			@apply bg-success text-on-success;
+		}
+	}
+
+	.navmenu.is-filled.is-info {
+		.navmenu-item:hover {
+			@apply bg-info/20;
+		}
+
+		.navmenu-item.is-active {
+			@apply bg-info text-on-info;
+		}
+	}
+
+	.navmenu.is-filled.is-warning {
+		.navmenu-item:hover {
+			@apply bg-warning/20;
+		}
+
+		.navmenu-item.is-active {
+			@apply bg-warning text-on-warning;
+		}
+	}
+
+	.navmenu.is-filled.is-danger {
+		.navmenu-item:hover {
+			@apply bg-danger/20;
+		}
+
+		.navmenu-item.is-active {
+			@apply bg-danger text-on-danger;
 		}
 	}
 }

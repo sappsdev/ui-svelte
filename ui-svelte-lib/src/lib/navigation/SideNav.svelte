@@ -36,6 +36,8 @@
 		isWide?: boolean;
 		isCompact?: boolean;
 		isCollapsible?: boolean;
+		isSolid?: boolean;
+		variant?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
 	};
 
 	const {
@@ -44,7 +46,9 @@
 		size = 'md',
 		isWide,
 		isCompact,
-		isCollapsible
+		isCollapsible,
+		isSolid = false,
+		variant = 'muted'
 	}: Props = $props();
 
 	let openSubmenus = $state<Record<number, boolean>>({});
@@ -72,6 +76,18 @@
 		sm: 'is-sm',
 		md: 'is-md',
 		lg: 'is-lg'
+	};
+
+	const solidClass = $derived(isSolid ? 'is-solid' : '');
+
+	const variantClasses = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger'
 	};
 
 	function toggleSubmenu(index: number) {
@@ -112,6 +128,8 @@
 	class={cn(
 		'sidenav',
 		sizeClasses[size],
+		solidClass,
+		isSolid && variantClasses[variant],
 		isCompact && 'is-compact',
 		isCollapsible && 'is-collapsible',
 		!isExpanded && 'is-collapsed',
