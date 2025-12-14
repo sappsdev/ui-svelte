@@ -63,6 +63,9 @@ Semantic components for building Svelte/SvelteKit **+page.svelte** files. Optimi
 - [Avatar](https://svelte.sappsdev.com/llm/display/avatar.md): Display user profile images, initials, or icons
 - [AvatarGroup](https://svelte.sappsdev.com/llm/display/avatar-group.md): Display stacked or separated avatar collections
 
+### Navigation Components
+- [Tabs](https://svelte.sappsdev.com/llm/navigation/tabs.md): Organize content into switchable sections
+
 ---
 
 ## Page Structure Pattern

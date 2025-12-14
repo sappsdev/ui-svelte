@@ -528,7 +528,7 @@
 		<Code
 			lang="svelte"
 			code={`<!-- Using Tailwind Classes -->
-<div class="bg-primary text-on-primary p-4 rounded">
+<div class="bg-primary text-on-primary p-4 rounded-ui">
 	Primary styled button
 </div>
 
@@ -547,11 +547,11 @@
 </style>
 
 <!-- Surface and Background -->
-<div class="bg-surface text-on-surface p-4 rounded">
+<div class="bg-surface text-on-surface p-4 rounded-ui">
 	Card content on surface
 </div>
 
-<div class="bg-muted text-on-muted p-2 rounded">
+<div class="bg-muted text-on-muted p-2 rounded-ui">
 	Subtle muted section
 </div>`}
 		/>
