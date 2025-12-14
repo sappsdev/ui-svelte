@@ -50,33 +50,6 @@
 		}
 	];
 
-	const troubleshooting = [
-		{
-			issue: 'AI generates React/JSX code',
-			solutions: [
-				'Make sure you include the full URL in your prompt',
-				'Add "Generate Svelte syntax, NOT React" to your prompt',
-				'Specify "Create a Svelte +page.svelte file" explicitly',
-				'If AI still generates React, try a new conversation and start with the URL'
-			]
-		},
-		{
-			issue: 'AI uses wrong components',
-			solutions: [
-				'Specify component names explicitly: "Use Section, Card, and Button from ui-svelte"',
-				'Mention "Use ONLY ui-svelte components" in your prompt',
-				'Reference specific component APIs from the docs'
-			]
-		},
-		{
-			issue: 'AI uses wrong syntax for layouts',
-			solutions: [
-				'Reference the complete layout examples from layout.md',
-				'Include "let { children } = $props();" and "{@render children()}" in prompt'
-			]
-		}
-	];
-
 	const bestPractices = [
 		{
 			tip: 'Always include the documentation URL',
@@ -111,7 +84,7 @@
 		{#each pagePrompts as prompt}
 			<div class="column gap-2">
 				<p class="text-sm font-medium">{prompt.name}</p>
-				<Code code={prompt.prompt} lang="text" />
+				<Code code={prompt.prompt} lang="text" hideLang />
 			</div>
 		{/each}
 	</div>
@@ -122,7 +95,7 @@
 		{#each layoutPrompts as prompt}
 			<div class="column gap-2">
 				<p class="text-sm font-medium">{prompt.name}</p>
-				<Code code={prompt.prompt} lang="text" />
+				<Code code={prompt.prompt} lang="text" hideLang />
 			</div>
 		{/each}
 	</div>
@@ -227,6 +200,7 @@
 				<Code
 					code={`Using https://ui-svelte.sappsdev.com/llm/starter/page.md, create a [description] with [features]`}
 					lang="text"
+					hideLang
 				/>
 				<p class="text-sm text-muted-500">
 					The URL reference tells the AI to use Svelte syntax and ui-svelte components.
@@ -235,7 +209,7 @@
 
 			<div class="column gap-2">
 				<h5 class="font-semibold text-danger">❌ Bad Prompt (Missing URL)</h5>
-				<Code code={`Create a landing page for a project management tool`} lang="text" />
+				<Code code={`Create a landing page for a project management tool`} lang="text" hideLang />
 				<p class="text-sm text-muted-500">
 					Without the URL reference, AI will likely generate React/JSX code.
 				</p>
@@ -246,6 +220,7 @@
 				<Code
 					code={`Using https://ui-svelte.sappsdev.com/llm/starter/page.md, create a Svelte +page.svelte file for a [description]. Use ONLY Section, Card, and Button components from ui-svelte. Generate Svelte syntax, NOT React.`}
 					lang="text"
+					hideLang
 				/>
 			</div>
 		</div>
@@ -261,30 +236,6 @@
 			</div>
 		{/snippet}
 		<Tabs tabs={promptTabs} />
-	</Card>
-</Section>
-
-<Section>
-	<Card>
-		{#snippet header()}
-			<div class="row gap-3 items-center">
-				<Icon icon={WarningTriangleIcon} class="size-5" />
-				<h4>Troubleshooting</h4>
-			</div>
-		{/snippet}
-		<div class="column gap-6">
-			{#each troubleshooting as item}
-				<div class="column gap-2">
-					<h5 class="font-semibold text-warning">{item.issue}</h5>
-					<p class="text-sm font-medium">Solution:</p>
-					<ul class="list-disc list-inside space-y-1 ml-4 text-sm">
-						{#each item.solutions as solution}
-							<li>{solution}</li>
-						{/each}
-					</ul>
-				</div>
-			{/each}
-		</div>
 	</Card>
 </Section>
 

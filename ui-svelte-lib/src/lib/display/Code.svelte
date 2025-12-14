@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { codeToHtml } from 'shiki';
 	import { useClipboard } from '$lib/hooks/use-clipboard.svelte.js';
-	import { IconButton } from '$lib/index.js';
+	import { Chip, IconButton } from '$lib/index.js';
 	import { Checkmark24RegularIcon, Copy24RegularIcon } from '$lib/icons/index.js';
 	import { theme } from '$lib/stores/theme.svelte.js';
 	import { cn } from '$lib/utils/class-names.js';
@@ -57,16 +57,16 @@
 	onmouseleave={() => (hover = false)}
 >
 	{#if open}
-		{#if !hover && !hideLang}
+		{#if (!hover && !hideLang && !clipboard.copied) || (disableCopy && !hideLang)}
 			<div class="code-info">
-				<div class="code-lang">{lang}</div>
+				<Chip variant="muted">{lang}</Chip>
 			</div>
 		{/if}
-		{#if hover && !disableCopy}
+		{#if (hover && !disableCopy) || clipboard.copied || (!disableCopy && hideLang)}
 			<div class="code-info">
 				<IconButton
 					onclick={handleCopy}
-					variant="ghost"
+					variant="muted"
 					size="sm"
 					icon={clipboard.copied ? Checkmark24RegularIcon : Copy24RegularIcon}
 				/>

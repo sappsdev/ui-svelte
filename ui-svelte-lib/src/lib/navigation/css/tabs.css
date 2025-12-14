@@ -8,13 +8,13 @@
 			@apply flex-col-reverse gap-2;
 		}
 		&.is-start {
-			@apply flex-row h-fit gap-1;
+			@apply flex-row h-fit gap-2;
 			.tabs-list {
 				@apply flex-col;
 			}
 		}
 		&.is-end {
-			@apply flex-row-reverse h-fit gap-1;
+			@apply flex-row-reverse h-fit gap-2;
 			.tabs-list {
 				@apply flex-col;
 			}
