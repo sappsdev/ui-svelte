@@ -139,7 +139,7 @@
 </Section>
 
 <Section>
-	<Card bodyClass="grid-3 md:grid-6 center">
+	<Card bodyClass="grid-2 md:grid-3 xl:grid-4 center">
 		{#snippet header()}
 			<h4>Tab Variants</h4>
 		{/snippet}
@@ -149,7 +149,7 @@
 				{ id: '2', label: 'Tab 2', content: 'Content 2' }
 			]}
 			<div class="column gap-1">
-				<p class="text-xs text-muted center">{item.label}</p>
+				<p class="text-xs center">{item.label}</p>
 				<Tabs {tabs} variant={item.id as any} />
 			</div>
 		{/each}
@@ -157,7 +157,7 @@
 </Section>
 
 <Section>
-	<Card bodyClass="grid-2 md:grid-4 center">
+	<Card bodyClass="grid-1 md:grid-2 xl:grid-3 center">
 		{#snippet header()}
 			<h4>Tab Positions</h4>
 		{/snippet}
@@ -167,7 +167,7 @@
 				{ id: '2', label: 'Tab 2', content: 'Content 2' }
 			]}
 			<div class="column gap-1">
-				<p class="text-xs text-muted center">{item.label}</p>
+				<p class="text-xs center">{item.label}</p>
 				<Tabs {tabs} position={item.id as any} />
 			</div>
 		{/each}
@@ -185,7 +185,7 @@
 				{ id: '2', label: 'Tab 2', content: 'Content 2' }
 			]}
 			<div class="column gap-1">
-				<p class="text-xs text-muted center">{variantItem}</p>
+				<p class="text-xs center">{variantItem}</p>
 				<Tabs {tabs} variant={variantItem as any} pill />
 			</div>
 		{/each}
@@ -253,7 +253,7 @@
 		{#snippet header()}
 			<h4>Tab Type</h4>
 		{/snippet}
-		<p class="text-sm text-muted mb-4">Each tab in the tabs array should follow this structure:</p>
+		<p class="text-sm">Each tab in the tabs array should follow this structure:</p>
 		<DocsProps props={tabProps} />
 	</Card>
 </Section>
