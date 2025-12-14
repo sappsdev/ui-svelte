@@ -4,13 +4,6 @@
 		@apply bg-background text-on-background;
 	}
 
-	body:has(#popover) {
-		overflow: hidden !important;
-	}
-
-	body:has(#popover).had-scroll {
-		padding-right: var(--scrollbar-size, 6px) !important;
-	}
 
 	::-webkit-scrollbar {
 		width: var(--scrollbar-size, 6px);
@@ -40,7 +33,6 @@
 		}
 	}
 
-	/* Base headings - responsive typography without margins */
 	h1 {
 		@apply font-extrabold tracking-tight;
 		@apply text-[1.875rem] md:text-4xl lg:text-5xl;
@@ -77,7 +69,6 @@
 		@apply leading-4 md:leading-5 lg:leading-6;
 	}
 
-	/* Text formatting */
 	strong {
 		@apply font-semibold;
 	}
@@ -86,7 +77,6 @@
 		@apply italic;
 	}
 
-	/* Utility classes */
 	.snippet {
 		@apply relative rounded bg-muted text-on-muted font-mono font-semibold;
 		@apply px-[0.3rem] py-[0.2rem];
@@ -123,7 +113,6 @@
 		@apply text-lg md:text-xl lg:text-2xl;
 	}
 
-	/* Blockquote - keeping minimal spacing */
 	blockquote {
 		@apply border-l-2 border-muted italic;
 		@apply pl-4 md:pl-5 lg:pl-6;
@@ -136,11 +125,9 @@
 	}
 
 	.prose {
-		/* Base font size and line height - responsive */
 		@apply text-sm md:text-base lg:text-lg;
 		@apply leading-6 md:leading-7 lg:leading-8;
 
-		/* Headings */
 		h1 {
 			@apply scroll-m-20 font-extrabold tracking-tight;
 			@apply text-[1.875rem] md:text-4xl lg:text-5xl;
@@ -188,27 +175,23 @@
 			@apply mt-3 md:mt-3 lg:mt-4 mb-1.5;
 		}
 
-		/* Reset margins after headings */
 		h2 + *,
 		h3 + *,
 		h4 + * {
 			@apply mt-0;
 		}
 
-		/* Paragraphs */
 		p {
 			@apply text-on-muted;
 			@apply mt-4 md:mt-5 lg:mt-6 mb-4 md:mb-5 lg:mb-6;
 		}
 
-		/* Lead paragraph */
 		[class~='lead'] {
 			@apply text-base md:text-lg lg:text-xl;
 			@apply leading-7 md:leading-8 lg:leading-8;
 			@apply mt-4 md:mt-6 lg:mt-6 mb-4 md:mb-6 lg:mb-6;
 		}
 
-		/* Lists */
 		ul,
 		ol {
 			@apply mt-4 md:mt-5 lg:mt-6 mb-4 md:mb-5 lg:mb-6;
@@ -264,13 +247,11 @@
 			@apply pl-5.5 md:pl-6.5 lg:pl-6.5;
 		}
 
-		/* Links */
 		a {
 			@apply font-medium text-primary underline underline-offset-4;
 			@apply hover:text-primary/80 transition-colors;
 		}
 
-		/* Inline code */
 		code {
 			@apply relative rounded bg-muted text-on-muted font-mono font-semibold;
 			@apply px-[0.3rem] py-[0.2rem];
@@ -285,7 +266,6 @@
 			@apply text-base md:text-[1.125rem] lg:text-[1.3125rem];
 		}
 
-		/* Code blocks */
 		pre {
 			@apply overflow-x-auto rounded-lg bg-muted text-on-muted;
 			@apply mt-5 md:mt-6 lg:mt-8 mb-5 md:mb-6 lg:mb-8;
@@ -299,14 +279,12 @@
 			}
 		}
 
-		/* Blockquotes */
 		blockquote {
 			@apply border-l-4 border-muted italic text-on-muted;
 			@apply mt-6 md:mt-8 lg:mt-10 mb-6 md:mb-8 lg:mb-10;
 			@apply pl-5 md:pl-5 lg:pl-6;
 		}
 
-		/* Horizontal rules */
 		hr {
 			@apply border-muted;
 			@apply my-10 md:my-12 lg:my-12;
@@ -316,7 +294,6 @@
 			@apply mt-0;
 		}
 
-		/* Images and media */
 		img,
 		video,
 		picture {
@@ -328,7 +305,6 @@
 			@apply mt-0 mb-0;
 		}
 
-		/* Figures */
 		figure {
 			@apply mt-6 md:mt-8 lg:mt-8 mb-6 md:mb-8 lg:mb-8;
 		}
@@ -343,7 +319,6 @@
 			@apply mt-2 md:mt-3 lg:mt-3;
 		}
 
-		/* Tables */
 		table {
 			@apply w-full text-left;
 			@apply text-[0.75rem] md:text-[0.875rem] lg:text-base;
@@ -379,7 +354,6 @@
 			@apply pr-0;
 		}
 
-		/* Keyboard input */
 		kbd {
 			@apply font-mono font-semibold;
 			@apply rounded bg-muted text-on-muted;
@@ -388,7 +362,6 @@
 			@apply py-0.5 md:py-0.75 lg:py-1;
 		}
 
-		/* Text formatting */
 		strong {
 			@apply font-semibold;
 		}
@@ -397,7 +370,6 @@
 			@apply italic;
 		}
 
-		/* Reset first and last child margins */
 		> :first-child {
 			@apply mt-0;
 		}

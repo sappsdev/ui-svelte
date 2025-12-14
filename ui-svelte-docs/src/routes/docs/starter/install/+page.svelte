@@ -1,6 +1,6 @@
 <script lang="ts">
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import { Section, Card, Code, Alert } from 'ui-svelte';
+	import { Section, Code, Alert } from 'ui-svelte';
 </script>
 
 <DocsHeader title="Installation">
@@ -105,16 +105,16 @@
 		<strong>Note:</strong> You can customize these color values to match your brand. See the
 		<a href="/docs/starter/theme" class="underline">Theme Colors</a> section for more information.
 	</Alert>
+</Section>
 
-	<!-- Step 5: Setup Provider -->
-	<Card>
-		<h3 class="text-lg font-semibold mb-4">5. Setup the Provider in your root layout</h3>
-		<p class="text-sm text-on-muted mb-4">
-			Update your <code>src/routes/+layout.svelte</code> file to include the Provider component and import
-			your CSS. The Provider component handles toast notifications and view transitions.
-		</p>
-		<Code
-			code={`<script lang="ts">
+<Section>
+	<h3 class="text-lg font-semibold mb-4">5. Setup the Provider in your root layout</h3>
+	<p class="text-sm text-on-muted mb-4">
+		Update your <code>src/routes/+layout.svelte</code> file to include the Provider component and import
+		your CSS. The Provider component handles toast notifications and view transitions.
+	</p>
+	<Code
+		code={`<script lang="ts">
   import { Provider } from 'ui-svelte';
   import '@fontsource-variable/montserrat';
   import '../app.css';
@@ -129,48 +129,52 @@
 >
   {@render children()}
 </Provider>`}
-			lang="svelte"
-			showCopy
-		/>
+		lang="svelte"
+	/>
+	<Alert status="info">
+		<strong>Provider Props:</strong>
+		<code>toastPosition</code> ('top-left' | 'top-right' | 'bottom-left' | 'bottom-right'),
+		<code>toastIcon</code> (boolean),
+		<code>toastSolid</code> (boolean)
+	</Alert>
+</Section>
 
-		<div class="mt-6 space-y-4">
-			<h4 class="font-medium">Provider Props</h4>
-			<ul class="list-disc list-inside space-y-2 text-sm">
-				<li>
-					<code>toastPosition</code> - Position of toast notifications:
-					<code>'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'</code>
-				</li>
-				<li><code>toastIcon</code> - Show icons in toast notifications (boolean)</li>
-				<li>
-					<code>toastSolid</code> - Use solid background for toast notifications (boolean)
-				</li>
-			</ul>
-		</div>
-	</Card>
+<Section>
+	<h3 class="text-lg font-semibold mb-4">6. Optional: Install custom fonts</h3>
+	<p class="text-sm text-on-muted mb-4">
+		You can use <a href="https://fontsource.org" target="_blank" class="underline">Fontsource</a> to easily
+		add custom fonts to your project. Follow these steps to add Montserrat Variable:
+	</p>
 
-	<!-- Step 6: Optional Fonts -->
-	<Card>
-		<h3 class="text-lg font-semibold mb-4">6. Optional: Install custom fonts</h3>
-		<p class="text-sm text-on-muted mb-4">
-			You can use Fontsource to easily add custom fonts to your project. The example above uses
-			Montserrat Variable.
-		</p>
-		<Code code="bun add @fontsource-variable/montserrat" lang="bash" showCopy />
-		<p class="text-sm text-on-muted mt-4">
-			Then import it in your layout file as shown in step 5. You can browse available fonts at
-			<a href="https://fontsource.org" target="_blank" class="underline">fontsource.org</a>.
-		</p>
-	</Card>
+	<h4 class="font-medium mb-2">Install the font package:</h4>
+	<Code code="bun add @fontsource-variable/montserrat" lang="bash" />
 
-	<!-- Next Steps -->
-	<Card>
-		<h3 class="text-lg font-semibold mb-4">🎉 You're all set!</h3>
-		<p class="text-sm text-on-muted mb-4">
-			Your Svelte project is now configured with ui-svelte. You can start using components in your
-			pages.
-		</p>
-		<Code
-			code={`<script>
+	<h4 class="font-medium mt-6 mb-2">Add the font-family to your <code>src/app.css</code>:</h4>
+	<Code
+		code={`body {
+  font-family: 'Montserrat Variable', sans-serif;
+}`}
+		lang="css"
+	/>
+
+	<h4 class="font-medium mt-6 mb-2">Import the font in your <code>+layout.svelte</code>:</h4>
+	<Code code="import '@fontsource-variable/montserrat';" lang="javascript" />
+
+	<Alert status="info">
+		Browse available fonts at <a href="https://fontsource.org" target="_blank" class="underline"
+			>fontsource.org</a
+		>. Each font package includes installation and usage instructions.
+	</Alert>
+</Section>
+
+<Section>
+	<h3 class="text-lg font-semibold mb-4">🎉 You're all set!</h3>
+	<p class="text-sm text-on-muted mb-4">
+		Your Svelte project is now configured with ui-svelte. You can start using components in your
+		pages.
+	</p>
+	<Code
+		code={`<script>
   import { Button, Card } from 'ui-svelte';
 <\/script>
 
@@ -182,20 +186,11 @@
     </Button>
   </div>
 </Card>`}
-			lang="svelte"
-			showCopy
-		/>
-		<div class="mt-6">
-			<h4 class="font-medium mb-2">Next Steps:</h4>
-			<ul class="list-disc list-inside space-y-1 text-sm">
-				<li>
-					Explore the <a href="/docs/starter/theme" class="underline">Theme Colors</a> documentation
-				</li>
-				<li>
-					Learn about <a href="/docs/starter/icons" class="underline">Icons</a> integration
-				</li>
-				<li>Browse the component documentation to see what's available</li>
-			</ul>
-		</div>
-	</Card>
+		lang="svelte"
+	/>
+	<Alert status="success">
+		<strong>Next Steps:</strong>
+		Explore <a href="/docs/starter/theme" class="underline">Theme Colors</a>, learn about
+		<a href="/docs/starter/icons" class="underline">Icons</a> integration, and browse the component documentation.
+	</Alert>
 </Section>

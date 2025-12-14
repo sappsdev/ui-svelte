@@ -1,17 +1,19 @@
 export const popover = (node: HTMLElement): { destroy: () => void } => {
 	const targetEl = document.body;
-	const hadScroll = document.documentElement.scrollHeight > window.innerHeight;
 	node.id = 'popover';
 	targetEl?.appendChild(node);
-	if (hadScroll) {
-		targetEl.classList.add('had-scroll');
+
+	const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+	if (scrollbarWidth > 0) {
+		document.body.style.paddingRight = `${scrollbarWidth}px`;
 	}
+	document.body.style.overflow = 'hidden';
+
 	return {
 		destroy() {
-			if (hadScroll) {
-				targetEl.classList.remove('had-scroll');
-			}
 			node.remove();
+			document.body.style.overflow = '';
+			document.body.style.paddingRight = '';
 		}
 	};
 };
