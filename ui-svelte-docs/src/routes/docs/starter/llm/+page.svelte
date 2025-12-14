@@ -1,391 +1,311 @@
 <script lang="ts">
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import { Section, Card, Alert, Code } from 'ui-svelte';
+	import { Card, Code, Icon, Section, Tabs } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import {
+		ArtificialIntelligenceIcon,
+		FileDocumentIcon,
+		LayoutIcon,
+		WebLayoutIcon,
+		CopyRegularIcon,
+		WarningTriangleIcon,
+		BulbIcon,
+		CheckmarkCircle24RegularIcon
+	} from '$lib/icons';
+
+	const pagePrompts = [
+		{
+			name: 'Landing Page',
+			prompt: `Using https://ui-svelte.sappsdev.com/llm/starter/page.md, create a Svelte landing page for a project management tool with hero section, features grid (3 columns on desktop), testimonials carousel, and pricing table with 3 tiers. Use Section for page structure and Card for content blocks.`
+		},
+		{
+			name: 'Contact Page',
+			prompt: `Using https://ui-svelte.sappsdev.com/llm/starter/page.md, create a Svelte contact page with a form including TextField for name and email, Textarea for message, Select for subject dropdown, and a submit Button. Use Section variant="muted" with isBoxed, and Card to contain the form.`
+		},
+		{
+			name: 'Blog Listing',
+			prompt: `Using https://ui-svelte.sappsdev.com/llm/starter/page.md, create a Svelte blog listing page with a hero Section, then a grid of blog post Cards (grid-1 md:grid-2 lg:grid-3). Each Card should have an image, title, excerpt, author Avatar, date, and read more Button.`
+		},
+		{
+			name: 'Dashboard',
+			prompt: `Using https://ui-svelte.sappsdev.com/llm/starter/page.md, create a Svelte dashboard page with stat Cards in a grid (grid-2 md:grid-4), a Table component for recent activity, and a Card with a chart placeholder. Use Section variant="ghost" for the container.`
+		}
+	];
+
+	const layoutPrompts = [
+		{
+			name: 'Dashboard Layout',
+			prompt: `Using https://ui-svelte.sappsdev.com/llm/starter/layout.md, create a Svelte dashboard layout with Sidebar (w-48) on desktop showing navigation with SideNav, Drawer for mobile navigation, AppBar (h-16) with logo and user Dropdown. Remember to include 'let { children } = $props();' and use {@render children()}.`
+		},
+		{
+			name: 'Marketing Site',
+			prompt: `Using https://ui-svelte.sappsdev.com/llm/starter/layout.md, create a Svelte marketing layout with AppBar containing NavMenu in center snippet for horizontal navigation (Home, Features, Pricing, Contact), logo in start snippet, and Button "Get Started" in end snippet. No sidebars needed.`
+		},
+		{
+			name: 'Admin Panel',
+			prompt: `Using https://ui-svelte.sappsdev.com/llm/starter/layout.md, create a Svelte admin layout with left Sidebar (w-48) for navigation using SideNav, top AppBar (h-16) with search TextField and notifications IconButton, and right Card (w-56) for activity feed. Use proper margins: mainClass="lg:ml-48 2xl:mr-56 vh-16 mt-16".`
+		},
+		{
+			name: 'Responsive App',
+			prompt: `Using https://ui-svelte.sappsdev.com/llm/starter/layout.md, create a Svelte responsive layout with Sidebar (w-48) visible only on desktop (invisible lg:visible), Drawer for mobile triggered by IconButton in AppBar, and user Avatar with Dropdown in AppBar end snippet. Include drawer state: 'let drawerOpen = $state(false);'`
+		}
+	];
+
+	const troubleshooting = [
+		{
+			issue: 'AI generates React/JSX code',
+			solutions: [
+				'Make sure you include the full URL in your prompt',
+				'Add "Generate Svelte syntax, NOT React" to your prompt',
+				'Specify "Create a Svelte +page.svelte file" explicitly',
+				'If AI still generates React, try a new conversation and start with the URL'
+			]
+		},
+		{
+			issue: 'AI uses wrong components',
+			solutions: [
+				'Specify component names explicitly: "Use Section, Card, and Button from ui-svelte"',
+				'Mention "Use ONLY ui-svelte components" in your prompt',
+				'Reference specific component APIs from the docs'
+			]
+		},
+		{
+			issue: 'AI uses wrong syntax for layouts',
+			solutions: [
+				'Reference the complete layout examples from layout.md',
+				'Include "let { children } = $props();" and "{@render children()}" in prompt'
+			]
+		}
+	];
+
+	const bestPractices = [
+		{
+			tip: 'Always include the documentation URL',
+			description: 'This is the most important step to get correct Svelte code'
+		},
+		{
+			tip: 'Be specific about component names',
+			description: 'Name the exact components you want: Section, Card, Button, etc.'
+		},
+		{
+			tip: 'Specify layouts with bodyClass',
+			description: 'Use "grid-3", "row", "center gap-6" to get exact layouts'
+		},
+		{
+			tip: 'Request responsive designs',
+			description: 'Add "column md:row" or "grid-1 md:grid-3" for mobile-first layouts'
+		},
+		{
+			tip: 'Start simple, then iterate',
+			description: 'Get the basic structure first, then ask AI to add features'
+		}
+	];
+
+	const promptTabs = [
+		{ id: 'page', label: 'Page Prompts', content: pagePromptsContent },
+		{ id: 'layout', label: 'Layout Prompts', content: layoutPromptsContent }
+	];
 </script>
 
-<DocHeader title="LLM Prompt Guidelines">
+{#snippet pagePromptsContent()}
+	<div class="column gap-4">
+		{#each pagePrompts as prompt}
+			<div class="column gap-2">
+				<p class="text-sm font-medium">{prompt.name}</p>
+				<Code code={prompt.prompt} lang="text" />
+			</div>
+		{/each}
+	</div>
+{/snippet}
+
+{#snippet layoutPromptsContent()}
+	<div class="column gap-4">
+		{#each layoutPrompts as prompt}
+			<div class="column gap-2">
+				<p class="text-sm font-medium">{prompt.name}</p>
+				<Code code={prompt.prompt} lang="text" />
+			</div>
+		{/each}
+	</div>
+{/snippet}
+
+<DocsHeader
+	title="LLM Prompt Guidelines"
+	llmUrl="https://ui-svelte.sappsdev.com/llm/starter/page.md"
+>
 	Learn how to efficiently use ui-svelte with AI assistants by referencing the optimized LLM
 	documentation files.
-</DocHeader>
+</DocsHeader>
 
-<Section class="pb-8">
-	<Alert status="info">
-		<strong>For AI Assistants:</strong> ui-svelte provides specialized documentation files optimized for
-		LLM context. These files explicitly specify SVELTE syntax to prevent generating React/JSX code.
-	</Alert>
-
-	<div class="mt-8 space-y-8">
-		<!-- Overview -->
-		<Card>
-			<h2 class="text-2xl font-bold mb-4">Overview</h2>
-			<p class="mb-4">
-				ui-svelte provides two main LLM-optimized documentation files that contain concise,
-				AI-friendly instructions for building Svelte/SvelteKit applications:
+<Section>
+	<Card variant="info">
+		<div class="row gap-3 items-center">
+			<Icon icon={ArtificialIntelligenceIcon} class="size-6 shrink-0" />
+			<p>
+				<strong>For AI Assistants:</strong> ui-svelte provides specialized documentation files optimized
+				for LLM context. These files explicitly specify SVELTE syntax to prevent generating React/JSX
+				code.
 			</p>
-			<ul class="list-disc list-inside space-y-2 ml-4">
-				<li>
-					<strong>page.md</strong> - For building page content (<code>+page.svelte</code> files)
-				</li>
-				<li>
-					<strong>layout.md</strong> - For building application layouts (<code>+layout.svelte</code>
-					files)
-				</li>
-			</ul>
-			<Alert status="warning">
-				<strong>Important:</strong> These docs explicitly tell AI to generate SVELTE code (not React).
-				Always reference these URLs in your prompts.
-			</Alert>
-		</Card>
+		</div>
+	</Card>
+</Section>
 
-		<!-- Why Use These Docs -->
-		<Card>
-			<h2 class="text-2xl font-bold mb-4">Why Reference These Docs?</h2>
-			<p class="mb-4">
-				Without explicit documentation references, AI assistants often default to generating
-				React/JSX code because it's more common in their training data. These specialized docs:
-			</p>
-			<ul class="list-disc list-inside space-y-2 ml-4">
-				<li>Explicitly specify <strong>Svelte syntax</strong> requirements</li>
-				<li>Include <strong>MANDATORY instructions</strong> for AI to follow</li>
-				<li>Provide <strong>Svelte-specific examples</strong> with correct syntax</li>
-				<li>Show <strong>what NOT to do</strong> (React/JSX anti-patterns)</li>
-				<li>Include component APIs optimized for AI code generation</li>
-			</ul>
-		</Card>
-
-		<!-- How to Write Effective Prompts -->
-		<Card>
-			<h2 class="text-2xl font-bold mb-4">How to Write Effective Prompts</h2>
-
-			<div class="space-y-4">
-				<div>
-					<h3 class="text-lg font-semibold mb-2">✅ Good Prompt Structure</h3>
-					<Code
-						code={`Using https://ui-svelte.sappsdev.com/llm/page.md, create a [description] with [features]`}
-						lang="text"
-						showCopy
-					/>
-					<p class="text-sm text-muted-foreground mt-2">
-						The URL reference tells the AI to use Svelte syntax and ui-svelte components.
-					</p>
-				</div>
-
-				<div>
-					<h3 class="text-lg font-semibold mb-2 text-danger">❌ Bad Prompt (Missing URL)</h3>
-					<Code code={`Create a landing page for a project management tool`} lang="text" />
-					<p class="text-sm text-muted-foreground mt-2">
-						Without the URL reference, AI will likely generate React/JSX code.
-					</p>
-				</div>
-
-				<div>
-					<h3 class="text-lg font-semibold mb-2">💡 Pro Tip: Be More Explicit</h3>
-					<Code
-						code={`Using https://ui-svelte.sappsdev.com/llm/page.md, create a Svelte +page.svelte file for a [description]. Use ONLY Section, Card, and Button components from ui-svelte. Generate Svelte syntax, NOT React.`}
-						lang="text"
-						showCopy
-					/>
-				</div>
+<Section bodyClass="grid-1 md:grid-2 gap-6">
+	<Card bodyClass="column gap-4">
+		{#snippet header()}
+			<div class="row gap-3 items-center">
+				<Icon icon={FileDocumentIcon} class="size-5" />
+				<h4>Page Components</h4>
 			</div>
-		</Card>
+		{/snippet}
+		<p class="text-sm">
+			For building <code class="px-1 py-0.5 rounded bg-muted">+page.svelte</code> files with Section,
+			Card, Button, forms, and display components.
+		</p>
+		<a
+			href="https://ui-svelte.sappsdev.com/llm/starter/page.md"
+			target="_blank"
+			class="text-primary hover:underline text-sm break-all"
+		>
+			https://ui-svelte.sappsdev.com/llm/starter/page.md
+		</a>
+	</Card>
 
-		<!-- Complete Examples -->
-		<Card>
-			<h2 class="text-2xl font-bold mb-4">Complete Prompt Examples</h2>
-
-			<div class="space-y-6">
-				<div>
-					<h3 class="text-lg font-semibold mb-3">Page Prompts (+page.svelte)</h3>
-					<div class="space-y-3">
-						<div>
-							<p class="text-sm font-medium mb-1">Landing Page</p>
-							<Code
-								code={`Using https://ui-svelte.sappsdev.com/llm/page.md, create a Svelte landing page for a project management tool with hero section, features grid (3 columns on desktop), testimonials carousel, and pricing table with 3 tiers. Use Section for page structure and Card for content blocks.`}
-								lang="text"
-								showCopy
-							/>
-						</div>
-
-						<div>
-							<p class="text-sm font-medium mb-1">Contact Page with Form</p>
-							<Code
-								code={`Using https://ui-svelte.sappsdev.com/llm/page.md, create a Svelte contact page with a form including TextField for name and email, Textarea for message, Select for subject dropdown, and a submit Button. Use Section variant="muted" with isBoxed, and Card to contain the form.`}
-								lang="text"
-								showCopy
-							/>
-						</div>
-
-						<div>
-							<p class="text-sm font-medium mb-1">Blog Listing Page</p>
-							<Code
-								code={`Using https://ui-svelte.sappsdev.com/llm/page.md, create a Svelte blog listing page with a hero Section, then a grid of blog post Cards (grid-1 md:grid-2 lg:grid-3). Each Card should have an image, title, excerpt, author Avatar, date, and read more Button.`}
-								lang="text"
-								showCopy
-							/>
-						</div>
-
-						<div>
-							<p class="text-sm font-medium mb-1">Dashboard Page</p>
-							<Code
-								code={`Using https://ui-svelte.sappsdev.com/llm/page.md, create a Svelte dashboard page with stat Cards in a grid (grid-2 md:grid-4), a Table component for recent activity, and a Card with a chart placeholder. Use Section variant="ghost" for the container.`}
-								lang="text"
-								showCopy
-							/>
-						</div>
-
-						<div>
-							<p class="text-sm font-medium mb-1">Pricing Page</p>
-							<Code
-								code={`Using https://ui-svelte.sappsdev.com/llm/page.md, create a Svelte pricing page with a hero Section, then 3 pricing Cards in a grid-1 md:grid-3 layout. Include features list with Checkbox components, and a Button for each plan. Add an FAQ section using Accordion component.`}
-								lang="text"
-								showCopy
-							/>
-						</div>
-					</div>
-				</div>
-
-				<div>
-					<h3 class="text-lg font-semibold mb-3">Layout Prompts (+layout.svelte)</h3>
-					<div class="space-y-3">
-						<div>
-							<p class="text-sm font-medium mb-1">Dashboard Layout</p>
-							<Code
-								code={`Using https://ui-svelte.sappsdev.com/llm/layout.md, create a Svelte dashboard layout with Sidebar (w-48) on desktop showing navigation with SideNav, Drawer for mobile navigation, AppBar (h-16) with logo and user Dropdown. Remember to include 'let { children } = $props();' and use {@render children()}.`}
-								lang="text"
-								showCopy
-							/>
-						</div>
-
-						<div>
-							<p class="text-sm font-medium mb-1">Marketing Site Layout</p>
-							<Code
-								code={`Using https://ui-svelte.sappsdev.com/llm/layout.md, create a Svelte marketing layout with AppBar containing NavMenu in center snippet for horizontal navigation (Home, Features, Pricing, Contact), logo in start snippet, and Button "Get Started" in end snippet. No sidebars needed.`}
-								lang="text"
-								showCopy
-							/>
-						</div>
-
-						<div>
-							<p class="text-sm font-medium mb-1">Admin Panel Layout</p>
-							<Code
-								code={`Using https://ui-svelte.sappsdev.com/llm/layout.md, create a Svelte admin layout with left Sidebar (w-48) for navigation using SideNav, top AppBar (h-16) with search TextField and notifications IconButton, and right Card (w-56) for activity feed. Use proper margins: mainClass="lg:ml-48 2xl:mr-56 vh-16 mt-16".`}
-								lang="text"
-								showCopy
-							/>
-						</div>
-
-						<div>
-							<p class="text-sm font-medium mb-1">Auth Layout</p>
-							<Code
-								code={`Using https://ui-svelte.sappsdev.com/llm/layout.md, create a Svelte auth layout with just centered content, no AppBar or Sidebar. Use Scaffold with only children rendered in center of viewport.`}
-								lang="text"
-								showCopy
-							/>
-						</div>
-
-						<div>
-							<p class="text-sm font-medium mb-1">Responsive App Layout</p>
-							<Code
-								code={`Using https://ui-svelte.sappsdev.com/llm/layout.md, create a Svelte responsive layout with Sidebar (w-48) visible only on desktop (invisible lg:visible), Drawer for mobile triggered by IconButton in AppBar, and user Avatar with Dropdown in AppBar end snippet. Include drawer state: 'let drawerOpen = $state(false);'`}
-								lang="text"
-								showCopy
-							/>
-						</div>
-					</div>
-				</div>
+	<Card bodyClass="column gap-4">
+		{#snippet header()}
+			<div class="row gap-3 items-center">
+				<Icon icon={LayoutIcon} class="size-5" />
+				<h4>Layout Components</h4>
 			</div>
-		</Card>
+		{/snippet}
+		<p class="text-sm">
+			For building <code class="px-1 py-0.5 rounded bg-muted">+layout.svelte</code> files with Scaffold,
+			AppBar, Sidebar, Drawer, and navigation components.
+		</p>
+		<a
+			href="https://ui-svelte.sappsdev.com/llm/starter/layout.md"
+			target="_blank"
+			class="text-primary hover:underline text-sm break-all"
+		>
+			https://ui-svelte.sappsdev.com/llm/starter/layout.md
+		</a>
+	</Card>
+</Section>
 
-		<!-- Advanced Tips -->
-		<Card>
-			<h2 class="text-2xl font-bold mb-4">Advanced Tips</h2>
-
-			<div class="space-y-4">
-				<div>
-					<h3 class="text-lg font-semibold mb-2">Combining Multiple Components</h3>
-					<Code
-						code={`Using https://ui-svelte.sappsdev.com/llm/page.md, create a Svelte user profile page with:
-- Hero Section (variant="primary" isSolid) with Avatar, user name, and edit Button
-- Info Section with Cards showing stats (followers, posts, etc.) in grid-2 md:grid-4
-- Settings Section with Toggle components for notifications
-- Form Section with TextField, Select, and PasswordField for account settings
-- Use responsive layouts: column md:row where appropriate`}
-						lang="text"
-						showCopy
-					/>
-				</div>
-
-				<div>
-					<h3 class="text-lg font-semibold mb-2">Specifying Exact Component APIs</h3>
-					<Code
-						code={`Using https://ui-svelte.sappsdev.com/llm/page.md, create a Svelte form page with validation:
-- TextField with label="Email" type="email" required={true}
-- PasswordField with label="Password" showStrength={true}
-- Checkbox with label="Remember me"
-- Button variant="primary" size="lg" type="submit"
-- Use Section variant="muted" isBoxed and Card to contain form`}
-						lang="text"
-						showCopy
-					/>
-				</div>
-
-				<div>
-					<h3 class="text-lg font-semibold mb-2">Requesting Specific Layouts</h3>
-					<Code
-						code={`Using https://ui-svelte.sappsdev.com/llm/page.md, create a Svelte product showcase page:
-- Hero Section: full-screen (min-h-screen) with center alignment (bodyClass="center gap-6")
-- Features Section: grid-1 md:grid-2 lg:grid-3 with gap-6
-- Testimonials Section: Carousel component with 3 slides
-- CTA Section: row layout on desktop (bodyClass="column md:row center gap-4")
-- All content Sections should use isBoxed`}
-						lang="text"
-						showCopy
-					/>
-				</div>
+<Section>
+	<Card>
+		{#snippet header()}
+			<div class="row gap-3 items-center">
+				<Icon icon={BulbIcon} class="size-5" />
+				<h4>Why Reference These Docs?</h4>
 			</div>
-		</Card>
+		{/snippet}
+		<p class="mb-4">
+			Without explicit documentation references, AI assistants often default to generating React/JSX
+			code because it's more common in their training data. These specialized docs:
+		</p>
+		<ul class="list-disc list-inside space-y-2 ml-4 text-sm">
+			<li>Explicitly specify <strong>Svelte syntax</strong> requirements</li>
+			<li>Include <strong>MANDATORY instructions</strong> for AI to follow</li>
+			<li>Provide <strong>Svelte-specific examples</strong> with correct syntax</li>
+			<li>Show <strong>what NOT to do</strong> (React/JSX anti-patterns)</li>
+			<li>Include component APIs optimized for AI code generation</li>
+		</ul>
+	</Card>
+</Section>
 
-		<!-- Documentation Links -->
-		<Card>
-			<h2 class="text-2xl font-bold mb-4">Documentation Links</h2>
-
-			<div class="space-y-3">
-				<div class="flex items-start gap-3">
-					<span class="font-semibold min-w-32 mt-1">Page Components:</span>
-					<div class="flex-1">
-						<a
-							href="https://ui-svelte.sappsdev.com/llm/page.md"
-							target="_blank"
-							class="text-primary hover:underline block"
-						>
-							https://ui-svelte.sappsdev.com/llm/page.md
-						</a>
-						<p class="text-sm text-muted-foreground mt-1">
-							Use for +page.svelte files. Contains Section, Card, Button, forms, and display
-							components.
-						</p>
-					</div>
-				</div>
-
-				<div class="flex items-start gap-3">
-					<span class="font-semibold min-w-32 mt-1">Layout Components:</span>
-					<div class="flex-1">
-						<a
-							href="https://ui-svelte.sappsdev.com/llm/layout.md"
-							target="_blank"
-							class="text-primary hover:underline block"
-						>
-							https://ui-svelte.sappsdev.com/llm/layout.md
-						</a>
-						<p class="text-sm text-muted-foreground mt-1">
-							Use for +layout.svelte files. Contains Scaffold, AppBar, Sidebar, Drawer, and
-							navigation components.
-						</p>
-					</div>
-				</div>
+<Section>
+	<Card>
+		{#snippet header()}
+			<div class="row gap-3 items-center">
+				<Icon icon={CopyRegularIcon} class="size-5" />
+				<h4>How to Write Effective Prompts</h4>
+			</div>
+		{/snippet}
+		<div class="column gap-6">
+			<div class="column gap-2">
+				<h5 class="font-semibold text-success">✅ Good Prompt Structure</h5>
+				<Code
+					code={`Using https://ui-svelte.sappsdev.com/llm/starter/page.md, create a [description] with [features]`}
+					lang="text"
+				/>
+				<p class="text-sm text-muted-500">
+					The URL reference tells the AI to use Svelte syntax and ui-svelte components.
+				</p>
 			</div>
 
-			<div class="mt-6">
-				<Alert status="success">
-					<strong>Quick Copy:</strong> Use the copy button (icon in top-right of code blocks) to easily
-					copy prompts and paste them into your AI assistant.
-				</Alert>
+			<div class="column gap-2">
+				<h5 class="font-semibold text-danger">❌ Bad Prompt (Missing URL)</h5>
+				<Code code={`Create a landing page for a project management tool`} lang="text" />
+				<p class="text-sm text-muted-500">
+					Without the URL reference, AI will likely generate React/JSX code.
+				</p>
 			</div>
-		</Card>
 
-		<!-- Troubleshooting -->
-		<Card>
-			<h2 class="text-2xl font-bold mb-4">Troubleshooting</h2>
+			<div class="column gap-2">
+				<h5 class="font-semibold text-info">💡 Pro Tip: Be More Explicit</h5>
+				<Code
+					code={`Using https://ui-svelte.sappsdev.com/llm/starter/page.md, create a Svelte +page.svelte file for a [description]. Use ONLY Section, Card, and Button components from ui-svelte. Generate Svelte syntax, NOT React.`}
+					lang="text"
+				/>
+			</div>
+		</div>
+	</Card>
+</Section>
 
-			<div class="space-y-4">
-				<div>
-					<h3 class="text-lg font-semibold mb-2 text-danger">AI generates React/JSX code</h3>
-					<p class="mb-2"><strong>Solution:</strong></p>
-					<ul class="list-disc list-inside space-y-1 ml-4">
-						<li>Make sure you include the full URL in your prompt</li>
-						<li>Add "Generate Svelte syntax, NOT React" to your prompt</li>
-						<li>Specify "Create a Svelte +page.svelte file" explicitly</li>
-						<li>If AI still generates React, try a new conversation and start with the URL</li>
+<Section>
+	<Card>
+		{#snippet header()}
+			<div class="row gap-3 items-center">
+				<Icon icon={WebLayoutIcon} class="size-5" />
+				<h4>Complete Prompt Examples</h4>
+			</div>
+		{/snippet}
+		<Tabs tabs={promptTabs} />
+	</Card>
+</Section>
+
+<Section>
+	<Card>
+		{#snippet header()}
+			<div class="row gap-3 items-center">
+				<Icon icon={WarningTriangleIcon} class="size-5" />
+				<h4>Troubleshooting</h4>
+			</div>
+		{/snippet}
+		<div class="column gap-6">
+			{#each troubleshooting as item}
+				<div class="column gap-2">
+					<h5 class="font-semibold text-warning">{item.issue}</h5>
+					<p class="text-sm font-medium">Solution:</p>
+					<ul class="list-disc list-inside space-y-1 ml-4 text-sm">
+						{#each item.solutions as solution}
+							<li>{solution}</li>
+						{/each}
 					</ul>
 				</div>
+			{/each}
+		</div>
+	</Card>
+</Section>
 
-				<div>
-					<h3 class="text-lg font-semibold mb-2 text-warning">AI uses wrong components</h3>
-					<p class="mb-2"><strong>Solution:</strong></p>
-					<ul class="list-disc list-inside space-y-1 ml-4">
-						<li>
-							Specify component names explicitly: "Use Section, Card, and Button from ui-svelte"
-						</li>
-						<li>Mention "Use ONLY ui-svelte components" in your prompt</li>
-						<li>Reference specific component APIs from the docs</li>
-					</ul>
-				</div>
-
-				<div>
-					<h3 class="text-lg font-semibold mb-2 text-info">AI uses wrong syntax for layouts</h3>
-					<p class="mb-2"><strong>Solution:</strong></p>
-					<ul class="list-disc list-inside space-y-1 ml-4">
-						<li>Reference the complete layout examples from layout.md</li>
-					</ul>
-				</div>
+<Section>
+	<Card variant="success">
+		{#snippet header()}
+			<div class="row gap-3 items-center">
+				<Icon icon={CheckmarkCircle24RegularIcon} class="size-5" />
+				<h4>Best Practices</h4>
 			</div>
-		</Card>
-
-		<!-- Best Practices -->
-		<Card>
-			<h2 class="text-2xl font-bold mb-4">Best Practices</h2>
-
-			<div class="space-y-3">
-				<div class="flex gap-3">
-					<span class="text-2xl">✅</span>
+		{/snippet}
+		<div class="column gap-4">
+			{#each bestPractices as practice}
+				<div class="row gap-3">
+					<span class="text-success">✅</span>
 					<div>
-						<strong>Always include the documentation URL</strong>
-						<p class="text-sm text-muted-foreground">
-							This is the most important step to get correct Svelte code
-						</p>
+						<strong>{practice.tip}</strong>
+						<p class="text-sm text-muted-500">{practice.description}</p>
 					</div>
 				</div>
-
-				<div class="flex gap-3">
-					<span class="text-2xl">✅</span>
-					<div>
-						<strong>Be specific about component names</strong>
-						<p class="text-sm text-muted-foreground">
-							Name the exact components you want: Section, Card, Button, etc.
-						</p>
-					</div>
-				</div>
-
-				<div class="flex gap-3">
-					<span class="text-2xl">✅</span>
-					<div>
-						<strong>Specify layouts with bodyClass</strong>
-						<p class="text-sm text-muted-foreground">
-							Use "grid-3", "row", "center gap-6" to get exact layouts
-						</p>
-					</div>
-				</div>
-
-				<div class="flex gap-3">
-					<span class="text-2xl">✅</span>
-					<div>
-						<strong>Request responsive designs</strong>
-						<p class="text-sm text-muted-foreground">
-							Add "column md:row" or "grid-1 md:grid-3" for mobile-first layouts
-						</p>
-					</div>
-				</div>
-
-				<div class="flex gap-3">
-					<span class="text-2xl">✅</span>
-					<div>
-						<strong>Start simple, then iterate</strong>
-						<p class="text-sm text-muted-foreground">
-							Get the basic structure first, then ask AI to add features
-						</p>
-					</div>
-				</div>
-			</div>
-		</Card>
-	</div>
+			{/each}
+		</div>
+	</Card>
 </Section>

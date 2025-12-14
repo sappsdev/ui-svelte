@@ -1,8 +1,10 @@
 <script lang="ts">
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
+	import { Card, Code, Section, Tabs, Button, Modal, Drawer, Alert } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsPreview from '$lib/components/DocsPreview.svelte';
+	import DocsCode from '$lib/components/DocsCode.svelte';
 	import Color from '$lib/components/utils/Color.svelte';
 	import { storeApp } from '$lib/store/store.svelte';
-	import { Button, Card, Modal, Section, Alert, Code, Drawer } from 'ui-svelte';
 
 	type ThemeColorKey = keyof typeof storeApp.themeColors;
 
@@ -83,7 +85,7 @@
 				selectedColorType === 'main'
 					? selectedColorKey
 					: (`on${(selectedColorKey as string).charAt(0).toUpperCase()}${(selectedColorKey as string).slice(1)}` as keyof typeof storeApp.darkThemeColors);
-			storeApp.setDarkThemeColor(key, colorValue);
+			storeApp.setDarkThemeColor(key as keyof typeof storeApp.darkThemeColors, colorValue);
 		} else {
 			const key =
 				selectedColorType === 'main'
@@ -128,12 +130,6 @@
 		return `@import 'tailwindcss';
 @import 'ui-svelte/css';
 
-@custom-variant dark (&:is(.dark *));
-
-body {
-	font-family: 'Montserrat Variable', sans-serif;
-}
-
 :root {
 	--primary: ${colors.primary};
 	--on-primary: ${colors.onPrimary};
@@ -177,113 +173,203 @@ body {
 	--on-surface: ${darkColors.onSurface};
 }`;
 	}
+
+	const colorVariables = [
+		{ variable: '--primary', description: 'Main brand color for primary actions' },
+		{ variable: '--on-primary', description: 'Text/icon color on primary backgrounds' },
+		{ variable: '--secondary', description: 'Secondary brand color for supporting elements' },
+		{ variable: '--on-secondary', description: 'Text/icon color on secondary backgrounds' },
+		{ variable: '--muted', description: 'Subtle background for less prominent elements' },
+		{ variable: '--on-muted', description: 'Text/icon color on muted backgrounds' },
+		{ variable: '--background', description: 'Main application background color' },
+		{ variable: '--on-background', description: 'Text/icon color on main background' },
+		{ variable: '--surface', description: 'Background for cards and elevated surfaces' },
+		{ variable: '--on-surface', description: 'Text/icon color on surface backgrounds' },
+		{ variable: '--success', description: 'Success states and positive feedback' },
+		{ variable: '--on-success', description: 'Text/icon color on success backgrounds' },
+		{ variable: '--info', description: 'Informational messages and neutral states' },
+		{ variable: '--on-info', description: 'Text/icon color on info backgrounds' },
+		{ variable: '--warning', description: 'Warning messages and cautionary states' },
+		{ variable: '--on-warning', description: 'Text/icon color on warning backgrounds' },
+		{ variable: '--danger', description: 'Error states and destructive actions' },
+		{ variable: '--on-danger', description: 'Text/icon color on danger backgrounds' }
+	];
+
+	const utilityVariables = [
+		{ variable: '--radius-ui', description: 'Border radius for UI components', default: '0.75rem' },
+		{ variable: '--scrollbar-size', description: 'Width of custom scrollbars', default: '6px' }
+	];
+
+	const guidelinesTabs = [
+		{ id: 'brand', label: 'Brand Colors', content: brandGuidelinesContent },
+		{ id: 'semantic', label: 'Semantic Colors', content: semanticGuidelinesContent },
+		{ id: 'neutral', label: 'Neutral Colors', content: neutralGuidelinesContent }
+	];
 </script>
 
-<DocHeader title="Theme Colors">
-	Customize your application's color palette using the interactive theme color system. Click on any
-	color to change it and see the changes applied throughout the documentation in real-time.
-</DocHeader>
-
-<Section>
-	<Card>
-		<h3 class="text-lg font-semibold mb-4">Color Weight Guidelines</h3>
-		<p class="text-sm text-on-muted mb-4">
-			When selecting colors for your theme, follow these recommended weight patterns for optimal
-			contrast and visual hierarchy:
-		</p>
-
-		<div class="space-y-4">
-			<div>
-				<h4 class="font-medium mb-2">Brand Colors (Primary, Secondary)</h4>
-				<ul class="list-disc list-inside space-y-1 text-sm text-on-muted">
-					<li>
-						<strong>Main color:</strong> Use weight <code>600</code> (e.g., <code>blue-600</code>,
-						<code>pink-600</code>)
-					</li>
-					<li>
-						<strong>On color:</strong> Use weight <code>100</code> (e.g., <code>blue-100</code>,
-						<code>pink-100</code>)
-					</li>
-				</ul>
-			</div>
-
-			<div>
-				<h4 class="font-medium mb-2">Semantic Colors (Success, Info, Warning, Danger)</h4>
-				<ul class="list-disc list-inside space-y-1 text-sm text-on-muted">
-					<li>
-						<strong>Main color:</strong> Use weight <code>600</code> (e.g.,
-						<code>green-600</code>,
-						<code>sky-600</code>, <code>yellow-600</code>, <code>red-600</code>)
-					</li>
-					<li>
-						<strong>On color:</strong> Use weight <code>100</code> (e.g., <code>green-100</code>,
-						<code>sky-100</code>, <code>yellow-100</code>, <code>red-100</code>)
-					</li>
-				</ul>
-			</div>
-
-			<div>
-				<h4 class="font-medium mb-2">Neutral Colors (Surface, Background, Muted)</h4>
-				<p class="text-sm text-on-muted mb-2">
-					Use neutral tones: <code>slate</code>, <code>gray</code>, <code>zinc</code>,
-					<code>neutral</code>, or <code>stone</code>
-				</p>
-				<ul class="list-disc list-inside space-y-1 text-sm text-on-muted">
-					<li>
-						<strong>Background:</strong> Use weight <code>50</code> for light mode,
-						<code>950</code>
-						for dark mode
-					</li>
-					<li>
-						<strong>On Background:</strong> Use weight <code>900</code> for light mode,
-						<code>100</code> for dark mode
-					</li>
-					<li>
-						<strong>Surface:</strong> Use weight <code>100</code> for light mode, <code>900</code> for
-						dark mode
-					</li>
-					<li>
-						<strong>On Surface:</strong> Use weight <code>800</code> for light mode,
-						<code>200</code>
-						for dark mode
-					</li>
-					<li>
-						<strong>Muted:</strong> Use weight <code>300</code> for light mode, <code>700</code> for dark
-						mode
-					</li>
-					<li>
-						<strong>On Muted:</strong> Use weight <code>700</code> for light mode,
-						<code>300</code>
-						for dark mode
-					</li>
-				</ul>
-			</div>
+{#snippet brandGuidelinesContent()}
+	<div class="column gap-4">
+		<h4 class="font-medium">Brand Colors (Primary, Secondary)</h4>
+		<ul class="list-disc list-inside space-y-2 text-sm text-on-muted">
+			<li>
+				<strong>Main color:</strong> Use weight
+				<code class="px-1 py-0.5 bg-muted rounded">600</code>
+				(e.g., <code class="px-1 py-0.5 bg-muted rounded">blue-600</code>,
+				<code class="px-1 py-0.5 bg-muted rounded">pink-600</code>)
+			</li>
+			<li>
+				<strong>On color:</strong> Use weight <code class="px-1 py-0.5 bg-muted rounded">100</code>
+				(e.g., <code class="px-1 py-0.5 bg-muted rounded">blue-100</code>,
+				<code class="px-1 py-0.5 bg-muted rounded">pink-100</code>)
+			</li>
+		</ul>
+		<div class="grid-2 gap-2 mt-2">
+			<div class="p-4 bg-primary text-on-primary rounded center">Primary</div>
+			<div class="p-4 bg-secondary text-on-secondary rounded center">Secondary</div>
 		</div>
-	</Card>
-</Section>
+	</div>
+{/snippet}
+
+{#snippet semanticGuidelinesContent()}
+	<div class="column gap-4">
+		<h4 class="font-medium">Semantic Colors (Success, Info, Warning, Danger)</h4>
+		<ul class="list-disc list-inside space-y-2 text-sm text-on-muted">
+			<li>
+				<strong>Main color:</strong> Use weight
+				<code class="px-1 py-0.5 bg-muted rounded">600</code>
+				(e.g., <code class="px-1 py-0.5 bg-muted rounded">green-600</code>,
+				<code class="px-1 py-0.5 bg-muted rounded">red-600</code>)
+			</li>
+			<li>
+				<strong>On color:</strong> Use weight <code class="px-1 py-0.5 bg-muted rounded">100</code>
+				(e.g., <code class="px-1 py-0.5 bg-muted rounded">green-100</code>,
+				<code class="px-1 py-0.5 bg-muted rounded">red-100</code>)
+			</li>
+		</ul>
+		<div class="grid-4 gap-2 mt-2">
+			<div class="p-3 bg-success text-on-success rounded center text-sm">Success</div>
+			<div class="p-3 bg-info text-on-info rounded center text-sm">Info</div>
+			<div class="p-3 bg-warning text-on-warning rounded center text-sm">Warning</div>
+			<div class="p-3 bg-danger text-on-danger rounded center text-sm">Danger</div>
+		</div>
+	</div>
+{/snippet}
+
+{#snippet neutralGuidelinesContent()}
+	<div class="column gap-4">
+		<h4 class="font-medium">Neutral Colors (Surface, Background, Muted)</h4>
+		<p class="text-sm text-on-muted">
+			Use neutral tones: <code class="px-1 py-0.5 bg-muted rounded">slate</code>,
+			<code class="px-1 py-0.5 bg-muted rounded">gray</code>,
+			<code class="px-1 py-0.5 bg-muted rounded">zinc</code>,
+			<code class="px-1 py-0.5 bg-muted rounded">neutral</code>, or
+			<code class="px-1 py-0.5 bg-muted rounded">stone</code>
+		</p>
+		<ul class="list-disc list-inside space-y-2 text-sm text-on-muted">
+			<li>
+				<strong>Background:</strong> Weight <code class="px-1 py-0.5 bg-muted rounded">50</code>
+				(light) / <code class="px-1 py-0.5 bg-muted rounded">950</code> (dark)
+			</li>
+			<li>
+				<strong>Surface:</strong> Weight <code class="px-1 py-0.5 bg-muted rounded">100</code>
+				(light) / <code class="px-1 py-0.5 bg-muted rounded">900</code> (dark)
+			</li>
+			<li>
+				<strong>Muted:</strong> Weight <code class="px-1 py-0.5 bg-muted rounded">300</code> (light)
+				/ <code class="px-1 py-0.5 bg-muted rounded">700</code> (dark)
+			</li>
+		</ul>
+		<div class="grid-3 gap-2 mt-2">
+			<div class="p-3 bg-background text-on-background rounded center text-sm border border-muted">
+				Background
+			</div>
+			<div class="p-3 bg-surface text-on-surface rounded center text-sm">Surface</div>
+			<div class="p-3 bg-muted text-on-muted rounded center text-sm">Muted</div>
+		</div>
+	</div>
+{/snippet}
+
+<DocsHeader title="Theme">
+	Customize your application's color palette using CSS variables. The theme system provides semantic
+	color tokens for consistent styling across all components.
+</DocsHeader>
 
 <Section>
 	<Alert status="info">
 		<strong>Interactive Theme Customization:</strong> Click on any color below to open the color picker.
 		Your changes will be applied immediately throughout the entire application. Use the "Generate CSS"
-		button to export your customized theme, or "Reset Colors" to restore default values.
+		button to export your customized theme.
 	</Alert>
+</Section>
 
-	<div class="flex justify-end gap-2 mb-4">
-		<Button variant="outlined" size="sm" onclick={() => (showCssDrawer = true)}>Generate CSS</Button
-		>
-		<Button variant="outlined" size="sm" onclick={resetColors}>Reset Colors</Button>
-	</div>
-
+<Section bodyClass="md:grid-3">
+	<DocsPreview>
+		<div class="column gap-4 w-full">
+			<div class="grid-2 gap-3">
+				<div class="p-4 bg-primary text-on-primary rounded-lg center">Primary</div>
+				<div class="p-4 bg-secondary text-on-secondary rounded-lg center">Secondary</div>
+			</div>
+			<div class="grid-4 gap-2">
+				<div class="p-3 bg-success text-on-success rounded center text-sm">Success</div>
+				<div class="p-3 bg-info text-on-info rounded center text-sm">Info</div>
+				<div class="p-3 bg-warning text-on-warning rounded center text-sm">Warning</div>
+				<div class="p-3 bg-danger text-on-danger rounded center text-sm">Danger</div>
+			</div>
+			<div class="grid-3 gap-2">
+				<div class="p-3 bg-surface text-on-surface rounded center text-sm border border-muted">
+					Surface
+				</div>
+				<div class="p-3 bg-muted text-on-muted rounded center text-sm">Muted</div>
+				<div
+					class="p-3 bg-background text-on-background rounded center text-sm border border-muted"
+				>
+					Background
+				</div>
+			</div>
+		</div>
+	</DocsPreview>
 	<Card>
-		<div class="grid gap-6">
+		<div class="row gap-2 mb-4">
+			<Button variant="outlined" size="sm" onclick={() => (showCssDrawer = true)}
+				>Generate CSS</Button
+			>
+			<Button variant="outlined" size="sm" onclick={resetColors}>Reset Colors</Button>
+		</div>
+		<p class="text-sm text-on-muted">
+			Click on the color swatches below to customize each theme color. Changes are applied in
+			real-time.
+		</p>
+	</Card>
+	<DocsCode
+		code={`<div class="bg-primary text-on-primary">
+	Primary styled element
+</div>
+
+<div class="bg-success text-on-success">
+	Success message
+</div>`}
+	/>
+</Section>
+
+<Section>
+	<Card>
+		<Tabs tabs={guidelinesTabs} />
+	</Card>
+</Section>
+
+<Section>
+	<Card>
+		{#snippet header()}
+			<h4>Light Mode Colors</h4>
+		{/snippet}
+		<div class="grid gap-4">
 			{#each themeColorPairs as colorPair}
 				{@const mainKey = colorPair.key as ThemeColorKey}
 				{@const onKey =
 					`on${colorPair.key.charAt(0).toUpperCase()}${colorPair.key.slice(1)}` as ThemeColorKey}
-				<div class="border-b border-muted last:border-b-0 pb-6 last:pb-0">
-					<div class="mb-3">
-						<h3 class="text-base font-semibold">{colorPair.label}</h3>
+				<div class="border-b border-muted last:border-b-0 pb-4 last:pb-0">
+					<div class="mb-2">
+						<h5 class="text-sm font-semibold">{colorPair.label}</h5>
 						<p class="text-xs text-on-muted">{colorPair.description}</p>
 					</div>
 
@@ -291,19 +377,14 @@ body {
 						<div class="flex items-center gap-3">
 							<button
 								onclick={() => openPicker(mainKey, 'main')}
-								class="size-16 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0"
+								class="size-12 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0 cursor-pointer"
 								style="background-color: {storeApp.themeColors[mainKey]}; color: {storeApp
 									.themeColors[onKey]};"
 								title="Click to customize {colorPair.label}"
 							>
 							</button>
 							<div class="flex-1 min-w-0">
-								<div class="flex items-center justify-between mb-1">
-									<span class="text-xs font-medium">{colorPair.label}</span>
-									<Button onclick={() => openPicker(mainKey, 'main')} variant="ghost" size="xs">
-										Change
-									</Button>
-								</div>
+								<span class="text-xs font-medium">{colorPair.label}</span>
 								<Code code={storeApp.themeColors[mainKey]} lang="css" />
 							</div>
 						</div>
@@ -311,33 +392,17 @@ body {
 						<div class="flex items-center gap-3">
 							<button
 								onclick={() => openPicker(mainKey, 'on')}
-								class="size-16 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0"
+								class="size-12 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0 cursor-pointer"
 								style="background-color: {storeApp.themeColors[onKey]}; color: {storeApp
 									.themeColors[mainKey]};"
 								title="Click to customize On {colorPair.label}"
 							>
 							</button>
 							<div class="flex-1 min-w-0">
-								<div class="flex items-center justify-between mb-1">
-									<span class="text-xs font-medium">On {colorPair.label}</span>
-									<Button onclick={() => openPicker(mainKey, 'on')} variant="ghost" size="xs">
-										Change
-									</Button>
-								</div>
+								<span class="text-xs font-medium">On {colorPair.label}</span>
 								<Code code={storeApp.themeColors[onKey]} lang="css" />
 							</div>
 						</div>
-					</div>
-
-					<div
-						class="mt-3 p-3 rounded-lg text-center"
-						style="background-color: {storeApp.themeColors[mainKey]}; color: {storeApp.themeColors[
-							onKey
-						]};"
-					>
-						<p class="text-xs font-medium">
-							Example: {colorPair.label} with On-{colorPair.label} text
-						</p>
 					</div>
 				</div>
 			{/each}
@@ -346,21 +411,21 @@ body {
 </Section>
 
 <Section>
-	<h2 class="text-2xl font-bold mb-4">Dark Mode Colors</h2>
-	<Alert status="info">
-		<strong>Dark Mode Specific Colors:</strong> These colors are only applied when dark mode is active.
-		Toggle dark mode using the button in the top right to see your changes.
-	</Alert>
-
 	<Card>
-		<div class="grid gap-6">
+		{#snippet header()}
+			<h4>Dark Mode Colors</h4>
+		{/snippet}
+		<Alert status="info">
+			Toggle dark mode using the button in the top navigation to see your changes.
+		</Alert>
+		<div class="grid gap-4">
 			{#each darkThemeColorPairs as colorPair}
 				{@const mainKey = colorPair.key as keyof typeof storeApp.darkThemeColors}
 				{@const onKey =
 					`on${colorPair.key.charAt(0).toUpperCase()}${colorPair.key.slice(1)}` as keyof typeof storeApp.darkThemeColors}
-				<div class="border-b border-muted last:border-b-0 pb-6 last:pb-0">
-					<div class="mb-3">
-						<h3 class="text-base font-semibold">{colorPair.label}</h3>
+				<div class="border-b border-muted last:border-b-0 pb-4 last:pb-0">
+					<div class="mb-2">
+						<h5 class="text-sm font-semibold">{colorPair.label}</h5>
 						<p class="text-xs text-on-muted">{colorPair.description}</p>
 					</div>
 
@@ -368,23 +433,14 @@ body {
 						<div class="flex items-center gap-3">
 							<button
 								onclick={() => openPicker(mainKey, 'main', 'dark')}
-								class="size-16 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0"
+								class="size-12 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0 cursor-pointer"
 								style="background-color: {storeApp.darkThemeColors[mainKey]}; color: {storeApp
 									.darkThemeColors[onKey]};"
 								title="Click to customize {colorPair.label}"
 							>
 							</button>
 							<div class="flex-1 min-w-0">
-								<div class="flex items-center justify-between mb-1">
-									<span class="text-xs font-medium">{colorPair.label}</span>
-									<Button
-										onclick={() => openPicker(mainKey, 'main', 'dark')}
-										variant="ghost"
-										size="xs"
-									>
-										Change
-									</Button>
-								</div>
+								<span class="text-xs font-medium">{colorPair.label}</span>
 								<Code code={storeApp.darkThemeColors[mainKey]} lang="css" />
 							</div>
 						</div>
@@ -392,36 +448,17 @@ body {
 						<div class="flex items-center gap-3">
 							<button
 								onclick={() => openPicker(mainKey, 'on', 'dark')}
-								class="size-16 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0"
+								class="size-12 rounded-lg shadow-sm transition-all hover:scale-105 hover:shadow-md shrink-0 cursor-pointer"
 								style="background-color: {storeApp.darkThemeColors[onKey]}; color: {storeApp
 									.darkThemeColors[mainKey]};"
 								title="Click to customize On {colorPair.label}"
 							>
 							</button>
 							<div class="flex-1 min-w-0">
-								<div class="flex items-center justify-between mb-1">
-									<span class="text-xs font-medium">On {colorPair.label}</span>
-									<Button
-										onclick={() => openPicker(mainKey, 'on', 'dark')}
-										variant="ghost"
-										size="xs"
-									>
-										Change
-									</Button>
-								</div>
+								<span class="text-xs font-medium">On {colorPair.label}</span>
 								<Code code={storeApp.darkThemeColors[onKey]} lang="css" />
 							</div>
 						</div>
-					</div>
-
-					<div
-						class="mt-3 p-3 rounded-lg text-center"
-						style="background-color: {storeApp.darkThemeColors[mainKey]}; color: {storeApp
-							.darkThemeColors[onKey]};"
-					>
-						<p class="text-xs font-medium">
-							Example: {colorPair.label} with On-{colorPair.label} text
-						</p>
 					</div>
 				</div>
 			{/each}
@@ -431,41 +468,93 @@ body {
 
 <Section>
 	<Card>
-		<h3 class="text-lg font-semibold mb-4">How to Use Theme Colors</h3>
-
-		<div class="space-y-4">
-			<div>
-				<h4 class="font-medium mb-2">In CSS/Tailwind Classes</h4>
-				<Code
-					code={'<div class="bg-primary text-on-primary">Primary Button</div>'}
-					lang="html"
-					showCopy
-				/>
-			</div>
-
-			<div>
-				<h4 class="font-medium mb-2">In CSS Custom Properties</h4>
-				<Code
-					code={'.my-element {\n  background-color: var(--primary);\n  color: var(--on-primary);\n}'}
-					lang="css"
-					showCopy
-				/>
-			</div>
-
-			<div>
-				<h4 class="font-medium mb-2">Available Theme Colors</h4>
-				<ul class="list-disc list-inside space-y-1 text-sm">
-					<li><code>primary</code> / <code>on-primary</code> - Main brand color</li>
-					<li><code>secondary</code> / <code>on-secondary</code> - Secondary brand color</li>
-					<li><code>muted</code> / <code>on-muted</code> - Subtle backgrounds</li>
-					<li><code>success</code> / <code>on-success</code> - Success states</li>
-					<li><code>info</code> / <code>on-info</code> - Informational states</li>
-					<li><code>warning</code> / <code>on-warning</code> - Warning states</li>
-					<li><code>danger</code> / <code>on-danger</code> - Error/danger states</li>
-					<li><code>surface</code> / <code>on-surface</code> - Card backgrounds</li>
-				</ul>
-			</div>
+		{#snippet header()}
+			<h4>CSS Variables Reference</h4>
+		{/snippet}
+		<div class="overflow-x-auto">
+			<table class="w-full border-collapse">
+				<thead>
+					<tr class="border-b border-muted-200">
+						<th class="text-left p-3 font-semibold">Variable</th>
+						<th class="text-left p-3 font-semibold">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each colorVariables as variable}
+						<tr class="border-b border-muted-100">
+							<td class="p-3"><code class="px-2 py-1 rounded text-sm">{variable.variable}</code></td
+							>
+							<td class="p-3 text-sm">{variable.description}</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
 		</div>
+	</Card>
+</Section>
+
+<Section>
+	<Card variant="info">
+		<div class="column gap-3">
+			<h4 class="font-semibold">💡 Pro Tips</h4>
+			<ul class="text-sm space-y-2 list-disc list-inside">
+				<li>
+					<strong>Tailwind Classes:</strong> Use semantic color classes like
+					<code class="px-1 py-0.5 bg-blue rounded">bg-primary</code> and
+					<code class="px-1 py-0.5 bg-blue rounded">text-on-primary</code>
+				</li>
+				<li>
+					<strong>CSS Variables:</strong> Access colors directly via
+					<code class="px-1 py-0.5 bg-blue rounded">var(--primary)</code>
+				</li>
+				<li>
+					<strong>Dark Mode:</strong> Colors automatically switch when
+					<code class="px-1 py-0.5 bg-blue rounded">.dark</code> class is applied to the root
+				</li>
+				<li>
+					<strong>Consistency:</strong> Always pair background colors with their
+					<code class="px-1 py-0.5 bg-blue rounded">on-*</code> counterparts for proper contrast
+				</li>
+			</ul>
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<Card bodyClass="column gap-4">
+		{#snippet header()}
+			<h4>Usage Examples</h4>
+		{/snippet}
+		<Code
+			lang="svelte"
+			code={`<!-- Using Tailwind Classes -->
+<div class="bg-primary text-on-primary p-4 rounded">
+	Primary styled button
+</div>
+
+<!-- Semantic Colors -->
+<div class="bg-success text-on-success">Success message</div>
+<div class="bg-warning text-on-warning">Warning alert</div>
+<div class="bg-danger text-on-danger">Error state</div>
+
+<!-- Using CSS Variables -->
+<style>
+.custom-element {
+	background-color: var(--primary);
+	color: var(--on-primary);
+	border-radius: var(--radius-ui);
+}
+</style>
+
+<!-- Surface and Background -->
+<div class="bg-surface text-on-surface p-4 rounded">
+	Card content on surface
+</div>
+
+<div class="bg-muted text-on-muted p-2 rounded">
+	Subtle muted section
+</div>`}
+		/>
 	</Card>
 </Section>
 
@@ -481,5 +570,5 @@ body {
 		</p>
 	{/snippet}
 
-	<Code code={generateAppCss()} lang="css" showCopy />
+	<Code code={generateAppCss()} lang="css" />
 </Drawer>

@@ -1,0 +1,194 @@
+# ui-svelte - Layout Components
+
+> **FRAMEWORK: SVELTE/SVELTEKIT - Generate ONLY .svelte files**
+> **DO NOT generate React, Vue, or any other framework code**
+
+Layout components for building Svelte/SvelteKit **+layout.svelte** files. Optimized for AI code generation.
+
+**This documentation is ONLY for layout components**. For page content (Section, Card, etc.), see the [page documentation](https://ui-svelte.sappsdev.com/llm/starter/page.md).
+
+---
+
+## 🚨 CRITICAL FOR AI ASSISTANTS
+
+**YOU MUST:**
+- Generate ONLY Svelte code (`.svelte` files)
+- Use ONLY components from `'ui-svelte'` package
+- Start every file with: `<script lang="ts">` and `import { ... } from 'ui-svelte';`
+- Use `let { children } = $props();` to receive children prop
+- Use `{@render children()}` to render page content
+- Use Svelte syntax: `{#snippet}`, `{@render}`, NOT JSX
+
+**YOU MUST NOT:**
+- Generate React/JSX code (no `className`, no `useState`)
+- Use any other component library
+
+---
+
+## Quick Start Template
+
+```svelte
+<script lang="ts">
+  import { Scaffold, AppBar, Sidebar, SideNav } from 'ui-svelte';
+  
+  let { children } = $props();
+  
+  const navItems = [
+    { label: 'Home', icon: 'fluent:home-24-regular', href: '/' },
+    { label: 'Settings', icon: 'fluent:settings-24-regular', href: '/settings' }
+  ];
+</script>
+
+<Scaffold mainClass="lg:p-4" startClass="invisible lg:visible lg:w-56" bodyClass="mt-16" isBoxed>
+  {#snippet appBar()}
+    <AppBar class="h-16" isSticky isBoxed>
+      {#snippet start()}<h4>My App</h4>{/snippet}
+    </AppBar>
+  {/snippet}
+  
+  {#snippet start()}
+    <Sidebar rootClass="vh-16">
+      <SideNav items={navItems} />
+    </Sidebar>
+  {/snippet}
+  
+  {@render children()}
+</Scaffold>
+```
+
+---
+
+## Component Documentation
+
+**Read these for detailed APIs and examples:**
+
+### Layout Components
+- [Scaffold](https://ui-svelte.sappsdev.com/llm/layout/scaffold.md): Base application structure with AppBar, Sidebar, BottomNav
+
+### Supporting Components (used within layouts)
+- AppBar: Top navigation bar with `start`, `center`, `end` snippets
+- Sidebar: Vertical navigation panel with `header`, `footer` snippets
+- SideNav: Navigation items for Sidebar
+- NavMenu: Horizontal navigation for AppBar
+- Drawer: Slide-in panel for mobile navigation
+- BottomNav: Fixed bottom navigation for mobile apps
+- Footer: Page footer component
+
+---
+
+## Layout Structure Pattern
+
+```
++layout.svelte
+├── Scaffold (root layout wrapper)
+│   ├── appBar → AppBar (fixed top)
+│   ├── start → Sidebar + SideNav (left panel)
+│   ├── end → Sidebar (right panel)
+│   ├── bottomBar → BottomNav (fixed bottom)
+│   └── children → {@render children()} (page content)
+```
+
+**Critical Rule**: Always use `let { children } = $props();` and `{@render children()}`.
+
+---
+
+## Key Spacing Rules
+
+| AppBar Height | bodyClass | vh utility |
+|---------------|-----------|------------|
+| `h-16` | `mt-16` | `vh-16` |
+| `h-20` | `mt-20` | `vh-20` |
+| `h-16` + BottomNav | `mt-16 pb-16` | `vh-32` |
+
+**vh utilities**: `vh-16` = `calc(100vh - 4rem)` for Sidebar height.
+
+---
+
+## Common Layout Patterns
+
+### Landing Page (AppBar + Footer)
+```svelte
+<Scaffold mainClass="vh-16 mt-16">
+  {#snippet appBar()}
+    <AppBar class="h-16" isBoxed isSticky />
+  {/snippet}
+  {@render children()}
+  <Footer isBoxed />
+</Scaffold>
+```
+
+### Dashboard (AppBar + Sidebar)
+```svelte
+<Scaffold
+  mainClass="lg:p-4"
+  startClass="invisible lg:visible lg:w-56"
+  bodyClass="mt-16"
+  isBoxed
+>
+  {#snippet appBar()}
+    <AppBar class="h-16" isSticky isBoxed />
+  {/snippet}
+  {#snippet start()}
+    <Sidebar rootClass="vh-16">
+      <SideNav items={navItems} />
+    </Sidebar>
+  {/snippet}
+  {@render children()}
+</Scaffold>
+```
+
+### Mobile App (AppBar + BottomNav)
+```svelte
+<Scaffold mainClass="mt-16 pb-16" bodyClass="mt-16">
+  {#snippet appBar()}
+    <AppBar class="h-16" />
+  {/snippet}
+  {@render children()}
+  {#snippet bottomBar()}
+    <BottomNav items={bottomNavItems} />
+  {/snippet}
+</Scaffold>
+```
+
+### Responsive (Sidebar + Drawer for mobile)
+```svelte
+<script lang="ts">
+  let { children } = $props();
+  let drawerOpen = $state(false);
+</script>
+
+<Scaffold startClass="invisible lg:visible lg:w-56" bodyClass="mt-16">
+  {#snippet appBar()}
+    <AppBar class="h-16">
+      {#snippet start()}
+        <IconButton icon="fluent:navigation-24-regular" onclick={() => drawerOpen = true} class="lg:hidden" />
+        <h4>My App</h4>
+      {/snippet}
+    </AppBar>
+  {/snippet}
+  {#snippet start()}
+    <Sidebar rootClass="vh-16">
+      <SideNav items={navItems} />
+    </Sidebar>
+  {/snippet}
+  {@render children()}
+</Scaffold>
+
+<Drawer bind:open={drawerOpen}>
+  <SideNav items={navItems} />
+</Drawer>
+```
+
+---
+
+## For LLMs: Summary
+
+1. **Framework**: Svelte/SvelteKit ONLY
+2. **Children**: Always `let { children } = $props();` + `{@render children()}`
+3. **Snippets**: Use `{#snippet name()}...{/snippet}` for layout sections
+4. **Structure**: Scaffold → (appBar, start, end, bottomBar) → children
+5. **Spacing**: Match `bodyClass="mt-16"` to AppBar `class="h-16"`
+6. **Responsive**: Use `invisible lg:visible` + Drawer for mobile
+7. **No Page Components**: Never use Section, Card in layouts
+
+**See [Scaffold docs](https://ui-svelte.sappsdev.com/llm/layout/scaffold.md) for complete API.**

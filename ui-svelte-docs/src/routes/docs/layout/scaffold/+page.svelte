@@ -1,9 +1,14 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { Select, Section } from 'ui-svelte';
+	import { Card, Code, Icon, Section, Select } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsCode from '$lib/components/DocsCode.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
+	import {
+		WebLayoutIcon,
+		LayoutDashboardIcon,
+		SmartphoneIcon,
+		WarningTriangleIcon
+	} from '$lib/icons';
 
 	type ExampleType = 'landing' | 'dashboard' | 'mobile';
 	let exampleType = $state<ExampleType>('landing');
@@ -15,145 +20,170 @@
 	];
 
 	const landingCode = `<script lang="ts">
-\timport { Scaffold, AppBar, Footer, NavMenu } from 'ui-svelte';
-\tlet { children } = $props();
+	import { Scaffold, AppBar, Footer, NavMenu } from 'ui-svelte';
+	let { children } = $props();
 
-\tconst navItems = [
-\t\t{ label: 'Home', icon: 'fluent:home-24-regular', href: '/' },
-\t\t{ label: 'Docs', icon: 'fluent:info-24-regular', href: '/docs' }
-\t];
+	const navItems = [
+		{ label: 'Home', icon: 'fluent:home-24-regular', href: '/' },
+		{ label: 'Docs', icon: 'fluent:info-24-regular', href: '/docs' }
+	];
 <\/script>
 
 <Scaffold mainClass="vh-16 mt-16">
-\t{#snippet appBar()}
-\t\t<AppBar class="h-16" isBoxed isSticky>
-\t\t\t{#snippet start()}
-\t\t\t\t<h4>Brand</h4>
-\t\t\t{/snippet}
-\t\t\t{#snippet center()}
-\t\t\t\t<NavMenu items={navItems} />
-\t\t\t{/snippet}
-\t\t\t{#snippet end()}
-\t\t\t\t<ToggleTheme />
-\t\t\t{/snippet}
-\t\t</AppBar>
-\t{/snippet}
+	{#snippet appBar()}
+		<AppBar class="h-16" isBoxed isSticky>
+			{#snippet start()}
+				<h4>Brand</h4>
+			{/snippet}
+			{#snippet center()}
+				<NavMenu items={navItems} />
+			{/snippet}
+			{#snippet end()}
+				<ToggleTheme />
+			{/snippet}
+		</AppBar>
+	{/snippet}
 
-\t<!-- Main content -->
-\t{@render children()}
+	<!-- Main content -->
+	{@render children()}
 
-\t{#snippet footer()}
-\t\t<Footer isBoxed>
-\t\t\t{#snippet start()}
-\t\t\t\t<p class="text-sm text-muted-foreground">© 2024 Company</p>
-\t\t\t{/snippet}
-\t\t</Footer>
-\t{/snippet}
+	<!-- Footer is placed as a direct child -->
+	<Footer isBoxed>
+		{#snippet start()}
+			<p class="text-sm text-muted-foreground">© 2024 Company</p>
+		{/snippet}
+	</Footer>
 </Scaffold>`;
 
 	const dashboardCode = `<script lang="ts">
-\timport { Scaffold, AppBar, Sidebar, SideNav, Footer } from 'ui-svelte';
-\tlet { children } = $props();
+	import { Scaffold, AppBar, Sidebar, SideNav, Footer, IconButton, Drawer } from 'ui-svelte';
+	let { children } = $props();
+	let drawerOpen = $state(false);
 
-\tconst navItems = [
-\t\t{ label: 'Dashboard', icon: 'fluent:home-24-regular', href: '/dashboard' },
-\t\t{ label: 'Projects', icon: 'fluent:folder-24-regular', href: '/projects' },
-\t\t{ label: 'Settings', icon: 'fluent:settings-24-regular', href: '/settings' }
-\t];
+	const navItems = [
+		{ label: 'Dashboard', icon: 'fluent:home-24-regular', href: '/dashboard' },
+		{ label: 'Projects', icon: 'fluent:folder-24-regular', href: '/projects' },
+		{ label: 'Settings', icon: 'fluent:settings-24-regular', href: '/settings' }
+	];
 <\/script>
 
 <Scaffold
-\tmainClass="lg:p-4 pb-16"
-\tstartClass="invisible lg:visible lg:w-56"
-\tendClass="invisible lg:visible lg:w-56"
-\tbodyClass="bg-background mt-16"
-\tisBoxed
+	mainClass="lg:p-4 pb-16"
+	startClass="invisible lg:visible lg:w-56"
+	bodyClass="bg-background mt-16"
+	isBoxed
 >
-\t{#snippet appBar()}
-\t\t<AppBar class="h-16" isSticky isBoxed>
-\t\t\t{#snippet start()}
-\t\t\t\t<IconButton
-\t\t\t\t\ticon="fluent:navigation-24-regular"
-\t\t\t\t\tonclick={() => drawerOpen = true}
-\t\t\t\t\tclass="lg:hidden"
-\t\t\t\t/>
-\t\t\t\t<h4>Dashboard</h4>
-\t\t\t{/snippet}
-\t\t\t{#snippet end()}
-\t\t\t\t<ToggleTheme />
-\t\t\t{/snippet}
-\t\t</AppBar>
-\t{/snippet}
+	{#snippet appBar()}
+		<AppBar class="h-16" isSticky isBoxed>
+			{#snippet start()}
+				<IconButton
+					icon="fluent:navigation-24-regular"
+					onclick={() => drawerOpen = true}
+					class="lg:hidden"
+				/>
+				<h4>Dashboard</h4>
+			{/snippet}
+			{#snippet end()}
+				<ToggleTheme />
+			{/snippet}
+		</AppBar>
+	{/snippet}
 
-\t{#snippet start()}
-\t\t<Sidebar class="pb-8 vh-16">
-\t\t\t{#snippet header()}
-\t\t\t\t<h3 class="text-lg font-semibold">Navigation</h3>
-\t\t\t{/snippet}
-\t\t\t<SideNav items={navItems} />
-\t\t</Sidebar>
-\t{/snippet}
+	{#snippet start()}
+		<Sidebar rootClass="pb-8 vh-16">
+			{#snippet header()}
+				<h3 class="text-lg font-semibold">Navigation</h3>
+			{/snippet}
+			<SideNav items={navItems} />
+		</Sidebar>
+	{/snippet}
 
-\t<!-- Main content -->
-\t{@render children()}
+	<!-- Main content -->
+	{@render children()}
 
-\t{#snippet end()}
-\t\t<Sidebar class="pb-8 vh-16">
-\t\t\t<h4 class="font-semibold mb-4">Activity</h4>
-\t\t\t<!-- Right sidebar content -->
-\t\t</Sidebar>
-\t{/snippet}
+	<Footer isBordered>
+		{#snippet start()}
+			<p class="text-sm text-muted-foreground">© 2024 Company</p>
+		{/snippet}
+	</Footer>
+</Scaffold>
 
-\t{#snippet footer()}
-\t\t<Footer isBordered>
-\t\t\t{#snippet start()}
-\t\t\t\t<p class="text-sm text-muted-foreground">© 2024 Company</p>
-\t\t\t{/snippet}
-\t\t</Footer>
-\t{/snippet}
-</Scaffold>`;
+<!-- Mobile Drawer for navigation -->
+<Drawer bind:open={drawerOpen}>
+	<SideNav items={navItems} />
+</Drawer>`;
 
 	const mobileCode = `<script lang="ts">
-\timport { Scaffold, AppBar, BottomNav } from 'ui-svelte';
-\tlet { children } = $props();
+	import { Scaffold, AppBar, BottomNav } from 'ui-svelte';
+	let { children } = $props();
 
-\tconst bottomNavItems = [
-\t\t{ id: 'home', label: 'Home', icon: 'fluent:home-24-regular', href: '/' },
-\t\t{ id: 'search', label: 'Search', icon: 'fluent:search-24-regular', href: '/search' },
-\t\t{ id: 'favorites', label: 'Favorites', icon: 'fluent:heart-24-regular', href: '/favorites' },
-\t\t{ id: 'profile', label: 'Profile', icon: 'fluent:person-24-regular', href: '/profile' }
-\t];
+	const bottomNavItems = [
+		{ id: 'home', label: 'Home', icon: 'fluent:home-24-regular', href: '/' },
+		{ id: 'search', label: 'Search', icon: 'fluent:search-24-regular', href: '/search' },
+		{ id: 'favorites', label: 'Favorites', icon: 'fluent:heart-24-regular', href: '/favorites' },
+		{ id: 'profile', label: 'Profile', icon: 'fluent:person-24-regular', href: '/profile' }
+	];
 <\/script>
 
 <Scaffold mainClass="mt-16 pb-16" bodyClass="mt-16">
-\t{#snippet appBar()}
-\t\t<AppBar class="h-16">
-\t\t\t{#snippet center()}
-\t\t\t\t<h4>Mobile App</h4>
-\t\t\t{/snippet}
-\t\t</AppBar>
-\t{/snippet}
+	{#snippet appBar()}
+		<AppBar class="h-16">
+			{#snippet center()}
+				<h4>Mobile App</h4>
+			{/snippet}
+		</AppBar>
+	{/snippet}
 
-\t<!-- Main content -->
-\t{@render children()}
+	<!-- Main content -->
+	{@render children()}
 
-\t{#snippet bottomBar()}
-\t\t<BottomNav items={bottomNavItems} />
-\t{/snippet}
+	{#snippet bottomBar()}
+		<BottomNav items={bottomNavItems} />
+	{/snippet}
 </Scaffold>`;
 
+	let code = $derived(() => {
+		if (exampleType === 'landing') return landingCode;
+		if (exampleType === 'dashboard') return dashboardCode;
+		return mobileCode;
+	});
+
 	const props = [
-		{ prop: 'children', type: 'Snippet', initial: '', required: true },
-		{ prop: 'appBar', type: 'Snippet', initial: '' },
-		{ prop: 'start', type: 'Snippet', initial: '' },
-		{ prop: 'end', type: 'Snippet', initial: '' },
-		{ prop: 'bottomBar', type: 'Snippet', initial: '' },
-		{ prop: 'footer', type: 'Snippet', initial: '' },
-		{ prop: 'bodyClass', type: 'string', initial: '' },
-		{ prop: 'mainClass', type: 'string', initial: '' },
-		{ prop: 'startClass', type: 'string', initial: '' },
-		{ prop: 'endClass', type: 'string', initial: '' },
-		{ prop: 'isBoxed', type: 'boolean', initial: 'false' }
+		{ prop: 'children', type: 'Snippet', initial: '', required: true, description: 'Main content' },
+		{ prop: 'appBar', type: 'Snippet', initial: '', description: 'Fixed top navigation bar' },
+		{ prop: 'start', type: 'Snippet', initial: '', description: 'Left sidebar content' },
+		{ prop: 'end', type: 'Snippet', initial: '', description: 'Right sidebar content' },
+		{ prop: 'bottomBar', type: 'Snippet', initial: '', description: 'Fixed bottom navigation' },
+		{
+			prop: 'bodyClass',
+			type: 'string',
+			initial: '',
+			description: 'Classes for the body container'
+		},
+		{
+			prop: 'mainClass',
+			type: 'string',
+			initial: '',
+			description: 'Classes for the main content area'
+		},
+		{
+			prop: 'startClass',
+			type: 'string',
+			initial: '',
+			description: 'Classes for the left sidebar wrapper'
+		},
+		{
+			prop: 'endClass',
+			type: 'string',
+			initial: '',
+			description: 'Classes for the right sidebar wrapper'
+		},
+		{
+			prop: 'isBoxed',
+			type: 'boolean',
+			initial: 'false',
+			description: 'Limits max-width to boxed container'
+		}
 	];
 </script>
 
@@ -235,18 +265,6 @@
 					</div>
 				</div>
 			</div>
-
-			<!-- End Sidebar -->
-			<div class="hidden lg:block w-56 bg-surface border-l border-border overflow-auto">
-				<div class="p-4">
-					<div class="font-semibold mb-4">Activity</div>
-					<div class="space-y-3">
-						<div class="h-12 bg-muted/30 rounded"></div>
-						<div class="h-12 bg-muted/30 rounded"></div>
-						<div class="h-12 bg-muted/30 rounded"></div>
-					</div>
-				</div>
-			</div>
 		</div>
 
 		<!-- Simulated Footer -->
@@ -308,234 +326,225 @@
 	</div>
 {/snippet}
 
-{#snippet builder()}
-	<Select label="Layout Example" size="sm" options={exampleOptions} bind:value={exampleType} />
-{/snippet}
-
-<DocHeader title="Scaffold">
+<DocsHeader title="Scaffold" llmUrl="https://ui-svelte.sappsdev.com/llm/layout/scaffold.md">
 	Scaffold is a comprehensive layout component that provides the foundation for your application. It
-	manages the positioning and coordination of AppBar, Sidebar, Footer, and BottomNav components to
-	create professional, responsive layouts.
-</DocHeader>
+	manages the positioning of AppBar, Sidebar, Footer, and BottomNav to create professional,
+	responsive layouts. <strong>It should only be used in layout files (+layout.svelte).</strong>
+</DocsHeader>
 
-<DocPreview {builder}>
-	{#if exampleType === 'landing'}
-		{@render landingPreview()}
-	{:else if exampleType === 'dashboard'}
-		{@render dashboardPreview()}
-	{:else if exampleType === 'mobile'}
-		{@render mobilePreview()}
-	{/if}
-</DocPreview>
-
-<DocCode
-	code={exampleType === 'landing'
-		? landingCode
-		: exampleType === 'dashboard'
-			? dashboardCode
-			: mobileCode}
-/>
-
-<DocProps {props} />
-
-<Section class="prose mt-8">
-	<h2>Layout System Overview</h2>
-
-	<h3>How Scaffold Works</h3>
-	<p>
-		The Scaffold component uses <code>fixed</code> positioning for AppBar, Sidebar (start/end), BottomNav,
-		and Footer components. This creates a stable layout where:
-	</p>
-	<ul>
-		<li>AppBar stays fixed at the top</li>
-		<li>Sidebars stay fixed on the left/right</li>
-		<li>BottomNav stays fixed at the bottom (mobile)</li>
-		<li>Footer stays at the bottom of the page</li>
-		<li>Main content scrolls independently</li>
-	</ul>
-
-	<h3>Key Concepts</h3>
-
-	<h4>1. Body Class - AppBar Spacing</h4>
-	<p>
-		When using an AppBar, add top margin to <code>bodyClass</code> to prevent content from being hidden
-		under the fixed AppBar:
-	</p>
-	<ul>
-		<li>
-			If AppBar has <code>h-16</code>, use <code>bodyClass="mt-16"</code>
-		</li>
-		<li>
-			If AppBar has <code>h-20</code>, use <code>bodyClass="mt-20"</code>
-		</li>
-	</ul>
-
-	<h4>2. Start/End Class - Sidebar Width</h4>
-	<p>
-		Set the width of sidebars using <code>startClass</code> and <code>endClass</code>. The Scaffold
-		automatically handles the fixed positioning:
-	</p>
-	<ul>
-		<li>
-			<code>startClass="w-56"</code> - Left sidebar with 56 width units
-		</li>
-		<li>
-			<code>startClass="invisible lg:visible lg:w-56"</code> - Responsive sidebar (hidden on mobile)
-		</li>
-	</ul>
-
-	<h4>3. vh Utilities - Sidebar Height</h4>
-	<p>
-		Apply <code>vh-*</code> utilities directly to the Sidebar component (not to startClass/endClass) to
-		ensure proper height calculation:
-	</p>
-	<ul>
-		<li>
-			<code>vh-16</code> = <code>calc(100vh - 4rem)</code> - Use with AppBar h-16
-		</li>
-		<li>
-			<code>vh-32</code> = <code>calc(100vh - 8rem)</code> - Use with AppBar + BottomNav (both h-16)
-		</li>
-	</ul>
-
-	<h4>4. Main Class - Content Styling</h4>
-	<p>
-		Use <code>mainClass</code> to style the main content area:
-	</p>
-	<ul>
-		<li>
-			<code>mainClass="p-4"</code> - Add padding
-		</li>
-		<li>
-			<code>mainClass="lg:p-4 pb-16"</code> - Responsive padding with bottom space for BottomNav
-		</li>
-		<li>
-			<code>mainClass="vh-16 mt-16"</code> - Full height content (landing pages)
-		</li>
-	</ul>
-
-	<h3>Common Patterns</h3>
-
-	<h4>Landing Page</h4>
-	<ul>
-		<li>AppBar at top</li>
-		<li>Full-width content</li>
-		<li>Optional Footer at bottom</li>
-		<li>No sidebars</li>
-	</ul>
-
-	<h4>Dashboard</h4>
-	<ul>
-		<li>AppBar at top</li>
-		<li>Left sidebar for navigation</li>
-		<li>Optional right sidebar for activity/info</li>
-		<li>Responsive (sidebars hidden on mobile)</li>
-		<li>Optional Footer</li>
-	</ul>
-
-	<h4>Mobile App</h4>
-	<ul>
-		<li>AppBar at top</li>
-		<li>BottomNav for primary navigation</li>
-		<li>Full-width content</li>
-		<li>No sidebars</li>
-	</ul>
-
-	<h3>Integration with Components</h3>
-
-	<h4>AppBar</h4>
-	<p>
-		Use the <code>appBar</code> snippet to add a fixed header. The AppBar component provides start, center,
-		and end sections for flexible layouts.
-	</p>
-
-	<h4>Sidebar</h4>
-	<p>
-		Use <code>start</code> and <code>end</code> snippets for left and right sidebars. Sidebars support
-		header and footer sections for additional structure.
-	</p>
-
-	<h4>Footer</h4>
-	<p>
-		Use the <code>footer</code> snippet to add a footer at the bottom of the page. The Footer component
-		supports start, center, and end sections.
-	</p>
-
-	<h4>BottomNav</h4>
-	<p>
-		Use the <code>bottomBar</code> snippet for mobile-style bottom navigation. Perfect for mobile apps
-		and responsive layouts.
-	</p>
-
-	<h3>Responsive Design</h3>
-	<p>Use Tailwind's responsive prefixes to create adaptive layouts:</p>
-	<ul>
-		<li>
-			<code>startClass="invisible lg:visible lg:w-56"</code> - Show sidebar only on large screens
-		</li>
-		<li>
-			<code>mainClass="lg:p-4 pb-16"</code> - Different padding on desktop vs mobile
-		</li>
-		<li>Combine with Drawer component for mobile sidebar navigation</li>
-	</ul>
-
-	<h3>Available vh Utilities</h3>
-	<div class="grid grid-cols-2 md:grid-cols-3 gap-2 not-prose">
-		<div class="p-2 bg-surface rounded text-sm">
-			<code>vh-8</code>
-			<span class="text-xs text-muted-foreground block">calc(100vh - 2rem)</span>
-		</div>
-		<div class="p-2 bg-surface rounded text-sm">
-			<code>vh-10</code>
-			<span class="text-xs text-muted-foreground block">calc(100vh - 2.5rem)</span>
-		</div>
-		<div class="p-2 bg-surface rounded text-sm">
-			<code>vh-12</code>
-			<span class="text-xs text-muted-foreground block">calc(100vh - 3rem)</span>
-		</div>
-		<div class="p-2 bg-surface rounded text-sm">
-			<code>vh-14</code>
-			<span class="text-xs text-muted-foreground block">calc(100vh - 3.5rem)</span>
-		</div>
-		<div class="p-2 bg-surface rounded text-sm">
-			<code>vh-16</code>
-			<span class="text-xs text-muted-foreground block">calc(100vh - 4rem)</span>
-		</div>
-		<div class="p-2 bg-surface rounded text-sm">
-			<code>vh-20</code>
-			<span class="text-xs text-muted-foreground block">calc(100vh - 5rem)</span>
-		</div>
-		<div class="p-2 bg-surface rounded text-sm">
-			<code>vh-24</code>
-			<span class="text-xs text-muted-foreground block">calc(100vh - 6rem)</span>
-		</div>
-		<div class="p-2 bg-surface rounded text-sm">
-			<code>vh-32</code>
-			<span class="text-xs text-muted-foreground block">calc(100vh - 8rem)</span>
-		</div>
-		<div class="p-2 bg-surface rounded text-sm">
-			<code>vh-40</code>
-			<span class="text-xs text-muted-foreground block">calc(100vh - 10rem)</span>
-		</div>
+<Section bodyClass="md:grid-3">
+	<div class="md:col-span-2">
+		{#if exampleType === 'landing'}
+			{@render landingPreview()}
+		{:else if exampleType === 'dashboard'}
+			{@render dashboardPreview()}
+		{:else if exampleType === 'mobile'}
+			{@render mobilePreview()}
+		{/if}
 	</div>
+	<Card>
+		<Select label="Layout Example" size="sm" options={exampleOptions} bind:value={exampleType} />
+		<div class="mt-4 text-sm text-muted-foreground">
+			{#if exampleType === 'landing'}
+				Simple landing page layout with AppBar and Footer.
+			{:else if exampleType === 'dashboard'}
+				Dashboard with sidebar navigation and responsive layout.
+			{:else}
+				Mobile-first layout with BottomNav navigation.
+			{/if}
+		</div>
+	</Card>
+</Section>
 
-	<h3>Best Practices</h3>
-	<ul>
-		<li>
-			<strong>Don't</strong> add margin classes to <code>mainClass</code> for sidebars - Scaffold handles
-			this automatically
-		</li>
-		<li>
-			<strong>Do</strong> use <code>bodyClass</code> for AppBar spacing
-		</li>
-		<li>
-			<strong>Do</strong> apply <code>vh-*</code> utilities to Sidebar components, not to startClass/endClass
-		</li>
-		<li>
-			<strong>Do</strong> use responsive classes for mobile-friendly layouts
-		</li>
-		<li>
-			<strong>Do</strong> combine with Drawer for mobile sidebar navigation
-		</li>
-	</ul>
+<Section>
+	<DocsCode code={code()} />
+</Section>
+
+<Section>
+	<Card variant="warning">
+		<div class="row gap-3 items-start">
+			<Icon icon={WarningTriangleIcon} class="w-6 h-6 shrink-0 mt-0.5" />
+			<div class="column gap-2">
+				<h4 class="font-semibold">Layout Files Only</h4>
+				<p class="text-sm">
+					The Scaffold component should <strong>only be used in layout files</strong> (+layout.svelte).
+					It provides the structural foundation for your entire page and coordinates fixed elements like
+					AppBar, Sidebar, and BottomNav. Using it in regular page components will cause layout conflicts.
+				</p>
+			</div>
+		</div>
+	</Card>
+</Section>
+
+<DocsProps {props} />
+
+<Section bodyClass="grid-1 md:grid-3 gap-4">
+	<Card variant="info">
+		<div class="column gap-3">
+			<Icon icon={WebLayoutIcon} class="w-8 h-8" />
+			<h4 class="font-semibold">Landing Pages</h4>
+			<ul class="text-sm space-y-1 list-disc list-inside">
+				<li>AppBar at top (fixed)</li>
+				<li>Full-width content</li>
+				<li>Footer at bottom</li>
+				<li>No sidebars</li>
+				<li><code class="px-1 py-0.5 bg-blue rounded">mainClass="vh-16 mt-16"</code></li>
+			</ul>
+		</div>
+	</Card>
+
+	<Card variant="info">
+		<div class="column gap-3">
+			<Icon icon={LayoutDashboardIcon} class="w-8 h-8" />
+			<h4 class="font-semibold">Dashboard</h4>
+			<ul class="text-sm space-y-1 list-disc list-inside">
+				<li>AppBar at top (fixed)</li>
+				<li>Left/right sidebars</li>
+				<li>Responsive (hidden on mobile)</li>
+				<li>
+					<code class="px-1 py-0.5 bg-blue rounded">startClass="invisible lg:visible lg:w-56"</code>
+				</li>
+				<li>Use Drawer for mobile nav</li>
+			</ul>
+		</div>
+	</Card>
+
+	<Card variant="info">
+		<div class="column gap-3">
+			<Icon icon={SmartphoneIcon} class="w-8 h-8" />
+			<h4 class="font-semibold">Mobile App</h4>
+			<ul class="text-sm space-y-1 list-disc list-inside">
+				<li>AppBar at top</li>
+				<li>BottomNav for navigation</li>
+				<li>No sidebars</li>
+				<li><code class="px-1 py-0.5 bg-blue rounded">mainClass="mt-16 pb-16"</code></li>
+			</ul>
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<Card>
+		{#snippet header()}
+			<h4>Key Concepts</h4>
+		{/snippet}
+		<div class="column gap-4">
+			<div>
+				<h5 class="font-semibold mb-2">1. Body Class - AppBar Spacing</h5>
+				<p class="text-sm text-muted-foreground mb-2">
+					When using an AppBar, add top margin to <code>bodyClass</code> to prevent content from being
+					hidden:
+				</p>
+				<ul class="text-sm list-disc list-inside">
+					<li>If AppBar has <code>h-16</code>, use <code>bodyClass="mt-16"</code></li>
+					<li>If AppBar has <code>h-20</code>, use <code>bodyClass="mt-20"</code></li>
+				</ul>
+			</div>
+
+			<div>
+				<h5 class="font-semibold mb-2">2. Start/End Class - Sidebar Width</h5>
+				<p class="text-sm text-muted-foreground mb-2">
+					Set the width of sidebars using <code>startClass</code> and <code>endClass</code>:
+				</p>
+				<ul class="text-sm list-disc list-inside">
+					<li><code>startClass="w-56"</code> - Fixed width sidebar</li>
+					<li><code>startClass="invisible lg:visible lg:w-56"</code> - Responsive sidebar</li>
+				</ul>
+			</div>
+
+			<div>
+				<h5 class="font-semibold mb-2">3. vh Utilities - Sidebar Height</h5>
+				<p class="text-sm text-muted-foreground mb-2">
+					Apply <code>vh-*</code> utilities to Sidebar components for proper height:
+				</p>
+				<ul class="text-sm list-disc list-inside">
+					<li><code>vh-16</code> = <code>calc(100vh - 4rem)</code> - With AppBar h-16</li>
+					<li><code>vh-32</code> = <code>calc(100vh - 8rem)</code> - With AppBar + BottomNav</li>
+				</ul>
+			</div>
+
+			<div>
+				<h5 class="font-semibold mb-2">4. Main Class - Content Styling</h5>
+				<p class="text-sm text-muted-foreground mb-2">
+					Use <code>mainClass</code> to style the main content area:
+				</p>
+				<ul class="text-sm list-disc list-inside">
+					<li><code>mainClass="p-4"</code> - Add padding</li>
+					<li><code>mainClass="lg:p-4 pb-16"</code> - Responsive padding with BottomNav space</li>
+					<li><code>mainClass="vh-16 mt-16"</code> - Full height content (landing pages)</li>
+				</ul>
+			</div>
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<Card bodyClass="column gap-4">
+		{#snippet header()}
+			<h4>Real-World Examples</h4>
+		{/snippet}
+		<Code
+			lang="svelte"
+			code={`<!-- Landing Layout Example (src/routes/(landing)/+layout.svelte) -->
+<Scaffold mainClass="vh-16 mt-16">
+	{#snippet appBar()}
+		<AppBar rootClass="bg-background h-16" isBoxed isSticky isBordered>
+			{#snippet start()}
+				<a href="/"><h4>UiSvelte</h4></a>
+			{/snippet}
+			{#snippet center()}
+				<NavMenu items={menuItems} />
+			{/snippet}
+			{#snippet end()}
+				<ToggleTheme />
+			{/snippet}
+		</AppBar>
+	{/snippet}
+	{@render children()}
+	<Footer isBoxed isBordered>
+		{#snippet start()}
+			<p class="text-sm text-muted-foreground">© 2024 UiSvelte</p>
+		{/snippet}
+	</Footer>
+</Scaffold>`}
+		/>
+		<Code
+			lang="svelte"
+			code={`<!-- Dashboard Layout Example (src/routes/docs/+layout.svelte) -->
+<Scaffold
+	mainClass="lg:p-4 pb-16"
+	startClass="invisible lg:visible lg:w-56"
+	bodyClass="bg-background mt-16"
+	isBoxed
+>
+	{#snippet appBar()}
+		<AppBar rootClass="bg-background h-16" isSticky isBoxed isBordered>
+			{#snippet start()}
+				<IconButton icon={MenuIcon} onclick={() => drawerOpen = true} class="lg:hidden" />
+				<a href="/"><h4>UiSvelte</h4></a>
+			{/snippet}
+			{#snippet end()}
+				<ToggleTheme />
+			{/snippet}
+		</AppBar>
+	{/snippet}
+	{#snippet start()}
+		<Sidebar rootClass="pb-8 vh-16">
+			<SideNav items={sideMenuItems} />
+		</Sidebar>
+	{/snippet}
+	{@render children()}
+	<Footer isBordered>
+		{#snippet start()}
+			<p class="text-sm">© 2024 UiSvelte</p>
+		{/snippet}
+	</Footer>
+</Scaffold>
+
+<!-- Mobile Drawer -->
+<Drawer bind:open={drawerOpen}>
+	<SideNav items={sideMenuItems} />
+</Drawer>`}
+		/>
+	</Card>
 </Section>
