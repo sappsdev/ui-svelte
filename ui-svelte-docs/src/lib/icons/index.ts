@@ -122,3 +122,23 @@ export const CopyRegularIcon = {
 	body: '<path fill="currentColor" d="M5.503 4.627L5.5 6.75v10.504a3.25 3.25 0 0 0 3.25 3.25h8.616a2.25 2.25 0 0 1-2.122 1.5H8.75A4.75 4.75 0 0 1 4 17.254V6.75c0-.98.627-1.815 1.503-2.123M17.75 2A2.25 2.25 0 0 1 20 4.25v13a2.25 2.25 0 0 1-2.25 2.25h-9a2.25 2.25 0 0 1-2.25-2.25v-13A2.25 2.25 0 0 1 8.75 2zm0 1.5h-9a.75.75 0 0 0-.75.75v13c0 .414.336.75.75.75h9a.75.75 0 0 0 .75-.75v-13a.75.75 0 0 0-.75-.75"/>',
 	viewbox: '0 0 24 24'
 };
+
+export const DownloadLinearIcon: IconData = {
+	body: '<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 14V4m0 10l3.5-3.5M12 14l-3.5-3.5M22 17v1c0 1.886 0 2.828-.586 3.414S19.886 22 18 22H6c-1.886 0-2.828 0-3.414-.586S2 19.886 2 18v-1"/>',
+	viewbox: '0 0 24 24'
+};
+
+export const TrashLinearIcon: IconData = {
+	body: '<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M20.5 6h-17m15.333 2.5l-.46 6.9c-.177 2.654-.265 3.981-1.13 4.79s-2.196.81-4.856.81h-.774c-2.66 0-3.991 0-4.856-.81c-.865-.809-.954-2.136-1.13-4.79l-.46-6.9M9.17 4a3.001 3.001 0 0 1 5.66 0"/>',
+	viewbox: '0 0 24 24'
+};
+
+export const WarningLinearIcon: IconData = {
+	body: '<g fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 7.5V13m0 3v-.5"/></g>',
+	viewbox: '0 0 24 24'
+};
+
+export const ArrowRightLinearIcon: IconData = {
+	body: '<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 12h16m0 0l-6-6m6 6l-6 6"/>',
+	viewbox: '0 0 24 24'
+};

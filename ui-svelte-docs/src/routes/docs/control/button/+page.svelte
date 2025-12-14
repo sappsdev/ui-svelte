@@ -1,6 +1,13 @@
 <script lang="ts">
 	import { Button, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
-	import { HeartAngleLinearIcon, BalloonLinearIcon } from '$lib/icons';
+	import {
+		HeartAngleLinearIcon,
+		BalloonLinearIcon,
+		DownloadLinearIcon,
+		TrashLinearIcon,
+		WarningLinearIcon,
+		ArrowRightLinearIcon
+	} from '$lib/icons';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
 	import DocsPreview from '$lib/components/DocsPreview.svelte';
 	import DocsCode from '$lib/components/DocsCode.svelte';
@@ -200,19 +207,21 @@
 	</Button>
 
 	<!-- Botón de descarga -->
-	<Button variant="success" isSolid size="lg" isWide>⬇️ Download Now</Button>
+	<Button variant="success" isSolid size="lg" isWide startIcon={DownloadLinearIcon}
+		>Download Now</Button
+	>
 
 	<!-- Botón de suscripción -->
 	<Button variant="info" size="lg" isWide endIcon={BalloonLinearIcon}>Subscribe</Button>
 
 	<!-- Botón outline con hover -->
-	<Button variant="outlined" size="lg" isWide>Learn More →</Button>
+	<Button variant="outlined" size="lg" isWide endIcon={ArrowRightLinearIcon}>Learn More</Button>
 
 	<!-- Botón de loading -->
 	<Button variant="primary" isLoading isWide>Processing...</Button>
 
 	<!-- Botón de peligro -->
-	<Button variant="danger" isSolid isWide>🗑️ Delete Account</Button>
+	<Button variant="danger" isSolid isWide startIcon={TrashLinearIcon}>Delete Account</Button>
 
 	<!-- Botón secundario con iconos -->
 	<Button variant="secondary" isWide startIcon={HeartAngleLinearIcon} endIcon={BalloonLinearIcon}>
@@ -231,7 +240,9 @@
 	</div>
 
 	<!-- Botón warning -->
-	<Button variant="warning" isSolid isWide>⚠️ Proceed with Caution</Button>
+	<Button variant="warning" isSolid isWide startIcon={WarningLinearIcon}
+		>Proceed with Caution</Button
+	>
 
 	<!-- Botón muted -->
 	<Button variant="muted" isWide>Cancel</Button>
