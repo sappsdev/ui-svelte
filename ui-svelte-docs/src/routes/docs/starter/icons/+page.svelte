@@ -185,7 +185,7 @@
 		{:else if icons.length === 0}
 			<div class="text-center py-12 text-on-muted">No icons found matching your search.</div>
 		{:else}
-			<div class="grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2">
+			<div class="grid-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2">
 				{#each icons as iconItem (iconItem.id)}
 					<Tooltip label={iconItem.name.split(':')[1] || iconItem.name} position="top">
 						<button

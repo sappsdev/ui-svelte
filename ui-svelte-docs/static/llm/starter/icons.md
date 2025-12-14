@@ -39,6 +39,7 @@ GET https://ui-icons.sappsdev.com/icons
 | `fluent-regular` | Fluent Regular |
 | `circle-flags` | Circle Flags |
 | `streamline-emojis` | Streamline Emojis |
+| `streamline-color` | Streamline Color |
 | `svg-spinners` | SVG Spinners |
 | `logos` | Logos |
 
