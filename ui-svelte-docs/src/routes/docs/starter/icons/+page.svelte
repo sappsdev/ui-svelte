@@ -1,7 +1,20 @@
 <script lang="ts">
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import { Icon, Button, Section, TextField, Select, toast, Code, Drawer, Alert } from 'ui-svelte';
+	import {
+		Icon,
+		Button,
+		Card,
+		Section,
+		TextField,
+		Select,
+		toast,
+		Code,
+		Drawer,
+		Alert,
+		Tooltip
+	} from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsCode from '$lib/components/DocsCode.svelte';
+	import { Search24RegularIcon } from '$lib/icons';
 	import { onMount } from 'svelte';
 
 	type IconData = {
@@ -37,18 +50,19 @@
 	});
 
 	const availableSets = [
-		{ id: 'solar-bold', label: 'solar-bold' },
-		{ id: 'solar-bold-duotone', label: 'solar-bold-duotone' },
-		{ id: 'solar-broken', label: 'solar-broken' },
-		{ id: 'solar-line-duotone', label: 'solar-line-duotone' },
-		{ id: 'solar-linear', label: 'solar-linear' },
-		{ id: 'solar-outline', label: 'solar-outline' },
-		{ id: 'fluent-filled', label: 'fluent-filled' },
-		{ id: 'fluent-regular', label: 'fluent-regular' },
-		{ id: 'circle-flags', label: 'circle-flags' },
-		{ id: 'streamline-emojis', label: 'streamline-emojis' },
-		{ id: 'svg-spinners', label: 'svg-spinners' },
-		{ id: 'logos', label: 'logos' }
+		{ id: 'solar-bold', label: 'Solar Bold' },
+		{ id: 'solar-bold-duotone', label: 'Solar Bold Duotone' },
+		{ id: 'solar-broken', label: 'Solar Broken' },
+		{ id: 'solar-line-duotone', label: 'Solar Line Duotone' },
+		{ id: 'solar-linear', label: 'Solar Linear' },
+		{ id: 'solar-outline', label: 'Solar Outline' },
+		{ id: 'fluent-filled', label: 'Fluent Filled' },
+		{ id: 'fluent-regular', label: 'Fluent Regular' },
+		{ id: 'circle-flags', label: 'Circle Flags' },
+		{ id: 'streamline-emojis', label: 'Streamline Emojis' },
+		{ id: 'streamline-color', label: 'Streamline Color' },
+		{ id: 'svg-spinners', label: 'SVG Spinners' },
+		{ id: 'logos', label: 'Logos' }
 	];
 
 	const fetchIcons = async (
@@ -65,7 +79,7 @@
 				...(setName && { set_name: setName })
 			});
 
-			const response = await fetch(`https://sappsicons.appdnd-com.workers.dev/icons?${params}`);
+			const response = await fetch(`https://ui-icons.sappsdev.com/icons?${params}`);
 			const data: PaginatedResponse = await response.json();
 
 			icons = data.data;
@@ -90,12 +104,16 @@
 		fetchIcons(page, selectedSet, searchValue);
 	};
 
+	let searchTimeout: ReturnType<typeof setTimeout>;
 	const handleSearch = () => {
-		const timeoutId = setTimeout(() => {
+		clearTimeout(searchTimeout);
+		searchTimeout = setTimeout(() => {
 			fetchIcons(1, selectedSet, searchValue);
 		}, 300);
+	};
 
-		return () => clearTimeout(timeoutId);
+	const handleSetChange = () => {
+		fetchIcons(1, selectedSet, searchValue);
 	};
 
 	const handleIcon = (data: IconData) => {
@@ -123,101 +141,125 @@
 	});
 </script>
 
-{#snippet preview()}
-	{#if loading}
-		<div class="flex justify-center items-center py-12">loading</div>
-	{:else if icons.length === 0}
-		<div class="text-center py-12 text-gray-500">No icons found matching your search.</div>
-	{:else}
-		<div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-4">
-			{#each icons as icon (icon.id)}
-				<button
-					onclick={() => handleIcon(icon)}
-					class="flex flex-col items-center justify-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group"
-					title={icon.name}
-				>
-					<Icon icon={{ body: icon.body, viewbox: icon.viewbox }} class="w-8 h-8 mb-2" />
-					<span
-						class="text-xs text-gray-600 dark:text-gray-400 truncate w-full text-center group-hover:text-gray-900 dark:group-hover:text-gray-100"
-					>
-						{icon.name.split(':')[1] || icon.name}
-					</span>
-				</button>
-			{/each}
-		</div>
-
-		{#if pagination.totalPages > 1}
-			<div class="flex justify-center items-center gap-2 mt-8">
-				<Button
-					variant="ghost"
-					size="sm"
-					onclick={() => handlePageChange(pagination.page - 1)}
-					isDisabled={pagination.page === 1}
-				>
-					Previous
-				</Button>
-
-				<span class="text-sm text-gray-600 dark:text-gray-400">
-					Page {pagination.page} of {pagination.totalPages}
-					({pagination.total} icons)
-				</span>
-
-				<Button
-					variant="ghost"
-					size="sm"
-					onclick={() => handlePageChange(pagination.page + 1)}
-					isDisabled={pagination.page === pagination.totalPages}
-				>
-					Next
-				</Button>
-			</div>
-		{/if}
-	{/if}
-{/snippet}
-
-{#snippet builder()}
-	<TextField
-		label="Search"
-		name="icon-search"
-		placeholder="Search icons..."
-		oninput={handleSearch}
-		size="sm"
-		bind:value={searchValue}
-	/>
-
-	<Select
-		label="Icon Set"
-		name="icon-set"
-		options={availableSets}
-		onchange={handleSearch}
-		size="sm"
-		bind:value={selectedSet}
-	/>
-{/snippet}
-
-<DocHeader title="Icons">
-	Icons are visual symbols that represent ideas, actions, or objects.
-</DocHeader>
+<DocsHeader title="Icons" llmUrl="https://ui-svelte.sappsdev.com/llm/starter/icons.md">
+	Icons are visual symbols that represent ideas, actions, or objects. Browse and search through
+	thousands of icons from multiple icon sets.
+</DocsHeader>
 
 <Section>
-	<Alert status="info">
-		<strong>Icon Library:</strong> Browse and search through thousands of icons from multiple sets. Click
-		any icon to view its code and add it to your project.
-	</Alert>
+	<Card>
+		{#snippet header()}
+			<div class="row gap-4 w-full items-end">
+				<div class="flex-1">
+					<TextField
+						name="icon-search"
+						placeholder="Search {pagination.total} icons..."
+						oninput={handleSearch}
+						size="sm"
+						bind:value={searchValue}
+						startIcon={Search24RegularIcon}
+					/>
+				</div>
+				<div class="w-48">
+					<Select
+						name="icon-set"
+						options={availableSets}
+						onchange={handleSetChange}
+						size="sm"
+						bind:value={selectedSet}
+					/>
+				</div>
+			</div>
+		{/snippet}
+
+		{#if loading}
+			<div class="flex justify-center items-center py-12">
+				<Icon
+					icon={{
+						body: '<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" stroke-dasharray="32" stroke-dashoffset="0"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/></circle>',
+						viewbox: '0 0 24 24'
+					}}
+					class="w-8 h-8 animate-spin"
+				/>
+			</div>
+		{:else if icons.length === 0}
+			<div class="text-center py-12 text-on-muted">No icons found matching your search.</div>
+		{:else}
+			<div class="grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2">
+				{#each icons as iconItem (iconItem.id)}
+					<Tooltip label={iconItem.name.split(':')[1] || iconItem.name} position="top">
+						<button
+							onclick={() => handleIcon(iconItem)}
+							class="flex flex-col items-center justify-center p-3 rounded-lg border border-transparent hover:border-primary hover:bg-primary/5 transition-all cursor-pointer"
+						>
+							<Icon icon={{ body: iconItem.body, viewbox: iconItem.viewbox }} class="h-8 w-auto" />
+						</button>
+					</Tooltip>
+				{/each}
+			</div>
+
+			{#if pagination.totalPages > 1}
+				<div class="flex justify-center items-center gap-4 mt-6 pt-4 border-t border-on-muted/20">
+					<Button
+						variant="outlined"
+						size="sm"
+						onclick={() => handlePageChange(pagination.page - 1)}
+						isDisabled={pagination.page === 1}
+					>
+						Previous
+					</Button>
+
+					<span class="text-sm text-on-muted">
+						Page {pagination.page} of {pagination.totalPages}
+					</span>
+
+					<Button
+						variant="outlined"
+						size="sm"
+						onclick={() => handlePageChange(pagination.page + 1)}
+						isDisabled={pagination.page === pagination.totalPages}
+					>
+						Next
+					</Button>
+				</div>
+			{/if}
+		{/if}
+	</Card>
 </Section>
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section>
+	<Card bodyClass="column gap-4">
+		{#snippet header()}
+			<h4>Usage</h4>
+		{/snippet}
+		<Alert showIcon>
+			Click any icon above to get the code. Add the exported constant to{' '}
+			<strong>$lib/icons/index.ts</strong> to use it in your project.
+		</Alert>
+		<Code
+			lang="svelte"
+			code={`<script lang="ts">
+	import { Icon } from 'ui-svelte';
+	import { HeartLinearIcon } from '$lib/icons';
+<\/script>
+
+<Icon icon={HeartLinearIcon} class="w-6 h-6" />`}
+		/>
+	</Card>
+</Section>
+
 <Drawer bind:open={showCode} position="bottom" onclose={() => (icon = undefined)}>
 	{#snippet header()}
 		{#if icon}
-			<Icon icon={{ body: icon.body, viewbox: icon.viewbox }} class="h-12 w-auto mr-2" />
-			<Alert
-				>Add this code to <strong>$lib/icons/index.ts</strong> to use the icon in your project.</Alert
-			>
+			<div class="row gap-4 items-center">
+				<Icon icon={{ body: icon.body, viewbox: icon.viewbox }} class="h-12 w-auto" />
+				<div>
+					<h4>{iconName}</h4>
+					<p class="text-sm text-on-muted">Add this code to <strong>$lib/icons/index.ts</strong></p>
+				</div>
+			</div>
 		{/if}
 	{/snippet}
 
-	<Code code={code()} lang="svelte" />
+	<Code code={code()} lang="typescript" />
 </Drawer>
