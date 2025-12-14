@@ -125,15 +125,7 @@
 		</Sidebar>
 	{/snippet}
 	{@render children()}
-	<Footer isBordered>
-		{#snippet start()}
-			<p class="text-sm text-muted-foreground">© {new Date().getFullYear()} UiSvelte</p>
-		{/snippet}
-
-		{#snippet end()}
-			<IconButton icon={Heart24RegularIcon} variant="ghost" href="https://www.sappsdev.com" />
-		{/snippet}
-	</Footer>
+	<div class="pb-24"></div>
 </Scaffold>
 <Drawer bind:open={drawerOpen} onclose={() => (drawerOpen = false)} class="w-56">
 	<SideNav items={sideMenuItems} />

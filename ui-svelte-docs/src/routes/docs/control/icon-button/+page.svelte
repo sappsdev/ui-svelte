@@ -1,22 +1,29 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { IconButton, Checkbox, Select } from 'ui-svelte';
-	import { HeartAngleLinearIcon, BalloonLinearIcon } from '$lib/icons';
+	import { Card, Checkbox, Code, IconButton, Section, Select } from 'ui-svelte';
+	import {
+		HeartAngleLinearIcon,
+		DownloadLinearIcon,
+		TrashLinearIcon,
+		Settings24RegularIcon,
+		Search24RegularIcon,
+		Heart24RegularIcon,
+		BalloonLinearIcon
+	} from '$lib/icons';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsPreview from '$lib/components/DocsPreview.svelte';
+	import DocsCode from '$lib/components/DocsCode.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
 	const variantOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
-		{ id: 'outline', label: 'Outline' },
-		{ id: 'ghost', label: 'Ghost' },
 		{ id: 'success', label: 'Success' },
 		{ id: 'info', label: 'Info' },
 		{ id: 'danger', label: 'Danger' },
-		{ id: 'warning', label: 'Warning' }
+		{ id: 'warning', label: 'Warning' },
+		{ id: 'outlined', label: 'Outlined' },
+		{ id: 'ghost', label: 'Ghost' }
 	];
 
 	const sizeOptions = [
@@ -32,32 +39,25 @@
 		{ id: 'reset', label: 'Reset' }
 	];
 
-	// Selects
 	let variant: any = $state('primary');
 	let size: any = $state('md');
 	let type: any = $state('button');
 
-	// Props
-	let icon = $state('fluent:heart-24-regular');
 	let href = $state('');
 
-	// States
 	let isLoading = $state(false);
 	let isDisabled = $state(false);
-	let hasShadow = $state(false);
-	let isSolid = $state(true);
+	let isSolid = $state(false);
 
 	let hasProps = $derived(
 		[
 			variant !== 'primary',
 			size !== 'md',
 			type !== 'button',
-			icon !== 'fluent:heart-24-regular',
 			href,
 			isLoading,
-			isDisabled,
-			hasShadow,
-			isSolid
+			isSolid,
+			isDisabled
 		].some(Boolean)
 	);
 
@@ -65,6 +65,7 @@
 		const scriptLines = [
 			`<script lang="ts">`,
 			`\timport { IconButton } from 'ui-svelte';`,
+			`\timport { HeartAngleLinearIcon } from '$lib/icons';`,
 			!href && `\n\tconst handleClick = () => {`,
 			!href && `\t\tconsole.log('IconButton clicked');`,
 			!href && `\t};`,
@@ -73,77 +74,169 @@
 
 		const componentLines = [
 			hasProps && `<IconButton`,
-			hasProps && `\ticon="${icon}"`,
+			hasProps && `\ticon={HeartAngleLinearIcon}`,
 			variant !== 'primary' && `\tvariant="${variant}"`,
 			size !== 'md' && `\tsize="${size}"`,
 			type !== 'button' && `\ttype="${type}"`,
 			href && `\thref="/example"`,
 			hasProps && !href && `\tonclick={handleClick}`,
 			isLoading && `\tisLoading`,
-			isDisabled && `\tisDisabled`,
-			hasShadow && `\thasShadow`,
 			isSolid && `\tisSolid`,
+			isDisabled && `\tisDisabled`,
 			hasProps && `/>`,
-			!hasProps && `<IconButton icon="${icon}" onclick={handleClick} />`
+			!hasProps && `<IconButton icon={HeartAngleLinearIcon} onclick={handleClick} />`
 		].filter(Boolean);
 
 		return [...scriptLines, ...componentLines].join('\n');
 	});
 
 	const props = [
-		{ prop: 'icon', type: 'IconName', initial: '', required: true },
+		{ prop: 'icon', type: 'IconData', initial: '' },
 		{ prop: 'onclick', type: '() => void', initial: '' },
 		{ prop: 'type', type: 'button | submit | reset', initial: 'button' },
 		{ prop: 'href', type: 'string', initial: '' },
+		{ prop: 'target', type: '_self | _blank | _parent | _top', initial: '' },
 		{
 			prop: 'variant',
-			type: 'primary | secondary | muted | outline | ghost | success | info | warning | danger',
+			type: 'primary | secondary | muted | outline | ghost | success | info | danger | warning',
 			initial: 'primary'
 		},
 		{ prop: 'size', type: 'xs | sm | md | lg', initial: 'md' },
 		{ prop: 'class', type: 'string', initial: '' },
 		{ prop: 'isLoading', type: 'boolean', initial: 'false' },
 		{ prop: 'isDisabled', type: 'boolean', initial: 'false' },
-		{ prop: 'hasShadow', type: 'boolean', initial: 'false' },
-		{ prop: 'solid', type: 'boolean', initial: 'false' }
+		{ prop: 'isSolid', type: 'boolean', initial: 'false' }
 	];
 </script>
 
-{#snippet preview()}
-	<IconButton
-		icon={HeartAngleLinearIcon}
-		{variant}
-		{size}
-		{type}
-		{href}
-		{isLoading}
-		{isDisabled}
-		{isSolid}
-	/>
-{/snippet}
+<DocsHeader title="IconButton" llmUrl="https://ui-svelte.sappsdev.com/llm/control/icon-button.md">
+	IconButton is a compact button displaying only an icon, perfect for toolbars and action menus.
+</DocsHeader>
 
-{#snippet builder()}
-	<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-	<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
-	<Select label="Type" size="sm" options={typeOptions} bind:value={type} />
+<Section bodyClass="md:grid-3">
+	<DocsPreview>
+		<IconButton
+			icon={HeartAngleLinearIcon}
+			{variant}
+			{size}
+			{type}
+			{isLoading}
+			{isDisabled}
+			{isSolid}
+		/>
+	</DocsPreview>
+	<Card>
+		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
+		<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
+		<Select label="Type" size="sm" options={typeOptions} bind:value={type} />
+		<div class="grid-2 gap-2">
+			<Checkbox
+				onchange={(v) => (v ? (href = '/example') : (href = ''))}
+				name="href"
+				label="Link"
+			/>
+			<Checkbox bind:checked={isLoading} label="Loading" />
+			<Checkbox bind:checked={isDisabled} label="Disabled" />
+			<Checkbox bind:checked={isSolid} label="Solid" />
+		</div>
+	</Card>
+	<DocsCode code={code()} />
+</Section>
 
-	<DocOptions title="Props">
-		<Checkbox onchange={(v) => (v ? (href = '/example') : (href = ''))} name="href" label="Link" />
-		<Checkbox bind:checked={isLoading} label="Loading" />
-		<Checkbox bind:checked={isDisabled} label="Disabled" />
-		<Checkbox bind:checked={hasShadow} label="Shadow" />
-		<Checkbox bind:checked={isSolid} label="Solid" />
-	</DocOptions>
-{/snippet}
+<Section>
+	<Card bodyClass="grid-3 md:grid-6 center">
+		{#snippet header()}
+			<h4>IconButton Variants</h4>
+		{/snippet}
+		{#each variantOptions as item}
+			<IconButton icon={HeartAngleLinearIcon} variant={item.id as any} />
+		{/each}
+	</Card>
+</Section>
 
-<DocHeader title="IconButton"
-	>Icon buttons allow users to take actions with a single icon tap.</DocHeader
->
+<Section>
+	<Card bodyClass="grid-3 md:grid-6 center">
+		{#snippet header()}
+			<h4>IconButton Solid</h4>
+		{/snippet}
+		{#each variantOptions as item}
+			<IconButton icon={HeartAngleLinearIcon} variant={item.id as any} isSolid />
+		{/each}
+	</Card>
+</Section>
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section bodyClass="grid-2 md:grid-4">
+	<!-- Favorite action -->
+	<IconButton variant="primary" size="lg" icon={Heart24RegularIcon} />
 
-<DocCode code={code()} />
+	<!-- Download action -->
+	<IconButton variant="success" isSolid size="lg" icon={DownloadLinearIcon} />
 
-<DocProps {props} />
+	<!-- Search action -->
+	<IconButton variant="info" size="lg" icon={Search24RegularIcon} />
+
+	<!-- Settings action -->
+	<IconButton variant="outlined" size="lg" icon={Settings24RegularIcon} />
+
+	<!-- Loading button -->
+	<IconButton variant="primary" isLoading icon={HeartAngleLinearIcon} />
+
+	<!-- Delete action -->
+	<IconButton variant="danger" isSolid icon={TrashLinearIcon} />
+
+	<!-- Party action -->
+	<IconButton variant="secondary" icon={BalloonLinearIcon} />
+
+	<!-- Muted action -->
+	<IconButton variant="muted" icon={Settings24RegularIcon} />
+
+	<!-- Size variations -->
+	<div class="flex gap-2 items-center">
+		<IconButton variant="primary" size="xs" icon={HeartAngleLinearIcon} />
+		<IconButton variant="primary" size="sm" icon={HeartAngleLinearIcon} />
+		<IconButton variant="primary" size="md" icon={HeartAngleLinearIcon} />
+		<IconButton variant="primary" size="lg" icon={HeartAngleLinearIcon} />
+	</div>
+
+	<!-- Warning action -->
+	<IconButton variant="warning" isSolid icon={Settings24RegularIcon} />
+
+	<!-- Ghost action -->
+	<IconButton variant="ghost" icon={HeartAngleLinearIcon} />
+</Section>
+
+<Section>
+	<Card bodyClass="column gap-4">
+		{#snippet header()}
+			<h4>Usage Examples</h4>
+		{/snippet}
+		<Code
+			lang="svelte"
+			code={`<!-- Basic IconButton -->
+<IconButton icon={HeartIcon} onclick={handleClick} />
+
+<!-- IconButton with Variant -->
+<IconButton icon={SettingsIcon} variant="secondary" />
+
+<!-- Loading IconButton -->
+<IconButton icon={SearchIcon} isLoading />
+
+<!-- Solid Variant -->
+<IconButton icon={DownloadIcon} variant="success" isSolid />
+
+<!-- IconButton as Link -->
+<IconButton icon={ExternalLinkIcon} href="/settings" />
+
+<!-- IconButton Sizes -->
+<IconButton icon={HeartIcon} size="xs" />
+<IconButton icon={HeartIcon} size="sm" />
+<IconButton icon={HeartIcon} size="md" />
+<IconButton icon={HeartIcon} size="lg" />
+
+<!-- Ghost IconButton -->
+<IconButton icon={CloseIcon} variant="ghost" />`}
+		/>
+	</Card>
+</Section>
+
+<DocsProps {props} />

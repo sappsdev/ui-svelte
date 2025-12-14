@@ -56,12 +56,15 @@ Semantic components for building Svelte/SvelteKit **+page.svelte** files. Optimi
 
 ### Control Components
 - [Button](https://svelte.sappsdev.com/llm/control/button.md): Interactive button component for actions and navigation
+- [IconButton](https://svelte.sappsdev.com/llm/control/icon-button.md): Compact button displaying only an icon for toolbars and action menus
 
 ### Display Components
 - [Card](https://svelte.sappsdev.com/llm/display/card.md): Content container for displaying grouped information
 - [Code](https://svelte.sappsdev.com/llm/display/code.md): Syntax-highlighted code blocks with copy functionality
 - [Avatar](https://svelte.sappsdev.com/llm/display/avatar.md): Display user profile images, initials, or icons
 - [AvatarGroup](https://svelte.sappsdev.com/llm/display/avatar-group.md): Display stacked or separated avatar collections
+- [Chip](https://svelte.sappsdev.com/llm/display/chip.md): Compact element for labels, tags, or status indicators
+- [Badge](https://svelte.sappsdev.com/llm/display/badge.md): Status indicator overlay for UI elements like avatars and cards
 
 ### Navigation Components
 - [Tabs](https://svelte.sappsdev.com/llm/navigation/tabs.md): Organize content into switchable sections

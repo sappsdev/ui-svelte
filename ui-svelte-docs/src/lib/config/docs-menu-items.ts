@@ -48,30 +48,6 @@ export const sideMenuItems: SideNavItem[] = [
 	},
 	{
 		type: 'submenu',
-		icon: LayoutRowTwoSplitBottom24RegularIcon,
-		label: 'Layout',
-		open: true,
-		subitems: [
-			{
-				label: 'AppBar',
-				href: '/docs/layout/app-bar'
-			},
-			{
-				label: 'Footer',
-				href: '/docs/layout/footer'
-			},
-			{
-				label: 'Scaffold',
-				href: '/docs/layout/scaffold'
-			},
-			{
-				label: 'Sidebar',
-				href: '/docs/layout/sidebar'
-			}
-		]
-	},
-	{
-		type: 'submenu',
 		icon: HandDraw24RegularIcon,
 		label: 'Control',
 		open: true,
@@ -125,6 +101,10 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/display/avatar-group'
 			},
 			{
+				label: 'Badge',
+				href: '/docs/display/badge'
+			},
+			{
 				label: 'Card',
 				href: '/docs/display/card'
 			},
@@ -139,6 +119,10 @@ export const sideMenuItems: SideNavItem[] = [
 			{
 				label: 'Code',
 				href: '/docs/display/code'
+			},
+			{
+				label: 'Chip',
+				href: '/docs/display/chip'
 			},
 			{
 				label: 'Collapsible',
@@ -255,6 +239,30 @@ export const sideMenuItems: SideNavItem[] = [
 			{
 				label: 'Tooltip',
 				href: '/docs/overlay/tooltip'
+			}
+		]
+	},
+	{
+		type: 'submenu',
+		icon: LayoutRowTwoSplitBottom24RegularIcon,
+		label: 'Layout',
+		open: true,
+		subitems: [
+			{
+				label: 'AppBar',
+				href: '/docs/layout/app-bar'
+			},
+			{
+				label: 'Footer',
+				href: '/docs/layout/footer'
+			},
+			{
+				label: 'Scaffold',
+				href: '/docs/layout/scaffold'
+			},
+			{
+				label: 'Sidebar',
+				href: '/docs/layout/sidebar'
 			}
 		]
 	},

@@ -10,38 +10,41 @@
 	.badge-text {
 		@apply text-xs leading-none;
 	}
-	.is-top-left .badge-text {
+
+	/* Position styles */
+	.is-top-left .badge-content {
 		@apply top-0 left-0 translate-x-[-50%] translate-y-[-50%];
 	}
-	.is-top-right .badge-text {
+	.is-top-right .badge-content {
 		@apply top-0 right-0 translate-x-[50%] translate-y-[-50%];
 	}
-	.is-bottom-left .badge-text {
+	.is-bottom-left .badge-content {
 		@apply bottom-0 left-0 translate-x-[-50%] translate-y-[50%];
 	}
-	.is-bottom-right .badge-text {
+	.is-bottom-right .badge-content {
 		@apply bottom-0 right-0 translate-x-[50%] translate-y-[50%];
 	}
 
-	.is-primary .badge-text {
+	/* Variant styles */
+	.is-primary .badge-content {
 		@apply bg-primary text-on-primary;
 	}
-	.is-secondary .badge-text {
+	.is-secondary .badge-content {
 		@apply bg-secondary text-on-secondary;
 	}
-	.is-muted .badge-text {
+	.is-muted .badge-content {
 		@apply bg-muted text-on-muted;
 	}
-	.is-success .badge-text {
+	.is-success .badge-content {
 		@apply bg-success text-on-success;
 	}
-	.is-warning .badge-text {
+	.is-warning .badge-content {
 		@apply bg-warning text-on-warning;
 	}
-	.is-danger .badge-text {
+	.is-danger .badge-content {
 		@apply bg-danger text-on-danger;
 	}
-	.is-info .badge-text {
+	.is-info .badge-content {
 		@apply bg-info text-on-info;
 	}
 }
