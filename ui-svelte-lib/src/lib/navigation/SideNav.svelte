@@ -80,7 +80,7 @@
 
 	function isItemActive(href?: string): boolean {
 		if (!href) return false;
-		return page.url.pathname.includes(href);
+		return page.url.pathname === href;
 	}
 
 	function toggleExpand() {
