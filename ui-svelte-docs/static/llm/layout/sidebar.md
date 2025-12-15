@@ -175,4 +175,13 @@ When used in Scaffold's `start` or `end` snippets, Sidebar receives `fixed` posi
 </Sidebar>
 ```
 
+### Related Components
+
+- [SideNav](https://ui-svelte.sappsdev.com/llm/navigation/sidenav.md): Vertical navigation items for Sidebar content
+- [Drawer](https://ui-svelte.sappsdev.com/llm/overlay/drawer.md): Mobile alternative for responsive layouts
+- [Scaffold](https://ui-svelte.sappsdev.com/llm/layout/scaffold.md): Parent layout component for positioning Sidebar
+- [Avatar](https://ui-svelte.sappsdev.com/llm/display/avatar.md): For user profile in header section
+- [Button](https://ui-svelte.sappsdev.com/llm/control/button.md): For actions in footer section
+- [IconButton](https://ui-svelte.sappsdev.com/llm/control/icon-button.md): For compact action buttons
+
 **For LLMs**: Sidebar for vertical navigation. Use `header` and `footer` snippets for optional sections. Main content (usually `SideNav`) goes in children. **MUST** set width via `class` prop (e.g., `w-48`, `w-64`). When used in Scaffold's `start`/`end`, it becomes fixed positioned—apply matching margins to Scaffold's `mainClass`. For responsive layouts, use `invisible lg:visible` in Scaffold's `startClass` and provide mobile Drawer alternative. Commonly paired with `SideNav` component for navigation items.

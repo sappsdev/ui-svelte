@@ -65,6 +65,7 @@ Layout components for building Svelte/SvelteKit **+layout.svelte** files. Optimi
 ### Layout Components
 - [Scaffold](https://ui-svelte.sappsdev.com/llm/layout/scaffold.md): Base application structure with AppBar, Sidebar, BottomNav
 - [AppBar](https://ui-svelte.sappsdev.com/llm/layout/app-bar.md): Top navigation bar with `start`, `center`, `end` snippets
+- [Footer](https://ui-svelte.sappsdev.com/llm/layout/footer.md): Bottom section with copyright, navigation links, and actions
 
 ### Navigation Components
 - [NavMenu](https://ui-svelte.sappsdev.com/llm/navigation/nav-menu.md): Horizontal navigation for AppBar
@@ -72,7 +73,7 @@ Layout components for building Svelte/SvelteKit **+layout.svelte** files. Optimi
 - [BottomNav](https://ui-svelte.sappsdev.com/llm/navigation/bottom-nav.md): Fixed bottom navigation for mobile apps
 
 ### Supporting Components (used within layouts)
-- Sidebar: Vertical navigation panel with `header`, `footer` snippets
+- [Sidebar](https://ui-svelte.sappsdev.com/llm/layout/sidebar.md): Vertical navigation panel with `header`, `footer` snippets
 - Drawer: Slide-in panel for mobile navigation
 - Footer: Page footer component
 

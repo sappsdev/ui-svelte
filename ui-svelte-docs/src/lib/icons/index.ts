@@ -192,3 +192,8 @@ export const BulbIcon: IconData = {
 	body: '<g fill="none"><path fill="#ffef5e" d="M17.783 8.87a5.783 5.783 0 1 0-8.696 5.006v2.69h5.826v-2.69a5.78 5.78 0 0 0 2.87-5.006"/><path fill="#fff9bf" d="M12 3.087a5.78 5.78 0 0 0-2.913 10.789v2.69h2.913z"/><path fill="#fff" stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M9.087 19.435h5.826v1.913a1.17 1.17 0 0 1-1.174 1.174h-3.478a1.17 1.17 0 0 1-1.174-1.174z"/><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M17.783 8.87a5.783 5.783 0 1 0-8.696 5.006v2.69h5.826v-2.69a5.78 5.78 0 0 0 2.87-5.006M9.087 16.565h5.826"/></g>',
 	viewbox: '0 0 24 24'
 };
+
+export const SendRegularIcon = {
+	body: '<path fill="currentColor" d="M5.694 12L2.299 3.272a.75.75 0 0 1 .942-.982l.093.039l18 9a.75.75 0 0 1 .097 1.284l-.097.058l-18 9c-.583.291-1.217-.245-1.065-.848l.03-.095zL2.299 3.272zM4.402 4.54l2.61 6.71h6.627a.75.75 0 0 1 .743.648l.007.102a.75.75 0 0 1-.649.743l-.101.007H7.01l-2.609 6.71L19.322 12z"/>',
+	viewbox: '0 0 24 24'
+}

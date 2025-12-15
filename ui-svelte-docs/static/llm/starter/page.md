@@ -59,12 +59,35 @@ Semantic components for building Svelte/SvelteKit **+page.svelte** files. Optimi
 - [IconButton](https://svelte.sappsdev.com/llm/control/icon-button.md): Compact button displaying only an icon for toolbars and action menus
 
 ### Display Components
-- [Card](https://svelte.sappsdev.com/llm/display/card.md): Content container for displaying grouped information
-- [Code](https://svelte.sappsdev.com/llm/display/code.md): Syntax-highlighted code blocks with copy functionality
+- [Accordion](https://svelte.sappsdev.com/llm/display/accordion.md): Collapsible sections for organizing content
+- [Alert](https://svelte.sappsdev.com/llm/display/alert.md): Brief status messages (info, success, warning, danger)
 - [Avatar](https://svelte.sappsdev.com/llm/display/avatar.md): Display user profile images, initials, or icons
 - [AvatarGroup](https://svelte.sappsdev.com/llm/display/avatar-group.md): Display stacked or separated avatar collections
-- [Chip](https://svelte.sappsdev.com/llm/display/chip.md): Compact element for labels, tags, or status indicators
 - [Badge](https://svelte.sappsdev.com/llm/display/badge.md): Status indicator overlay for UI elements like avatars and cards
+- [Card](https://svelte.sappsdev.com/llm/display/card.md): Content container for displaying grouped information
+- [Carousel](https://svelte.sappsdev.com/llm/display/carousel.md): Cycle through slides or content panels
+- [Chip](https://svelte.sappsdev.com/llm/display/chip.md): Compact element for labels, tags, or status indicators
+- [Code](https://svelte.sappsdev.com/llm/display/code.md): Syntax-highlighted code blocks with copy functionality
+- [Collapsible](https://svelte.sappsdev.com/llm/display/collapsible.md): Single expand/collapse section
+- [Empty](https://svelte.sappsdev.com/llm/display/empty.md): Empty state placeholder with optional actions
+- [Marquee](https://svelte.sappsdev.com/llm/display/marquee.md): Auto-scrolling content widget
+- [Section](https://svelte.sappsdev.com/llm/display/section.md): Top-level page container (do not nest)
+- [Table](https://svelte.sappsdev.com/llm/display/table.md): Data table with pagination, sorting, and filtering
+
+### Form Components
+- [Checkbox](https://svelte.sappsdev.com/llm/form/checkbox.md): Binary selection input
+- [ComboBox](https://svelte.sappsdev.com/llm/form/combo-box.md): Searchable dropdown with async support
+- [CsvField](https://svelte.sappsdev.com/llm/form/csv-field.md): CSV import with column mapping
+- [DateField](https://svelte.sappsdev.com/llm/form/date-field.md): Date picker input
+- [Dropzone](https://svelte.sappsdev.com/llm/form/dropzone.md): Drag-and-drop file upload
+- [PasswordField](https://svelte.sappsdev.com/llm/form/password-field.md): Password input with strength meter
+- [PhoneField](https://svelte.sappsdev.com/llm/form/phone-field.md): International phone number input
+- [PinField](https://svelte.sappsdev.com/llm/form/pin-field.md): Multi-digit PIN/OTP input
+- [Select](https://svelte.sappsdev.com/llm/form/select.md): Single-option dropdown menu
+- [Slider](https://svelte.sappsdev.com/llm/form/slider.md): Numeric range slider
+- [TextField](https://svelte.sappsdev.com/llm/form/text-field.md): Single-line text input
+- [Textarea](https://svelte.sappsdev.com/llm/form/textarea.md): Multi-line text input
+- [Toggle](https://svelte.sappsdev.com/llm/form/toggle.md): Switch-style binary input
 
 ### Navigation Components
 - [Tabs](https://svelte.sappsdev.com/llm/navigation/tabs.md): Organize content into switchable sections

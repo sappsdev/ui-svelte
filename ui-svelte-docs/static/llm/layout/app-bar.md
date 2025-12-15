@@ -83,4 +83,11 @@ Top navigation bar with slots for branding, navigation, and user actions.
 </AppBar>
 ```
 
+### Related Components
+
+- [IconButton](https://ui-svelte.sappsdev.com/llm/control/icon-button.md): For menu toggles and action buttons
+- [Dropdown](https://ui-svelte.sappsdev.com/llm/overlay/dropdown.md): For profile menus and action menus
+- [NavMenu](https://ui-svelte.sappsdev.com/llm/navigation/nav-menu.md): For horizontal navigation
+- [Avatar](https://ui-svelte.sappsdev.com/llm/display/avatar.md): For user profile images
+
 **For LLMs**: AppBar uses three snippet slots: `start` (left), `center` (middle), `end` (right). Combine with `NavMenu` for navigation, `IconButton` for menu toggles, and `Dropdown` with `Avatar` for profile menus. Use `isSticky` + `isBlurred` for modern sticky headers.
