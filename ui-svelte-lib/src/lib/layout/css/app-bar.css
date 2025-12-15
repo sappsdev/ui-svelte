@@ -22,7 +22,6 @@
 			@apply bg-transparent border-transparent shadow-none;
 		}
 
-		/* Floating mode - when not scrolled */
 		&.is-floating-enabled {
 			@apply left-1/2 -translate-x-1/2;
 		}
@@ -32,10 +31,9 @@
 			@apply bg-background/90 backdrop-blur-md;
 		}
 
-		/* When scrolled - full width sticky */
 		&.is-floating-enabled:not(.is-floating) {
 			@apply mt-0 w-full rounded-none;
-			@apply bg-background/80 backdrop-blur-md border-b border-outline;
+			@apply bg-background/80 backdrop-blur-md border-b border-muted;
 		}
 
 		.appbar-content {
