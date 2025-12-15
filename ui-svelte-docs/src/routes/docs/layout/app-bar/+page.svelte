@@ -132,6 +132,7 @@
 		{ prop: 'isBordered', type: 'boolean', initial: 'false' },
 		{ prop: 'borderOnScrollOnly', type: 'boolean', initial: 'false' },
 		{ prop: 'hideOnScroll', type: 'boolean', initial: 'false' },
+		{ prop: 'solidOnScroll', type: 'boolean', initial: 'false' },
 		{ prop: 'isSticky', type: 'boolean', initial: 'false' },
 		{ prop: 'isBoxed', type: 'boolean', initial: 'false' },
 		{
@@ -170,7 +171,7 @@
 		class="w-full min-h-[200px] border border-border rounded-lg overflow-hidden bg-background relative"
 	>
 		<AppBar
-			rootClass="relative"
+			rootClass={isSticky ? 'absolute top-0 left-0 right-0' : 'relative'}
 			centerClass="invisible md:visible"
 			start={showStart ? startSnippet : undefined}
 			center={showCenter ? centerSnippet : undefined}
@@ -183,8 +184,13 @@
 			{isBoxed}
 			{variant}
 		/>
-		<div class="p-6 pt-20">
+		<div class="p-6 transition-[padding] duration-200" class:pt-20={isSticky}>
 			<p class="text-sm text-muted-foreground">Page content below the AppBar</p>
+			{#if isSticky}
+				<p class="text-xs text-muted-foreground mt-2">
+					(Scroll to see sticky behavior if container is small)
+				</p>
+			{/if}
 		</div>
 	</div>
 {/snippet}
@@ -253,6 +259,7 @@
 			<li><strong>isSticky</strong> - AppBar stays at the top when scrolling</li>
 			<li><strong>isBlurred</strong> - Adds backdrop blur effect when scrolled</li>
 			<li><strong>hideOnScroll</strong> - Hides AppBar when scrolling down, shows on scroll up</li>
+			<li><strong>solidOnScroll</strong> - Floating (transparent) at top, solid on scroll</li>
 			<li><strong>borderOnScrollOnly</strong> - Shows border only after scrolling</li>
 		</ul>
 		<Code
@@ -262,6 +269,11 @@
   {#snippet center()}
     <h1>My App</h1>
   {/snippet}
+</AppBar>
+
+<!-- Floating to Sticky -->
+<AppBar isSticky solidOnScroll variant="primary">
+  ...
 </AppBar>`}
 		/>
 	</Card>

@@ -14,8 +14,13 @@
 			@apply border-b border-muted;
 		}
 
+
 		&.is-hidden {
 			@apply -translate-y-full;
+		}
+
+		&.is-transparent {
+			@apply bg-transparent border-transparent shadow-none;
 		}
 
 		.appbar-content {
