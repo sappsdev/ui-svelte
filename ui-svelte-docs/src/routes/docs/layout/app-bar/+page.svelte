@@ -43,6 +43,7 @@
 	let isBoxed = $state(false);
 	let borderOnScrollOnly = $state(false);
 	let hideOnScroll = $state(false);
+	let isFloating = $state(false);
 	let variant: any = $state('ghost');
 
 	let hasProps = $derived(
@@ -53,6 +54,7 @@
 			isBoxed,
 			borderOnScrollOnly,
 			hideOnScroll,
+			isFloating,
 			variant !== 'ghost'
 		].some(Boolean)
 	);
@@ -101,6 +103,7 @@
 			isSticky && `\tisSticky`,
 			isBoxed && `\tisBoxed`,
 			hideOnScroll && `\thideOnScroll`,
+			isFloating && `\tisFloating`,
 			`>`,
 			showStart && `\t{#snippet start()}`,
 			showStart && `\t\t<IconButton icon={MenuIcon} variant="ghost" />`,
@@ -133,6 +136,7 @@
 		{ prop: 'borderOnScrollOnly', type: 'boolean', initial: 'false' },
 		{ prop: 'hideOnScroll', type: 'boolean', initial: 'false' },
 		{ prop: 'solidOnScroll', type: 'boolean', initial: 'false' },
+		{ prop: 'isFloating', type: 'boolean', initial: 'false' },
 		{ prop: 'isSticky', type: 'boolean', initial: 'false' },
 		{ prop: 'isBoxed', type: 'boolean', initial: 'false' },
 		{
@@ -213,6 +217,7 @@
 			<Checkbox bind:checked={isBoxed} label="Boxed" />
 			<Checkbox bind:checked={borderOnScrollOnly} label="Border on Scroll" />
 			<Checkbox bind:checked={hideOnScroll} label="Hide on Scroll" />
+			<Checkbox bind:checked={isFloating} label="Floating" />
 		</div>
 	</Card>
 	<DocsCode code={code()} />
@@ -259,7 +264,10 @@
 			<li><strong>isSticky</strong> - AppBar stays at the top when scrolling</li>
 			<li><strong>isBlurred</strong> - Adds backdrop blur effect when scrolled</li>
 			<li><strong>hideOnScroll</strong> - Hides AppBar when scrolling down, shows on scroll up</li>
-			<li><strong>solidOnScroll</strong> - Floating (transparent) at top, solid on scroll</li>
+			<li><strong>solidOnScroll</strong> - Transparent at top, solid on scroll</li>
+			<li>
+				<strong>isFloating</strong> - Floating (rounded, with margins) at top, full-width sticky on scroll
+			</li>
 			<li><strong>borderOnScrollOnly</strong> - Shows border only after scrolling</li>
 		</ul>
 		<Code
@@ -271,9 +279,17 @@
   {/snippet}
 </AppBar>
 
-<!-- Floating to Sticky -->
-<AppBar isSticky solidOnScroll variant="primary">
-  ...
+<!-- Floating to Full-Width Sticky -->
+<AppBar isSticky isFloating>
+  {#snippet start()}
+    <Logo />
+  {/snippet}
+  {#snippet center()}
+    <NavMenu items={navItems} />
+  {/snippet}
+  {#snippet end()}
+    <Button>Signup</Button>
+  {/snippet}
 </AppBar>`}
 		/>
 	</Card>

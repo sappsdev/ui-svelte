@@ -11,6 +11,7 @@ Top navigation bar with slots for branding, navigation, and user actions.
   hideOnScroll={false}
   isSticky={false}
   solidOnScroll={false}
+  isFloating={false}
   isBoxed={false}
 >
   {#snippet start()}...{/snippet}
@@ -31,7 +32,8 @@ Top navigation bar with slots for branding, navigation, and user actions.
 | `isBordered` | `false` | Shows bottom border |
 | `borderOnScrollOnly` | `false` | Shows border only after scrolling |
 | `hideOnScroll` | `false` | Hides on scroll down, shows on scroll up |
-| `solidOnScroll` | `false` | Floating (transparent) at top, solid on scroll |
+| `solidOnScroll` | `false` | Transparent at top, solid background on scroll |
+| `isFloating` | `false` | Floating (rounded, centered with margins) at top, full-width sticky on scroll |
 | `isSticky` | `false` | Sticks to top when scrolling |
 | `isBoxed` | `false` | Constrains content width |
 | `rootClass` | - | Custom class for root element |
@@ -73,10 +75,16 @@ Top navigation bar with slots for branding, navigation, and user actions.
   {/snippet}
 </AppBar>
 
-<!-- Floating to Sticky (Solid on Scroll) -->
-<AppBar isSticky solidOnScroll variant="primary">
+<!-- Floating to Full-Width Sticky -->
+<AppBar isSticky isFloating>
+  {#snippet start()}
+    <Logo />
+  {/snippet}
   {#snippet center()}
-    <h1>Floating Header</h1>
+    <NavMenu items={navItems} />
+  {/snippet}
+  {#snippet end()}
+    <Button>Signup</Button>
   {/snippet}
 </AppBar>
 

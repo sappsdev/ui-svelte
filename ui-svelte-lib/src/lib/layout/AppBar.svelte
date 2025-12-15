@@ -18,6 +18,7 @@
 		hideOnScroll?: boolean;
 		solidOnScroll?: boolean;
 		isSticky?: boolean;
+		isFloating?: boolean;
 		isBoxed?: boolean;
 		variant?:
 			| 'primary'
@@ -47,7 +48,8 @@
 		isBoxed,
 		variant = 'ghost',
 		hideOnScroll,
-		solidOnScroll = false
+		solidOnScroll = false,
+		isFloating = false
 	}: Props = $props();
 
 	let headerElement = $state<HTMLElement | null>(null);
@@ -99,6 +101,7 @@
 	const shouldBlur = $derived(isBlurred && scroll.isScrolled);
 	const shouldShowBorder = $derived(isBordered && (!borderOnScrollOnly || scroll.isScrolled));
 	const isTransparent = $derived(solidOnScroll && !scroll.isScrolled);
+	const isFloatingActive = $derived(isFloating && !scroll.isScrolled);
 </script>
 
 <header
@@ -111,6 +114,8 @@
 		isHidden && 'is-hidden',
 		isTransparent && 'is-transparent',
 		isSticky && 'is-sticky',
+		isFloating && 'is-floating-enabled',
+		isFloatingActive && 'is-floating',
 		rootClass
 	)}
 >
