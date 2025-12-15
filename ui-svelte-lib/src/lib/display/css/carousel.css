@@ -36,7 +36,7 @@
 	}
 
 	.carousel-slide {
-		@apply shrink-0 w-full select-none;
+		@apply shrink-0 select-none;
 		height: 100%;
 		user-select: none;
 		-webkit-user-select: none;
@@ -152,5 +152,31 @@
 
 	.carousel-counter {
 		@apply text-sm text-on-surface/70 text-center font-medium;
+	}
+
+	.carousel-header {
+		@apply flex items-center justify-between mb-6 px-1;
+
+		.carousel-title {
+			h2 {
+				@apply text-3xl font-bold tracking-tight text-on-surface;
+			}
+		}
+
+		.carousel-header-controls {
+			@apply flex items-center gap-3;
+		}
+
+		.carousel-header-nav {
+			@apply flex items-center justify-center w-12 h-12 rounded-full;
+			@apply bg-surface text-on-surface transition-all duration-200;
+			@apply border border-muted shadow-sm;
+			@apply hover:bg-muted hover:scale-105 active:scale-95;
+			@apply disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-surface disabled:hover:scale-100;
+
+			:global(svg) {
+				@apply w-6 h-6;
+			}
+		}
 	}
 }

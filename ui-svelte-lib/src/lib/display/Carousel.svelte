@@ -31,6 +31,9 @@
 		rootClass?: string;
 		slideClass?: string;
 		onSlideChange?: (index: number) => void;
+		title?: string | Snippet;
+		slideWidth?: number;
+		gap?: number;
 	};
 
 	const {
@@ -48,7 +51,10 @@
 		variant = 'default',
 		size = 'md',
 		indicatorType = 'bar',
-		onSlideChange
+		onSlideChange,
+		title,
+		slideWidth: slideWidthProp,
+		gap = 0
 	}: Props = $props();
 
 	let currentIndex = $state(0);
@@ -59,10 +65,13 @@
 	let currentTranslate = $state(0);
 	let prevTranslate = $state(0);
 	let autoplayTimer: ReturnType<typeof setTimeout> | null = $state(null);
+	let computedSlideWidth = $state(0);
+	let computedSlidesPerView = $state(1);
 
 	const isVertical = $derived(orientation === 'vertical');
+	const maxIndex = $derived(Math.max(0, slides.length - Math.floor(computedSlidesPerView)));
 	const canGoPrev = $derived(loop || currentIndex > 0);
-	const canGoNext = $derived(loop || currentIndex < slides.length - 1);
+	const canGoNext = $derived(loop || currentIndex < maxIndex);
 
 	const sizeClasses = {
 		sm: 'is-sm',
@@ -71,30 +80,71 @@
 	};
 
 	const updateTransform = () => {
-		if (!containerEl) return;
-		const offset = -currentIndex * 100;
+		if (!containerEl || !viewportEl) return;
+		const viewportSize = isVertical ? viewportEl.offsetHeight : viewportEl.offsetWidth;
+
+		let slideWidth: number;
+
+		if (slideWidthProp) {
+			slideWidth = slideWidthProp;
+			computedSlidesPerView = viewportSize / (slideWidth + gap);
+		} else {
+			slideWidth = viewportSize;
+			computedSlidesPerView = 1;
+		}
+
+		computedSlideWidth = slideWidth;
+
+		const slideElements = containerEl.querySelectorAll('.carousel-slide');
+		slideElements.forEach((el) => {
+			(el as HTMLElement).style.width = `${slideWidth}px`;
+		});
+
+		const offset = -currentIndex * (slideWidth + gap);
 		const property = isVertical ? 'translateY' : 'translateX';
-		containerEl.style.transform = `${property}(${offset}%)`;
+		containerEl.style.transform = `${property}(${offset}px)`;
 	};
 
 	const goToSlide = (index: number) => {
-		if (index < 0 || index >= slides.length) return;
+		if (index < 0 || index > maxIndex) return;
 		currentIndex = index;
 		updateTransform();
 		onSlideChange?.(index);
 		resetAutoplay();
 	};
 
+	const goToSlideInstant = (index: number) => {
+		if (index < 0 || index > maxIndex) return;
+		if (containerEl) {
+			containerEl.style.transition = 'none';
+		}
+		currentIndex = index;
+		updateTransform();
+		onSlideChange?.(index);
+		requestAnimationFrame(() => {
+			if (containerEl) {
+				containerEl.style.transition = '';
+			}
+		});
+		resetAutoplay();
+	};
+
 	const goToPrev = () => {
 		if (!canGoPrev) return;
-		const newIndex = currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
-		goToSlide(newIndex);
+		if (currentIndex === 0) {
+			goToSlideInstant(maxIndex);
+		} else {
+			goToSlide(currentIndex - 1);
+		}
 	};
 
 	const goToNext = () => {
 		if (!canGoNext) return;
-		const newIndex = currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
-		goToSlide(newIndex);
+		if (currentIndex === maxIndex) {
+			goToSlideInstant(0);
+		} else {
+			goToSlide(currentIndex + 1);
+		}
 	};
 
 	const startAutoplay = () => {
@@ -154,7 +204,14 @@
 		currentTranslate = prevTranslate + percentageMoved;
 
 		const property = isVertical ? 'translateY' : 'translateX';
-		containerEl.style.transform = `${property}(calc(-${currentIndex * 100}% + ${diff}px))`;
+
+		if (slideWidthProp) {
+			const slideWidth = computedSlideWidth || slideWidthProp;
+			const baseOffset = -currentIndex * (slideWidth + gap);
+			containerEl.style.transform = `${property}(${baseOffset + diff}px)`;
+		} else {
+			containerEl.style.transform = `${property}(calc(-${currentIndex * 100}% + ${diff}px))`;
+		}
 	};
 
 	const handleDragEnd = () => {
@@ -222,6 +279,10 @@
 		}
 	};
 
+	const handleResize = () => {
+		updateTransform();
+	};
+
 	onMount(() => {
 		tick();
 		updateTransform();
@@ -230,12 +291,14 @@
 			startAutoplay();
 		}
 
+		window.addEventListener('resize', handleResize);
 		document.addEventListener('mousemove', handleMouseMove);
 		document.addEventListener('mouseup', handleMouseUp);
 		document.addEventListener('keydown', handleKeyDown);
 
 		return () => {
 			stopAutoplay();
+			window.removeEventListener('resize', handleResize);
 			document.removeEventListener('mousemove', handleMouseMove);
 			document.removeEventListener('mouseup', handleMouseUp);
 			document.removeEventListener('keydown', handleKeyDown);
@@ -266,10 +329,53 @@
 		ontouchstart={handleTouchStart}
 		ontouchmove={handleTouchMove}
 		ontouchend={handleTouchEnd}
+		style="--slides-per-view: {computedSlidesPerView}; --gap: {gap}px;"
 	>
+		{#if title}
+			<div class="carousel-header">
+				<div class="carousel-title">
+					{#if typeof title === 'string'}
+						<h2>{title}</h2>
+					{:else}
+						{@render title()}
+					{/if}
+				</div>
+				<div class="carousel-header-controls">
+					<button
+						type="button"
+						class="carousel-header-nav is-prev"
+						onclick={goToPrev}
+						disabled={!canGoPrev}
+						aria-label="Previous slide"
+					>
+						{#if isVertical}
+							<Icon icon={ArrowUp24RegularIcon} />
+						{:else}
+							<Icon icon={ArrowLeft24RegularIcon} />
+						{/if}
+					</button>
+
+					<button
+						type="button"
+						class="carousel-header-nav is-next"
+						onclick={goToNext}
+						disabled={!canGoNext}
+						aria-label="Next slide"
+					>
+						{#if isVertical}
+							<Icon icon={ArrowDown24RegularIcon} />
+						{:else}
+							<Icon icon={ArrowRight24RegularIcon} />
+						{/if}
+					</button>
+				</div>
+			</div>
+		{/if}
+
 		<div
 			class={cn('carousel-container', isDragging && 'is-dragging', isVertical && 'is-vertical')}
 			bind:this={containerEl}
+			style="gap: {gap}px;"
 		>
 			{#each slides as slide (slide.id)}
 				<div class={cn('carousel-slide', slideClass)}>

@@ -20,6 +20,7 @@ Cycle through slides or content panels with navigation controls.
 | Prop | Default | Description |
 |------|---------|-------------|
 | `slides` | `[]` | Array of slides (required) |
+| `title` | `undefined` | Optional title/header layout |
 | `autoplay` | `false` | Auto-advance slides |
 | `autoplayInterval` | `3000` | Interval in ms |
 | `loop` | `true` | Loop back to start |
@@ -31,6 +32,8 @@ Cycle through slides or content panels with navigation controls.
 | `variant` | `'default'` | `primary` `secondary` `muted` `default` |
 | `size` | `'md'` | `sm` `md` `lg` |
 | `indicatorType` | `'dot'` | `bar` `dot` |
+| `slideWidth` | `undefined` | Fixed width in pixels (auto-calculates visible slides) |
+| `gap` | `0` | Gap between slides in pixels |
 | `onSlideChange` | - | Callback `(index) => void` |
 
 ### Slide Type
@@ -73,6 +76,20 @@ Cycle through slides or content panels with navigation controls.
   showCounter
   showNavigation
   indicatorType="bar"
+/>
+
+<!-- Auto-sized Slides (Infinite Scroll Effect) -->
+<Carousel 
+  slides={slides}
+  slideWidth={280}
+  gap={16}
+  loop={false}
+/>
+
+<!-- Header Layout -->
+<Carousel 
+  slides={slides}
+  title="Featured Items"
 />
 
 <!-- Minimal (no controls) -->
