@@ -11,6 +11,9 @@ Displays user or entity representation with image or initials.
   size="lg"
   status="online"
   isBordered={false}
+  href="/profile"
+  onclick={() => {}}
+  target="_blank"
 />
 ```
 
@@ -21,10 +24,13 @@ Displays user or entity representation with image or initials.
 | `src` | - | Image URL |
 | `name` | - | Fallback initials (first letter) |
 | `alt` | `'Avatar'` | Image alt text |
+| `href` | - | Link URL (renders as anchor) |
+| `onclick` | - | Click handler (renders as button) |
+| `target` | - | Link target: `_self` `_blank` `_parent` `_top` |
 | `variant` | `'primary'` | `primary` `secondary` `muted` `success` `warning` `danger` `info` `transparent` |
 | `size` | `'lg'` | `xs` `sm` `md` `lg` `xl` |
 | `status` | - | `online` `offline` `busy` `away` |
-| `isBordered` | `false` | Add border (visible with image only) |
+| `isBordered` | `false` | Add ring border around avatar |
 
 ### Examples
 
@@ -41,6 +47,12 @@ Displays user or entity representation with image or initials.
 <!-- Bordered -->
 <Avatar src="/user.jpg" isBordered variant="success" />
 
+<!-- Clickable Avatar (Link) -->
+<Avatar src="/user.jpg" alt="User" href="/profile/1" target="_blank" />
+
+<!-- Clickable Avatar (Button) -->
+<Avatar src="/user.jpg" alt="User" onclick={() => openModal()} />
+
 <!-- Different Sizes -->
 <div class="row gap-2">
   <Avatar name="XS" size="xs" />
@@ -51,4 +63,4 @@ Displays user or entity representation with image or initials.
 </div>
 ```
 
-**For LLMs**: Use `src` for images, `name` for initials fallback. Use `status` for presence indicators. `isBordered` only visible with images.
+**For LLMs**: Use `src` for images, `name` for initials fallback. Use `status` for presence indicators. Use `href` for navigation or `onclick` for actions. When `href` is set, renders as anchor; when `onclick` is set, renders as button.

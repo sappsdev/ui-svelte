@@ -50,22 +50,14 @@
 	};
 </script>
 
-<div
-	class={cn(
-		'section',
-		variantClasses[variant],
-		isSolid && 'is-solid',
-		isBoxed && 'boxed',
-		rootClass
-	)}
->
+<div class={cn('section', variantClasses[variant], isSolid && 'is-solid', rootClass)}>
 	{#if cover}
 		<img src={cover} alt="cover" class={cn('section-cover', coverClass)} />
 	{/if}
 	{#if hasOverlay}
 		<div class={cn('section-overlay', overlayClass)}></div>
 	{/if}
-	<div class={cn('section-body', bodyClass)}>
+	<div class={cn('section-body', isBoxed && 'boxed', bodyClass)}>
 		{@render children()}
 	</div>
 </div>

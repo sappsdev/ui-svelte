@@ -27,13 +27,12 @@
 		}
 
 		&.is-floating {
-			@apply mt-4 w-[calc(100%-2rem)] rounded-full shadow-md border border-black/5;
-			@apply bg-background/90 backdrop-blur-md;
+			@apply mt-4 w-[calc(100%-2rem)] rounded-ui shadow-md shadow-muted border border-muted;
 		}
 
 		&.is-floating-enabled:not(.is-floating) {
 			@apply mt-0 w-full rounded-none;
-			@apply bg-background/80 backdrop-blur-md border-b border-muted;
+			@apply border-b border-muted;
 		}
 
 		.appbar-content {

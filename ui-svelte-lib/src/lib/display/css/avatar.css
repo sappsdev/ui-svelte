@@ -5,6 +5,19 @@
 		@apply transition-all duration-200;
 	}
 
+	.avatar.is-clickable {
+		@apply cursor-pointer;
+		@apply hover:opacity-80 hover:scale-105;
+		@apply active:scale-95;
+	}
+
+	/* Reset button/anchor styles when used as clickable */
+	button.avatar,
+	a.avatar {
+		@apply border-0 bg-transparent p-0;
+		@apply no-underline;
+	}
+
 	.avatar.is-primary {
 		@apply bg-primary text-on-primary;
 	}
@@ -34,9 +47,7 @@
 	}
 
 	.avatar.is-bordered {
-		.avatar-image {
-			@apply ring-2 ring-muted;
-		}
+		@apply ring-3 ring-background;
 	}
 
 	.avatar.is-transparent {

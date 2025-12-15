@@ -5,6 +5,9 @@
 		src?: string;
 		name?: string;
 		alt?: string;
+		href?: string;
+		onclick?: () => void;
+		target?: '_self' | '_blank' | '_parent' | '_top';
 		variant?:
 			| 'primary'
 			| 'secondary'
@@ -24,6 +27,9 @@
 		src,
 		name,
 		alt = 'Avatar',
+		href,
+		onclick,
+		target,
 		size = 'lg',
 		variant = 'primary',
 		status,
@@ -56,17 +62,20 @@
 		busy: 'is-busy',
 		away: 'is-away'
 	};
+
+	const baseClasses = $derived(
+		cn(
+			'avatar',
+			sizeClasses[size],
+			variantClasses[variant],
+			isBordered && 'is-bordered',
+			(href || onclick) && 'is-clickable',
+			className
+		)
+	);
 </script>
 
-<div
-	class={cn(
-		'avatar',
-		sizeClasses[size],
-		variantClasses[variant],
-		isBordered && 'is-bordered',
-		className
-	)}
->
+{#snippet avatarContent()}
 	{#if status}
 		<div class="avatar-status">
 			<div class={cn('avatar-indicator', statusClasses[status])}></div>
@@ -77,4 +86,18 @@
 	{:else}
 		<span class="avatar-name">{name?.charAt(0).toUpperCase() || alt.charAt(0).toUpperCase()}</span>
 	{/if}
-</div>
+{/snippet}
+
+{#if href}
+	<a class={baseClasses} {href} {target}>
+		{@render avatarContent()}
+	</a>
+{:else if onclick}
+	<button type="button" class={baseClasses} {onclick}>
+		{@render avatarContent()}
+	</button>
+{:else}
+	<div class={baseClasses}>
+		{@render avatarContent()}
+	</div>
+{/if}

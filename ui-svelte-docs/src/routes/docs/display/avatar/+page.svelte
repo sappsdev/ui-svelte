@@ -70,6 +70,19 @@
 		{ prop: 'src', type: 'string', initial: '' },
 		{ prop: 'name', type: 'string', initial: '' },
 		{ prop: 'alt', type: 'string', initial: 'Avatar' },
+		{ prop: 'href', type: 'string', initial: '', description: 'Link URL (renders as anchor)' },
+		{
+			prop: 'onclick',
+			type: '() => void',
+			initial: '',
+			description: 'Click handler (renders as button)'
+		},
+		{
+			prop: 'target',
+			type: '_self | _blank | _parent | _top',
+			initial: '',
+			description: 'Link target'
+		},
 		{
 			prop: 'variant',
 			type: 'primary | secondary | muted | success | warning | danger | info | transparent',
@@ -208,7 +221,13 @@
 <Avatar name="XL" size="xl" />
 
 <!-- Avatar with Border -->
-<Avatar src="/user.jpg" alt="User" isBordered variant="success" />`}
+<Avatar src="/user.jpg" alt="User" isBordered variant="success" />
+
+<!-- Clickable Avatar (Link) -->
+<Avatar src="/user.jpg" alt="User" href="/profile/1" />
+
+<!-- Clickable Avatar (Button) -->
+<Avatar src="/user.jpg" alt="User" onclick={() => console.log('clicked!')} />`}
 		/>
 	</Card>
 </Section>

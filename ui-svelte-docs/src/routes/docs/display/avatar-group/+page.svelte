@@ -87,7 +87,7 @@
 			prop: 'items',
 			type: 'AvatarItem[]',
 			initial: '[]',
-			description: 'Array of avatar items with src, name, and alt'
+			description: 'Array of avatar items with src, name, alt, href, onclick, target'
 		},
 		{
 			prop: 'variant',

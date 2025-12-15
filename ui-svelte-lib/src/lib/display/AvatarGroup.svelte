@@ -6,6 +6,9 @@
 		src?: string;
 		name?: string;
 		alt?: string;
+		href?: string;
+		onclick?: () => void;
+		target?: '_self' | '_blank' | '_parent' | '_top';
 	};
 
 	type Props = {
@@ -46,13 +49,16 @@
 			src={item.src}
 			name={item.name}
 			alt={item.alt || `Avatar ${i + 1}`}
+			href={item.href}
+			onclick={item.onclick}
+			target={item.target}
 			{variant}
 			{size}
 			{isBordered}
 		/>
 	{/each}
 	{#if remainingCount > 0}
-		<div class={cn('avatar-group-counter', `is-${size}`)}>
+		<div class={cn('avatar-group-counter', `is-${size}`, `is-${variant}`)}>
 			+{remainingCount}
 		</div>
 	{/if}
