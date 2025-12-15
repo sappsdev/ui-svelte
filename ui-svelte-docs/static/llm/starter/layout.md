@@ -22,6 +22,30 @@ Layout components for building Svelte/SvelteKit **+layout.svelte** files. Optimi
 **YOU MUST NOT:**
 - Generate React/JSX code (no `className`, no `useState`)
 - Use any other component library
+- **NEVER** use hex color codes (e.g. `#FFFFFF`, `#000000`). Use theme variables only.
+
+---
+
+## Color System
+
+**ALWAYS use these variables for colors. NEVER use hex codes.**
+
+| Token | Description | Light Theme | Dark Theme |
+|-------|-------------|-------------|------------|
+| `--primary` | Main brand color | Violet | Violet |
+| `--on-primary` | Text on primary | White | White |
+| `--secondary` | Accent color | Pink | Pink |
+| `--on-secondary` | Text on secondary | White | White |
+| `--surface` | Card/Container background | White | Dark Grey |
+| `--on-surface` | Text on surface | Dk Grey | Lt Grey |
+| `--background` | Page background | White | Very Dark |
+| `--on-background` | Text on background | Black | White |
+| `--muted` | Secondary text/bg | Lt Grey | Dk Grey |
+| `--on-muted` | Text on muted | Grey | Grey |
+| `--outline` | Borders/Dividers | Grey | Grey |
+| `--success` | Success state | Green | Green |
+| `--warning` | Warning state | Orange | Orange |
+| `--danger` | Error state | Red | Red |
 
 ---
 
