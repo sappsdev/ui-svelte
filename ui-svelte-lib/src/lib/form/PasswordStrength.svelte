@@ -1,25 +1,21 @@
 <script lang="ts">
-	import Button from '$lib/control/Button.svelte';
-	import { Icon } from '$lib/index.js';
+	import IconButton from '$lib/control/IconButton.svelte';
+	import { EyeOffRegularIcon, EyeShowRegularIcon } from '$lib/icons/index.js';
 	import { cn } from '$lib/utils/class-names.js';
-	import type { HTMLInputAttributes } from 'svelte/elements';
 
 	type Props = {
 		value?: string;
 		defaultValue?: string;
 		placeholder?: string;
-		type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
-		class?: string;
-		inputClass?: string;
+		rootClass?: string;
+		controlClass?: string;
 		onchange?: (value: string | number | undefined) => void;
 		oninput?: (value: string | number | undefined) => void;
-		variant?: 'solid' | 'outlined' | 'soft' | 'line';
-		color?: 'primary' | 'secondary' | 'muted';
-		inputSize?: 'small' | 'medium' | 'large';
+		variant?: 'primary' | 'secondary' | 'muted' | 'outlined' | 'line';
+		size?: 'sm' | 'md' | 'lg';
 		name?: string;
 		label?: string;
-		labelOutside?: boolean;
-		labelActive?: boolean;
+		islabelActive?: boolean;
 		helpText?: string;
 		errorText?: string;
 		labels?: {
@@ -27,24 +23,24 @@
 			medium?: string;
 			strong?: string;
 		};
-	} & HTMLInputAttributes;
+		isFloatLabel?: boolean;
+		isSolid?: boolean;
+	};
 
 	let {
 		value = $bindable(),
 		defaultValue,
 		placeholder,
-		type = 'text',
-		class: className,
-		inputClass,
+		rootClass,
+		controlClass,
 		onchange,
 		oninput,
-		variant = 'soft',
-		color = 'primary',
-		inputSize = 'medium',
+		variant = 'outlined',
+		size = 'md',
 		name,
 		label,
-		labelOutside,
-		labelActive,
+		isFloatLabel,
+		islabelActive,
 		helpText,
 		errorText,
 		labels = {
@@ -52,32 +48,30 @@
 			medium: 'Medium',
 			strong: 'Strong'
 		},
-		...rest
+		isSolid
 	}: Props = $props();
 
-	const variants = {
-		solid: 'field-solid',
-		outlined: 'field-outlined',
-		soft: 'field-soft',
-		line: 'field-line'
-	};
-	const colors = {
-		primary: 'field-primary',
-		secondary: 'field-secondary',
-		muted: 'field-muted'
+	const variantClasses = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
+		outlined: 'is-outlined',
+		line: 'is-line'
 	};
 
-	const sizes = {
-		small: 'field-small',
-		medium: 'field-medium',
-		large: 'field-large'
+	const sizeClasses = {
+		sm: 'is-sm',
+		md: 'is-md',
+		lg: 'is-lg'
 	};
 
 	const uid = $props.id();
 
+	let isActive = $state(false);
+
 	let show = $state(false);
 	let isFocused = $state(false);
-	let strength = $derived(calculateStrength(value));
+	let strength = $derived(calculateStrength(value as string));
 
 	function isBarActive(barIndex: number, score: number): boolean {
 		const threshold = (barIndex + 1) * 1.5;
@@ -114,40 +108,59 @@
 	}
 </script>
 
-<div class={cn('field', className)}>
-	{#if labelOutside && label}
-		<label for={`${uid}-{name}`} class="label">{label}</label>
+<div class={cn('field', rootClass)}>
+	{#if !isFloatLabel && label}
+		<span class="field-label">{label}</span>
 	{/if}
-	<div
-		class={cn('field-control', variants[variant], colors[color], sizes[inputSize])}
+	<label
+		class={cn(
+			'control',
+			variantClasses[variant],
+			sizeClasses[size],
+			isSolid && 'is-solid',
+			isFloatLabel && 'is-float',
+			(isActive || isFocused) && 'is-active',
+			controlClass
+		)}
+		for={`${uid}-{name}`}
 		class:is-error={errorText}
+		onmouseenter={() => (isActive = true)}
+		onmouseleave={() => (isActive = false)}
 	>
-		{#if !labelOutside && label}
-			<label class:is-active={isFocused || value} for={`${uid}-{name}`} class="label-inside"
-				>{label}</label
+		{#if isFloatLabel && label}
+			<span
+				class={cn(
+					'control-label',
+					(isActive || isFocused || islabelActive || value !== '') && 'is-active'
+				)}
 			>
+				{label}
+			</span>
 		{/if}
 		<input
 			type={show ? 'text' : 'password'}
 			bind:value
 			id={`${uid}-{name}`}
-			class={cn('field-input', inputClass)}
-			placeholder={isFocused ? placeholder : ''}
+			class={cn(
+				'control-input',
+				isFloatLabel && !isActive && !isFocused && value == '' && 'invisible',
+				controlClass
+			)}
+			{placeholder}
 			{name}
-			{defaultValue}
 			onchange={(e) => onchange?.((e.target as HTMLInputElement).value)}
 			oninput={(e) => oninput?.((e.target as HTMLInputElement).value)}
-			onfocusin={() => {
-				if (!labelActive) isFocused = true;
-			}}
-			onfocusout={() => {
-				if (!labelActive) isFocused = false;
-			}}
-			{...rest}
+			onfocusin={() => (isFocused = true)}
+			onfocusout={() => (isFocused = false)}
 		/>
-		<Button class={cn('field-eye')} onclick={() => (show = !show)}>eye icon</Button>
-	</div>
-	<div class={cn('field-strength', className)}>
+		<IconButton
+			variant="ghost"
+			size="sm"
+			icon={show ? EyeShowRegularIcon : EyeOffRegularIcon}
+			onclick={() => (show = !show)}
+		/>
+	</label>
+	<div class={cn('field-strength')}>
 		<div class="field-strength-bars">
 			{#each Array(4) as _, i}
 				<div
@@ -160,11 +173,9 @@
 			{/each}
 		</div>
 	</div>
-	{#if errorText || helpText || strength.label}
-		<div
-			class={cn('field-help', strength.label && 'field-strength-label', errorText && 'is-error')}
-		>
-			{strength.label ? strength.label : errorText ? errorText : helpText}
+	{#if errorText || helpText}
+		<div class={cn('field-help', errorText && 'is-danger')}>
+			{errorText || helpText}
 		</div>
 	{/if}
 </div>

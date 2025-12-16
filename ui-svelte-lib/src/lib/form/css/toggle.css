@@ -23,5 +23,14 @@
 				@apply bg-on-muted;
 			}
 		}
+
+		.toggle-label-left,
+		.toggle-label-right {
+			@apply text-muted transition-colors duration-200;
+
+			&.is-active {
+				@apply text-on-muted;
+			}
+		}
 	}
 }

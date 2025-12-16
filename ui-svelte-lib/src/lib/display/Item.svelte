@@ -63,12 +63,6 @@
 		lg: 'is-lg'
 	};
 
-	const avatarSizes: Record<string, 'sm' | 'md' | 'lg' | 'xl'> = {
-		sm: 'md',
-		md: 'lg',
-		lg: 'xl'
-	};
-
 	const isInteractive = $derived(!!href || !!onclick);
 
 	let itemClasses = $derived(
@@ -92,10 +86,10 @@
 
 {#snippet itemContent()}
 	{#if icon}
-		<Icon {icon} />
+		<Icon {icon} class="h-6 w-auto" />
 	{/if}
 	{#if src}
-		<Avatar {src} {status} size={avatarSizes[size]} variant="transparent" />
+		<Avatar {src} {status} {size} variant="transparent" />
 	{/if}
 	<div class="item-body">
 		<div class="item-label">{label}</div>

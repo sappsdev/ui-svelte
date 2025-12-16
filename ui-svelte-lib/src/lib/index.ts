@@ -39,7 +39,7 @@ import DateField from '$lib/form/DateField.svelte';
 import Dropzone from '$lib/form/Dropzone.svelte';
 import ImageCropper from '$lib/form/ImageCropper.svelte';
 import TextField from '$lib/form/TextField.svelte';
-import PasswordField from '$lib/form/PasswordField.svelte';
+import PasswordStrength from '$lib/form/PasswordStrength.svelte';
 import PinField from '$lib/form/PinField.svelte';
 import RadioGroup from '$lib/form/RadioGroup.svelte';
 import PhoneField from '$lib/form/PhoneField.svelte';
@@ -145,7 +145,7 @@ export {
 	Modal,
 	Marquee,
 	NavMenu,
-	PasswordField,
+	PasswordStrength,
 	PhoneField,
 	PinField,
 	plural,

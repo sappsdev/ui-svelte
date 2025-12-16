@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { Item } from '$lib/index.js';
-	import type { IconData } from '$lib/types.js';
+	import { Item, type IconData } from '$lib/index.js';
 	import { onMount, type Snippet } from 'svelte';
 
 	type Option = {

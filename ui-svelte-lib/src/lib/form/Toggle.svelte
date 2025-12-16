@@ -8,6 +8,8 @@
 		disabled?: boolean;
 		class?: string;
 		label?: string;
+		labelLeft?: string;
+		labelRight?: string;
 		name?: string;
 		color?: 'primary' | 'secondary' | 'muted';
 	};
@@ -18,6 +20,8 @@
 		disabled = false,
 		class: className,
 		label,
+		labelLeft,
+		labelRight,
 		name,
 		color = 'primary'
 	}: Props = $props();
@@ -30,6 +34,9 @@
 </script>
 
 <label class={cn('toggle', className)}>
+	{#if labelLeft}
+		<span class={cn('toggle-label-left', !checked && 'is-active')}>{labelLeft}</span>
+	{/if}
 	<input
 		type="checkbox"
 		class={cn('toggle-input', colors[color])}
@@ -39,6 +46,9 @@
 		{disabled}
 		onchange={() => onchange && onchange(checked!)}
 	/>
+	{#if labelRight}
+		<span class={cn('toggle-label-right', checked && 'is-active')}>{labelRight}</span>
+	{/if}
 	{#if label}
 		<span class="label">{label}</span>
 	{/if}

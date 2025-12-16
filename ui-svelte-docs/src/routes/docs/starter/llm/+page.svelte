@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Card, Code, Icon, Section, Tabs } from 'ui-svelte';
+	import { Button, Card, Code, Icon, Section, Tabs, useClipboard } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
 	import {
 		ArtificialIntelligenceIcon,
@@ -9,8 +9,24 @@
 		CopyRegularIcon,
 		WarningTriangleIcon,
 		BulbIcon,
-		CheckmarkCircle24RegularIcon
+		CheckmarkCircle24RegularIcon,
+		CheckmarkRegularIcon
 	} from '$lib/icons';
+
+	const pageClipboard = useClipboard();
+	const layoutClipboard = useClipboard();
+
+	const handleCopyPage = () => {
+		pageClipboard.copy(
+			'Read from https://ui-svelte.sappsdev.com/llm/starter/page.md so I can ask questions about it.'
+		);
+	};
+
+	const handleCopyLayout = () => {
+		layoutClipboard.copy(
+			'Read from https://ui-svelte.sappsdev.com/llm/starter/layout.md so I can ask questions about it.'
+		);
+	};
 
 	const pagePrompts = [
 		{
@@ -101,10 +117,7 @@
 	</div>
 {/snippet}
 
-<DocsHeader
-	title="LLM Prompt Guidelines"
-	llmUrl="https://ui-svelte.sappsdev.com/llm/starter/page.md"
->
+<DocsHeader title="LLM Prompt Guidelines">
 	Learn how to efficiently use ui-svelte with AI assistants by referencing the optimized LLM
 	documentation files.
 </DocsHeader>
@@ -125,9 +138,17 @@
 <Section bodyClass="grid-1 md:grid-2 gap-6">
 	<Card bodyClass="column gap-4">
 		{#snippet header()}
-			<div class="row gap-3 items-center">
-				<Icon icon={FileDocumentIcon} class="size-5" />
-				<h4>Page Components</h4>
+			<div class="row gap-3 items-center justify-between w-full">
+				<div class="row gap-3 items-center">
+					<Icon icon={FileDocumentIcon} class="size-5" />
+					<h4>Page Components</h4>
+				</div>
+				<Button
+					onclick={handleCopyPage}
+					startIcon={pageClipboard.copied ? CheckmarkRegularIcon : CopyRegularIcon}
+					variant="muted"
+					size="sm">Copy LLM</Button
+				>
 			</div>
 		{/snippet}
 		<p class="text-sm">
@@ -145,9 +166,17 @@
 
 	<Card bodyClass="column gap-4">
 		{#snippet header()}
-			<div class="row gap-3 items-center">
-				<Icon icon={LayoutIcon} class="size-5" />
-				<h4>Layout Components</h4>
+			<div class="row gap-3 items-center justify-between w-full">
+				<div class="row gap-3 items-center">
+					<Icon icon={LayoutIcon} class="size-5" />
+					<h4>Layout Components</h4>
+				</div>
+				<Button
+					onclick={handleCopyLayout}
+					startIcon={layoutClipboard.copied ? CheckmarkRegularIcon : CopyRegularIcon}
+					variant="muted"
+					size="sm">Copy LLM</Button
+				>
 			</div>
 		{/snippet}
 		<p class="text-sm">

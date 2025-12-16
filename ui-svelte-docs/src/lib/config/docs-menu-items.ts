@@ -37,6 +37,10 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/starter/llm'
 			},
 			{
+				label: 'Animations',
+				href: '/docs/starter/animations'
+			},
+			{
 				label: 'Typography',
 				href: '/docs/starter/typography'
 			},
@@ -129,6 +133,10 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/display/collapsible'
 			},
 			{
+				label: 'Divider',
+				href: '/docs/display/divider'
+			},
+			{
 				label: 'Empty',
 				href: '/docs/display/empty'
 			},
@@ -183,6 +191,10 @@ export const sideMenuItems: SideNavItem[] = [
 			{
 				label: 'ImageCropper',
 				href: '/docs/form/image-cropper'
+			},
+			{
+				label: 'PasswordStrength',
+				href: '/docs/form/password-strength'
 			},
 			{
 				label: 'Select',

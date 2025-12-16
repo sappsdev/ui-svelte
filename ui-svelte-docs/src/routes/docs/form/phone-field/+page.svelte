@@ -1,236 +1,427 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { PhoneField, Select, Checkbox, Section } from 'ui-svelte';
+	import { Card, Code, PhoneField, Section, Select, Checkbox } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsPreview from '$lib/components/DocsPreview.svelte';
+	import DocsCode from '$lib/components/DocsCode.svelte';
 
 	const variantOptions = [
+		{ id: 'outlined', label: 'Outlined' },
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
-		{ id: 'outlined', label: 'Outlined' },
 		{ id: 'line', label: 'Line' }
 	];
 
 	const sizeOptions = [
-		{ id: 'sm', label: 'sm' },
-		{ id: 'md', label: 'md' },
-		{ id: 'lg', label: 'lg' }
+		{ id: 'sm', label: 'Small' },
+		{ id: 'md', label: 'Medium' },
+		{ id: 'lg', label: 'Large' }
 	];
 
-	// Selects
 	let variant: any = $state('outlined');
 	let size: any = $state('md');
-
-	// Props
-	let label = $state('');
-	let helpText = $state('');
-	let errorText = $state('');
-	let placeholder = $state('');
-
-	// States
 	let isFloatLabel = $state(false);
 	let isSolid = $state(false);
-	let withPriorityCountries = $state(false);
 
-	let priorityCountries = $derived(withPriorityCountries ? ['us', 'gb', 'ca', 'au'] : []);
-
-	let hasProps = $derived(
-		[
-			variant !== 'outlined',
-			size !== 'md',
-			label,
-			helpText,
-			errorText,
-			placeholder,
-			isFloatLabel,
-			isSolid,
-			withPriorityCountries
-		].some(Boolean)
-	);
-
-	let code = $derived(() => {
-		const scriptLines = [
-			`<script lang="ts">`,
-			`\timport { PhoneField } from 'ui-svelte';`,
-			`\n\tlet value = $state('');`,
-			`\tlet countryCode = $state('');`,
-			`\tlet dialCode = $state('');`,
-			withPriorityCountries && `\n\tconst priorityCountries = ['us', 'gb', 'ca', 'au'];`,
-			`<\/script>`
-		].filter(Boolean);
-
-		const componentLines = [
-			hasProps && `<PhoneField`,
-			hasProps && `\tname="phone"`,
-			placeholder && `\tplaceholder="${placeholder}"`,
-			label && `\tlabel="${label}"`,
-			variant !== 'outlined' && `\tvariant="${variant}"`,
-			size !== 'md' && `\tsize="${size}"`,
-			helpText && `\thelpText="${helpText}"`,
-			errorText && `\terrorText="${errorText}"`,
-			isFloatLabel && `\tisFloatLabel`,
-			isSolid && `\tisSolid`,
-			withPriorityCountries && `\tpriorityCountries={priorityCountries}`,
-			hasProps && `\tbind:value`,
-			hasProps && `\tbind:countryCode`,
-			hasProps && `\tbind:dialCode`,
-			hasProps && `/>`,
-			!hasProps && `<PhoneField name="phone" bind:value bind:countryCode bind:dialCode />`
-		].filter(Boolean);
-
-		return [...scriptLines, ...componentLines].join('\n');
-	});
-
-	const props = [
-		{ prop: 'name', type: 'string', initial: '', required: true },
-		{ prop: 'value', type: 'string', initial: '' },
-		{ prop: 'countryCode', type: 'string', initial: '' },
-		{ prop: 'dialCode', type: 'string', initial: '' },
-		{ prop: 'placeholder', type: 'string', initial: 'Enter phone number' },
-		{ prop: 'onchange', type: '(value: string) => void', initial: '' },
-		{ prop: 'variant', type: 'primary | secondary | muted | outlined | line', initial: 'outlined' },
-		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
-		{ prop: 'dialCodeName', type: 'string', initial: 'dialCode' },
-		{ prop: 'class', type: 'string', initial: '' },
-		{ prop: 'label', type: 'string', initial: '' },
-		{ prop: 'isLabelActive', type: 'boolean', initial: 'false' },
-		{ prop: 'helpText', type: 'string', initial: '' },
-		{ prop: 'errorText', type: 'string', initial: '' },
-		{ prop: 'isFloatLabel', type: 'boolean', initial: 'false' },
-		{ prop: 'isSolid', type: 'boolean', initial: 'false' },
-		{ prop: 'priorityCountries', type: 'string[]', initial: '[]' },
-		{ prop: 'searchPlaceholder', type: 'string', initial: 'Search country...' },
-		{ prop: 'emptyText', type: 'string', initial: 'No countries found' },
-		{ prop: 'loadingText', type: 'string', initial: 'Loading...' }
-	];
-
-	let value = $state('');
+	let phoneValue = $state('');
 	let countryCode = $state('');
 	let dialCode = $state('');
+
+	let code = $derived(() => {
+		const props = [];
+		if (variant !== 'outlined') props.push(`variant="${variant}"`);
+		if (size !== 'md') props.push(`size="${size}"`);
+		if (isFloatLabel) props.push('isFloatLabel');
+		if (isSolid) props.push('isSolid');
+
+		const propsString = props.length > 0 ? '\n\t' + props.join('\n\t') + '\n' : ' ';
+
+		return `<PhoneField${propsString !== ' ' ? propsString : ' '}label="Phone Number"
+	placeholder="Enter phone number"
+	bind:value={phoneValue}
+	bind:countryCode
+	bind:dialCode
+/>`;
+	});
+
+	const propsData = [
+		{
+			prop: 'value',
+			type: 'string',
+			default: "''",
+			description: 'The phone number value (bindable)'
+		},
+		{
+			prop: 'countryCode',
+			type: 'string',
+			default: "''",
+			description: 'The selected country code, e.g., "US", "MX" (bindable)'
+		},
+		{
+			prop: 'dialCode',
+			type: 'string',
+			default: "''",
+			description: 'The dial code for the selected country, e.g., "1", "52" (bindable)'
+		},
+		{
+			prop: 'placeholder',
+			type: 'string',
+			default: "'Enter phone number'",
+			description: 'Placeholder text for the input'
+		},
+		{
+			prop: 'variant',
+			type: "'primary' | 'secondary' | 'muted' | 'outlined' | 'line'",
+			default: "'outlined'",
+			description: 'Visual style variant of the field'
+		},
+		{
+			prop: 'size',
+			type: "'sm' | 'md' | 'lg'",
+			default: "'md'",
+			description: 'Size of the phone field'
+		},
+		{
+			prop: 'name',
+			type: 'string',
+			default: 'undefined',
+			description: 'Name attribute for the phone input (for form submission)'
+		},
+		{
+			prop: 'dialCodeName',
+			type: 'string',
+			default: "'dialCode'",
+			description: 'Name attribute for the hidden dial code input'
+		},
+		{
+			prop: 'label',
+			type: 'string',
+			default: 'undefined',
+			description: 'Label text displayed above or floating on the field'
+		},
+		{
+			prop: 'isLabelActive',
+			type: 'boolean',
+			default: 'false',
+			description: 'Force the floating label to be in active (raised) position'
+		},
+		{
+			prop: 'helpText',
+			type: 'string',
+			default: 'undefined',
+			description: 'Helper text displayed below the field'
+		},
+		{
+			prop: 'errorText',
+			type: 'string',
+			default: 'undefined',
+			description: 'Error message displayed below the field (adds error styling)'
+		},
+		{
+			prop: 'isFloatLabel',
+			type: 'boolean',
+			default: 'false',
+			description: 'Enable floating label behavior'
+		},
+		{
+			prop: 'isSolid',
+			type: 'boolean',
+			default: 'false',
+			description: 'Enable solid/filled background style'
+		},
+		{
+			prop: 'priorityCountries',
+			type: 'string[]',
+			default: '[]',
+			description: 'Array of country codes to show at the top of the list'
+		},
+		{
+			prop: 'searchPlaceholder',
+			type: 'string',
+			default: "'Search country...'",
+			description: 'Placeholder text for the country search input'
+		},
+		{
+			prop: 'emptyText',
+			type: 'string',
+			default: "'No countries found'",
+			description: 'Text shown when no countries match the search'
+		},
+		{
+			prop: 'loadingText',
+			type: 'string',
+			default: "'Loading...'",
+			description: 'Text shown while loading more countries'
+		},
+		{
+			prop: 'onchange',
+			type: '(value: string) => void',
+			default: 'undefined',
+			description: 'Callback fired when the phone value changes'
+		},
+		{
+			prop: 'class',
+			type: 'string',
+			default: 'undefined',
+			description: 'Additional CSS classes to apply to the container'
+		}
+	];
 </script>
 
-{#snippet preview()}
-	<PhoneField
-		name="phone"
-		{variant}
-		{size}
-		{isSolid}
-		label={label || undefined}
-		placeholder={placeholder || undefined}
-		helpText={helpText || undefined}
-		errorText={errorText || undefined}
-		isFloatLabel={label && isFloatLabel ? isFloatLabel : undefined}
-		{priorityCountries}
-		bind:value
-		bind:countryCode
-		bind:dialCode
-	/>
+<DocsHeader title="PhoneField" llmUrl="https://ui-svelte.sappsdev.com/llm/form/phone-field.md">
+	A phone number input field with integrated country code selector. Features a searchable dropdown
+	with country flags, dial codes, and virtualized scrolling for performance.
+</DocsHeader>
 
-	{#if value || countryCode || dialCode}
-		<div class="mt-4 p-4 bg-muted/20 rounded-ui text-sm">
-			<div><strong>Country Code:</strong> {countryCode || 'Not selected'}</div>
-			<div><strong>Dial Code:</strong> {dialCode ? `+${dialCode}` : 'Not selected'}</div>
-			<div><strong>Phone Number:</strong> {value || 'Empty'}</div>
-			<div>
-				<strong>Full Number:</strong>
-				{dialCode && value ? `+${dialCode} ${value}` : 'Incomplete'}
-			</div>
+<Section bodyClass="md:grid-3">
+	<DocsPreview>
+		<div class="column gap-4 w-full max-w-md">
+			<PhoneField
+				{variant}
+				{size}
+				{isFloatLabel}
+				{isSolid}
+				label="Phone Number"
+				placeholder="Enter phone number"
+				bind:value={phoneValue}
+				bind:countryCode
+				bind:dialCode
+				priorityCountries={['us', 'mx', 'ca']}
+			/>
+			{#if phoneValue || dialCode}
+				<div class="text-sm text-muted-500">
+					Full number: +{dialCode}
+					{phoneValue}
+				</div>
+			{/if}
 		</div>
-	{/if}
-{/snippet}
+	</DocsPreview>
+	<Card>
+		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
+		<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
+		<div class="grid-2 gap-2">
+			<Checkbox bind:checked={isFloatLabel} label="Float Label" />
+			<Checkbox bind:checked={isSolid} label="Solid" />
+		</div>
+	</Card>
+	<DocsCode code={code()} />
+</Section>
 
-{#snippet builder()}
-	<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-	<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
+<Section>
+	<Card>
+		<div class="overflow-x-auto">
+			<table class="w-full border-collapse">
+				<thead>
+					<tr class="border-b border-muted-200">
+						<th class="text-left p-3 font-semibold">Prop</th>
+						<th class="text-left p-3 font-semibold">Type</th>
+						<th class="text-left p-3 font-semibold">Default</th>
+						<th class="text-left p-3 font-semibold">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each propsData as prop}
+						<tr class="border-b border-muted-100">
+							<td class="p-3"><code class="px-2 py-1 rounded text-sm">{prop.prop}</code></td>
+							<td class="p-3"><code class="px-2 py-1 rounded text-xs">{prop.type}</code></td>
+							<td class="p-3"><code class="px-2 py-1 rounded text-xs">{prop.default}</code></td>
+							<td class="p-3 text-sm">{prop.description}</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
+	</Card>
+</Section>
 
-	<DocOptions title="Features">
-		<Checkbox bind:checked={withPriorityCountries} label="Priority Countries" />
-	</DocOptions>
+<Section bodyClass="grid-2 md:grid-3">
+	<!-- Variants Example -->
+	<Card>
+		{#snippet header()}
+			<h4>Variants</h4>
+		{/snippet}
+		<div class="column gap-3">
+			<PhoneField variant="outlined" label="Outlined" priorityCountries={['us']} />
+			<PhoneField variant="primary" label="Primary" priorityCountries={['us']} />
+			<PhoneField variant="muted" label="Muted" priorityCountries={['us']} />
+		</div>
+		{#snippet footer()}
+			<code class="text-xs">variant="outlined | primary | muted"</code>
+		{/snippet}
+	</Card>
 
-	<DocOptions title="Labels & Messages">
-		<Checkbox onchange={(v) => (v ? (label = 'Phone Number') : (label = ''))} label="Label" />
-		{#if label}
-			<Checkbox bind:checked={isFloatLabel} label="floatLabel" />
-		{/if}
-		<Checkbox
-			onchange={(v) => (v ? (placeholder = 'Enter your phone') : (placeholder = ''))}
-			label="placeholder"
-		/>
-		<Checkbox
-			onchange={(v) => (v ? (helpText = 'Include your country code') : (helpText = ''))}
-			label="helpText"
-		/>
-		<Checkbox
-			onchange={(v) => (v ? (errorText = 'Phone number is required') : (errorText = ''))}
-			label="errorText"
-		/>
-		<Checkbox bind:checked={isSolid} label="solid" />
-	</DocOptions>
-{/snippet}
+	<!-- Sizes Example -->
+	<Card>
+		{#snippet header()}
+			<h4>Sizes</h4>
+		{/snippet}
+		<div class="column gap-3">
+			<PhoneField size="sm" label="Small" priorityCountries={['us']} />
+			<PhoneField size="md" label="Medium" priorityCountries={['us']} />
+			<PhoneField size="lg" label="Large" priorityCountries={['us']} />
+		</div>
+		{#snippet footer()}
+			<code class="text-xs">size="sm | md | lg"</code>
+		{/snippet}
+	</Card>
 
-<DocHeader title="PhoneField">
-	PhoneField component allows users to enter phone numbers with automatic country code selection and
-	formatting.
-</DocHeader>
+	<!-- Floating Label Example -->
+	<Card>
+		{#snippet header()}
+			<h4>Floating Label</h4>
+		{/snippet}
+		<div class="column gap-3">
+			<PhoneField isFloatLabel label="Phone Number" priorityCountries={['us']} />
+			<PhoneField isFloatLabel isSolid label="Solid Style" priorityCountries={['us']} />
+		</div>
+		{#snippet footer()}
+			<code class="text-xs">isFloatLabel isSolid</code>
+		{/snippet}
+	</Card>
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+	<!-- Priority Countries Example -->
+	<Card>
+		{#snippet header()}
+			<h4>Priority Countries</h4>
+		{/snippet}
+		<div class="column gap-3">
+			<PhoneField label="US, MX, CA first" priorityCountries={['us', 'mx', 'ca']} />
+		</div>
+		{#snippet footer()}
+			<code class="text-xs">priorityCountries={'{["us", "mx", "ca"]}'}</code>
+		{/snippet}
+	</Card>
 
-<DocCode code={code()} />
+	<!-- Error State Example -->
+	<Card>
+		{#snippet header()}
+			<h4>Error State</h4>
+		{/snippet}
+		<div class="column gap-3">
+			<PhoneField
+				label="Phone"
+				errorText="Please enter a valid phone number"
+				priorityCountries={['us']}
+			/>
+		</div>
+		{#snippet footer()}
+			<code class="text-xs">errorText="..."</code>
+		{/snippet}
+	</Card>
 
-<DocProps {props} />
+	<!-- Help Text Example -->
+	<Card>
+		{#snippet header()}
+			<h4>Help Text</h4>
+		{/snippet}
+		<div class="column gap-3">
+			<PhoneField
+				label="Phone"
+				helpText="We'll never share your phone number"
+				priorityCountries={['us']}
+			/>
+		</div>
+		{#snippet footer()}
+			<code class="text-xs">helpText="..."</code>
+		{/snippet}
+	</Card>
+</Section>
 
-<Section class="prose mt-8">
-	<h3>Features</h3>
-	<ul>
-		<li><strong>Country Selection:</strong> Dropdown with all countries and their dial codes</li>
-		<li><strong>Flag Icons:</strong> Visual country identification with flag avatars</li>
-		<li><strong>Search:</strong> Quick search through countries by name or dial code</li>
-		<li><strong>Priority Countries:</strong> Pin frequently used countries to the top</li>
-		<li><strong>Keyboard Navigation:</strong> Full keyboard support with arrow keys</li>
-		<li><strong>Infinite Scroll:</strong> Efficient loading of large country lists</li>
-		<li><strong>Auto-focus:</strong> Phone input focuses after country selection</li>
-	</ul>
+<Section>
+	<Card variant="info">
+		<div class="column gap-3">
+			<h4 class="font-semibold">💡 Pro Tips</h4>
+			<ul class="text-sm space-y-2 list-disc list-inside">
+				<li>
+					<strong>Form Submission:</strong> Use the
+					<code class="px-1 py-0.5 bg-blue rounded">name</code> prop for the phone number and
+					<code class="px-1 py-0.5 bg-blue rounded">dialCodeName</code> for the dial code hidden input
+				</li>
+				<li>
+					<strong>Priority Countries:</strong> Set
+					<code class="px-1 py-0.5 bg-blue rounded">priorityCountries</code> to show frequently used countries
+					at the top of the dropdown
+				</li>
+				<li>
+					<strong>Full Number:</strong> Combine
+					<code class="px-1 py-0.5 bg-blue rounded">dialCode</code> and
+					<code class="px-1 py-0.5 bg-blue rounded">value</code> for the complete phone number: +{'{dialCode}'}
+					{'{value}'}
+				</li>
+				<li>
+					<strong>Keyboard Navigation:</strong> The dropdown supports arrow keys, Enter to select, Escape
+					to close, and type-ahead search
+				</li>
+			</ul>
+		</div>
+	</Card>
+</Section>
 
-	<h3>Usage Example</h3>
-	<p>The component binds three values: the phone number, country code, and dial code:</p>
+<Section>
+	<Card bodyClass="column gap-4">
+		{#snippet header()}
+			<h4>Usage Examples</h4>
+		{/snippet}
+		<Code
+			lang="svelte"
+			code={`<script lang="ts">
+	import { PhoneField } from 'ui-svelte';
 
-	<pre><code
-			>{`<script>
-  let value = $state('');        // Phone number: "5551234567"
-  let countryCode = $state('');  // ISO code: "us"
-  let dialCode = $state('');     // Dial code: "1"
+	let phoneValue = $state('');
+	let countryCode = $state('');
+	let dialCode = $state('');
+
+	const handleChange = (value: string) => {
+		console.log('Phone changed:', value);
+	};
 <\/script>
 
+<!-- Basic Usage -->
 <PhoneField
-  name="phone"
-  bind:value
-  bind:countryCode
-  bind:dialCode
-/>`}</code
-		></pre>
+	label="Phone Number"
+	bind:value={phoneValue}
+	bind:countryCode
+	bind:dialCode
+/>
 
-	<h3>Priority Countries</h3>
-	<p>You can pin specific countries to the top of the list for easier access:</p>
+<!-- With Priority Countries -->
+<PhoneField
+	label="Phone"
+	bind:value={phoneValue}
+	priorityCountries={['us', 'mx', 'ca', 'gb']}
+/>
 
-	<pre><code
-			>{`<PhoneField
-  name="phone"
-  priorityCountries={['us', 'gb', 'ca', 'au']}
-  bind:value
-  bind:countryCode
-  bind:dialCode
-/>`}</code
-		></pre>
+<!-- Floating Label with Solid Style -->
+<PhoneField
+	isFloatLabel
+	isSolid
+	label="Contact Number"
+	bind:value={phoneValue}
+/>
 
-	<h3>Form Integration</h3>
-	<p>The component creates two form inputs:</p>
-	<ul>
-		<li><code>name</code> - Contains the phone number value</li>
-		<li><code>dialCodeName</code> - Contains the dial code (default: "dialCode")</li>
-	</ul>
+<!-- With Form Names -->
+<PhoneField
+	name="phone"
+	dialCodeName="country_dial_code"
+	label="Phone"
+	bind:value={phoneValue}
+/>
+
+<!-- With Validation -->
+<PhoneField
+	label="Phone"
+	bind:value={phoneValue}
+	errorText={phoneValue.length < 10 ? 'Phone number is too short' : ''}
+	helpText="Enter your 10-digit phone number"
+/>
+
+<!-- Custom Dropdown Text -->
+<PhoneField
+	label="Phone"
+	searchPlaceholder="Buscar país..."
+	emptyText="No se encontraron países"
+	loadingText="Cargando..."
+/>`}
+		/>
+	</Card>
 </Section>

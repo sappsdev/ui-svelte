@@ -84,6 +84,7 @@
 	let contentEl = $state<HTMLElement>();
 	let optionsEl = $state<HTMLElement>();
 	let phoneInputEl = $state<HTMLInputElement>();
+	let searchInputEl = $state<HTMLInputElement>();
 	let focusedIndex = $state(-1);
 	let searchTerm = $state('');
 	let searchTimeout: ReturnType<typeof setTimeout> | null = $state(null);
@@ -284,6 +285,10 @@
 			await tick();
 			await updatePosition();
 			isOpen = true;
+			await tick();
+			setTimeout(() => {
+				searchInputEl?.focus();
+			}, 100);
 		} else {
 			stopEventListeners();
 			focusedIndex = -1;
@@ -401,7 +406,7 @@
 				/>
 				<span class="phone-dial-code">+{dialCode}</span>
 			{:else}
-				<Avatar name="Select country" {size} variant="transparent" />
+				<Icon icon={countryFlagsIcons[`country-flags:xx`] as IconData} class="h-5 w-5" />
 				<span class="phone-dial-code">+--</span>
 			{/if}
 			<Icon icon={ChevronDown24RegularIcon} class={cn('control-arrow', isOpen && 'is-active')} />
@@ -409,7 +414,7 @@
 
 		<input
 			bind:this={phoneInputEl}
-			type="tel"
+			type="number"
 			{name}
 			bind:value
 			class={cn(
@@ -431,6 +436,7 @@
 		<div class={cn('combo-box-search', variantClasses[variant])}>
 			<Icon icon={Search24RegularIcon} class="combo-box-search-icon" />
 			<input
+				bind:this={searchInputEl}
 				type="text"
 				class="combo-box-search-input"
 				placeholder={searchPlaceholder}

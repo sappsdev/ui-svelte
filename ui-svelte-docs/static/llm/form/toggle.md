@@ -9,6 +9,8 @@ Switch-style binary input for on/off states.
   onchange={handleChange}
   disabled={false}
   label="Enable notifications"
+  labelLeft="Off"
+  labelRight="On"
   name="notifications"
   color="primary"
 />
@@ -22,7 +24,9 @@ Switch-style binary input for on/off states.
 | `defaultChecked` | `false` | Initial checked state |
 | `onchange` | - | Handler `(checked: boolean) => void` |
 | `disabled` | `false` | Disable interaction |
-| `label` | - | Label text |
+| `label` | - | Label text (after toggle) |
+| `labelLeft` | - | Left label (active when unchecked) |
+| `labelRight` | - | Right label (active when checked) |
 | `name` | - | Form field name |
 | `color` | `'primary'` | `primary` `secondary` `muted` |
 
@@ -38,6 +42,9 @@ Switch-style binary input for on/off states.
 <!-- Disabled -->
 <Toggle checked disabled label="Always enabled" />
 
+<!-- Dual Labels (Billing Toggle) -->
+<Toggle labelLeft="Billed Monthly" labelRight="Billed Yearly" bind:checked={isYearly} />
+
 <!-- Settings Group -->
 <div class="column gap-3">
   <Toggle bind:checked={darkMode} label="Dark mode" />
@@ -49,4 +56,4 @@ Switch-style binary input for on/off states.
 <Toggle name="marketing" defaultChecked label="Receive marketing emails" />
 ```
 
-**For LLMs**: Toggle for on/off switches. Visually different from Checkbox (switch vs checkmark). Use for settings and preferences. Same API as Checkbox but different visual style. Use `bind:checked` for reactive state.
+**For LLMs**: Toggle for on/off switches. Visually different from Checkbox (switch vs checkmark). Use for settings and preferences. Same API as Checkbox but different visual style. Use `bind:checked` for reactive state. Use `labelLeft` and `labelRight` for dual-label patterns like billing toggles (Monthly/Yearly).
