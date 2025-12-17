@@ -1,19 +1,21 @@
 <script lang="ts">
-	import { AvatarGroup, Card, Checkbox, TextField, Section, Select } from 'ui-svelte';
+	import { AvatarGroup, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	const variantOptions = [
+	const colorOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
 		{ id: 'success', label: 'Success' },
 		{ id: 'info', label: 'Info' },
 		{ id: 'danger', label: 'Danger' },
-		{ id: 'warning', label: 'Warning' },
-		{ id: 'transparent', label: 'Transparent' }
+		{ id: 'warning', label: 'Warning' }
+	];
+
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' }
 	];
 
 	const sizeOptions = [
@@ -24,31 +26,42 @@
 		{ id: 'xl', label: 'xl' }
 	];
 
-	let variant: any = $state('primary');
-	let size: any = $state('lg');
-	let max: number = $state(4);
-	let stacked = $state(true);
+	const maxOptions = [
+		{ id: '', label: 'None' },
+		{ id: '3', label: '3' },
+		{ id: '4', label: '4' },
+		{ id: '5', label: '5' }
+	];
+
+	let color: any = $state('primary');
+	let variant: any = $state('solid');
+	let size: any = $state('md');
+	let max: any = $state('');
+
+	let isInline = $state(false);
 	let isBordered = $state(false);
 
 	const sampleItems = [
-		{ src: 'https://i.pravatar.cc/150?img=1', name: 'Alice', alt: 'Alice' },
-		{ src: 'https://i.pravatar.cc/150?img=2', name: 'Bob', alt: 'Bob' },
-		{ src: 'https://i.pravatar.cc/150?img=3', name: 'Carol', alt: 'Carol' },
-		{ src: 'https://i.pravatar.cc/150?img=4', name: 'David', alt: 'David' },
-		{ src: 'https://i.pravatar.cc/150?img=5', name: 'Eve', alt: 'Eve' },
-		{ src: 'https://i.pravatar.cc/150?img=6', name: 'Frank', alt: 'Frank' }
+		{ src: 'https://i.pravatar.cc/150?img=1', name: 'Alice' },
+		{ src: 'https://i.pravatar.cc/150?img=2', name: 'Bob' },
+		{ src: 'https://i.pravatar.cc/150?img=3', name: 'Charlie' },
+		{ src: 'https://i.pravatar.cc/150?img=4', name: 'Diana' },
+		{ src: 'https://i.pravatar.cc/150?img=5', name: 'Eve' },
+		{ src: 'https://i.pravatar.cc/150?img=6', name: 'Frank' }
 	];
 
-	const nameOnlyItems = [
-		{ name: 'Alice Brown' },
+	const nameItems = [
+		{ name: 'Alice Johnson' },
 		{ name: 'Bob Smith' },
-		{ name: 'Carol Davis' },
-		{ name: 'David Wilson' },
-		{ name: 'Eve Johnson' }
+		{ name: 'Charlie Brown' },
+		{ name: 'Diana Prince' },
+		{ name: 'Eve Wilson' }
 	];
 
 	let hasProps = $derived(
-		[variant !== 'primary', size !== 'lg', max !== 4, !stacked, isBordered].some(Boolean)
+		[color !== 'primary', variant !== 'solid', size !== 'md', max, isInline, isBordered].some(
+			Boolean
+		)
 	);
 
 	let code = $derived(() => {
@@ -59,56 +72,53 @@
 			`\tconst items = [`,
 			`\t\t{ src: 'https://i.pravatar.cc/150?img=1', name: 'Alice' },`,
 			`\t\t{ src: 'https://i.pravatar.cc/150?img=2', name: 'Bob' },`,
-			`\t\t{ src: 'https://i.pravatar.cc/150?img=3', name: 'Carol' },`,
-			`\t\t{ src: 'https://i.pravatar.cc/150?img=4', name: 'David' },`,
-			`\t\t{ src: 'https://i.pravatar.cc/150?img=5', name: 'Eve' },`,
-			`\t\t{ src: 'https://i.pravatar.cc/150?img=6', name: 'Frank' }`,
+			`\t\t{ src: 'https://i.pravatar.cc/150?img=3', name: 'Charlie' },`,
+			`\t\t// ...more items`,
 			`\t];`,
 			`<\/script>`
 		].filter(Boolean);
 
 		const componentLines = [
-			hasProps && `<AvatarGroup`,
-			hasProps && `\t{items}`,
-			variant !== 'primary' && `\tvariant="${variant}"`,
-			size !== 'lg' && `\tsize="${size}"`,
+			`<AvatarGroup`,
+			`\t{items}`,
+			color !== 'primary' && `\tcolor="${color}"`,
+			variant !== 'solid' && `\tvariant="${variant}"`,
+			size !== 'md' && `\tsize="${size}"`,
 			max && `\tmax={${max}}`,
-			!stacked && `\tstacked={false}`,
+			isInline && `\tisInline`,
 			isBordered && `\tisBordered`,
-			hasProps && `/>`,
-			!hasProps && `<AvatarGroup {items} />`
+			`/>`
 		].filter(Boolean);
 
-		return [...scriptLines, '', ...componentLines].join('\n');
+		return [...scriptLines, ...componentLines].join('\n');
 	});
 
 	const props = [
+		{ prop: 'items', type: 'AvatarItem[]', initial: '[]' },
 		{
-			prop: 'items',
-			type: 'AvatarItem[]',
-			initial: '[]',
-			description: 'Array of avatar items with src, name, alt, href, onclick, target'
+			prop: 'color',
+			type: 'primary | secondary | muted | success | info | danger | warning',
+			initial: 'primary'
 		},
 		{
 			prop: 'variant',
-			type: 'primary | secondary | muted | success | warning | danger | info | transparent',
-			initial: 'primary'
+			type: 'solid | soft',
+			initial: 'solid'
 		},
-		{ prop: 'size', type: 'xs | sm | md | lg | xl', initial: 'lg' },
-		{
-			prop: 'max',
-			type: 'number',
-			initial: 'undefined',
-			description: 'Maximum number of visible avatars'
-		},
-		{
-			prop: 'stacked',
-			type: 'boolean',
-			initial: 'true',
-			description: 'Display avatars overlapping (stacked) or separated'
-		},
+		{ prop: 'size', type: 'xs | sm | md | lg | xl', initial: 'md' },
+		{ prop: 'max', type: 'number', initial: '' },
+		{ prop: 'isInline', type: 'boolean', initial: 'false' },
 		{ prop: 'isBordered', type: 'boolean', initial: 'false' },
 		{ prop: 'class', type: 'string', initial: '' }
+	];
+
+	const avatarItemProps = [
+		{ prop: 'src', type: 'string', initial: '' },
+		{ prop: 'name', type: 'string', initial: '' },
+		{ prop: 'alt', type: 'string', initial: '' },
+		{ prop: 'href', type: 'string', initial: '' },
+		{ prop: 'onclick', type: '() => void', initial: '' },
+		{ prop: 'target', type: '_self | _blank | _parent | _top', initial: '' }
 	];
 </script>
 
@@ -116,81 +126,153 @@
 	title="Avatar Group"
 	llmUrl="https://ui-svelte.sappsdev.com/llm/display/avatar-group.md"
 >
-	Display a group of avatars with stacked or separated layout.
+	Display multiple avatars in a stacked or inline group with optional overflow counter.
 </DocsHeader>
 
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		<AvatarGroup items={sampleItems} {variant} {size} {max} {stacked} {isBordered} />
-	</DocsPreview>
-	<Card>
-		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-		<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
-		<TextField label="Max Visible" size="sm" type="number" bind:value={max} min={1} max={6} />
-		<div class="grid-2 gap-2">
-			<Checkbox bind:checked={stacked} label="Stacked" />
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				bind:value={variant}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Size"
+				size="sm"
+				options={sizeOptions}
+				bind:value={size}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Max"
+				size="sm"
+				options={maxOptions}
+				bind:value={max}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={isInline} label="Inline" />
 			<Checkbox bind:checked={isBordered} label="Bordered" />
 		</div>
+
+		<div class="doc-preview">
+			<AvatarGroup
+				items={sampleItems}
+				{color}
+				{variant}
+				{size}
+				max={max ? parseInt(max) : undefined}
+				{isInline}
+				{isBordered}
+			/>
+		</div>
+		<Code lang="svelte" code={code()} />
 	</Card>
-	<DocsCode code={code()} />
 </Section>
 
 <Section>
-	<Card bodyClass="flex flex-col gap-6">
-		{#snippet header()}
-			<h4>Stacked vs Separated</h4>
-		{/snippet}
-		<div class="flex flex-col gap-4">
-			<div>
-				<p class="text-sm text-muted-foreground mb-2">Stacked (Overlapping)</p>
-				<AvatarGroup items={sampleItems} max={4} stacked={true} />
+	<h4>Stacked vs Inline</h4>
+	<Card>
+		<p class="text-sm mb-4">
+			By default, avatars are stacked with overlap. Use <code>isInline</code> to display them in a row.
+		</p>
+		<div class="wrap gap-8 center">
+			<div class="stack gap-2 center">
+				<AvatarGroup items={sampleItems.slice(0, 4)} />
+				<span class="text-sm">Stacked (default)</span>
 			</div>
-			<div>
-				<p class="text-sm text-muted-foreground mb-2">Separated</p>
-				<AvatarGroup items={sampleItems} max={4} stacked={false} />
+			<div class="stack gap-2 center">
+				<AvatarGroup items={sampleItems.slice(0, 4)} isInline />
+				<span class="text-sm">Inline</span>
 			</div>
 		</div>
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="flex flex-col gap-6">
-		{#snippet header()}
-			<h4>With Names Only</h4>
-		{/snippet}
-		<div class="flex flex-wrap gap-4">
-			<AvatarGroup items={nameOnlyItems} variant="primary" />
-			<AvatarGroup items={nameOnlyItems} variant="secondary" stacked={false} />
+	<h4>Max Limit</h4>
+	<Card>
+		<p class="text-sm mb-4">
+			Use the <code>max</code> prop to limit visible avatars and show a counter for remaining items.
+		</p>
+		<div class="wrap gap-8 center">
+			<div class="stack gap-2 center">
+				<AvatarGroup items={sampleItems} max={3} />
+				<span class="text-sm">max=3</span>
+			</div>
+			<div class="stack gap-2 center">
+				<AvatarGroup items={sampleItems} max={4} />
+				<span class="text-sm">max=4</span>
+			</div>
+			<div class="stack gap-2 center">
+				<AvatarGroup items={sampleItems} max={5} />
+				<span class="text-sm">max=5</span>
+			</div>
 		</div>
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="flex flex-wrap gap-6 items-center">
-		{#snippet header()}
-			<h4>Different Sizes</h4>
-		{/snippet}
-		{#each sizeOptions as sizeOpt}
-			<div class="flex flex-col items-center gap-2">
-				<span class="text-sm text-muted-foreground">{sizeOpt.label}</span>
-				<AvatarGroup items={sampleItems.slice(0, 4)} size={sizeOpt.id as any} max={3} />
+	<h4>Variants & Colors</h4>
+	<Card>
+		{#each variantOptions as item}
+			<div class="wrap gap-4 center">
+				{#each colorOptions as c}
+					<AvatarGroup items={nameItems.slice(0, 3)} variant={item.id as any} color={c.id as any} />
+				{/each}
 			</div>
 		{/each}
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="grid-2 md:grid-4 gap-6">
-		{#snippet header()}
-			<h4>Variants</h4>
-		{/snippet}
-		{#each variantOptions as variantOpt}
-			<div class="flex flex-col items-center gap-2">
-				<span class="text-sm text-muted-foreground">{variantOpt.label}</span>
-				<AvatarGroup items={nameOnlyItems.slice(0, 4)} variant={variantOpt.id as any} max={3} />
-			</div>
-		{/each}
+	<h4>Sizes</h4>
+	<Card>
+		<div class="wrap gap-6 center">
+			{#each sizeOptions as s}
+				<div class="stack gap-2 center">
+					<AvatarGroup items={sampleItems.slice(0, 4)} size={s.id as any} />
+					<span class="text-sm">{s.label}</span>
+				</div>
+			{/each}
+		</div>
 	</Card>
 </Section>
 
-<DocsProps {props} />
+<Section>
+	<h4>With Initials</h4>
+	<Card>
+		<p class="text-sm mb-4">
+			Avatars without images display initials from the <code>name</code> prop.
+		</p>
+		<div class="wrap gap-8 center">
+			<AvatarGroup items={nameItems} max={4} />
+			<AvatarGroup items={nameItems} max={4} variant="soft" />
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<h4>AvatarGroup Props</h4>
+	<DocsProps {props} />
+</Section>
+
+<Section>
+	<h4>AvatarItem Type</h4>
+	<DocsProps props={avatarItemProps} />
+</Section>

@@ -4,6 +4,7 @@
 @import './css/utilities.css';
 @import './css/animations.css';
 @import './css/base.css';
+@import './css/rich-text.css';
 
 @import './control/css/btn.css';
 @import './control/css/media.css';
@@ -133,6 +134,7 @@
 	--color-on-danger: var(--on-danger, oklch(93.6% 0.032 17.717));
 	/* red-100  */
 
+	--radius-avatar: calc(infinity * 1px);
 	--radius-box: 0.75rem;
 	--radius-ui: 0.75rem;
 	--scrollbar-size: 6px;

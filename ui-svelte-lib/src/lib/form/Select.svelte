@@ -17,7 +17,8 @@
 		selected?: Option;
 		placeholder?: string;
 		onchange?: (value: unknown) => void;
-		variant?: 'primary' | 'secondary' | 'muted' | 'outlined' | 'line';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft' | 'outlined' | 'line';
 		size?: 'sm' | 'md' | 'lg';
 		name?: string;
 		rootClass?: string;
@@ -37,6 +38,7 @@
 		placeholder = 'Select an option',
 		onchange,
 		variant = 'outlined',
+		color = 'muted',
 		size = 'md',
 		name,
 		label,
@@ -68,12 +70,27 @@
 		`top: ${position.top}px; left: ${position.left}px; width: ${position.width}px; transform-origin: ${position.isBottomHalf ? 'bottom' : 'top'} center;`
 	);
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
 		outlined: 'is-outlined',
 		line: 'is-line'
+	};
+
+	const sizeClasses = {
+		sm: 'is-sm',
+		md: 'is-md',
+		lg: 'is-lg'
 	};
 
 	const itemVariants = {
@@ -83,12 +100,6 @@
 		outlined: 'primary',
 		line: 'primary'
 	} as const;
-
-	const sizeClasses = {
-		sm: 'is-sm',
-		md: 'is-md',
-		lg: 'is-lg'
-	};
 
 	const avatarSizes: any = {
 		sm: 'xs',
@@ -252,7 +263,7 @@
 	};
 
 	onMount(() => {
-		if (value && !selected) {
+		if (value !== undefined && !selected) {
 			selected = options.find((opt) => opt.id === value);
 		} else if (selected) {
 			value = selected.id;
@@ -262,7 +273,7 @@
 	});
 
 	$effect(() => {
-		if (!value) {
+		if (value === undefined) {
 			selected = undefined;
 		}
 	});
@@ -280,7 +291,8 @@
 		bind:this={controlElement}
 		class={cn(
 			'control',
-			variantClasses[variant],
+			colors[color],
+			variants[variant],
 			sizeClasses[size],
 			isFloatLabel && 'is-float',
 			isSolid && 'is-solid',
@@ -295,7 +307,7 @@
 			<span
 				class={cn(
 					'control-label',
-					(isActive || isFocused || isLabelActive || isOpen || value !== '') && 'is-active'
+					(isActive || isFocused || isLabelActive || isOpen || value !== undefined) && 'is-active'
 				)}
 			>
 				{label}
@@ -334,12 +346,12 @@
 					<Item
 						label={item.label}
 						src={item.src}
+						{color}
 						description={item.description}
 						id={item.id}
 						onclick={() => handleSelect(item)}
 						isActive={value === item.id}
 						isFocused={focusedIndex === index}
-						variant={itemVariants[variant]}
 						size="sm"
 						isCompact
 					/>

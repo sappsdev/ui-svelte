@@ -1,57 +1,85 @@
 @layer components {
 	.avatar {
 		@apply relative flex items-center justify-center;
-		@apply rounded-ui;
+		@apply rounded-avatar;
 		@apply transition-all duration-300;
+
+		&.is-clickable {
+			@apply cursor-pointer;
+			@apply hover:opacity-80 hover:scale-105;
+			@apply active:scale-95;
+		}
+
+		&.is-bordered {
+			@apply ring-3;
+		}
+
+		&.is-transparent {
+			@apply bg-transparent;
+		}
 	}
 
-	.avatar.is-clickable {
-		@apply cursor-pointer;
-		@apply hover:opacity-80 hover:scale-105;
-		@apply active:scale-95;
-	}
-
-	/* Reset button/anchor styles when used as clickable */
 	button.avatar,
 	a.avatar {
 		@apply border-0 bg-transparent p-0;
 		@apply no-underline;
 	}
 
-	.avatar.is-primary {
-		@apply bg-primary text-on-primary;
+	.avatar {
+		&.is-xs {
+			@apply size-5;
+			& .avatar-image { @apply size-5 object-cover rounded-avatar; }
+			& .avatar-name { @apply text-xs; }
+			& .avatar-indicator { @apply size-1; }
+		}
+
+		&.is-sm {
+			@apply size-6;
+			& .avatar-image { @apply size-6 object-cover rounded-avatar; }
+			& .avatar-name { @apply text-base; }
+			& .avatar-indicator { @apply size-2; }
+		}
+
+		&.is-md {
+			@apply size-7;
+			& .avatar-image { @apply size-7 object-cover rounded-avatar; }
+			& .avatar-name { @apply text-lg; }
+			& .avatar-indicator { @apply size-2; }
+		}
+
+		&.is-lg {
+			@apply size-10;
+			& .avatar-image { @apply size-10 object-cover rounded-avatar; }
+			& .avatar-name { @apply text-xl; }
+			& .avatar-indicator { @apply size-3; }
+		}
+
+		&.is-xl {
+			@apply size-14;
+			& .avatar-image { @apply size-14 object-cover rounded-avatar; }
+			& .avatar-name { @apply text-3xl; }
+			& .avatar-indicator { @apply size-3; }
+		}
 	}
 
-	.avatar.is-secondary {
-		@apply bg-secondary text-on-secondary;
+	.avatar.is-soft {
+		&.is-primary { @apply bg-on-primary text-primary ring-primary hover:bg-on-primary/80; }
+		&.is-secondary { @apply bg-on-secondary text-secondary ring-secondary hover:bg-on-secondary/80; }
+		&.is-muted { @apply bg-muted text-on-muted ring-muted hover:bg-muted/80; }
+		&.is-success { @apply bg-on-success text-success ring-success hover:bg-on-success/80; }
+		&.is-info { @apply bg-on-info text-info ring-info hover:bg-on-info/80; }
+		&.is-warning { @apply bg-on-warning text-warning ring-warning hover:bg-on-warning/80; }
+		&.is-danger { @apply bg-on-danger text-danger ring-danger hover:bg-on-danger/80; }
 	}
 
-	.avatar.is-muted {
-		@apply bg-muted text-on-muted;
-	}
-
-	.avatar.is-success {
-		@apply bg-success text-on-success;
-	}
-
-	.avatar.is-warning {
-		@apply bg-warning text-on-warning;
-	}
-
-	.avatar.is-danger {
-		@apply bg-danger text-on-danger;
-	}
-
-	.avatar.is-info {
-		@apply bg-info text-on-info;
-	}
-
-	.avatar.is-bordered {
-		@apply ring-3 ring-background;
-	}
-
-	.avatar.is-transparent {
-		@apply bg-transparent;
+	.avatar.is-solid {
+		&.is-primary { @apply bg-primary text-on-primary ring-primary hover:bg-primary/80; }
+		&.is-secondary { @apply bg-secondary text-on-secondary ring-secondary hover:bg-secondary/80; }
+		&.is-muted { @apply bg-on-muted text-muted ring-muted hover:bg-on-muted/80; }
+		&.is-success { @apply bg-success text-on-success ring-success hover:bg-success/80; }
+		&.is-info { @apply bg-info text-on-info ring-info hover:bg-info/80; }
+		&.is-warning { @apply bg-warning text-on-warning ring-warning hover:bg-warning/80; }
+		&.is-danger { @apply bg-danger text-on-danger ring-danger hover:bg-danger/80; }
 	}
 
 	.avatar-status {
@@ -60,101 +88,10 @@
 
 	.avatar-indicator {
 		@apply ring ring-background rounded-full;
-	}
 
-	.avatar-indicator.is-online {
-		@apply bg-success;
-	}
-
-	.avatar-indicator.is-busy {
-		@apply bg-warning;
-	}
-
-	.avatar-indicator.is-away {
-		@apply bg-danger;
-	}
-
-	.avatar-indicator.is-offline {
-		@apply bg-muted;
-	}
-
-	.avatar.is-xs {
-		@apply size-5;
-
-		.avatar-image {
-			@apply size-5 object-cover rounded-ui;
-		}
-
-		.avatar-name {
-			@apply text-xs;
-		}
-
-		.avatar-indicator {
-			@apply size-1;
-		}
-	}
-
-	.avatar.is-sm {
-		@apply size-6;
-
-		.avatar-image {
-			@apply size-6 object-cover rounded-ui;
-		}
-
-		.avatar-name {
-			@apply text-base;
-		}
-
-		.avatar-indicator {
-			@apply size-2;
-		}
-	}
-
-	.avatar.is-md {
-		@apply size-7;
-
-		.avatar-image {
-			@apply size-7 object-cover rounded-ui;
-		}
-
-		.avatar-name {
-			@apply text-xl;
-		}
-
-		.avatar-indicator {
-			@apply size-2;
-		}
-	}
-
-	.avatar.is-lg {
-		@apply size-10;
-
-		.avatar-image {
-			@apply size-10 object-cover rounded-ui;
-		}
-
-		.avatar-name {
-			@apply text-3xl;
-		}
-
-		.avatar-indicator {
-			@apply size-3;
-		}
-	}
-
-	.avatar.is-xl {
-		@apply size-14;
-
-		.avatar-image {
-			@apply size-14 object-cover rounded-ui;
-		}
-
-		.avatar-name {
-			@apply text-5xl;
-		}
-
-		.avatar-indicator {
-			@apply size-3;
-		}
+		&.is-online { @apply bg-success; }
+		&.is-busy { @apply bg-warning; }
+		&.is-away { @apply bg-danger; }
+		&.is-offline { @apply bg-muted; }
 	}
 }

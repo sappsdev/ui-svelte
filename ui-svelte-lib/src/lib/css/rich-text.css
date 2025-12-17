@@ -1,0 +1,309 @@
+@layer components {
+	/* ============================
+	   Rich Text Decorations
+	   Naming: .mark, .grad, .pill, .slant, .glow, .under, .strike, .box
+	   ============================ */
+
+	/* ========== MARK - Background highlight ========== */
+	.mark {
+		@apply inline-block uppercase font-bold tracking-wide;
+		@apply px-2 py-0.5 rounded-sm;
+		background-color: var(--mark-bg, var(--info));
+		color: var(--mark-color, var(--on-info));
+		transition: all 0.3s ease;
+	}
+
+	.mark:hover {
+		filter: brightness(1.1);
+		transform: scale(1.02);
+	}
+
+	/* ========== GRAD - Gradient text ========== */
+	.grad {
+		@apply inline font-bold italic;
+		background: linear-gradient(
+			90deg,
+			var(--grad-from, var(--secondary)),
+			var(--grad-to, var(--warning))
+		);
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+		transition: all 0.3s ease;
+	}
+
+	.grad:hover {
+		filter: brightness(1.15);
+	}
+
+	/* ========== PILL - Outlined/bordered text ========== */
+	.pill {
+		@apply inline-block font-semibold;
+		@apply px-2.5 py-0.5;
+		border: 2px solid var(--pill-border, var(--on-background));
+		border-radius: 9999px;
+		color: var(--pill-color, inherit);
+		transition: all 0.3s ease;
+	}
+
+	.pill:hover {
+		background-color: var(--pill-hover-bg, var(--surface));
+		transform: translateY(-1px);
+	}
+
+	/* ========== SLANT - Angled/skewed background ========== */
+	.slant {
+		@apply inline font-bold relative;
+		color: var(--slant-color, var(--on-info));
+		z-index: 1;
+	}
+
+	.slant::before {
+		content: '';
+		position: absolute;
+		inset: 0 -0.25em;
+		background-color: var(--slant-bg, var(--info));
+		transform: skewX(-6deg);
+		z-index: -1;
+		border-radius: 2px;
+		transition: all 0.3s ease;
+	}
+
+	.slant:hover::before {
+		transform: skewX(-6deg) scale(1.05);
+		filter: brightness(1.1);
+	}
+
+	/* ========== GLOW - Glowing text effect ========== */
+	.glow {
+		@apply inline font-bold;
+		color: var(--glow-color, var(--primary));
+		text-shadow:
+			0 0 5px var(--glow-color, var(--primary)),
+			0 0 15px color-mix(in oklch, var(--glow-color, var(--primary)) 50%, transparent);
+		transition: all 0.3s ease;
+	}
+
+	.glow:hover {
+		text-shadow:
+			0 0 10px var(--glow-color, var(--primary)),
+			0 0 25px var(--glow-color, var(--primary)),
+			0 0 40px color-mix(in oklch, var(--glow-color, var(--primary)) 50%, transparent);
+	}
+
+	/* ========== UNDER - Animated underline ========== */
+	.under {
+		@apply inline font-semibold relative;
+		color: var(--under-color, inherit);
+	}
+
+	.under::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: -2px;
+		width: 100%;
+		height: 3px;
+		background-color: var(--under-line, var(--primary));
+		border-radius: 2px;
+		transform: scaleX(1);
+		transform-origin: left;
+		transition: transform 0.3s ease;
+	}
+
+	.under:hover::after {
+		transform: scaleX(1.1);
+	}
+
+	/* ========== STRIKE - Strikethrough effect ========== */
+	.strike {
+		@apply inline font-medium relative;
+		color: var(--strike-color, inherit);
+	}
+
+	.strike::after {
+		content: '';
+		position: absolute;
+		left: -0.1em;
+		right: -0.1em;
+		top: 50%;
+		height: 3px;
+		background-color: var(--strike-line, var(--danger));
+		border-radius: 2px;
+		transform: rotate(-2deg);
+	}
+
+	/* ========== BOX - Boxed/framed text ========== */
+	.box {
+		@apply inline-block font-semibold;
+		@apply px-3 py-1;
+		border: 2px solid var(--box-border, var(--on-background));
+		border-radius: var(--radius-ui);
+		color: var(--box-color, inherit);
+		background-color: var(--box-bg, transparent);
+		transition: all 0.3s ease;
+	}
+
+	.box:hover {
+		background-color: var(--box-hover-bg, var(--surface));
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px color-mix(in oklch, var(--box-border, var(--on-background)) 20%, transparent);
+	}
+
+	/* ========== WAVE - Wavy underline ========== */
+	.wave {
+		@apply inline font-semibold;
+		color: var(--wave-color, inherit);
+		text-decoration: underline wavy var(--wave-line, var(--danger));
+		text-underline-offset: 4px;
+		transition: all 0.3s ease;
+	}
+
+	.wave:hover {
+		text-underline-offset: 6px;
+	}
+
+	/* ========== NEON - Neon sign effect ========== */
+	.neon {
+		@apply inline font-bold uppercase tracking-wider;
+		color: var(--neon-color, var(--secondary));
+		text-shadow:
+			0 0 5px var(--neon-color, var(--secondary)),
+			0 0 10px var(--neon-color, var(--secondary)),
+			0 0 20px var(--neon-color, var(--secondary)),
+			0 0 40px var(--neon-color, var(--secondary));
+		animation: neon-flicker 2s ease-in-out infinite;
+	}
+
+	@keyframes neon-flicker {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0.9; }
+		52% { opacity: 1; }
+		54% { opacity: 0.95; }
+	}
+
+	/* ========== POP - Pop-out 3D effect ========== */
+	.pop {
+		@apply inline-block font-bold;
+		color: var(--pop-color, var(--primary));
+		text-shadow: 
+			1px 1px 0 color-mix(in oklch, var(--pop-color, var(--primary)) 80%, black),
+			2px 2px 0 color-mix(in oklch, var(--pop-color, var(--primary)) 60%, black),
+			3px 3px 0 color-mix(in oklch, var(--pop-color, var(--primary)) 40%, black);
+		transition: all 0.2s ease;
+	}
+
+	.pop:hover {
+		transform: translate(-2px, -2px);
+		text-shadow: 
+			1px 1px 0 color-mix(in oklch, var(--pop-color, var(--primary)) 80%, black),
+			2px 2px 0 color-mix(in oklch, var(--pop-color, var(--primary)) 60%, black),
+			3px 3px 0 color-mix(in oklch, var(--pop-color, var(--primary)) 40%, black),
+			4px 4px 0 color-mix(in oklch, var(--pop-color, var(--primary)) 20%, black),
+			5px 5px 0 color-mix(in oklch, var(--pop-color, var(--primary)) 10%, black);
+	}
+
+	/* ========== TAG - Light background badge/tag style ========== */
+	.tag {
+		@apply inline-block font-bold;
+		@apply px-3 py-1;
+		background-color: var(--tag-bg, var(--surface));
+		color: var(--tag-color, var(--on-surface));
+		border-radius: var(--radius-ui);
+		box-shadow: 0 2px 8px color-mix(in oklch, var(--on-background) 10%, transparent);
+		transition: all 0.3s ease;
+	}
+
+	.tag:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 16px color-mix(in oklch, var(--on-background) 15%, transparent);
+	}
+
+	/* ============================
+	   Color Variants
+	   ============================ */
+
+	/* Primary */
+	.mark-primary { --mark-bg: var(--primary); --mark-color: var(--on-primary); }
+	.grad-primary { --grad-from: var(--primary); --grad-to: color-mix(in oklch, var(--primary) 60%, white); }
+	.pill-primary { --pill-border: var(--primary); --pill-color: var(--primary); --pill-hover-bg: color-mix(in oklch, var(--primary) 10%, transparent); }
+	.slant-primary { --slant-bg: var(--primary); --slant-color: var(--on-primary); }
+	.glow-primary { --glow-color: var(--primary); }
+	.under-primary { --under-line: var(--primary); }
+	.strike-primary { --strike-line: var(--primary); }
+	.box-primary { --box-border: var(--primary); --box-color: var(--primary); --box-hover-bg: color-mix(in oklch, var(--primary) 10%, transparent); }
+	.wave-primary { --wave-line: var(--primary); }
+	.neon-primary { --neon-color: var(--primary); }
+	.pop-primary { --pop-color: var(--primary); }
+	.tag-primary { --tag-bg: color-mix(in oklch, var(--primary) 15%, var(--surface)); --tag-color: var(--primary); }
+
+	/* Secondary */
+	.mark-secondary { --mark-bg: var(--secondary); --mark-color: var(--on-secondary); }
+	.grad-secondary { --grad-from: var(--secondary); --grad-to: color-mix(in oklch, var(--secondary) 60%, white); }
+	.pill-secondary { --pill-border: var(--secondary); --pill-color: var(--secondary); --pill-hover-bg: color-mix(in oklch, var(--secondary) 10%, transparent); }
+	.slant-secondary { --slant-bg: var(--secondary); --slant-color: var(--on-secondary); }
+	.glow-secondary { --glow-color: var(--secondary); }
+	.under-secondary { --under-line: var(--secondary); }
+	.strike-secondary { --strike-line: var(--secondary); }
+	.box-secondary { --box-border: var(--secondary); --box-color: var(--secondary); --box-hover-bg: color-mix(in oklch, var(--secondary) 10%, transparent); }
+	.wave-secondary { --wave-line: var(--secondary); }
+	.neon-secondary { --neon-color: var(--secondary); }
+	.pop-secondary { --pop-color: var(--secondary); }
+	.tag-secondary { --tag-bg: color-mix(in oklch, var(--secondary) 15%, var(--surface)); --tag-color: var(--secondary); }
+
+	/* Success */
+	.mark-success { --mark-bg: var(--success); --mark-color: var(--on-success); }
+	.grad-success { --grad-from: var(--success); --grad-to: color-mix(in oklch, var(--success) 60%, white); }
+	.pill-success { --pill-border: var(--success); --pill-color: var(--success); --pill-hover-bg: color-mix(in oklch, var(--success) 10%, transparent); }
+	.slant-success { --slant-bg: var(--success); --slant-color: var(--on-success); }
+	.glow-success { --glow-color: var(--success); }
+	.under-success { --under-line: var(--success); }
+	.strike-success { --strike-line: var(--success); }
+	.box-success { --box-border: var(--success); --box-color: var(--success); --box-hover-bg: color-mix(in oklch, var(--success) 10%, transparent); }
+	.wave-success { --wave-line: var(--success); }
+	.neon-success { --neon-color: var(--success); }
+	.pop-success { --pop-color: var(--success); }
+	.tag-success { --tag-bg: color-mix(in oklch, var(--success) 15%, var(--surface)); --tag-color: var(--success); }
+
+	/* Warning */
+	.mark-warning { --mark-bg: var(--warning); --mark-color: var(--on-warning); }
+	.grad-warning { --grad-from: var(--warning); --grad-to: color-mix(in oklch, var(--warning) 60%, white); }
+	.pill-warning { --pill-border: var(--warning); --pill-color: var(--warning); --pill-hover-bg: color-mix(in oklch, var(--warning) 10%, transparent); }
+	.slant-warning { --slant-bg: var(--warning); --slant-color: var(--on-warning); }
+	.glow-warning { --glow-color: var(--warning); }
+	.under-warning { --under-line: var(--warning); }
+	.strike-warning { --strike-line: var(--warning); }
+	.box-warning { --box-border: var(--warning); --box-color: var(--warning); --box-hover-bg: color-mix(in oklch, var(--warning) 10%, transparent); }
+	.wave-warning { --wave-line: var(--warning); }
+	.neon-warning { --neon-color: var(--warning); }
+	.pop-warning { --pop-color: var(--warning); }
+	.tag-warning { --tag-bg: color-mix(in oklch, var(--warning) 15%, var(--surface)); --tag-color: var(--warning); }
+
+	/* Danger */
+	.mark-danger { --mark-bg: var(--danger); --mark-color: var(--on-danger); }
+	.grad-danger { --grad-from: var(--danger); --grad-to: color-mix(in oklch, var(--danger) 60%, white); }
+	.pill-danger { --pill-border: var(--danger); --pill-color: var(--danger); --pill-hover-bg: color-mix(in oklch, var(--danger) 10%, transparent); }
+	.slant-danger { --slant-bg: var(--danger); --slant-color: var(--on-danger); }
+	.glow-danger { --glow-color: var(--danger); }
+	.under-danger { --under-line: var(--danger); }
+	.strike-danger { --strike-line: var(--danger); }
+	.box-danger { --box-border: var(--danger); --box-color: var(--danger); --box-hover-bg: color-mix(in oklch, var(--danger) 10%, transparent); }
+	.wave-danger { --wave-line: var(--danger); }
+	.neon-danger { --neon-color: var(--danger); }
+	.pop-danger { --pop-color: var(--danger); }
+	.tag-danger { --tag-bg: color-mix(in oklch, var(--danger) 15%, var(--surface)); --tag-color: var(--danger); }
+
+	/* Info */
+	.mark-info { --mark-bg: var(--info); --mark-color: var(--on-info); }
+	.grad-info { --grad-from: var(--info); --grad-to: color-mix(in oklch, var(--info) 60%, white); }
+	.pill-info { --pill-border: var(--info); --pill-color: var(--info); --pill-hover-bg: color-mix(in oklch, var(--info) 10%, transparent); }
+	.slant-info { --slant-bg: var(--info); --slant-color: var(--on-info); }
+	.glow-info { --glow-color: var(--info); }
+	.under-info { --under-line: var(--info); }
+	.strike-info { --strike-line: var(--info); }
+	.box-info { --box-border: var(--info); --box-color: var(--info); --box-hover-bg: color-mix(in oklch, var(--info) 10%, transparent); }
+	.wave-info { --wave-line: var(--info); }
+	.neon-info { --neon-color: var(--info); }
+	.pop-info { --pop-color: var(--info); }
+	.tag-info { --tag-bg: color-mix(in oklch, var(--info) 15%, var(--surface)); --tag-color: var(--info); }
+}

@@ -1,19 +1,21 @@
 <script lang="ts">
 	import { Avatar, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	const variantOptions = [
+	const colorOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
 		{ id: 'success', label: 'Success' },
 		{ id: 'info', label: 'Info' },
 		{ id: 'danger', label: 'Danger' },
-		{ id: 'warning', label: 'Warning' },
-		{ id: 'transparent', label: 'Transparent' }
+		{ id: 'warning', label: 'Warning' }
+	];
+
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' }
 	];
 
 	const sizeOptions = [
@@ -32,15 +34,23 @@
 		{ id: 'away', label: 'Away' }
 	];
 
-	let variant: any = $state('primary');
-	let size: any = $state('lg');
+	let color: any = $state('primary');
+	let variant: any = $state('solid');
+	let size: any = $state('md');
 	let status: any = $state('');
 
-	let useImage = $state(true);
+	let src = $state('');
+	let name = $state('John Doe');
 	let isBordered = $state(false);
+	let href = $state('');
+
+	let hasImage = $state(false);
+	const sampleImageUrl = 'https://i.pravatar.cc/150?img=3';
 
 	let hasProps = $derived(
-		[variant !== 'primary', size !== 'lg', status, useImage, isBordered].some(Boolean)
+		[color !== 'primary', variant !== 'solid', size !== 'md', status, src, isBordered, href].some(
+			Boolean
+		)
 	);
 
 	let code = $derived(() => {
@@ -52,15 +62,16 @@
 
 		const componentLines = [
 			hasProps && `<Avatar`,
-			useImage && `\tsrc="https://i.pravatar.cc/150?img=3"`,
-			!useImage && `\tname="John Doe"`,
-			`\talt="User avatar"`,
-			variant !== 'primary' && `\tvariant="${variant}"`,
-			size !== 'lg' && `\tsize="${size}"`,
+			color !== 'primary' && `\tcolor="${color}"`,
+			variant !== 'solid' && `\tvariant="${variant}"`,
+			size !== 'md' && `\tsize="${size}"`,
 			status && `\tstatus="${status}"`,
+			src && `\tsrc="${sampleImageUrl}"`,
+			!src && name && `\tname="${name}"`,
 			isBordered && `\tisBordered`,
+			href && `\thref="/profile"`,
 			hasProps && `/>`,
-			!hasProps && `<Avatar name="John Doe" />`
+			!hasProps && `<Avatar name="${name}" />`
 		].filter(Boolean);
 
 		return [...scriptLines, ...componentLines].join('\n');
@@ -70,166 +81,168 @@
 		{ prop: 'src', type: 'string', initial: '' },
 		{ prop: 'name', type: 'string', initial: '' },
 		{ prop: 'alt', type: 'string', initial: 'Avatar' },
-		{ prop: 'href', type: 'string', initial: '', description: 'Link URL (renders as anchor)' },
+		{ prop: 'href', type: 'string', initial: '' },
+		{ prop: 'onclick', type: '() => void', initial: '' },
+		{ prop: 'target', type: '_self | _blank | _parent | _top', initial: '' },
 		{
-			prop: 'onclick',
-			type: '() => void',
-			initial: '',
-			description: 'Click handler (renders as button)'
-		},
-		{
-			prop: 'target',
-			type: '_self | _blank | _parent | _top',
-			initial: '',
-			description: 'Link target'
+			prop: 'color',
+			type: 'primary | secondary | muted | success | info | danger | warning',
+			initial: 'primary'
 		},
 		{
 			prop: 'variant',
-			type: 'primary | secondary | muted | success | warning | danger | info | transparent',
-			initial: 'primary'
+			type: 'solid | soft',
+			initial: 'solid'
 		},
-		{ prop: 'size', type: 'xs | sm | md | lg | xl', initial: 'lg' },
+		{ prop: 'size', type: 'xs | sm | md | lg | xl', initial: 'md' },
 		{ prop: 'status', type: 'online | offline | busy | away', initial: '' },
 		{ prop: 'isBordered', type: 'boolean', initial: 'false' },
 		{ prop: 'class', type: 'string', initial: '' }
 	];
+
+	$effect(() => {
+		src = hasImage ? sampleImageUrl : '';
+	});
 </script>
 
 <DocsHeader title="Avatar" llmUrl="https://ui-svelte.sappsdev.com/llm/display/avatar.md">
-	Avatars represent a user or entity with an image or initials.
+	Avatars represent users or entities with images or initials.
 </DocsHeader>
 
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		<Avatar
-			src={useImage ? 'https://i.pravatar.cc/150?img=3' : undefined}
-			name={!useImage ? 'John Doe' : undefined}
-			alt="User avatar"
-			{variant}
-			{size}
-			status={status || undefined}
-			{isBordered}
-		/>
-	</DocsPreview>
-	<Card>
-		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-		<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
-		<Select label="Status" size="sm" options={statusOptions} bind:value={status} />
-		<div class="grid-2 gap-2">
-			<Checkbox bind:checked={useImage} label="Use Image" />
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				bind:value={variant}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Size"
+				size="sm"
+				options={sizeOptions}
+				bind:value={size}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Status"
+				size="sm"
+				options={statusOptions}
+				bind:value={status}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={hasImage} label="Image" />
 			<Checkbox bind:checked={isBordered} label="Bordered" />
+			<Checkbox
+				onchange={(v) => (v ? (href = '/profile') : (href = ''))}
+				name="href"
+				label="Link"
+			/>
+		</div>
+
+		<div class="doc-preview">
+			<Avatar
+				src={src || undefined}
+				{name}
+				{color}
+				{variant}
+				{size}
+				status={status || undefined}
+				{isBordered}
+				href={href || undefined}
+			/>
+		</div>
+		<Code lang="svelte" code={code()} />
+	</Card>
+</Section>
+
+<Section>
+	<h4>Variants & Colors</h4>
+	<Card>
+		{#each variantOptions as item}
+			<div class="wrap gap-4 center">
+				{#each colorOptions as color}
+					<Avatar variant={item.id as any} color={color.id as any} name={color.label} />
+				{/each}
+			</div>
+		{/each}
+	</Card>
+</Section>
+
+<Section>
+	<h4>Sizes</h4>
+	<Card>
+		{#each variantOptions as item}
+			<div class="wrap gap-4 center">
+				{#each sizeOptions as size}
+					<Avatar variant={item.id as any} size={size.id as any} name={size.label} />
+				{/each}
+			</div>
+		{/each}
+	</Card>
+</Section>
+
+<Section>
+	<h4>With Images</h4>
+	<Card>
+		<div class="wrap gap-4 center">
+			{#each sizeOptions as size}
+				<Avatar size={size.id as any} src="https://i.pravatar.cc/150?img=3" alt="User avatar" />
+			{/each}
 		</div>
 	</Card>
-	<DocsCode code={code()} />
 </Section>
 
 <Section>
-	<Card bodyClass="grid-4 md:grid-8 center">
-		{#snippet header()}
-			<h4>Avatar Variants</h4>
-		{/snippet}
-		{#each variantOptions as item}
-			<Avatar variant={item.id as any} name={item.label} />
-		{/each}
+	<h4>Status Indicators</h4>
+	<Card>
+		<div class="wrap gap-4 center">
+			<Avatar name="Online" status="online" />
+			<Avatar name="Offline" status="offline" />
+			<Avatar name="Busy" status="busy" />
+			<Avatar name="Away" status="away" />
+		</div>
+		<div class="wrap gap-4 center">
+			<Avatar src="https://i.pravatar.cc/150?img=1" status="online" />
+			<Avatar src="https://i.pravatar.cc/150?img=2" status="offline" />
+			<Avatar src="https://i.pravatar.cc/150?img=4" status="busy" />
+			<Avatar src="https://i.pravatar.cc/150?img=5" status="away" />
+		</div>
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="grid-4 md:grid-8 center">
-		{#snippet header()}
-			<h4>Avatar with Border</h4>
-		{/snippet}
-		{#each variantOptions as item, i}
-			<Avatar
-				variant={item.id as any}
-				src={`https://i.pravatar.cc/150?img=${i + 10}`}
-				alt={item.label}
-				isBordered
-			/>
-		{/each}
+	<h4>Bordered</h4>
+	<Card>
+		<div class="wrap gap-4 center">
+			{#each colorOptions as color}
+				<Avatar color={color.id as any} name={color.label} isBordered />
+			{/each}
+		</div>
+		<div class="wrap gap-4 center">
+			{#each colorOptions as color}
+				<Avatar color={color.id as any} src="https://i.pravatar.cc/150?img=3" isBordered />
+			{/each}
+		</div>
 	</Card>
-</Section>
-
-<Section bodyClass="grid-2 md:grid-4">
-	<!-- Avatar con imagen -->
-	<Avatar src="https://i.pravatar.cc/150?img=1" alt="User 1" size="xl" />
-
-	<!-- Avatar con iniciales -->
-	<Avatar name="Alice Brown" variant="secondary" size="xl" />
-
-	<!-- Avatar con status online -->
-	<Avatar src="https://i.pravatar.cc/150?img=5" alt="User online" size="xl" status="online" />
-
-	<!-- Avatar con status offline -->
-	<Avatar name="Bob Smith" variant="muted" size="xl" status="offline" />
-
-	<!-- Avatar con status busy -->
-	<Avatar
-		src="https://i.pravatar.cc/150?img=8"
-		alt="User busy"
-		size="xl"
-		status="busy"
-		isBordered
-	/>
-
-	<!-- Avatar con status away -->
-	<Avatar name="Carol Davis" variant="warning" size="xl" status="away" isBordered />
-
-	<!-- Grupo de tamaños -->
-	<div class="flex gap-2 items-center">
-		<Avatar name="XS" variant="primary" size="xs" />
-		<Avatar name="SM" variant="primary" size="sm" />
-		<Avatar name="MD" variant="primary" size="md" />
-		<Avatar name="LG" variant="primary" size="lg" />
-		<Avatar name="XL" variant="primary" size="xl" />
-	</div>
-
-	<!-- Avatar con borde -->
-	<Avatar
-		src="https://i.pravatar.cc/150?img=12"
-		alt="Bordered avatar"
-		size="xl"
-		isBordered
-		variant="success"
-	/>
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Usage Examples</h4>
-		{/snippet}
-		<Code
-			lang="svelte"
-			code={`<!-- Avatar with Image -->
-<Avatar src="https://example.com/user.jpg" alt="User" />
-
-<!-- Avatar with Initials -->
-<Avatar name="John Doe" variant="secondary" />
-
-<!-- Avatar with Status -->
-<Avatar src="/user.jpg" alt="User" status="online" />
-<Avatar name="Jane" status="busy" />
-<Avatar name="Bob" status="away" />
-<Avatar name="Sam" status="offline" />
-
-<!-- Avatar Sizes -->
-<Avatar name="XS" size="xs" />
-<Avatar name="SM" size="sm" />
-<Avatar name="MD" size="md" />
-<Avatar name="LG" size="lg" />
-<Avatar name="XL" size="xl" />
-
-<!-- Avatar with Border -->
-<Avatar src="/user.jpg" alt="User" isBordered variant="success" />
-
-<!-- Clickable Avatar (Link) -->
-<Avatar src="/user.jpg" alt="User" href="/profile/1" />
-
-<!-- Clickable Avatar (Button) -->
-<Avatar src="/user.jpg" alt="User" onclick={() => console.log('clicked!')} />`}
-		/>
-	</Card>
+	<h4>The component accepts the following props:</h4>
+	<DocsProps {props} />
 </Section>
-
-<DocsProps {props} />

@@ -45,6 +45,7 @@ body {
 	--danger: oklch(57.7% 0.245 27.325);
 	--on-danger: oklch(93.6% 0.032 17.717);
 
+	--radius-avatar: calc(infinity * 1px);
 	--radius-box: 0.75rem;
 	--radius-ui: 0.75rem;
 	--scrollbar-size: 6px;

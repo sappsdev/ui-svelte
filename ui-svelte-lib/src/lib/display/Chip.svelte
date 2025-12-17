@@ -8,8 +8,9 @@
 		children: Snippet;
 		onclose?: () => void;
 		type?: 'solid' | 'soft';
-		variant?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
-		size?: 'sm' | 'md' | 'lg';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft' | 'outlined';
+		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 		class?: string;
 		startIcon?: IconData;
 		endIcon?: IconData;
@@ -20,42 +21,42 @@
 	const {
 		children,
 		onclose,
-		variant = 'primary',
-		size = 'sm',
+		color = 'primary',
+		variant = 'solid',
+		size = 'md',
 		class: className,
 		startIcon,
-		endIcon,
-		hasShadow,
-		isSolid
+		endIcon
 	}: Props = $props();
 
-	const variants = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
 		success: 'is-success',
 		info: 'is-info',
-		warning: 'is-warning',
-		danger: 'is-danger'
+		danger: 'is-danger',
+		warning: 'is-warning'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
+		outlined: 'is-outlined'
 	};
 
 	const sizes = {
+		xs: 'is-xs',
 		sm: 'is-sm',
 		md: 'is-md',
-		lg: 'is-lg'
+		lg: 'is-lg',
+		xl: 'is-xl'
 	};
 </script>
 
 <button
 	onclick={() => onclose?.()}
-	class={cn(
-		'chip',
-		variants[variant],
-		sizes[size],
-		isSolid && 'is-solid',
-		hasShadow && 'has-shadow',
-		className
-	)}
+	class={cn('chip', variants[variant], sizes[size], colors[color], className)}
 >
 	{#if startIcon}
 		<Icon icon={startIcon} />

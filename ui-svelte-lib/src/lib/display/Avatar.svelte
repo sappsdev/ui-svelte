@@ -8,15 +8,8 @@
 		href?: string;
 		onclick?: () => void;
 		target?: '_self' | '_blank' | '_parent' | '_top';
-		variant?:
-			| 'primary'
-			| 'secondary'
-			| 'muted'
-			| 'success'
-			| 'warning'
-			| 'danger'
-			| 'info'
-			| 'transparent';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft';
 		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 		status?: 'online' | 'offline' | 'busy' | 'away';
 		isBordered?: boolean;
@@ -30,25 +23,30 @@
 		href,
 		onclick,
 		target,
-		size = 'lg',
-		variant = 'primary',
+		color = 'primary',
+		variant = 'solid',
+		size = 'md',
 		status,
 		isBordered,
 		class: className
 	}: Props = $props();
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
 		success: 'is-success',
-		warning: 'is-warning',
-		danger: 'is-danger',
 		info: 'is-info',
-		transparent: 'is-transparent'
+		danger: 'is-danger',
+		warning: 'is-warning'
 	};
 
-	const sizeClasses = {
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft'
+	};
+
+	const sizes = {
 		xs: 'is-xs',
 		sm: 'is-sm',
 		md: 'is-md',
@@ -66,8 +64,9 @@
 	const baseClasses = $derived(
 		cn(
 			'avatar',
-			sizeClasses[size],
-			variantClasses[variant],
+			colors[color],
+			sizes[size],
+			variants[variant],
 			isBordered && 'is-bordered',
 			(href || onclick) && 'is-clickable',
 			className

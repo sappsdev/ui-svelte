@@ -4,112 +4,333 @@
 		@apply rounded-ui outline-none;
 		@apply transition-all duration-300;
 		@apply cursor-default select-none;
-	}
 
-	.is-interactive {
-		@apply cursor-pointer;
-		@apply focus-visible:outline-none;
-		@apply active:scale-[0.98];
-		@apply disabled:cursor-not-allowed disabled:opacity-50;
-		@apply disabled:hover:bg-transparent disabled:active:scale-100;
-	}
-
-	.item.is-sm {
-		@apply p-2 gap-2;
-
-		.icon {
-			@apply w-4 h-4;
-		}
-
-		.item-label {
-			@apply text-sm;
-		}
-
-		.item-description {
-			@apply text-xs;
+		&.is-interactive {
+			@apply cursor-pointer;
+			@apply focus-visible:outline-none;
+			@apply active:scale-[0.98];
+			@apply disabled:cursor-not-allowed disabled:opacity-50;
+			@apply disabled:hover:bg-transparent disabled:active:scale-100;
 		}
 	}
 
-	.item.is-md {
-		@apply p-3 gap-3;
+	.item {
+		&.is-sm {
+			@apply p-2 gap-2;
 
-		.icon {
-			@apply w-5 h-5;
+			.icon {
+				@apply w-4 h-4;
+			}
+			.item-label {
+				@apply text-sm;
+			}
+			.item-description {
+				@apply text-xs;
+			}
 		}
 
-		.item-label {
-			@apply text-base;
+		&.is-md {
+			@apply p-3 gap-3;
+
+			.icon {
+				@apply w-5 h-5;
+			}
+			.item-label {
+				@apply text-base;
+			}
+			.item-description {
+				@apply text-sm;
+			}
 		}
 
-		.item-description {
-			@apply text-sm;
+		&.is-lg {
+			@apply p-4 gap-4;
+
+			.icon {
+				@apply w-6 h-6;
+			}
+			.item-label {
+				@apply text-lg;
+			}
+			.item-description {
+				@apply text-base;
+			}
 		}
 	}
 
-	.item.is-lg {
-		@apply p-4 gap-4;
+	.item {
+		&.is-ghost {
+			@apply bg-transparent;
 
-		.icon {
-			@apply w-6 h-6;
+			&.is-interactive {
+				@apply hover:bg-muted/50;
+			}
 		}
 
-		.item-label {
-			@apply text-lg;
+		&.is-soft {
+			@apply bg-muted/30;
+
+			&.is-interactive {
+				@apply hover:bg-muted/50;
+			}
 		}
 
-		.item-description {
-			@apply text-base;
+		&.is-outlined {
+			@apply border border-muted bg-transparent;
+
+			&.is-interactive {
+				@apply hover:bg-muted/30;
+			}
+		}
+
+		&.is-solid {
+			@apply bg-muted text-on-muted;
+
+			&.is-interactive {
+				@apply hover:bg-muted/80;
+			}
 		}
 	}
 
-	.item.is-ghost {
-		@apply bg-transparent;
+	.item {
+		&.is-default {
+			&.is-interactive {
+				@apply hover:bg-muted hover:text-on-muted;
+				@apply focus-visible:bg-muted;
+			}
+
+			&.is-active {
+				@apply bg-muted text-on-muted;
+			}
+		}
+
+		&.is-surface {
+			@apply bg-surface text-on-surface;
+
+			&.is-interactive {
+				@apply hover:bg-surface/80;
+			}
+		}
 	}
 
-	.item.is-interactive {
-		@apply hover:bg-muted hover:text-on-muted;
-		@apply focus-visible:bg-muted;
+	.item {
+		&.is-primary.is-ghost,
+		&.is-primary.is-soft {
+			&.is-active {
+				@apply bg-primary/20 text-primary;
+			}
+			&.is-interactive {
+				@apply hover:bg-primary/20 hover:text-primary;
+			}
+		}
+
+		&.is-secondary.is-ghost,
+		&.is-secondary.is-soft {
+			&.is-active {
+				@apply bg-secondary/20 text-secondary;
+			}
+			&.is-interactive {
+				@apply hover:bg-secondary/20 hover:text-secondary;
+			}
+		}
+
+		&.is-muted.is-ghost,
+		&.is-muted.is-soft {
+			&.is-active {
+				@apply bg-muted text-on-muted;
+			}
+			&.is-interactive {
+				@apply hover:bg-muted hover:text-on-muted;
+			}
+		}
+
+		&.is-success.is-ghost,
+		&.is-success.is-soft {
+			&.is-active {
+				@apply bg-success/20 text-success;
+			}
+			&.is-interactive {
+				@apply hover:bg-success/20 hover:text-success;
+			}
+		}
+
+		&.is-info.is-ghost,
+		&.is-info.is-soft {
+			&.is-active {
+				@apply bg-info/20 text-info;
+			}
+			&.is-interactive {
+				@apply hover:bg-info/20 hover:text-info;
+			}
+		}
+
+		&.is-warning.is-ghost,
+		&.is-warning.is-soft {
+			&.is-active {
+				@apply bg-warning/20 text-warning;
+			}
+			&.is-interactive {
+				@apply hover:bg-warning/20 hover:text-warning;
+			}
+		}
+
+		&.is-danger.is-ghost,
+		&.is-danger.is-soft {
+			&.is-active {
+				@apply bg-danger/20 text-danger;
+			}
+			&.is-interactive {
+				@apply hover:bg-danger/20 hover:text-danger;
+			}
+		}
 	}
 
-	.item.is-outlined {
-		@apply border border-muted bg-transparent;
+	.item {
+		&.is-primary.is-outlined {
+			@apply border-primary/50;
+
+			&.is-active {
+				@apply bg-primary/20 text-primary border-primary;
+			}
+			&.is-interactive {
+				@apply hover:bg-primary/20 hover:text-primary hover:border-primary;
+			}
+		}
+
+		&.is-secondary.is-outlined {
+			@apply border-secondary/50;
+
+			&.is-active {
+				@apply bg-secondary/20 text-secondary border-secondary;
+			}
+			&.is-interactive {
+				@apply hover:bg-secondary/20 hover:text-secondary hover:border-secondary;
+			}
+		}
+
+		&.is-muted.is-outlined {
+			@apply border-muted;
+
+			&.is-active {
+				@apply bg-muted text-on-muted;
+			}
+			&.is-interactive {
+				@apply hover:bg-muted hover:text-on-muted;
+			}
+		}
+
+		&.is-success.is-outlined {
+			@apply border-success/50;
+
+			&.is-active {
+				@apply bg-success/20 text-success border-success;
+			}
+			&.is-interactive {
+				@apply hover:bg-success/20 hover:text-success hover:border-success;
+			}
+		}
+
+		&.is-info.is-outlined {
+			@apply border-info/50;
+
+			&.is-active {
+				@apply bg-info/20 text-info border-info;
+			}
+			&.is-interactive {
+				@apply hover:bg-info/20 hover:text-info hover:border-info;
+			}
+		}
+
+		&.is-warning.is-outlined {
+			@apply border-warning/50;
+
+			&.is-active {
+				@apply bg-warning/20 text-warning border-warning;
+			}
+			&.is-interactive {
+				@apply hover:bg-warning/20 hover:text-warning hover:border-warning;
+			}
+		}
+
+		&.is-danger.is-outlined {
+			@apply border-danger/50;
+
+			&.is-active {
+				@apply bg-danger/20 text-danger border-danger;
+			}
+			&.is-interactive {
+				@apply hover:bg-danger/20 hover:text-danger hover:border-danger;
+			}
+		}
 	}
 
-	.item.is-surface {
-		@apply bg-surface text-on-surface;
+	.item {
+		&.is-primary.is-solid {
+			@apply bg-primary text-on-primary;
+
+			&.is-interactive {
+				@apply hover:bg-primary/80;
+			}
+		}
+
+		&.is-secondary.is-solid {
+			@apply bg-secondary text-on-secondary;
+
+			&.is-interactive {
+				@apply hover:bg-secondary/80;
+			}
+		}
+
+		&.is-muted.is-solid {
+			@apply bg-on-muted text-muted;
+
+			&.is-interactive {
+				@apply hover:bg-on-muted/80;
+			}
+		}
+
+		&.is-success.is-solid {
+			@apply bg-success text-on-success;
+
+			&.is-interactive {
+				@apply hover:bg-success/80;
+			}
+		}
+
+		&.is-info.is-solid {
+			@apply bg-info text-on-info;
+
+			&.is-interactive {
+				@apply hover:bg-info/80;
+			}
+		}
+
+		&.is-warning.is-solid {
+			@apply bg-warning text-on-warning;
+
+			&.is-interactive {
+				@apply hover:bg-warning/80;
+			}
+		}
+
+		&.is-danger.is-solid {
+			@apply bg-danger text-on-danger;
+
+			&.is-interactive {
+				@apply hover:bg-danger/80;
+			}
+		}
 	}
 
-	.item.is-primary.is-active {
-		@apply bg-on-primary text-primary;
-	}
+	.item {
+		&.is-focused {
+			@apply bg-muted text-on-muted;
+		}
 
-	.item.is-primary.is-solid.is-active {
-		@apply bg-primary text-on-primary;
-	}
-
-	.item.is-secondary.is-active {
-		@apply bg-on-secondary text-secondary;
-	}
-
-	.item.is-secondary.is-solid.is-active {
-		@apply bg-secondary text-on-secondary;
-	}
-
-	.item.is-muted.is-active {
-		@apply bg-muted text-on-muted;
-	}
-
-	.item.is-muted.is-solid.is-active {
-		@apply bg-on-muted text-muted;
-	}
-
-	.item.is-focused {
-		@apply bg-muted text-on-muted;
-	}
-
-	.item.is-disabled {
-		@apply opacity-50 cursor-not-allowed;
-		@apply pointer-events-none;
+		&.is-disabled {
+			@apply opacity-50 cursor-not-allowed;
+			@apply pointer-events-none;
+		}
 	}
 
 	.item-body {
@@ -131,31 +352,32 @@
 		@apply shrink-0;
 	}
 
-	.item.has-divider {
-		@apply border-b border-muted rounded-none;
-	}
+	.item {
+		&.has-divider {
+			@apply border-b border-muted rounded-none;
+		}
 
-	.item.has-shadow {
-		@apply shadow-md shadow-muted;
-	}
+		&.has-shadow {
+			@apply shadow-md shadow-muted;
+		}
 
-	.item.is-compact {
-		@apply py-1.5 px-2;
-	}
+		&.is-compact {
+			@apply py-1.5 px-2;
 
-	.item.is-compact .item-label {
-		@apply text-sm;
-	}
+			.item-label {
+				@apply text-sm;
+			}
+			.item-description {
+				@apply text-xs;
+			}
+		}
 
-	.item.is-compact .item-description {
-		@apply text-xs;
-	}
+		&.has-icon-only {
+			@apply justify-center p-2;
 
-	.item.has-icon-only {
-		@apply justify-center p-2;
-	}
-
-	.item.has-icon-only .item-body {
-		@apply hidden;
+			.item-body {
+				@apply hidden;
+			}
+		}
 	}
 }

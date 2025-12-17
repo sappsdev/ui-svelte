@@ -1,20 +1,10 @@
 <script lang="ts">
 	import { Chip, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
-	import {
-		HeartAngleLinearIcon,
-		DownloadLinearIcon,
-		TrashLinearIcon,
-		Settings24RegularIcon,
-		Search24RegularIcon,
-		Heart24RegularIcon,
-		BalloonLinearIcon
-	} from '$lib/icons';
+	import { HeartAngleLinearIcon, BalloonLinearIcon } from '$lib/icons';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	const variantOptions = [
+	const colorOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
@@ -24,23 +14,39 @@
 		{ id: 'warning', label: 'Warning' }
 	];
 
-	const sizeOptions = [
-		{ id: 'sm', label: 'sm' },
-		{ id: 'md', label: 'md' },
-		{ id: 'lg', label: 'lg' }
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' },
+		{ id: 'outlined', label: 'Outlined' }
 	];
 
-	let variant: any = $state('primary');
-	let size: any = $state('sm');
+	const sizeOptions = [
+		{ id: 'xs', label: 'xs' },
+		{ id: 'sm', label: 'sm' },
+		{ id: 'md', label: 'md' },
+		{ id: 'lg', label: 'lg' },
+		{ id: 'xl', label: 'xl' }
+	];
+
+	const propsOptions = [
+		{ id: 'startIcon', label: 'Start Icon' },
+		{ id: 'endIcon', label: 'End Icon' },
+		{ id: 'bothIcons', label: 'Both Icons' },
+		{ id: 'closable', label: 'Closable' }
+	];
+
+	let color: any = $state('primary');
+	let variant: any = $state('solid');
+	let size: any = $state('md');
 
 	let startIcon: any = $state(false);
 	let endIcon: any = $state(false);
-
-	let hasShadow = $state(false);
-	let isSolid = $state(false);
+	let closable = $state(false);
 
 	let hasProps = $derived(
-		[variant !== 'primary', size !== 'sm', startIcon, endIcon, hasShadow, isSolid].some(Boolean)
+		[color !== 'primary', variant !== 'solid', size !== 'md', startIcon, endIcon, closable].some(
+			Boolean
+		)
 	);
 
 	let code = $derived(() => {
@@ -49,17 +55,20 @@
 			`\timport { Chip } from 'ui-svelte';`,
 			(startIcon || endIcon) &&
 				`\timport { HeartAngleLinearIcon, BalloonLinearIcon } from '$lib/icons';`,
+			closable && `\n\tconst handleClose = () => {`,
+			closable && `\t\tconsole.log('Chip closed');`,
+			closable && `\t};`,
 			`<\/script>`
 		].filter(Boolean);
 
 		const componentLines = [
 			hasProps && `<Chip`,
-			variant !== 'primary' && `\tvariant="${variant}"`,
-			size !== 'sm' && `\tsize="${size}"`,
+			color !== 'primary' && `\tcolor="${color}"`,
+			variant !== 'solid' && `\tvariant="${variant}"`,
+			size !== 'md' && `\tsize="${size}"`,
 			startIcon && `\tstartIcon={HeartAngleLinearIcon}`,
 			endIcon && `\tendIcon={BalloonLinearIcon}`,
-			hasShadow && `\thasShadow`,
-			isSolid && `\tisSolid`,
+			closable && `\tonclose={handleClose}`,
 			hasProps && `>`,
 			hasProps && `\tLabel`,
 			hasProps && `</Chip>`,
@@ -70,18 +79,22 @@
 	});
 
 	const props = [
+		{ prop: 'children', type: 'Snippet', initial: '' },
 		{ prop: 'onclose', type: '() => void', initial: '' },
 		{
-			prop: 'variant',
+			prop: 'color',
 			type: 'primary | secondary | muted | success | info | danger | warning',
 			initial: 'primary'
 		},
-		{ prop: 'size', type: 'sm | md | lg', initial: 'sm' },
+		{
+			prop: 'variant',
+			type: 'solid | soft | outlined',
+			initial: 'solid'
+		},
+		{ prop: 'size', type: 'xs | sm | md | lg | xl', initial: 'md' },
 		{ prop: 'class', type: 'string', initial: '' },
 		{ prop: 'startIcon', type: 'IconData', initial: '' },
-		{ prop: 'endIcon', type: 'IconData', initial: '' },
-		{ prop: 'hasShadow', type: 'boolean', initial: 'false' },
-		{ prop: 'isSolid', type: 'boolean', initial: 'false' }
+		{ prop: 'endIcon', type: 'IconData', initial: '' }
 	];
 </script>
 
@@ -89,119 +102,108 @@
 	Chips are compact elements that represent an input, attribute, or action.
 </DocsHeader>
 
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		<Chip
-			startIcon={startIcon ? HeartAngleLinearIcon : undefined}
-			endIcon={endIcon ? BalloonLinearIcon : undefined}
-			{variant}
-			{size}
-			{hasShadow}
-			{isSolid}
-		>
-			Chip Label
-		</Chip>
-	</DocsPreview>
-	<Card>
-		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-		<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
-		<div class="grid-2 gap-2">
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-3 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				bind:value={variant}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Size"
+				size="sm"
+				options={sizeOptions}
+				bind:value={size}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
 			<Checkbox bind:checked={startIcon} label="startIcon" />
 			<Checkbox bind:checked={endIcon} label="endIcon" />
-			<Checkbox bind:checked={hasShadow} label="Shadow" />
-			<Checkbox bind:checked={isSolid} label="Solid" />
+			<Checkbox bind:checked={closable} label="onclose" />
 		</div>
+
+		<div class="doc-preview">
+			<Chip
+				startIcon={startIcon ? HeartAngleLinearIcon : undefined}
+				endIcon={endIcon ? BalloonLinearIcon : undefined}
+				onclose={closable ? () => console.log('Chip closed') : undefined}
+				{color}
+				{variant}
+				{size}
+			>
+				Chip Label
+			</Chip>
+		</div>
+		<Code lang="svelte" code={code()} />
 	</Card>
-	<DocsCode code={code()} />
 </Section>
 
 <Section>
-	<Card bodyClass="grid-3 md:grid-7 center">
-		{#snippet header()}
-			<h4>Chip Variants</h4>
-		{/snippet}
+	<h4>Variants & Colors</h4>
+	<Card>
 		{#each variantOptions as item}
-			<Chip variant={item.id as any}>{item.label}</Chip>
+			<div class="wrap gap-4 center">
+				{#each colorOptions as color}
+					<Chip variant={item.id as any} color={color.id as any}
+						>{item.label + ' ' + color.label}</Chip
+					>
+				{/each}
+			</div>
 		{/each}
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="grid-3 md:grid-7 center">
-		{#snippet header()}
-			<h4>Chip Solid</h4>
-		{/snippet}
+	<h4>Sizes</h4>
+	<Card>
 		{#each variantOptions as item}
-			<Chip variant={item.id as any} isSolid>{item.label}</Chip>
+			<div class="wrap gap-4 center">
+				{#each sizeOptions as size}
+					<Chip variant={item.id as any} size={size.id as any}>{item.label + ' ' + size.label}</Chip
+					>
+				{/each}
+			</div>
 		{/each}
 	</Card>
 </Section>
 
-<Section bodyClass="grid-2 md:grid-4">
-	<!-- Status chips -->
-	<Chip variant="success" startIcon={Heart24RegularIcon} isSolid>Completed</Chip>
-	<Chip variant="warning" startIcon={Settings24RegularIcon} isSolid>Pending</Chip>
-	<Chip variant="danger" startIcon={TrashLinearIcon} isSolid>Failed</Chip>
-	<Chip variant="info" startIcon={Search24RegularIcon} isSolid>In Progress</Chip>
-
-	<!-- Category chips -->
-	<Chip variant="primary">Technology</Chip>
-	<Chip variant="secondary">Design</Chip>
-	<Chip variant="muted">General</Chip>
-
-	<!-- Size variations -->
-	<div class="flex gap-2 items-center">
-		<Chip variant="primary" size="sm">SM</Chip>
-		<Chip variant="primary" size="md">MD</Chip>
-		<Chip variant="primary" size="lg">LG</Chip>
-	</div>
-
-	<!-- With shadow -->
-	<Chip variant="primary" hasShadow>With Shadow</Chip>
-	<Chip variant="success" hasShadow isSolid>Shadow Solid</Chip>
-
-	<!-- With icons -->
-	<Chip variant="primary" startIcon={HeartAngleLinearIcon}>Favorites</Chip>
-	<Chip variant="info" endIcon={DownloadLinearIcon}>Featured</Chip>
-</Section>
-
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Usage Examples</h4>
-		{/snippet}
-		<Code
-			lang="svelte"
-			code={`<!-- Basic Chip -->
-<Chip>Label</Chip>
-
-<!-- Chip with Variant -->
-<Chip variant="success">Completed</Chip>
-
-<!-- Solid Chip -->
-<Chip variant="danger" isSolid>Error</Chip>
-
-<!-- Chip with Icons -->
-<Chip variant="primary" startIcon={HeartIcon}>
-	Favorites
-</Chip>
-
-<!-- Chip with Shadow -->
-<Chip variant="info" hasShadow>
-	Featured
-</Chip>
-
-<!-- Chip Sizes -->
-<Chip size="sm">Small</Chip>
-<Chip size="md">Medium</Chip>
-<Chip size="lg">Large</Chip>
-
-<!-- Closable Chip -->
-<Chip onclose={() => handleClose()}>
-	Removable
-</Chip>`}
-		/>
+	<h4>With Icons</h4>
+	<Card>
+		{#each variantOptions as item}
+			<div class="wrap gap-4 center">
+				{#each propsOptions as prop}
+					<Chip
+						onclose={prop.id === 'closable' ? () => {} : undefined}
+						startIcon={prop.id === 'startIcon' || prop.id === 'bothIcons'
+							? HeartAngleLinearIcon
+							: undefined}
+						endIcon={prop.id === 'endIcon' || prop.id === 'bothIcons'
+							? BalloonLinearIcon
+							: undefined}
+						variant={item.id as any}>{item.label + ' ' + prop.label}</Chip
+					>
+				{/each}
+			</div>
+		{/each}
 	</Card>
 </Section>
 
-<DocsProps {props} />
+<Section>
+	<h4>The component accepts the following props:</h4>
+	<DocsProps {props} />
+</Section>

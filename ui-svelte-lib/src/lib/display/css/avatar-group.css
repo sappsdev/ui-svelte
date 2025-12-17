@@ -1,77 +1,40 @@
 @layer components {
-    .avatar-group {
-        @apply inline-flex items-center gap-2;
-    }
+	.avatar-group {
+		@apply inline-flex items-center gap-2;
 
-    .avatar-group.is-stacked {
-        @apply gap-0;
+		&.is-stacked {
+			@apply gap-0;
 
-        &>.avatar {
-            @apply -ml-3 first:ml-0;
-            @apply ring-3 ring-background rounded-ui;
-            @apply transition-transform hover:z-10 hover:scale-110;
-        }
+			& > .avatar {
+				@apply -ml-3 first:ml-0;
+				@apply ring-3 ring-background rounded-avatar;
+				@apply transition-transform hover:z-10 hover:scale-110;
+			}
 
-        &>.avatar-group-counter {
-            @apply -ml-3 z-10;
-        }
-    }
+			& > .avatar-group-counter {
+				@apply -ml-3 z-10;
+			}
+		}
+	}
 
-    .avatar-group-counter {
-        @apply flex items-center justify-center;
-        @apply rounded-ui font-medium;
-        @apply ring-3 ring-background;
-    }
+	.avatar-group-counter {
+		@apply flex items-center justify-center;
+		@apply rounded-avatar font-medium;
+		@apply ring-3 ring-background;
 
-    .avatar-group-counter.is-primary {
-        @apply bg-primary text-on-primary;
-    }
+		&.is-primary { @apply bg-primary text-on-primary; }
+		&.is-secondary { @apply bg-secondary text-on-secondary; }
+		&.is-muted { @apply bg-muted text-on-muted; }
+		&.is-success { @apply bg-success text-on-success; }
+		&.is-warning { @apply bg-warning text-on-warning; }
+		&.is-danger { @apply bg-danger text-on-danger; }
+		&.is-info { @apply bg-info text-on-info; }
+		&.is-transparent { @apply bg-transparent text-on-background; }
 
-    .avatar-group-counter.is-secondary {
-        @apply bg-secondary text-on-secondary;
-    }
-
-    .avatar-group-counter.is-muted {
-        @apply bg-muted text-on-muted;
-    }
-
-    .avatar-group-counter.is-success {
-        @apply bg-success text-on-success;
-    }
-
-    .avatar-group-counter.is-warning {
-        @apply bg-warning text-on-warning;
-    }
-
-    .avatar-group-counter.is-danger {
-        @apply bg-danger text-on-danger;
-    }
-
-    .avatar-group-counter.is-info {
-        @apply bg-info text-on-info;
-    }
-
-    .avatar-group-counter.is-transparent {
-        @apply bg-transparent text-on-background;
-    }
-
-    .avatar-group-counter.is-xs {
-        @apply size-5 text-[10px];
-    }
-
-    .avatar-group-counter.is-sm {
-        @apply size-6 text-xs;
-    }
-
-    .avatar-group-counter.is-md {
-        @apply size-7 text-sm;
-    }
-
-    .avatar-group-counter.is-lg {
-        @apply size-10 text-base;
-    }
-
-    .avatar-group-counter.is-xl {
-        @apply size-14 text-lg;
-    }
+		&.is-xs { @apply size-5 text-[10px]; }
+		&.is-sm { @apply size-6 text-xs; }
+		&.is-md { @apply size-7 text-sm; }
+		&.is-lg { @apply size-10 text-base; }
+		&.is-xl { @apply size-14 text-lg; }
+	}
 }

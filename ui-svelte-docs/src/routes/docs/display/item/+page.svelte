@@ -1,359 +1,383 @@
 <script lang="ts">
-	import { Card, Code, Item, Section, Select, Checkbox, IconButton, Badge } from 'ui-svelte';
+	import { Item, Card, Checkbox, Code, Section, Select, IconButton } from 'ui-svelte';
+	import { HeartAngleLinearIcon, PenLinearIcon, TrashLinearIcon } from '$lib/icons';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
-	import {
-		Person24RegularIcon,
-		LineHorizontal324RegularIcon,
-		Heart24RegularIcon,
-		Settings24RegularIcon,
-		Search24RegularIcon
-	} from '$lib/icons';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	const variantOptions = [
-		{ id: 'ghost', label: 'Ghost' },
-		{ id: 'outlined', label: 'Outlined' },
-		{ id: 'surface', label: 'Surface' },
+	const colorOptions = [
+		{ id: 'default', label: 'Default' },
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
-		{ id: 'muted', label: 'Muted' }
+		{ id: 'muted', label: 'Muted' },
+		{ id: 'success', label: 'Success' },
+		{ id: 'info', label: 'Info' },
+		{ id: 'danger', label: 'Danger' },
+		{ id: 'warning', label: 'Warning' },
+		{ id: 'surface', label: 'Surface' }
+	];
+
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' },
+		{ id: 'outlined', label: 'Outlined' },
+		{ id: 'ghost', label: 'Ghost' }
 	];
 
 	const sizeOptions = [
-		{ id: 'sm', label: 'Small' },
-		{ id: 'md', label: 'Medium' },
-		{ id: 'lg', label: 'Large' }
+		{ id: 'sm', label: 'sm' },
+		{ id: 'md', label: 'md' },
+		{ id: 'lg', label: 'lg' }
 	];
 
+	const statusOptions = [
+		{ id: '', label: 'None' },
+		{ id: 'online', label: 'Online' },
+		{ id: 'offline', label: 'Offline' },
+		{ id: 'busy', label: 'Busy' },
+		{ id: 'away', label: 'Away' }
+	];
+
+	let color: any = $state('default');
 	let variant: any = $state('ghost');
 	let size: any = $state('md');
+	let status: any = $state('');
+
+	let hasIcon = $state(false);
+	let hasSrc = $state(true);
+	let hasDescription = $state(true);
+	let hasActions = $state(false);
 	let isActive = $state(false);
+	let isFocused = $state(false);
 	let isDisabled = $state(false);
 	let isCompact = $state(false);
 	let hasDivider = $state(false);
 	let hasShadow = $state(false);
-	let isSolid = $state(false);
+	let isClickable = $state(false);
+
+	let hasProps = $derived(
+		[
+			color !== 'default',
+			variant !== 'ghost',
+			size !== 'md',
+			status,
+			hasIcon,
+			hasSrc,
+			hasDescription,
+			hasActions,
+			isActive,
+			isFocused,
+			isDisabled,
+			isCompact,
+			hasDivider,
+			hasShadow,
+			isClickable
+		].some(Boolean)
+	);
 
 	let code = $derived(() => {
-		const props = [];
-		props.push(`label="John Doe"`);
-		props.push(`description="Software Engineer"`);
-		props.push(`src="/avatar.jpg"`);
-		if (variant !== 'ghost') props.push(`variant="${variant}"`);
-		if (size !== 'md') props.push(`size="${size}"`);
-		if (isActive) props.push('isActive');
-		if (isDisabled) props.push('isDisabled');
-		if (isCompact) props.push('isCompact');
-		if (hasDivider) props.push('hasDivider');
-		if (hasShadow) props.push('hasShadow');
-		if (isSolid) props.push('isSolid');
+		const scriptLines = [
+			`<script lang="ts">`,
+			`\timport { Item } from 'ui-svelte';`,
+			hasIcon && `\timport { HeartAngleLinearIcon } from '$lib/icons';`,
+			isClickable && `\n\tconst handleClick = (id: string | number) => {`,
+			isClickable && `\t\tconsole.log('Item clicked:', id);`,
+			isClickable && `\t};`,
+			`<\/script>`
+		].filter(Boolean);
 
-		return `<Item\n\t${props.join('\n\t')}\n/>`;
+		const componentLines = [
+			hasProps && `<Item`,
+			`\tid="1"`,
+			`\tlabel="Item Label"`,
+			hasDescription && `\tdescription="Item description text"`,
+			hasIcon && `\ticon={HeartAngleLinearIcon}`,
+			hasSrc && `\tsrc="/avatar.jpg"`,
+			color !== 'default' && `\tcolor="${color}"`,
+			variant !== 'ghost' && `\tvariant="${variant}"`,
+			size !== 'md' && `\tsize="${size}"`,
+			status && `\tstatus="${status}"`,
+			isClickable && `\tonclick={handleClick}`,
+			isActive && `\tisActive`,
+			isFocused && `\tisFocused`,
+			isDisabled && `\tisDisabled`,
+			isCompact && `\tisCompact`,
+			hasDivider && `\thasDivider`,
+			hasShadow && `\thasShadow`,
+			hasProps && `/>`,
+			!hasProps && `<Item id="1" label="Item Label" />`
+		].filter(Boolean);
+
+		return [...scriptLines, ...componentLines].join('\n');
 	});
 
 	const props = [
+		{ prop: 'id', type: 'string | number', initial: '' },
+		{ prop: 'label', type: 'string', initial: '' },
+		{ prop: 'description', type: 'string', initial: '' },
+		{ prop: 'icon', type: 'IconData', initial: '' },
+		{ prop: 'src', type: 'string', initial: '' },
 		{
-			name: 'id',
-			type: 'string | number',
-			default: '-',
-			description: 'Unique identifier, required for onclick'
+			prop: 'color',
+			type: 'primary | secondary | muted | success | info | warning | danger | surface | default',
+			initial: 'default'
 		},
-		{ name: 'label', type: 'string', default: '-', description: 'Primary text label' },
 		{
-			name: 'description',
-			type: 'string',
-			default: '-',
-			description: 'Secondary description text'
+			prop: 'variant',
+			type: 'solid | soft | outlined | ghost',
+			initial: 'ghost'
 		},
-		{ name: 'icon', type: 'IconData', default: '-', description: 'Icon to display on the left' },
-		{ name: 'src', type: 'string', default: '-', description: 'Avatar image source URL' },
-		{
-			name: 'variant',
-			type: "'ghost' | 'outlined' | 'surface' | 'primary' | 'secondary' | 'muted'",
-			default: "'ghost'",
-			description: 'Visual style variant'
-		},
-		{ name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Size of the item' },
-		{
-			name: 'status',
-			type: "'online' | 'offline' | 'busy' | 'away'",
-			default: '-',
-			description: 'Status indicator for avatar'
-		},
-		{ name: 'href', type: 'string', default: '-', description: 'Link URL, renders as anchor' },
-		{ name: 'isDisabled', type: 'boolean', default: 'false', description: 'Disables interaction' },
-		{ name: 'isActive', type: 'boolean', default: 'false', description: 'Active/selected state' },
-		{ name: 'isFocused', type: 'boolean', default: 'false', description: 'Focused state styling' },
-		{ name: 'isCompact', type: 'boolean', default: 'false', description: 'Reduces padding' },
-		{ name: 'hasDivider', type: 'boolean', default: 'false', description: 'Shows bottom border' },
-		{ name: 'hasShadow', type: 'boolean', default: 'false', description: 'Adds shadow effect' },
-		{
-			name: 'isSolid',
-			type: 'boolean',
-			default: 'false',
-			description: 'Solid background on active'
-		},
-		{ name: 'onclick', type: '(id) => void', default: '-', description: 'Click handler callback' },
-		{ name: 'actions', type: 'Snippet', default: '-', description: 'Slot for action buttons' },
-		{ name: 'class', type: 'string', default: '-', description: 'Additional CSS classes' }
+		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
+		{ prop: 'status', type: 'online | offline | busy | away', initial: '' },
+		{ prop: 'href', type: 'string', initial: '' },
+		{ prop: 'onclick', type: '(id: string | number) => void', initial: '' },
+		{ prop: 'isActive', type: 'boolean', initial: 'false' },
+		{ prop: 'isFocused', type: 'boolean', initial: 'false' },
+		{ prop: 'isDisabled', type: 'boolean', initial: 'false' },
+		{ prop: 'isCompact', type: 'boolean', initial: 'false' },
+		{ prop: 'hasDivider', type: 'boolean', initial: 'false' },
+		{ prop: 'hasShadow', type: 'boolean', initial: 'false' },
+		{ prop: 'actions', type: 'Snippet', initial: '' },
+		{ prop: 'class', type: 'string', initial: '' }
 	];
 </script>
 
-<DocsHeader title="Item">
-	A versatile list item component for displaying content with optional avatar, icon, description,
-	and action buttons. Supports multiple variants, sizes, and interactive states.
+<DocsHeader title="Item" llmUrl="https://ui-svelte.sappsdev.com/llm/display/item.md">
+	Item component for displaying list items with avatar, icon, label, description, and actions.
 </DocsHeader>
 
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		<div class="column gap-2 w-full">
-			<Item
-				label="John Doe"
-				description="Software Engineer"
-				src="https://i.pravatar.cc/150?img=1"
-				{variant}
-				{size}
-				{isActive}
-				{isDisabled}
-				{isCompact}
-				{hasDivider}
-				{hasShadow}
-				{isSolid}
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
 			/>
-			<Item
-				label="Jane Smith"
-				description="Product Designer"
-				src="https://i.pravatar.cc/150?img=2"
-				{variant}
-				{size}
-				{isActive}
-				{isDisabled}
-				{isCompact}
-				{hasDivider}
-				{hasShadow}
-				{isSolid}
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				bind:value={variant}
 			/>
-			<Item
-				label="Mike Johnson"
-				description="Engineering Lead"
-				src="https://i.pravatar.cc/150?img=3"
-				{variant}
-				{size}
-				{isActive}
-				{isDisabled}
-				{isCompact}
-				{hasShadow}
-				{isSolid}
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Size"
+				size="sm"
+				options={sizeOptions}
+				bind:value={size}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Status"
+				size="sm"
+				options={statusOptions}
+				bind:value={status}
 			/>
 		</div>
-	</DocsPreview>
-	<Card>
-		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-		<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
-		<div class="grid-2 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={hasIcon} label="Icon" />
+			<Checkbox bind:checked={hasSrc} label="Avatar" />
+			<Checkbox bind:checked={hasDescription} label="Description" />
+			<Checkbox bind:checked={hasActions} label="Actions" />
+			<Checkbox bind:checked={isClickable} label="Clickable" />
 			<Checkbox bind:checked={isActive} label="Active" />
+			<Checkbox bind:checked={isFocused} label="Focused" />
 			<Checkbox bind:checked={isDisabled} label="Disabled" />
 			<Checkbox bind:checked={isCompact} label="Compact" />
 			<Checkbox bind:checked={hasDivider} label="Divider" />
 			<Checkbox bind:checked={hasShadow} label="Shadow" />
-			<Checkbox bind:checked={isSolid} label="Solid" />
 		</div>
-	</Card>
-	<DocsCode code={code()} />
-</Section>
 
-<Section bodyClass="grid-2 md:grid-3">
-	<!-- With Icon -->
-	<Card>
-		{#snippet header()}
-			<h4>With Icon</h4>
-		{/snippet}
-		<Item label="Notifications" description="Manage alerts" icon={Settings24RegularIcon} />
-		{#snippet footer()}
-			<code class="text-xs">icon=&#123;Settings24RegularIcon&#125;</code>
-		{/snippet}
-	</Card>
-
-	<!-- With Avatar -->
-	<Card>
-		{#snippet header()}
-			<h4>With Avatar</h4>
-		{/snippet}
-		<Item
-			label="John Doe"
-			description="Online"
-			src="https://i.pravatar.cc/150?img=1"
-			status="online"
-		/>
-		{#snippet footer()}
-			<code class="text-xs">src="..." status="online"</code>
-		{/snippet}
-	</Card>
-
-	<!-- With Actions -->
-	<Card>
-		{#snippet header()}
-			<h4>With Actions</h4>
-		{/snippet}
-		<Item label="Jane Smith" description="Designer" src="https://i.pravatar.cc/150?img=2">
-			{#snippet actions()}
-				<IconButton icon={LineHorizontal324RegularIcon} size="sm" variant="ghost" />
-			{/snippet}
-		</Item>
-		{#snippet footer()}
-			<code class="text-xs">&#123;#snippet actions()&#125;</code>
-		{/snippet}
-	</Card>
-
-	<!-- Interactive -->
-	<Card>
-		{#snippet header()}
-			<h4>Interactive (Link)</h4>
-		{/snippet}
-		<Item label="View Profile" description="Go to user page" icon={Person24RegularIcon} href="#" />
-		{#snippet footer()}
-			<code class="text-xs">href="#"</code>
-		{/snippet}
-	</Card>
-
-	<!-- Active State -->
-	<Card>
-		{#snippet header()}
-			<h4>Active State</h4>
-		{/snippet}
-		<Item
-			label="Selected Item"
-			description="Currently active"
-			icon={Heart24RegularIcon}
-			variant="primary"
-			isActive
-		/>
-		{#snippet footer()}
-			<code class="text-xs">variant="primary" isActive</code>
-		{/snippet}
-	</Card>
-
-	<!-- Compact -->
-	<Card>
-		{#snippet header()}
-			<h4>Compact Mode</h4>
-		{/snippet}
-		<Item label="Compact Item" description="Less padding" icon={Search24RegularIcon} isCompact />
-		{#snippet footer()}
-			<code class="text-xs">isCompact</code>
-		{/snippet}
+		<div class="doc-preview">
+			<Item
+				id="1"
+				label="Item Label"
+				description={hasDescription ? 'Item description text' : undefined}
+				icon={hasIcon ? HeartAngleLinearIcon : undefined}
+				src={hasSrc ? 'https://i.pravatar.cc/150?img=1' : undefined}
+				{color}
+				{variant}
+				{size}
+				status={status || undefined}
+				onclick={isClickable ? (id) => console.log('Item clicked:', id) : undefined}
+				{isActive}
+				{isFocused}
+				{isDisabled}
+				{isCompact}
+				{hasDivider}
+				{hasShadow}
+			>
+				{#snippet actions()}
+					{#if hasActions}
+						<IconButton icon={PenLinearIcon} size="sm" variant="ghost" />
+						<IconButton icon={TrashLinearIcon} size="sm" variant="ghost" color="danger" />
+					{/if}
+				{/snippet}
+			</Item>
+		</div>
+		<Code lang="svelte" code={code()} />
 	</Card>
 </Section>
 
 <Section>
+	<h4>Variants & Colors</h4>
 	<Card>
-		{#snippet header()}
-			<h4>Props</h4>
-		{/snippet}
-		<div class="overflow-x-auto">
-			<table class="w-full border-collapse">
-				<thead>
-					<tr class="border-b border-muted-200">
-						<th class="text-left p-3 font-semibold">Prop</th>
-						<th class="text-left p-3 font-semibold">Type</th>
-						<th class="text-left p-3 font-semibold">Default</th>
-						<th class="text-left p-3 font-semibold">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each props as prop}
-						<tr class="border-b border-muted-100">
-							<td class="p-3"><code class="px-2 py-1 rounded text-sm">{prop.name}</code></td>
-							<td class="p-3"><code class="px-2 py-1 rounded text-xs">{prop.type}</code></td>
-							<td class="p-3"><code class="px-2 py-1 rounded text-xs">{prop.default}</code></td>
-							<td class="p-3 text-sm">{prop.description}</td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
+		{#each variantOptions as item}
+			<div class="wrap gap-4 center">
+				{#each colorOptions as colorItem}
+					<Item
+						id={colorItem.id}
+						label={item.label + ' ' + colorItem.label}
+						variant={item.id as any}
+						color={colorItem.id as any}
+					/>
+				{/each}
+			</div>
+		{/each}
+	</Card>
+</Section>
+
+<Section>
+	<h4>Sizes</h4>
+	<Card>
+		{#each variantOptions as item}
+			<div class="wrap gap-4 center">
+				{#each sizeOptions as sizeItem}
+					<Item
+						id={sizeItem.id}
+						label={item.label + ' ' + sizeItem.label}
+						variant={item.id as any}
+						size={sizeItem.id as any}
+					/>
+				{/each}
+			</div>
+		{/each}
+	</Card>
+</Section>
+
+<Section>
+	<h4>With Avatar & Description</h4>
+	<Card>
+		<div class="col gap-2">
+			<Item
+				id="1"
+				label="John Doe"
+				description="Software Engineer"
+				src="https://i.pravatar.cc/150?img=1"
+				status="online"
+			/>
+			<Item
+				id="2"
+				label="Jane Smith"
+				description="Product Manager"
+				src="https://i.pravatar.cc/150?img=2"
+				status="busy"
+			/>
+			<Item
+				id="3"
+				label="Bob Johnson"
+				description="UX Designer"
+				src="https://i.pravatar.cc/150?img=3"
+				status="away"
+			/>
 		</div>
 	</Card>
 </Section>
 
 <Section>
-	<Card variant="info">
-		<div class="column gap-3">
-			<h4 class="font-semibold">💡 Pro Tips</h4>
-			<ul class="text-sm space-y-2 list-disc list-inside">
-				<li>
-					<strong>Interactive Items:</strong> Provide either
-					<code class="px-1 py-0.5 bg-blue rounded">href</code>
-					or <code class="px-1 py-0.5 bg-blue rounded">onclick</code> to make items clickable
-				</li>
-				<li>
-					<strong>Lists:</strong> Use <code class="px-1 py-0.5 bg-blue rounded">hasDivider</code> for
-					traditional list styling with separators
-				</li>
-				<li>
-					<strong>Active States:</strong> Combine
-					<code class="px-1 py-0.5 bg-blue rounded">variant</code>
-					with
-					<code class="px-1 py-0.5 bg-blue rounded">isActive</code> for selection indicators
-				</li>
-				<li>
-					<strong>Actions Slot:</strong> Use the actions snippet to add buttons, badges, or other controls
-				</li>
-			</ul>
+	<h4>With Icon</h4>
+	<Card>
+		<div class="col gap-2">
+			<Item
+				id="1"
+				label="Favorites"
+				description="View your saved items"
+				icon={HeartAngleLinearIcon}
+			/>
+			<Item
+				id="2"
+				label="Edit Profile"
+				description="Update your information"
+				icon={PenLinearIcon}
+			/>
 		</div>
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Usage Examples</h4>
-		{/snippet}
-		<Code
-			lang="svelte"
-			code={`<script>
-	import { Item, IconButton } from 'ui-svelte';
-	import { Person24RegularIcon, LineHorizontal324RegularIcon } from '$lib/icons';
-<\/script>
-
-<!-- Basic Item -->
-<Item label="John Doe" description="Software Engineer" />
-
-<!-- With Avatar and Status -->
-<Item
-	label="Jane Smith"
-	description="Online"
-	src="/avatar.jpg"
-	status="online"
-/>
-
-<!-- With Icon -->
-<Item label="Settings" description="Manage preferences" icon={Person24RegularIcon} />
-
-<!-- Interactive Link -->
-<Item label="View Profile" href="/profile" icon={Person24RegularIcon} />
-
-<!-- With Click Handler -->
-<Item
-	id="user-1"
-	label="Select User"
-	onclick={(id) => console.log('Selected:', id)}
-/>
-
-<!-- With Actions -->
-<Item label="User Name" description="Role">
-	{#snippet actions()}
-		<IconButton icon={LineHorizontal324RegularIcon} size="sm" />
-	{/snippet}
-</Item>
-
-<!-- Active State with Variant -->
-<Item
-	label="Selected Item"
-	variant="primary"
-	isActive
-	isSolid
-/>`}
-		/>
+	<h4>With Actions</h4>
+	<Card>
+		<div class="col gap-2">
+			<Item
+				id="1"
+				label="John Doe"
+				description="Software Engineer"
+				src="https://i.pravatar.cc/150?img=1"
+			>
+				{#snippet actions()}
+					<IconButton icon={PenLinearIcon} size="sm" variant="ghost" />
+					<IconButton icon={TrashLinearIcon} size="sm" variant="ghost" color="danger" />
+				{/snippet}
+			</Item>
+			<Item
+				id="2"
+				label="Jane Smith"
+				description="Product Manager"
+				src="https://i.pravatar.cc/150?img=2"
+			>
+				{#snippet actions()}
+					<IconButton icon={PenLinearIcon} size="sm" variant="ghost" />
+					<IconButton icon={TrashLinearIcon} size="sm" variant="ghost" color="danger" />
+				{/snippet}
+			</Item>
+		</div>
 	</Card>
+</Section>
+
+<Section>
+	<h4>Interactive States</h4>
+	<Card>
+		<div class="col gap-2">
+			<Item
+				id="1"
+				label="Clickable Item"
+				description="Click to trigger action"
+				src="https://i.pravatar.cc/150?img=4"
+				onclick={(id) => console.log('Clicked:', id)}
+			/>
+			<Item
+				id="2"
+				label="Active Item"
+				description="Currently selected"
+				src="https://i.pravatar.cc/150?img=5"
+				isActive
+			/>
+			<Item
+				id="3"
+				label="Focused Item"
+				description="Has focus state"
+				src="https://i.pravatar.cc/150?img=6"
+				isFocused
+			/>
+			<Item
+				id="4"
+				label="Disabled Item"
+				description="Cannot interact"
+				src="https://i.pravatar.cc/150?img=7"
+				isDisabled
+			/>
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<h4>The component accepts the following props:</h4>
+	<DocsProps {props} />
 </Section>

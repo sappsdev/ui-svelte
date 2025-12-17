@@ -10,7 +10,17 @@
 		description?: string;
 		icon?: IconData;
 		src?: string;
-		variant?: 'ghost' | 'outlined' | 'surface' | 'primary' | 'secondary' | 'muted';
+		color?:
+			| 'primary'
+			| 'secondary'
+			| 'muted'
+			| 'success'
+			| 'info'
+			| 'warning'
+			| 'danger'
+			| 'surface'
+			| 'default';
+		variant?: 'solid' | 'soft' | 'outlined' | 'ghost';
 		size?: 'sm' | 'md' | 'lg';
 		status?: 'online' | 'offline' | 'busy' | 'away';
 		href?: string;
@@ -22,7 +32,6 @@
 		hasShadow?: boolean;
 		onclick?: (id: string | number) => void;
 		actions?: Snippet;
-		isSolid?: boolean;
 		class?: string;
 	};
 
@@ -32,6 +41,7 @@
 		description,
 		src,
 		icon,
+		color = 'default',
 		variant = 'ghost',
 		size = 'md',
 		status,
@@ -44,17 +54,26 @@
 		hasShadow,
 		onclick,
 		actions,
-		isSolid,
 		class: className
 	}: Props = $props();
 
-	const variantClasses = {
-		ghost: 'is-ghost',
-		outlined: 'is-outlined',
-		surface: 'is-surface',
+	const colorClasses = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
-		muted: 'is-muted'
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger',
+		surface: 'is-surface',
+		default: 'is-default'
+	};
+
+	const variantClasses = {
+		solid: 'is-solid',
+		soft: 'is-soft',
+		outlined: 'is-outlined',
+		ghost: 'is-ghost'
 	};
 
 	const sizeClasses = {
@@ -68,6 +87,7 @@
 	let itemClasses = $derived(
 		cn(
 			'item',
+			colorClasses[color],
 			variantClasses[variant],
 			sizeClasses[size],
 			isInteractive && !isDisabled && 'is-interactive',
@@ -75,7 +95,6 @@
 			isFocused && 'is-focused',
 			isDisabled && 'is-disabled',
 			isCompact && 'is-compact',
-			isSolid && 'is-solid',
 			hasDivider && 'has-divider',
 			hasShadow && 'has-shadow',
 			!!src && !label && !description && 'has-icon-only',
@@ -89,7 +108,7 @@
 		<Icon {icon} class="h-6 w-auto" />
 	{/if}
 	{#if src}
-		<Avatar {src} {status} {size} variant="transparent" />
+		<Avatar {src} {status} {size} variant="soft" />
 	{/if}
 	<div class="item-body">
 		<div class="item-label">{label}</div>
@@ -108,7 +127,7 @@
 	<a {href} class={itemClasses} aria-disabled={isDisabled}>
 		{@render itemContent()}
 	</a>
-{:else if onclick && id && !isDisabled}
+{:else if onclick && id !== undefined && !isDisabled}
 	<button type="button" class={itemClasses} onclick={() => onclick(id)} disabled={isDisabled}>
 		{@render itemContent()}
 	</button>

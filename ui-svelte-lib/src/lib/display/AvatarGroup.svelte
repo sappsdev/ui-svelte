@@ -13,37 +13,35 @@
 
 	type Props = {
 		items: AvatarItem[];
-		variant?:
-			| 'primary'
-			| 'secondary'
-			| 'muted'
-			| 'success'
-			| 'warning'
-			| 'danger'
-			| 'info'
-			| 'transparent';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft';
 		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 		max?: number;
-		stacked?: boolean;
+		isInline?: boolean;
 		isBordered?: boolean;
-		class?: string;
+		classRoot?: string;
+		classAvatar?: string;
+		classCounter?: string;
 	};
 
 	const {
 		items,
-		variant = 'primary',
-		size = 'lg',
+		variant = 'solid',
+		color = 'primary',
+		size = 'md',
 		max,
-		stacked = true,
-		isBordered = false,
-		class: className
+		isInline,
+		isBordered,
+		classRoot,
+		classAvatar,
+		classCounter
 	}: Props = $props();
 
 	const visibleItems = $derived(max && max < items.length ? items.slice(0, max) : items);
 	const remainingCount = $derived(max && max < items.length ? items.length - max : 0);
 </script>
 
-<div class={cn('avatar-group', stacked && 'is-stacked', className)}>
+<div class={cn('avatar-group', !isInline && 'is-stacked', classRoot)}>
 	{#each visibleItems as item, i}
 		<Avatar
 			src={item.src}
@@ -54,11 +52,15 @@
 			target={item.target}
 			{variant}
 			{size}
+			{color}
 			{isBordered}
+			class={classAvatar}
 		/>
 	{/each}
 	{#if remainingCount > 0}
-		<div class={cn('avatar-group-counter', `is-${size}`, `is-${variant}`)}>
+		<div
+			class={cn('avatar-group-counter', `is-${size}`, `is-${variant}`, `is-${color}`, classCounter)}
+		>
 			+{remainingCount}
 		</div>
 	{/if}

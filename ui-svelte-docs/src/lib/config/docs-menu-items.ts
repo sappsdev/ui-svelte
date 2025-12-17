@@ -155,6 +155,10 @@ export const sideMenuItems: SideNavItem[] = [
 			{
 				label: 'Table',
 				href: '/docs/display/table'
+			},
+			{
+				label: 'RichText',
+				href: '/docs/display/rich-text'
 			}
 		]
 	},
