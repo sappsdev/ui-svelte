@@ -1,4 +1,5 @@
 <script lang="ts">
+	import IconButton from '$lib/control/IconButton.svelte';
 	import { Dismiss24RegularIcon } from '$lib/icons/index.js';
 	import { Icon } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
@@ -91,9 +92,12 @@
 				{/if}
 				{#if !hideCloseButton}
 					<div class="btn-close">
-						<button onclick={() => (open = false)}>
-							<Icon icon={Dismiss24RegularIcon} class="btn-close-icon" />
-						</button>
+						<IconButton
+							icon={Dismiss24RegularIcon}
+							variant="ghost"
+							size="xs"
+							onclick={() => (open = false)}
+						/>
 					</div>
 				{/if}
 			</div>

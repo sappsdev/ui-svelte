@@ -12,7 +12,7 @@
         @apply font-medium whitespace-nowrap;
         @apply rounded-ui outline-none;
         @apply cursor-pointer select-none;
-        @apply transition-all duration-200;
+        @apply transition-all duration-300;
         @apply disabled:cursor-not-allowed disabled:opacity-50;
     }
 

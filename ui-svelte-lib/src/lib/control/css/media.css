@@ -23,7 +23,7 @@
 	}
 
 	.media-bar {
-		@apply flex-1 rounded-sm transition-all duration-100;
+		@apply flex-1 rounded-sm transition-all duration-300;
 		@apply min-h-1 bg-current opacity-30;
 	}
 

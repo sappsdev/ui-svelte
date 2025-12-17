@@ -133,6 +133,7 @@
 	--color-on-danger: var(--on-danger, oklch(93.6% 0.032 17.717));
 	/* red-100  */
 
+	--radius-box: 0.75rem;
 	--radius-ui: 0.75rem;
 	--scrollbar-size: 6px;
 }

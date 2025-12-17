@@ -4,7 +4,7 @@
 
 		.footer-nav-link {
 			@apply text-sm opacity-70;
-			@apply transition-all duration-200;
+			@apply transition-all duration-300;
 			@apply hover:underline;
 			@apply focus:outline-none;
 			@apply cursor-pointer select-none;

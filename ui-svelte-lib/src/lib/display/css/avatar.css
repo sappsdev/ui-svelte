@@ -2,7 +2,7 @@
 	.avatar {
 		@apply relative flex items-center justify-center;
 		@apply rounded-ui;
-		@apply transition-all duration-200;
+		@apply transition-all duration-300;
 	}
 
 	.avatar.is-clickable {

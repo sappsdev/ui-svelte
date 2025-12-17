@@ -9,22 +9,13 @@
 		href?: string;
 		target?: '_self' | '_blank' | '_parent' | '_top';
 		type?: 'button' | 'submit' | 'reset';
-		variant?:
-			| 'primary'
-			| 'secondary'
-			| 'muted'
-			| 'success'
-			| 'info'
-			| 'danger'
-			| 'warning'
-			| 'outlined'
-			| 'ghost';
-		size?: 'xs' | 'sm' | 'md' | 'lg';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft' | 'outlined' | 'ghost';
+		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 		class?: string;
 		isLoading?: boolean;
 		icon: IconData;
 		isDisabled?: boolean;
-		isSolid?: boolean;
 	};
 
 	const {
@@ -32,28 +23,33 @@
 		href,
 		target,
 		type = 'button',
-		variant = 'primary',
+		color = 'primary',
+		variant = 'solid',
 		size = 'md',
 		class: className,
 		icon,
 		isLoading,
-		isDisabled,
-		isSolid
+		isDisabled
 	}: Props = $props();
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
 		success: 'is-success',
 		info: 'is-info',
 		danger: 'is-danger',
-		warning: 'is-warning',
+		warning: 'is-warning'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
 		outlined: 'is-outlined',
 		ghost: 'is-ghost'
 	};
 
-	const sizeClasses = {
+	const sizes = {
 		xs: 'is-xs',
 		sm: 'is-sm',
 		md: 'is-md',
@@ -62,14 +58,7 @@
 	};
 
 	let baseClasses = $derived(
-		cn(
-			'btn',
-			'is-icon',
-			variantClasses[variant],
-			sizeClasses[size],
-			isSolid && 'is-solid',
-			className
-		)
+		cn('btn', 'is-icon', colors[color], variants[variant], sizes[size], className)
 	);
 </script>
 

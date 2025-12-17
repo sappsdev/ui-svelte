@@ -53,7 +53,7 @@
 		@apply absolute pointer-events-auto;
 		@apply border-2 border-primary;
 		@apply cursor-move;
-		@apply transition-shadow duration-200;
+		@apply transition-shadow duration-300;
 		box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
 	}
 
@@ -63,7 +63,7 @@
 
 	.crop-grid {
 		@apply absolute inset-0 pointer-events-none;
-		@apply opacity-0 transition-opacity duration-200;
+		@apply opacity-0 transition-opacity duration-300;
 	}
 
 	.crop-area:hover .crop-grid,
@@ -85,7 +85,7 @@
 
 	.resize-handle {
 		@apply absolute bg-primary border-2 border-background;
-		@apply transition-all duration-200;
+		@apply transition-all duration-300;
 		@apply opacity-0;
 		@apply z-10;
 	}

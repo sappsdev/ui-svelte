@@ -1,21 +1,23 @@
 <script lang="ts">
 	import { MoonStarsLinearIcon, Sun2LinearIcon } from '$lib/icons/index.js';
-	import { Button, Icon } from '$lib/index.js';
+	import { IconButton } from '$lib/index.js';
 	import { theme } from '$lib/stores/theme.svelte.js';
 
 	type Props = {
-		variant?: 'primary' | 'secondary' | 'muted' | 'ghost';
-		size?: 'sm' | 'md' | 'lg';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft' | 'outlined' | 'ghost';
+		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 		class?: string;
 	};
 
-	let { variant = 'ghost', size = 'md', class: className }: Props = $props();
+	let { color = 'primary', variant = 'ghost', size = 'md', class: className }: Props = $props();
 </script>
 
-<Button onclick={theme.toggleTheme} {size} {variant} class={className} isIcon>
-	{#if theme.isDark}
-		<Icon icon={Sun2LinearIcon} />
-	{:else}
-		<Icon icon={MoonStarsLinearIcon} />
-	{/if}
-</Button>
+<IconButton
+	icon={theme.isDark ? Sun2LinearIcon : MoonStarsLinearIcon}
+	{size}
+	{color}
+	{variant}
+	class={className}
+	onclick={theme.toggleTheme}
+/>

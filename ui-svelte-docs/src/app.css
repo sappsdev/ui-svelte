@@ -1,6 +1,12 @@
 @import 'tailwindcss';
 @import 'ui-svelte/css';
 
+@layer components {
+	.doc-preview {
+		@apply border-2 border-dashed border-on-muted row center h-full min-h-32 p-2 md:p-4 w-full gap-4;
+	}
+}
+
 body {
 	font-family: 'Montserrat Variable', sans-serif;
 }
@@ -39,6 +45,7 @@ body {
 	--danger: oklch(57.7% 0.245 27.325);
 	--on-danger: oklch(93.6% 0.032 17.717);
 
+	--radius-box: 0.75rem;
 	--radius-ui: 0.75rem;
 	--scrollbar-size: 6px;
 }

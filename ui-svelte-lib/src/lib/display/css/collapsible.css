@@ -1,6 +1,6 @@
 @layer components {
 	.collapsible {
-		@apply w-full transition-all duration-200;
+		@apply w-full transition-all duration-300;
 
 		&.is-primary {
 			@apply border border-primary/20 rounded-lg overflow-hidden;
@@ -47,7 +47,7 @@
 		}
 
 		.collapsible-header {
-			@apply flex justify-between items-center gap-3 px-4 py-3 cursor-pointer select-none transition-all duration-200;
+			@apply flex justify-between items-center gap-3 px-4 py-3 cursor-pointer select-none transition-all duration-300;
 
 			.collapsible-start {
 				@apply flex items-center gap-3 flex-1;
@@ -65,7 +65,7 @@
 				@apply flex items-center;
 
 				.collapsible-arrow {
-					@apply size-5 transition-transform duration-200 text-on-muted;
+					@apply size-5 transition-transform duration-300 text-on-muted;
 					&.is-active {
 						@apply rotate-180;
 					}

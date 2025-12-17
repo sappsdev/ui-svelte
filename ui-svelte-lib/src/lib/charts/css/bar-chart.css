@@ -28,7 +28,7 @@
 	}
 
 	.bar-chart-bar {
-		@apply transition-all duration-200 ease-in-out cursor-pointer;
+		@apply transition-all duration-300 ease-in-out cursor-pointer;
 	}
 
 	.bar-chart-bar:hover {
@@ -100,7 +100,7 @@
 	}
 
 	.bar-chart-legend-item {
-		@apply flex items-center gap-2 cursor-pointer transition-opacity duration-200;
+		@apply flex items-center gap-2 cursor-pointer transition-opacity duration-300;
 	}
 
 	.bar-chart-legend-item:hover {

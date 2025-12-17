@@ -5,7 +5,7 @@
 		.navmenu-item {
 			@apply relative flex items-center gap-2 rounded-ui px-4 py-2;
 			@apply cursor-pointer select-none outline-none;
-			@apply transition-all duration-200;
+			@apply transition-all duration-300;
 
 			.navmenu-icon {
 				@apply h-5 w-5 shrink-0;
@@ -32,7 +32,7 @@
 			}
 
 			.navmenu-arrow {
-				@apply h-4 w-4 transition-transform duration-200;
+				@apply h-4 w-4 transition-transform duration-300;
 
 				&.is-open {
 					@apply rotate-180;
@@ -208,7 +208,7 @@
 		.navmenu-submenu-item {
 			@apply flex items-center gap-2 rounded-ui px-3 py-2;
 			@apply cursor-pointer select-none outline-none;
-			@apply transition-all duration-200;
+			@apply transition-all duration-300;
 			@apply font-light hover:font-medium;
 
 			.navmenu-submenu-icon {

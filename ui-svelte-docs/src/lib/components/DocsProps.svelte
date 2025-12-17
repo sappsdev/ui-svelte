@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Section, Table, useTable, Chip, Item } from 'ui-svelte';
+	import { Table, useTable, Chip } from 'ui-svelte';
 
 	type Prop = {
 		prop: string;
@@ -66,7 +66,4 @@
 	{/if}
 {/snippet}
 
-<Section>
-	<h4>The component accepts the following props:</h4>
-	<Table table={propsTable} size="sm" />
-</Section>
+<Table table={propsTable} size="sm" />

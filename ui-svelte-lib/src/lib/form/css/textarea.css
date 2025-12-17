@@ -111,7 +111,7 @@
 
 	.textarea-control-input {
 		@apply appearance-none flex-1 w-full border-none outline-none;
-		@apply placeholder:transition-opacity placeholder:duration-200;
+		@apply placeholder:transition-opacity placeholder:duration-300;
 		@apply bg-transparent;
 		@apply min-h-12;
 	}

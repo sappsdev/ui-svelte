@@ -169,7 +169,7 @@
 
 		.carousel-header-nav {
 			@apply flex items-center justify-center w-12 h-12 rounded-full;
-			@apply bg-surface text-on-surface transition-all duration-200;
+			@apply bg-surface text-on-surface transition-all duration-300;
 			@apply border border-muted shadow-sm;
 			@apply hover:bg-muted hover:scale-105 active:scale-95;
 			@apply disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-surface disabled:hover:scale-100;

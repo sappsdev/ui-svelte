@@ -9,7 +9,7 @@
 		overlayClass?: string;
 		children: Snippet;
 		cover?: string;
-		variant?:
+		color?:
 			| 'primary'
 			| 'secondary'
 			| 'muted'
@@ -18,10 +18,9 @@
 			| 'warning'
 			| 'danger'
 			| 'surface'
-			| 'ghost';
-		isSolid?: boolean;
+			| 'default';
+		variant?: 'solid' | 'soft' | 'ghost';
 		isBoxed?: boolean;
-		hasOverlay?: boolean;
 	};
 
 	let {
@@ -30,31 +29,34 @@
 		coverClass,
 		overlayClass,
 		cover,
-		hasOverlay,
+		color = 'default',
 		variant = 'ghost',
-		isSolid,
 		children,
 		isBoxed
 	}: Props = $props();
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
 		success: 'is-success',
 		info: 'is-info',
-		warning: 'is-warning',
 		danger: 'is-danger',
+		warning: 'is-warning',
 		surface: 'is-surface',
+		default: 'is-default'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
 		ghost: 'is-ghost'
 	};
 </script>
 
-<div class={cn('section', variantClasses[variant], isSolid && 'is-solid', rootClass)}>
+<div class={cn('section', variants[variant], colors[color], rootClass)}>
 	{#if cover}
 		<img src={cover} alt="cover" class={cn('section-cover', coverClass)} />
-	{/if}
-	{#if hasOverlay}
 		<div class={cn('section-overlay', overlayClass)}></div>
 	{/if}
 	<div class={cn('section-body', isBoxed && 'boxed', bodyClass)}>

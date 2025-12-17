@@ -7,7 +7,7 @@
 		header?: Snippet;
 		footer?: Snippet;
 		cover?: string;
-		variant?:
+		color?:
 			| 'primary'
 			| 'secondary'
 			| 'muted'
@@ -16,16 +16,14 @@
 			| 'warning'
 			| 'danger'
 			| 'surface'
-			| 'outlined'
-			| 'ghost';
+			| 'default';
+		variant?: 'solid' | 'soft' | 'outlined' | 'ghost';
 		rootClass?: string;
 		headerClass?: string;
 		footerClass?: string;
 		bodyClass?: string;
 		coverClass?: string;
 		overlayClass?: string;
-		isSolid?: boolean;
-		hasOverlay?: boolean;
 	};
 
 	const {
@@ -34,35 +32,38 @@
 		footer,
 		rootClass,
 		cover,
+		color = 'default',
 		variant = 'outlined',
 		headerClass,
 		bodyClass,
 		footerClass,
 		coverClass,
-		overlayClass,
-		isSolid,
-		hasOverlay
+		overlayClass
 	}: Props = $props();
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
 		success: 'is-success',
 		info: 'is-info',
-		warning: 'is-warning',
 		danger: 'is-danger',
+		warning: 'is-warning',
 		surface: 'is-surface',
+		default: 'is-default'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
 		outlined: 'is-outlined',
 		ghost: 'is-ghost'
 	};
 </script>
 
-<div class={cn('card', variantClasses[variant], isSolid && 'is-solid', rootClass)}>
+<div class={cn('card', colors[color], variants[variant], rootClass)}>
 	{#if cover}
 		<img src={cover} alt="cover" class={cn('card-cover', coverClass)} />
-	{/if}
-	{#if hasOverlay}
 		<div class={cn('card-overlay', overlayClass)}></div>
 	{/if}
 	{#if header}

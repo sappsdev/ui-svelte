@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { Button, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	const variantOptions = [
+	const colorOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
@@ -14,19 +12,24 @@
 		{ id: 'danger', label: 'Danger' },
 		{ id: 'warning', label: 'Warning' },
 		{ id: 'surface', label: 'Surface' },
+		{ id: 'default', label: 'Default' }
+	];
+
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' },
 		{ id: 'outlined', label: 'Outlined' },
 		{ id: 'ghost', label: 'Ghost' }
 	];
 
+	let color: any = $state('default');
 	let variant: any = $state('outlined');
-	let hasHeader = $state(false);
-	let hasFooter = $state(false);
+	let hasHeader = $state(true);
+	let hasFooter = $state(true);
 	let hasCover = $state(false);
-	let isSolid = $state(false);
-	let hasOverlay = $state(false);
 
 	let hasProps = $derived(
-		[variant !== 'outlined', hasHeader, hasFooter, hasCover, isSolid, hasOverlay].some(Boolean)
+		[color !== 'default', variant !== 'outlined', hasHeader, hasFooter, hasCover].some(Boolean)
 	);
 
 	let code = $derived(() => {
@@ -38,15 +41,14 @@
 
 		const componentLines = [
 			`<Card`,
+			color !== 'default' && `\tcolor="${color}"`,
 			variant !== 'outlined' && `\tvariant="${variant}"`,
 			hasCover && `\tcover="/path/to/image.jpg"`,
-			isSolid && `\tisSolid`,
-			hasOverlay && `\thasOverlay`,
 			`>`,
 			hasHeader && `\t{#snippet header()}`,
 			hasHeader && `\t\t<h4>Card Header</h4>`,
 			hasHeader && `\t{/snippet}`,
-			`\t<p>Card content goes here.</p>`,
+			`\t<p>Card body content goes here.</p>`,
 			hasFooter && `\t{#snippet footer()}`,
 			hasFooter && `\t\t<Button>Action</Button>`,
 			hasFooter && `\t{/snippet}`,
@@ -62,8 +64,13 @@
 		{ prop: 'footer', type: 'Snippet', initial: '' },
 		{ prop: 'cover', type: 'string', initial: '' },
 		{
+			prop: 'color',
+			type: 'primary | secondary | muted | success | info | warning | danger | surface | default',
+			initial: 'default'
+		},
+		{
 			prop: 'variant',
-			type: 'primary | secondary | muted | success | info | warning | danger | surface | outlined | ghost',
+			type: 'solid | soft | outlined | ghost',
 			initial: 'outlined'
 		},
 		{ prop: 'rootClass', type: 'string', initial: '' },
@@ -71,15 +78,9 @@
 		{ prop: 'bodyClass', type: 'string', initial: '' },
 		{ prop: 'footerClass', type: 'string', initial: '' },
 		{ prop: 'coverClass', type: 'string', initial: '' },
-		{ prop: 'overlayClass', type: 'string', initial: '' },
-		{ prop: 'isSolid', type: 'boolean', initial: 'false' },
-		{ prop: 'hasOverlay', type: 'boolean', initial: 'false' }
+		{ prop: 'overlayClass', type: 'string', initial: '' }
 	];
 </script>
-
-<DocsHeader title="Card" llmUrl="https://ui-svelte.sappsdev.com/llm/display/card.md">
-	Cards are surfaces that display content and actions on a single topic.
-</DocsHeader>
 
 {#snippet header()}
 	<h4>Card Header</h4>
@@ -89,190 +90,108 @@
 	<Button size="sm">Action</Button>
 {/snippet}
 
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		<Card
-			{variant}
-			header={hasHeader ? header : undefined}
-			footer={hasFooter ? footer : undefined}
-			cover={hasCover ? 'https://picsum.photos/400/200' : undefined}
-			{isSolid}
-			{hasOverlay}
-		>
-			<p>This is the card body content. You can add any content here.</p>
-		</Card>
-	</DocsPreview>
-	<Card>
-		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-		<div class="grid-2 gap-2">
+<DocsHeader title="Card" llmUrl="https://ui-svelte.sappsdev.com/llm/display/card.md">
+	Cards are versatile containers for grouping related content and actions.
+</DocsHeader>
+
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				bind:value={variant}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
 			<Checkbox bind:checked={hasHeader} label="Header" />
 			<Checkbox bind:checked={hasFooter} label="Footer" />
-			<Checkbox bind:checked={hasCover} label="Cover" />
-			<Checkbox bind:checked={isSolid} label="Solid" />
-			<Checkbox bind:checked={hasOverlay} label="Overlay" />
+			<Checkbox bind:checked={hasCover} label="Cover Image" />
 		</div>
+
+		<div class="doc-preview">
+			<Card
+				{color}
+				{variant}
+				cover={hasCover ? 'https://picsum.photos/seed/card/400/200' : undefined}
+				header={hasHeader ? header : undefined}
+				footer={hasFooter ? footer : undefined}
+				rootClass="max-w-sm w-full"
+			>
+				<p>This is the card body content. You can place any content here.</p>
+			</Card>
+		</div>
+
+		<Code lang="svelte" code={code()} />
 	</Card>
-	<DocsCode code={code()} />
 </Section>
 
 <Section>
-	<Card bodyClass="grid-3 md:grid-5 center">
-		{#snippet header()}
-			<h4>Card Variants</h4>
-		{/snippet}
-		{#each variantOptions as item}
-			<Card variant={item.id as any}>
-				<p class="text-sm">{item.label}</p>
-			</Card>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
-	<Card bodyClass="grid-3 md:grid-5 center">
-		{#snippet header()}
-			<h4>Card Solid</h4>
-		{/snippet}
-		{#each variantOptions as item}
-			<Card variant={item.id as any} isSolid>
-				<p class="text-sm">{item.label}</p>
-			</Card>
-		{/each}
-	</Card>
-</Section>
-
-<Section bodyClass="grid-2 md:grid-4">
-	<!-- Card con cover y overlay -->
-	<Card cover="https://picsum.photos/seed/stream/400/300" hasOverlay>
-		<p class="text-xs text-muted">WHAT TO WATCH</p>
-		<h4>Stream the Acme event</h4>
-	</Card>
-
-	<!-- Card con cover, estilo nature -->
-	<Card cover="https://picsum.photos/seed/plant/400/300" hasOverlay>
-		<p class="text-xs text-muted">PLANT A TREE</p>
-		<h4>Contribute to the planet</h4>
-	</Card>
-
-	<!-- Card con cover tech -->
-	<Card cover="https://picsum.photos/seed/laptop/400/300" hasOverlay>
-		<p class="text-xs text-muted">SUPERCHARGED</p>
-		<h4>Creates beauty like a beast</h4>
-	</Card>
-
-	<!-- Card simple con header y footer -->
+	<h4>Variants & Colors</h4>
 	<Card>
-		{#snippet header()}
-			<h4>Simple Card</h4>
-		{/snippet}
-		<p class="text-sm">
-			This card demonstrates the classic structure with header, body, and footer.
-		</p>
-		{#snippet footer()}
-			<Button size="sm" variant="primary">Learn More</Button>
-		{/snippet}
-	</Card>
-
-	<!-- Card product con cover y acción -->
-	<Card cover="https://picsum.photos/seed/camera/400/300" hasOverlay>
-		<p class="text-xs" style="color: #4ade80;">NEW</p>
-		<h4>Acme camera</h4>
-		{#snippet footer()}
-			<div class="flex between items-center">
-				<p class="text-xs text-muted">Available soon. Get notified.</p>
-				<Button size="sm" variant="info">Notify Me</Button>
+		{#each variantOptions as item}
+			<div class="wrap gap-4 center">
+				{#each colorOptions as colorItem}
+					<Card variant={item.id as any} color={colorItem.id as any} rootClass="p-4">
+						<span class="text-sm">{item.label} {colorItem.label}</span>
+					</Card>
+				{/each}
 			</div>
-		{/snippet}
-	</Card>
-
-	<!-- Card lifestyle con cover -->
-	<Card cover="https://picsum.photos/seed/wellness/400/300" hasOverlay>
-		<p class="text-xs text-muted">YOUR DAY YOUR WAY</p>
-		<h4>Your checklist for better sleep</h4>
-		{#snippet footer()}
-			<div class="flex between items-center">
-				<div class="flex items-center gap-2">
-					<span class="text-xs">🧘 Breathing App</span>
-				</div>
-				<Button size="sm" variant="ghost">Get App</Button>
-			</div>
-		{/snippet}
-	</Card>
-
-	<!-- Card variant success solid -->
-	<Card variant="success" isSolid>
-		{#snippet header()}
-			<h4>Success!</h4>
-		{/snippet}
-		<p class="text-sm">Your payment has been processed successfully.</p>
-		{#snippet footer()}
-			<Button size="sm" variant="ghost">View Receipt</Button>
-		{/snippet}
-	</Card>
-
-	<!-- Card variant warning -->
-	<Card variant="warning">
-		{#snippet header()}
-			<h4>⚠️ Attention Required</h4>
-		{/snippet}
-		<p class="text-sm">Your subscription expires in 3 days. Renew now to avoid interruption.</p>
-		{#snippet footer()}
-			<div class="flex gap-2">
-				<Button size="sm" variant="ghost">Remind Later</Button>
-				<Button size="sm" variant="warning">Renew Now</Button>
-			</div>
-		{/snippet}
+		{/each}
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Usage Examples</h4>
-		{/snippet}
-		<Code
-			lang="svelte"
-			code={`<!-- Card with Cover & Overlay -->
-<Card cover="https://picsum.photos/400/300" hasOverlay>
-	<p class="text-xs text-muted">CATEGORY</p>
-	<h4>Card Title</h4>
-</Card>
-
-<!-- Card with Header & Footer -->
-<Card>
-	{#snippet header()}
-		<h4>Card Header</h4>
-	{/snippet}
-	<p>Card content goes here.</p>
-	{#snippet footer()}
-		<Button size="sm">Action</Button>
-	{/snippet}
-</Card>
-
-<!-- Card with Footer Actions -->
-<Card cover="/image.jpg" hasOverlay>
-	<p class="text-xs">NEW</p>
-	<h4>Product Name</h4>
-	{#snippet footer()}
-		<div class="flex between items-center">
-			<p class="text-xs text-muted">Description</p>
-			<Button size="sm" variant="info">Notify Me</Button>
+	<h4>With Header & Footer</h4>
+	<Card>
+		<div class="wrap gap-4 center">
+			{#each variantOptions as item}
+				<Card variant={item.id as any} color="primary" rootClass="max-w-xs">
+					{#snippet header()}
+						<h5>{item.label} Header</h5>
+					{/snippet}
+					<p>Card content with header and footer snippets.</p>
+					{#snippet footer()}
+						<Button size="sm" color="muted">Action</Button>
+					{/snippet}
+				</Card>
+			{/each}
 		</div>
-	{/snippet}
-</Card>
-
-<!-- Card with Variant & Solid -->
-<Card variant="success" isSolid>
-	{#snippet header()}
-		<h4>Success!</h4>
-	{/snippet}
-	<p>Your action was completed successfully.</p>
-	{#snippet footer()}
-		<Button size="sm" variant="ghost">View Details</Button>
-	{/snippet}
-</Card>`}
-		/>
 	</Card>
 </Section>
 
-<DocsProps {props} />
+<Section>
+	<h4>With Cover Image</h4>
+	<Card>
+		<div class="wrap gap-4 center">
+			{#each variantOptions as item}
+				<Card
+					variant={item.id as any}
+					cover="https://picsum.photos/seed/{item.id}/300/150"
+					rootClass="max-w-xs"
+				>
+					{#snippet header()}
+						<h5>{item.label} Card</h5>
+					{/snippet}
+					<p>Card with a cover image.</p>
+				</Card>
+			{/each}
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<h4>The component accepts the following props:</h4>
+	<DocsProps {props} />
+</Section>

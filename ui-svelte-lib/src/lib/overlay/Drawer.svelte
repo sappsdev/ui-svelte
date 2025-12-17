@@ -5,7 +5,7 @@
 	import { fade } from 'svelte/transition';
 	import { afterNavigate } from '$app/navigation';
 	import { Dismiss24RegularIcon } from '$lib/icons/index.js';
-	import { Icon } from '$lib/index.js';
+	import { Icon, IconButton } from '$lib/index.js';
 
 	type Props = {
 		open: boolean;
@@ -119,9 +119,12 @@
 			{/if}
 			{#if !hideCloseButton}
 				<div class="btn-close">
-					<button onclick={() => (open = false)}>
-						<Icon icon={Dismiss24RegularIcon} class="btn-close-icon" />
-					</button>
+					<IconButton
+						icon={Dismiss24RegularIcon}
+						variant="ghost"
+						size="xs"
+						onclick={() => (open = false)}
+					/>
 				</div>
 			{/if}
 		</div>

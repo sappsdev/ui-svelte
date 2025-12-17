@@ -13,7 +13,7 @@
 
 	.pie-chart-slice {
 		stroke-width: 2;
-		@apply cursor-pointer transition-all duration-200 ease-in-out;
+		@apply cursor-pointer transition-all duration-300 ease-in-out;
 		transform-origin: center;
 	}
 
@@ -128,7 +128,7 @@
 	}
 
 	.pie-chart-legend-item {
-		@apply flex items-center gap-2 cursor-pointer transition-opacity duration-200;
+		@apply flex items-center gap-2 cursor-pointer transition-opacity duration-300;
 	}
 
 	.pie-chart-legend-item:hover {

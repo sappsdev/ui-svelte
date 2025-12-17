@@ -17,14 +17,15 @@
 	};
 </script>
 
-<Section bodyClass="prose">
-	<div class="row justify-between">
+<Section>
+	<div class="row justify-between items-center">
 		<h1>{title}</h1>
 		{#if llmUrl}
 			<Button
 				onclick={handleCopy}
 				startIcon={clipboard.copied ? CheckmarkRegularIcon : CopyRegularIcon}
-				variant="muted"
+				variant="solid"
+				color="primary"
 				size="sm">Copy LLM</Button
 			>
 		{/if}

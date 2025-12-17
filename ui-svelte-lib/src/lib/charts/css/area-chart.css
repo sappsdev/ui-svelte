@@ -160,7 +160,7 @@
 	}
 
 	.area-chart-point {
-		@apply cursor-pointer transition-all duration-200 ease-in-out;
+		@apply cursor-pointer transition-all duration-300 ease-in-out;
 		stroke-width: 2;
 	}
 
@@ -222,7 +222,7 @@
 	}
 
 	.area-chart-legend-item {
-		@apply flex items-center gap-2 cursor-pointer transition-opacity duration-200;
+		@apply flex items-center gap-2 cursor-pointer transition-opacity duration-300;
 	}
 
 	.area-chart-legend-item:hover {

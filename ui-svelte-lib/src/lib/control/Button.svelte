@@ -11,17 +11,9 @@
 		href?: string;
 		target?: '_self' | '_blank' | '_parent' | '_top';
 		type?: 'button' | 'submit' | 'reset';
-		variant?:
-			| 'primary'
-			| 'secondary'
-			| 'muted'
-			| 'success'
-			| 'info'
-			| 'danger'
-			| 'warning'
-			| 'outlined'
-			| 'ghost';
-		size?: 'xs' | 'sm' | 'md' | 'lg';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft' | 'outlined' | 'ghost';
+		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 		class?: string;
 		isLoading?: boolean;
 		startIcon?: IconData;
@@ -37,30 +29,35 @@
 		href,
 		target,
 		type = 'button',
-		variant = 'primary',
+		color = 'primary',
+		variant = 'solid',
 		size = 'md',
 		class: className,
 		startIcon,
 		endIcon,
 		isLoading,
 		isWide,
-		isDisabled,
-		isSolid
+		isDisabled
 	}: Props = $props();
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
 		success: 'is-success',
 		info: 'is-info',
 		danger: 'is-danger',
-		warning: 'is-warning',
+		warning: 'is-warning'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
 		outlined: 'is-outlined',
 		ghost: 'is-ghost'
 	};
 
-	const sizeClasses = {
+	const sizes = {
 		xs: 'is-xs',
 		sm: 'is-sm',
 		md: 'is-md',
@@ -69,14 +66,7 @@
 	};
 
 	let baseClasses = $derived(
-		cn(
-			'btn',
-			variantClasses[variant],
-			sizeClasses[size],
-			isSolid && 'is-solid',
-			isWide && 'is-wide',
-			className
-		)
+		cn('btn', variants[variant], sizes[size], colors[color], isWide && 'is-wide', className)
 	);
 </script>
 
@@ -84,7 +74,7 @@
 	{#if startIcon}
 		<Icon icon={startIcon} class={cn(isLoading && 'invisible')} />
 	{/if}
-	<span class:invisible={isLoading}>{@render children()}</span>
+	<span class:invisible={isLoading} class="btn-label">{@render children()}</span>
 	{#if endIcon}
 		<Icon icon={endIcon} class={cn(isLoading && 'invisible')} />
 	{/if}

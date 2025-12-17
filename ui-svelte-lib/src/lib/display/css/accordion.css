@@ -51,14 +51,14 @@
 		}
 
 		.accordion-item {
-			@apply transition-all duration-200;
+			@apply transition-all duration-300;
 
 			&.is-disabled {
 				@apply opacity-50 pointer-events-none;
 			}
 
 			.accordion-header {
-				@apply flex justify-between items-center gap-3 px-4 py-3 cursor-pointer select-none transition-all duration-200;
+				@apply flex justify-between items-center gap-3 px-4 py-3 cursor-pointer select-none transition-all duration-300;
 
 				.accordion-start {
 					@apply flex items-center gap-3 flex-1;
@@ -76,7 +76,7 @@
 					@apply flex items-center;
 
 					.accordion-arrow {
-						@apply size-5 transition-transform duration-200 text-on-muted;
+						@apply size-5 transition-transform duration-300 text-on-muted;
 						&.is-active {
 							@apply rotate-180;
 						}

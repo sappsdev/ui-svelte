@@ -14,7 +14,7 @@
             @apply flex flex-col items-center justify-center gap-1;
             @apply flex-1 py-3 px-2;
             @apply cursor-pointer select-none outline-none;
-            @apply transition-all duration-200;
+            @apply transition-all duration-300;
             @apply relative;
 
             .bottomnav-icon-wrapper {
@@ -23,12 +23,12 @@
 
             .bottomnav-icon {
                 @apply h-6 w-6 shrink-0;
-                @apply transition-all duration-200;
+                @apply transition-all duration-300;
             }
 
             .bottomnav-label {
                 @apply text-xs font-medium whitespace-nowrap;
-                @apply transition-all duration-200;
+                @apply transition-all duration-300;
             }
 
             .bottomnav-badge {
@@ -57,7 +57,7 @@
                     @apply flex items-center justify-center;
                     @apply bg-primary text-on-primary;
                     @apply rounded-full shadow-lg;
-                    @apply transition-all duration-200;
+                    @apply transition-all duration-300;
                 }
 
                 .bottomnav-icon {
@@ -202,7 +202,7 @@
                     @apply absolute bottom-0 left-1/2 -translate-x-1/2;
                     @apply w-0 h-0.5 rounded-full;
                     @apply bg-primary;
-                    @apply transition-all duration-200;
+                    @apply transition-all duration-300;
                 }
 
                 &.is-active {
@@ -233,7 +233,7 @@
                     @apply absolute inset-x-2 top-1 bottom-1;
                     @apply rounded-xl;
                     @apply bg-transparent;
-                    @apply transition-all duration-200;
+                    @apply transition-all duration-300;
                     z-index: -1;
                 }
             }

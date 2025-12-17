@@ -8,7 +8,7 @@
 			.radio {
 				@apply relative appearance-none border-2 border-muted rounded-full cursor-pointer;
 				@apply focus:outline-none;
-				@apply transition-colors duration-200;
+				@apply transition-colors duration-300;
 
 				&.is-primary {
 					@apply checked:border-primary;

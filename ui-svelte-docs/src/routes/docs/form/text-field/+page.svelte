@@ -1,52 +1,60 @@
 <script lang="ts">
-	import { Card, Checkbox, Code, Section, Select, Tabs } from 'ui-svelte';
-	import { HeartLinearIcon, Search24RegularIcon } from '$lib/icons';
+	import { TextField, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
+	import { Search24RegularIcon, Person24RegularIcon } from '$lib/icons';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
-	import { TextField } from 'ui-svelte';
 
-	const variantOptions = [
+	const colorOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
+		{ id: 'success', label: 'Success' },
+		{ id: 'info', label: 'Info' },
+		{ id: 'danger', label: 'Danger' },
+		{ id: 'warning', label: 'Warning' }
+	];
+
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' },
 		{ id: 'outlined', label: 'Outlined' },
 		{ id: 'line', label: 'Line' }
 	];
 
 	const sizeOptions = [
-		{ id: 'sm', label: 'Small' },
-		{ id: 'md', label: 'Medium' },
-		{ id: 'lg', label: 'Large' }
+		{ id: 'sm', label: 'sm' },
+		{ id: 'md', label: 'md' },
+		{ id: 'lg', label: 'lg' }
 	];
 
 	const typeOptions = [
 		{ id: 'text', label: 'Text' },
-		{ id: 'email', label: 'Email' },
 		{ id: 'password', label: 'Password' },
+		{ id: 'email', label: 'Email' },
 		{ id: 'number', label: 'Number' },
 		{ id: 'tel', label: 'Tel' },
 		{ id: 'url', label: 'URL' }
 	];
 
+	let color: any = $state('muted');
 	let variant: any = $state('outlined');
 	let size: any = $state('md');
 	let type: any = $state('text');
 
-	let startIcon = $state(false);
-	let endIcon = $state(false);
-	let startText = $state('');
-	let endText = $state('');
-	let label = $state('');
-	let helpText = $state('');
-	let errorText = $state('');
-
+	let startIcon: any = $state(false);
+	let endIcon: any = $state(false);
+	let startText = $state(false);
+	let endText = $state(false);
 	let isFloatLabel = $state(false);
-	let isSolid = $state(false);
+	let hasLabel = $state(true);
+	let hasHelpText = $state(false);
+	let hasErrorText = $state(false);
+
+	let value = $state('');
 
 	let hasProps = $derived(
 		[
+			color !== 'muted',
 			variant !== 'outlined',
 			size !== 'md',
 			type !== 'text',
@@ -54,11 +62,10 @@
 			endIcon,
 			startText,
 			endText,
-			label,
-			helpText,
-			errorText,
 			isFloatLabel,
-			isSolid
+			hasLabel,
+			hasHelpText,
+			hasErrorText
 		].some(Boolean)
 	);
 
@@ -66,392 +73,240 @@
 		const scriptLines = [
 			`<script lang="ts">`,
 			`\timport { TextField } from 'ui-svelte';`,
-			startIcon || endIcon
-				? `\timport { Search24RegularIcon, HeartLinearIcon } from '$lib/icons';`
-				: '',
-			`\n\tlet value = $state('');`,
+			(startIcon || endIcon) &&
+				`\timport { Search24RegularIcon, Person24RegularIcon } from '$lib/icons';`,
+			``,
+			`\tlet value = $state('');`,
 			`<\/script>`
 		].filter(Boolean);
 
 		const componentLines = [
 			hasProps && `<TextField`,
-			hasProps && `\tname="textfield"`,
-			hasProps && `\tplaceholder="Enter text..."`,
+			hasProps && `\tbind:value`,
+			hasLabel && !isFloatLabel && `\tlabel="Label"`,
+			hasLabel && isFloatLabel && `\tlabel="Label"`,
+			isFloatLabel && `\tisFloatLabel`,
 			type !== 'text' && `\ttype="${type}"`,
-			label && `\tlabel="${label}"`,
+			color !== 'muted' && `\tcolor="${color}"`,
 			variant !== 'outlined' && `\tvariant="${variant}"`,
 			size !== 'md' && `\tsize="${size}"`,
 			startIcon && `\tstartIcon={Search24RegularIcon}`,
-			endIcon && `\tendIcon={HeartLinearIcon}`,
-			startText && `\tstartText="https://"`,
-			endText && `\tendText=".com"`,
-			helpText && `\thelpText="This is a help text"`,
-			errorText && `\terrorText="This field is required"`,
-			isFloatLabel && `\tisFloatLabel`,
-			isSolid && `\tisSolid`,
-			hasProps && `\tbind:value`,
+			endIcon && `\tendIcon={Person24RegularIcon}`,
+			startText && `\tstartText="$"`,
+			endText && `\tendText=".00"`,
+			hasHelpText && `\thelpText="This is a help text"`,
+			hasErrorText && `\terrorText="This field is required"`,
+			hasProps && `\tplaceholder="Placeholder"`,
 			hasProps && `/>`,
-			!hasProps && `<TextField name="textfield" placeholder="Enter text..." bind:value />`
+			!hasProps && `<TextField bind:value placeholder="Placeholder" />`
 		].filter(Boolean);
 
 		return [...scriptLines, ...componentLines].join('\n');
 	});
 
 	const props = [
-		{ prop: 'name', type: 'string', initial: '', required: true },
-		{ prop: 'el', type: 'HTMLInputElement', initial: '' },
 		{ prop: 'value', type: 'string | number', initial: '' },
 		{ prop: 'defaultValue', type: 'string', initial: '' },
 		{ prop: 'placeholder', type: 'string', initial: '' },
 		{ prop: 'type', type: 'text | password | email | number | tel | url', initial: 'text' },
-		{ prop: 'rootClass', type: 'string', initial: '' },
-		{ prop: 'controlClass', type: 'string', initial: '' },
+		{ prop: 'name', type: 'string', initial: '' },
+		{ prop: 'label', type: 'string', initial: '' },
+		{ prop: 'isFloatLabel', type: 'boolean', initial: 'false' },
+		{ prop: 'helpText', type: 'string', initial: '' },
+		{ prop: 'errorText', type: 'string', initial: '' },
+		{
+			prop: 'color',
+			type: 'primary | secondary | muted | success | info | danger | warning',
+			initial: 'muted'
+		},
+		{
+			prop: 'variant',
+			type: 'solid | soft | outlined | line',
+			initial: 'outlined'
+		},
+		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
 		{ prop: 'startIcon', type: 'IconData', initial: '' },
 		{ prop: 'endIcon', type: 'IconData', initial: '' },
 		{ prop: 'startText', type: 'string', initial: '' },
 		{ prop: 'endText', type: 'string', initial: '' },
+		{ prop: 'rootClass', type: 'string', initial: '' },
+		{ prop: 'controlClass', type: 'string', initial: '' },
 		{ prop: 'onchange', type: '(value: unknown) => void', initial: '' },
 		{ prop: 'oninput', type: '(value: unknown) => void', initial: '' },
-		{ prop: 'variant', type: 'primary | secondary | muted | outlined | line', initial: 'outlined' },
-		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
-		{ prop: 'label', type: 'string', initial: '' },
-		{ prop: 'islabelActive', type: 'boolean', initial: 'false' },
-		{ prop: 'helpText', type: 'string', initial: '' },
-		{ prop: 'errorText', type: 'string', initial: '' },
-		{ prop: 'autocomplete', type: "HTMLInputAttributes['autocomplete']", initial: '' },
-		{ prop: 'min', type: "HTMLInputAttributes['min']", initial: '' },
-		{ prop: 'max', type: "HTMLInputAttributes['max']", initial: '' },
-		{ prop: 'maxlength', type: "HTMLInputAttributes['maxlength']", initial: '' },
-		{ prop: 'isFloatLabel', type: 'boolean', initial: 'false' },
-		{ prop: 'isSolid', type: 'boolean', initial: 'false' }
+		{ prop: 'autocomplete', type: 'HTMLInputAttributes[autocomplete]', initial: '' },
+		{ prop: 'min', type: 'HTMLInputAttributes[min]', initial: '' },
+		{ prop: 'max', type: 'HTMLInputAttributes[max]', initial: '' },
+		{ prop: 'maxlength', type: 'HTMLInputAttributes[maxlength]', initial: '' }
 	];
-
-	const variantDescriptions = [
-		{
-			variant: 'outlined',
-			description: 'Default variant with a subtle border that highlights on focus'
-		},
-		{
-			variant: 'primary',
-			description: 'Filled background with primary color theme'
-		},
-		{
-			variant: 'secondary',
-			description: 'Filled background with secondary color theme'
-		},
-		{
-			variant: 'muted',
-			description: 'Subtle filled background for less prominent inputs'
-		},
-		{
-			variant: 'line',
-			description: 'Minimalist style with only bottom border'
-		}
-	];
-
-	let value = $state('');
 </script>
 
-<DocsHeader title="TextField">
-	Text fields allow users to enter and edit single-line text. They support various input types,
-	labels, help text, validation states, and icon decorations.
+<DocsHeader title="TextField" llmUrl="https://ui-svelte.sappsdev.com/llm/form/text-field.md">
+	TextFields allow users to enter and edit text data.
 </DocsHeader>
 
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		<TextField
-			name="textfield"
-			placeholder="Enter text..."
-			{variant}
-			{size}
-			{type}
-			{isSolid}
-			startIcon={startIcon ? Search24RegularIcon : undefined}
-			endIcon={endIcon ? HeartLinearIcon : undefined}
-			{startText}
-			{endText}
-			label={label || undefined}
-			helpText={helpText || undefined}
-			errorText={errorText || undefined}
-			isFloatLabel={label && isFloatLabel ? isFloatLabel : undefined}
-			bind:value
-		/>
-	</DocsPreview>
-	<Card>
-		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-		<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
-		<Select label="Type" size="sm" options={typeOptions} bind:value={type} />
-		<div class="grid-2 gap-2">
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				bind:value={variant}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Size"
+				size="sm"
+				options={sizeOptions}
+				bind:value={size}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Type"
+				size="sm"
+				options={typeOptions}
+				bind:value={type}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
 			<Checkbox bind:checked={startIcon} label="startIcon" />
 			<Checkbox bind:checked={endIcon} label="endIcon" />
-			<Checkbox
-				onchange={(v) => (v ? (startText = 'https://') : (startText = ''))}
-				label="startText"
-			/>
-			<Checkbox onchange={(v) => (v ? (endText = '.com') : (endText = ''))} label="endText" />
-			<Checkbox onchange={(v) => (v ? (label = 'Label') : (label = ''))} label="Label" />
-			{#if label}
-				<Checkbox bind:checked={isFloatLabel} label="floatLabel" />
-			{/if}
-			<Checkbox
-				onchange={(v) => (v ? (helpText = 'This is a help text') : (helpText = ''))}
-				label="helpText"
-			/>
-			<Checkbox
-				onchange={(v) => (v ? (errorText = 'This field is required') : (errorText = ''))}
-				label="errorText"
-			/>
-			<Checkbox bind:checked={isSolid} label="solid" />
+			<Checkbox bind:checked={startText} label="startText" />
+			<Checkbox bind:checked={endText} label="endText" />
+			<Checkbox bind:checked={hasLabel} label="Label" />
+			<Checkbox bind:checked={isFloatLabel} label="Float Label" />
+			<Checkbox bind:checked={hasHelpText} label="Help Text" />
+			<Checkbox bind:checked={hasErrorText} label="Error Text" />
 		</div>
+
+		<div class="doc-preview">
+			<TextField
+				bind:value
+				startIcon={startIcon ? Search24RegularIcon : undefined}
+				endIcon={endIcon ? Person24RegularIcon : undefined}
+				startText={startText ? '$' : undefined}
+				endText={endText ? '.00' : undefined}
+				label={hasLabel ? 'Label' : undefined}
+				{isFloatLabel}
+				{color}
+				{variant}
+				{size}
+				{type}
+				helpText={hasHelpText ? 'This is a help text' : undefined}
+				errorText={hasErrorText ? 'This field is required' : undefined}
+				placeholder="Placeholder"
+			/>
+		</div>
+		<Code lang="svelte" code={code()} />
 	</Card>
-	<DocsCode code={code()} />
 </Section>
 
 <Section>
+	<h4>Variants & Colors</h4>
+	<Card>
+		{#each variantOptions as item}
+			<div class="wrap gap-4 center">
+				{#each colorOptions as colorItem}
+					<TextField
+						variant={item.id as any}
+						color={colorItem.id as any}
+						placeholder={item.label + ' ' + colorItem.label}
+					/>
+				{/each}
+			</div>
+		{/each}
+	</Card>
+</Section>
+
+<Section>
+	<h4>Sizes</h4>
+	<Card>
+		{#each variantOptions as item}
+			<div class="wrap gap-4 center">
+				{#each sizeOptions as sizeItem}
+					<TextField
+						variant={item.id as any}
+						size={sizeItem.id as any}
+						placeholder={item.label + ' ' + sizeItem.label}
+					/>
+				{/each}
+			</div>
+		{/each}
+	</Card>
+</Section>
+
+<Section>
+	<h4>With Icons & Text</h4>
+	<Card>
+		<div class="wrap gap-4 center">
+			<TextField startIcon={Search24RegularIcon} placeholder="Search..." />
+			<TextField endIcon={Person24RegularIcon} placeholder="Username" />
+			<TextField
+				startIcon={Search24RegularIcon}
+				endIcon={Person24RegularIcon}
+				placeholder="Both Icons"
+			/>
+		</div>
+		<div class="wrap gap-4 center">
+			<TextField startText="$" placeholder="Amount" />
+			<TextField endText=".00" placeholder="Price" />
+			<TextField startText="https://" endText=".com" placeholder="domain" />
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<h4>Labels</h4>
+	<Card>
+		<div class="wrap gap-4 center">
+			<TextField label="Standard Label" placeholder="Enter text..." />
+			<TextField label="Float Label" isFloatLabel placeholder="Enter text..." />
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<h4>Help & Error Text</h4>
+	<Card>
+		<div class="wrap gap-4 center">
+			<TextField
+				label="With Help Text"
+				helpText="This is helpful information"
+				placeholder="Enter text..."
+			/>
+			<TextField
+				label="With Error Text"
+				errorText="This field is required"
+				placeholder="Enter text..."
+			/>
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<h4>Input Types</h4>
+	<Card>
+		<div class="wrap gap-4 center">
+			{#each typeOptions as typeItem}
+				<TextField type={typeItem.id as any} placeholder={typeItem.label} label={typeItem.label} />
+			{/each}
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<h4>The component accepts the following props:</h4>
 	<DocsProps {props} />
-</Section>
-
-<Section bodyClass="grid-2 md:grid-3">
-	<!-- Outlined Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Outlined</h4>
-		{/snippet}
-		<TextField name="ex-outlined" placeholder="Enter text..." variant="outlined" />
-		{#snippet footer()}
-			<code class="text-xs">variant="outlined"</code>
-		{/snippet}
-	</Card>
-
-	<!-- Primary Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Primary</h4>
-		{/snippet}
-		<TextField name="ex-primary" placeholder="Enter text..." variant="primary" />
-		{#snippet footer()}
-			<code class="text-xs">variant="primary"</code>
-		{/snippet}
-	</Card>
-
-	<!-- Secondary Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Secondary</h4>
-		{/snippet}
-		<TextField name="ex-secondary" placeholder="Enter text..." variant="secondary" />
-		{#snippet footer()}
-			<code class="text-xs">variant="secondary"</code>
-		{/snippet}
-	</Card>
-
-	<!-- Muted Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Muted</h4>
-		{/snippet}
-		<TextField name="ex-muted" placeholder="Enter text..." variant="muted" />
-		{#snippet footer()}
-			<code class="text-xs">variant="muted"</code>
-		{/snippet}
-	</Card>
-
-	<!-- Line Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Line</h4>
-		{/snippet}
-		<TextField name="ex-line" placeholder="Enter text..." variant="line" />
-		{#snippet footer()}
-			<code class="text-xs">variant="line"</code>
-		{/snippet}
-	</Card>
-
-	<!-- Solid Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Solid</h4>
-		{/snippet}
-		<TextField name="ex-solid" placeholder="Enter text..." variant="primary" isSolid />
-		{#snippet footer()}
-			<code class="text-xs">variant="primary" isSolid</code>
-		{/snippet}
-	</Card>
-</Section>
-
-<Section bodyClass="grid-2 md:grid-3">
-	<!-- With Label -->
-	<Card>
-		{#snippet header()}
-			<h4>With Label</h4>
-		{/snippet}
-		<TextField name="ex-label" placeholder="Enter name..." label="Name" />
-		{#snippet footer()}
-			<code class="text-xs">label="Name"</code>
-		{/snippet}
-	</Card>
-
-	<!-- Float Label -->
-	<Card>
-		{#snippet header()}
-			<h4>Float Label</h4>
-		{/snippet}
-		<TextField name="ex-float" placeholder="Enter email..." label="Email" isFloatLabel />
-		{#snippet footer()}
-			<code class="text-xs">label="Email" isFloatLabel</code>
-		{/snippet}
-	</Card>
-
-	<!-- With Help Text -->
-	<Card>
-		{#snippet header()}
-			<h4>With Help Text</h4>
-		{/snippet}
-		<TextField name="ex-help" placeholder="Enter username..." helpText="Must be 3-20 characters" />
-		{#snippet footer()}
-			<code class="text-xs">helpText="..."</code>
-		{/snippet}
-	</Card>
-
-	<!-- With Error -->
-	<Card>
-		{#snippet header()}
-			<h4>With Error</h4>
-		{/snippet}
-		<TextField name="ex-error" placeholder="Enter email..." errorText="Invalid email format" />
-		{#snippet footer()}
-			<code class="text-xs">errorText="..."</code>
-		{/snippet}
-	</Card>
-
-	<!-- With Icons -->
-	<Card>
-		{#snippet header()}
-			<h4>With Icons</h4>
-		{/snippet}
-		<TextField
-			name="ex-icons"
-			placeholder="Search..."
-			startIcon={Search24RegularIcon}
-			endIcon={HeartLinearIcon}
-		/>
-		{#snippet footer()}
-			<code class="text-xs">startIcon endIcon</code>
-		{/snippet}
-	</Card>
-
-	<!-- With Text Addons -->
-	<Card>
-		{#snippet header()}
-			<h4>Text Addons</h4>
-		{/snippet}
-		<TextField name="ex-addons" placeholder="domain" startText="https://" endText=".com" />
-		{#snippet footer()}
-			<code class="text-xs">startText endText</code>
-		{/snippet}
-	</Card>
-</Section>
-
-<Section>
-	<Card variant="info">
-		<div class="column gap-3">
-			<h4 class="font-semibold">💡 Pro Tips</h4>
-			<ul class="text-sm space-y-2 list-disc list-inside">
-				<li>
-					<strong>Float Labels:</strong> Use
-					<code class="px-1 py-0.5 bg-blue rounded">isFloatLabel</code> for a modern, compact input style
-					where the label animates into position
-				</li>
-				<li>
-					<strong>Validation:</strong> Combine
-					<code class="px-1 py-0.5 bg-blue rounded">errorText</code>
-					with reactive state for real-time form validation feedback
-				</li>
-				<li>
-					<strong>Icons:</strong> Use <code class="px-1 py-0.5 bg-blue rounded">startIcon</code> and
-					<code class="px-1 py-0.5 bg-blue rounded">endIcon</code> for visual context (search, password
-					toggle, etc.)
-				</li>
-				<li>
-					<strong>Input Types:</strong> Set <code class="px-1 py-0.5 bg-blue rounded">type</code> to
-					<code>email</code>, <code>password</code>, <code>number</code>, etc. for appropriate
-					keyboard and validation
-				</li>
-				<li>
-					<strong>Events:</strong> Use <code class="px-1 py-0.5 bg-blue rounded">oninput</code> for
-					live updates and <code class="px-1 py-0.5 bg-blue rounded">onchange</code> for blur events
-				</li>
-			</ul>
-		</div>
-	</Card>
-</Section>
-
-<Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Usage Examples</h4>
-		{/snippet}
-		<Code
-			lang="svelte"
-			code={`<script lang="ts">
-	import { TextField } from 'ui-svelte';
-	import { Search24RegularIcon } from '$lib/icons';
-
-	let name = $state('');
-	let email = $state('');
-	let password = $state('');
-<\/script>
-
-<!-- Basic -->
-<TextField name="name" placeholder="Enter name..." bind:value={name} />
-
-<!-- With Label -->
-<TextField name="username" label="Username" placeholder="Enter username..." bind:value={name} />
-
-<!-- Email Input -->
-<TextField name="email" type="email" label="Email" placeholder="Enter email..." bind:value={email} />
-
-<!-- Password Field -->
-<TextField name="password" type="password" label="Password" bind:value={password} />
-
-<!-- Float Label -->
-<TextField name="email" type="email" label="Email" isFloatLabel bind:value={email} />
-
-<!-- With Validation -->
-<TextField
-	name="email"
-	type="email"
-	label="Email"
-	errorText={!email.includes('@') ? 'Invalid email' : ''}
-	bind:value={email}
-/>
-
-<!-- With Help Text -->
-<TextField
-	name="username"
-	label="Username"
-	helpText="Must be 3-20 characters"
-	bind:value={name}
-/>
-
-<!-- Number Input with Range -->
-<TextField name="age" type="number" min={0} max={120} label="Age" />
-
-<!-- With Search Icon -->
-<TextField
-	name="search"
-	placeholder="Search..."
-	startIcon={Search24RegularIcon}
-	bind:value={name}
-/>
-
-<!-- URL Input with Addons -->
-<TextField
-	name="website"
-	placeholder="yoursite"
-	startText="https://"
-	endText=".com"
-/>`}
-		/>
-	</Card>
 </Section>

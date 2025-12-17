@@ -17,7 +17,8 @@
 		endText?: string;
 		onchange?: (value: unknown) => void;
 		oninput?: (value: unknown) => void;
-		variant?: 'primary' | 'secondary' | 'muted' | 'outlined' | 'line';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft' | 'outlined' | 'line';
 		size?: 'sm' | 'md' | 'lg';
 		name?: string;
 		label?: string;
@@ -29,7 +30,6 @@
 		max?: HTMLInputAttributes['max'];
 		maxlength?: HTMLInputAttributes['maxlength'];
 		isFloatLabel?: boolean;
-		isSolid?: boolean;
 	};
 
 	let {
@@ -48,6 +48,7 @@
 		onchange,
 		oninput,
 		variant = 'outlined',
+		color = 'muted',
 		size = 'md',
 		name,
 		label,
@@ -56,8 +57,7 @@
 		helpText,
 		errorText,
 		min,
-		max,
-		isSolid
+		max
 	}: Props = $props();
 
 	const uid = $props.id();
@@ -65,10 +65,19 @@
 	let isActive = $state(false);
 	let isFocused = $state(false);
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
 		outlined: 'is-outlined',
 		line: 'is-line'
 	};
@@ -100,9 +109,9 @@
 	<label
 		class={cn(
 			'control',
-			variantClasses[variant],
+			colors[color],
+			variants[variant],
 			sizeClasses[size],
-			isSolid && 'is-solid',
 			isFloatLabel && 'is-float',
 			(isActive || isFocused) && 'is-active',
 			controlClass
