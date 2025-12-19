@@ -1,10 +1,4 @@
 @layer components {
-	/* ============================
-	   Rich Text Decorations
-	   Naming: .mark, .grad, .pill, .slant, .glow, .under, .strike, .box
-	   ============================ */
-
-	/* ========== MARK - Background highlight ========== */
 	.mark {
 		@apply inline-block uppercase font-bold tracking-wide;
 		@apply px-2 py-0.5 rounded-sm;
@@ -18,7 +12,6 @@
 		transform: scale(1.02);
 	}
 
-	/* ========== GRAD - Gradient text ========== */
 	.grad {
 		@apply inline font-bold italic;
 		background: linear-gradient(
@@ -36,7 +29,6 @@
 		filter: brightness(1.15);
 	}
 
-	/* ========== PILL - Outlined/bordered text ========== */
 	.pill {
 		@apply inline-block font-semibold;
 		@apply px-2.5 py-0.5;
@@ -51,7 +43,6 @@
 		transform: translateY(-1px);
 	}
 
-	/* ========== SLANT - Angled/skewed background ========== */
 	.slant {
 		@apply inline font-bold relative;
 		color: var(--slant-color, var(--on-info));
@@ -74,7 +65,6 @@
 		filter: brightness(1.1);
 	}
 
-	/* ========== GLOW - Glowing text effect ========== */
 	.glow {
 		@apply inline font-bold;
 		color: var(--glow-color, var(--primary));
@@ -91,7 +81,6 @@
 			0 0 40px color-mix(in oklch, var(--glow-color, var(--primary)) 50%, transparent);
 	}
 
-	/* ========== UNDER - Animated underline ========== */
 	.under {
 		@apply inline font-semibold relative;
 		color: var(--under-color, inherit);
@@ -115,7 +104,6 @@
 		transform: scaleX(1.1);
 	}
 
-	/* ========== STRIKE - Strikethrough effect ========== */
 	.strike {
 		@apply inline font-medium relative;
 		color: var(--strike-color, inherit);
@@ -133,7 +121,6 @@
 		transform: rotate(-2deg);
 	}
 
-	/* ========== BOX - Boxed/framed text ========== */
 	.box {
 		@apply inline-block font-semibold;
 		@apply px-3 py-1;
@@ -150,7 +137,6 @@
 		box-shadow: 0 4px 12px color-mix(in oklch, var(--box-border, var(--on-background)) 20%, transparent);
 	}
 
-	/* ========== WAVE - Wavy underline ========== */
 	.wave {
 		@apply inline font-semibold;
 		color: var(--wave-color, inherit);
@@ -163,7 +149,6 @@
 		text-underline-offset: 6px;
 	}
 
-	/* ========== NEON - Neon sign effect ========== */
 	.neon {
 		@apply inline font-bold uppercase tracking-wider;
 		color: var(--neon-color, var(--secondary));
@@ -182,7 +167,6 @@
 		54% { opacity: 0.95; }
 	}
 
-	/* ========== POP - Pop-out 3D effect ========== */
 	.pop {
 		@apply inline-block font-bold;
 		color: var(--pop-color, var(--primary));
@@ -203,7 +187,6 @@
 			5px 5px 0 color-mix(in oklch, var(--pop-color, var(--primary)) 10%, black);
 	}
 
-	/* ========== TAG - Light background badge/tag style ========== */
 	.tag {
 		@apply inline-block font-bold;
 		@apply px-3 py-1;
@@ -219,11 +202,6 @@
 		box-shadow: 0 4px 16px color-mix(in oklch, var(--on-background) 15%, transparent);
 	}
 
-	/* ============================
-	   Color Variants
-	   ============================ */
-
-	/* Primary */
 	.mark-primary { --mark-bg: var(--primary); --mark-color: var(--on-primary); }
 	.grad-primary { --grad-from: var(--primary); --grad-to: color-mix(in oklch, var(--primary) 60%, white); }
 	.pill-primary { --pill-border: var(--primary); --pill-color: var(--primary); --pill-hover-bg: color-mix(in oklch, var(--primary) 10%, transparent); }
@@ -237,7 +215,6 @@
 	.pop-primary { --pop-color: var(--primary); }
 	.tag-primary { --tag-bg: color-mix(in oklch, var(--primary) 15%, var(--surface)); --tag-color: var(--primary); }
 
-	/* Secondary */
 	.mark-secondary { --mark-bg: var(--secondary); --mark-color: var(--on-secondary); }
 	.grad-secondary { --grad-from: var(--secondary); --grad-to: color-mix(in oklch, var(--secondary) 60%, white); }
 	.pill-secondary { --pill-border: var(--secondary); --pill-color: var(--secondary); --pill-hover-bg: color-mix(in oklch, var(--secondary) 10%, transparent); }
@@ -251,7 +228,6 @@
 	.pop-secondary { --pop-color: var(--secondary); }
 	.tag-secondary { --tag-bg: color-mix(in oklch, var(--secondary) 15%, var(--surface)); --tag-color: var(--secondary); }
 
-	/* Success */
 	.mark-success { --mark-bg: var(--success); --mark-color: var(--on-success); }
 	.grad-success { --grad-from: var(--success); --grad-to: color-mix(in oklch, var(--success) 60%, white); }
 	.pill-success { --pill-border: var(--success); --pill-color: var(--success); --pill-hover-bg: color-mix(in oklch, var(--success) 10%, transparent); }
@@ -265,7 +241,6 @@
 	.pop-success { --pop-color: var(--success); }
 	.tag-success { --tag-bg: color-mix(in oklch, var(--success) 15%, var(--surface)); --tag-color: var(--success); }
 
-	/* Warning */
 	.mark-warning { --mark-bg: var(--warning); --mark-color: var(--on-warning); }
 	.grad-warning { --grad-from: var(--warning); --grad-to: color-mix(in oklch, var(--warning) 60%, white); }
 	.pill-warning { --pill-border: var(--warning); --pill-color: var(--warning); --pill-hover-bg: color-mix(in oklch, var(--warning) 10%, transparent); }
@@ -279,7 +254,6 @@
 	.pop-warning { --pop-color: var(--warning); }
 	.tag-warning { --tag-bg: color-mix(in oklch, var(--warning) 15%, var(--surface)); --tag-color: var(--warning); }
 
-	/* Danger */
 	.mark-danger { --mark-bg: var(--danger); --mark-color: var(--on-danger); }
 	.grad-danger { --grad-from: var(--danger); --grad-to: color-mix(in oklch, var(--danger) 60%, white); }
 	.pill-danger { --pill-border: var(--danger); --pill-color: var(--danger); --pill-hover-bg: color-mix(in oklch, var(--danger) 10%, transparent); }
@@ -293,7 +267,6 @@
 	.pop-danger { --pop-color: var(--danger); }
 	.tag-danger { --tag-bg: color-mix(in oklch, var(--danger) 15%, var(--surface)); --tag-color: var(--danger); }
 
-	/* Info */
 	.mark-info { --mark-bg: var(--info); --mark-color: var(--on-info); }
 	.grad-info { --grad-from: var(--info); --grad-to: color-mix(in oklch, var(--info) 60%, white); }
 	.pill-info { --pill-border: var(--info); --pill-color: var(--info); --pill-hover-bg: color-mix(in oklch, var(--info) 10%, transparent); }

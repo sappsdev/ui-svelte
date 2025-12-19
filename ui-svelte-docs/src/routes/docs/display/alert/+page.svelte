@@ -1,59 +1,52 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { Alert, Checkbox, Select, TextField } from 'ui-svelte';
-	import { HeartAngleLinearIcon } from '$lib/icons';
+	import { Alert, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	const statusOptions = [
-		{ id: 'info', label: 'Info' },
+	const colorOptions = [
+		{ id: 'primary', label: 'Primary' },
+		{ id: 'secondary', label: 'Secondary' },
+		{ id: 'muted', label: 'Muted' },
 		{ id: 'success', label: 'Success' },
-		{ id: 'warning', label: 'Warning' },
-		{ id: 'danger', label: 'Danger' }
+		{ id: 'info', label: 'Info' },
+		{ id: 'danger', label: 'Danger' },
+		{ id: 'warning', label: 'Warning' }
 	];
 
-	let status: any = $state('info');
-	let title = $state('Alert Title');
-	let description = $state('This is a description for the alert component.');
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' }
+	];
 
-	let showIcon: any = $state(true);
-	let customIcon: any = $state(false);
-	let isSolid = $state(false);
+	let color: any = $state('primary');
+	let variant: any = $state('soft');
+	let title = $state('Alert Title');
+	let description = $state('This is an alert description with more details.');
+
+	let showIcon = $state(true);
+	let hasTitle = $state(true);
+	let hasDescription = $state(true);
 
 	let hasProps = $derived(
-		[
-			status !== 'info',
-			title !== 'Alert Title',
-			description !== 'This is a description for the alert component.',
-			!showIcon,
-			customIcon,
-			isSolid
-		].some(Boolean)
+		[color !== 'primary', variant !== 'soft', showIcon, hasTitle, hasDescription].some(Boolean)
 	);
 
 	let code = $derived(() => {
 		const scriptLines = [
 			`<script lang="ts">`,
 			`\timport { Alert } from 'ui-svelte';`,
-			customIcon && `\timport { InfoCircleLinearIcon } from '$lib/icons';`,
 			`<\/script>`
-		].filter(Boolean);
+		];
 
 		const componentLines = [
 			hasProps && `<Alert`,
-			status !== 'info' && `\tstatus="${status}"`,
-			title && title !== 'Alert Title' && `\ttitle="${title}"`,
-			description &&
-				description !== 'This is a description for the alert component.' &&
-				`\tdescription="${description}"`,
-			!showIcon && `\tshowIcon={false}`,
-			customIcon && `\ticon={InfoCircleLinearIcon}`,
-			isSolid && `\tisSolid`,
+			color !== 'primary' && `\tcolor="${color}"`,
+			variant !== 'soft' && `\tvariant="${variant}"`,
+			hasTitle && `\ttitle="Alert Title"`,
+			hasDescription && `\tdescription="This is an alert description."`,
+			showIcon && `\tshowIcon`,
 			hasProps && `/>`,
-			!hasProps &&
-				`<Alert title="Alert Title" description="This is a description for the alert component." />`
+			!hasProps && `<Alert title="Alert Title" />`
 		].filter(Boolean);
 
 		return [...scriptLines, ...componentLines].join('\n');
@@ -64,43 +57,117 @@
 		{ prop: 'description', type: 'string', initial: '' },
 		{ prop: 'children', type: 'Snippet', initial: '' },
 		{ prop: 'status', type: 'info | success | warning | danger', initial: 'info' },
-		{ prop: 'showIcon', type: 'boolean', initial: 'true' },
+		{ prop: 'showIcon', type: 'boolean', initial: 'false' },
 		{ prop: 'icon', type: 'IconData', initial: '' },
 		{ prop: 'isSolid', type: 'boolean', initial: 'false' }
 	];
 </script>
 
-{#snippet preview()}
-	<Alert
-		{status}
-		{title}
-		{description}
-		{showIcon}
-		icon={customIcon ? HeartAngleLinearIcon : undefined}
-		{isSolid}
-	/>
-{/snippet}
+<DocsHeader title="Alert" llmUrl="https://ui-svelte.sappsdev.com/llm/display/alert.md">
+	Alerts display important messages to users, such as status updates, warnings, or errors.
+</DocsHeader>
 
-{#snippet builder()}
-	<Select label="Status" size="sm" options={statusOptions} bind:value={status} />
-	<TextField label="Title" size="sm" bind:value={title} />
-	<TextField label="Description" size="sm" bind:value={description} />
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				bind:value={variant}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={showIcon} label="showIcon" />
+			<Checkbox bind:checked={hasTitle} label="Title" />
+			<Checkbox bind:checked={hasDescription} label="Description" />
+		</div>
 
-	<DocOptions title="Props">
-		<Checkbox bind:checked={showIcon} label="Show Icon" />
-		<Checkbox bind:checked={customIcon} label="Custom Icon" />
-		<Checkbox bind:checked={isSolid} label="Solid" />
-	</DocOptions>
-{/snippet}
+		<div class="doc-preview">
+			<Alert
+				{color}
+				{variant}
+				title={hasTitle ? title : undefined}
+				description={hasDescription ? description : undefined}
+				{showIcon}
+			/>
+		</div>
+		<Code lang="svelte" code={code()} />
+	</Card>
+</Section>
 
-<DocHeader title="Alert">
-	Alerts display brief messages for the user without interrupting their use of the app.
-</DocHeader>
+<Section>
+	<p class="section-subtitle">Status Variants</p>
+	<Card>
+		<div class="stack gap-4">
+			{#each colorOptions as item}
+				<Alert
+					color={item.id as any}
+					{variant}
+					title={item.label + ' Alert'}
+					description="This is a {item.label.toLowerCase()} alert message."
+					showIcon
+				/>
+			{/each}
+		</div>
+	</Card>
+</Section>
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section>
+	<p class="section-subtitle">Solid Variants</p>
+	<Card>
+		<div class="stack gap-4">
+			{#each colorOptions as item}
+				<Alert
+					color={item.id as any}
+					{variant}
+					title={item.label + ' Alert'}
+					description="This is a solid {item.label.toLowerCase()} alert message."
+					showIcon
+				/>
+			{/each}
+		</div>
+	</Card>
+</Section>
 
-<DocCode code={code()} />
+<Section>
+	<p class="section-subtitle">Without Icon</p>
+	<Card>
+		<div class="stack gap-4">
+			{#each colorOptions as item}
+				<Alert
+					color={item.id as any}
+					{variant}
+					title={item.label + ' Alert'}
+					description="This alert does not display an icon."
+				/>
+			{/each}
+		</div>
+	</Card>
+</Section>
 
-<DocProps {props} />
+<Section>
+	<p class="section-subtitle">Title Only</p>
+	<Card>
+		<div class="stack gap-4">
+			{#each colorOptions as item}
+				<Alert color={item.id as any} {variant} title={item.label + ' Alert'} showIcon />
+			{/each}
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
+</Section>

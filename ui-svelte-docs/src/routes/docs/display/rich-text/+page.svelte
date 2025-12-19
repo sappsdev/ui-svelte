@@ -33,7 +33,7 @@
 
 	let code = $derived(() => {
 		const colorClass = color ? ` ${style}-${color}` : '';
-		return `<p>Test <span class="${style}${colorClass}">heading</span>, please ignore</p>`;
+		return `<h1 class="hero-title">Test <span class="${style}${colorClass}">heading</span>, please ignore</h1>`;
 	});
 
 	const classes = [
@@ -81,22 +81,22 @@
 		</div>
 
 		<div class="doc-preview">
-			<h2>
+			<h1 class="hero-title">
 				Test <span class="{style} {color ? `${style}-${color}` : ''}">heading</span>, please ignore
-			</h2>
+			</h1>
 		</div>
 		<Code lang="html" code={code()} />
 	</Card>
 </Section>
 
 <Section>
-	<h4>All Styles</h4>
+	<p class="section-subtitle">All Styles</p>
 	<Card>
 		{#each styleOptions as item}
 			<div class="py-4 border-b border-muted last:border-b-0">
-				<h2>
+				<h1 class="heading-xl">
 					Test <span class={item.id}>{item.label}</span>, please ignore
-				</h2>
+				</h1>
 				<Code lang="html" code={`<span class="${item.id}">${item.label}</span>`} />
 			</div>
 		{/each}
@@ -104,8 +104,8 @@
 </Section>
 
 <Section>
-	<h4>Color Variants</h4>
-	<p class="text-on-muted mb-4">
+	<p class="section-subtitle">Color Variants</p>
+	<p class="section-description">
 		Each style supports 6 color variants: primary, secondary, success, warning, danger, info
 	</p>
 	<Card>
@@ -114,7 +114,7 @@
 				<h5 class="mb-2 uppercase text-on-muted">{baseStyle}</h5>
 				<div class="wrap gap-4">
 					{#each colorVariants as c}
-						<h3>
+						<h3 class="heading-lg">
 							<span class="{baseStyle} {baseStyle}-{c}">{c}</span>
 						</h3>
 					{/each}
@@ -125,20 +125,20 @@
 </Section>
 
 <Section>
-	<h4>Combining with Headings</h4>
+	<p class="section-subtitle">Combining with Headings</p>
 	<Card>
 		<div class="space-y-6">
-			<h1>Build <span class="grad grad-primary">amazing</span> apps</h1>
-			<h2>The <span class="mark mark-success">best</span> UI library</h2>
-			<h3>Easy to <span class="slant slant-secondary">customize</span></h3>
-			<h4>Includes <span class="neon neon-warning">animations</span></h4>
-			<p class="lead">Create <span class="glow glow-danger">stunning</span> user interfaces</p>
+			<h1 class="hero-title">Build <span class="grad grad-primary">amazing</span> apps</h1>
+			<h2 class="section-title">The <span class="mark mark-success">best</span> UI library</h2>
+			<h3 class="heading-lg">Easy to <span class="slant slant-secondary">customize</span></h3>
+			<h4 class="heading-md">Includes <span class="neon neon-warning">animations</span></h4>
+			<p class="lead-lg">Create <span class="glow glow-danger">stunning</span> user interfaces</p>
 		</div>
 	</Card>
 </Section>
 
 <Section>
-	<h4>Available Classes</h4>
+	<p class="section-subtitle">Available Classes</p>
 	<DocsProps
 		props={classes.map((c) => ({
 			prop: `.${c.class}`,
@@ -149,8 +149,8 @@
 </Section>
 
 <Section>
-	<h4>Color Modifier Classes</h4>
-	<p class="text-on-muted mb-4">
+	<p class="section-subtitle">Color Modifier Classes</p>
+	<p class="section-description">
 		Add a color suffix to any style class: <code>.style-color</code>
 	</p>
 	<Card>

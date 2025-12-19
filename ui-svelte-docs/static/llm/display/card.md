@@ -1,80 +1,72 @@
-## Card Component
+# Card Component
 
-Content container for displaying grouped information.
+Container for grouping content and actions.
+
+## Import
 
 ```svelte
-<Card
-  variant="outlined"
-  cover=""
-  isSolid={false}
-  hasOverlay={false}
-  bodyClass=""
->
-  {#snippet header()}...{/snippet}
-  
-  {children}
-  
-  {#snippet footer()}...{/snippet}
+import { Card } from 'ui-svelte';
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `cover` | `string` | - | Cover image URL |
+| `color` | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger' \| 'surface' \| 'default'` | `'default'` | Color theme |
+| `variant` | `'solid' \| 'soft' \| 'outlined' \| 'ghost'` | `'outlined'` | Visual style |
+| `rootClass` | `string` | - | Container classes |
+| `headerClass` | `string` | - | Header classes |
+| `bodyClass` | `string` | - | Body classes |
+| `footerClass` | `string` | - | Footer classes |
+
+## Patterns
+
+### Basic Card
+```svelte
+<Card>
+  <h3 class="card-title">Title</h3>
+  <p class="card-description">Description</p>
 </Card>
 ```
 
-### Props
-
-| Prop | Default | Description |
-|------|---------|-------------|
-| `variant` | `'outlined'` | `primary` `secondary` `muted` `success` `info` `warning` `danger` `surface` `outlined` `ghost` |
-| `cover` | - | Cover image URL |
-| `isSolid` | `false` | Solid background |
-| `hasOverlay` | `false` | Overlay on cover image |
-| `bodyClass` | - | Layout utilities (flex/grid) |
-| `headerClass` | - | Header styles |
-| `footerClass` | - | Footer styles |
-| `rootClass` | - | Root container styles |
-| `coverClass` | - | Cover image styles |
-| `overlayClass` | - | Overlay styles |
-
-### Examples
-
+### With Header & Footer
 ```svelte
-<!-- Basic -->
-<Card>
-  <h3>Title</h3>
-  <p>Description</p>
-</Card>
-
-<!-- With Header/Footer -->
 <Card>
   {#snippet header()}
-    <h4>Card Title</h4>
+    <h4 class="card-title">Card Title</h4>
   {/snippet}
   
-  <p>Content</p>
+  <p class="body-md">Content</p>
   
   {#snippet footer()}
     <Button size="sm">Action</Button>
   {/snippet}
 </Card>
+```
 
-<!-- With Cover Image -->
+### With Cover Image
+```svelte
 <Card cover="/image.jpg">
-  <h3>Featured</h3>
-</Card>
-
-<!-- Cover with Overlay -->
-<Card cover="/bg.jpg" hasOverlay overlayClass="bg-black/60">
-  <h3>Featured Content</h3>
-</Card>
-
-<!-- Grid Layout Inside -->
-<Card bodyClass="grid-2 md:grid-4 gap-4">
-  <div>Item 1</div>
-  <div>Item 2</div>
-</Card>
-
-<!-- Solid Variant -->
-<Card variant="primary" isSolid>
-  <p>Solid primary card</p>
+  <h4 class="card-title">Product</h4>
+  <p class="card-description">$99.99</p>
 </Card>
 ```
 
-**For LLMs**: Card contains grouped content. Lives inside Section. Use `bodyClass` for layout. Snippets: `header` and `footer` for structured content. Use `cover` for images.
+### Color Variants
+```svelte
+<Card color="primary" variant="soft">
+  <h3 class="display-md">1,234</h3>
+  <p class="body-sm text-on-muted">Total Users</p>
+</Card>
+
+<Card color="success" variant="outlined">
+  <h3 class="feature-title">Success</h3>
+</Card>
+```
+
+## Notes
+
+- Use typography classes: `card-title`, `card-description`, `feature-title`
+- Snippets (`header`, `footer`) are optional
+- Cover images display at top of card

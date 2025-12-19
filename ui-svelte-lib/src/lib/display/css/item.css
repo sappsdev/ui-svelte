@@ -1,7 +1,7 @@
 @layer components {
 	.item {
 		@apply relative flex items-center gap-3 w-full;
-		@apply rounded-ui outline-none;
+		@apply rounded-box outline-none;
 		@apply transition-all duration-300;
 		@apply cursor-default select-none;
 

@@ -9,7 +9,8 @@
 		class?: string;
 		label?: string;
 		name?: string;
-		color?: 'primary' | 'secondary' | 'muted';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
+		isMuted?: boolean;
 	};
 	let {
 		checked = $bindable(),
@@ -19,20 +20,25 @@
 		class: className,
 		label,
 		name,
-		color = 'primary'
+		color = 'primary',
+		isMuted
 	}: Props = $props();
 
 	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
-		muted: 'is-muted'
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger'
 	};
 </script>
 
 <label class={cn('checkbox', className)}>
 	<input
 		type="checkbox"
-		class={cn('checkbox-input', colors[color])}
+		class={cn('checkbox-input', colors[color], isMuted && 'is-muted')}
 		{name}
 		bind:checked
 		{defaultChecked}
@@ -40,6 +46,6 @@
 		onchange={() => onchange && onchange(checked!)}
 	/>
 	{#if label}
-		<span class="label">{label}</span>
+		<span class="label-md">{label}</span>
 	{/if}
 </label>

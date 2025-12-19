@@ -1,29 +1,20 @@
 <script lang="ts">
 	import type { TableState } from '$lib/hooks/use-table.svelte.js';
 	import { cn } from '$lib/utils/class-names.js';
-	import { Empty, TextField, Select, Checkbox, Icon, Button } from '$lib/index.js';
+	import { Empty, TextField, Select, Checkbox, Icon, Button, Pagination } from '$lib/index.js';
 	import type { Snippet } from 'svelte';
 	import {
-		ArrowLeft24RegularIcon,
-		ArrowRight24RegularIcon,
 		ArrowSortDownLines24RegularIcon,
-		ArrowSortUpLines24RegularIcon
+		ArrowSortUpLines24RegularIcon,
+		Search24RegularIcon
 	} from '$lib/icons/index.js';
+	import IconButton from '$lib/control/IconButton.svelte';
 
 	const handleSort = (column: { field: string; sortable?: boolean }) => {
 		if (!column.sortable) return;
 
 		const newOrder = table.sortBy === column.field && table.sortOrder === 'ASC' ? 'DESC' : 'ASC';
 		table.setSort(column.field, newOrder);
-	};
-
-	const getSortIcon = (field: string): string => {
-		if (table.sortBy !== field) {
-			return 'fluent:arrow-sort-down-lines-24-regular';
-		}
-		return table.sortOrder === 'ASC'
-			? 'fluent:arrow-sort-up-lines-24-regular'
-			: 'fluent:arrow-sort-down-lines-24-regular';
 	};
 
 	const isColumnSorted = (field: string): boolean => {
@@ -35,6 +26,7 @@
 		isStriped?: boolean;
 		isBordered?: boolean;
 		hasDividers?: boolean;
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
 		noDataTitle?: string;
 		noDataDescription?: string;
 		noDataType?: 'playlist' | 'result' | 'data' | 'template';
@@ -51,11 +43,19 @@
 		totalLabel?: string;
 		showToolbar?: boolean;
 		toolbarClass?: string;
-		showSelectionCount?: boolean;
+		hideSelectionCount?: boolean;
 		selectionCountLabel?: string;
+		selectionClearLabel?: string;
 		toolbarStart?: Snippet;
 		toolbarEnd?: Snippet;
 		selectionActions?: Snippet<[any[]]>;
+		emptyState?: Snippet;
+		onRowClick?: (row: any, index: number) => void;
+		rowClass?: (row: any, index: number) => string;
+		rootClass?: string;
+		containerClass?: string;
+		headerClass?: string;
+		bodyClass?: string;
 	};
 
 	const {
@@ -63,6 +63,7 @@
 		isStriped,
 		isBordered,
 		hasDividers,
+		color = 'muted',
 		noDataTitle = 'No data',
 		noDataDescription = 'There are no records to display',
 		noDataType = 'data',
@@ -79,11 +80,19 @@
 		totalLabel = 'Total',
 		showToolbar = false,
 		toolbarClass,
-		showSelectionCount = true,
+		hideSelectionCount,
 		selectionCountLabel = 'selected',
+		selectionClearLabel = 'Clear selection',
 		toolbarStart,
 		toolbarEnd,
-		selectionActions
+		selectionActions,
+		emptyState,
+		onRowClick,
+		rowClass,
+		rootClass,
+		containerClass,
+		headerClass,
+		bodyClass
 	}: Props = $props();
 
 	const tableSizes = {
@@ -92,10 +101,21 @@
 		lg: 'is-lg'
 	};
 
+	const tableColors = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning'
+	};
+
 	const shouldShowToolbar = $derived(showToolbar || showSearch || toolbarStart || toolbarEnd);
 
 	const hasSelection = $derived(table.selectable && table.selectedRows.length > 0);
 
+	// svelte-ignore state_referenced_locally
 	let searchValue = $state(table.search ?? '');
 
 	const rowsPerPageSelectOptions = $derived(
@@ -125,47 +145,9 @@
 	const handleRowSelectChange = (row: any) => {
 		table.toggleRow(row);
 	};
-
-	const getPageNumbers = (current: number, total: number): (number | string)[] => {
-		const pages: (number | string)[] = [];
-		const delta = 1;
-
-		if (total <= 7) {
-			for (let i = 1; i <= total; i++) {
-				pages.push(i);
-			}
-		} else {
-			pages.push(1);
-			const start = Math.max(2, current - delta);
-			const end = Math.min(total - 1, current + delta);
-
-			if (start > 2) {
-				pages.push('...');
-			}
-			for (let i = start; i <= end; i++) {
-				pages.push(i);
-			}
-
-			if (end < total - 1) {
-				pages.push('...');
-			}
-			pages.push(total);
-		}
-		return pages;
-	};
-
-	const pageNumbers = $derived(
-		showPagination && table.page && table.totalPages
-			? getPageNumbers(table.page, table.totalPages)
-			: []
-	);
 </script>
 
-{#snippet InputIcon()}
-	<SearchIcon class="control-icon" />
-{/snippet}
-
-<div class="table-wrapper">
+<div class={cn('table-wrapper', rootClass)}>
 	{#if shouldShowToolbar}
 		<div class={cn('table-toolbar', toolbarClass)}>
 			<div class="table-toolbar-start">
@@ -173,11 +155,11 @@
 					<TextField
 						value={searchValue}
 						placeholder={searchPlaceholder}
-						prefix={InputIcon}
+						startIcon={Search24RegularIcon}
 						variant="outlined"
 						size="sm"
 						oninput={handleSearchInput}
-						class="table-search"
+						rootClass="table-toolbar-search"
 					/>
 				{/if}
 				{#if toolbarStart}
@@ -194,17 +176,17 @@
 	{/if}
 
 	{#if hasSelection}
-		<div class="table-selection-bar">
+		<div class={cn('table-selection-bar', tableColors[color])}>
 			<div class="table-selection-info">
-				{#if showSelectionCount}
+				{#if !hideSelectionCount}
 					<span class="table-selection-count">
 						{table.selectedRows.length}
 						{selectionCountLabel}
 					</span>
 				{/if}
-				<button type="button" class="table-selection-clear" onclick={() => table.clearSelection()}>
-					Clear selection
-				</button>
+				<Button variant="ghost" {color} size="sm" onclick={() => table.clearSelection()}>
+					{selectionClearLabel}
+				</Button>
 			</div>
 			{#if selectionActions}
 				<div class="table-selection-actions">
@@ -214,17 +196,18 @@
 		</div>
 	{/if}
 
-	<div class="table-container">
+	<div class={cn('table-container', containerClass)}>
 		<table
 			class={cn(
 				'table',
 				tableSizes[size],
 				isStriped && 'is-striped',
 				isBordered && 'is-bordered',
-				hasDividers && 'has-dividers'
+				hasDividers && 'has-dividers',
+				color && tableColors[color]
 			)}
 		>
-			<thead class="table-header">
+			<thead class={cn('table-header', headerClass)}>
 				<tr>
 					{#if table.selectable}
 						<th class="table-head table-checkbox-cell" style="width: 48px;">
@@ -232,6 +215,7 @@
 								checked={table.isAllSelected}
 								onchange={handleSelectAllChange}
 								class={cn('table-checkbox', table.isIndeterminate && 'is-indeterminate')}
+								isMuted
 							/>
 						</th>
 					{/if}
@@ -252,27 +236,24 @@
 							>
 								<span class="table-head-label">{column.label}</span>
 								{#if column.sortable}
-									<Button
+									<IconButton
+										icon={table.sortBy !== column.field
+											? ArrowSortDownLines24RegularIcon
+											: table.sortOrder === 'ASC'
+												? ArrowSortUpLines24RegularIcon
+												: ArrowSortDownLines24RegularIcon}
 										variant="ghost"
+										{color}
 										size="xs"
 										onclick={() => handleSort(column)}
-										class="table-sort-btn {isColumnSorted(column.field) ? 'is-active' : ''}"
-									>
-										{#if table.sortBy !== column.field}
-											<Icon icon={ArrowSortDownLines24RegularIcon} />
-										{:else if table.sortOrder === 'ASC'}
-											<Icon icon={ArrowSortUpLines24RegularIcon} />
-										{:else}
-											<Icon icon={ArrowSortDownLines24RegularIcon} />
-										{/if}
-									</Button>
+									/>
 								{/if}
 							</div>
 						</th>
 					{/each}
 				</tr>
 			</thead>
-			<tbody class="table-body">
+			<tbody class={cn('table-body', bodyClass)}>
 				{#if table.isLoading}
 					{#each Array(loadingRows) as _, index}
 						<tr class="table-loading-row">
@@ -288,26 +269,39 @@
 							{/each}
 						</tr>
 					{/each}
-				{:else if table.data.length === 0}
+				{:else if table.hasInitialized && table.data.length === 0}
 					<tr class="table-empty-row">
 						<td
 							colspan={table.selectable ? table.columns.length + 1 : table.columns.length}
 							class="table-empty-cell"
 						>
-							<div class="empty-state">
-								<div class="empty-icon">
-									<Empty type={noDataType} />
+							{#if emptyState}
+								{@render emptyState()}
+							{:else}
+								<div class="empty-state">
+									<div class="empty-icon">
+										<Empty type={noDataType} />
+									</div>
+									<div class="empty-content">
+										<h3 class="empty-title">{noDataTitle}</h3>
+										<p class="empty-description">{noDataDescription}</p>
+									</div>
 								</div>
-								<div class="empty-content">
-									<h3 class="empty-title">{noDataTitle}</h3>
-									<p class="empty-description">{noDataDescription}</p>
-								</div>
-							</div>
+							{/if}
 						</td>
 					</tr>
 				{:else}
 					{#each table.data as item, index}
-						<tr class:table-row-selected={table.selectable && table.isRowSelected(item)}>
+						<!-- svelte-ignore a11y_click_events_have_key_events -->
+						<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+						<tr
+							class={cn(
+								table.selectable && table.isRowSelected(item) && 'table-row-selected',
+								onRowClick && 'is-clickable',
+								rowClass?.(item, index)
+							)}
+							onclick={onRowClick ? () => onRowClick(item, index) : undefined}
+						>
 							{#if table.selectable}
 								<td class="table-checkbox-cell">
 									<Checkbox
@@ -351,7 +345,6 @@
 						onchange={handleRowsPerPageChange}
 						variant="outlined"
 						size="sm"
-						class="table-rows-per-page-select"
 					/>
 				</div>
 			{/if}
@@ -359,49 +352,18 @@
 	{/if}
 
 	{#if showPagination && table.totalPages && table.totalPages > 1 && !table.isLoading}
-		<div
-			class="pagination-container"
-			style="justify-content: {paginationAlign === 'start'
-				? 'flex-start'
-				: paginationAlign === 'end'
-					? 'flex-end'
-					: 'center'}"
-		>
-			<div class="pagination">
-				<button
-					class="pagination-btn"
-					onclick={() => table.prevPage?.()}
-					disabled={!table.hasPrevPage}
-					aria-label="Previous page"
-				>
-					<Icon icon={ArrowLeft24RegularIcon} />
-				</button>
-
-				{#each pageNumbers as pageNum}
-					{#if pageNum === '...'}
-						<span class="pagination-ellipsis">...</span>
-					{:else}
-						<button
-							class="pagination-btn"
-							class:active={pageNum === table.page}
-							onclick={() => table.goToPage?.(pageNum as number)}
-							aria-label="Page {pageNum}"
-							aria-current={pageNum === table.page ? 'page' : undefined}
-						>
-							{pageNum}
-						</button>
-					{/if}
-				{/each}
-
-				<button
-					class="pagination-btn"
-					onclick={() => table.nextPage?.()}
-					disabled={!table.hasNextPage}
-					aria-label="Next page"
-				>
-					<Icon icon={ArrowRight24RegularIcon} />
-				</button>
-			</div>
-		</div>
+		<Pagination
+			page={table.page ?? 1}
+			totalPages={table.totalPages}
+			onPrev={() => table.prevPage?.()}
+			onNext={() => table.nextPage?.()}
+			onPageChange={(p) => table.goToPage?.(p)}
+			hasPrevPage={table.hasPrevPage}
+			hasNextPage={table.hasNextPage}
+			align={paginationAlign}
+			variant="soft"
+			{color}
+			{size}
+		/>
 	{/if}
 </div>

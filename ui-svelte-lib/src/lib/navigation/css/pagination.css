@@ -1,0 +1,74 @@
+@layer components {
+
+	.pagination-container {
+		@apply flex w-full py-2 items-center gap-4;
+		&.is-start {
+			@apply justify-start;
+		}
+		&.is-center {
+			@apply justify-center;
+		}
+		&.is-end {
+			@apply justify-end;
+		}
+
+	}
+
+	.pagination {
+		@apply flex items-center gap-1;
+	}
+
+	.pagination-ellipsis {
+		@apply flex items-center justify-center min-w-9 h-9 text-sm opacity-60;
+	}
+
+	.pagination-btn {
+		@apply min-w-9;
+
+		&.pagination-page {
+			@apply font-medium;
+		}
+	}
+
+	.pagination.is-primary {
+		.pagination-ellipsis {
+			@apply text-primary;
+		}
+	}
+
+	.pagination.is-secondary {
+		.pagination-ellipsis {
+			@apply text-secondary;
+		}
+	}
+
+	.pagination.is-muted {
+		.pagination-ellipsis {
+			@apply text-on-muted;
+		}
+	}
+
+	.pagination.is-success {
+		.pagination-ellipsis {
+			@apply text-success;
+		}
+	}
+
+	.pagination.is-info {
+		.pagination-ellipsis {
+			@apply text-info;
+		}
+	}
+
+	.pagination.is-danger {
+		.pagination-ellipsis {
+			@apply text-danger;
+		}
+	}
+
+	.pagination.is-warning {
+		.pagination-ellipsis {
+			@apply text-warning;
+		}
+	}
+}

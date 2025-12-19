@@ -1,0 +1,291 @@
+@layer components {
+	.display-2xl {
+		@apply font-bold tracking-tight leading-none;
+		font-size: clamp(3rem, 8vw, 6rem);
+	}
+
+	.display-xl {
+		@apply font-bold tracking-tight leading-none;
+		font-size: clamp(2.5rem, 6vw, 4.5rem);
+	}
+
+	.display-lg {
+		@apply font-bold tracking-tight leading-tight;
+		font-size: clamp(2rem, 5vw, 3.75rem);
+	}
+
+	.display-md {
+		@apply font-semibold tracking-tight leading-tight;
+		font-size: clamp(1.75rem, 4vw, 3rem);
+	}
+
+	.display-sm {
+		@apply font-semibold tracking-tight leading-tight;
+		font-size: clamp(1.5rem, 3vw, 2.25rem);
+	}
+
+	.heading-xl {
+		@apply font-bold tracking-tight leading-snug;
+		font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+	}
+
+	.heading-lg {
+		@apply font-semibold tracking-tight leading-snug;
+		font-size: clamp(1.5rem, 3vw, 2rem);
+	}
+
+	.heading-md {
+		@apply font-semibold leading-snug;
+		font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+	}
+
+	.heading-sm {
+		@apply font-medium leading-snug;
+		font-size: clamp(1.125rem, 2vw, 1.25rem);
+	}
+
+	.heading-xs {
+		@apply font-medium leading-snug;
+		font-size: clamp(1rem, 1.5vw, 1.125rem);
+	}
+
+	.body-xl {
+		@apply font-normal leading-relaxed;
+		font-size: clamp(1.125rem, 1.5vw, 1.25rem);
+	}
+
+	.body-lg {
+		@apply font-normal leading-relaxed;
+		font-size: clamp(1rem, 1.25vw, 1.125rem);
+	}
+
+	.body-md {
+		@apply font-normal leading-relaxed;
+		font-size: 1rem;
+	}
+
+	.body-sm {
+		@apply font-normal leading-relaxed;
+		font-size: 0.875rem;
+	}
+
+	.body-xs {
+		@apply font-normal leading-relaxed;
+		font-size: 0.75rem;
+	}
+
+	.label-lg {
+		@apply font-medium leading-normal truncate;
+		font-size: 1rem;
+	}
+
+	.label-md {
+		@apply font-medium leading-normal truncate;
+		font-size: 0.875rem;
+	}
+
+	.label-sm {
+		@apply font-medium leading-normal truncate;
+		font-size: 0.75rem;
+	}
+
+	.caption-lg {
+		@apply font-normal leading-normal;
+		font-size: 0.875rem;
+	}
+
+	.caption-md {
+		@apply font-normal leading-normal;
+		font-size: 0.75rem;
+	}
+
+	.caption-sm {
+		@apply font-normal leading-normal ;
+		font-size: 0.625rem;
+	}
+
+	.hero-title {
+		@apply font-bold tracking-tight leading-none;
+		font-size: clamp(2.5rem, 8vw, 5rem);
+		text-wrap: balance;
+	}
+
+	.hero-subtitle {
+		@apply font-medium leading-relaxed;
+		font-size: clamp(1.125rem, 2vw, 1.5rem);
+		text-wrap: balance;
+	}
+
+	.hero-description {
+		@apply font-normal leading-relaxed;
+		font-size: clamp(1rem, 1.5vw, 1.25rem);
+		max-width: 65ch;
+		text-wrap: pretty;
+	}
+
+	.section-title {
+		@apply font-bold tracking-tight leading-tight;
+		font-size: clamp(1.75rem, 4vw, 2.5rem);
+		text-wrap: balance;
+	}
+
+	.section-subtitle {
+		@apply font-medium leading-relaxed;
+		font-size: clamp(1rem, 1.5vw, 1.25rem);
+		text-wrap: balance;
+	}
+
+	.section-description {
+		@apply font-normal leading-relaxed;
+		font-size: clamp(0.9375rem, 1.25vw, 1.125rem);
+		max-width: 60ch;
+		text-wrap: pretty;
+	}
+
+	.cta-title {
+		@apply font-bold tracking-tight leading-tight;
+		font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+		text-wrap: balance;
+	}
+
+	.cta-subtitle {
+		@apply font-medium leading-relaxed;
+		font-size: clamp(1rem, 1.5vw, 1.125rem);
+		text-wrap: balance;
+	}
+
+	.cta-description {
+		@apply font-normal leading-relaxed;
+		font-size: clamp(0.875rem, 1.25vw, 1rem);
+		max-width: 50ch;
+		text-wrap: pretty;
+	}
+
+	.subheading {
+		@apply font-semibold uppercase tracking-widest;
+		font-size: clamp(0.75rem, 1vw, 0.875rem);
+		color: var(--primary);
+	}
+
+	.subheading-muted {
+		@apply font-semibold uppercase tracking-widest;
+		font-size: clamp(0.75rem, 1vw, 0.875rem);
+	}
+
+	.lead {
+		@apply font-normal leading-relaxed;
+		font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+		text-wrap: pretty;
+	}
+
+	.lead-lg {
+		@apply font-normal leading-relaxed;
+		font-size: clamp(1.25rem, 2vw, 1.5rem);
+		text-wrap: pretty;
+	}
+
+	.overline {
+		@apply font-semibold uppercase tracking-widest;
+		font-size: 0.75rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.overline-primary {
+		@apply overline;
+		color: var(--primary);
+	}
+
+	.overline-secondary {
+		@apply overline;
+		color: var(--secondary);
+	}
+
+	.overline-muted {
+		@apply overline;
+	}
+
+	.quote {
+		@apply font-medium italic leading-relaxed;
+		font-size: clamp(1.125rem, 2vw, 1.5rem);
+	}
+
+	.quote-lg {
+		@apply font-medium italic leading-relaxed;
+		font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+	}
+
+	.feature-title {
+		@apply font-semibold leading-snug;
+		font-size: clamp(1.125rem, 1.5vw, 1.25rem);
+	}
+
+	.feature-description {
+		@apply font-normal leading-relaxed;
+		font-size: clamp(0.875rem, 1.25vw, 1rem);
+	}
+
+	.card-title {
+		@apply font-semibold leading-snug;
+		font-size: clamp(1rem, 1.25vw, 1.125rem);
+	}
+
+	.card-description {
+		@apply font-normal leading-relaxed;
+		font-size: clamp(0.8125rem, 1vw, 0.875rem);
+	}
+
+	.nav-item {
+		@apply font-medium leading-normal;
+		font-size: 0.875rem;
+	}
+
+	.nav-item-lg {
+		@apply font-medium leading-normal;
+		font-size: 1rem;
+	}
+
+	.code-inline {
+		@apply font-mono bg-muted text-on-muted rounded;
+		@apply px-[0.3rem] py-[0.2rem];
+		font-size: 0.875em;
+	}
+
+	.code-block {
+		@apply font-mono leading-relaxed bg-muted text-on-muted rounded;
+		@apply px-[0.3rem] py-[0.2rem];
+		font-size: 0.875rem;
+	}
+
+	.text-balance {
+		text-wrap: balance;
+	}
+
+	.text-pretty {
+		text-wrap: pretty;
+	}
+
+	.truncate-lines-2 {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.truncate-lines-3 {
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.truncate-lines-4 {
+		display: -webkit-box;
+		-webkit-line-clamp: 4;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.prose-narrow { max-width: 45ch; }
+	.prose-normal { max-width: 65ch; }
+	.prose-wide { max-width: 80ch; }
+}

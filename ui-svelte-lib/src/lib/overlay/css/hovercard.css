@@ -4,7 +4,7 @@
 	}
 	.hovercard-content {
 		@apply overflow-y-auto drop-shadow-sm flex flex-col gap-2 my-1;
-		@apply bg-background text-on-background border border-muted rounded-ui;
+		@apply bg-background text-on-background border border-muted rounded-box;
 		position: fixed;
 		z-index: 9999;
 	}

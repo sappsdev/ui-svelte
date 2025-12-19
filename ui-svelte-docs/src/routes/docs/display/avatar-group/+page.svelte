@@ -186,7 +186,7 @@
 </Section>
 
 <Section>
-	<h4>Stacked vs Inline</h4>
+	<p class="section-subtitle">Stacked vs Inline</p>
 	<Card>
 		<p class="text-sm mb-4">
 			By default, avatars are stacked with overlap. Use <code>isInline</code> to display them in a row.
@@ -205,7 +205,7 @@
 </Section>
 
 <Section>
-	<h4>Max Limit</h4>
+	<p class="section-subtitle">Max Limit</p>
 	<Card>
 		<p class="text-sm mb-4">
 			Use the <code>max</code> prop to limit visible avatars and show a counter for remaining items.
@@ -228,7 +228,7 @@
 </Section>
 
 <Section>
-	<h4>Variants & Colors</h4>
+	<p class="section-subtitle">Variants & Colors</p>
 	<Card>
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
@@ -241,7 +241,7 @@
 </Section>
 
 <Section>
-	<h4>Sizes</h4>
+	<p class="section-subtitle">Sizes</p>
 	<Card>
 		<div class="wrap gap-6 center">
 			{#each sizeOptions as s}
@@ -255,7 +255,7 @@
 </Section>
 
 <Section>
-	<h4>With Initials</h4>
+	<p class="section-subtitle">With Initials</p>
 	<Card>
 		<p class="text-sm mb-4">
 			Avatars without images display initials from the <code>name</code> prop.
@@ -268,11 +268,11 @@
 </Section>
 
 <Section>
-	<h4>AvatarGroup Props</h4>
+	<p class="section-subtitle">Props</p>
 	<DocsProps {props} />
 </Section>
 
 <Section>
-	<h4>AvatarItem Type</h4>
+	<p class="section-subtitle">AvatarItem Type</p>
 	<DocsProps props={avatarItemProps} />
 </Section>

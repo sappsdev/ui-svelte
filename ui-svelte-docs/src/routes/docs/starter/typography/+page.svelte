@@ -1,530 +1,385 @@
 <script lang="ts">
-	import { Card, Checkbox, Code, Section, Select, Tabs } from 'ui-svelte';
+	import { Card, Code, Section } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	const containerOptions = [
-		{ id: 'none', label: 'No Container' },
-		{ id: 'section', label: 'Section' },
-		{ id: 'card', label: 'Card' }
+	const displayClasses = [
+		{ class: 'display-2xl', description: 'Extra extra large display text (clamp: 3rem → 6rem)' },
+		{ class: 'display-xl', description: 'Extra large display text (clamp: 2.5rem → 4.5rem)' },
+		{ class: 'display-lg', description: 'Large display text (clamp: 2rem → 3.75rem)' },
+		{ class: 'display-md', description: 'Medium display text (clamp: 1.75rem → 3rem)' },
+		{ class: 'display-sm', description: 'Small display text (clamp: 1.5rem → 2.25rem)' }
 	];
 
-	let useProse = $state(true);
-	let container: any = $state('section');
-	let showAllElements = $state(false);
-
-	let code = $derived(() => {
-		const lines = [];
-
-		if (container !== 'none') {
-			lines.push(`<script lang="ts">`);
-			lines.push(`\timport { ${container === 'section' ? 'Section' : 'Card'} } from 'ui-svelte';`);
-			lines.push(`<\/script>\n`);
-		}
-
-		if (container === 'section') {
-			lines.push(`<Section${useProse ? ' class="prose"' : ''}>`);
-		} else if (container === 'card') {
-			lines.push(`<Card${useProse ? ' class="prose"' : ''}>`);
-		} else {
-			if (useProse) {
-				lines.push(`<div class="prose">`);
-			}
-		}
-
-		if (showAllElements) {
-			lines.push(`\t<h1>Heading 1</h1>`);
-			lines.push(`\t<h2>Heading 2</h2>`);
-			lines.push(`\t<h3>Heading 3</h3>`);
-			lines.push(
-				`\t<p>This is a paragraph with <strong>bold text</strong> and <em>italic text</em>.</p>`
-			);
-			lines.push(`\t<p>Another paragraph with a <a href="#">link</a>.</p>`);
-			lines.push(`\t<ul>`);
-			lines.push(`\t\t<li>List item 1</li>`);
-			lines.push(`\t\t<li>List item 2</li>`);
-			lines.push(`\t</ul>`);
-			lines.push(`\t<blockquote>This is a quote</blockquote>`);
-			if (useProse) {
-				lines.push(`\t<code>inline code</code>`);
-			}
-		} else {
-			lines.push(`\t<h1>Article Title</h1>`);
-			lines.push(`\t<p>Your content goes here with proper typography styles.</p>`);
-		}
-
-		if (container === 'section') {
-			lines.push(`</Section>`);
-		} else if (container === 'card') {
-			lines.push(`</Card>`);
-		} else {
-			if (useProse) {
-				lines.push(`</div>`);
-			}
-		}
-
-		return lines.join('\n');
-	});
-
-	const proseStyles = [
-		{
-			element: 'Base',
-			class: 'text-sm md:text-base lg:text-lg + leading-6 md:leading-7 lg:leading-8'
-		},
-		{
-			element: 'h1',
-			class:
-				'text-[1.875rem] md:text-4xl lg:text-5xl + leading-9 md:leading-10 lg:leading-12 + mt-0 mb-3 md:mb-4 lg:mb-5'
-		},
-		{
-			element: 'h2',
-			class:
-				'text-xl md:text-2xl lg:text-[1.875rem] + leading-7 md:leading-8 lg:leading-10 + mt-4 md:mt-5 lg:mt-6 mb-2 md:mb-3 lg:mb-3 + border-b pb-2'
-		},
-		{
-			element: 'h3',
-			class:
-				'text-lg md:text-xl lg:text-2xl + leading-7 md:leading-8 lg:leading-9 + mt-3 md:mt-4 lg:mt-5 mb-1.5 md:mb-2 lg:mb-2'
-		},
-		{
-			element: 'h4',
-			class:
-				'text-base md:text-lg lg:text-xl + leading-6 md:leading-7 + mt-3 md:mt-3 lg:mt-4 mb-1.5'
-		},
-		{
-			element: 'h5',
-			class:
-				'text-sm md:text-base lg:text-lg + leading-5 md:leading-6 lg:leading-7 + mt-3 md:mt-3 lg:mt-4 mb-1.5'
-		},
-		{
-			element: 'h6',
-			class:
-				'text-xs md:text-sm lg:text-base + leading-4 md:leading-5 lg:leading-6 + mt-3 md:mt-3 lg:mt-4 mb-1.5'
-		},
-		{ element: 'p', class: 'text-on-muted + mt-4 md:mt-5 lg:mt-6 mb-4 md:mb-5 lg:mb-6' },
-		{
-			element: '[class~="lead"]',
-			class: 'text-base md:text-lg lg:text-xl + leading-7 md:leading-8 + mt-4 md:mt-6 mb-4 md:mb-6'
-		},
-		{
-			element: 'ul/ol',
-			class:
-				'mt-4 md:mt-5 lg:mt-6 mb-4 md:mb-5 lg:mb-6 + pl-[1.375rem] md:pl-[1.625rem] + list-disc/decimal'
-		},
-		{ element: 'li', class: 'mt-1 md:mt-2 mb-1 md:mb-2 + pl-[0.375rem]' },
-		{
-			element: 'a',
-			class:
-				'font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors'
-		},
-		{
-			element: 'code',
-			class:
-				'text-[0.75rem] md:text-[0.875rem] lg:text-base + rounded bg-muted text-on-muted px-[0.3rem] py-[0.2rem] font-mono'
-		},
-		{
-			element: 'pre',
-			class:
-				'text-[0.75rem] md:text-[0.875rem] lg:text-base + mt-5 md:mt-6 lg:mt-8 mb-5 md:mb-6 lg:mb-8 + p-2/3 md:p-3/4'
-		},
-		{
-			element: 'blockquote',
-			class:
-				'mt-6 md:mt-8 lg:mt-10 mb-6 md:mb-8 lg:mb-10 + pl-5 md:pl-5 lg:pl-6 + border-l-4 border-muted italic'
-		},
-		{ element: 'hr', class: 'my-10 md:my-12 + border-muted' },
-		{
-			element: 'img/video/picture',
-			class: 'mt-6 md:mt-8 mb-6 md:mb-8 + rounded-ui'
-		},
-		{
-			element: 'table',
-			class: 'text-[0.75rem] md:text-[0.875rem] lg:text-base + w-full text-left'
-		},
-		{
-			element: 'kbd',
-			class: 'text-[0.75rem] md:text-[0.875rem] lg:text-base + rounded bg-muted font-mono'
-		},
-		{ element: 'strong', class: 'font-semibold' },
-		{ element: 'em', class: 'italic' }
+	const headingClasses = [
+		{ class: 'heading-xl', description: 'Extra large heading (clamp: 1.75rem → 2.5rem)' },
+		{ class: 'heading-lg', description: 'Large heading (clamp: 1.5rem → 2rem)' },
+		{ class: 'heading-md', description: 'Medium heading (clamp: 1.25rem → 1.5rem)' },
+		{ class: 'heading-sm', description: 'Small heading (clamp: 1.125rem → 1.25rem)' },
+		{ class: 'heading-xs', description: 'Extra small heading (clamp: 1rem → 1.125rem)' }
 	];
 
-	const baseStyles = [
-		{
-			element: 'h1',
-			class:
-				'text-[1.875rem] md:text-4xl lg:text-5xl + leading-9 md:leading-10 lg:leading-12 + font-extrabold tracking-tight'
-		},
-		{
-			element: 'h2',
-			class:
-				'text-xl md:text-2xl lg:text-[1.875rem] + leading-7 md:leading-8 lg:leading-10 + font-semibold tracking-tight'
-		},
-		{
-			element: 'h3',
-			class:
-				'text-lg md:text-xl lg:text-2xl + leading-7 md:leading-8 lg:leading-9 + font-semibold tracking-tight'
-		},
-		{
-			element: 'h4',
-			class:
-				'text-base md:text-lg lg:text-xl + leading-6 md:leading-7 + font-semibold tracking-tight'
-		},
-		{
-			element: 'h5',
-			class:
-				'text-sm md:text-base lg:text-lg + leading-5 md:leading-6 lg:leading-7 + font-semibold tracking-tight'
-		},
-		{
-			element: 'h6',
-			class:
-				'text-xs md:text-sm lg:text-base + leading-4 md:leading-5 lg:leading-6 + font-semibold tracking-tight'
-		},
-		{ element: 'strong', class: 'font-semibold' },
-		{ element: 'em', class: 'italic' },
-		{
-			element: '.snippet',
-			class:
-				'text-[0.75rem] md:text-[0.875rem] lg:text-base + rounded bg-muted text-on-muted px-[0.3rem] py-[0.2rem] font-mono'
-		},
-		{
-			element: '.link',
-			class:
-				'font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors'
-		},
-		{
-			element: '.tiny',
-			class: 'text-[0.625rem] md:text-xs lg:text-xs + font-medium leading-none'
-		},
-		{
-			element: '.lead',
-			class: 'text-base md:text-lg lg:text-xl + leading-7 md:leading-8 lg:leading-8'
-		},
-		{
-			element: '.label',
-			class: 'text-xs md:text-sm lg:text-sm + select-none font-medium'
-		},
-		{
-			element: '.hero-title',
-			class:
-				'text-4xl md:text-5xl lg:text-6xl xl:text-7xl + font-semibold leading-tight tracking-tight'
-		},
-		{
-			element: '.hero-subtitle',
-			class: 'text-lg md:text-xl lg:text-2xl + font-light text-on-muted'
-		},
-		{
-			element: 'blockquote',
-			class: 'pl-4 md:pl-5 lg:pl-6 + border-l-2 border-muted italic'
-		}
+	const bodyClasses = [
+		{ class: 'body-xl', description: 'Extra large body text (clamp: 1.125rem → 1.25rem)' },
+		{ class: 'body-lg', description: 'Large body text (clamp: 1rem → 1.125rem)' },
+		{ class: 'body-md', description: 'Medium body text (1rem)' },
+		{ class: 'body-sm', description: 'Small body text (0.875rem)' },
+		{ class: 'body-xs', description: 'Extra small body text (0.75rem)' }
 	];
 
-	const styleTabs = [
-		{ id: 'prose', label: 'Prose Styles', content: proseStylesContent },
-		{ id: 'base', label: 'Base Styles', content: baseStylesContent }
+	const labelClasses = [
+		{ class: 'label-lg', description: 'Large label text (1rem, medium weight)' },
+		{ class: 'label-md', description: 'Medium label text (0.875rem, medium weight)' },
+		{ class: 'label-sm', description: 'Small label text (0.75rem, medium weight)' }
+	];
+
+	const captionClasses = [
+		{ class: 'caption-lg', description: 'Large caption text (0.875rem, 70% opacity)' },
+		{ class: 'caption-md', description: 'Medium caption text (0.75rem, 70% opacity)' },
+		{ class: 'caption-sm', description: 'Small caption text (0.625rem, 70% opacity)' }
+	];
+
+	const semanticClasses = [
+		{ class: 'hero-title', description: 'Hero section main title' },
+		{ class: 'hero-subtitle', description: 'Hero section subtitle (80% opacity)' },
+		{ class: 'hero-description', description: 'Hero section description (70% opacity, max 65ch)' },
+		{ class: 'section-title', description: 'Section main title' },
+		{ class: 'section-subtitle', description: 'Section subtitle (80% opacity)' },
+		{ class: 'section-description', description: 'Section description (70% opacity, max 60ch)' },
+		{ class: 'cta-title', description: 'Call-to-action title' },
+		{ class: 'cta-subtitle', description: 'Call-to-action subtitle (80% opacity)' },
+		{ class: 'cta-description', description: 'Call-to-action description (70% opacity, max 50ch)' }
+	];
+
+	const utilityClasses = [
+		{ class: 'subheading', description: 'Uppercase subheading with primary color' },
+		{ class: 'subheading-muted', description: 'Uppercase subheading with muted color' },
+		{ class: 'lead', description: 'Lead paragraph text (clamp: 1.125rem → 1.375rem)' },
+		{ class: 'lead-lg', description: 'Large lead paragraph text (clamp: 1.25rem → 1.5rem)' },
+		{ class: 'overline', description: 'Uppercase overline text with margin' },
+		{ class: 'overline-primary', description: 'Overline with primary color' },
+		{ class: 'overline-secondary', description: 'Overline with secondary color' },
+		{ class: 'overline-muted', description: 'Overline with muted color' },
+		{ class: 'quote', description: 'Italic quote text (clamp: 1.125rem → 1.5rem)' },
+		{ class: 'quote-lg', description: 'Large quote text (clamp: 1.25rem → 1.75rem)' }
+	];
+
+	const componentClasses = [
+		{ class: 'feature-title', description: 'Feature card title' },
+		{ class: 'feature-description', description: 'Feature card description' },
+		{ class: 'card-title', description: 'Card title' },
+		{ class: 'card-description', description: 'Card description' },
+		{ class: 'nav-item', description: 'Navigation item text (0.875rem)' },
+		{ class: 'nav-item-lg', description: 'Large navigation item text (1rem)' },
+		{ class: 'code-inline', description: 'Inline code text (monospace, 0.875em)' },
+		{ class: 'code-block', description: 'Code block text (monospace, 0.875rem)' }
+	];
+
+	const wrapClasses = [
+		{ class: 'text-balance', description: 'Balanced text wrapping for headings' },
+		{ class: 'text-pretty', description: 'Pretty text wrapping for paragraphs' },
+		{ class: 'prose-narrow', description: 'Max width 45ch for narrow text' },
+		{ class: 'prose-normal', description: 'Max width 65ch for normal text' },
+		{ class: 'prose-wide', description: 'Max width 80ch for wide text' },
+		{ class: 'truncate-lines-2', description: 'Truncate text after 2 lines' },
+		{ class: 'truncate-lines-3', description: 'Truncate text after 3 lines' },
+		{ class: 'truncate-lines-4', description: 'Truncate text after 4 lines' }
 	];
 </script>
 
-{#snippet proseStylesContent()}
-	<div class="overflow-x-auto">
-		<table class="w-full border-collapse">
-			<thead>
-				<tr class="border-b border-muted-200">
-					<th class="text-left p-3 font-semibold">Element</th>
-					<th class="text-left p-3 font-semibold">Applied Classes</th>
-				</tr>
-			</thead>
-			<tbody>
-				{#each proseStyles as style}
-					<tr class="border-b border-muted-100">
-						<td class="p-3"><code class="px-2 py-1 rounded text-sm">{style.element}</code></td>
-						<td class="p-3"><code class="px-2 py-1 rounded text-xs">{style.class}</code></td>
-					</tr>
-				{/each}
-			</tbody>
-		</table>
-	</div>
-{/snippet}
-
-{#snippet baseStylesContent()}
-	<div class="overflow-x-auto">
-		<table class="w-full border-collapse">
-			<thead>
-				<tr class="border-b border-muted-200">
-					<th class="text-left p-3 font-semibold">Element/Class</th>
-					<th class="text-left p-3 font-semibold">Applied Classes</th>
-				</tr>
-			</thead>
-			<tbody>
-				{#each baseStyles as style}
-					<tr class="border-b border-muted-100">
-						<td class="p-3"><code class="px-2 py-1 rounded text-sm">{style.element}</code></td>
-						<td class="p-3"><code class="px-2 py-1 rounded text-xs">{style.class}</code></td>
-					</tr>
-				{/each}
-			</tbody>
-		</table>
-	</div>
-{/snippet}
-
-{#snippet typographyContent()}
-	{#if showAllElements}
-		<h1>Heading Level 1</h1>
-		<p class="lead">
-			This is a lead paragraph with larger text, perfect for introductions and summaries.
-		</p>
-		<h2>Heading Level 2</h2>
-		<p>
-			This is a regular paragraph with <strong>bold text</strong>, <em>italic text</em>, and a
-			<a href="#!">link example</a>. The responsive typography system automatically adjusts font
-			sizes across breakpoints.
-		</p>
-		<h3>Heading Level 3</h3>
-		<p>
-			Another paragraph demonstrating the spacing and line-height. Notice how margins and padding
-			scale responsively.
-		</p>
-		<h4>Heading Level 4</h4>
-		<ul>
-			<li>Unordered list item one</li>
-			<li>Unordered list item two with more content</li>
-			<li>Unordered list item three</li>
-		</ul>
-		<h5>Heading Level 5</h5>
-		<ol>
-			<li>Ordered list item one</li>
-			<li>Ordered list item two</li>
-			<li>Ordered list item three</li>
-		</ol>
-		<h6>Heading Level 6</h6>
-		<blockquote>
-			This is a blockquote for highlighting important information or quotes from other sources. It
-			features responsive padding and styling.
-		</blockquote>
-		{#if useProse}
-			<p>
-				Inline <code>code example</code> within text, and a <kbd>Ctrl</kbd> + <kbd>C</kbd> keyboard shortcut.
-			</p>
-		{:else}
-			<p>
-				Utility classes: <span class="tiny">tiny text</span>,
-				<span class="label">label text</span>, <span class="snippet">code snippet</span>,
-				<span class="link">link style</span>
-			</p>
-		{/if}
-		<hr />
-		<p class="tiny">This is tiny text for small annotations.</p>
-		<p class="label">This is label text for form labels.</p>
-	{:else}
-		<h1>Beautiful Typography</h1>
-		<p class="lead">Responsive typography that scales beautifully across all screen sizes.</p>
-		<p>
-			Your content goes here with proper typography styles applied automatically. The system uses
-			responsive utilities to ensure optimal readability on mobile, tablet, and desktop.
-		</p>
-	{/if}
-{/snippet}
-
-<DocsHeader title="Typography" llmUrl="https://ui-svelte.sappsdev.com/llm/starter/typography.md">
-	Typography styles for consistent and beautiful text rendering across your application. Use the
-	<code class="px-1 py-0.5 bg-muted-100 rounded text-sm">prose</code> class for rich content or individual
-	element styles for more control.
+<DocsHeader title="Typography">
+	CSS utility classes for responsive typography with semantic naming, ideal for heroes, sections,
+	cards, and other UI components.
 </DocsHeader>
 
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		{#if container === 'section'}
-			<Section bodyClass="{useProse ? 'prose' : ''} max-w-3xl">
-				{@render typographyContent()}
-			</Section>
-		{:else if container === 'card'}
-			<Card bodyClass="{useProse ? 'prose' : ''} max-w-3xl">
-				{@render typographyContent()}
-			</Card>
-		{:else}
-			<div
-				class="{useProse
-					? 'prose'
-					: ''} max-w-3xl p-6 border-2 border-dashed border-muted-300 rounded-lg"
-			>
-				{@render typographyContent()}
+<Section>
+	<p class="section-subtitle">Display Styles</p>
+	<p class="section-description">Large display text for hero sections and major headlines.</p>
+	<Card>
+		{#each displayClasses as item}
+			<div class="py-4 border-b border-muted last:border-b-0">
+				<h1 class={item.class}>The quick brown fox</h1>
+				<Code lang="html" code={`<h1 class="${item.class}">The quick brown fox</h1>`} />
 			</div>
-		{/if}
-	</DocsPreview>
-	<Card>
-		<Select label="Container" size="sm" options={containerOptions} bind:value={container} />
-		<div class="column gap-2 mt-4">
-			<Checkbox bind:checked={useProse} label="Use Prose Class" />
-			<Checkbox bind:checked={showAllElements} label="Show All Elements" />
-		</div>
-	</Card>
-	<DocsCode code={code()} />
-</Section>
-
-<Section>
-	<Card>
-		<Tabs tabs={styleTabs} />
-	</Card>
-</Section>
-
-<Section bodyClass="grid-2 md:grid-3">
-	<!-- Headings Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Headings</h4>
-		{/snippet}
-		<div class="column gap-1">
-			<h1 class="!m-0">H1 Heading</h1>
-			<h2 class="!m-0 !border-0">H2 Heading</h2>
-			<h3 class="!m-0">H3 Heading</h3>
-			<h4 class="!m-0">H4 Heading</h4>
-		</div>
-		{#snippet footer()}
-			<code class="text-xs">h1, h2, h3, h4, h5, h6</code>
-		{/snippet}
-	</Card>
-
-	<!-- Lead Text Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Lead Text</h4>
-		{/snippet}
-		<p class="lead !m-0">This is lead text for introductions and summaries.</p>
-		{#snippet footer()}
-			<code class="text-xs">class="lead"</code>
-		{/snippet}
-	</Card>
-
-	<!-- Hero Title Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Hero Title</h4>
-		{/snippet}
-		<div class="column gap-1">
-			<span class="hero-title">Hero</span>
-			<span class="hero-subtitle">Subtitle text</span>
-		</div>
-		{#snippet footer()}
-			<code class="text-xs">class="hero-title" / "hero-subtitle"</code>
-		{/snippet}
-	</Card>
-
-	<!-- Text Utilities Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Text Utilities</h4>
-		{/snippet}
-		<div class="column gap-2">
-			<span class="tiny">Tiny text for annotations</span>
-			<span class="label">Label text for forms</span>
-			<span class="snippet">Code snippet style</span>
-		</div>
-		{#snippet footer()}
-			<code class="text-xs">class="tiny" / "label" / "snippet"</code>
-		{/snippet}
-	</Card>
-
-	<!-- Link Style Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Link Style</h4>
-		{/snippet}
-		<div class="prose">
-			<a href="#!">Prose link style</a>
-		</div>
-		<span class="link mt-2">Utility link style</span>
-		{#snippet footer()}
-			<code class="text-xs">prose a / class="link"</code>
-		{/snippet}
-	</Card>
-
-	<!-- Blockquote Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Blockquote</h4>
-		{/snippet}
-		<blockquote class="!m-0">
-			A beautiful blockquote for important quotes and highlights.
-		</blockquote>
-		{#snippet footer()}
-			<code class="text-xs">&lt;blockquote&gt;</code>
-		{/snippet}
+		{/each}
 	</Card>
 </Section>
 
 <Section>
-	<Card variant="info">
-		<div class="column gap-3">
-			<h4 class="font-semibold">💡 Pro Tips</h4>
-			<ul class="text-sm space-y-2 list-disc list-inside">
-				<li>
-					<strong>Prose Class:</strong> Apply
-					<code class="px-1 py-0.5 bg-blue rounded">prose</code> to a container for automatic styling
-					of all typography elements with proper spacing and colors
-				</li>
-				<li>
-					<strong>Responsive:</strong> All typography scales responsively using
-					<code class="px-1 py-0.5 bg-blue rounded">sm:</code>,
-					<code class="px-1 py-0.5 bg-blue rounded">md:</code>, and
-					<code class="px-1 py-0.5 bg-blue rounded">lg:</code> breakpoints
-				</li>
-				<li>
-					<strong>Utility Classes:</strong> Use
-					<code class="px-1 py-0.5 bg-blue rounded">lead</code>,
-					<code class="px-1 py-0.5 bg-blue rounded">tiny</code>,
-					<code class="px-1 py-0.5 bg-blue rounded">label</code>, and
-					<code class="px-1 py-0.5 bg-blue rounded">snippet</code>
-					for specific text elements outside of prose containers
-				</li>
-				<li>
-					<strong>Hero Styles:</strong> Use
-					<code class="px-1 py-0.5 bg-blue rounded">hero-title</code> and
-					<code class="px-1 py-0.5 bg-blue rounded">hero-subtitle</code> for landing page headlines
-				</li>
-			</ul>
-		</div>
+	<p class="section-subtitle">Heading Styles</p>
+	<p class="section-description">Heading styles for section titles and content hierarchies.</p>
+
+	<Card>
+		{#each headingClasses as item}
+			<div class="py-4 border-b border-muted last:border-b-0">
+				<h2 class={item.class}>Section heading example</h2>
+				<Code lang="html" code={`<h2 class="${item.class}">Section heading example</h2>`} />
+			</div>
+		{/each}
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Usage Examples</h4>
-		{/snippet}
+	<p class="section-subtitle">Body Styles</p>
+	<p class="section-description">Body text styles for paragraphs and general content.</p>
+	<Card>
+		{#each bodyClasses as item}
+			<div class="py-4 border-b border-muted last:border-b-0">
+				<p class={item.class}>This is body text that demonstrates the styling.</p>
+				<Code
+					lang="html"
+					code={`<p class="${item.class}">This is body text that demonstrates the styling.</p>`}
+				/>
+			</div>
+		{/each}
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Label & Caption Styles</p>
+	<Card>
+		<div class="space-y-6 py-4">
+			<div>
+				<h5 class="text-on-muted mb-2 uppercase">Labels</h5>
+				{#each labelClasses as item}
+					<div class="py-2">
+						<span class={item.class}>{item.class}</span>
+					</div>
+				{/each}
+			</div>
+			<div>
+				<h5 class="text-on-muted mb-2 uppercase">Captions</h5>
+				{#each captionClasses as item}
+					<div class="py-2">
+						<span class={item.class}>{item.class}</span>
+					</div>
+				{/each}
+			</div>
+		</div>
 		<Code
-			lang="svelte"
-			code={`<!-- Using Prose Class -->
-<Section class="prose">
-	<h1>Article Title</h1>
-	<p class="lead">Introduction paragraph with larger text.</p>
-	<p>Regular paragraph with <strong>bold</strong> and <em>italic</em> text.</p>
-	<ul>
-		<li>List item one</li>
-		<li>List item two</li>
-	</ul>
-	<blockquote>An important quote</blockquote>
-</Section>
-
-<!-- Using Utility Classes -->
-<div>
-	<h1 class="hero-title">Welcome</h1>
-	<p class="hero-subtitle">A beautiful landing page</p>
-</div>
-
-<!-- Text Utilities -->
-<span class="tiny">Small annotation</span>
-<span class="label">Form label</span>
-<span class="snippet">code snippet</span>
-<a class="link">Clickable link</a>
-
-<!-- Headings without Prose -->
-<h1>Heading 1</h1>
-<h2>Heading 2</h2>
-<h3>Heading 3</h3>
-<h4>Heading 4</h4>
-<h5>Heading 5</h5>
-<h6>Heading 6</h6>`}
+			lang="html"
+			code={`<span class="label-md">Form Label</span>
+<span class="caption-md">Caption text</span>`}
 		/>
 	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Semantic Classes</p>
+	<p class="section-description">
+		Pre-defined classes for common UI patterns with balanced typography.
+	</p>
+	<Card>
+		<div class="space-y-8 py-4">
+			<div class="space-y-2">
+				<h5 class="text-on-muted uppercase">Hero</h5>
+				<h1 class="hero-title">Hero Title</h1>
+				<p class="hero-subtitle">Hero subtitle with medium weight and subtle opacity</p>
+				<p class="hero-description">
+					Hero description text that provides more context about the content.
+				</p>
+			</div>
+			<div class="space-y-2">
+				<h5 class="text-on-muted uppercase">Section</h5>
+				<h2 class="section-title">Section Title</h2>
+				<p class="section-subtitle">Section subtitle for additional context</p>
+				<p class="section-description">
+					Section description paragraph with proper line height and opacity.
+				</p>
+			</div>
+			<div class="space-y-2">
+				<h5 class="text-on-muted uppercase">CTA</h5>
+				<h3 class="cta-title">Call to Action Title</h3>
+				<p class="cta-subtitle">Compelling subtitle for the CTA</p>
+				<p class="cta-description">Description to encourage user action.</p>
+			</div>
+		</div>
+		<Code
+			lang="html"
+			code={`<!-- Hero Section -->
+<h1 class="hero-title">Hero Title</h1>
+<p class="hero-subtitle">Hero subtitle</p>
+<p class="hero-description">Hero description</p>
+
+<!-- Page Section -->
+<h2 class="section-title">Section Title</h2>
+<p class="section-subtitle">Section subtitle</p>
+<p class="section-description">Section description</p>
+
+<!-- Call to Action -->
+<h3 class="cta-title">CTA Title</h3>
+<p class="cta-subtitle">CTA subtitle</p>
+<p class="cta-description">CTA description</p>`}
+		/>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Utility Classes</p>
+	<p class="section-description">Subheadings, leads, overlines, and quotes.</p>
+	<Card>
+		<div class="space-y-6 py-4">
+			<div>
+				<span class="subheading">Subheading</span>
+				<span class="subheading-muted ml-4">Subheading Muted</span>
+			</div>
+			<div>
+				<p class="lead">Lead paragraph for introductions.</p>
+				<p class="lead-lg">Large lead paragraph.</p>
+			</div>
+			<div>
+				<p class="overline-primary">Overline Primary</p>
+				<p class="overline-secondary">Overline Secondary</p>
+				<p class="overline-muted">Overline Muted</p>
+			</div>
+			<div>
+				<blockquote class="quote">"This is a quote with italic styling."</blockquote>
+				<blockquote class="quote-lg">"This is a large quote."</blockquote>
+			</div>
+		</div>
+		<Code
+			lang="html"
+			code={`<span class="subheading">Subheading</span>
+<p class="lead">Lead paragraph text</p>
+<p class="overline-primary">Overline</p>
+<blockquote class="quote">"Quote text"</blockquote>`}
+		/>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Component Typography</p>
+	<p class="section-description">Typography classes for features, cards, and navigation.</p>
+	<Card>
+		<div class="grid-2 gap-6 py-4">
+			<div class="space-y-2">
+				<h4 class="feature-title">Feature Title</h4>
+				<p class="feature-description">Feature description with muted color and proper sizing.</p>
+			</div>
+			<div class="space-y-2">
+				<h5 class="card-title">Card Title</h5>
+				<p class="card-description">Card description text for content.</p>
+			</div>
+			<div class="space-y-2">
+				<!-- svelte-ignore a11y_missing_attribute -->
+				<a class="nav-item">Navigation Item</a>
+				<!-- svelte-ignore a11y_missing_attribute -->
+				<a class="nav-item-lg">Large Navigation Item</a>
+			</div>
+			<div class="space-y-2">
+				<p>Inline <code class="code-inline">code</code> example</p>
+				<pre class="code-block">const code = 'block';</pre>
+			</div>
+		</div>
+		<Code
+			lang="html"
+			code={`<h4 class="feature-title">Feature Title</h4>
+<p class="feature-description">Description</p>
+
+<h5 class="card-title">Card Title</h5>
+<p class="card-description">Description</p>
+
+<a class="nav-item">Nav Item</a>
+<code class="code-inline">inline code</code>`}
+		/>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Text Wrapping & Truncation</p>
+	<Card>
+		<div class="space-y-4 py-4">
+			<div class="prose-narrow border-l-2 border-primary pl-4">
+				<p class="text-on-muted text-sm">prose-narrow (45ch)</p>
+				<p>
+					This paragraph is constrained to a narrow width of 45 characters for optimal reading in
+					sidebars.
+				</p>
+			</div>
+			<div class="prose-normal border-l-2 border-secondary pl-4">
+				<p class="text-on-muted text-sm">prose-normal (65ch)</p>
+				<p>
+					This paragraph uses the standard prose width of 65 characters, which is considered optimal
+					for readability.
+				</p>
+			</div>
+			<div class="prose-wide border-l-2 border-info pl-4">
+				<p class="text-on-muted text-sm">prose-wide (80ch)</p>
+				<p>
+					This paragraph allows for wider text at 80 characters, useful for technical content or
+					code documentation.
+				</p>
+			</div>
+			<div>
+				<p class="text-on-muted text-sm mb-2">truncate-lines-2</p>
+				<p class="truncate-lines-2 max-w-md">
+					This is a long paragraph that will be truncated after two lines. Lorem ipsum dolor sit
+					amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+					magna aliqua.
+				</p>
+			</div>
+		</div>
+		<Code
+			lang="html"
+			code={`<p class="prose-normal">Optimal reading width</p>
+<p class="text-balance">Balanced heading</p>
+<p class="text-pretty">Pretty paragraph</p>
+<p class="truncate-lines-2">Long text truncated...</p>`}
+		/>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Display Classes Reference</p>
+	<DocsProps
+		props={displayClasses.map((c) => ({
+			prop: `.${c.class}`,
+			type: 'CSS class',
+			initial: c.description
+		}))}
+	/>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Heading Classes Reference</p>
+	<DocsProps
+		props={headingClasses.map((c) => ({
+			prop: `.${c.class}`,
+			type: 'CSS class',
+			initial: c.description
+		}))}
+	/>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Body & Label Classes Reference</p>
+	<DocsProps
+		props={[...bodyClasses, ...labelClasses, ...captionClasses].map((c) => ({
+			prop: `.${c.class}`,
+			type: 'CSS class',
+			initial: c.description
+		}))}
+	/>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Semantic Classes Reference</p>
+	<DocsProps
+		props={semanticClasses.map((c) => ({
+			prop: `.${c.class}`,
+			type: 'CSS class',
+			initial: c.description
+		}))}
+	/>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Utility Classes Reference</p>
+	<DocsProps
+		props={[...utilityClasses, ...componentClasses].map((c) => ({
+			prop: `.${c.class}`,
+			type: 'CSS class',
+			initial: c.description
+		}))}
+	/>
 </Section>

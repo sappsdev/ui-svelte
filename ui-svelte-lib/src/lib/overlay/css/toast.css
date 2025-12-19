@@ -23,7 +23,7 @@
 	}
 
 	.toast {
-		@apply absolute inset-x-0 flex items-center gap-3 p-4 pointer-events-auto rounded-ui;
+		@apply absolute inset-x-0 flex items-center gap-3 p-4 pointer-events-auto rounded-box;
 		@apply transition-all duration-300 ease-out shadow-sm;
 
 		transform: translateY(calc((var(--toast-total) - var(--toast-index) - 1) * -8px))
@@ -31,36 +31,24 @@
 		opacity: calc(1 - (var(--toast-total) - var(--toast-index) - 1) * 0.2);
 		z-index: calc(50 + var(--toast-index));
 
-		&.is-success {
-			@apply bg-on-success text-success;
-
-			&.is-solid {
-				@apply bg-success text-on-success;
-			}
+		&.is-soft {
+			&.is-primary { @apply bg-on-primary text-primary; }
+			&.is-secondary { @apply bg-on-secondary text-secondary; }
+			&.is-muted { @apply bg-muted text-on-muted; }
+			&.is-success { @apply bg-on-success text-success; }
+			&.is-info { @apply bg-on-info text-info; }
+			&.is-warning { @apply bg-on-warning text-warning; }
+			&.is-danger { @apply bg-on-danger text-danger; }
 		}
 
-		&.is-danger {
-			@apply bg-on-danger text-danger;
-
-			&.is-solid {
-				@apply bg-danger text-on-danger;
-			}
-		}
-
-		&.is-warning {
-			@apply bg-on-warning text-warning;
-
-			&.is-solid {
-				@apply bg-warning text-on-warning;
-			}
-		}
-
-		&.is-info {
-			@apply bg-on-info text-info;
-
-			&.is-solid {
-				@apply bg-info text-on-info;
-			}
+		&.is-solid {
+			&.is-primary { @apply bg-primary text-on-primary; }
+			&.is-secondary { @apply bg-secondary text-on-secondary; }
+			&.is-muted { @apply bg-on-muted text-muted; }
+			&.is-success { @apply bg-success text-on-success; }
+			&.is-info { @apply bg-info text-on-info; }
+			&.is-warning { @apply bg-warning text-on-warning; }
+			&.is-danger { @apply bg-danger text-on-danger; }
 		}
 
 		.toast-icon {

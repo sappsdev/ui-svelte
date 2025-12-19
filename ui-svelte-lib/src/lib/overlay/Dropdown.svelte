@@ -14,13 +14,13 @@
 
 	type Props = {
 		options: Option[];
-		variant?: 'primary' | 'secondary' | 'muted';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'danger' | 'warning' | 'info';
 		children: Snippet;
 		header?: Snippet;
 		footer?: Snippet;
 	};
 
-	const { children, header, footer, options, variant = 'primary' }: Props = $props();
+	const { children, header, footer, options, color = 'primary' }: Props = $props();
 
 	let isOpen = $state(false);
 	let controlElement = $state<HTMLElement>();
@@ -131,7 +131,7 @@
 					id={item.id}
 					href={item.href}
 					onclick={() => item.onclick?.(item)}
-					{variant}
+					{color}
 					size="sm"
 					isCompact
 				/>

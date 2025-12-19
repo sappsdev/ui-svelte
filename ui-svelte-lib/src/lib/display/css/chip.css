@@ -37,7 +37,7 @@
 	.chip.is-soft {
 		&.is-primary { @apply bg-on-primary text-primary; }
 		&.is-secondary { @apply bg-on-secondary text-secondary; }
-		&.is-muted { @apply bg-on-muted text-muted; }
+		&.is-muted { @apply bg-muted text-on-muted; }
 		&.is-success { @apply bg-on-success text-success; }
 		&.is-info { @apply bg-on-info text-info; }
 		&.is-warning { @apply bg-on-warning text-warning; }

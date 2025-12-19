@@ -1,14 +1,23 @@
-## Table Component
+# Table Component
 
-Data table with pagination, sorting, filtering, and server-side support.
+A powerful data table with built-in pagination, sorting, search, and row selection. Supports both client-side and server-side data handling.
+
+## Basic Usage
 
 ```svelte
 <script>
   import { Table, useTable } from 'ui-svelte';
-  
+
+  const data = [
+    { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User' },
+    { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'Manager' }
+  ];
+
   const table = useTable({
-    data: users,  // or url: 'https://api.example.com/users'
+    data,
     columns: [
+      { label: 'ID', field: 'id', width: '80px', sortable: true },
       { label: 'Name', field: 'name', sortable: true },
       { label: 'Email', field: 'email' },
       { label: 'Role', field: 'role', align: 'center' }
@@ -17,230 +26,370 @@ Data table with pagination, sorting, filtering, and server-side support.
   });
 </script>
 
-<Table table={table} showPagination isStriped />
+<Table {table} hasDividers showPagination />
 ```
 
-### useTable Hook Props
+## Table Props
 
-| Prop | Default | Description |
-|------|---------|-------------|
-| `columns` | `[]` | Column definitions (required) |
-| `data` | - | Static data array (client-side mode) |
-| `url` | - | API endpoint (server-side mode) |
-| `queryParams` | - | `(params) => Record<string, string>` |
-| `parseResponse` | - | `(data, params) => PaginatedResponse` |
-| `headers` | `{}` | Custom request headers |
-| `initialPage` | `1` | Starting page |
-| `initialPageSize` | `10` | Rows per page |
-| `initialSortBy` | - | Initial sort field |
-| `initialSortOrder` | `'ASC'` | `ASC` `DESC` |
-| `initialSearch` | `''` | Initial search query |
-| `debounceSearch` | `0` | Search debounce (ms) |
-| `selectable` | `false` | Enable row selection |
-| `rowKey` | `'id'` | Unique row identifier |
-| `onSelectionChange` | - | `(selectedRows) => void` |
-| `onError` | - | `(error) => void` |
-| `onSuccess` | - | `(response) => void` |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `table` | `TableState` | - | Required. State from useTable hook |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Table size variant |
+| `color` | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | - | Header and selection color |
+| `isStriped` | `boolean` | `false` | Alternating row backgrounds |
+| `isBordered` | `boolean` | `false` | Add cell borders |
+| `hasDividers` | `boolean` | `false` | Show row dividers |
+| `showPagination` | `boolean` | `false` | Show pagination controls |
+| `paginationAlign` | `'start' \| 'center' \| 'end'` | `'center'` | Pagination alignment |
+| `loadingRows` | `number` | `5` | Skeleton rows during loading |
+| `showSearch` | `boolean` | `false` | Show search input |
+| `searchPlaceholder` | `string` | `'Search...'` | Search placeholder |
+| `showRowsPerPage` | `boolean` | `false` | Show page size selector |
+| `rowsPerPageOptions` | `number[]` | `[5,10,25,50,100]` | Page size options |
+| `showTotal` | `boolean` | `false` | Show total items count |
+| `noDataTitle` | `string` | `'No data'` | Empty state title |
+| `noDataDescription` | `string` | - | Empty state description |
+| `onRowClick` | `(row, index) => void` | - | Row click handler |
+| `rowClass` | `(row, index) => string` | - | Dynamic row class |
+| `rootClass` | `string` | - | Wrapper class |
+| `containerClass` | `string` | - | Container class |
+| `headerClass` | `string` | - | Header class |
+| `bodyClass` | `string` | - | Body class |
 
-### Column Props
+## useTable Config
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `label` | `string` | Column header (required) |
-| `field` | `string` | Data field key (required) |
-| `width` | `string` | Column width (CSS) |
-| `align` | `'left' \| 'center' \| 'right'` | Text alignment |
-| `sortable` | `boolean` | Enable sorting |
-| `render` | `Snippet` | Custom cell renderer |
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `columns` | `Column[]` | - | Required. Column definitions |
+| `data` | `any[]` | - | Static data (client-side mode) |
+| `url` | `string` | - | API endpoint (server-side mode) |
+| `queryParams` | `(params) => Record<string,string>` | - | Build query params |
+| `parseResponse` | `(response, params) => Response` | - | Parse API response |
+| `headers` | `Record<string,string>` | `{}` | Request headers |
+| `initialPage` | `number` | `1` | Initial page |
+| `initialPageSize` | `number` | `10` | Initial rows per page |
+| `initialSortBy` | `string` | - | Initial sort column |
+| `initialSortOrder` | `'ASC' \| 'DESC'` | `'ASC'` | Initial sort direction |
+| `debounceSearch` | `number` | `0` | Search debounce (ms) |
+| `selectable` | `boolean` | `false` | Enable row selection |
+| `rowKey` | `string` | `'id'` | Unique row identifier |
+| `onSelectionChange` | `(rows) => void` | - | Selection callback |
+| `onSuccess` | `(response) => void` | - | Success callback |
+| `onError` | `(error) => void` | - | Error callback |
 
-### Table Component Props
+## Column Config
 
-| Prop | Default | Description |
-|------|---------|-------------|
-| `table` | - | Table state from useTable (required) |
-| `showPagination` | `false` | Show pagination controls |
-| `isStriped` | `false` | Striped rows |
-| `isBordered` | `false` | Table borders |
-| `hasDividers` | `true` | Row dividers |
-| `size` | `'md'` | `sm` `md` `lg` |
-| `paginationAlign` | `'center'` | `start` `center` `end` |
-| `showSearch` | `false` | Show search input |
-| `searchPlaceholder` | `'Search...'` | Search placeholder |
-| `showRowsPerPage` | `false` | Show rows selector |
-| `rowsPerPageOptions` | `[10, 25, 50, 100]` | Page size options |
-| `showTotal` | `false` | Show total count |
-| `toolbarEnd` | - | Snippet for toolbar actions |
-| `selectionActions` | - | Snippet for selection actions |
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `label` | `string` | - | Column header text |
+| `field` | `string` | - | Data field key |
+| `sortable` | `boolean` | `false` | Enable sorting |
+| `width` | `string` | - | Column width (e.g., '80px') |
+| `align` | `'left' \| 'center' \| 'right'` | `'left'` | Text alignment |
+| `render` | `Snippet<[row]>` | - | Custom cell renderer |
 
-### Table State Methods
+## TableState Methods
 
-- `updateData(data)` - Update client-side data
-- `refresh()` - Reload data
-- `reset()` - Reset to initial state
-- `setSort(field, order)` - Set sorting
-- `selectAll()` - Select all rows
-- `clearSelection()` - Clear selection
-- `selectedRows` - Array of selected rows
-- `isAllSelected` - Boolean
-- `isIndeterminate` - Boolean
+The `useTable` hook returns a state object with:
 
-### Common Patterns
+- `data`, `isLoading`, `error`, `total`
+- `page`, `pageSize`, `totalPages`
+- `sortBy`, `sortOrder`, `search`
+- `selectedRows`, `isAllSelected`
+- `setPage(n)`, `setPageSize(n)`, `setSort(col, order)`
+- `setSearch(query)`, `refresh()`, `reset()`
+- `toggleRow(row)`, `clearSelection()`
 
+## Common Patterns
+
+### Client-Side Table
 ```svelte
-<!-- Client-Side Table -->
 <script>
+  import { Table, useTable } from 'ui-svelte';
+
   const users = [
-    { id: 1, name: 'John', email: 'john@example.com', role: 'Admin' },
-    { id: 2, name: 'Jane', email: 'jane@example.com', role: 'User' }
+    { id: 1, name: 'John', email: 'john@example.com', status: 'active' },
+    { id: 2, name: 'Jane', email: 'jane@example.com', status: 'inactive' }
   ];
-  
+
   const table = useTable({
     data: users,
     columns: [
-      { label: 'ID', field: 'id', width: '80px' },
       { label: 'Name', field: 'name', sortable: true },
       { label: 'Email', field: 'email' },
-      { label: 'Role', field: 'role', align: 'center' }
+      { label: 'Status', field: 'status', align: 'center' }
     ],
     initialPageSize: 10
   });
 </script>
 
-<Table table={table} showPagination isStriped />
+<Table 
+  {table} 
+  hasDividers 
+  showPagination 
+  showSearch
+  showRowsPerPage
+  showTotal
+/>
+```
 
-<!-- Server-Side Table -->
+### Server-Side Table
+```svelte
 <script>
+  import { Table, useTable } from 'ui-svelte';
+
   const table = useTable({
     url: 'https://api.example.com/users',
     columns: [
       { label: 'Name', field: 'name', sortable: true },
-      { label: 'Email', field: 'email' }
+      { label: 'Email', field: 'email' },
+      { label: 'Role', field: 'role' }
     ],
-    queryParams: (options) => ({
-      limit: String(options.limit),
-      offset: String(options.offset),
-      sort: options.sortBy || '',
-      order: options.sortOrder || 'ASC'
+    queryParams: (params) => ({
+      page: String(params.page),
+      limit: String(params.limit),
+      sort: params.sortBy || '',
+      order: params.sortOrder || '',
+      search: params.search || ''
     }),
-    parseResponse: (response, options) => ({
-      data: response.results,
-      total: response.count,
-      page: options.page || 1,
-      pageSize: options.pageSize || 10,
-      totalPages: Math.ceil(response.count / (options.pageSize || 10))
+    parseResponse: (response, params) => ({
+      data: response.data,
+      total: response.total,
+      page: params.page || 1,
+      pageSize: params.pageSize || 10,
+      totalPages: Math.ceil(response.total / (params.pageSize || 10))
     }),
-    headers: { 'Authorization': 'Bearer token' }
+    headers: {
+      'Authorization': 'Bearer token'
+    }
   });
 </script>
 
-<Table table={table} showPagination isBordered />
+<Table {table} hasDividers showPagination showSearch />
+```
 
-<!-- Custom Cell Rendering -->
+### Custom Cell Rendering
+```svelte
 <script>
+  import { Table, useTable, Chip, Button } from 'ui-svelte';
+
   const table = useTable({
     data: users,
     columns: [
       { label: 'Name', field: 'name' },
-      { label: 'Status', field: 'status', render: statusSnippet },
-      { label: 'Actions', field: 'actions', render: actionsSnippet }
+      { label: 'Status', field: 'status', render: statusCell },
+      { label: 'Actions', field: 'actions', align: 'right', render: actionsCell }
     ]
   });
 </script>
 
-{#snippet statusSnippet(user)}
-  <Chip variant={user.status === 'active' ? 'success' : 'warning'} isSolid>
-    {user.status}
+{#snippet statusCell(row)}
+  <Chip 
+    color={row.status === 'active' ? 'success' : 'warning'} 
+    variant="soft" 
+    size="xs"
+  >
+    {row.status}
   </Chip>
 {/snippet}
 
-{#snippet actionsSnippet(user)}
-  <div class="flex gap-2">
-    <IconButton icon="fluent:edit-24-regular" size="xs" />
-    <IconButton icon="fluent:delete-24-regular" size="xs" variant="danger" />
+{#snippet actionsCell(row)}
+  <div class="flex gap-2 justify-end">
+    <Button size="xs" variant="ghost">Edit</Button>
+    <Button size="xs" variant="ghost" color="danger">Delete</Button>
   </div>
 {/snippet}
 
-<Table table={table} showPagination />
+<Table {table} hasDividers showPagination />
+```
 
-<!-- With Search and Toolbar -->
+### Row Selection
+```svelte
 <script>
+  import { Table, useTable, Button } from 'ui-svelte';
+
   const table = useTable({
     data: users,
-    columns: [...],
-    debounceSearch: 300
-  });
-</script>
-
-<Table
-  table={table}
-  showPagination
-  showSearch
-  searchPlaceholder="Search users..."
-  showRowsPerPage
-  showTotal
->
-  {#snippet toolbarEnd()}
-    <Button variant="primary" size="sm">Add User +</Button>
-  {/snippet}
-</Table>
-
-<!-- Row Selection -->
-<script>
-  const table = useTable({
-    data: users,
-    columns: [...],
+    columns: [
+      { label: 'Name', field: 'name', sortable: true },
+      { label: 'Email', field: 'email' }
+    ],
     selectable: true,
     rowKey: 'id',
-    onSelectionChange: (selected) => console.log('Selected:', selected)
+    onSelectionChange: (rows) => {
+      console.log('Selected:', rows);
+    }
   });
-  
+
   function handleDelete() {
-    console.log('Deleting:', table.selectedRows);
+    const ids = table.selectedRows.map(r => r.id);
+    console.log('Delete:', ids);
     table.clearSelection();
   }
 </script>
 
-<Table table={table} showPagination>
+<Table {table} hasDividers showPagination>
   {#snippet selectionActions(selectedRows)}
-    <Button size="sm" variant="danger" onclick={handleDelete}>
+    <Button 
+      size="sm" 
+      color="danger" 
+      variant="soft"
+      onclick={handleDelete}
+    >
       Delete ({selectedRows.length})
     </Button>
   {/snippet}
 </Table>
+```
 
-<!-- Sorting -->
+### Visual Variants
+```svelte
+<!-- Striped rows -->
+<Table {table} isStriped showPagination />
+
+<!-- With borders -->
+<Table {table} isBordered showPagination />
+
+<!-- Compact with dividers -->
+<Table {table} hasDividers size="sm" />
+
+<!-- With color theme -->
+<Table {table} color="primary" hasDividers showPagination />
+```
+
+### Complete Example
+```svelte
 <script>
+  import { Section, Card, Table, useTable, Chip, Button } from 'ui-svelte';
+
   const table = useTable({
-    data: users,
-    columns: [
-      { label: 'ID', field: 'id', sortable: true },
-      { label: 'Name', field: 'name', sortable: true },
-      { label: 'Email', field: 'email', sortable: true }
+    data: [
+      { id: 1, name: 'John', email: 'john@example.com', role: 'Admin', status: 'active' },
+      { id: 2, name: 'Jane', email: 'jane@example.com', role: 'User', status: 'inactive' }
     ],
-    initialSortBy: 'name',
-    initialSortOrder: 'ASC'
+    columns: [
+      { label: 'ID', field: 'id', width: '80px', sortable: true },
+      { label: 'Name', field: 'name', sortable: true },
+      { label: 'Email', field: 'email' },
+      { label: 'Role', field: 'role', align: 'center' },
+      { label: 'Status', field: 'status', render: statusCell },
+      { label: 'Actions', field: 'actions', align: 'right', render: actionsCell }
+    ],
+    initialPageSize: 10,
+    selectable: true,
+    rowKey: 'id'
   });
 </script>
 
-<Table table={table} showPagination isStriped />
+{#snippet statusCell(row)}
+  <Chip color={row.status === 'active' ? 'success' : 'danger'} size="xs">
+    {row.status}
+  </Chip>
+{/snippet}
+
+{#snippet actionsCell(row)}
+  <div class="flex gap-2">
+    <Button size="xs" variant="ghost">Edit</Button>
+    <Button size="xs" variant="ghost" color="danger">Delete</Button>
+  </div>
+{/snippet}
+
+<Section isBoxed>
+  <Card>
+    <h2 class="card-title">Users</h2>
+    <Table 
+      {table}
+      color="primary"
+      hasDividers
+      showPagination
+      showSearch
+      showRowsPerPage
+      showTotal
+      searchPlaceholder="Search users..."
+    >
+      {#snippet selectionActions(selectedRows)}
+        <Button size="sm" color="danger" variant="soft">
+          Delete ({selectedRows.length})
+        </Button>
+      {/snippet}
+    </Table>
+  </Card>
+</Section>
 ```
 
-**For LLMs**: Table displays tabular data with pagination, sorting, and filtering. Use `useTable` hook for state management. **Client-side mode**: provide `data` array for local operations. **Server-side mode**: provide `url` for API integration with `queryParams` and `parseResponse`. Columns can have custom `render` snippets. Enable `selectable` for row selection with checkboxes. Use `showSearch`, `showRowsPerPage`, `showTotal` for toolbar features. `toolbarEnd` and `selectionActions` snippets add custom UI. Sorting enabled per-column with `sortable: true`. Table state provides methods like `updateData()`, `refresh()`, `reset()`, `selectAll()`, `clearSelection()`.
+## Best Practices
 
----
+1. **Always use within Section and Card**
+   ```svelte
+   <Section isBoxed>
+     <Card>
+       <h2 class="card-title">Table Title</h2>
+       <Table {table} />
+     </Card>
+   </Section>
+   ```
 
-## Quick Hierarchy Reference
-```
-Page
-|-- Section (page structure, bodyClass for layout)
-    |-- Card (content container, bodyClass for layout)
-        |-- Content (Table, text, images, etc.)
-```
+2. **Set appropriate page sizes**
+   ```svelte
+   const table = useTable({
+     data,
+     columns,
+     initialPageSize: 10, // Good default
+     rowsPerPageOptions: [10, 25, 50] // Reasonable options
+   });
+   ```
 
-**Key Rule**: Section → Card → Content. Never nest Sections.
+3. **Use snippets for complex cells**
+   ```svelte
+   // ✅ Good - Custom rendering
+   { label: 'Status', field: 'status', render: statusCell }
+   
+   // ❌ Avoid - Plain text only
+   { label: 'Status', field: 'status' }
+   ```
 
-**Shared Variants**: `primary` `secondary` `muted` `success` `info` `warning` `danger` `surface` `ghost` `outlined`
+4. **Handle loading and error states**
+   ```svelte
+   <script>
+     const table = useTable({
+       url: '/api/data',
+       columns,
+       onError: (error) => {
+         console.error('Failed to load:', error);
+       },
+       onSuccess: (data) => {
+         console.log('Loaded:', data);
+       }
+     });
+   </script>
+   ```
 
-**Layout System**: Apply flex/grid utilities via `bodyClass` on Section/Card. Always use `gap` utilities.
+5. **Debounce search for server-side**
+   ```svelte
+   const table = useTable({
+     url: '/api/data',
+     columns,
+     debounceSearch: 300 // Wait 300ms before searching
+   });
+   ```
 
-**Mobile-First**: Start with `column`, expand with `md:row`. Use responsive grid: `grid-1 md:grid-3`.
+## Related Documentation
+
+- **Typography:** https://ui-svelte.sappsdev.com/llm/starter/typography.md
+- **Page Structure:** https://ui-svelte.sappsdev.com/llm/layout/page.md
+- **Section Component:** https://ui-svelte.sappsdev.com/llm/display/section.md
+- **Card Component:** https://ui-svelte.sappsdev.com/llm/display/card.md
+- **Button Component:** https://ui-svelte.sappsdev.com/llm/control/button.md
+- **Chip Component:** https://ui-svelte.sappsdev.com/llm/display/chip.md
+
+## Notes
+
+- **Always use card-title class** for table headers in Card components
+- Table component uses `useTable` hook for state management
+- Supports both client-side (data prop) and server-side (url prop) modes
+- Client-side mode handles sorting, filtering, and pagination automatically
+- Server-side mode requires `queryParams` and `parseResponse` configuration
+- Custom cell rendering uses Svelte 5 snippets
+- Row selection requires `selectable: true` and `rowKey` configuration
+- Use `hasDividers` for cleaner visual separation between rows
+- Combine with typography classes for consistent text styling

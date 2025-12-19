@@ -4,7 +4,9 @@
 @import './css/utilities.css';
 @import './css/animations.css';
 @import './css/base.css';
+@import './css/decorations.css';
 @import './css/rich-text.css';
+@import './css/typography.css';
 
 @import './control/css/btn.css';
 @import './control/css/media.css';
@@ -61,6 +63,7 @@
 @import './navigation/css/nav-menu.css';
 @import './navigation/css/footer-nav.css';
 @import './navigation/css/footer-group.css';
+@import './navigation/css/pagination.css';
 @import './navigation/css/side-nav.css';
 @import './navigation/css/tabs.css';
 

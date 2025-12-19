@@ -6,7 +6,7 @@
 	}
 
 	.control-label {
-		@apply absolute left-3 top-1/2 -translate-y-1/2 truncate;
+		@apply absolute left-3 top-1/2 -translate-y-1/2 pr-6 w-full text-left truncate;
 		@apply transition-all duration-300;
 
 		&.is-active {

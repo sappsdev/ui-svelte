@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { Card, Code, Section, Select, Slider, Tabs, Button, Icon } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 	import { formatCurrency, formatDate, formatNumber, plural, t, i18n } from 'ui-svelte';
 
 	// Streamline Color Icons
@@ -164,6 +163,19 @@ initLanguage({
   <p>{formatNumber(number)}</p>
   <p>{plural("messages.items", itemCount)}</p>
 </div>`;
+
+	const props = [
+		{ prop: 't', type: '(key: string, params?: object) => string', initial: '' },
+		{ prop: 'plural', type: '(key: string, count: number) => string', initial: '' },
+		{
+			prop: 'formatDate',
+			type: '(date: Date, options?: Intl.DateTimeFormatOptions) => string',
+			initial: ''
+		},
+		{ prop: 'formatNumber', type: '(number: number) => string', initial: '' },
+		{ prop: 'formatCurrency', type: '(amount: number, currency: string) => string', initial: '' },
+		{ prop: 'i18n', type: '() => I18nStore', initial: '' }
+	];
 </script>
 
 {#snippet translationsContent()}
@@ -207,67 +219,76 @@ initLanguage({
 	management, date/number formatting, pluralization, and automatic locale detection.
 </DocsHeader>
 
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		<Card bodyClass="column gap-4">
-			<div>
-				<p class="text-xs text-on-muted mb-1">Translation with Parameters</p>
-				<h2 class="text-xl font-semibold">{t('common.welcome', { name: 'John' })}</h2>
-			</div>
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Language"
+				size="sm"
+				options={languageOptions}
+				bind:value={selectedLanguage}
+			/>
+			<Slider label="Item Count" min={0} max={10} bind:value={itemCount} />
+		</div>
 
-			<div class="grid-2 gap-3">
-				<div class="p-3 bg-muted rounded-lg">
-					<p class="text-xs text-on-muted mb-1">Date Formatting</p>
-					<p class="font-medium">{formatDate(today, { dateStyle: 'medium' })}</p>
+		<div class="doc-preview">
+			<Card bodyClass="column gap-4">
+				<div>
+					<p class="text-xs text-on-muted mb-1">Translation with Parameters</p>
+					<h2 class="text-xl font-semibold">{t('common.welcome', { name: 'John' })}</h2>
 				</div>
 
-				<div class="p-3 bg-muted rounded-lg">
-					<p class="text-xs text-on-muted mb-1">Currency Formatting</p>
-					<p class="font-medium">{formatCurrency(price, 'EUR')}</p>
+				<div class="grid-2 gap-3">
+					<div class="p-3 bg-muted rounded-lg">
+						<p class="text-xs text-on-muted mb-1">Date Formatting</p>
+						<p class="font-medium">{formatDate(today, { dateStyle: 'medium' })}</p>
+					</div>
+
+					<div class="p-3 bg-muted rounded-lg">
+						<p class="text-xs text-on-muted mb-1">Currency Formatting</p>
+						<p class="font-medium">{formatCurrency(price, 'EUR')}</p>
+					</div>
+
+					<div class="p-3 bg-muted rounded-lg">
+						<p class="text-xs text-on-muted mb-1">Number Formatting</p>
+						<p class="font-medium">{formatNumber(number)}</p>
+					</div>
+
+					<div class="p-3 bg-muted rounded-lg">
+						<p class="text-xs text-on-muted mb-1">Pluralization</p>
+						<p class="font-medium">{plural('messages.items', itemCount)}</p>
+					</div>
 				</div>
 
-				<div class="p-3 bg-muted rounded-lg">
-					<p class="text-xs text-on-muted mb-1">Number Formatting</p>
-					<p class="font-medium">{formatNumber(number)}</p>
+				<div class="row gap-2">
+					{#each languageOptions as lang}
+						<Button
+							size="sm"
+							variant={selectedLanguage === lang.id ? 'solid' : 'outlined'}
+							onclick={() => (selectedLanguage = lang.id)}
+						>
+							{lang.label}
+						</Button>
+					{/each}
 				</div>
-
-				<div class="p-3 bg-muted rounded-lg">
-					<p class="text-xs text-on-muted mb-1">Pluralization</p>
-					<p class="font-medium">{plural('messages.items', itemCount)}</p>
-				</div>
-			</div>
-
-			<div class="row gap-2">
-				{#each languageOptions as lang}
-					<Button
-						size="sm"
-						variant={selectedLanguage === lang.id ? 'primary' : 'outlined'}
-						onclick={() => (selectedLanguage = lang.id)}
-					>
-						{lang.label}
-					</Button>
-				{/each}
-			</div>
-		</Card>
-	</DocsPreview>
-	<Card>
-		<Select label="Language" size="sm" options={languageOptions} bind:value={selectedLanguage} />
-		<Slider label="Item Count" min={0} max={10} bind:value={itemCount} />
+			</Card>
+		</div>
+		<Code lang="svelte" code={code()} />
 	</Card>
-	<DocsCode code={code()} />
 </Section>
 
 <Section>
+	<p class="section-subtitle">Setup</p>
 	<Card>
 		<Tabs tabs={setupTabs} />
 	</Card>
 </Section>
 
 <Section>
+	<p class="section-subtitle">Available Functions</p>
 	<Card>
-		{#snippet header()}
-			<h4>Available Functions</h4>
-		{/snippet}
 		<div class="overflow-x-auto">
 			<table class="w-full border-collapse">
 				<thead>
@@ -292,10 +313,8 @@ initLanguage({
 </Section>
 
 <Section>
+	<p class="section-subtitle">Configuration Options</p>
 	<Card>
-		{#snippet header()}
-			<h4>Configuration Options</h4>
-		{/snippet}
 		<div class="overflow-x-auto">
 			<table class="w-full border-collapse">
 				<thead>
@@ -320,7 +339,7 @@ initLanguage({
 </Section>
 
 <Section bodyClass="grid-2 md:grid-4">
-	<Card variant="primary">
+	<Card color="primary">
 		{#snippet header()}
 			<h4 class="font-semibold mb-2 row gap-2">
 				<Icon icon={FolderAddIcon} class="w-6 h-6" /> File Naming
@@ -333,7 +352,7 @@ initLanguage({
 		</p>
 	</Card>
 
-	<Card variant="warning">
+	<Card color="warning">
 		{#snippet header()}
 			<h4 class="font-semibold mb-2 row gap-2">
 				<Icon icon={CloudWarningIcon} class="w-6 h-6" /> Important
@@ -346,7 +365,7 @@ initLanguage({
 		</p>
 	</Card>
 
-	<Card variant="success">
+	<Card color="success">
 		{#snippet header()}
 			<h4 class="font-semibold mb-2 row gap-2">
 				<Icon icon={AwardBadgeIcon} class="w-6 h-6" /> Best Practice
@@ -359,7 +378,7 @@ initLanguage({
 		</p>
 	</Card>
 
-	<Card variant="info">
+	<Card color="info">
 		{#snippet header()}
 			<h4 class="font-semibold mb-2 row gap-2">
 				<Icon icon={ShieldGlobeIcon} class="w-6 h-6" /> New Languages
@@ -374,7 +393,7 @@ initLanguage({
 </Section>
 
 <Section>
-	<Card variant="info">
+	<Card color="info">
 		<div class="column gap-3">
 			<h4 class="font-semibold row gap-2">
 				<Icon icon={LightBulbIcon} class="w-5 h-5" /> Pro Tips
@@ -403,10 +422,8 @@ initLanguage({
 </Section>
 
 <Section>
+	<p class="section-subtitle">Usage Examples</p>
 	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Usage Examples</h4>
-		{/snippet}
 		<Code
 			lang="svelte"
 			code={`<!-- Basic Translation -->
@@ -434,4 +451,9 @@ initLanguage({
 <\/script>`}
 		/>
 	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Functions</p>
+	<DocsProps {props} />
 </Section>

@@ -3,7 +3,7 @@
 		@apply flex items-center gap-1;
 
 		.navmenu-item {
-			@apply relative flex items-center gap-2 rounded-ui px-4 py-2;
+			@apply relative flex items-center gap-2 rounded-box px-4 py-2;
 			@apply cursor-pointer select-none outline-none;
 			@apply transition-all duration-300;
 
@@ -185,7 +185,7 @@
 
 	.navmenu-popover {
 		@apply flex flex-col gap-2 p-2 my-1;
-		@apply bg-background text-on-background rounded-ui;
+		@apply bg-background text-on-background rounded-box;
 		@apply invisible opacity-0 transition-opacity duration-300 ease-in-out;
 		@apply shadow-sm shadow-muted;
 		position: fixed;

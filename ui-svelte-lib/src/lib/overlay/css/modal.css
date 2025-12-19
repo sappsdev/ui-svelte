@@ -6,42 +6,42 @@
 			@apply absolute inset-0 bg-overlay;
 		}
 		.modal {
-			@apply relative flex flex-col gap-4 md:gap-6 rounded-ui py-4 md:py-6 max-w-[95vw] max-h-[95vh];
+			@apply relative flex flex-col rounded-box max-w-[95vw] max-h-[95vh];
 
-			&.is-ghost {
-				@apply bg-background text-on-background;
+			&.is-soft {
+				&.is-primary { @apply bg-on-primary text-primary; }
+				&.is-secondary { @apply bg-on-secondary text-secondary; }
+				&.is-muted { @apply bg-muted text-on-muted; }
+				&.is-success { @apply bg-on-success text-success; }
+				&.is-info { @apply bg-on-info text-info; }
+				&.is-warning { @apply bg-on-warning text-warning; }
+				&.is-danger { @apply bg-on-danger text-danger; }
+				&.is-default { @apply bg-background text-on-background; }
+				&.is-surface { @apply bg-surface text-on-surface; }
 			}
-			&.is-surface {
-				@apply bg-surface text-on-surface;
+
+			&.is-solid {
+				&.is-primary { @apply bg-primary text-on-primary; }
+				&.is-secondary { @apply bg-secondary text-on-secondary; }
+				&.is-muted { @apply bg-on-muted text-muted; }
+				&.is-success { @apply bg-success text-on-success; }
+				&.is-info { @apply bg-info text-on-info; }
+				&.is-warning { @apply bg-warning text-on-warning; }
+				&.is-danger { @apply bg-danger text-on-danger; }
+				&.is-default { @apply bg-background text-on-background; }
+				&.is-surface { @apply bg-surface text-on-surface; }
 			}
-			&.is-primary {
-				@apply bg-on-primary text-primary;
-			}
-			&.is-secondary {
-				@apply bg-on-secondary text-secondary;
-			}
-			&.is-muted {
-				@apply bg-muted text-on-muted;
-			}
-			&.is-primary.is-solid {
-				@apply bg-primary text-on-primary;
-			}
-			&.is-secondary.is-solid {
-				@apply bg-secondary text-on-secondary;
-			}
-			&.is-muted.is-solid {
-				@apply bg-on-muted text-muted;
-			}
-			.modal-content {
-				@apply px-4 md:px-6 overflow-hidden overflow-y-auto;
+
+			.modal-body {
+				@apply column gap-4 md:gap-6 p-4 md:p-6 overflow-hidden overflow-y-auto;
 			}
 
 			.modal-header {
-				@apply grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-4 md:px-6;
+				@apply w-full flex justify-between items-center px-4 pt-4 gap-4 md:px-6 md:pt-6 md:gap-6;
 			}
 
 			.modal-footer {
-				@apply [.border-t]:pt-4 md:[.border-t]:pt-6 flex items-center px-4 md:px-6;
+				@apply w-full flex justify-between items-center px-4 pb-4 gap-4 md:px-6 md:pb-6 md:gap-6;
 			}
 		}
 		.modal-btn-close {

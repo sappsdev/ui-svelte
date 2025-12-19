@@ -16,10 +16,15 @@
 		class?: string;
 		position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 		showIcon?: boolean;
-		isSolid?: boolean;
+		variant?: 'solid' | 'soft';
 	};
 
-	const { class: className, position = 'bottom-left', isSolid, showIcon }: Props = $props();
+	const {
+		class: className,
+		position = 'bottom-left',
+		variant = 'soft',
+		showIcon
+	}: Props = $props();
 
 	const positionClasses = {
 		'top-left': 'is-top-left',
@@ -28,11 +33,19 @@
 		'bottom-right': 'is-bottom-right'
 	};
 
-	const status = {
+	const colors = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
 		info: 'is-info',
 		success: 'is-success',
 		warning: 'is-warning',
 		danger: 'is-danger'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft'
 	};
 
 	const icons = {
@@ -52,17 +65,21 @@
 		{#each toast.messages as message, index (message.id)}
 			<div
 				transition:slide
-				class={cn('toast', status[message.status], (message.isSolid || isSolid) && 'is-solid')}
+				class={cn(
+					'toast',
+					colors[message.color],
+					message.variant ? variants[message.variant] : variants[variant]
+				)}
 				style="--toast-index: {index}; --toast-total: {toast.messages.length}"
 			>
 				{#if showIcon}
-					{#if message.status === 'info'}
+					{#if message.color === 'info'}
 						<Icon icon={Info24RegularIcon} class="toast-icon" />
-					{:else if message.status === 'success'}
+					{:else if message.color === 'success'}
 						<Icon icon={CheckmarkCircle24RegularIcon} class="toast-icon" />
-					{:else if message.status === 'warning'}
+					{:else if message.color === 'warning'}
 						<Icon icon={Warning24RegularIcon} class="toast-icon" />
-					{:else if message.status === 'danger'}
+					{:else if message.color === 'danger'}
 						<Icon icon={DismissCircle24RegularIcon} class="toast-icon" />
 					{/if}
 				{/if}

@@ -13,14 +13,23 @@
 		children: Snippet;
 		header?: Snippet;
 		footer?: Snippet;
-		class?: string;
+		rootClass?: string;
 		headerClass?: string;
 		footerClass?: string;
 		contentClass?: string;
-		variant?: 'ghost' | 'surface' | 'primary' | 'secondary' | 'muted';
+		color?:
+			| 'primary'
+			| 'secondary'
+			| 'muted'
+			| 'success'
+			| 'info'
+			| 'warning'
+			| 'danger'
+			| 'surface'
+			| 'default';
+		variant?: 'solid' | 'soft';
 		disableOverlayClose?: boolean;
 		hideCloseButton?: boolean;
-		isSolid?: boolean;
 	};
 
 	let {
@@ -29,24 +38,45 @@
 		header,
 		footer,
 		children,
-		class: className,
+		rootClass,
 		headerClass,
 		contentClass,
 		footerClass,
-		variant = 'ghost',
+		color = 'default',
+		variant = 'solid',
 		disableOverlayClose,
-		hideCloseButton,
-		isSolid
+		hideCloseButton
 	}: Props = $props();
 
 	let openContent = $state(false);
 
-	const variants = {
-		ghost: 'is-ghost',
-		surface: 'is-surface',
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
-		muted: 'is-muted'
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning',
+		surface: 'is-surface',
+		default: 'is-default'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft'
+	};
+
+	const closeColors = {
+		primary: 'primary',
+		secondary: 'secondary',
+		muted: 'muted',
+		success: 'success',
+		info: 'info',
+		warning: 'warning',
+		danger: 'danger',
+		surface: 'muted',
+		default: 'muted'
 	};
 
 	const handleOverlayClick = () => {
@@ -75,14 +105,14 @@
 		{#if openContent}
 			<div
 				in:scale={{ duration: 100 }}
-				class={cn('modal', variants[variant], isSolid && 'is-solid', className)}
+				class={cn('modal', variants[variant], colors[color], rootClass)}
 			>
 				{#if header}
 					<div class={cn('modal-header', headerClass)}>
 						{@render header()}
 					</div>
 				{/if}
-				<div class={cn('modal-content', contentClass)}>
+				<div class={cn('modal-body', contentClass)}>
 					{@render children()}
 				</div>
 				{#if footer}
@@ -94,7 +124,8 @@
 					<div class="btn-close">
 						<IconButton
 							icon={Dismiss24RegularIcon}
-							variant="ghost"
+							variant={variant === 'solid' ? 'soft' : 'solid'}
+							color={closeColors[color] as any}
 							size="xs"
 							onclick={() => (open = false)}
 						/>

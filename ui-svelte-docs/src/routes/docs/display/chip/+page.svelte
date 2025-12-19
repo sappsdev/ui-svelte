@@ -153,7 +153,7 @@
 </Section>
 
 <Section>
-	<h4>Variants & Colors</h4>
+	<p class="section-subtitle">Variants & Colors</p>
 	<Card>
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
@@ -168,7 +168,7 @@
 </Section>
 
 <Section>
-	<h4>Sizes</h4>
+	<p class="section-subtitle">Sizes</p>
 	<Card>
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
@@ -182,7 +182,7 @@
 </Section>
 
 <Section>
-	<h4>With Icons</h4>
+	<p class="section-subtitle">With Icons</p>
 	<Card>
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
@@ -204,6 +204,6 @@
 </Section>
 
 <Section>
-	<h4>The component accepts the following props:</h4>
+	<p class="section-subtitle">Props</p>
 	<DocsProps {props} />
 </Section>

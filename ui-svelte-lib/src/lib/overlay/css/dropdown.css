@@ -4,7 +4,7 @@
 	}
 	.dropdown-popover {
 		@apply overflow-y-auto flex flex-col gap-2 p-2 my-1;
-		@apply bg-background text-on-background rounded-ui;
+		@apply bg-background text-on-background rounded-box;
 		@apply invisible opacity-0 transition-opacity duration-300 ease-in-out;
 		@apply shadow shadow-muted;
 		position: fixed;

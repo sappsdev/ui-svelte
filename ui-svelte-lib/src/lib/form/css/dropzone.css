@@ -5,7 +5,7 @@
 
 	.dropzone-input {
 		@apply flex justify-center items-center border-2 border-dashed h-48 w-full;
-		@apply border-muted p-6 transition-all rounded-ui cursor-pointer;
+		@apply border-muted p-6 transition-all rounded-box cursor-pointer;
 	}
 
 	.dropzone-input.is-active {

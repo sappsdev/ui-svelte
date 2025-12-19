@@ -198,7 +198,7 @@
 </Section>
 
 <Section>
-	<h4>Variants & Colors</h4>
+	<p class="section-subtitle">Variants & Colors</p>
 	<Card>
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
@@ -217,7 +217,7 @@
 </Section>
 
 <Section>
-	<h4>Sizes</h4>
+	<p class="section-subtitle">Sizes</p>
 	<Card>
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
@@ -236,7 +236,7 @@
 </Section>
 
 <Section>
-	<h4>With Avatar</h4>
+	<p class="section-subtitle">With Avatar</p>
 	<Card>
 		<div class="wrap gap-4 center">
 			<Select options={avatarOptions} placeholder="Select a user" rootClass="w-64" />
@@ -246,7 +246,7 @@
 </Section>
 
 <Section>
-	<h4>With Description</h4>
+	<p class="section-subtitle">With Description</p>
 	<Card>
 		<div class="wrap gap-4 center">
 			<Select options={descriptionOptions} placeholder="Select a role" rootClass="w-64" />
@@ -256,7 +256,7 @@
 </Section>
 
 <Section>
-	<h4>Float Label</h4>
+	<p class="section-subtitle">Float Label</p>
 	<Card>
 		<div class="wrap gap-4 center">
 			{#each variantOptions as item}
@@ -273,7 +273,7 @@
 </Section>
 
 <Section>
-	<h4>Solid Background</h4>
+	<p class="section-subtitle">Solid Background</p>
 	<Card>
 		<div class="wrap gap-4 center">
 			{#each variantOptions as item}
@@ -291,7 +291,7 @@
 </Section>
 
 <Section>
-	<h4>With Help & Error Text</h4>
+	<p class="section-subtitle">With Help & Error Text</p>
 	<Card>
 		<div class="wrap gap-4 center">
 			<Select
@@ -311,11 +311,11 @@
 </Section>
 
 <Section>
-	<h4>The component accepts the following props:</h4>
+	<p class="section-subtitle">Props</p>
 	<DocsProps {props} />
 </Section>
 
 <Section>
-	<h4>Option Type:</h4>
+	<p class="section-subtitle">Option Type:</p>
 	<DocsProps props={optionProps} />
 </Section>

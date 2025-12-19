@@ -6,19 +6,11 @@
 	type Props = {
 		class?: string;
 		src: string;
-		variant?:
-			| 'primary'
-			| 'secondary'
-			| 'muted'
-			| 'outlined'
-			| 'ghost'
-			| 'success'
-			| 'info'
-			| 'danger'
-			| 'warning';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft';
 	};
 
-	let { class: className, src, variant = 'success' }: Props = $props();
+	let { class: className, src, color = 'success', variant = 'soft' }: Props = $props();
 
 	let audio: HTMLAudioElement;
 	let currentTime = $state(0);
@@ -44,16 +36,24 @@
 			const blockSize = Math.floor(rawData.length / samples);
 			const filteredData: number[] = [];
 
+			const samplesPerBlock = Math.min(blockSize, 500);
+			const stride = Math.max(1, Math.floor(blockSize / samplesPerBlock));
+
 			for (let i = 0; i < samples; i++) {
 				let sum = 0;
-				for (let j = 0; j < blockSize; j++) {
-					sum += Math.abs(rawData[i * blockSize + j]);
+				let count = 0;
+				const blockStart = i * blockSize;
+				const blockEnd = Math.min(blockStart + blockSize, rawData.length);
+
+				for (let j = blockStart; j < blockEnd; j += stride) {
+					sum += Math.abs(rawData[j]);
+					count++;
 				}
-				filteredData.push(sum / blockSize);
+				filteredData.push(count > 0 ? sum / count : 0);
 			}
 
 			const max = Math.max(...filteredData);
-			waveformData = filteredData.map((value) => (value / max) * 0.8 + 0.2);
+			waveformData = filteredData.map((value) => (max > 0 ? (value / max) * 0.8 + 0.2 : 0.5));
 			isAnalyzing = false;
 
 			await audioContext.close();
@@ -189,18 +189,24 @@
 		onmousedown={handleMouseDown}
 		role="slider"
 		tabindex="0"
-		aria-label="Posición del audio"
 		aria-valuenow={Math.round((currentTime / duration) * 100) || 0}
 		aria-valuemin="0"
 		aria-valuemax="100"
 	>
-		<div class="media-bars">
-			{#each waveformData as height, i}
-				{@const progress = duration > 0 ? currentTime / duration : 0}
-				{@const barPosition = (i + 0.5) / waveformData.length}
-				{@const isPlayed = barPosition <= progress}
-				<div class="media-bar" class:active={isPlayed} style="height: {height * 100}%"></div>
-			{/each}
+		<div class="media-bars" class:loading={isAnalyzing} class:loaded={!isAnalyzing}>
+			{#if isAnalyzing}
+				{#each Array(BAR_COUNT) as _, i}
+					{@const placeholderHeight = 0.3 + Math.sin(i * 0.3) * 0.2 + Math.random() * 0.1}
+					<div class="media-bar loading" style="height: {placeholderHeight * 100}%"></div>
+				{/each}
+			{:else}
+				{#each waveformData as height, i}
+					{@const progress = duration > 0 ? currentTime / duration : 0}
+					{@const barPosition = (i + 0.5) / waveformData.length}
+					{@const isPlayed = barPosition <= progress}
+					<div class="media-bar" class:active={isPlayed} style="height: {height * 100}%"></div>
+				{/each}
+			{/if}
 		</div>
 	</div>
 

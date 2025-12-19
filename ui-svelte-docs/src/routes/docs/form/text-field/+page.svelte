@@ -214,7 +214,7 @@
 </Section>
 
 <Section>
-	<h4>Variants & Colors</h4>
+	<p class="section-subtitle">Variants & Colors</p>
 	<Card>
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
@@ -231,7 +231,7 @@
 </Section>
 
 <Section>
-	<h4>Sizes</h4>
+	<p class="section-subtitle">Sizes</p>
 	<Card>
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
@@ -248,7 +248,7 @@
 </Section>
 
 <Section>
-	<h4>With Icons & Text</h4>
+	<p class="section-subtitle">With Icons & Text</p>
 	<Card>
 		<div class="wrap gap-4 center">
 			<TextField startIcon={Search24RegularIcon} placeholder="Search..." />
@@ -268,7 +268,7 @@
 </Section>
 
 <Section>
-	<h4>Labels</h4>
+	<p class="section-subtitle">Labels</p>
 	<Card>
 		<div class="wrap gap-4 center">
 			<TextField label="Standard Label" placeholder="Enter text..." />
@@ -278,7 +278,7 @@
 </Section>
 
 <Section>
-	<h4>Help & Error Text</h4>
+	<p class="section-subtitle">Help & Error Text</p>
 	<Card>
 		<div class="wrap gap-4 center">
 			<TextField
@@ -296,7 +296,7 @@
 </Section>
 
 <Section>
-	<h4>Input Types</h4>
+	<p class="section-subtitle">Input Types</p>
 	<Card>
 		<div class="wrap gap-4 center">
 			{#each typeOptions as typeItem}
@@ -307,6 +307,6 @@
 </Section>
 
 <Section>
-	<h4>The component accepts the following props:</h4>
+	<p class="section-subtitle">Props</p>
 	<DocsProps {props} />
 </Section>

@@ -116,7 +116,7 @@
 </Section>
 
 <Section>
-	<h4>Variants & Colors</h4>
+	<p class="section-subtitle">Variants & Colors</p>
 	<Card>
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
@@ -131,7 +131,7 @@
 </Section>
 
 <Section>
-	<h4>Boxed Content</h4>
+	<p class="section-subtitle">Boxed Content</p>
 	<Card>
 		<p class="mb-4">
 			The <code>isBoxed</code> prop constrains the content width for better readability on large screens.
@@ -150,7 +150,7 @@
 </Section>
 
 <Section>
-	<h4>With Cover Image</h4>
+	<p class="section-subtitle">With Cover Image</p>
 	<Card>
 		<div class="column gap-4">
 			{#each variantOptions as item}
@@ -170,6 +170,6 @@
 </Section>
 
 <Section>
-	<h4>The component accepts the following props:</h4>
+	<p class="section-subtitle">Props</p>
 	<DocsProps {props} />
 </Section>

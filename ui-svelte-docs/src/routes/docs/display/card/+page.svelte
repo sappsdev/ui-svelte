@@ -83,7 +83,7 @@
 </script>
 
 {#snippet header()}
-	<h4>Card Header</h4>
+	<h4 class="card-title">Card Header</h4>
 {/snippet}
 
 {#snippet footer()}
@@ -129,7 +129,9 @@
 				footer={hasFooter ? footer : undefined}
 				rootClass="max-w-sm w-full"
 			>
-				<p>This is the card body content. You can place any content here.</p>
+				<p class="card-description">
+					This is the card body content. You can place any content here.
+				</p>
 			</Card>
 		</div>
 
@@ -138,13 +140,13 @@
 </Section>
 
 <Section>
-	<h4>Variants & Colors</h4>
+	<p class="section-subtitle">Variants & Colors</p>
 	<Card>
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each colorOptions as colorItem}
 					<Card variant={item.id as any} color={colorItem.id as any} rootClass="p-4">
-						<span class="text-sm">{item.label} {colorItem.label}</span>
+						<span class="card-description">{item.label} {colorItem.label}</span>
 					</Card>
 				{/each}
 			</div>
@@ -153,15 +155,15 @@
 </Section>
 
 <Section>
-	<h4>With Header & Footer</h4>
+	<p class="section-subtitle">With Header & Footer</p>
 	<Card>
 		<div class="wrap gap-4 center">
 			{#each variantOptions as item}
 				<Card variant={item.id as any} color="primary" rootClass="max-w-xs">
 					{#snippet header()}
-						<h5>{item.label} Header</h5>
+						<h5 class="card-title">{item.label} Header</h5>
 					{/snippet}
-					<p>Card content with header and footer snippets.</p>
+					<p class="card-description">Card content with header and footer snippets.</p>
 					{#snippet footer()}
 						<Button size="sm" color="muted">Action</Button>
 					{/snippet}
@@ -172,7 +174,7 @@
 </Section>
 
 <Section>
-	<h4>With Cover Image</h4>
+	<p class="section-subtitle">With Cover Image</p>
 	<Card>
 		<div class="wrap gap-4 center">
 			{#each variantOptions as item}
@@ -182,9 +184,9 @@
 					rootClass="max-w-xs"
 				>
 					{#snippet header()}
-						<h5>{item.label} Card</h5>
+						<h5 class="card-title">{item.label} Card</h5>
 					{/snippet}
-					<p>Card with a cover image.</p>
+					<p class="card-description">Card with a cover image.</p>
 				</Card>
 			{/each}
 		</div>
@@ -192,6 +194,6 @@
 </Section>
 
 <Section>
-	<h4>The component accepts the following props:</h4>
+	<p class="section-subtitle">Props</p>
 	<DocsProps {props} />
 </Section>

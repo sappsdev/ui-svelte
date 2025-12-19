@@ -58,6 +58,7 @@ import NavMenu from '$lib/navigation/NavMenu.svelte';
 import BottomNav from '$lib/navigation/BottomNav.svelte';
 import FooterNav from '$lib/navigation/FooterNav.svelte';
 import FooterGroup from '$lib/navigation/FooterGroup.svelte';
+import Pagination from '$lib/navigation/Pagination.svelte';
 import SideNav, { type SideNavItem, type SideNavSubItem } from '$lib/navigation/SideNav.svelte';
 import Tabs from '$lib/navigation/Tabs.svelte';
 
@@ -145,6 +146,7 @@ export {
 	Modal,
 	Marquee,
 	NavMenu,
+	Pagination,
 	PasswordStrength,
 	PhoneField,
 	PinField,

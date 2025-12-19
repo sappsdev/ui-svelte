@@ -1,58 +1,89 @@
-## Flex & Grid Utilities
+# Flex & Grid
 
-Shorthand CSS classes for common flex and grid layouts.
+Layout utility classes for quick flex and grid layouts.
 
-### Flex Classes
+## Flex Utilities
 
-| Class | CSS | Description |
-|-------|-----|-------------|
-| `row` | `display: flex; flex-direction: row` | Horizontal layout |
-| `column` | `display: flex; flex-direction: column` | Vertical layout |
-| `row-reverse` | `flex-direction: row-reverse` | Reverse horizontal |
-| `column-reverse` | `flex-direction: column-reverse` | Reverse vertical |
-| `wrap` | `flex-wrap: wrap` | Allow wrapping |
-| `center` | `align-items: center; justify-content: center` | Center both axes |
+| Class | Description |
+|-------|-------------|
+| `row` | Horizontal layout (flex flex-row) |
+| `row-reverse` | Horizontal RTL |
+| `column` | Vertical layout (flex flex-col) |
+| `column-reverse` | Vertical reversed |
+| `wrap` | Allow wrapping |
+| `center` | Center both axes |
 
-### Grid Classes
+## Grid Utilities
 
-| Class | CSS | Description |
-|-------|-----|-------------|
-| `grid-1` to `grid-12` | `display: grid; grid-template-columns: repeat(N, 1fr)` | N equal columns |
-| `grid-auto-fit` | `grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))` | Responsive auto-fit |
-| `grid-auto-fill` | `grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))` | Responsive auto-fill |
+| Class | Description |
+|-------|-------------|
+| `grid-1` to `grid-6` | Fixed column grids |
+| `grid-auto-fit` | Responsive auto-fit (min 250px) |
+| `grid-auto-fill` | Responsive auto-fill (min 250px) |
 
-### Examples
+## Common Patterns
 
+### Horizontal Layout
 ```svelte
-<!-- Horizontal row -->
 <div class="row gap-4">
   <div>Item 1</div>
   <div>Item 2</div>
 </div>
+```
 
-<!-- Vertical stack -->
+### Vertical Layout
+```svelte
 <div class="column gap-4">
   <div>Item 1</div>
   <div>Item 2</div>
 </div>
+```
 
-<!-- 3-column grid -->
-<div class="grid-3 gap-4">
-  <div>1</div>
-  <div>2</div>
-  <div>3</div>
-</div>
-
-<!-- Responsive: column on mobile, row on desktop -->
-<div class="column md:row gap-4">
-  <div>Sidebar</div>
-  <div>Main Content</div>
-</div>
-
-<!-- Centered content -->
-<div class="row center min-h-[200px]">
-  <div>Centered</div>
+### Grid Layout
+```svelte
+<div class="grid-3 gap-6">
+  <Card>Item 1</Card>
+  <Card>Item 2</Card>
+  <Card>Item 3</Card>
 </div>
 ```
 
-**For LLMs**: Use `row` for horizontal, `column` for vertical layouts. Use `grid-N` for fixed columns, `grid-auto-fit` for responsive. Combine with `gap-*` for spacing.
+### Responsive Grid
+```svelte
+<!-- 1 col mobile, 2 tablet, 3 desktop -->
+<div class="grid-1 md:grid-2 lg:grid-3 gap-4">
+  <Card>Item 1</Card>
+  <Card>Item 2</Card>
+  <Card>Item 3</Card>
+</div>
+```
+
+### Centered Content
+```svelte
+<div class="column center gap-6 min-h-screen">
+  <h1 class="hero-title">Centered Content</h1>
+  <Button>Action</Button>
+</div>
+```
+
+### Button Groups
+```svelte
+<!-- Horizontal -->
+<div class="row gap-2">
+  <Button variant="ghost">Cancel</Button>
+  <Button color="primary">Confirm</Button>
+</div>
+
+<!-- Justified -->
+<div class="row justify-between">
+  <Button variant="ghost">Back</Button>
+  <Button color="primary">Next</Button>
+</div>
+```
+
+## Notes
+
+- Always use `gap-{size}` for spacing (gap-2, gap-4, gap-6)
+- Responsive: `md:grid-2`, `lg:grid-3` for breakpoint variants
+- `grid-auto-fit` auto-adapts columns based on space
+- `center` works with both row and column

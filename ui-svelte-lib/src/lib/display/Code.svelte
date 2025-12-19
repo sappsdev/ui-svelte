@@ -59,14 +59,15 @@
 	{#if open}
 		{#if (!hover && !hideLang && !clipboard.copied) || (disableCopy && !hideLang)}
 			<div class="code-info">
-				<Chip variant="muted">{lang}</Chip>
+				<Chip color="muted" variant="solid" size="xs">{lang}</Chip>
 			</div>
 		{/if}
 		{#if (hover && !disableCopy) || clipboard.copied || (!disableCopy && hideLang)}
 			<div class="code-info">
 				<IconButton
 					onclick={handleCopy}
-					variant="muted"
+					variant="solid"
+					color="muted"
 					size="sm"
 					icon={clipboard.copied ? Checkmark24RegularIcon : Copy24RegularIcon}
 				/>

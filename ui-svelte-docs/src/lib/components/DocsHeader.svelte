@@ -19,7 +19,7 @@
 
 <Section>
 	<div class="row justify-between items-center">
-		<h1>{title}</h1>
+		<h1 class="section-title">{title}</h1>
 		{#if llmUrl}
 			<Button
 				onclick={handleCopy}
@@ -30,7 +30,7 @@
 			>
 		{/if}
 	</div>
-	<p>{@render children()}</p>
+	<p class="section-description">{@render children()}</p>
 	{#if textAlert}
 		<Alert showIcon>
 			{#if typeof textAlert === 'string'}

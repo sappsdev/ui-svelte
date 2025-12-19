@@ -6,18 +6,18 @@
 	type Props = {
 		label: string;
 		children: Snippet;
-		variant?: 'primary' | 'secondary' | 'muted';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft';
 		position?: 'top' | 'bottom' | 'start' | 'end';
-		isSolid?: boolean;
 		class?: string;
 	};
 
 	let {
 		label,
 		children,
-		variant = 'primary',
+		color = 'primary',
+		variant = 'soft',
 		position = 'top',
-		isSolid = false,
 		class: className
 	}: Props = $props();
 
@@ -31,10 +31,19 @@
 
 	const style = $derived(`top: ${tooltipPosition.top}px; left: ${tooltipPosition.left}px;`);
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
-		muted: 'is-muted'
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft'
 	};
 
 	const positionClasses = {
@@ -73,8 +82,9 @@
 				break;
 		}
 
-		top += window.scrollY;
-		left += window.scrollX;
+		// Note: Don't add scroll offsets for position: fixed
+		// getBoundingClientRect() returns viewport-relative coordinates
+		// and position: fixed is also relative to the viewport
 
 		const padding = 8;
 		if (left < padding) left = padding;
@@ -82,19 +92,24 @@
 			left = window.innerWidth - tooltipRect.width - padding;
 		}
 		if (top < padding) top = padding;
-		if (top + tooltipRect.height > window.innerHeight + window.scrollY - padding) {
-			top = window.innerHeight + window.scrollY - tooltipRect.height - padding;
+		if (top + tooltipRect.height > window.innerHeight - padding) {
+			top = window.innerHeight - tooltipRect.height - padding;
 		}
 
 		tooltipPosition = { top, left };
 	};
 
 	const handleMouseEnter = () => {
+		startEventListeners();
 		isOpen = true;
-		setTimeout(updatePosition, 0);
+		// Use requestAnimationFrame to ensure the element is rendered before calculating position
+		requestAnimationFrame(() => {
+			updatePosition();
+		});
 	};
 
 	const handleMouseLeave = () => {
+		stopEventListeners();
 		isOpen = false;
 	};
 
@@ -109,7 +124,6 @@
 	};
 
 	onMount(() => {
-		startEventListeners();
 		return () => stopEventListeners();
 	});
 </script>
@@ -122,19 +136,19 @@
 	onmouseleave={handleMouseLeave}
 >
 	{@render children()}
+</div>
 
-	<div
-		bind:this={tooltipElement}
-		class={cn(
-			'tooltip-popover',
-			variantClasses[variant],
-			positionClasses[position],
-			isSolid && 'is-solid',
-			isOpen && 'is-active'
-		)}
-		{style}
-	>
-		<div class={cn('tooltip-arrow', variantClasses[variant], isSolid && 'is-solid')}></div>
-		{label}
-	</div>
+<div
+	bind:this={tooltipElement}
+	class={cn(
+		'tooltip-popover',
+		colors[color],
+		variants[variant],
+		positionClasses[position],
+		isOpen && 'is-active'
+	)}
+	{style}
+>
+	<div class="tooltip-arrow"></div>
+	{label}
 </div>

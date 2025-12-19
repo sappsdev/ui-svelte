@@ -2,7 +2,7 @@
 	.video {
 		@apply relative aspect-video;
 		video {
-			@apply rounded-ui absolute z-0;
+			@apply rounded-box absolute z-0;
 		}
 	}
 	.video.horizontal {

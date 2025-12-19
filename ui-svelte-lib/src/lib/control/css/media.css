@@ -1,9 +1,9 @@
 @layer components {
 	/* Base styles compartidos */
 	.media {
-		@apply relative flex items-center gap-3 rounded-ui;
+		@apply relative flex items-center w-full gap-3 rounded-box;
 		@apply transition-colors duration-300 ease-in-out;
-		@apply p-3 max-w-md select-none;
+		@apply p-3 select-none;
 	}
 
 	.media-waveform {
@@ -33,6 +33,57 @@
 
 	.media-bar.recording {
 		@apply opacity-100 animate-pulse;
+	}
+
+	/* Loading placeholder bars with shimmer animation */
+	.media-bar.loading {
+		animation: shimmer 1.5s ease-in-out infinite;
+	}
+
+	@keyframes shimmer {
+		0%,
+		100% {
+			opacity: 0.15;
+		}
+		50% {
+			opacity: 0.35;
+		}
+	}
+
+	/* Stagger animation for loading bars */
+	.media-bars.loading .media-bar:nth-child(odd) {
+		animation-delay: 0.2s;
+	}
+
+	/* Fade-in animation when waves are loaded */
+	.media-bars.loaded .media-bar {
+		animation: wave-appear 0.4s ease-out forwards;
+	}
+
+	@keyframes wave-appear {
+		from {
+			opacity: 0;
+			transform: scaleY(0.3);
+		}
+		to {
+			opacity: 0.3;
+			transform: scaleY(1);
+		}
+	}
+
+	.media-bars.loaded .media-bar.active {
+		animation: wave-appear-active 0.4s ease-out forwards;
+	}
+
+	@keyframes wave-appear-active {
+		from {
+			opacity: 0;
+			transform: scaleY(0.3);
+		}
+		to {
+			opacity: 1;
+			transform: scaleY(1);
+		}
 	}
 
 	.media-time {

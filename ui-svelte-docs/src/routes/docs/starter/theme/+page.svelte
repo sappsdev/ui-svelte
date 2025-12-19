@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { Card, Code, Section, Tabs, Button, Modal, Drawer, Alert } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
 	import Color from '$lib/components/utils/Color.svelte';
 	import { storeApp } from '$lib/store/store.svelte';
 
@@ -195,11 +193,6 @@
 		{ variable: '--on-danger', description: 'Text/icon color on danger backgrounds' }
 	];
 
-	const utilityVariables = [
-		{ variable: '--radius-ui', description: 'Border radius for UI components', default: '0.75rem' },
-		{ variable: '--scrollbar-size', description: 'Width of custom scrollbars', default: '6px' }
-	];
-
 	const guidelinesTabs = [
 		{ id: 'brand', label: 'Brand Colors', content: brandGuidelinesContent },
 		{ id: 'semantic', label: 'Semantic Colors', content: semanticGuidelinesContent },
@@ -295,39 +288,6 @@
 </DocsHeader>
 
 <Section>
-	<Alert status="info">
-		<strong>Interactive Theme Customization:</strong> Click on any color below to open the color picker.
-		Your changes will be applied immediately throughout the entire application. Use the "Generate CSS"
-		button to export your customized theme.
-	</Alert>
-</Section>
-
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		<div class="column gap-4 w-full">
-			<div class="grid-2 gap-3">
-				<div class="p-4 bg-primary text-on-primary rounded-lg center">Primary</div>
-				<div class="p-4 bg-secondary text-on-secondary rounded-lg center">Secondary</div>
-			</div>
-			<div class="grid-4 gap-2">
-				<div class="p-3 bg-success text-on-success rounded center text-sm">Success</div>
-				<div class="p-3 bg-info text-on-info rounded center text-sm">Info</div>
-				<div class="p-3 bg-warning text-on-warning rounded center text-sm">Warning</div>
-				<div class="p-3 bg-danger text-on-danger rounded center text-sm">Danger</div>
-			</div>
-			<div class="grid-3 gap-2">
-				<div class="p-3 bg-surface text-on-surface rounded center text-sm border border-muted">
-					Surface
-				</div>
-				<div class="p-3 bg-muted text-on-muted rounded center text-sm">Muted</div>
-				<div
-					class="p-3 bg-background text-on-background rounded center text-sm border border-muted"
-				>
-					Background
-				</div>
-			</div>
-		</div>
-	</DocsPreview>
 	<Card>
 		<div class="row gap-2 mb-4">
 			<Button variant="outlined" size="sm" onclick={() => (showCssDrawer = true)}
@@ -335,33 +295,55 @@
 			>
 			<Button variant="outlined" size="sm" onclick={resetColors}>Reset Colors</Button>
 		</div>
-		<p class="text-sm text-on-muted">
-			Click on the color swatches below to customize each theme color. Changes are applied in
-			real-time.
-		</p>
-	</Card>
-	<DocsCode
-		code={`<div class="bg-primary text-on-primary">
+
+		<div class="doc-preview">
+			<div class="column gap-4 w-full">
+				<div class="grid-2 gap-3">
+					<div class="p-4 bg-primary text-on-primary rounded-lg center">Primary</div>
+					<div class="p-4 bg-secondary text-on-secondary rounded-lg center">Secondary</div>
+				</div>
+				<div class="grid-4 gap-2">
+					<div class="p-3 bg-success text-on-success rounded center text-sm">Success</div>
+					<div class="p-3 bg-info text-on-info rounded center text-sm">Info</div>
+					<div class="p-3 bg-warning text-on-warning rounded center text-sm">Warning</div>
+					<div class="p-3 bg-danger text-on-danger rounded center text-sm">Danger</div>
+				</div>
+				<div class="grid-3 gap-2">
+					<div class="p-3 bg-surface text-on-surface rounded center text-sm border border-muted">
+						Surface
+					</div>
+					<div class="p-3 bg-muted text-on-muted rounded center text-sm">Muted</div>
+					<div
+						class="p-3 bg-background text-on-background rounded center text-sm border border-muted"
+					>
+						Background
+					</div>
+				</div>
+			</div>
+		</div>
+		<Code
+			lang="svelte"
+			code={`<div class="bg-primary text-on-primary">
 	Primary styled element
 </div>
 
 <div class="bg-success text-on-success">
 	Success message
 </div>`}
-	/>
+		/>
+	</Card>
 </Section>
 
 <Section>
+	<p class="section-subtitle">Color Guidelines</p>
 	<Card>
 		<Tabs tabs={guidelinesTabs} />
 	</Card>
 </Section>
 
 <Section>
+	<p class="section-subtitle">Light Mode Colors</p>
 	<Card>
-		{#snippet header()}
-			<h4>Light Mode Colors</h4>
-		{/snippet}
 		<div class="grid gap-4">
 			{#each themeColorPairs as colorPair}
 				{@const mainKey = colorPair.key as ThemeColorKey}
@@ -411,14 +393,12 @@
 </Section>
 
 <Section>
+	<p class="section-subtitle">Dark Mode Colors</p>
 	<Card>
-		{#snippet header()}
-			<h4>Dark Mode Colors</h4>
-		{/snippet}
 		<Alert status="info">
 			Toggle dark mode using the button in the top navigation to see your changes.
 		</Alert>
-		<div class="grid gap-4">
+		<div class="grid gap-4 mt-4">
 			{#each darkThemeColorPairs as colorPair}
 				{@const mainKey = colorPair.key as keyof typeof storeApp.darkThemeColors}
 				{@const onKey =
@@ -467,10 +447,8 @@
 </Section>
 
 <Section>
+	<p class="section-subtitle">CSS Variables Reference</p>
 	<Card>
-		{#snippet header()}
-			<h4>CSS Variables Reference</h4>
-		{/snippet}
 		<div class="overflow-x-auto">
 			<table class="w-full border-collapse">
 				<thead>
@@ -494,37 +472,8 @@
 </Section>
 
 <Section>
-	<Card variant="info">
-		<div class="column gap-3">
-			<h4 class="font-semibold">💡 Pro Tips</h4>
-			<ul class="text-sm space-y-2 list-disc list-inside">
-				<li>
-					<strong>Tailwind Classes:</strong> Use semantic color classes like
-					<code class="px-1 py-0.5 bg-blue rounded">bg-primary</code> and
-					<code class="px-1 py-0.5 bg-blue rounded">text-on-primary</code>
-				</li>
-				<li>
-					<strong>CSS Variables:</strong> Access colors directly via
-					<code class="px-1 py-0.5 bg-blue rounded">var(--primary)</code>
-				</li>
-				<li>
-					<strong>Dark Mode:</strong> Colors automatically switch when
-					<code class="px-1 py-0.5 bg-blue rounded">.dark</code> class is applied to the root
-				</li>
-				<li>
-					<strong>Consistency:</strong> Always pair background colors with their
-					<code class="px-1 py-0.5 bg-blue rounded">on-*</code> counterparts for proper contrast
-				</li>
-			</ul>
-		</div>
-	</Card>
-</Section>
-
-<Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Usage Examples</h4>
-		{/snippet}
+	<p class="section-subtitle">Usage Examples</p>
+	<Card>
 		<Code
 			lang="svelte"
 			code={`<!-- Using Tailwind Classes -->

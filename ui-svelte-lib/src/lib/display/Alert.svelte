@@ -10,39 +10,59 @@
 	import type { Snippet } from 'svelte';
 	import type { IconData } from './Icon.svelte';
 
-	type AlertStatus = 'info' | 'success' | 'warning' | 'danger';
-
 	type Props = {
 		title?: string;
 		description?: string;
 		children?: Snippet;
 		showIcon?: boolean;
 		icon?: IconData;
-		status?: AlertStatus;
-		isSolid?: boolean;
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft';
 	};
 
-	let { title, description, children, showIcon, icon, status = 'info', isSolid }: Props = $props();
+	let {
+		title,
+		description,
+		children,
+		showIcon,
+		icon,
+		color = 'info',
+		variant = 'soft'
+	}: Props = $props();
 
-	const STATUS_COLORS: Record<AlertStatus, string> = {
-		info: 'is-info',
+	const colors = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
 		success: 'is-success',
-		warning: 'is-warning',
-		danger: 'is-danger'
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning'
 	};
 
-	const DEFAULT_ICONS: Record<AlertStatus, IconData> = {
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft'
+	};
+
+	const DEFAULT_ICONS: Record<
+		'primary' | 'secondary' | 'muted' | 'info' | 'success' | 'warning' | 'danger',
+		IconData
+	> = {
+		primary: Info24RegularIcon,
+		secondary: Info24RegularIcon,
+		muted: Info24RegularIcon,
 		info: Info24RegularIcon,
 		success: CheckmarkCircle24RegularIcon,
 		warning: Warning24RegularIcon,
 		danger: DismissCircle24RegularIcon
 	};
 
-	const currentIcon = $derived(icon ?? DEFAULT_ICONS[status]);
+	const currentIcon = $derived(icon ?? DEFAULT_ICONS[color as keyof typeof DEFAULT_ICONS]);
 	const hasContent = $derived(description || children);
 </script>
 
-<div class={cn('alert', STATUS_COLORS[status], isSolid && 'is-solid')}>
+<div class={cn('alert', colors[color], variants[variant])}>
 	{#if showIcon}
 		<div class="alert-start">
 			<Icon icon={currentIcon} class="alert-icon" />

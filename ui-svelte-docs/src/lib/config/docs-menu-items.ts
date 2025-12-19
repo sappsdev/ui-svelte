@@ -37,10 +37,6 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/starter/llm'
 			},
 			{
-				label: 'Animations',
-				href: '/docs/starter/animations'
-			},
-			{
 				label: 'Typography',
 				href: '/docs/starter/typography'
 			},
@@ -97,6 +93,10 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/display/alert'
 			},
 			{
+				label: 'Animations',
+				href: '/docs/display/animations'
+			},
+			{
 				label: 'Avatar',
 				href: '/docs/display/avatar'
 			},
@@ -131,6 +131,10 @@ export const sideMenuItems: SideNavItem[] = [
 			{
 				label: 'Collapsible',
 				href: '/docs/display/collapsible'
+			},
+			{
+				label: 'Decorations',
+				href: '/docs/display/decorations'
 			},
 			{
 				label: 'Divider',
@@ -295,6 +299,10 @@ export const sideMenuItems: SideNavItem[] = [
 			{
 				label: 'Navmenu',
 				href: '/docs/navigation/nav-menu'
+			},
+			{
+				label: 'Pagination',
+				href: '/docs/navigation/pagination'
 			},
 			{
 				label: 'Tabs',

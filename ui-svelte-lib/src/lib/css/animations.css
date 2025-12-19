@@ -72,7 +72,6 @@
 	}
 }
 
-/* Zoom Animations */
 @utility zoom-in {
 	animation: zoom-in 0.5s ease-out forwards;
 }
@@ -103,7 +102,6 @@
 	}
 }
 
-/* Slide Animations (sin fade) */
 @utility slide-up {
 	animation: slide-up 0.5s ease-out forwards;
 }
@@ -156,7 +154,6 @@
 	}
 }
 
-/* Bounce Animations */
 @utility bounce-in {
 	animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
 }
@@ -199,7 +196,6 @@
 	}
 }
 
-/* Reveal Animations (para textos y títulos) */
 @utility reveal-up {
 	animation: reveal-up 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
@@ -441,11 +437,11 @@
 	}
 }
 
-@utility glow {
-	animation: glow 2s ease-in-out infinite;
+@utility glow-pulse {
+	animation: glow-pulse 2s ease-in-out infinite;
 }
 
-@keyframes glow {
+@keyframes glow-pulse {
 	0%,
 	100% {
 		box-shadow: 0 0 5px var(--primary);

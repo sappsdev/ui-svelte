@@ -27,7 +27,7 @@
 		}
 
 		&.is-floating {
-			@apply mt-4 w-[calc(100%-2rem)] rounded-ui shadow-md shadow-muted border border-muted;
+			@apply mt-4 w-[calc(100%-2rem)] rounded-box shadow-md shadow-muted border border-muted;
 		}
 
 		&.is-floating-enabled:not(.is-floating) {

@@ -1,34 +1,27 @@
 @layer components {
 	.alert {
-		@apply flex rounded-ui text-sm w-full px-4 py-2 md:px-6 md:py-4 gap-4;
+		@apply flex rounded-box text-sm w-full px-4 py-2 md:px-6 md:py-4 gap-4;
+
+		&.is-soft {
+			&.is-primary { @apply bg-on-primary text-primary; }
+			&.is-secondary { @apply bg-on-secondary text-secondary; }
+			&.is-muted { @apply bg-muted text-on-muted; }
+			&.is-success { @apply bg-on-success text-success; }
+			&.is-info { @apply bg-on-info text-info; }
+			&.is-warning { @apply bg-on-warning text-warning; }
+			&.is-danger { @apply bg-on-danger text-danger; }
+		}
 
 		&.is-solid {
-			&.is-success {
-				@apply bg-success text-on-success;
-			}
-			&.is-error {
-				@apply bg-danger text-on-danger;
-			}
-			&.is-warning {
-				@apply bg-warning text-on-warning;
-			}
-			&.is-info {
-				@apply bg-info text-on-info;
-			}
+			&.is-primary { @apply bg-primary text-on-primary; }
+			&.is-secondary { @apply bg-secondary text-on-secondary; }
+			&.is-muted { @apply bg-on-muted text-muted; }
+			&.is-success { @apply bg-success text-on-success; }
+			&.is-info { @apply bg-info text-on-info; }
+			&.is-warning { @apply bg-warning text-on-warning; }
+			&.is-danger { @apply bg-danger text-on-danger; }
 		}
 
-		&.is-success {
-			@apply bg-on-success text-success;
-		}
-		&.is-danger {
-			@apply bg-on-danger text-danger;
-		}
-		&.is-warning {
-			@apply bg-on-warning text-warning;
-		}
-		&.is-info {
-			@apply bg-on-info text-info;
-		}
 
 		.alert-start {
 			@apply flex items-center justify-start;

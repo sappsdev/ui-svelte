@@ -12,6 +12,7 @@ interface Column {
 export interface TableState {
 	data: any[];
 	isLoading: boolean;
+	hasInitialized: boolean;
 	error: any;
 	sortBy?: string;
 	sortOrder: 'ASC' | 'DESC';
@@ -99,6 +100,7 @@ export const useTable = (config: TableConfig): TableState => {
 	let sortOrder = $state<'ASC' | 'DESC'>(config.initialSortOrder ?? 'ASC');
 	let search = $state(config.initialSearch ?? '');
 	let isLoading = $state(false);
+	let hasInitialized = $state(false);
 	let error = $state<any>(null);
 
 	const selectable = config.selectable ?? false;
@@ -188,6 +190,7 @@ export const useTable = (config: TableConfig): TableState => {
 		const startIndex = (page - 1) * pageSize;
 		const endIndex = startIndex + pageSize;
 		data = processedData.slice(startIndex, endIndex);
+		hasInitialized = true;
 	};
 
 	const fetchData = async () => {
@@ -238,6 +241,7 @@ export const useTable = (config: TableConfig): TableState => {
 		} catch (err) {
 			error = err;
 			config.onError?.(err);
+			hasInitialized = true;
 		} finally {
 			isLoading = false;
 		}
@@ -430,6 +434,9 @@ export const useTable = (config: TableConfig): TableState => {
 		},
 		get isLoading() {
 			return isLoading;
+		},
+		get hasInitialized() {
+			return hasInitialized;
 		},
 		get error() {
 			return error;

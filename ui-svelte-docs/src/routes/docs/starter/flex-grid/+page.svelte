@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { Card, Checkbox, Code, Section, Select, Tabs } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
 
 	const flexDirectionOptions = [
 		{ id: 'row', label: 'Row' },
@@ -188,148 +186,166 @@
 	patterns by combining multiple Tailwind classes into single, semantic class names.
 </DocsHeader>
 
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		<div class="{classes()} min-h-[200px] border-2 border-dashed border-muted-300 rounded-lg p-4">
-			<div class="p-4 bg-primary text-on-primary rounded">Item 1</div>
-			<div class="p-4 bg-secondary text-on-secondary rounded">Item 2</div>
-			<div class="p-4 bg-muted text-on-muted rounded">Item 3</div>
-			{#if layoutType === 'grid'}
-				<div class="p-4 bg-primary text-on-primary rounded">Item 4</div>
-				<div class="p-4 bg-secondary text-on-secondary rounded">Item 5</div>
-				<div class="p-4 bg-muted text-on-muted rounded">Item 6</div>
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Layout Type"
+				size="sm"
+				options={[
+					{ id: 'flex', label: 'Flex' },
+					{ id: 'grid', label: 'Grid' }
+				]}
+				bind:value={layoutType}
+			/>
+			{#if layoutType === 'flex'}
+				<Select
+					isFloatLabel
+					rootClass="max-w-xs"
+					label="Direction"
+					size="sm"
+					options={flexDirectionOptions}
+					bind:value={flexDirection}
+				/>
+			{:else}
+				<Select
+					isFloatLabel
+					rootClass="max-w-xs"
+					label="Grid Columns"
+					size="sm"
+					options={gridColsOptions}
+					bind:value={gridCols}
+				/>
 			{/if}
 		</div>
-	</DocsPreview>
-	<Card>
-		<Select
-			label="Layout Type"
-			size="sm"
-			options={[
-				{ id: 'flex', label: 'Flex' },
-				{ id: 'grid', label: 'Grid' }
-			]}
-			bind:value={layoutType}
-		/>
-		{#if layoutType === 'flex'}
-			<Select
-				label="Direction"
-				size="sm"
-				options={flexDirectionOptions}
-				bind:value={flexDirection}
-			/>
-		{:else}
-			<Select label="Grid Columns" size="sm" options={gridColsOptions} bind:value={gridCols} />
-		{/if}
-		<div class="grid-2 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
 			<Checkbox bind:checked={useCenter} label="Center" />
 			<Checkbox bind:checked={useGap} label="Gap (gap-4)" />
 		</div>
+
+		<div class="doc-preview">
+			<div class="{classes()} min-h-[200px] border-2 border-dashed border-muted-300 rounded-lg p-4">
+				<div class="p-4 bg-primary text-on-primary rounded">Item 1</div>
+				<div class="p-4 bg-secondary text-on-secondary rounded">Item 2</div>
+				<div class="p-4 bg-muted text-on-muted rounded">Item 3</div>
+				{#if layoutType === 'grid'}
+					<div class="p-4 bg-primary text-on-primary rounded">Item 4</div>
+					<div class="p-4 bg-secondary text-on-secondary rounded">Item 5</div>
+					<div class="p-4 bg-muted text-on-muted rounded">Item 6</div>
+				{/if}
+			</div>
+		</div>
+		<Code lang="svelte" code={code()} />
 	</Card>
-	<DocsCode code={code()} />
 </Section>
 
 <Section>
+	<p class="section-subtitle">Utility Reference</p>
 	<Card>
 		<Tabs tabs={utilityTabs} />
 	</Card>
 </Section>
 
-<Section bodyClass="grid-2 md:grid-3">
-	<!-- Flex Row Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Flex Row</h4>
-		{/snippet}
-		<div class="row gap-2">
-			<div class="p-2 bg-primary text-on-primary rounded text-sm">1</div>
-			<div class="p-2 bg-primary text-on-primary rounded text-sm">2</div>
-			<div class="p-2 bg-primary text-on-primary rounded text-sm">3</div>
-		</div>
-		{#snippet footer()}
-			<code class="text-xs">class="row gap-2"</code>
-		{/snippet}
-	</Card>
+<Section>
+	<p class="section-subtitle">Examples</p>
+	<Card bodyClass="grid-2 md:grid-3 gap-4">
+		<!-- Flex Row Example -->
+		<Card>
+			{#snippet header()}
+				<h4>Flex Row</h4>
+			{/snippet}
+			<div class="row gap-2">
+				<div class="p-2 bg-primary text-on-primary rounded text-sm">1</div>
+				<div class="p-2 bg-primary text-on-primary rounded text-sm">2</div>
+				<div class="p-2 bg-primary text-on-primary rounded text-sm">3</div>
+			</div>
+			{#snippet footer()}
+				<code class="text-xs">class="row gap-2"</code>
+			{/snippet}
+		</Card>
 
-	<!-- Flex Column Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Flex Column</h4>
-		{/snippet}
-		<div class="column gap-2">
-			<div class="p-2 bg-secondary text-on-secondary rounded text-sm">1</div>
-			<div class="p-2 bg-secondary text-on-secondary rounded text-sm">2</div>
-			<div class="p-2 bg-secondary text-on-secondary rounded text-sm">3</div>
-		</div>
-		{#snippet footer()}
-			<code class="text-xs">class="column gap-2"</code>
-		{/snippet}
-	</Card>
+		<!-- Flex Column Example -->
+		<Card>
+			{#snippet header()}
+				<h4>Flex Column</h4>
+			{/snippet}
+			<div class="column gap-2">
+				<div class="p-2 bg-secondary text-on-secondary rounded text-sm">1</div>
+				<div class="p-2 bg-secondary text-on-secondary rounded text-sm">2</div>
+				<div class="p-2 bg-secondary text-on-secondary rounded text-sm">3</div>
+			</div>
+			{#snippet footer()}
+				<code class="text-xs">class="column gap-2"</code>
+			{/snippet}
+		</Card>
 
-	<!-- Grid 3 Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Grid 3 Columns</h4>
-		{/snippet}
-		<div class="grid-3 gap-2">
-			<div class="p-2 bg-muted text-on-muted rounded text-sm center">1</div>
-			<div class="p-2 bg-muted text-on-muted rounded text-sm center">2</div>
-			<div class="p-2 bg-muted text-on-muted rounded text-sm center">3</div>
-			<div class="p-2 bg-muted text-on-muted rounded text-sm center">4</div>
-			<div class="p-2 bg-muted text-on-muted rounded text-sm center">5</div>
-			<div class="p-2 bg-muted text-on-muted rounded text-sm center">6</div>
-		</div>
-		{#snippet footer()}
-			<code class="text-xs">class="grid-3 gap-2"</code>
-		{/snippet}
-	</Card>
+		<!-- Grid 3 Example -->
+		<Card>
+			{#snippet header()}
+				<h4>Grid 3 Columns</h4>
+			{/snippet}
+			<div class="grid-3 gap-2">
+				<div class="p-2 bg-muted text-on-muted rounded text-sm center">1</div>
+				<div class="p-2 bg-muted text-on-muted rounded text-sm center">2</div>
+				<div class="p-2 bg-muted text-on-muted rounded text-sm center">3</div>
+				<div class="p-2 bg-muted text-on-muted rounded text-sm center">4</div>
+				<div class="p-2 bg-muted text-on-muted rounded text-sm center">5</div>
+				<div class="p-2 bg-muted text-on-muted rounded text-sm center">6</div>
+			</div>
+			{#snippet footer()}
+				<code class="text-xs">class="grid-3 gap-2"</code>
+			{/snippet}
+		</Card>
 
-	<!-- Center Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Center</h4>
-		{/snippet}
-		<div class="row center gap-2 min-h-[80px] border border-dashed border-muted-300 rounded">
-			<div class="p-2 bg-info text-on-info rounded text-sm">Centered</div>
-		</div>
-		{#snippet footer()}
-			<code class="text-xs">class="row center"</code>
-		{/snippet}
-	</Card>
+		<!-- Center Example -->
+		<Card>
+			{#snippet header()}
+				<h4>Center</h4>
+			{/snippet}
+			<div class="row center gap-2 min-h-[80px] border border-dashed border-muted-300 rounded">
+				<div class="p-2 bg-info text-on-info rounded text-sm">Centered</div>
+			</div>
+			{#snippet footer()}
+				<code class="text-xs">class="row center"</code>
+			{/snippet}
+		</Card>
 
-	<!-- Responsive Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Responsive</h4>
-		{/snippet}
-		<div class="column md:row gap-2">
-			<div class="p-2 bg-success text-on-success rounded text-sm flex-1 center">A</div>
-			<div class="p-2 bg-success text-on-success rounded text-sm flex-1 center">B</div>
-		</div>
-		{#snippet footer()}
-			<code class="text-xs">class="column md:row"</code>
-		{/snippet}
-	</Card>
+		<!-- Responsive Example -->
+		<Card>
+			{#snippet header()}
+				<h4>Responsive</h4>
+			{/snippet}
+			<div class="column md:row gap-2">
+				<div class="p-2 bg-success text-on-success rounded text-sm flex-1 center">A</div>
+				<div class="p-2 bg-success text-on-success rounded text-sm flex-1 center">B</div>
+			</div>
+			{#snippet footer()}
+				<code class="text-xs">class="column md:row"</code>
+			{/snippet}
+		</Card>
 
-	<!-- Auto Fit Example -->
-	<Card>
-		{#snippet header()}
-			<h4>Grid Auto Fit</h4>
-		{/snippet}
-		<div class="grid-auto-fit gap-2">
-			<div class="p-2 bg-warning text-on-warning rounded text-sm center">1</div>
-			<div class="p-2 bg-warning text-on-warning rounded text-sm center">2</div>
-		</div>
-		{#snippet footer()}
-			<code class="text-xs">class="grid-auto-fit"</code>
-		{/snippet}
+		<!-- Auto Fit Example -->
+		<Card>
+			{#snippet header()}
+				<h4>Grid Auto Fit</h4>
+			{/snippet}
+			<div class="grid-auto-fit gap-2">
+				<div class="p-2 bg-warning text-on-warning rounded text-sm center">1</div>
+				<div class="p-2 bg-warning text-on-warning rounded text-sm center">2</div>
+			</div>
+			{#snippet footer()}
+				<code class="text-xs">class="grid-auto-fit"</code>
+			{/snippet}
+		</Card>
 	</Card>
 </Section>
 
 <Section>
-	<Card variant="info">
+	<p class="section-subtitle">Pro Tips</p>
+	<Card color="info">
 		<div class="column gap-3">
-			<h4 class="font-semibold">💡 Pro Tips</h4>
 			<ul class="text-sm space-y-2 list-disc list-inside">
 				<li>
 					<strong>Section & Card:</strong> Both components support flex and grid utilities in their
@@ -355,10 +371,8 @@
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Usage Examples</h4>
-		{/snippet}
+	<p class="section-subtitle">Usage Examples</p>
+	<Card>
 		<Code
 			lang="svelte"
 			code={`<!-- Flex Row -->

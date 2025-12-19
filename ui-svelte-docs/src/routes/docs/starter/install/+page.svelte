@@ -1,6 +1,6 @@
 <script lang="ts">
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import { Section, Code, Alert } from 'ui-svelte';
+	import { Section, Card, Code, Alert } from 'ui-svelte';
 </script>
 
 <DocsHeader title="Installation">
@@ -14,41 +14,46 @@
 	Tailwind CSS and the ui-svelte component library.
 </DocsHeader>
 
-<Section bodyClass="grid-1 md:grid-2 center">
-	<div class="column">
-		<h3 class="text-lg font-semibold mb-4">1. Create a new Svelte project</h3>
+<Section>
+	<p class="section-subtitle">Create a new Svelte project</p>
+	<Card>
 		<p class="text-sm text-on-muted mb-4">
 			Use the Svelte CLI to create a new project. Replace <code>project-name</code> with your desired
 			project name.
 		</p>
-	</div>
-	<Code code="bunx sv create project-name" lang="bash" />
-
-	<div class="column">
-		<h3 class="text-lg font-semibold mb-4">2. Add Tailwind CSS</h3>
-		<p class="text-sm text-on-muted mb-4">
-			Navigate to your project directory and add Tailwind CSS using the Svelte CLI.
-		</p>
-	</div>
-	<Code code="cd project-name && bunx sv add tailwind" lang="bash" />
-
-	<div class="column">
-		<h3 class="text-lg font-semibold mb-4">3. Install ui-svelte</h3>
-		<p class="text-sm text-on-muted mb-4">
-			Install the ui-svelte component library as a dependency in your project.
-		</p>
-	</div>
-	<Code code="bun add ui-svelte" lang="bash" />
+		<Code code="bunx sv create project-name" lang="bash" />
+	</Card>
 </Section>
 
 <Section>
-	<h3 class="text-lg font-semibold mb-4">4. Configure your CSS file</h3>
-	<p class="text-sm text-on-muted mb-4">
-		Create or update your <code>src/app.css</code> file with the following configuration. This includes
-		Tailwind CSS, ui-svelte styles, and theme color variables.
-	</p>
-	<Code
-		code={`@import 'tailwindcss';
+	<p class="section-subtitle">Add Tailwind CSS</p>
+	<Card>
+		<p class="text-sm text-on-muted mb-4">
+			Navigate to your project directory and add Tailwind CSS using the Svelte CLI.
+		</p>
+		<Code code="cd project-name && bunx sv add tailwind" lang="bash" />
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Install ui-svelte</p>
+	<Card>
+		<p class="text-sm text-on-muted mb-4">
+			Install the ui-svelte component library as a dependency in your project.
+		</p>
+		<Code code="bun add ui-svelte" lang="bash" />
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Configure your CSS file</p>
+	<Card>
+		<p class="text-sm text-on-muted mb-4">
+			Create or update your <code>src/app.css</code> file with the following configuration. This includes
+			Tailwind CSS, ui-svelte styles, and theme color variables.
+		</p>
+		<Code
+			code={`@import 'tailwindcss';
 @import 'ui-svelte/css';
 
 :root {
@@ -99,22 +104,24 @@
   --surface: oklch(21% 0.034 264.665);
   --on-surface: oklch(92.8% 0.006 264.531);
 }`}
-		lang="css"
-	/>
-	<Alert status="warning">
-		<strong>Note:</strong> You can customize these color values to match your brand. See the
-		<a href="/docs/starter/theme" class="underline">Theme Colors</a> section for more information.
-	</Alert>
+			lang="css"
+		/>
+		<Alert status="warning">
+			<strong>Note:</strong> You can customize these color values to match your brand. See the
+			<a href="/docs/starter/theme" class="underline">Theme Colors</a> section for more information.
+		</Alert>
+	</Card>
 </Section>
 
 <Section>
-	<h3 class="text-lg font-semibold mb-4">5. Setup the Provider in your root layout</h3>
-	<p class="text-sm text-on-muted mb-4">
-		Update your <code>src/routes/+layout.svelte</code> file to include the Provider component and import
-		your CSS. The Provider component handles toast notifications and view transitions.
-	</p>
-	<Code
-		code={`<script lang="ts">
+	<p class="section-subtitle">Setup the Provider</p>
+	<Card>
+		<p class="text-sm text-on-muted mb-4">
+			Update your <code>src/routes/+layout.svelte</code> file to include the Provider component and import
+			your CSS. The Provider component handles toast notifications and view transitions.
+		</p>
+		<Code
+			code={`<script lang="ts">
   import { Provider } from 'ui-svelte';
   import '@fontsource-variable/montserrat';
   import '../app.css';
@@ -129,52 +136,56 @@
 >
   {@render children()}
 </Provider>`}
-		lang="svelte"
-	/>
-	<Alert status="info">
-		<strong>Provider Props:</strong>
-		<code>toastPosition</code> ('top-left' | 'top-right' | 'bottom-left' | 'bottom-right'),
-		<code>toastIcon</code> (boolean),
-		<code>toastSolid</code> (boolean)
-	</Alert>
+			lang="svelte"
+		/>
+		<Alert status="info">
+			<strong>Provider Props:</strong>
+			<code>toastPosition</code> ('top-left' | 'top-right' | 'bottom-left' | 'bottom-right'),
+			<code>toastIcon</code> (boolean),
+			<code>toastSolid</code> (boolean)
+		</Alert>
+	</Card>
 </Section>
 
 <Section>
-	<h3 class="text-lg font-semibold mb-4">6. Optional: Install custom fonts</h3>
-	<p class="text-sm text-on-muted mb-4">
-		You can use <a href="https://fontsource.org" target="_blank" class="underline">Fontsource</a> to easily
-		add custom fonts to your project. Follow these steps to add Montserrat Variable:
-	</p>
+	<p class="section-subtitle">Install custom fonts (Optional)</p>
+	<Card>
+		<p class="text-sm text-on-muted mb-4">
+			You can use <a href="https://fontsource.org" target="_blank" class="underline">Fontsource</a> to
+			easily add custom fonts to your project. Follow these steps to add Montserrat Variable:
+		</p>
 
-	<h4 class="font-medium mb-2">Install the font package:</h4>
-	<Code code="bun add @fontsource-variable/montserrat" lang="bash" />
+		<p class="font-medium mb-2">Install the font package:</p>
+		<Code code="bun add @fontsource-variable/montserrat" lang="bash" />
 
-	<h4 class="font-medium mt-6 mb-2">Add the font-family to your <code>src/app.css</code>:</h4>
-	<Code
-		code={`body {
+		<p class="font-medium mt-6 mb-2">Add the font-family to your <code>src/app.css</code>:</p>
+		<Code
+			code={`body {
   font-family: 'Montserrat Variable', sans-serif;
 }`}
-		lang="css"
-	/>
+			lang="css"
+		/>
 
-	<h4 class="font-medium mt-6 mb-2">Import the font in your <code>+layout.svelte</code>:</h4>
-	<Code code="import '@fontsource-variable/montserrat';" lang="javascript" />
+		<p class="font-medium mt-6 mb-2">Import the font in your <code>+layout.svelte</code>:</p>
+		<Code code="import '@fontsource-variable/montserrat';" lang="javascript" />
 
-	<Alert status="info">
-		Browse available fonts at <a href="https://fontsource.org" target="_blank" class="underline"
-			>fontsource.org</a
-		>. Each font package includes installation and usage instructions.
-	</Alert>
+		<Alert status="info">
+			Browse available fonts at <a href="https://fontsource.org" target="_blank" class="underline"
+				>fontsource.org</a
+			>. Each font package includes installation and usage instructions.
+		</Alert>
+	</Card>
 </Section>
 
 <Section>
-	<h3 class="text-lg font-semibold mb-4">🎉 You're all set!</h3>
-	<p class="text-sm text-on-muted mb-4">
-		Your Svelte project is now configured with ui-svelte. You can start using components in your
-		pages.
-	</p>
-	<Code
-		code={`<script>
+	<p class="section-subtitle">🎉 You're all set!</p>
+	<Card>
+		<p class="text-sm text-on-muted mb-4">
+			Your Svelte project is now configured with ui-svelte. You can start using components in your
+			pages.
+		</p>
+		<Code
+			code={`<script>
   import { Button, Card } from 'ui-svelte';
 <\/script>
 
@@ -186,11 +197,13 @@
     </Button>
   </div>
 </Card>`}
-		lang="svelte"
-	/>
-	<Alert status="success">
-		<strong>Next Steps:</strong>
-		Explore <a href="/docs/starter/theme" class="underline">Theme Colors</a>, learn about
-		<a href="/docs/starter/icons" class="underline">Icons</a> integration, and browse the component documentation.
-	</Alert>
+			lang="svelte"
+		/>
+		<Alert status="success">
+			<strong>Next Steps:</strong>
+			Explore <a href="/docs/starter/theme" class="underline">Theme Colors</a>, learn about
+			<a href="/docs/starter/icons" class="underline">Icons</a> integration, and browse the component
+			documentation.
+		</Alert>
+	</Card>
 </Section>

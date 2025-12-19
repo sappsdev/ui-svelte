@@ -13,7 +13,7 @@
 		Tooltip
 	} from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 	import { Search24RegularIcon } from '$lib/icons';
 	import { onMount } from 'svelte';
 
@@ -139,6 +139,11 @@
 
 		return [...scriptLines].join('\n');
 	});
+
+	const props = [
+		{ prop: 'icon', type: 'IconData', initial: '' },
+		{ prop: 'class', type: 'string', initial: '' }
+	];
 </script>
 
 <DocsHeader title="Icons" llmUrl="https://ui-svelte.sappsdev.com/llm/starter/icons.md">
@@ -246,6 +251,11 @@
 <Icon icon={HeartLinearIcon} class="w-6 h-6" />`}
 		/>
 	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
 </Section>
 
 <Drawer bind:open={showCode} position="bottom" onclose={() => (icon = undefined)}>

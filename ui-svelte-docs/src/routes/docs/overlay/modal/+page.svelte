@@ -1,299 +1,242 @@
 <script lang="ts">
 	import { Button, Card, Checkbox, Code, Modal, Section, Select } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	const variantOptions = [
-		{ id: 'ghost', label: 'Ghost' },
-		{ id: 'surface', label: 'Surface' },
+	const colorOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
-		{ id: 'muted', label: 'Muted' }
+		{ id: 'muted', label: 'Muted' },
+		{ id: 'success', label: 'Success' },
+		{ id: 'info', label: 'Info' },
+		{ id: 'danger', label: 'Danger' },
+		{ id: 'warning', label: 'Warning' },
+		{ id: 'surface', label: 'Surface' },
+		{ id: 'default', label: 'Default' }
 	];
 
-	// Selects
-	let variant: any = $state('ghost');
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' }
+	];
 
-	// States
-	let open = $state(false);
+	let color: any = $state('default');
+	let variant: any = $state('solid');
 	let hasHeader = $state(true);
 	let hasFooter = $state(true);
-	let hideCloseButton = $state(false);
 	let disableOverlayClose = $state(false);
-	let isSolid = $state(false);
+	let hideCloseButton = $state(false);
 
-	// Modal states for examples
-	let openConfirm = $state(false);
-	let openForm = $state(false);
+	let open = $state(false);
+	let openVariants = $state(false);
+	let openColors = $state(false);
+	let openHeaderFooter = $state(false);
+	let selectedVariant: any = $state('solid');
+
+	const handleOpenVariant = (variantId: string) => {
+		selectedVariant = variantId;
+		openVariants = true;
+	};
+
+	let selectedColor: any = $state('default');
+
+	const handleOpenColor = (colorId: string) => {
+		selectedColor = colorId;
+		openColors = true;
+	};
 
 	let code = $derived(() => {
 		const scriptLines = [
 			`<script lang="ts">`,
-			`\timport { Modal, Button } from 'ui-svelte';`,
-			`\n\tlet open = $state(false);`,
+			`\timport { Button, Modal } from 'ui-svelte';`,
+			``,
+			`\tlet open = $state(false);`,
 			`<\/script>`
 		].filter(Boolean);
 
 		const componentLines = [
-			`<Button onclick={() => open = true}>Open Modal</Button>`,
+			`<Button onclick={() => (open = true)}>Open Modal</Button>`,
 			``,
 			`<Modal`,
 			`\tbind:open`,
-			variant !== 'ghost' && `\tvariant="${variant}"`,
-			isSolid && `\tisSolid`,
-			hideCloseButton && `\thideCloseButton`,
+			color !== 'default' && `\tcolor="${color}"`,
+			variant !== 'solid' && `\tvariant="${variant}"`,
 			disableOverlayClose && `\tdisableOverlayClose`,
+			hideCloseButton && `\thideCloseButton`,
 			`>`,
 			hasHeader && `\t{#snippet header()}`,
 			hasHeader && `\t\t<h4>Modal Header</h4>`,
 			hasHeader && `\t{/snippet}`,
-			`\t<p>Modal content goes here.</p>`,
+			`\t<p>Modal body content goes here.</p>`,
 			hasFooter && `\t{#snippet footer()}`,
-			hasFooter && `\t\t<Button onclick={() => open = false}>Close</Button>`,
+			hasFooter && `\t\t<Button onclick={() => (open = false)}>Close</Button>`,
 			hasFooter && `\t{/snippet}`,
 			`</Modal>`
 		].filter(Boolean);
 
-		return [...scriptLines, ...componentLines].join('\n');
+		return [...scriptLines, '', ...componentLines].join('\n');
 	});
 
 	const props = [
 		{ prop: 'open', type: 'boolean', initial: 'false' },
+		{ prop: 'onclose', type: '() => void', initial: '' },
 		{ prop: 'children', type: 'Snippet', initial: '' },
 		{ prop: 'header', type: 'Snippet', initial: '' },
 		{ prop: 'footer', type: 'Snippet', initial: '' },
-		{ prop: 'onclose', type: '() => void', initial: '' },
+		{
+			prop: 'color',
+			type: 'primary | secondary | muted | success | info | warning | danger | surface | default',
+			initial: 'default'
+		},
 		{
 			prop: 'variant',
-			type: 'ghost | surface | primary | secondary | muted',
-			initial: 'ghost'
+			type: 'solid | soft',
+			initial: 'solid'
 		},
-		{ prop: 'class', type: 'string', initial: '' },
+		{ prop: 'disableOverlayClose', type: 'boolean', initial: 'false' },
+		{ prop: 'hideCloseButton', type: 'boolean', initial: 'false' },
+		{ prop: 'rootClass', type: 'string', initial: '' },
 		{ prop: 'headerClass', type: 'string', initial: '' },
 		{ prop: 'contentClass', type: 'string', initial: '' },
-		{ prop: 'footerClass', type: 'string', initial: '' },
-		{ prop: 'isSolid', type: 'boolean', initial: 'false' },
-		{ prop: 'hideCloseButton', type: 'boolean', initial: 'false' },
-		{ prop: 'disableOverlayClose', type: 'boolean', initial: 'false' }
+		{ prop: 'footerClass', type: 'string', initial: '' }
 	];
 </script>
 
 {#snippet header()}
-	<h4>Modal Header</h4>
+	<h4 class="card-title">Modal Header</h4>
 {/snippet}
 
 {#snippet footer()}
-	<div class="row gap-2 justify-end">
-		<Button size="sm" variant="ghost" onclick={() => (open = false)}>Cancel</Button>
-		<Button size="sm" onclick={() => (open = false)}>Confirm</Button>
-	</div>
+	<Button size="sm" onclick={() => (open = false)}>Close</Button>
 {/snippet}
 
 <DocsHeader title="Modal" llmUrl="https://ui-svelte.sappsdev.com/llm/overlay/modal.md">
-	Modals are dialog overlays that require user interaction. They appear above the main content and
-	block interaction with the rest of the page until dismissed.
+	Modals are dialog overlays that focus user attention on important content or actions.
 </DocsHeader>
 
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		<Button onclick={() => (open = true)}>Open Modal</Button>
-		<Modal
-			bind:open
-			{variant}
-			header={hasHeader ? header : undefined}
-			footer={hasFooter ? footer : undefined}
-			{hideCloseButton}
-			{disableOverlayClose}
-			{isSolid}
-		>
-			<p>This is the modal body content. You can add any content here.</p>
-		</Modal>
-	</DocsPreview>
-	<Card>
-		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-		<div class="grid-2 gap-2">
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				bind:value={variant}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
 			<Checkbox bind:checked={hasHeader} label="Header" />
 			<Checkbox bind:checked={hasFooter} label="Footer" />
-			<Checkbox bind:checked={isSolid} label="Solid" />
-			<Checkbox bind:checked={hideCloseButton} label="Hide Close" />
 			<Checkbox bind:checked={disableOverlayClose} label="Disable Overlay Close" />
+			<Checkbox bind:checked={hideCloseButton} label="Hide Close Button" />
 		</div>
-	</Card>
-	<DocsCode code={code()} />
-</Section>
 
-<Section bodyClass="grid-2 md:grid-3">
-	<!-- Confirmation Modal -->
-	<Card>
-		{#snippet header()}
-			<h4>Confirmation Modal</h4>
-		{/snippet}
-		<p class="text-sm">
-			Modals for confirming user actions with clear primary and secondary options.
-		</p>
-		<Button size="sm" onclick={() => (openConfirm = true)}>Show Confirmation</Button>
-		<Modal bind:open={openConfirm} variant="surface">
-			{#snippet header()}
-				<h4>Confirm Action</h4>
-			{/snippet}
-			<p>Are you sure you want to proceed with this action? This cannot be undone.</p>
-			{#snippet footer()}
-				<div class="row gap-2">
-					<Button size="sm" variant="ghost" onclick={() => (openConfirm = false)}>Cancel</Button>
-					<Button size="sm" variant="danger" onclick={() => (openConfirm = false)}>Confirm</Button>
-				</div>
-			{/snippet}
-		</Modal>
-		{#snippet footer()}
-			<code class="text-xs">variant="surface"</code>
-		{/snippet}
-	</Card>
+		<div class="doc-preview">
+			<Button onclick={() => (open = true)}>Open Modal</Button>
+			<Modal
+				bind:open
+				{color}
+				{variant}
+				{disableOverlayClose}
+				{hideCloseButton}
+				header={hasHeader ? header : undefined}
+				footer={hasFooter ? footer : undefined}
+			>
+				<p class="card-description">
+					This is the modal body content. You can place any content here.
+				</p>
+			</Modal>
+		</div>
 
-	<!-- Form Modal -->
-	<Card>
-		{#snippet header()}
-			<h4>Form Modal</h4>
-		{/snippet}
-		<p class="text-sm">Modals can contain forms and interactive elements.</p>
-		<Button size="sm" onclick={() => (openForm = true)}>Show Form</Button>
-		<Modal bind:open={openForm} variant="ghost">
-			{#snippet header()}
-				<h4>Contact Us</h4>
-			{/snippet}
-			<div class="column gap-4">
-				<input type="text" placeholder="Your name" class="p-2 border border-muted-300 rounded" />
-				<input type="email" placeholder="Your email" class="p-2 border border-muted-300 rounded" />
-				<textarea placeholder="Your message" rows="3" class="p-2 border border-muted-300 rounded"
-				></textarea>
-			</div>
-			{#snippet footer()}
-				<div class="row gap-2">
-					<Button size="sm" variant="ghost" onclick={() => (openForm = false)}>Cancel</Button>
-					<Button size="sm" variant="primary" onclick={() => (openForm = false)}>Send</Button>
-				</div>
-			{/snippet}
-		</Modal>
-		{#snippet footer()}
-			<code class="text-xs">variant="ghost"</code>
-		{/snippet}
-	</Card>
-
-	<!-- Alert Modal -->
-	<Card variant="warning">
-		{#snippet header()}
-			<h4>⚠️ Alert Modal</h4>
-		{/snippet}
-		<p class="text-sm">Use variant colors to indicate the nature of the modal content.</p>
-		{#snippet footer()}
-			<code class="text-xs">variant="primary" isSolid</code>
-		{/snippet}
+		<Code lang="svelte" code={code()} />
 	</Card>
 </Section>
 
 <Section>
-	<Card variant="info">
-		<div class="column gap-3">
-			<h4 class="font-semibold">💡 Pro Tips</h4>
-			<ul class="text-sm space-y-2 list-disc list-inside">
-				<li>
-					<strong>Closing:</strong> Users can close the modal by clicking the X button, clicking the
-					overlay, or programmatically setting
-					<code class="px-1 py-0.5 bg-blue rounded">open = false</code>
-				</li>
-				<li>
-					<strong>Overlay Close:</strong> Use
-					<code class="px-1 py-0.5 bg-blue rounded">disableOverlayClose</code> to prevent closing by clicking
-					outside the modal
-				</li>
-				<li>
-					<strong>Callbacks:</strong> Use the
-					<code class="px-1 py-0.5 bg-blue rounded">onclose</code> callback to perform actions when the
-					modal is closed
-				</li>
-				<li>
-					<strong>Focus:</strong> The modal automatically manages focus trapping for accessibility
-				</li>
-			</ul>
+	<p class="section-subtitle">Variants</p>
+	<Card>
+		<div class="wrap gap-4 center">
+			{#each variantOptions as item}
+				<Button onclick={() => handleOpenVariant(item.id)} variant={item.id as any}>
+					{item.label} Modal
+				</Button>
+			{/each}
 		</div>
+		<Modal bind:open={openVariants} variant={selectedVariant} color="primary">
+			{#snippet header()}
+				<h4 class="card-title">{selectedVariant === 'solid' ? 'Solid' : 'Soft'} Variant</h4>
+			{/snippet}
+			<p class="card-description">
+				This modal uses the {selectedVariant} variant with primary color.
+			</p>
+			{#snippet footer()}
+				<Button size="sm" onclick={() => (openVariants = false)}>Close</Button>
+			{/snippet}
+		</Modal>
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Usage Examples</h4>
-		{/snippet}
-		<Code
-			lang="svelte"
-			code={`<!-- Basic Modal -->
-<script lang="ts">
-	import { Button, Modal } from 'ui-svelte';
-	let open = $state(false);
-<\/script>
-
-<Button onclick={() => open = true}>Open Modal</Button>
-
-<Modal bind:open>
-	{#snippet header()}
-		<h4>Modal Title</h4>
-	{/snippet}
-	<p>Modal content goes here.</p>
-	{#snippet footer()}
-		<Button onclick={() => open = false}>Close</Button>
-	{/snippet}
-</Modal>
-
-<!-- Confirmation Modal -->
-<script lang="ts">
-	let openConfirm = $state(false);
-<\/script>
-
-<Modal bind:open={openConfirm} variant="surface">
-	{#snippet header()}
-		<h4>Confirm Delete</h4>
-	{/snippet}
-	<p>Are you sure you want to delete this item?</p>
-	{#snippet footer()}
-		<div class="row gap-2">
-			<Button variant="ghost" onclick={() => openConfirm = false}>Cancel</Button>
-			<Button variant="danger" onclick={handleDelete}>Delete</Button>
+	<p class="section-subtitle">Colors</p>
+	<Card>
+		<div class="wrap gap-4 center">
+			{#each colorOptions as item}
+				<Button onclick={() => handleOpenColor(item.id)} color={item.id as any} size="sm">
+					{item.label}
+				</Button>
+			{/each}
 		</div>
-	{/snippet}
-</Modal>
-
-<!-- Modal with Solid Variant -->
-<script lang="ts">
-	let openAlert = $state(false);
-<\/script>
-
-<Modal bind:open={openAlert} variant="primary" isSolid>
-	{#snippet header()}
-		<h4>Important Notice</h4>
-	{/snippet}
-	<p>This is an important message that requires your attention.</p>
-	{#snippet footer()}
-		<Button variant="ghost" onclick={() => openAlert = false}>Dismiss</Button>
-	{/snippet}
-</Modal>
-
-<!-- Modal without Close Button -->
-<script lang="ts">
-	let openRequired = $state(false);
-<\/script>
-
-<Modal bind:open={openRequired} hideCloseButton disableOverlayClose>
-	{#snippet header()}
-		<h4>Required Action</h4>
-	{/snippet}
-	<p>You must complete this action to continue.</p>
-	{#snippet footer()}
-		<Button onclick={handleComplete}>Complete</Button>
-	{/snippet}
-</Modal>`}
-		/>
+		<Modal bind:open={openColors} color={selectedColor}>
+			{#snippet header()}
+				<h4 class="card-title">{colorOptions.find((c) => c.id === selectedColor)?.label} Modal</h4>
+			{/snippet}
+			<p class="card-description">This modal uses the {selectedColor} color theme.</p>
+			{#snippet footer()}
+				<Button size="sm" color={selectedColor} onclick={() => (openColors = false)}>Confirm</Button
+				>
+			{/snippet}
+		</Modal>
 	</Card>
 </Section>
 
-<DocsProps {props} />
+<Section>
+	<p class="section-subtitle">With Header & Footer</p>
+	<Card>
+		<div class="wrap gap-4 center">
+			<Button onclick={() => (openHeaderFooter = true)}>Modal with Header & Footer</Button>
+		</div>
+		<Modal bind:open={openHeaderFooter} color="primary">
+			{#snippet header()}
+				<h4 class="card-title">Confirmation</h4>
+			{/snippet}
+			<p class="card-description">
+				Are you sure you want to proceed with this action? This operation cannot be undone.
+			</p>
+			{#snippet footer()}
+				<div class="flex gap-2">
+					<Button
+						size="sm"
+						color="primary"
+						variant="soft"
+						onclick={() => (openHeaderFooter = false)}>Cancel</Button
+					>
+				</div>
+			{/snippet}
+		</Modal>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
+</Section>

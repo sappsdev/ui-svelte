@@ -50,6 +50,6 @@
 		<span class={cn('toggle-label-right', checked && 'is-active')}>{labelRight}</span>
 	{/if}
 	{#if label}
-		<span class="label">{label}</span>
+		<span class="label-md">{label}</span>
 	{/if}
 </label>

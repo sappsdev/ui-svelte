@@ -1,14 +1,14 @@
-import type { IconName } from '$lib/types.js';
+import type { IconData } from "$lib/index.js";
 
 export interface ToastMessage {
 	id: string;
-	icon?: IconName;
+	icon?: IconData;
 	title?: string;
 	description: string;
 	duration?: number;
 	position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-	isSolid?: boolean;
-	status: 'success' | 'danger' | 'info' | 'warning';
+	variant?: 'solid' | 'soft';
+	color: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
 }
 
 let toastMessages = $state<ToastMessage[]>([]);
@@ -24,11 +24,11 @@ const toastShow = (message: Omit<ToastMessage, 'id'> & { id?: string }) => {
 		id,
 		title: message.title,
 		description: message.description,
-		status: message.status || 'info',
+		color: message.color || 'info',
 		duration: message.duration || 0,
 		icon: message.icon,
 		position: message.position,
-		isSolid: message.isSolid
+		variant: message.variant || 'soft'
 	};
 
 	toastMessages = [...toastMessages, newMessage];
