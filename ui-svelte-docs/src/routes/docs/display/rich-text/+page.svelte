@@ -54,7 +54,7 @@
 	const colorVariants = ['primary', 'secondary', 'success', 'warning', 'danger', 'info'];
 </script>
 
-<DocsHeader title="Rich Text">
+<DocsHeader title="Rich Text" llmUrl="https://ui-svelte.sappsdev.com/llm/display/rich-text.md">
 	CSS utility classes to decorate and animate inline text elements like headings, keywords, or
 	highlighted words.
 </DocsHeader>

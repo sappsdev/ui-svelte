@@ -87,7 +87,7 @@
 	];
 </script>
 
-<DocsHeader title="Typography">
+<DocsHeader title="Typography" llmUrl="https://ui-svelte.sappsdev.com/llm/starter/typography.md">
 	CSS utility classes for responsive typography with semantic naming, ideal for heroes, sections,
 	cards, and other UI components.
 </DocsHeader>

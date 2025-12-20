@@ -19,11 +19,11 @@
 		}
 
 		&.is-transparent {
-			@apply bg-transparent border-transparent shadow-none;
+			@apply bg-transparent! border-transparent shadow-none;
 		}
 
 		&.is-floating-enabled {
-			@apply left-1/2 -translate-x-1/2;
+			@apply fixed top-0 left-1/2 -translate-x-1/2;
 		}
 
 		&.is-floating {
@@ -33,6 +33,66 @@
 		&.is-floating-enabled:not(.is-floating) {
 			@apply mt-0 w-full rounded-none;
 			@apply border-b border-muted;
+		}
+
+		&.is-soft {
+			&.is-primary {
+				@apply bg-on-primary text-primary;
+			}
+			&.is-secondary {
+				@apply bg-on-secondary text-secondary;
+			}
+			&.is-muted {
+				@apply bg-muted text-on-muted;
+			}
+			&.is-success {
+				@apply bg-on-success text-success;
+			}
+			&.is-info {
+				@apply bg-on-info text-info;
+			}
+			&.is-warning {
+				@apply bg-on-warning text-warning;
+			}
+			&.is-danger {
+				@apply bg-on-danger text-danger;
+			}
+			&.is-default {
+				@apply bg-background text-on-background;
+			}
+			&.is-surface {
+				@apply bg-surface text-on-surface;
+			}
+		}
+
+		&.is-solid {
+			&.is-primary {
+				@apply bg-primary text-on-primary;
+			}
+			&.is-secondary {
+				@apply bg-secondary text-on-secondary;
+			}
+			&.is-muted {
+				@apply bg-on-muted text-muted;
+			}
+			&.is-success {
+				@apply bg-success text-on-success;
+			}
+			&.is-info {
+				@apply bg-info text-on-info;
+			}
+			&.is-warning {
+				@apply bg-warning text-on-warning;
+			}
+			&.is-danger {
+				@apply bg-danger text-on-danger;
+			}
+			&.is-default {
+				@apply bg-background text-on-background;
+			}
+			&.is-surface {
+				@apply bg-surface text-on-surface;
+			}
 		}
 
 		.appbar-content {
@@ -51,68 +111,5 @@
 				@apply flex flex-nowrap justify-end items-center p-3 gap-3 relative;
 			}
 		}
-	}
-	.appbar.is-primary {
-		@apply bg-on-primary text-primary;
-	}
-
-	.appbar.is-primary.is-solid {
-		@apply bg-primary text-on-primary;
-	}
-
-	.appbar.is-secondary {
-		@apply bg-on-secondary text-secondary;
-	}
-
-	.appbar.is-secondary.is-solid {
-		@apply bg-secondary text-on-secondary;
-	}
-
-	.appbar.is-success {
-		@apply bg-on-success text-success;
-	}
-
-	.appbar.is-success.is-solid {
-		@apply bg-success text-on-success;
-	}
-
-	.appbar.is-info {
-		@apply bg-on-info text-info;
-	}
-
-	.appbar.is-info.is-solid {
-		@apply bg-info text-on-info;
-	}
-
-	.appbar.is-warning {
-		@apply bg-on-warning text-warning;
-	}
-
-	.appbar.is-warning.is-solid {
-		@apply bg-warning text-on-warning;
-	}
-
-	.appbar.is-danger {
-		@apply bg-on-danger text-danger;
-	}
-
-	.appbar.is-danger.is-solid {
-		@apply bg-danger text-on-danger;
-	}
-
-	.appbar.is-muted {
-		@apply bg-muted text-on-muted;
-	}
-
-	.appbar.is-muted.is-solid {
-		@apply bg-on-muted text-muted;
-	}
-
-	.appbar.is-ghost {
-		@apply bg-background text-on-background;
-	}
-
-	.appbar.is-surface {
-		@apply bg-surface text-on-surface;
 	}
 }

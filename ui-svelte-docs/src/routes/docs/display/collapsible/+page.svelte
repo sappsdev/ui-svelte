@@ -1,127 +1,203 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { Collapsible, Select, Checkbox } from 'ui-svelte';
+	import { Collapsible, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
+	import { FolderLinearIcon } from '$lib/icons';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
+	import { Icon } from 'ui-svelte';
 
-	const variantOptions = [
+	const colorOptions = [
+		{ id: 'default', label: 'Default' },
+		{ id: 'surface', label: 'Surface' },
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
-		{ id: 'outline', label: 'Outline' }
+		{ id: 'success', label: 'Success' },
+		{ id: 'info', label: 'Info' },
+		{ id: 'danger', label: 'Danger' },
+		{ id: 'warning', label: 'Warning' }
 	];
 
-	// Selects
-	let variant: any = $state('muted');
+	const variantOptions = [
+		{ id: 'ghost', label: 'Ghost' },
+		{ id: 'soft', label: 'Soft' },
+		{ id: 'outlined', label: 'Outlined' },
+		{ id: 'solid', label: 'Solid' }
+	];
 
-	// States
-	let withIcon = $state(false);
-	let withDisabled = $state(false);
-	let withDefaultOpen = $state(false);
-	let withSnippet = $state(false);
+	let color: any = $state('default');
+	let variant: any = $state('ghost');
+
+	let startContent = $state(false);
+	let disabled = $state(false);
+	let defaultOpen = $state(false);
 
 	let hasProps = $derived(
-		[variant !== 'muted', withIcon, withDisabled, withDefaultOpen].some(Boolean)
+		[color !== 'default', variant !== 'ghost', startContent, disabled, defaultOpen].some(Boolean)
 	);
 
 	let code = $derived(() => {
 		const scriptLines = [
 			`<script lang="ts">`,
 			`\timport { Collapsible } from 'ui-svelte';`,
-			!withSnippet && `<\/script>`,
-			withSnippet && `<\/script>`,
-			withSnippet && `\n{#snippet content()}`,
-			withSnippet && `\t<div>`,
-			withSnippet && `\t\t<p><strong>ui-svelte</strong> is a modern component library.</p>`,
-			withSnippet && `\t\t<ul>`,
-			withSnippet && `\t\t\t<li>Built with Svelte 5</li>`,
-			withSnippet && `\t\t\t<li>Customizable components</li>`,
-			withSnippet && `\t\t\t<li>Easy to integrate</li>`,
-			withSnippet && `\t\t</ul>`,
-			withSnippet && `\t</div>`,
-			withSnippet && `{/snippet}`
+			startContent && `\timport { Icon } from 'ui-svelte';`,
+			startContent && `\timport { FolderLinearIcon } from '$lib/icons';`,
+			`<\/script>`
 		].filter(Boolean);
 
 		const componentLines = [
-			hasProps && `\n<Collapsible`,
-			hasProps && `\tlabel="What is ui-svelte?"`,
-			withIcon && `\ticon="fluent:info-24-regular"`,
-			withSnippet && `\tcontent={content}`,
-			!withSnippet &&
-				`\tcontent="ui-svelte is a modern component library built with Svelte 5, offering a comprehensive set of customizable UI components."`,
-			variant !== 'muted' && `\tvariant="${variant}"`,
-			withDisabled && `\tdisabled`,
-			withDefaultOpen && `\tdefaultOpen`,
-			hasProps && `/>`,
-			!hasProps && `\n<Collapsible`,
-			!hasProps && `\tlabel="What is ui-svelte?"`,
-			!hasProps &&
-				`\tcontent="ui-svelte is a modern component library built with Svelte 5, offering a comprehensive set of customizable UI components."`,
-			!hasProps && `/>`
+			hasProps && `<Collapsible`,
+			hasProps && `\tlabel="Collapsible Header"`,
+			color !== 'default' && `\tcolor="${color}"`,
+			variant !== 'ghost' && `\tvariant="${variant}"`,
+			disabled && `\tdisabled`,
+			defaultOpen && `\tdefaultOpen`,
+			hasProps && `>`,
+			startContent && `\t{#snippet startContent()}`,
+			startContent && `\t\t<Icon icon={FolderLinearIcon} />`,
+			startContent && `\t{/snippet}`,
+			hasProps && `\t{#snippet content()}`,
+			hasProps && `\t\t<p>This is the collapsible content.</p>`,
+			hasProps && `\t{/snippet}`,
+			hasProps && `</Collapsible>`,
+			!hasProps && `<Collapsible label="Collapsible Header">`,
+			!hasProps && `\t{#snippet content()}`,
+			!hasProps && `\t\t<p>This is the collapsible content.</p>`,
+			!hasProps && `\t{/snippet}`,
+			!hasProps && `</Collapsible>`
 		].filter(Boolean);
 
 		return [...scriptLines, ...componentLines].join('\n');
 	});
 
 	const props = [
-		{ prop: 'label', type: 'string', initial: '', required: true },
-		{ prop: 'content', type: 'Snippet | string', initial: '', required: true },
-		{ prop: 'icon', type: 'IconName', initial: '' },
-		{ prop: 'variant', type: 'primary | secondary | muted | outline', initial: 'muted' },
+		{ prop: 'label', type: 'string', initial: '' },
+		{ prop: 'content', type: 'Snippet | string', initial: '' },
+		{ prop: 'startContent', type: 'Snippet', initial: '' },
+		{
+			prop: 'variant',
+			type: 'solid | soft | outlined | ghost',
+			initial: 'ghost'
+		},
+		{
+			prop: 'color',
+			type: 'primary | secondary | muted | success | info | danger | warning | surface | default',
+			initial: 'default'
+		},
 		{ prop: 'disabled', type: 'boolean', initial: 'false' },
 		{ prop: 'defaultOpen', type: 'boolean', initial: 'false' },
-		{ prop: 'class', type: 'string', initial: '' },
+		{ prop: 'rootClass', type: 'string', initial: '' },
 		{ prop: 'headerClass', type: 'string', initial: '' },
 		{ prop: 'contentClass', type: 'string', initial: '' }
 	];
 </script>
 
-{#snippet content()}
-	<div>
-		<p><strong>ui-svelte</strong> is a modern component library built with Svelte 5.</p>
-		<ul class="mt-2 ml-4 list-disc">
-			<li>Comprehensive set of components</li>
-			<li>Fully customizable</li>
-			<li>Built for modern web apps</li>
-			<li>Easy to integrate</li>
-		</ul>
-	</div>
-{/snippet}
+<DocsHeader title="Collapsible" llmUrl="https://ui-svelte.sappsdev.com/llm/display/collapsible.md">
+	Collapsible is a component that allows users to toggle the visibility of content.
+</DocsHeader>
 
-{#snippet preview()}
-	<Collapsible
-		label="What is ui-svelte?"
-		icon={withIcon ? 'fluent:info-24-regular' : undefined}
-		content={withSnippet
-			? content
-			: 'ui-svelte is a modern component library built with Svelte 5, offering a comprehensive set of customizable UI components for building beautiful web applications.'}
-		{variant}
-		disabled={withDisabled}
-		defaultOpen={withDefaultOpen}
-	/>
-{/snippet}
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				bind:value={variant}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={startContent} label="startContent" />
+			<Checkbox bind:checked={disabled} label="Disabled" />
+			<Checkbox bind:checked={defaultOpen} label="Default Open" />
+		</div>
 
-{#snippet builder()}
-	<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
+		<div class="doc-preview">
+			<Collapsible label="Collapsible Header" {color} {variant} {disabled} {defaultOpen}>
+				{#snippet startContent()}
+					{#if startContent}
+						<Icon icon={FolderLinearIcon} />
+					{/if}
+				{/snippet}
+				{#snippet content()}
+					<p>
+						This is the collapsible content. Click the header to expand or collapse this section.
+					</p>
+				{/snippet}
+			</Collapsible>
+		</div>
+		<Code lang="svelte" code={code()} />
+	</Card>
+</Section>
 
-	<DocOptions title="Options">
-		<Checkbox bind:checked={withIcon} label="Icon" />
-		<Checkbox bind:checked={withDisabled} label="Disabled" />
-		<Checkbox bind:checked={withDefaultOpen} label="Default Open" />
-		<Checkbox bind:checked={withSnippet} label="Snippet Content" />
-	</DocOptions>
-{/snippet}
+<Section>
+	<p class="section-subtitle">Variants & Colors</p>
+	<Card>
+		{#each variantOptions as item}
+			<div class="wrap gap-4">
+				{#each colorOptions as colorItem}
+					<Collapsible
+						label={item.label + ' ' + colorItem.label}
+						variant={item.id as any}
+						color={colorItem.id as any}
+					>
+						{#snippet content()}
+							<p>Content for {item.label} {colorItem.label} collapsible.</p>
+						{/snippet}
+					</Collapsible>
+				{/each}
+			</div>
+		{/each}
+	</Card>
+</Section>
 
-<DocHeader title="Collapsible">
-	Collapsible component allows users to show and hide a single section of content on a page.
-</DocHeader>
+<Section>
+	<p class="section-subtitle">With Start Content</p>
+	<Card>
+		<div class="wrap gap-4">
+			{#each colorOptions.slice(0, 4) as colorItem}
+				<Collapsible label={colorItem.label + ' with Icon'} color={colorItem.id as any}>
+					{#snippet startContent()}
+						<Icon icon={FolderLinearIcon} />
+					{/snippet}
+					{#snippet content()}
+						<p>This collapsible has a start icon.</p>
+					{/snippet}
+				</Collapsible>
+			{/each}
+		</div>
+	</Card>
+</Section>
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section>
+	<p class="section-subtitle">Other Props</p>
+	<Card>
+		<div class="wrap gap-4">
+			<Collapsible label="Default Open" defaultOpen>
+				{#snippet content()}
+					<p>This collapsible is open by default.</p>
+				{/snippet}
+			</Collapsible>
+			<Collapsible label="Disabled Collapsible" disabled>
+				{#snippet content()}
+					<p>This content should not be visible.</p>
+				{/snippet}
+			</Collapsible>
+			<Collapsible label="String Content" content="This is a simple string content." />
+		</div>
+	</Card>
+</Section>
 
-<DocCode code={code()} />
-
-<DocProps {props} />
+<Section>
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
+</Section>

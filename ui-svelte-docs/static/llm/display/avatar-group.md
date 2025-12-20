@@ -1,73 +1,74 @@
-## AvatarGroup Component
+# AvatarGroup Component
 
-Displays a group of avatars with stacked (overlapping) or separated layout.
+Display multiple avatars in stacked or inline layout with overflow counter.
+
+## Import
+
+```svelte
+import {AvatarGroup} from 'ui-svelte';
+```
+
+## Props
+
+| Prop         | Type                                                                                  | Default     | Description                              |
+| ------------ | ------------------------------------------------------------------------------------- | ----------- | ---------------------------------------- |
+| `items`      | `AvatarItem[]`                                                                        | `[]`        | Array of avatar items                    |
+| `color`      | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'primary'` | Color theme                              |
+| `variant`    | `'solid' \| 'soft'`                                                                   | `'solid'`   | Visual style                             |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                                | `'md'`      | Avatar size                              |
+| `max`        | `number`                                                                              | -           | Max visible avatars (shows "+N" counter) |
+| `isInline`   | `boolean`                                                                             | `false`     | Inline layout (no overlap)               |
+| `isBordered` | `boolean`                                                                             | `false`     | Show border on avatars                   |
+
+## AvatarItem Type
+
+| Prop      | Type                  | Description              |
+| --------- | --------------------- | ------------------------ |
+| `src`     | `string`              | Image URL                |
+| `name`    | `string`              | User name (for initials) |
+| `alt`     | `string`              | Image alt text           |
+| `href`    | `string`              | Link URL                 |
+| `onclick` | `() => void`          | Click handler            |
+| `target`  | `'_self' \| '_blank'` | Link target              |
+
+## Patterns
+
+### Basic Stacked Group
 
 ```svelte
 <AvatarGroup
 	items={[
-		{ src: '/user1.jpg', name: 'Alice', href: '/profile/1' },
-		{ src: '/user2.jpg', name: 'Bob', onclick: () => {} },
-		{ name: 'Carol Davis' }
+		{ src: '/user1.jpg', name: 'Alice' },
+		{ src: '/user2.jpg', name: 'Bob' },
+		{ src: '/user3.jpg', name: 'Charlie' }
 	]}
-	variant="primary"
-	size="lg"
-	max={4}
-	stacked={true}
-	isBordered={false}
 />
 ```
 
-### Props
-
-| Prop         | Default     | Description                                                                     |
-| ------------ | ----------- | ------------------------------------------------------------------------------- |
-| `items`      | `[]`        | Array of `{ src?, name?, alt?, href?, onclick?, target? }` objects              |
-| `variant`    | `'primary'` | `primary` `secondary` `muted` `success` `warning` `danger` `info` `transparent` |
-| `size`       | `'lg'`      | `xs` `sm` `md` `lg` `xl`                                                        |
-| `max`        | -           | Maximum visible avatars (shows "+N" counter for overflow)                       |
-| `stacked`    | `true`      | `true` for overlapping avatars, `false` for separated                           |
-| `isBordered` | `false`     | Add border to avatars                                                           |
-
-### AvatarItem Properties
-
-| Property  | Description                                      |
-| --------- | ------------------------------------------------ |
-| `src`     | Image URL                                        |
-| `name`    | Fallback initials (first letter)                 |
-| `alt`     | Image alt text                                   |
-| `href`    | Link URL (makes avatar clickable as anchor)      |
-| `onclick` | Click handler (makes avatar clickable as button) |
-| `target`  | Link target: `_self` `_blank` `_parent` `_top`   |
-
-### Examples
+### Inline Layout
 
 ```svelte
-<!-- Stacked (Overlapping) -->
-<AvatarGroup items={users} max={4} stacked={true} />
-
-<!-- Separated -->
-<AvatarGroup items={users} max={4} stacked={false} />
-
-<!-- With Names Only -->
-<AvatarGroup
-	items={[{ name: 'Alice Brown' }, { name: 'Bob Smith' }, { name: 'Carol Davis' }]}
-	variant="secondary"
-/>
-
-<!-- Clickable Avatars -->
-<AvatarGroup
-	items={[
-		{ src: '/user1.jpg', name: 'Alice', href: '/profile/1' },
-		{ src: '/user2.jpg', name: 'Bob', onclick: () => openProfile('bob') },
-		{ src: '/user3.jpg', name: 'Carol', href: '/profile/3', target: '_blank' }
-	]}
-	max={3}
-/>
-
-<!-- Different Sizes -->
-<AvatarGroup items={users} size="sm" max={3} />
-<AvatarGroup items={users} size="lg" max={3} />
-<AvatarGroup items={users} size="xl" max={3} />
+<AvatarGroup items={users} isInline />
 ```
 
-**For LLMs**: Use `items` array with `src` for images or `name` for initials. Add `href` or `onclick` to make individual avatars interactive. Use `max` to limit visible avatars (shows "+N" counter). Set `stacked={true}` for overlapping layout, `stacked={false}` for separated. All avatars share the same `variant` and `size`.
+### With Max Limit
+
+```svelte
+<AvatarGroup items={users} max={4} />
+```
+
+### Initials Only
+
+```svelte
+<AvatarGroup items={[{ name: 'Alice Johnson' }, { name: 'Bob Smith' }]} color="secondary" />
+```
+
+## Notes
+
+- Default layout is stacked (overlapping avatars)
+- `max` prop shows "+N" counter for hidden avatars
+- All avatars share the same `color`, `variant`, and `size`
+
+## Component References
+
+- **@see avatar.md** - Individual avatar component

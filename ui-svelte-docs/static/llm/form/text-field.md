@@ -1,98 +1,72 @@
-## TextField Component
+# TextField Component
 
-Single-line text input for forms.
+Input field for text data entry.
 
-```svelte
-<TextField
-  bind:value
-  placeholder="Enter text..."
-  type="text"
-  name="username"
-  variant="outlined"
-  size="md"
-  label="Username"
-  helpText="Enter your username"
-  errorText=""
-  isFloatLabel={false}
-  isSolid={false}
-  onchange={handleChange}
-  oninput={handleInput}
-/>
-
-{#snippet prefix()}
-  <Icon name="search" />
-{/snippet}
-
-{#snippet suffix()}
-  <Icon name="check" />
-{/snippet}
-```
-
-### Key Props
-
-| Prop | Default | Description |
-|------|---------|-------------|
-| `value` | `''` | Input value (bindable) |
-| `placeholder` | - | Placeholder text |
-| `type` | `'text'` | `text` `password` `email` `number` `tel` `url` |
-| `name` | - | Form field name |
-| `variant` | `'outlined'` | `primary` `secondary` `muted` `outlined` `line` |
-| `size` | `'md'` | `sm` `md` `lg` |
-| `label` | - | Label text |
-| `helpText` | - | Help message |
-| `errorText` | - | Error message |
-| `isFloatLabel` | `false` | Floating label style |
-| `isSolid` | `false` | Solid background |
-| `onchange` | - | Handler `(value: unknown) => void` |
-| `oninput` | - | Handler `(value: unknown) => void` |
-| `prefix` | - | Snippet before input |
-| `suffix` | - | Snippet after input |
-| `autocomplete` | - | HTML autocomplete attribute |
-| `min` / `max` | - | For number/date types |
-| `maxlength` | - | Maximum length |
-
-### Common Patterns
+## Import
 
 ```svelte
-<!-- Basic -->
-<TextField bind:value placeholder="Enter name..." />
-
-<!-- With Label -->
-<TextField bind:value label="Username" name="username" />
-
-<!-- Email Input -->
-<TextField bind:value type="email" label="Email" name="email" />
-
-<!-- Password -->
-<TextField bind:value type="password" label="Password" name="password" />
-
-<!-- Float Label -->
-<TextField bind:value label="Email" isFloatLabel />
-
-<!-- With Validation -->
-<TextField 
-  bind:value 
-  label="Email" 
-  type="email"
-  errorText={!value.includes('@') ? 'Invalid email' : ''}
-/>
-
-<!-- With Help Text -->
-<TextField 
-  bind:value 
-  label="Username" 
-  helpText="Must be 3-20 characters"
-/>
-
-<!-- Number Input -->
-<TextField bind:value type="number" min={0} max={100} label="Age" />
-
-<!-- With Icons -->
-<TextField bind:value label="Search">
-  {#snippet prefix()}
-    <Icon name="search" />
-  {/snippet}
-</TextField>
+import {TextField} from 'ui-svelte';
 ```
 
-**For LLMs**: TextField for single-line text input. Use `type` for input validation (email, password, number). Use `bind:value` for reactive state. Use `oninput` for real-time validation, `onchange` for blur events. Supports prefix/suffix snippets for icons.
+## Props
+
+| Prop           | Type                                                                                  | Default      | Description               |
+| -------------- | ------------------------------------------------------------------------------------- | ------------ | ------------------------- |
+| `value`        | `string \| number`                                                                    | `''`         | Bound value               |
+| `type`         | `'text' \| 'password' \| 'email' \| 'number' \| 'tel' \| 'url'`                       | `'text'`     | Input type                |
+| `color`        | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'muted'`    | Color theme               |
+| `variant`      | `'solid' \| 'soft' \| 'outlined' \| 'line'`                                           | `'outlined'` | Visual style              |
+| `size`         | `'sm' \| 'md' \| 'lg'`                                                                | `'md'`       | Input size                |
+| `label`        | `string`                                                                              | -            | Label text                |
+| `isFloatLabel` | `boolean`                                                                             | `false`      | Floating label style      |
+| `placeholder`  | `string`                                                                              | -            | Placeholder text          |
+| `helpText`     | `string`                                                                              | -            | Help message below input  |
+| `errorText`    | `string`                                                                              | -            | Error message below input |
+| `startIcon`    | `IconData`                                                                            | -            | Icon at start             |
+| `endIcon`      | `IconData`                                                                            | -            | Icon at end               |
+| `startText`    | `string`                                                                              | -            | Text prefix               |
+| `endText`      | `string`                                                                              | -            | Text suffix               |
+
+## Patterns
+
+### Basic Input
+
+```svelte
+<TextField bind:value placeholder="Enter text..." />
+```
+
+### With Label
+
+```svelte
+<TextField label="Username" placeholder="Enter username" />
+
+<TextField label="Email" isFloatLabel placeholder="Enter email" />
+```
+
+### With Icons
+
+```svelte
+<TextField startIcon={SearchIcon} placeholder="Search..." />
+
+<TextField endIcon={UserIcon} placeholder="Username" />
+```
+
+### With Text Affixes
+
+```svelte
+<TextField startText="$" placeholder="Amount" />
+
+<TextField startText="https://" endText=".com" placeholder="domain" />
+```
+
+### Validation States
+
+```svelte
+<TextField label="Email" helpText="We'll never share your email" />
+
+<TextField label="Password" errorText="Password is required" />
+```
+
+## Component References
+
+- **@see icons.md** - Icon usage for `startIcon`, `endIcon`

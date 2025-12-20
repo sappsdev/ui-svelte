@@ -1,87 +1,111 @@
-## SideNav Component
+# SideNav Component
 
-Vertical sidebar navigation for applications with headers, dividers, and collapsible submenus.
+Vertical navigation for sidebars with headers, dividers, submenus, and collapsible behavior.
+
+## Import
 
 ```svelte
-<SideNav
-  items={[]}
-  size="md"
-  isSolid={false}
-  variant="muted"
-  isWide={false}
-  isCompact={false}
-  isCollapsible={false}
-  class=""
-/>
+import { SideNav, type SideNavItem } from 'ui-svelte';
 ```
 
-### Props
+## Props
 
-| Prop | Default | Description |
-|------|---------|-------------|
-| `items` | `[]` | Array of SideNavItem objects (required) |
-| `size` | `'md'` | `sm` `md` `lg` |
-| `isSolid` | `false` | When true, uses solid background for active states |
-| `variant` | `'muted'` | `primary` `secondary` `muted` `success` `info` `warning` `danger` |
-| `isWide` | `false` | Full width items |
-| `isCompact` | `false` | Reduced spacing |
-| `isCollapsible` | `false` | Collapse on hover |
-| `class` | - | Custom CSS classes |
+| Prop            | Type                                                                                  | Default   | Description                                |
+| --------------- | ------------------------------------------------------------------------------------- | --------- | ------------------------------------------ |
+| `items`         | `SideNavItem[]`                                                                       | `[]`      | Navigation items                           |
+| `size`          | `'sm' \| 'md' \| 'lg'`                                                                | `'md'`    | Item size                                  |
+| `variant`       | `'solid' \| 'soft' \| 'ghost'`                                                        | `'ghost'` | Visual style                               |
+| `color`         | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger'` | `'muted'` | Color theme                                |
+| `isWide`        | `boolean`                                                                             | `false`   | Wider item padding                         |
+| `isCollapsible` | `boolean`                                                                             | `false`   | Collapse to icons on idle, expand on hover |
 
-### SideNavItem Type
+## SideNavItem Type
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `type` | `'item' \| 'header' \| 'divider' \| 'submenu'` | Item type (default: item) |
-| `label` | `string` | Display text |
-| `href` | `string` | Link destination |
-| `icon` | `IconData` | Icon to display |
-| `description` | `string` | Secondary text |
-| `status` | `string \| Snippet` | Status badge |
-| `subitems` | `SideNavSubItem[]` | Submenu items |
-| `open` | `boolean` | Submenu initially open |
+| Prop          | Type                                           | Description                           |
+| ------------- | ---------------------------------------------- | ------------------------------------- |
+| `type`        | `'item' \| 'divider' \| 'header' \| 'submenu'` | Item type (default: `'item'`)         |
+| `label`       | `string`                                       | Text label                            |
+| `href`        | `string`                                       | Link URL                              |
+| `onclick`     | `(item) => void`                               | Click handler                         |
+| `icon`        | `IconData`                                     | Icon component                        |
+| `description` | `string`                                       | Secondary text                        |
+| `status`      | `string \| Snippet`                            | Badge/status indicator                |
+| `subitems`    | `SideNavSubItem[]`                             | Submenu items (for `type: 'submenu'`) |
+| `open`        | `boolean`                                      | Submenu initially open                |
 
-### Item Types
+## Patterns
 
-- **item** - Standard navigation link (default)
-- **header** - Section header with optional icon
-- **divider** - Horizontal separator line
-- **submenu** - Collapsible group with subitems
-
-### Examples
+### Basic Navigation
 
 ```svelte
-<script lang="ts">
-  import { SideNav } from 'ui-svelte';
-  import { DashboardIcon, SettingsIcon } from '$lib/icons';
-
-  const items = [
-    { type: 'header', label: 'Main' },
-    { label: 'Dashboard', href: '/dashboard', icon: DashboardIcon },
-    { label: 'Settings', href: '/settings', icon: SettingsIcon },
-    { type: 'divider' },
-    {
-      type: 'submenu',
-      label: 'Documents',
-      subitems: [
-        { label: 'All Files', href: '/docs' },
-        { label: 'Recent', href: '/docs/recent' }
-      ],
-      open: true
-    }
-  ];
+<script>
+	const items: SideNavItem[] = [
+		{ type: 'header', label: 'Menu', icon: HomeIcon },
+		{ type: 'divider' },
+		{ label: 'Home', href: '/home', icon: HomeIcon },
+		{ label: 'Settings', href: '/settings', icon: SettingsIcon }
+	];
 </script>
 
 <SideNav {items} />
-
-<!-- Wide items -->
-<SideNav {items} isWide />
-
-<!-- Solid style with variant -->
-<SideNav {items} isSolid variant="primary" />
-
-<!-- Collapsible sidebar -->
-<SideNav {items} isCollapsible />
 ```
 
-**For LLMs**: SideNav creates vertical navigation. Use `items` array with `type` to define structure (header, item, divider, submenu). Set `isWide` for full width items. Use `isSolid` with `variant` for button-like active states. Use `isCollapsible` for expandable sidebars.
+### With Submenus
+
+```svelte
+<SideNav
+	items={[
+		{
+			type: 'submenu',
+			label: 'Analytics',
+			icon: ChartIcon,
+			open: true,
+			subitems: [
+				{ label: 'Overview', href: '/analytics/overview' },
+				{ label: 'Reports', href: '/analytics/reports' }
+			]
+		}
+	]}
+/>
+```
+
+### With Descriptions & Status
+
+```svelte
+<SideNav
+	items={[
+		{ label: 'Dashboard', href: '#', description: 'View analytics', icon: ChartIcon },
+		{ label: 'Messages', href: '#', description: 'Check inbox', status: '5', icon: MailIcon }
+	]}
+/>
+```
+
+### Collapsible Mode
+
+```svelte
+<SideNav
+	isCollapsible
+	items={[
+		{ label: 'Home', href: '#', icon: HomeIcon },
+		{ label: 'Settings', href: '#', icon: SettingsIcon }
+	]}
+/>
+```
+
+### Styled Variants
+
+```svelte
+<SideNav color="primary" variant="soft" {items} />
+<SideNav color="success" variant="solid" {items} />
+```
+
+## Notes
+
+- Items with `href` render as links; items with `onclick` render as buttons
+- Active state auto-detected from current URL path
+- Icons required for `isCollapsible` mode
+- Submenus animate open/close
+
+## Component References
+
+- **@see icons.md** - Icon usage

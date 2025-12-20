@@ -1,258 +1,280 @@
 @layer components {
-    .bottomnav {
-        @apply flex items-center justify-around;
-        @apply bg-background text-on-background;
-        @apply border-t border-muted;
-        @apply shadow-lg;
+	.bottomnav {
+		@apply flex items-center justify-around;
+		@apply shadow-lg;
 
-        &.is-fixed {
-            @apply fixed bottom-0 left-0 right-0 z-50;
-            padding-bottom: env(safe-area-inset-bottom);
-        }
+		&.is-fixed {
+			@apply fixed bottom-0 left-0 right-0 z-50;
+			padding-bottom: env(safe-area-inset-bottom);
+		}
 
-        .bottomnav-item {
-            @apply flex flex-col items-center justify-center gap-1;
-            @apply flex-1 py-3 px-2;
-            @apply cursor-pointer select-none outline-none;
-            @apply transition-all duration-300;
-            @apply relative;
+		&.is-bordered {
+			@apply border-t border-muted;
+		}
 
-            .bottomnav-icon-wrapper {
-                @apply relative inline-flex;
-            }
+		&.is-soft {
+			&.is-primary {
+				@apply bg-on-primary text-primary;
+			}
+			&.is-secondary {
+				@apply bg-on-secondary text-secondary;
+			}
+			&.is-muted {
+				@apply bg-muted text-on-muted;
+			}
+			&.is-success {
+				@apply bg-on-success text-success;
+			}
+			&.is-info {
+				@apply bg-on-info text-info;
+			}
+			&.is-warning {
+				@apply bg-on-warning text-warning;
+			}
+			&.is-danger {
+				@apply bg-on-danger text-danger;
+			}
+			&.is-default {
+				@apply bg-background text-on-background;
+			}
+			&.is-surface {
+				@apply bg-surface text-on-surface;
+			}
+		}
 
-            .bottomnav-icon {
-                @apply h-6 w-6 shrink-0;
-                @apply transition-all duration-300;
-            }
+		&.is-solid {
+			&.is-primary {
+				@apply bg-primary text-on-primary;
+			}
+			&.is-secondary {
+				@apply bg-secondary text-on-secondary;
+			}
+			&.is-muted {
+				@apply bg-on-muted text-muted;
+			}
+			&.is-success {
+				@apply bg-success text-on-success;
+			}
+			&.is-info {
+				@apply bg-info text-on-info;
+			}
+			&.is-warning {
+				@apply bg-warning text-on-warning;
+			}
+			&.is-danger {
+				@apply bg-danger text-on-danger;
+			}
+			&.is-default {
+				@apply bg-background text-on-background;
+			}
+			&.is-surface {
+				@apply bg-surface text-on-surface;
+			}
+		}
 
-            .bottomnav-label {
-                @apply text-xs font-medium whitespace-nowrap;
-                @apply transition-all duration-300;
-            }
+		&.is-blur {
+			@apply backdrop-blur-lg;
 
-            .bottomnav-badge {
-                @apply absolute -top-1.5 -right-2;
-                @apply min-w-4 h-4 px-1;
-                @apply flex items-center justify-center;
-                @apply text-[10px] font-bold;
-                @apply bg-danger text-on-danger;
-                @apply rounded-full;
-            }
+			&.is-primary {
+				@apply bg-on-primary/80 text-primary;
+			}
+			&.is-secondary {
+				@apply bg-on-secondary/80 text-secondary;
+			}
+			&.is-muted {
+				@apply bg-muted/80 text-on-muted;
+			}
+			&.is-success {
+				@apply bg-on-success/80 text-success;
+			}
+			&.is-info {
+				@apply bg-on-info/80 text-info;
+			}
+			&.is-warning {
+				@apply bg-on-warning/80 text-warning;
+			}
+			&.is-danger {
+				@apply bg-on-danger/80 text-danger;
+			}
+			&.is-default {
+				@apply bg-background/80 text-on-background;
+			}
+			&.is-surface {
+				@apply bg-surface/80 text-on-surface;
+			}
+		}
 
-            &:hover {
-                @apply bg-muted/50;
-            }
+		.bottomnav-item {
+			@apply flex flex-col items-center justify-center gap-1;
+			@apply flex-1 py-3 px-2;
+			@apply cursor-pointer select-none outline-none;
+			@apply transition-all duration-300;
+			@apply relative;
+			@apply text-current opacity-60;
 
-            /* FAB Style */
-            &.is-fab {
-                @apply flex-none;
+			&.is-active {
+				@apply opacity-100;
+			}
 
-                &:hover {
-                    @apply bg-transparent;
-                }
+			.bottomnav-icon-wrapper {
+				@apply relative inline-flex;
+			}
 
-                .bottomnav-icon-wrapper {
-                    @apply w-12 h-12 -mt-6;
-                    @apply flex items-center justify-center;
-                    @apply bg-primary text-on-primary;
-                    @apply rounded-full shadow-lg;
-                    @apply transition-all duration-300;
-                }
+			.bottomnav-icon {
+				@apply h-6 w-6 shrink-0;
+				@apply transition-all duration-300;
+			}
 
-                .bottomnav-icon {
-                    @apply h-6 w-6 text-on-primary;
-                }
+			.bottomnav-label {
+				@apply text-xs font-medium whitespace-nowrap;
+				@apply transition-all duration-300;
+			}
 
-                &:hover .bottomnav-icon-wrapper {
-                    @apply shadow-xl shadow-primary/30;
-                    transform: translateY(-2px);
-                }
+			.bottomnav-badge {
+				@apply absolute -top-1.5 -right-2;
+				@apply min-w-4 h-4 px-1;
+				@apply flex items-center justify-center;
+				@apply text-[10px] font-bold;
+				@apply bg-danger text-on-danger;
+				@apply rounded-full;
+			}
 
-                &:active .bottomnav-icon-wrapper {
-                    transform: translateY(0);
-                    @apply shadow-md;
-                }
-            }
-        }
+			&:hover {
+				@apply opacity-80;
+			}
 
-        /* Size Variants */
-        &.is-sm {
-            .bottomnav-item {
-                @apply gap-0.5 py-2 px-1;
+			&.is-fab {
+				@apply flex-none opacity-100;
 
-                .bottomnav-icon {
-                    @apply h-5 w-5;
-                }
+				&:hover {
+					@apply bg-transparent;
+				}
 
-                .bottomnav-label {
-                    @apply text-[10px];
-                }
+				.bottomnav-icon-wrapper {
+					@apply w-12 h-12 -mt-6;
+					@apply flex items-center justify-center;
+					@apply bg-primary text-on-primary;
+					@apply rounded-full shadow-lg;
+					@apply transition-all duration-300;
+				}
 
-                &.is-fab .bottomnav-icon-wrapper {
-                    @apply w-10 h-10 -mt-5;
-                }
-            }
-        }
+				.bottomnav-icon {
+					@apply h-6 w-6 text-on-primary;
+				}
 
-        &.is-md {
-            .bottomnav-item {
-                @apply gap-1 py-3 px-2;
+				&:hover .bottomnav-icon-wrapper {
+					@apply shadow-xl shadow-primary/30;
+					transform: translateY(-2px);
+				}
 
-                .bottomnav-icon {
-                    @apply h-6 w-6;
-                }
+				&:active .bottomnav-icon-wrapper {
+					transform: translateY(0);
+					@apply shadow-md;
+				}
+			}
+		}
 
-                .bottomnav-label {
-                    @apply text-xs;
-                }
-            }
-        }
+		&.active-line {
+			.bottomnav-item {
+				&::after {
+					content: '';
+					@apply absolute bottom-0 left-1/2 -translate-x-1/2;
+					@apply w-0 h-0.5 rounded-full;
+					@apply bg-current;
+					@apply transition-all duration-300;
+				}
 
-        &.is-lg {
-            .bottomnav-item {
-                @apply gap-1.5 py-4 px-3;
+				&.is-active::after {
+					@apply w-8;
+				}
+			}
+		}
 
-                .bottomnav-icon {
-                    @apply h-7 w-7;
-                }
+		&.active-pill {
+			.bottomnav-item {
+				@apply relative isolate;
 
-                .bottomnav-label {
-                    @apply text-sm;
-                }
+				&::before {
+					content: '';
+					@apply absolute inset-x-2 top-1 bottom-1;
+					@apply rounded-xl;
+					@apply bg-transparent;
+					@apply transition-all duration-300;
+					z-index: -1;
+				}
 
-                &.is-fab .bottomnav-icon-wrapper {
-                    @apply w-14 h-14 -mt-7;
+				&.is-active:not(.is-fab)::before {
+					@apply bg-current/10;
+				}
+			}
 
-                    .bottomnav-icon {
-                        @apply h-7 w-7;
-                    }
-                }
-            }
-        }
+			&.is-solid .bottomnav-item.is-active:not(.is-fab)::before {
+				@apply bg-white/20;
+			}
+		}
 
-        &.is-icon-only {
-            .bottomnav-item {
-                @apply gap-0;
+		&.is-sm {
+			.bottomnav-item {
+				@apply gap-0.5 py-2 px-1;
 
-                .bottomnav-icon {
-                    @apply h-7 w-7;
-                }
-            }
-        }
+				.bottomnav-icon {
+					@apply h-5 w-5;
+				}
 
-        /* Variant: Primary */
-        &.is-primary {
-            .bottomnav-item.is-active {
-                @apply text-primary;
+				.bottomnav-label {
+					@apply text-[10px];
+				}
 
-                .bottomnav-icon {
-                    @apply text-primary;
-                }
+				&.is-fab .bottomnav-icon-wrapper {
+					@apply w-10 h-10 -mt-5;
+				}
+			}
+		}
 
-                .bottomnav-label {
-                    @apply text-primary;
-                }
-            }
+		&.is-md {
+			.bottomnav-item {
+				@apply gap-1 py-3 px-2;
 
-            .bottomnav-item.is-fab .bottomnav-icon-wrapper {
-                @apply bg-primary;
-            }
-        }
+				.bottomnav-icon {
+					@apply h-6 w-6;
+				}
 
-        /* Variant: Secondary */
-        &.is-secondary {
-            .bottomnav-item.is-active {
-                @apply text-secondary;
+				.bottomnav-label {
+					@apply text-xs;
+				}
+			}
+		}
 
-                .bottomnav-icon {
-                    @apply text-secondary;
-                }
+		&.is-lg {
+			.bottomnav-item {
+				@apply gap-1.5 py-4 px-3;
 
-                .bottomnav-label {
-                    @apply text-secondary;
-                }
-            }
+				.bottomnav-icon {
+					@apply h-7 w-7;
+				}
 
-            .bottomnav-item.is-fab .bottomnav-icon-wrapper {
-                @apply bg-secondary;
-            }
-        }
+				.bottomnav-label {
+					@apply text-sm;
+				}
 
-        /* Variant: Ghost - just color change, no indicator */
-        &.is-ghost {
-            .bottomnav-item.is-active {
-                @apply text-on-surface;
+				&.is-fab .bottomnav-icon-wrapper {
+					@apply w-14 h-14 -mt-7;
 
-                .bottomnav-icon {
-                    @apply text-on-surface;
-                }
+					.bottomnav-icon {
+						@apply h-7 w-7;
+					}
+				}
+			}
+		}
 
-                .bottomnav-label {
-                    @apply text-on-surface font-semibold;
-                }
-            }
-        }
+		&.is-icon-only {
+			.bottomnav-item {
+				@apply gap-0;
 
-        /* Variant: Line - underline indicator */
-        &.is-line {
-            .bottomnav-item {
-                &::after {
-                    content: '';
-                    @apply absolute bottom-0 left-1/2 -translate-x-1/2;
-                    @apply w-0 h-0.5 rounded-full;
-                    @apply bg-primary;
-                    @apply transition-all duration-300;
-                }
-
-                &.is-active {
-                    @apply text-primary;
-
-                    .bottomnav-icon {
-                        @apply text-primary;
-                    }
-
-                    .bottomnav-label {
-                        @apply text-primary;
-                    }
-
-                    &::after {
-                        @apply w-8;
-                    }
-                }
-            }
-        }
-
-        /* Solid modifier - adds background pill on active */
-        &.is-solid {
-            .bottomnav-item {
-                @apply relative isolate;
-
-                &::before {
-                    content: '';
-                    @apply absolute inset-x-2 top-1 bottom-1;
-                    @apply rounded-xl;
-                    @apply bg-transparent;
-                    @apply transition-all duration-300;
-                    z-index: -1;
-                }
-            }
-
-            &.is-primary .bottomnav-item.is-active:not(.is-fab)::before {
-                @apply bg-primary/10;
-            }
-
-            &.is-secondary .bottomnav-item.is-active:not(.is-fab)::before {
-                @apply bg-secondary/10;
-            }
-
-            &.is-ghost .bottomnav-item.is-active:not(.is-fab)::before {
-                @apply bg-muted;
-            }
-
-            &.is-line .bottomnav-item.is-active:not(.is-fab)::before {
-                @apply bg-primary/10;
-            }
-        }
-    }
+				.bottomnav-icon {
+					@apply h-7 w-7;
+				}
+			}
+		}
+	}
 }

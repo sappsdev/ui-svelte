@@ -34,10 +34,9 @@
 		size?: 'sm' | 'md' | 'lg';
 		class?: string;
 		isWide?: boolean;
-		isCompact?: boolean;
 		isCollapsible?: boolean;
-		isSolid?: boolean;
-		variant?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
+		variant?: 'solid' | 'soft' | 'ghost';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
 	};
 
 	const {
@@ -45,10 +44,9 @@
 		class: className,
 		size = 'md',
 		isWide,
-		isCompact,
 		isCollapsible,
-		isSolid = false,
-		variant = 'muted'
+		variant = 'ghost',
+		color = 'muted'
 	}: Props = $props();
 
 	let openSubmenus = $state<Record<number, boolean>>({});
@@ -78,9 +76,13 @@
 		lg: 'is-lg'
 	};
 
-	const solidClass = $derived(isSolid ? 'is-solid' : '');
-
 	const variantClasses = {
+		solid: 'is-solid',
+		soft: 'is-soft',
+		ghost: 'is-ghost'
+	};
+
+	const colorClasses = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
@@ -106,9 +108,17 @@
 	}
 </script>
 
+{#snippet navItemIcon(icon: IconData | undefined)}
+	{#if icon}
+		<div class="sidenav-icon-wrapper">
+			<Icon {icon} class="sidenav-icon" />
+		</div>
+	{/if}
+{/snippet}
+
 {#snippet navItemContent(item: SideNavItem | SideNavSubItem, isSubitem = false)}
 	<div class="sidenav-content">
-		<div class="sidenav-label">{item.label}</div>
+		<div class="sidenav-label" data-text={item.label}>{item.label}</div>
 		{#if item.description && (isExpanded || !isCollapsible)}
 			<div class="sidenav-description">{item.description}</div>
 		{/if}
@@ -128,9 +138,8 @@
 	class={cn(
 		'sidenav',
 		sizeClasses[size],
-		solidClass,
-		isSolid && variantClasses[variant],
-		isCompact && 'is-compact',
+		variantClasses[variant],
+		colorClasses[color],
 		isCollapsible && 'is-collapsible',
 		!isExpanded && 'is-collapsed',
 		className
@@ -148,9 +157,7 @@
 						href={item.href}
 						class={cn('sidenav-header sidenav-header-link', isItemActive(item.href) && 'is-active')}
 					>
-						{#if item.icon}
-							<Icon icon={item.icon} />
-						{/if}
+						{@render navItemIcon(item.icon)}
 						{#if isExpanded || !isCollapsible}
 							<div class="sidenav-header-content">
 								<div class="sidenav-header-label">{item.label}</div>
@@ -166,9 +173,7 @@
 						class="sidenav-header sidenav-header-link"
 						onclick={() => item.onclick?.(item)}
 					>
-						{#if item.icon}
-							<Icon icon={item.icon} />
-						{/if}
+						{@render navItemIcon(item.icon)}
 						{#if isExpanded || !isCollapsible}
 							<div class="sidenav-header-content">
 								<div class="sidenav-header-label">{item.label}</div>
@@ -181,9 +186,7 @@
 				{/if}
 			{:else}
 				<div class="sidenav-header">
-					{#if item.icon}
-						<Icon icon={item.icon} />
-					{/if}
+					{@render navItemIcon(item.icon)}
 					{#if isExpanded || !isCollapsible}
 						<div class="sidenav-header-content">
 							<div class="sidenav-header-label">{item.label}</div>
@@ -201,9 +204,7 @@
 					class="sidenav-header sidenav-submenu-trigger"
 					onclick={() => toggleSubmenu(index)}
 				>
-					{#if item.icon}
-						<Icon icon={item.icon} />
-					{/if}
+					{@render navItemIcon(item.icon)}
 					{#if isExpanded || !isCollapsible}
 						<div class="sidenav-header-content">
 							<div class="sidenav-header-label">{item.label}</div>
@@ -234,14 +235,16 @@
 										isItemActive(subitem.href) && 'is-active'
 									)}
 								>
+									{@render navItemIcon(subitem.icon)}
 									{@render navItemContent(subitem, true)}
 								</a>
 							{:else}
 								<button
 									type="button"
-									class="sidenav-item sidenav-subitem"
+									class={cn('sidenav-item sidenav-subitem', isWide && 'is-wide')}
 									onclick={() => subitem.onclick?.(subitem)}
 								>
+									{@render navItemIcon(subitem.icon)}
 									{@render navItemContent(subitem, true)}
 								</button>
 							{/if}
@@ -254,6 +257,7 @@
 				href={item.href}
 				class={cn('sidenav-item', isWide && 'is-wide', isItemActive(item.href) && 'is-active')}
 			>
+				{@render navItemIcon(item.icon)}
 				{@render navItemContent(item)}
 			</a>
 		{:else}
@@ -262,6 +266,7 @@
 				class={cn('sidenav-item', isWide && 'is-wide')}
 				onclick={() => item.onclick?.(item)}
 			>
+				{@render navItemIcon(item.icon)}
 				{@render navItemContent(item)}
 			</button>
 		{/if}

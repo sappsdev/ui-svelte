@@ -1,52 +1,61 @@
-## Chip Component
+# Chip
 
 Compact element for labels, tags, or status indicators.
 
+## Import
+
 ```svelte
-<Chip
-  variant="primary"
-  size="sm"
-  startIcon={IconData}
-  endIcon={IconData}
-  onclose={handleClose}
-  hasShadow={false}
-  isSolid={false}
->
-  Label
-</Chip>
+import {Chip} from 'ui-svelte';
 ```
 
-### Props
+## Props
 
-| Prop | Default | Description |
-|------|---------|-------------|
-| `variant` | `'primary'` | `primary` `secondary` `muted` `success` `info` `warning` `danger` |
-| `size` | `'sm'` | `sm` `md` `lg` |
-| `startIcon` / `endIcon` | - | Icons before/after label |
-| `onclose` | - | Close handler (shows close button) |
-| `hasShadow` | `false` | Add shadow |
-| `isSolid` | `false` | Solid background |
+| Prop        | Type                                                                                  | Default     | Description                        |
+| ----------- | ------------------------------------------------------------------------------------- | ----------- | ---------------------------------- |
+| `color`     | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'primary'` | Color theme                        |
+| `variant`   | `'solid' \| 'soft' \| 'outlined'`                                                     | `'solid'`   | Visual style                       |
+| `size`      | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                                | `'md'`      | Chip size                          |
+| `startIcon` | `IconData`                                                                            | -           | Icon before label                  |
+| `endIcon`   | `IconData`                                                                            | -           | Icon after label                   |
+| `onclose`   | `() => void`                                                                          | -           | Close handler (shows close button) |
+| `class`     | `string`                                                                              | -           | Additional classes                 |
 
-### Examples
+## Patterns
+
+### Basic
 
 ```svelte
-<!-- Basic -->
 <Chip>Tag</Chip>
+<Chip color="success">Active</Chip>
+<Chip color="danger" variant="soft">Error</Chip>
+```
 
-<!-- Status -->
-<Chip variant="success" isSolid>Completed</Chip>
-<Chip variant="danger" isSolid>Failed</Chip>
+### With Icons
 
-<!-- With Icon -->
+```svelte
 <Chip startIcon={StarIcon}>Featured</Chip>
+<Chip endIcon={ArrowIcon}>Next</Chip>
+<Chip startIcon={HeartIcon} endIcon={CloseIcon}>Both</Chip>
+```
 
-<!-- Closable -->
+### Closable
+
+```svelte
 <Chip onclose={() => removeTag(tag)}>{tag}</Chip>
+<Chip color="info" onclose={handleClose}>Removable</Chip>
+```
 
-<!-- Sizes -->
+### Sizes
+
+```svelte
+<Chip size="xs">Extra Small</Chip>
 <Chip size="sm">Small</Chip>
 <Chip size="md">Medium</Chip>
 <Chip size="lg">Large</Chip>
 ```
 
-**For LLMs**: Use chips for tags, status badges, or removable items. Variants: `success`/`danger`/`warning` for status. Use `onclose` for removable chips, `isSolid` for emphasis.
+## Notes
+
+- Use `solid` variant for emphasis, `soft` for subtle, `outlined` for minimal
+- Use `success`/`danger`/`warning` colors for status indicators
+- `onclose` prop automatically shows close button

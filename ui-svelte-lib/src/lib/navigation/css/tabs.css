@@ -34,7 +34,6 @@
 			}
 		}
 
-		/* Variant: Solid */
 		.tabs-list.is-solid {
 			@apply rounded-xl py-1;
 			.tab {
@@ -84,7 +83,6 @@
 			}
 		}
 
-		/* Variant: Outline */
 		.tabs-list.is-outline {
 			@apply border border-muted rounded-xl;
 			.tab {
@@ -127,7 +125,6 @@
 			}
 		}
 
-		/* Variant: Line */
 		.tabs-list.is-line {
 			@apply gap-4;
 			&.is-primary {
@@ -167,7 +164,6 @@
 			}
 		}
 
-		/* Variant: Ghost */
 		.tabs-list.is-ghost {
 			&.is-primary {
 				.tab.on-active {
@@ -206,7 +202,6 @@
 			}
 		}
 
-		/* Variant: Pills */
 		.tabs-list.is-pills {
 			@apply rounded-full py-1;
 			.tab {
@@ -256,7 +251,6 @@
 			}
 		}
 
-		/* Position-specific overrides for line variant */
 		&.is-start {
 			.tabs-list.is-line {
 				&.is-primary .tab.on-active {

@@ -16,27 +16,56 @@
 
 	type Props = {
 		items: BottomNavItem[];
-		variant?: 'primary' | 'secondary' | 'ghost' | 'line';
+		color?:
+			| 'primary'
+			| 'secondary'
+			| 'muted'
+			| 'success'
+			| 'info'
+			| 'warning'
+			| 'danger'
+			| 'surface'
+			| 'default';
+		variant?: 'solid' | 'soft' | 'blur';
+		activeStyle?: 'line' | 'pill';
 		size?: 'sm' | 'md' | 'lg';
-		isSolid?: boolean;
 		isBlock?: boolean;
+		isBordered?: boolean;
 		class?: string;
 	};
 
 	const {
 		items = [],
 		class: className,
-		variant = 'primary',
+		color = 'primary',
+		variant = 'soft',
+		activeStyle = 'line',
 		size = 'md',
-		isSolid = false,
-		isBlock = false
+		isBlock = false,
+		isBordered = true
 	}: Props = $props();
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
-		ghost: 'is-ghost',
-		line: 'is-line'
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger',
+		surface: 'is-surface',
+		default: 'is-default'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
+		blur: 'is-blur'
+	};
+
+	const activeStyles = {
+		line: 'active-line',
+		pill: 'active-pill'
 	};
 
 	const sizeClasses = {
@@ -45,13 +74,10 @@
 		lg: 'is-lg'
 	};
 
-	// Determine if any item has a label
 	const hasLabels = $derived(items.some((item) => item.label));
 
 	function isItemActive(item: BottomNavItem): boolean {
-		// If item has explicit isActive, use that
 		if (item.isActive !== undefined) return item.isActive;
-		// Otherwise check against current URL
 		if (!item.href) return false;
 		return page.url.pathname === item.href || page.url.pathname.startsWith(item.href + '/');
 	}
@@ -66,11 +92,13 @@
 <nav
 	class={cn(
 		'bottomnav',
-		variantClasses[variant],
+		colors[color],
+		variants[variant],
+		activeStyles[activeStyle],
 		sizeClasses[size],
-		isSolid && 'is-solid',
 		!hasLabels && 'is-icon-only',
 		!isBlock && 'is-fixed',
+		isBordered && 'is-bordered',
 		className
 	)}
 >

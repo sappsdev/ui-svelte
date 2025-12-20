@@ -1,94 +1,74 @@
-## Collapsible Component
+# Collapsible Component
 
-Single collapsible section for showing/hiding content.
+Single toggleable section for showing/hiding content.
 
-```svelte
-<Collapsible
-  label="Section Title"
-  content="Content here"
-  variant="muted"
-  defaultOpen={false}
-/>
-```
-
-### Key Props
-
-| Prop | Default | Description |
-|------|---------|-------------|
-| `label` | - | Section label (required) |
-| `content` | - | Content as Snippet or string (required) |
-| `icon` | - | Icon name |
-| `variant` | `'muted'` | `primary` `secondary` `muted` `outline` |
-| `disabled` | `false` | Disable interaction |
-| `defaultOpen` | `false` | Initially open |
-| `class` | - | Custom CSS classes |
-| `headerClass` | - | Header CSS classes |
-| `contentClass` | - | Content CSS classes |
-
-### Common Patterns
+## Import
 
 ```svelte
-<!-- Basic Collapsible -->
-<Collapsible
-  label="What is ui-svelte?"
-  content="A modern component library built with Svelte 5."
-/>
-
-<!-- With Icon -->
-<Collapsible
-  label="Information"
-  icon="fluent:info-24-regular"
-  content="Important details here"
-/>
-
-<!-- Default Open -->
-<Collapsible
-  label="FAQ"
-  content="Frequently asked questions..."
-  defaultOpen
-/>
-
-<!-- With Snippet Content -->
-{#snippet richContent()}
-  <div>
-    <p><strong>Rich</strong> HTML content</p>
-    <ul>
-      <li>Feature 1</li>
-      <li>Feature 2</li>
-    </ul>
-  </div>
-{/snippet}
-
-<Collapsible label="Features" content={richContent} />
-
-<!-- Disabled -->
-<Collapsible
-  label="Coming Soon"
-  content="This feature is not available yet"
-  disabled
-/>
-
-<!-- Different Variants -->
-<Collapsible label="Primary" content="Text" variant="primary" />
-<Collapsible label="Outline" content="Text" variant="outline" />
+import {Collapsible} from 'ui-svelte';
 ```
 
-**For LLMs**: Collapsible shows/hides a single content section. Unlike Accordion (multiple sections), Collapsible handles one section. Use `content` as string for simple text or Snippet for rich HTML. Use `defaultOpen` to show content initially. `disabled` prevents interaction. Similar to Accordion but for single items.
+## Props
 
----
+| Prop           | Type                                                                                                            | Default     | Description               |
+| -------------- | --------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------- |
+| `label`        | `string`                                                                                                        | -           | Header text               |
+| `content`      | `Snippet \| string`                                                                                             | -           | Body content              |
+| `startContent` | `Snippet`                                                                                                       | -           | Icon/content before label |
+| `variant`      | `'solid' \| 'soft' \| 'outlined' \| 'ghost'`                                                                    | `'ghost'`   | Visual style              |
+| `color`        | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger' \| 'surface' \| 'default'` | `'default'` | Color theme               |
+| `disabled`     | `boolean`                                                                                                       | `false`     | Prevent toggling          |
+| `defaultOpen`  | `boolean`                                                                                                       | `false`     | Start expanded            |
+| `rootClass`    | `string`                                                                                                        | -           | Container classes         |
+| `headerClass`  | `string`                                                                                                        | -           | Header classes            |
+| `contentClass` | `string`                                                                                                        | -           | Content classes           |
 
-## Quick Hierarchy Reference
+## Patterns
+
+### Basic Collapsible
+
+```svelte
+<Collapsible label="Click to expand">
+	{#snippet content()}
+		<p>Hidden content here.</p>
+	{/snippet}
+</Collapsible>
 ```
-Page
-|-- Section (page structure, bodyClass for layout)
-    |-- Card (content container, bodyClass for layout)
-        |-- Content (Collapsible, text, images, etc.)
+
+### With String Content
+
+```svelte
+<Collapsible label="Simple" content="This is plain text content." />
 ```
 
-**Key Rule**: Section → Card → Content. Never nest Sections.
+### With Start Icon
 
-**Shared Variants**: `primary` `secondary` `muted` `success` `info` `warning` `danger` `surface` `ghost` `outlined`
+```svelte
+<Collapsible label="Files" color="primary">
+	{#snippet startContent()}
+		<Icon icon={FolderIcon} />
+	{/snippet}
+	{#snippet content()}
+		<p>Folder contents here.</p>
+	{/snippet}
+</Collapsible>
+```
 
-**Layout System**: Apply flex/grid utilities via `bodyClass` on Section/Card. Always use `gap` utilities.
+### Default Open & Disabled
 
-**Mobile-First**: Start with `column`, expand with `md:row`. Use responsive grid: `grid-1 md:grid-3`.
+```svelte
+<Collapsible label="Open by default" defaultOpen>
+	{#snippet content()}
+		<p>Visible on load.</p>
+	{/snippet}
+</Collapsible>
+
+<Collapsible label="Locked" disabled content="Cannot toggle." />
+```
+
+## Notes
+
+- Use for single expandable sections (use Accordion for multiple)
+- `content` accepts string or Snippet for rich content
+- `startContent` snippet adds icon/element before label
+- Use `defaultOpen` to show content initially

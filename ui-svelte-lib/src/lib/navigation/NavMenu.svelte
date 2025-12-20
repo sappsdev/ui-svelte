@@ -1,3 +1,26 @@
+<script lang="ts" module>
+	import type { IconData } from '$lib/index.js';
+
+	export type NavMenuSubItem = {
+		label: string;
+		description?: string;
+		href?: string;
+		onclick?: (item: NavMenuSubItem) => void;
+		icon?: IconData;
+	};
+
+	export type NavMenuItem = {
+		label: string;
+		description?: string;
+		href?: string;
+		onclick?: (item: NavMenuItem) => void;
+		subitems?: NavMenuSubItem[];
+		megamenu?: Snippet;
+		type?: 'item' | 'submenu' | 'megamenu';
+		icon?: IconData;
+	};
+</script>
+
 <script lang="ts">
 	import { page } from '$app/state';
 	import { ChevronDown24RegularIcon } from '$lib/icons/index.js';
@@ -6,28 +29,11 @@
 	import type { Snippet } from 'svelte';
 	import { onMount } from 'svelte';
 
-	type SubmenuItem = {
-		label: string;
-		description?: string;
-		href?: string;
-		onclick?: (item: SubmenuItem) => void;
-	};
-
-	type MenuItem = {
-		label: string;
-		description?: string;
-		href?: string;
-		onclick?: (item: MenuItem) => void;
-		subitems?: SubmenuItem[];
-		megamenu?: Snippet;
-		type?: 'item' | 'submenu' | 'megamenu';
-	};
-
 	type Props = {
-		items: MenuItem[];
+		items: NavMenuItem[];
 		size?: 'sm' | 'md' | 'lg';
-		isSolid?: boolean;
-		variant?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
+		variant?: 'solid' | 'soft' | 'ghost';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
 		class?: string;
 	};
 
@@ -35,8 +41,8 @@
 		items = [],
 		class: className,
 		size = 'md',
-		isSolid = false,
-		variant = 'muted'
+		variant = 'ghost',
+		color = 'muted'
 	}: Props = $props();
 
 	let openSubmenuIndex = $state<number | null>(null);
@@ -56,9 +62,13 @@
 		lg: 'is-lg'
 	};
 
-	const solidClass = $derived(isSolid ? 'is-filled' : 'is-default');
-
 	const variantClasses = {
+		solid: 'is-solid',
+		soft: 'is-soft',
+		ghost: 'is-ghost'
+	};
+
+	const colorClasses = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
@@ -77,7 +87,7 @@
 		return page.url.pathname === href || page.url.pathname.startsWith(href + '/');
 	}
 
-	function hasActiveSubmenu(subitems?: SubmenuItem[]): boolean {
+	function hasActiveSubmenu(subitems?: NavMenuSubItem[]): boolean {
 		if (!subitems) return false;
 		return subitems.some((item) => isItemActive(item.href));
 	}
@@ -164,7 +174,7 @@
 		document.removeEventListener('click', handleClickOutside);
 	}
 
-	function handleItemClick(item: MenuItem, index: number) {
+	function handleItemClick(item: NavMenuItem, index: number) {
 		if (item.subitems || item.megamenu) {
 			toggleSubmenu(index);
 		} else if (item.onclick) {
@@ -172,7 +182,7 @@
 		}
 	}
 
-	function handleSubmenuItemClick(item: SubmenuItem) {
+	function handleSubmenuItemClick(item: NavMenuSubItem) {
 		if (item.onclick) {
 			item.onclick(item);
 		}
@@ -185,10 +195,15 @@
 	});
 </script>
 
-<nav class={cn('navmenu', sizeClasses[size], solidClass, variantClasses[variant], className)}>
+<nav
+	class={cn('navmenu', sizeClasses[size], variantClasses[variant], colorClasses[color], className)}
+>
 	{#each items as item, index}
 		{#if item.href && !item.subitems && !item.megamenu}
 			<a href={item.href} class={cn('navmenu-item', isItemActive(item.href) && 'is-active')}>
+				{#if item.icon}
+					<Icon icon={item.icon} class="navmenu-icon" />
+				{/if}
 				<span class="navmenu-label" data-text={item.label}>{item.label}</span>
 			</a>
 		{:else}
@@ -202,6 +217,9 @@
 				bind:this={triggerElements[index]}
 				onclick={() => handleItemClick(item, index)}
 			>
+				{#if item.icon}
+					<Icon icon={item.icon} class="navmenu-icon" />
+				{/if}
 				<span class="navmenu-label" data-text={item.label}>{item.label}</span>
 				{#if item.subitems || item.megamenu}
 					<Icon
@@ -240,6 +258,9 @@
 								stopEventListeners();
 							}}
 						>
+							{#if subitem.icon}
+								<Icon icon={subitem.icon} class="navmenu-submenu-icon" />
+							{/if}
 							<div class="navmenu-submenu-content">
 								<div class="navmenu-submenu-label">{subitem.label}</div>
 								{#if subitem.description}
@@ -253,6 +274,9 @@
 							class="navmenu-submenu-item"
 							onclick={() => handleSubmenuItemClick(subitem)}
 						>
+							{#if subitem.icon}
+								<Icon icon={subitem.icon} class="navmenu-submenu-icon" />
+							{/if}
 							<div class="navmenu-submenu-content">
 								<div class="navmenu-submenu-label">{subitem.label}</div>
 								{#if subitem.description}

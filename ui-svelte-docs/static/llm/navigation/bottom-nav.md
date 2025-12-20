@@ -1,104 +1,91 @@
-## BottomNav Component
+# BottomNav Component
 
-Mobile-friendly bottom navigation bar for primary app destinations.
+Mobile-friendly bottom navigation bar with icons, badges, and FAB support.
+
+## Import
+
+```svelte
+import {BottomNav} from 'ui-svelte';
+```
+
+## Props
+
+| Prop          | Type                                                                                                            | Default     | Description            |
+| ------------- | --------------------------------------------------------------------------------------------------------------- | ----------- | ---------------------- |
+| `items`       | `BottomNavItem[]`                                                                                               | `[]`        | Navigation items       |
+| `size`        | `'sm' \| 'md' \| 'lg'`                                                                                          | `'md'`      | Size                   |
+| `variant`     | `'solid' \| 'soft' \| 'blur'`                                                                                   | `'soft'`    | Visual style           |
+| `color`       | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger' \| 'surface' \| 'default'` | `'primary'` | Active color           |
+| `activeStyle` | `'line' \| 'pill'`                                                                                              | `'line'`    | Active indicator style |
+| `isBlock`     | `boolean`                                                                                                       | `false`     | Non-fixed positioning  |
+| `isBordered`  | `boolean`                                                                                                       | `true`      | Show top border        |
+| `class`       | `string`                                                                                                        | -           | Custom classes         |
+
+## BottomNavItem Type
+
+| Property   | Type               | Description                  |
+| ---------- | ------------------ | ---------------------------- |
+| `id`       | `string`           | Unique identifier            |
+| `label`    | `string`           | Text label (optional)        |
+| `icon`     | `IconData`         | Icon to display              |
+| `href`     | `string`           | Link destination             |
+| `onclick`  | `function`         | Click handler                |
+| `badge`    | `string \| number` | Badge content                |
+| `isFab`    | `boolean`          | Floating action button style |
+| `isActive` | `boolean`          | Manual active state          |
+
+## Patterns
+
+### Basic Navigation
 
 ```svelte
 <BottomNav
-  items={[]}
-  variant="primary"
-  size="md"
-  isSolid={false}
-  isBlock={false}
-  class=""
+	items={[
+		{ id: 'home', label: 'Home', icon: HomeIcon, href: '/' },
+		{ id: 'search', label: 'Search', icon: SearchIcon, href: '/search' },
+		{ id: 'profile', label: 'Profile', icon: UserIcon, href: '/profile' }
+	]}
 />
 ```
 
-### Props
-
-| Prop | Default | Description |
-|------|---------|-------------|
-| `items` | `[]` | Array of BottomNavItem objects (required) |
-| `variant` | `'primary'` | `primary` `secondary` `ghost` `line` |
-| `size` | `'md'` | `sm` `md` `lg` |
-| `isSolid` | `false` | Adds background pill on active item |
-| `isBlock` | `false` | Renders inline (non-fixed) for custom layouts |
-| `class` | - | Custom CSS classes |
-
-### BottomNavItem Type
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `id` | `string` | Unique identifier (required) |
-| `label` | `string` | Display text (optional, omit for icon-only) |
-| `icon` | `IconData` | Icon to display (required) |
-| `href` | `string` | Link destination |
-| `onclick` | `function` | Click handler |
-| `badge` | `string \| number` | Notification badge |
-| `isFab` | `boolean` | Floating action button style |
-| `isActive` | `boolean` | Manual active state override |
-
-### Variants
-
-- **primary** - Primary color for active state
-- **secondary** - Secondary color for active state
-- **ghost** - Subtle text weight change only
-- **line** - Underline indicator on active item
-
-### Examples
+### With FAB Button
 
 ```svelte
-<!-- Basic Navigation -->
-<script lang="ts">
-  import { BottomNav } from 'ui-svelte';
-  import { HomeIcon, SearchIcon, HeartIcon, PersonIcon } from '$lib/icons';
-
-  const items = [
-    { id: 'home', label: 'Home', icon: HomeIcon, href: '/' },
-    { id: 'search', label: 'Search', icon: SearchIcon, href: '/search' },
-    { id: 'favorites', label: 'Favorites', icon: HeartIcon, href: '/favorites' },
-    { id: 'profile', label: 'Profile', icon: PersonIcon, href: '/profile' }
-  ];
-</script>
-
-<BottomNav {items} />
-
-<!-- With Badge -->
-<script lang="ts">
-  const items = [
-    { id: 'home', label: 'Home', icon: HomeIcon, href: '/' },
-    { id: 'cart', label: 'Cart', icon: CartIcon, href: '/cart', badge: 3 }
-  ];
-</script>
-
-<BottomNav {items} />
-
-<!-- With FAB (Floating Action Button) -->
-<script lang="ts">
-  const items = [
-    { id: 'home', label: 'Home', icon: HomeIcon, href: '/' },
-    { id: 'add', icon: AddIcon, isFab: true, onclick: () => openModal() },
-    { id: 'profile', label: 'Profile', icon: PersonIcon, href: '/profile' }
-  ];
-</script>
-
-<BottomNav {items} />
-
-<!-- Solid Style -->
-<BottomNav {items} isSolid />
-<BottomNav {items} variant="secondary" isSolid />
-
-<!-- Line Variant -->
-<BottomNav {items} variant="line" />
-
-<!-- Icon Only (omit label) -->
-<script lang="ts">
-  const items = [
-    { id: 'home', icon: HomeIcon, href: '/' },
-    { id: 'search', icon: SearchIcon, href: '/search' }
-  ];
-</script>
-
-<BottomNav {items} />
+<BottomNav
+	items={[
+		{ id: 'home', label: 'Home', icon: HomeIcon, href: '/' },
+		{ id: 'add', icon: PlusIcon, isFab: true, onclick: () => openModal() },
+		{ id: 'profile', label: 'Profile', icon: UserIcon, href: '/profile' }
+	]}
+/>
 ```
 
-**For LLMs**: BottomNav creates fixed bottom navigation. Use `items` array with `id`, `icon`, optional `label` and `href`. Use `isFab: true` for elevated center buttons. Use `badge` for notifications. Set `isSolid` for background pill on active. Use `variant="line"` for underline indicator.
+### With Badges
+
+```svelte
+<BottomNav
+	items={[
+		{ id: 'home', label: 'Home', icon: HomeIcon, href: '/' },
+		{ id: 'cart', label: 'Cart', icon: CartIcon, href: '/cart', badge: 3 },
+		{ id: 'alerts', label: 'Alerts', icon: BellIcon, badge: 'New' }
+	]}
+/>
+```
+
+### Icon Only
+
+```svelte
+<BottomNav
+	items={[
+		{ id: 'home', icon: HomeIcon, href: '/' },
+		{ id: 'search', icon: SearchIcon, href: '/search' }
+	]}
+/>
+```
+
+## Notes
+
+- Fixed to bottom by default; use `isBlock` for inline placement
+- Omit `label` for icon-only navigation
+- Use `isFab: true` for elevated center action buttons
+- Use `badge` for notification indicators

@@ -115,7 +115,7 @@
 	];
 </script>
 
-<DocsHeader title="Animations">
+<DocsHeader title="Animations" llmUrl="https://ui-svelte.sappsdev.com/llm/display/animations.md">
 	CSS utility classes for entrance animations, continuous effects, and scroll-triggered reveals.
 	Perfect for adding motion and life to your UI elements.
 </DocsHeader>

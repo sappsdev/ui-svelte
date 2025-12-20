@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Dropdown, Button, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
+	import { Dropdown, Button, Card, Checkbox, Code, Section, Select, Avatar } from 'ui-svelte';
 	import { UserCircleLinearIcon } from '$lib/icons';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
@@ -139,6 +139,51 @@
 				</Dropdown>
 			{/each}
 		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Avatar Trigger</p>
+	<Card>
+		<div class="wrap gap-8 center h-64">
+			<Dropdown {options} color="primary">
+				<Avatar name="John Doe" size="md" />
+			</Dropdown>
+			<Dropdown {options} color="secondary">
+				<Avatar src="https://i.pravatar.cc/150?img=3" alt="User" size="md" status="online" />
+			</Dropdown>
+			<Dropdown {options} color="success">
+				<Avatar name="Jane Smith" size="lg" variant="soft" color="success" isBordered />
+			</Dropdown>
+		</div>
+		<Code
+			lang="svelte"
+			code={`<script lang="ts">
+	import { Dropdown, Avatar } from 'ui-svelte';
+	import { UserCircleLinearIcon } from '$lib/icons';
+
+	const options = [
+		{ id: 1, label: 'Profile', icon: UserCircleLinearIcon },
+		{ id: 2, label: 'Settings', description: 'Manage your account' },
+		{ id: 3, label: 'Logout', href: '#' }
+	];
+<\/script>
+
+<!-- Initials Avatar -->
+<Dropdown {options}>
+	<Avatar name="John Doe" />
+</Dropdown>
+
+<!-- Image Avatar with Status -->
+<Dropdown {options}>
+	<Avatar src="/user.jpg" alt="User" status="online" />
+</Dropdown>
+
+<!-- Styled Avatar -->
+<Dropdown {options} color="success">
+	<Avatar name="Jane Smith" size="lg" variant="soft" color="success" isBordered />
+</Dropdown>`}
+		/>
 	</Card>
 </Section>
 

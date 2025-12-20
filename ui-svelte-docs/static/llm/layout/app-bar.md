@@ -1,110 +1,99 @@
-## AppBar Component
+# AppBar Component
 
-Top navigation bar with slots for branding, navigation, and user actions.
+Flexible top navigation bar with start, center, and end slots.
+
+## Import
 
 ```svelte
-<AppBar
-  variant="ghost"
-  isBlurred={false}
-  isBordered={false}
-  borderOnScrollOnly={false}
-  hideOnScroll={false}
-  isSticky={false}
-  solidOnScroll={false}
-  isFloating={false}
-  isBoxed={false}
->
-  {#snippet start()}...{/snippet}
-  {#snippet center()}...{/snippet}
-  {#snippet end()}...{/snippet}
+import {AppBar} from 'ui-svelte';
+```
+
+## Props
+
+| Prop                 | Type                                                                                                            | Default     | Description                |
+| -------------------- | --------------------------------------------------------------------------------------------------------------- | ----------- | -------------------------- |
+| `color`              | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger' \| 'surface' \| 'default'` | `'default'` | Color theme                |
+| `variant`            | `'solid' \| 'soft'`                                                                                             | `'soft'`    | Visual style               |
+| `isBlurred`          | `boolean`                                                                                                       | `false`     | Blur background effect     |
+| `isBordered`         | `boolean`                                                                                                       | `false`     | Show bottom border         |
+| `borderOnScrollOnly` | `boolean`                                                                                                       | `false`     | Show border only on scroll |
+| `isSticky`           | `boolean`                                                                                                       | `false`     | Stick to top on scroll     |
+| `isFloating`         | `boolean`                                                                                                       | `false`     | Float with padding         |
+| `isBoxed`            | `boolean`                                                                                                       | `false`     | Constrain content width    |
+| `hideOnScroll`       | `boolean`                                                                                                       | `false`     | Hide when scrolling down   |
+| `solidOnScroll`      | `boolean`                                                                                                       | `false`     | Switch to solid on scroll  |
+
+## Slots (Snippets)
+
+- `start` - Left section (logo, menu toggle)
+- `center` - Middle section (navigation)
+- `end` - Right section (actions, user menu)
+
+## Patterns
+
+### Basic AppBar
+
+```svelte
+<AppBar>
+	{#snippet start()}
+		<IconButton icon={MenuIcon} variant="ghost" color="muted" />
+	{/snippet}
+	{#snippet center()}
+		<NavMenu items={navItems} />
+	{/snippet}
+	{#snippet end()}
+		<IconButton icon={SearchIcon} variant="ghost" color="muted" />
+	{/snippet}
 </AppBar>
 ```
 
-### Props
-
-| Prop | Default | Description |
-|------|---------|-------------|
-| `start` | - | Snippet for left section (menu toggles, logos) |
-| `center` | - | Snippet for middle section (navigation, title) |
-| `end` | - | Snippet for right section (user actions, profile) |
-| `variant` | `'ghost'` | `primary` `secondary` `muted` `success` `info` `warning` `danger` `surface` `ghost` |
-| `isBlurred` | `false` | Adds backdrop blur when scrolled |
-| `isBordered` | `false` | Shows bottom border |
-| `borderOnScrollOnly` | `false` | Shows border only after scrolling |
-| `hideOnScroll` | `false` | Hides on scroll down, shows on scroll up |
-| `solidOnScroll` | `false` | Transparent at top, solid background on scroll |
-| `isFloating` | `false` | Floating (rounded, centered with margins) at top, full-width sticky on scroll |
-| `isSticky` | `false` | Sticks to top when scrolling |
-| `isBoxed` | `false` | Constrains content width |
-| `rootClass` | - | Custom class for root element |
-| `contentClass` | - | Custom class for content wrapper |
-
-### Examples
+### With Dropdown Menu
 
 ```svelte
-<!-- Basic with NavMenu -->
-<script lang="ts">
-  import { AppBar, NavMenu, IconButton, Dropdown, Avatar } from 'ui-svelte';
-
-  const navItems = [
-    { label: 'Home', href: '/home' },
-    { label: 'About', href: '/about' }
-  ];
-</script>
-
-<AppBar isBordered>
-  {#snippet start()}
-    <IconButton icon={MenuIcon} variant="ghost" />
-  {/snippet}
-
-  {#snippet center()}
-    <NavMenu items={navItems} />
-  {/snippet}
-
-  {#snippet end()}
-    <Dropdown options={profileOptions}>
-      <Avatar src="/avatar.jpg" />
-    </Dropdown>
-  {/snippet}
-</AppBar>
-
-<!-- Sticky with blur effect -->
-<AppBar isSticky isBlurred isBordered borderOnScrollOnly>
-  {#snippet center()}
-    <h1>My App</h1>
-  {/snippet}
-</AppBar>
-
-<!-- Floating to Full-Width Sticky -->
-<AppBar isSticky isFloating>
-  {#snippet start()}
-    <Logo />
-  {/snippet}
-  {#snippet center()}
-    <NavMenu items={navItems} />
-  {/snippet}
-  {#snippet end()}
-    <Button>Signup</Button>
-  {/snippet}
-</AppBar>
-
-<!-- Mobile responsive -->
-<AppBar isBordered>
-  {#snippet start()}
-    <IconButton icon={MenuIcon} variant="ghost" class="md:hidden" />
-  {/snippet}
-
-  {#snippet center()}
-    <NavMenu items={navItems} class="hidden md:flex" />
-  {/snippet}
+<AppBar color="surface" variant="soft" isBordered>
+	{#snippet start()}
+		<IconButton icon={MenuIcon} variant="ghost" color="muted" />
+	{/snippet}
+	{#snippet center()}
+		<NavMenu items={navItems} />
+	{/snippet}
+	{#snippet end()}
+		<Dropdown options={userOptions}>
+			<IconButton icon={UserIcon} variant="ghost" color="muted" />
+		</Dropdown>
+	{/snippet}
 </AppBar>
 ```
 
-### Related Components
+### Sticky with Blur
 
-- [IconButton](https://ui-svelte.sappsdev.com/llm/control/icon-button.md): For menu toggles and action buttons
-- [Dropdown](https://ui-svelte.sappsdev.com/llm/overlay/dropdown.md): For profile menus and action menus
-- [NavMenu](https://ui-svelte.sappsdev.com/llm/navigation/nav-menu.md): For horizontal navigation
-- [Avatar](https://ui-svelte.sappsdev.com/llm/display/avatar.md): For user profile images
+```svelte
+<AppBar isSticky isBlurred variant="soft">
+	{#snippet center()}
+		<NavMenu items={navItems} />
+	{/snippet}
+</AppBar>
+```
 
-**For LLMs**: AppBar uses three snippet slots: `start` (left), `center` (middle), `end` (right). Combine with `NavMenu` for navigation, `IconButton` for menu toggles, and `Dropdown` with `Avatar` for profile menus. Use `isSticky` + `isBlurred` for modern sticky headers.
+### Floating Style
+
+```svelte
+<AppBar isFloating isBoxed color="surface" variant="soft" isBordered>
+	{#snippet center()}
+		<span class="font-medium">App Name</span>
+	{/snippet}
+</AppBar>
+```
+
+## Notes
+
+- Use `start`, `center`, `end` snippets for content placement
+- Combine `isSticky` + `isBlurred` for modern glass effect
+- Use `hideOnScroll` for more content space on mobile
+- `solidOnScroll` transitions from transparent to solid background
+
+## Component References
+
+- **@see nav-menu.md** - Navigation menus in center slot
+- **@see dropdown.md** - User menus in end slot
+- **@see icon-button.md** - Action buttons in any slot

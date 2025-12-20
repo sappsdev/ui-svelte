@@ -11,8 +11,12 @@
 			@apply mt-4 mb-1 first:mt-0;
 			@apply justify-start;
 
-			.icon {
-				@apply shrink-0;
+			.sidenav-icon-wrapper {
+				@apply flex shrink-0 items-center justify-center;
+
+				.sidenav-icon {
+					@apply transition-colors duration-200;
+				}
 			}
 
 			.sidenav-header-content {
@@ -52,6 +56,7 @@
 		.sidenav-item {
 			@apply relative flex w-fit items-center gap-2 rounded-box px-3 py-2;
 			@apply cursor-pointer select-none outline-none;
+			@apply transition-all duration-200;
 
 			&.is-wide {
 				@apply w-full;
@@ -59,17 +64,21 @@
 
 			.sidenav-icon-wrapper {
 				@apply flex shrink-0 items-center justify-center;
+
+				.sidenav-icon {
+					@apply transition-colors duration-200;
+				}
 			}
 
 			.sidenav-content {
 				@apply flex flex-1 flex-col overflow-hidden;
 
 				.sidenav-label {
-					@apply truncate font-light hover:font-semibold;
+					@apply truncate transition-all duration-200;
 				}
 
 				.sidenav-description {
-					@apply truncate font-light;
+					@apply truncate font-light opacity-75;
 				}
 			}
 
@@ -92,10 +101,6 @@
 					}
 				}
 			}
-		}
-
-		.sidenav-item.is-active .sidenav-label {
-			@apply font-semibold;
 		}
 
 		&.is-sm {
@@ -128,7 +133,7 @@
 			.sidenav-header {
 				@apply gap-1.5 px-2 py-1.5;
 
-				.icon {
+				.sidenav-icon-wrapper .sidenav-icon {
 					@apply h-4 w-4;
 				}
 
@@ -178,7 +183,7 @@
 			.sidenav-header {
 				@apply gap-2 px-3 py-2;
 
-				.icon {
+				.sidenav-icon-wrapper .sidenav-icon {
 					@apply h-5 w-5;
 				}
 
@@ -228,7 +233,7 @@
 			.sidenav-header {
 				@apply gap-3 px-4 py-3;
 
-				.icon {
+				.sidenav-icon-wrapper .sidenav-icon {
 					@apply h-7 w-7;
 				}
 
@@ -248,22 +253,14 @@
 			}
 		}
 
-		&.is-compact {
-			.sidenav-item {
-				@apply py-1.5;
-			}
-
-			.sidenav-header {
-				@apply py-1;
-			}
-		}
-
 		&.is-collapsible {
-			@apply w-16;
+			@apply transition-[width] duration-300 ease-out;
 
 			&.is-collapsed {
+				@apply w-14;
+
 				.sidenav-item {
-					@apply justify-center;
+					@apply w-full justify-center px-0;
 
 					.sidenav-content,
 					.sidenav-status-wrapper,
@@ -272,8 +269,13 @@
 					}
 				}
 
-				.sidenav-header-content {
-					@apply hidden;
+				.sidenav-header {
+					@apply w-full justify-center px-0;
+
+					.sidenav-header-content,
+					.sidenav-arrow-wrapper {
+						@apply hidden;
+					}
 				}
 
 				.sidenav-submenu-content {
@@ -281,8 +283,25 @@
 				}
 			}
 
-			&:hover {
-				@apply w-full;
+			&:not(.is-collapsed) {
+				.sidenav-item {
+					@apply justify-start px-3;
+				}
+
+				.sidenav-header {
+					@apply justify-start px-3;
+
+					.sidenav-header-content {
+						@apply flex;
+						overflow: visible !important;
+
+						.sidenav-header-label {
+							white-space: nowrap !important;
+							overflow: visible !important;
+							text-overflow: clip !important;
+						}
+					}
+				}
 			}
 		}
 
@@ -291,7 +310,6 @@
 
 			.sidenav-submenu-trigger {
 				@apply w-full cursor-pointer rounded-ui outline-none;
-				@apply hover:font-semibold;
 				@apply justify-start;
 			}
 
@@ -301,83 +319,505 @@
 		}
 	}
 
-	/* Solid state style - hover/active with background colors */
-	.sidenav.is-solid .sidenav-item {
-		.sidenav-content .sidenav-label {
-			@apply font-normal hover:font-normal;
-		}
-
-		&:hover {
-			@apply bg-muted/50;
-		}
-
-		&.is-active {
-			@apply bg-muted;
-
+	.sidenav.is-ghost {
+		.sidenav-item {
 			.sidenav-content .sidenav-label {
 				@apply font-normal;
+				/* Prevent width shift when font becomes bold */
+				display: inline-flex;
+				flex-direction: column;
+
+				&::after {
+					content: attr(data-text);
+					@apply font-semibold;
+					height: 0;
+					visibility: hidden;
+					overflow: hidden;
+					user-select: none;
+					pointer-events: none;
+				}
+			}
+
+			&:hover .sidenav-content .sidenav-label {
+				@apply font-semibold;
+			}
+
+			&.is-active .sidenav-content .sidenav-label {
+				@apply font-semibold;
+			}
+		}
+
+		&.is-primary {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-primary;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-primary;
+				}
+			}
+			.sidenav-item:hover {
+				.sidenav-content .sidenav-label {
+					@apply text-primary;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-primary;
+				}
+			}
+			.sidenav-item.is-active {
+				.sidenav-content .sidenav-label {
+					@apply text-primary;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-primary;
+				}
+			}
+		}
+
+		&.is-secondary {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-secondary;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-secondary;
+				}
+			}
+			.sidenav-item:hover {
+				.sidenav-content .sidenav-label {
+					@apply text-secondary;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-secondary;
+				}
+			}
+			.sidenav-item.is-active {
+				.sidenav-content .sidenav-label {
+					@apply text-secondary;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-secondary;
+				}
+			}
+		}
+
+		&.is-muted {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-on-muted;
+				}
+			}
+			.sidenav-item:hover {
+				.sidenav-content .sidenav-label {
+					@apply text-on-muted;
+				}
+			}
+			.sidenav-item.is-active {
+				.sidenav-content .sidenav-label {
+					@apply text-on-muted;
+				}
+			}
+		}
+
+		&.is-success {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-success;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-success;
+				}
+			}
+			.sidenav-item:hover {
+				.sidenav-content .sidenav-label {
+					@apply text-success;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-success;
+				}
+			}
+			.sidenav-item.is-active {
+				.sidenav-content .sidenav-label {
+					@apply text-success;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-success;
+				}
+			}
+		}
+
+		&.is-info {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-info;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-info;
+				}
+			}
+			.sidenav-item:hover {
+				.sidenav-content .sidenav-label {
+					@apply text-info;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-info;
+				}
+			}
+			.sidenav-item.is-active {
+				.sidenav-content .sidenav-label {
+					@apply text-info;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-info;
+				}
+			}
+		}
+
+		&.is-warning {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-warning;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-warning;
+				}
+			}
+			.sidenav-item:hover {
+				.sidenav-content .sidenav-label {
+					@apply text-warning;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-warning;
+				}
+			}
+			.sidenav-item.is-active {
+				.sidenav-content .sidenav-label {
+					@apply text-warning;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-warning;
+				}
+			}
+		}
+
+		&.is-danger {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-danger;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-danger;
+				}
+			}
+			.sidenav-item:hover {
+				.sidenav-content .sidenav-label {
+					@apply text-danger;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-danger;
+				}
+			}
+			.sidenav-item.is-active {
+				.sidenav-content .sidenav-label {
+					@apply text-danger;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-danger;
+				}
 			}
 		}
 	}
 
-	/* Variant colors for solid style */
-	.sidenav.is-solid.is-primary {
-		.sidenav-item:hover {
-			@apply bg-primary/20;
+	.sidenav.is-soft {
+		.sidenav-item {
+			.sidenav-content .sidenav-label {
+				@apply font-normal;
+			}
 		}
 
-		.sidenav-item.is-active {
-			@apply bg-primary text-on-primary;
+		&.is-primary {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-primary;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-primary;
+				}
+			}
+			.sidenav-item:hover {
+				@apply bg-on-primary/50;
+			}
+			.sidenav-item.is-active {
+				@apply bg-on-primary text-primary;
+			}
+		}
+
+		&.is-secondary {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-secondary;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-secondary;
+				}
+			}
+			.sidenav-item:hover {
+				@apply bg-on-secondary/50;
+			}
+			.sidenav-item.is-active {
+				@apply bg-on-secondary text-secondary;
+			}
+		}
+
+		&.is-muted {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-on-muted;
+				}
+			}
+			.sidenav-item:hover {
+				@apply bg-muted/50;
+			}
+			.sidenav-item.is-active {
+				@apply bg-muted;
+			}
+		}
+
+		&.is-success {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-success;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-success;
+				}
+			}
+			.sidenav-item:hover {
+				@apply bg-on-success/50;
+			}
+			.sidenav-item.is-active {
+				@apply bg-on-success text-success;
+			}
+		}
+
+		&.is-info {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-info;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-info;
+				}
+			}
+			.sidenav-item:hover {
+				@apply bg-on-info/50;
+			}
+			.sidenav-item.is-active {
+				@apply bg-on-info text-info;
+			}
+		}
+
+		&.is-warning {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-warning;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-warning;
+				}
+			}
+			.sidenav-item:hover {
+				@apply bg-on-warning/50;
+			}
+			.sidenav-item.is-active {
+				@apply bg-on-warning text-warning;
+			}
+		}
+
+		&.is-danger {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-danger;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-danger;
+				}
+			}
+			.sidenav-item:hover {
+				@apply bg-on-danger/50;
+			}
+			.sidenav-item.is-active {
+				@apply bg-on-danger text-danger;
+			}
 		}
 	}
 
-	.sidenav.is-solid.is-secondary {
-		.sidenav-item:hover {
-			@apply bg-secondary/20;
+	.sidenav.is-solid {
+		.sidenav-item {
+			.sidenav-content .sidenav-label {
+				@apply font-normal;
+			}
 		}
 
-		.sidenav-item.is-active {
-			@apply bg-secondary text-on-secondary;
-		}
-	}
+		&.is-primary {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-primary;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-primary;
+				}
+			}
+			.sidenav-item:hover {
+				@apply bg-primary/20;
+			}
+			.sidenav-item.is-active {
+				@apply bg-primary text-on-primary;
 
-	.sidenav.is-solid.is-success {
-		.sidenav-item:hover {
-			@apply bg-success/20;
-		}
-
-		.sidenav-item.is-active {
-			@apply bg-success text-on-success;
-		}
-	}
-
-	.sidenav.is-solid.is-info {
-		.sidenav-item:hover {
-			@apply bg-info/20;
-		}
-
-		.sidenav-item.is-active {
-			@apply bg-info text-on-info;
-		}
-	}
-
-	.sidenav.is-solid.is-warning {
-		.sidenav-item:hover {
-			@apply bg-warning/20;
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-on-primary;
+				}
+			}
 		}
 
-		.sidenav-item.is-active {
-			@apply bg-warning text-on-warning;
-		}
-	}
+		&.is-secondary {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-secondary;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-secondary;
+				}
+			}
+			.sidenav-item:hover {
+				@apply bg-secondary/20;
+			}
+			.sidenav-item.is-active {
+				@apply bg-secondary text-on-secondary;
 
-	.sidenav.is-solid.is-danger {
-		.sidenav-item:hover {
-			@apply bg-danger/20;
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-on-secondary;
+				}
+			}
 		}
 
-		.sidenav-item.is-active {
-			@apply bg-danger text-on-danger;
+		&.is-muted {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-on-muted;
+				}
+			}
+			.sidenav-item:hover {
+				@apply bg-muted/50;
+			}
+			.sidenav-item.is-active {
+				@apply bg-muted;
+			}
+		}
+
+		&.is-success {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-success;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-success;
+				}
+			}
+			.sidenav-item:hover {
+				@apply bg-success/20;
+			}
+			.sidenav-item.is-active {
+				@apply bg-success text-on-success;
+
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-on-success;
+				}
+			}
+		}
+
+		&.is-info {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-info;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-info;
+				}
+			}
+			.sidenav-item:hover {
+				@apply bg-info/20;
+			}
+			.sidenav-item.is-active {
+				@apply bg-info text-on-info;
+
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-on-info;
+				}
+			}
+		}
+
+		&.is-warning {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-warning;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-warning;
+				}
+			}
+			.sidenav-item:hover {
+				@apply bg-warning/20;
+			}
+			.sidenav-item.is-active {
+				@apply bg-warning text-on-warning;
+
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-on-warning;
+				}
+			}
+		}
+
+		&.is-danger {
+			.sidenav-header:hover,
+			.sidenav-header.is-active {
+				.sidenav-header-label {
+					@apply text-danger;
+				}
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-danger;
+				}
+			}
+			.sidenav-item:hover {
+				@apply bg-danger/20;
+			}
+			.sidenav-item.is-active {
+				@apply bg-danger text-on-danger;
+
+				.sidenav-icon-wrapper .sidenav-icon {
+					@apply text-on-danger;
+				}
+			}
 		}
 	}
 }

@@ -12,15 +12,7 @@
 		startClass?: string;
 		centerClass?: string;
 		endClass?: string;
-		isBlurred?: boolean;
-		isBordered?: boolean;
-		borderOnScrollOnly?: boolean;
-		hideOnScroll?: boolean;
-		solidOnScroll?: boolean;
-		isSticky?: boolean;
-		isFloating?: boolean;
-		isBoxed?: boolean;
-		variant?:
+		color?:
 			| 'primary'
 			| 'secondary'
 			| 'muted'
@@ -29,7 +21,16 @@
 			| 'warning'
 			| 'danger'
 			| 'surface'
-			| 'ghost';
+			| 'default';
+		variant?: 'solid' | 'soft';
+		isBlurred?: boolean;
+		isBordered?: boolean;
+		borderOnScrollOnly?: boolean;
+		hideOnScroll?: boolean;
+		solidOnScroll?: boolean;
+		isSticky?: boolean;
+		isFloating?: boolean;
+		isBoxed?: boolean;
 	};
 
 	const {
@@ -41,12 +42,13 @@
 		startClass,
 		centerClass,
 		endClass,
+		color = 'default',
+		variant = 'soft',
 		isBordered,
 		borderOnScrollOnly = false,
 		isBlurred,
 		isSticky,
 		isBoxed,
-		variant = 'ghost',
 		hideOnScroll,
 		solidOnScroll = false,
 		isFloating = false
@@ -59,7 +61,7 @@
 
 	const scroll = useScroll();
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
@@ -68,7 +70,12 @@
 		warning: 'is-warning',
 		danger: 'is-danger',
 		surface: 'is-surface',
-		ghost: 'is-ghost'
+		default: 'is-default'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft'
 	};
 
 	$effect(() => {
@@ -108,7 +115,8 @@
 	bind:this={headerElement}
 	class={cn(
 		'appbar',
-		variantClasses[variant],
+		colors[color],
+		variants[variant],
 		shouldShowBorder && 'is-bordered',
 		shouldBlur && 'is-blurred',
 		isHidden && 'is-hidden',

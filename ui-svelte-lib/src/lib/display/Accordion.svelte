@@ -16,7 +16,17 @@
 
 	type Props = {
 		items: AccordionItem[];
-		variant?: 'primary' | 'secondary' | 'muted' | 'outline';
+		variant?: 'solid' | 'soft' | 'outlined' | 'ghost';
+		color?:
+			| 'primary'
+			| 'secondary'
+			| 'muted'
+			| 'success'
+			| 'info'
+			| 'warning'
+			| 'danger'
+			| 'surface'
+			| 'default';
 		multiple?: boolean;
 		rootClass?: string;
 		itemClass?: string;
@@ -26,7 +36,8 @@
 
 	const {
 		items = [],
-		variant = 'muted',
+		variant = 'ghost',
+		color = 'default',
 		multiple = false,
 		rootClass,
 		itemClass,
@@ -35,6 +46,7 @@
 	}: Props = $props();
 
 	let openItems = $state<Record<string, boolean>>(
+		// svelte-ignore state_referenced_locally
 		items.reduce(
 			(acc, item) => {
 				if (item.defaultOpen) {
@@ -47,10 +59,22 @@
 	);
 
 	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
+		outlined: 'is-outlined',
+		ghost: 'is-ghost'
+	};
+
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
-		outline: 'is-outline'
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger',
+		surface: 'is-surface',
+		default: 'is-default'
 	};
 
 	function toggleItem(itemId: string, disabled?: boolean) {
@@ -65,7 +89,7 @@
 	}
 </script>
 
-<div class={cn('accordion', variants[variant], rootClass)}>
+<div class={cn('accordion', variants[variant], colors[color], rootClass)}>
 	{#each items as item}
 		<div class={cn('accordion-item', itemClass, item.disabled && 'is-disabled')}>
 			<!-- svelte-ignore a11y_click_events_have_key_events -->

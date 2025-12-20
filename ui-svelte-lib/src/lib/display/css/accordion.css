@@ -2,56 +2,8 @@
 	.accordion {
 		@apply flex flex-col gap-2 w-full;
 
-		&.is-primary {
-			.accordion-item {
-				@apply border border-primary/20 rounded-lg overflow-hidden;
-				.accordion-header {
-					@apply bg-primary/5 hover:bg-primary/10;
-					&.is-open {
-						@apply bg-primary/10 text-primary;
-					}
-				}
-			}
-		}
-
-		&.is-secondary {
-			.accordion-item {
-				@apply border border-secondary/20 rounded-lg overflow-hidden;
-				.accordion-header {
-					@apply bg-secondary/5 hover:bg-secondary/10;
-					&.is-open {
-						@apply bg-secondary/10 text-secondary;
-					}
-				}
-			}
-		}
-
-		&.is-muted {
-			.accordion-item {
-				@apply border border-muted rounded-lg overflow-hidden;
-				.accordion-header {
-					@apply bg-muted/30 hover:bg-muted/50;
-					&.is-open {
-						@apply bg-muted text-on-muted;
-					}
-				}
-			}
-		}
-
-		&.is-outline {
-			.accordion-item {
-				@apply border border-muted rounded-lg overflow-hidden;
-				.accordion-header {
-					@apply hover:bg-muted/30;
-					&.is-open {
-						@apply bg-muted/20;
-					}
-				}
-			}
-		}
-
 		.accordion-item {
-			@apply transition-all duration-300;
+			@apply transition-all duration-300 rounded-lg overflow-hidden;
 
 			&.is-disabled {
 				@apply opacity-50 pointer-events-none;
@@ -79,19 +31,350 @@
 						@apply size-5 transition-transform duration-300 text-on-muted;
 						&.is-active {
 							@apply rotate-180;
+							color: inherit;
 						}
 					}
 				}
 
 				&:hover:not(.is-disabled) {
 					.accordion-arrow {
-						@apply text-on-surface;
+						color: inherit;
 					}
 				}
 			}
 
 			.accordion-content {
 				@apply px-4 py-3 text-sm text-on-surface/80;
+			}
+		}
+
+		&.is-ghost {
+			.accordion-item {
+				@apply border border-transparent;
+			}
+
+			&.is-primary .accordion-item {
+				.accordion-header:hover {
+					@apply bg-primary/10;
+				}
+				.accordion-header.is-open {
+					@apply bg-primary/20 text-primary;
+				}
+			}
+			&.is-secondary .accordion-item {
+				.accordion-header:hover {
+					@apply bg-secondary/10;
+				}
+				.accordion-header.is-open {
+					@apply bg-secondary/20 text-secondary;
+				}
+			}
+			&.is-muted .accordion-item {
+				.accordion-header:hover {
+					@apply bg-muted/50;
+				}
+				.accordion-header.is-open {
+					@apply bg-muted text-on-muted;
+				}
+			}
+			&.is-success .accordion-item {
+				.accordion-header:hover {
+					@apply bg-success/10;
+				}
+				.accordion-header.is-open {
+					@apply bg-success/20 text-success;
+				}
+			}
+			&.is-info .accordion-item {
+				.accordion-header:hover {
+					@apply bg-info/10;
+				}
+				.accordion-header.is-open {
+					@apply bg-info/20 text-info;
+				}
+			}
+			&.is-warning .accordion-item {
+				.accordion-header:hover {
+					@apply bg-warning/10;
+				}
+				.accordion-header.is-open {
+					@apply bg-warning/20 text-warning;
+				}
+			}
+			&.is-danger .accordion-item {
+				.accordion-header:hover {
+					@apply bg-danger/10;
+				}
+				.accordion-header.is-open {
+					@apply bg-danger/20 text-danger;
+				}
+			}
+			&.is-surface .accordion-item {
+				.accordion-header:hover {
+					@apply bg-surface/50;
+				}
+				.accordion-header.is-open {
+					@apply bg-surface text-on-surface;
+				}
+			}
+			&.is-default .accordion-item {
+				.accordion-header:hover {
+					@apply bg-muted/30;
+				}
+				.accordion-header.is-open {
+					@apply bg-muted/50;
+				}
+			}
+		}
+
+		&.is-soft {
+			.accordion-item {
+				@apply border border-transparent;
+			}
+
+			&.is-primary .accordion-item {
+				@apply bg-on-primary/50;
+				.accordion-header:hover {
+					@apply bg-on-primary/80;
+				}
+				.accordion-header.is-open {
+					@apply bg-on-primary text-primary;
+				}
+			}
+			&.is-secondary .accordion-item {
+				@apply bg-on-secondary/50;
+				.accordion-header:hover {
+					@apply bg-on-secondary/80;
+				}
+				.accordion-header.is-open {
+					@apply bg-on-secondary text-secondary;
+				}
+			}
+			&.is-muted .accordion-item {
+				@apply bg-muted/30;
+				.accordion-header:hover {
+					@apply bg-muted/50;
+				}
+				.accordion-header.is-open {
+					@apply bg-muted text-on-muted;
+				}
+			}
+			&.is-success .accordion-item {
+				@apply bg-on-success/50;
+				.accordion-header:hover {
+					@apply bg-on-success/80;
+				}
+				.accordion-header.is-open {
+					@apply bg-on-success text-success;
+				}
+			}
+			&.is-info .accordion-item {
+				@apply bg-on-info/50;
+				.accordion-header:hover {
+					@apply bg-on-info/80;
+				}
+				.accordion-header.is-open {
+					@apply bg-on-info text-info;
+				}
+			}
+			&.is-warning .accordion-item {
+				@apply bg-on-warning/50;
+				.accordion-header:hover {
+					@apply bg-on-warning/80;
+				}
+				.accordion-header.is-open {
+					@apply bg-on-warning text-warning;
+				}
+			}
+			&.is-danger .accordion-item {
+				@apply bg-on-danger/50;
+				.accordion-header:hover {
+					@apply bg-on-danger/80;
+				}
+				.accordion-header.is-open {
+					@apply bg-on-danger text-danger;
+				}
+			}
+			&.is-surface .accordion-item {
+				@apply bg-surface/50;
+				.accordion-header:hover {
+					@apply bg-surface/80;
+				}
+				.accordion-header.is-open {
+					@apply bg-surface text-on-surface;
+				}
+			}
+			&.is-default .accordion-item {
+				@apply bg-muted/20;
+				.accordion-header:hover {
+					@apply bg-muted/30;
+				}
+				.accordion-header.is-open {
+					@apply bg-muted/50;
+				}
+			}
+		}
+
+		&.is-solid {
+			.accordion-item {
+				@apply border border-transparent;
+			}
+
+			&.is-primary .accordion-item {
+				.accordion-header:hover {
+					@apply bg-primary/20;
+				}
+				.accordion-header.is-open {
+					@apply bg-primary text-on-primary;
+				}
+			}
+			&.is-secondary .accordion-item {
+				.accordion-header:hover {
+					@apply bg-secondary/20;
+				}
+				.accordion-header.is-open {
+					@apply bg-secondary text-on-secondary;
+				}
+			}
+			&.is-muted .accordion-item {
+				.accordion-header:hover {
+					@apply bg-muted/50;
+				}
+				.accordion-header.is-open {
+					@apply bg-on-muted text-muted;
+				}
+			}
+			&.is-success .accordion-item {
+				.accordion-header:hover {
+					@apply bg-success/20;
+				}
+				.accordion-header.is-open {
+					@apply bg-success text-on-success;
+				}
+			}
+			&.is-info .accordion-item {
+				.accordion-header:hover {
+					@apply bg-info/20;
+				}
+				.accordion-header.is-open {
+					@apply bg-info text-on-info;
+				}
+			}
+			&.is-warning .accordion-item {
+				.accordion-header:hover {
+					@apply bg-warning/20;
+				}
+				.accordion-header.is-open {
+					@apply bg-warning text-on-warning;
+				}
+			}
+			&.is-danger .accordion-item {
+				.accordion-header:hover {
+					@apply bg-danger/20;
+				}
+				.accordion-header.is-open {
+					@apply bg-danger text-on-danger;
+				}
+			}
+			&.is-surface .accordion-item {
+				.accordion-header:hover {
+					@apply bg-surface/50;
+				}
+				.accordion-header.is-open {
+					@apply bg-surface text-on-surface;
+				}
+			}
+			&.is-default .accordion-item {
+				.accordion-header:hover {
+					@apply bg-muted/50;
+				}
+				.accordion-header.is-open {
+					@apply bg-on-background text-background;
+				}
+			}
+		}
+
+		&.is-outlined {
+			&.is-primary .accordion-item {
+				@apply border border-primary/30;
+				.accordion-header:hover {
+					@apply bg-primary/10;
+				}
+				.accordion-header.is-open {
+					@apply bg-primary/20 text-primary;
+				}
+			}
+			&.is-secondary .accordion-item {
+				@apply border border-secondary/30;
+				.accordion-header:hover {
+					@apply bg-secondary/10;
+				}
+				.accordion-header.is-open {
+					@apply bg-secondary/20 text-secondary;
+				}
+			}
+			&.is-muted .accordion-item {
+				@apply border border-muted;
+				.accordion-header:hover {
+					@apply bg-muted/30;
+				}
+				.accordion-header.is-open {
+					@apply bg-muted/50 text-on-muted;
+				}
+			}
+			&.is-success .accordion-item {
+				@apply border border-success/30;
+				.accordion-header:hover {
+					@apply bg-success/10;
+				}
+				.accordion-header.is-open {
+					@apply bg-success/20 text-success;
+				}
+			}
+			&.is-info .accordion-item {
+				@apply border border-info/30;
+				.accordion-header:hover {
+					@apply bg-info/10;
+				}
+				.accordion-header.is-open {
+					@apply bg-info/20 text-info;
+				}
+			}
+			&.is-warning .accordion-item {
+				@apply border border-warning/30;
+				.accordion-header:hover {
+					@apply bg-warning/10;
+				}
+				.accordion-header.is-open {
+					@apply bg-warning/20 text-warning;
+				}
+			}
+			&.is-danger .accordion-item {
+				@apply border border-danger/30;
+				.accordion-header:hover {
+					@apply bg-danger/10;
+				}
+				.accordion-header.is-open {
+					@apply bg-danger/20 text-danger;
+				}
+			}
+			&.is-surface .accordion-item {
+				@apply border border-on-surface/30;
+				.accordion-header:hover {
+					@apply bg-surface/50;
+				}
+				.accordion-header.is-open {
+					@apply bg-surface text-on-surface;
+				}
+			}
+			&.is-default .accordion-item {
+				@apply border border-muted;
+				.accordion-header:hover {
+					@apply bg-muted/30;
+				}
+				.accordion-header.is-open {
+					@apply bg-muted/20;
+				}
 			}
 		}
 	}

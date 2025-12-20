@@ -1,77 +1,77 @@
-## Tabs Component
+# Tabs Component
 
-Navigation component for organizing content into switchable sections.
+Organize content into switchable panels.
+
+## Import
+
+```svelte
+import {Tabs} from 'ui-svelte';
+```
+
+## Props
+
+| Prop              | Type                                                                                  | Default   | Description            |
+| ----------------- | ------------------------------------------------------------------------------------- | --------- | ---------------------- |
+| `tabs`            | `Tab[]`                                                                               | `[]`      | Array of tab items     |
+| `position`        | `'top' \| 'bottom' \| 'start' \| 'end'`                                               | `'top'`   | Tab list position      |
+| `variant`         | `'solid' \| 'outline' \| 'line' \| 'ghost' \| 'pills'`                                | `'solid'` | Visual style           |
+| `color`           | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger'` | `'muted'` | Active color           |
+| `rootClass`       | `string`                                                                              | -         | Root container classes |
+| `tabListClass`    | `string`                                                                              | -         | Tab list classes       |
+| `tabClass`        | `string`                                                                              | -         | Individual tab classes |
+| `tabContentClass` | `string`                                                                              | -         | Content area classes   |
+
+## Tab Type
+
+| Property  | Type                | Description       |
+| --------- | ------------------- | ----------------- |
+| `id`      | `string`            | Unique identifier |
+| `label`   | `string`            | Tab label         |
+| `content` | `Snippet \| string` | Panel content     |
+
+## Patterns
+
+### Basic Tabs
 
 ```svelte
 <Tabs
-  tabs={[]}
-  variant="muted"
-  position="top"
-  pill={false}
-  rootClass=""
-  tabListClass=""
-  tabClass=""
-  tabContentClass=""
+	tabs={[
+		{ id: 'home', label: 'Home', content: 'Home content here.' },
+		{ id: 'profile', label: 'Profile', content: 'Profile content here.' },
+		{ id: 'settings', label: 'Settings', content: 'Settings content here.' }
+	]}
 />
 ```
 
-### Props
-
-| Prop | Default | Description |
-|------|---------|-------------|
-| `tabs` | `[]` | Array of Tab objects (required) |
-| `variant` | `'muted'` | `primary` `secondary` `muted` `outline` `line` `ghost` |
-| `position` | `'top'` | `top` `bottom` `start` `end` |
-| `pill` | `false` | Rounded pill style |
-| `rootClass` | - | Root container styles |
-| `tabListClass` | - | Tab list styles |
-| `tabClass` | - | Individual tab styles |
-| `tabContentClass` | - | Content area styles |
-
-### Tab Type
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `id` | `string` | Unique identifier (required) |
-| `label` | `string` | Tab label (required) |
-| `content` | `Snippet \| string` | Tab content (required) |
-
-### Examples
+### With Snippet Content
 
 ```svelte
-<!-- Basic with String Content -->
-<script lang="ts">
-  const tabs = [
-    { id: '1', label: 'Tab 1', content: 'Content 1' },
-    { id: '2', label: 'Tab 2', content: 'Content 2' }
-  ];
-</script>
-
-<Tabs {tabs} />
-
-<!-- With Snippet Content -->
-{#snippet content1()}
-  <p>Rich content with components</p>
+{#snippet profileContent()}
+	<div class="p-4">
+		<h4>Profile</h4>
+		<Button size="sm">Edit</Button>
+	</div>
 {/snippet}
 
-{#snippet content2()}
-  <p>More content here</p>
-{/snippet}
-
-<script lang="ts">
-  const tabs = [
-    { id: '1', label: 'Tab 1', content: content1 },
-    { id: '2', label: 'Tab 2', content: content2 }
-  ];
-</script>
-
-<Tabs {tabs} />
-
-<!-- Variant & Position -->
-<Tabs {tabs} variant="primary" position="start" />
-
-<!-- Pill Style -->
-<Tabs {tabs} variant="secondary" pill />
+<Tabs
+	tabs={[
+		{ id: 'home', label: 'Home', content: 'Simple string.' },
+		{ id: 'profile', label: 'Profile', content: profileContent }
+	]}
+/>
 ```
 
-**For LLMs**: Tabs organize content into switchable sections. Use `tabs` array with `id`, `label`, and `content`. Content can be string or Snippet for rich content. Use `position` for tab placement, `variant` for styling.
+### Variants & Positions
+
+```svelte
+<Tabs tabs={myTabs} variant="line" color="primary" />
+<Tabs tabs={myTabs} variant="pills" color="secondary" />
+<Tabs tabs={myTabs} position="start" />
+```
+
+## Notes
+
+- Use string content for simple text, Snippets for rich content
+- `position` controls tab list placement (top, bottom, start, end)
+- `line` variant shows underline/side indicator on active tab
+- `pills` variant shows rounded pill-style tabs

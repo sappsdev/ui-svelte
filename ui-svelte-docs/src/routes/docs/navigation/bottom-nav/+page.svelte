@@ -1,275 +1,330 @@
 <script lang="ts">
-	import { Card, Checkbox, Code, Section, Select, BottomNav } from 'ui-svelte';
-	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
-	import DocsProps from '$lib/components/DocsProps.svelte';
+	import { BottomNav, Card, Checkbox, Code, Section, Select, type IconData } from 'ui-svelte';
 	import {
-		LayoutDashboardIcon,
+		HomeLinearIcon,
+		DocumentLinearIcon,
+		SettingsLinearIcon,
+		UserCircleLinearIcon,
 		Search24RegularIcon,
-		Heart24RegularIcon,
-		Person24RegularIcon,
-		SparkleAction24RegularIcon
+		HeartLinearIcon
 	} from '$lib/icons';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	const variantOptions = [
+	type BottomNavItem = {
+		id: string;
+		label?: string;
+		icon: IconData;
+		href?: string;
+		onclick?: (item: BottomNavItem) => void;
+		badge?: string | number;
+		isFab?: boolean;
+		isActive?: boolean;
+	};
+
+	const colorOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
-		{ id: 'ghost', label: 'Ghost' },
-		{ id: 'line', label: 'Line' }
+		{ id: 'muted', label: 'Muted' },
+		{ id: 'success', label: 'Success' },
+		{ id: 'info', label: 'Info' },
+		{ id: 'danger', label: 'Danger' },
+		{ id: 'warning', label: 'Warning' },
+		{ id: 'surface', label: 'Surface' },
+		{ id: 'default', label: 'Default' }
+	];
+
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' },
+		{ id: 'blur', label: 'Blur' }
+	];
+
+	const activeStyleOptions = [
+		{ id: 'line', label: 'Line' },
+		{ id: 'pill', label: 'Pill' }
 	];
 
 	const sizeOptions = [
-		{ id: 'sm', label: 'Small' },
-		{ id: 'md', label: 'Medium' },
-		{ id: 'lg', label: 'Large' }
+		{ id: 'sm', label: 'sm' },
+		{ id: 'md', label: 'md' },
+		{ id: 'lg', label: 'lg' }
 	];
 
-	let variant: any = $state('primary');
+	let color: any = $state('primary');
+	let variant: any = $state('soft');
+	let activeStyle: any = $state('line');
 	let size: any = $state('md');
-	let isSolid = $state(false);
-	let showLabels = $state(true);
+
+	let isBlock = $state(true);
+	let isBordered = $state(true);
+
+	const sampleItems: BottomNavItem[] = [
+		{ id: 'home', label: 'Home', href: '#home', icon: HomeLinearIcon },
+		{ id: 'search', label: 'Search', href: '#search', icon: Search24RegularIcon },
+		{ id: 'add', icon: HeartLinearIcon, isFab: true, onclick: () => alert('Add clicked!') },
+		{ id: 'profile', label: 'Profile', href: '#profile', icon: UserCircleLinearIcon },
+		{ id: 'settings', label: 'Settings', href: '#settings', icon: SettingsLinearIcon, badge: 3 }
+	];
 
 	let hasProps = $derived(
-		[variant !== 'primary', size !== 'md', isSolid, !showLabels].some(Boolean)
+		[
+			color !== 'primary',
+			variant !== 'soft',
+			activeStyle !== 'line',
+			size !== 'md',
+			!isBlock,
+			!isBordered
+		].some(Boolean)
 	);
 
 	let code = $derived(() => {
 		const scriptLines = [
 			`<script lang="ts">`,
-			`\timport { BottomNav } from 'ui-svelte';`,
-			`\timport { HomeIcon, SearchIcon, HeartIcon, PersonIcon } from '$lib/icons';`,
-			`\n\tconst items = [`,
-			showLabels && `\t\t{ id: 'home', label: 'Home', icon: HomeIcon, href: '/' },`,
-			showLabels && `\t\t{ id: 'search', label: 'Search', icon: SearchIcon, href: '/search' },`,
-			showLabels &&
-				`\t\t{ id: 'favorites', label: 'Favorites', icon: HeartIcon, href: '/favorites' },`,
-			showLabels && `\t\t{ id: 'profile', label: 'Profile', icon: PersonIcon, href: '/profile' }`,
-			!showLabels && `\t\t{ id: 'home', icon: HomeIcon, href: '/' },`,
-			!showLabels && `\t\t{ id: 'search', icon: SearchIcon, href: '/search' },`,
-			!showLabels && `\t\t{ id: 'favorites', icon: HeartIcon, href: '/favorites' },`,
-			!showLabels && `\t\t{ id: 'profile', icon: PersonIcon, href: '/profile' }`,
+			`\timport { BottomNav, type BottomNavItem } from 'ui-svelte';`,
+			`\timport { HomeLinearIcon, Search24RegularIcon, HeartLinearIcon } from '$lib/icons';`,
+			``,
+			`\tconst items: BottomNavItem[] = [`,
+			`\t\t{ id: 'home', label: 'Home', href: '/home', icon: HomeLinearIcon },`,
+			`\t\t{ id: 'search', label: 'Search', href: '/search', icon: Search24RegularIcon },`,
+			`\t\t{ id: 'add', icon: HeartLinearIcon, isFab: true, onclick: () => {} },`,
+			`\t\t{ id: 'profile', label: 'Profile', href: '/profile', icon: UserCircleLinearIcon },`,
+			`\t\t{ id: 'settings', label: 'Settings', href: '/settings', icon: SettingsLinearIcon }`,
 			`\t];`,
 			`<\/script>`
 		].filter(Boolean);
 
-		const componentLine = hasProps
-			? `\n<BottomNav ${[
-					'{items}',
-					variant !== 'primary' && `variant="${variant}"`,
-					size !== 'md' && `size="${size}"`,
-					isSolid && 'isSolid'
-				]
-					.filter(Boolean)
-					.join(' ')} />`
-			: '\n<BottomNav {items} />';
+		const componentLines = [
+			hasProps && `<BottomNav`,
+			hasProps && `\t{items}`,
+			color !== 'primary' && `\tcolor="${color}"`,
+			variant !== 'soft' && `\tvariant="${variant}"`,
+			activeStyle !== 'line' && `\tactiveStyle="${activeStyle}"`,
+			size !== 'md' && `\tsize="${size}"`,
+			!isBlock && `\tisBlock={false}`,
+			!isBordered && `\tisBordered={false}`,
+			hasProps && `/>`,
+			!hasProps && `<BottomNav {items} />`
+		].filter(Boolean);
 
-		return [...scriptLines, componentLine].join('\n');
+		return [...scriptLines, ...componentLines].join('\n');
 	});
 
 	const props = [
-		{ prop: 'items', type: 'BottomNavItem[]', initial: '[]', required: true },
-		{ prop: 'variant', type: 'primary | secondary | ghost | line', initial: 'primary' },
+		{ prop: 'items', type: 'BottomNavItem[]', initial: '[]' },
 		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
-		{ prop: 'isSolid', type: 'boolean', initial: 'false' },
+		{
+			prop: 'variant',
+			type: 'solid | soft | blur',
+			initial: 'soft'
+		},
+		{
+			prop: 'color',
+			type: 'primary | secondary | muted | success | info | warning | danger | surface | default',
+			initial: 'primary'
+		},
+		{
+			prop: 'activeStyle',
+			type: 'line | pill',
+			initial: 'line'
+		},
+		{ prop: 'class', type: 'string', initial: '' },
 		{ prop: 'isBlock', type: 'boolean', initial: 'false' },
-		{ prop: 'class', type: 'string', initial: '' }
+		{ prop: 'isBordered', type: 'boolean', initial: 'true' }
 	];
 
 	const itemProps = [
-		{ prop: 'id', type: 'string', initial: '', required: true },
+		{ prop: 'id', type: 'string', initial: '' },
 		{ prop: 'label', type: 'string', initial: '' },
-		{ prop: 'icon', type: 'IconData', initial: '', required: true },
+		{ prop: 'icon', type: 'IconData', initial: '' },
 		{ prop: 'href', type: 'string', initial: '' },
 		{ prop: 'onclick', type: '(item: BottomNavItem) => void', initial: '' },
 		{ prop: 'badge', type: 'string | number', initial: '' },
 		{ prop: 'isFab', type: 'boolean', initial: 'false' },
 		{ prop: 'isActive', type: 'boolean', initial: '' }
 	];
-
-	const navItemsWithLabels = [
-		{ id: 'home', label: 'Home', icon: LayoutDashboardIcon, href: '#home', isActive: true },
-		{ id: 'search', label: 'Search', icon: Search24RegularIcon, href: '#search' },
-		{ id: 'favorites', label: 'Favorites', icon: Heart24RegularIcon, href: '#favorites' },
-		{ id: 'profile', label: 'Profile', icon: Person24RegularIcon, href: '#profile' }
-	];
-
-	const navItemsIconOnly = [
-		{ id: 'home', icon: LayoutDashboardIcon, href: '#home', isActive: true },
-		{ id: 'search', icon: Search24RegularIcon, href: '#search' },
-		{ id: 'favorites', icon: Heart24RegularIcon, href: '#favorites' },
-		{ id: 'profile', icon: Person24RegularIcon, href: '#profile' }
-	];
-
-	const navItemsWithBadge = [
-		{ id: 'home', label: 'Home', icon: LayoutDashboardIcon, href: '#home', isActive: true },
-		{ id: 'search', label: 'Search', icon: Search24RegularIcon, href: '#search' },
-		{ id: 'favorites', label: 'Favorites', icon: Heart24RegularIcon, href: '#favorites', badge: 3 },
-		{ id: 'profile', label: 'Profile', icon: Person24RegularIcon, href: '#profile' }
-	];
-
-	const navItemsWithFab = [
-		{ id: 'home', label: 'Home', icon: LayoutDashboardIcon, href: '#home', isActive: true },
-		{ id: 'search', label: 'Search', icon: Search24RegularIcon, href: '#search' },
-		{ id: 'add', icon: SparkleAction24RegularIcon, isFab: true, href: '#add' },
-		{ id: 'favorites', label: 'Favorites', icon: Heart24RegularIcon, href: '#favorites' },
-		{ id: 'profile', label: 'Profile', icon: Person24RegularIcon, href: '#profile' }
-	];
-
-	let navItems = $derived(showLabels ? navItemsWithLabels : navItemsIconOnly);
 </script>
 
-<DocsHeader title="Bottom Nav" llmUrl="https://ui-svelte.sappsdev.com/llm/navigation/bottom-nav.md">
-	A mobile-friendly bottom navigation bar for navigating between primary destinations in an app.
+<DocsHeader title="BottomNav">
+	A mobile-friendly bottom navigation bar component with support for icons, badges, FAB buttons, and
+	multiple styling options.
 </DocsHeader>
 
-{#snippet preview()}
-	<BottomNav items={navItems} {variant} {size} {isSolid} isBlock />
-{/snippet}
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				bind:value={variant}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Active Style"
+				size="sm"
+				options={activeStyleOptions}
+				bind:value={activeStyle}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Size"
+				size="sm"
+				options={sizeOptions}
+				bind:value={size}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={isBlock} label="Block (not fixed)" />
+			<Checkbox bind:checked={isBordered} label="Bordered" />
+		</div>
 
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		{@render preview()}
-	</DocsPreview>
+		<div class="doc-preview" style="min-height: 120px; position: relative;">
+			<BottomNav
+				items={sampleItems}
+				{color}
+				{variant}
+				{activeStyle}
+				{size}
+				{isBlock}
+				{isBordered}
+			/>
+		</div>
+		<Code lang="svelte" code={code()} />
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Variants & Colors</p>
 	<Card>
-		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-		<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
-		<div class="grid-2 gap-2">
-			<Checkbox bind:checked={isSolid} label="Solid" />
-			<Checkbox bind:checked={showLabels} label="Labels" />
-		</div>
-	</Card>
-	<DocsCode code={code()} />
-</Section>
-
-<Section>
-	<Card bodyClass="grid-1 md:grid-2 center">
-		{#snippet header()}
-			<h4>Variants</h4>
-		{/snippet}
 		{#each variantOptions as item}
-			<div class="column gap-1 w-full">
-				<p class="text-xs center">{item.label}</p>
-				<BottomNav items={navItemsWithLabels} variant={item.id as any} isBlock />
+			<p class="text-sm mb-2 font-semibold">{item.label} Variant</p>
+			<div class="wrap gap-4 mb-6">
+				{#each colorOptions.slice(0, 5) as colorItem}
+					<div style="width: 320px; min-height: 80px;">
+						<BottomNav
+							isBlock
+							variant={item.id as any}
+							color={colorItem.id as any}
+							items={[
+								{ id: '1', label: 'Home', icon: HomeLinearIcon, isActive: true },
+								{ id: '2', label: 'Search', icon: Search24RegularIcon },
+								{ id: '3', label: 'Profile', icon: UserCircleLinearIcon }
+							]}
+						/>
+						<p class="text-xs text-center mt-1 text-muted-foreground">{colorItem.label}</p>
+					</div>
+				{/each}
 			</div>
 		{/each}
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="grid-1 md:grid-2 center">
-		{#snippet header()}
-			<h4>Variants with Solid</h4>
-		{/snippet}
-		{#each variantOptions as item}
-			<div class="column gap-1 w-full">
-				<p class="text-xs center">{item.label}</p>
-				<BottomNav items={navItemsWithLabels} variant={item.id as any} isSolid isBlock />
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
-	<Card bodyClass="grid-1 md:grid-2 center">
-		{#snippet header()}
-			<h4>Special Features</h4>
-		{/snippet}
-		<div class="column gap-1 w-full">
-			<p class="text-xs center">With Badge</p>
-			<BottomNav items={navItemsWithBadge} isBlock />
-		</div>
-		<div class="column gap-1 w-full">
-			<p class="text-xs center">With FAB (Floating Action Button)</p>
-			<BottomNav items={navItemsWithFab} isBlock />
-		</div>
-	</Card>
-</Section>
-
-<Section>
-	<Card bodyClass="grid-1 md:grid-2 center">
-		{#snippet header()}
-			<h4>Sizes</h4>
-		{/snippet}
-		{#each sizeOptions as item}
-			<div class="column gap-1 w-full">
-				<p class="text-xs center">{item.label}</p>
-				<BottomNav items={navItemsWithLabels} size={item.id as any} isBlock />
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Usage Examples</h4>
-		{/snippet}
-		<Code
-			lang="svelte"
-			code={`<!-- Basic Bottom Navigation -->
-<script lang="ts">
-	import { BottomNav } from 'ui-svelte';
-	import { HomeIcon, SearchIcon, HeartIcon, PersonIcon } from '$lib/icons';
-
-	const items = [
-		{ id: 'home', label: 'Home', icon: HomeIcon, href: '/' },
-		{ id: 'search', label: 'Search', icon: SearchIcon, href: '/search' },
-		{ id: 'favorites', label: 'Favorites', icon: HeartIcon, href: '/favorites' },
-		{ id: 'profile', label: 'Profile', icon: PersonIcon, href: '/profile' }
-	];
-<\/script>
-
-<BottomNav {items} />
-
-<!-- Secondary Variant -->
-<BottomNav {items} variant="secondary" />
-
-<!-- Ghost Variant -->
-<BottomNav {items} variant="ghost" />
-
-<!-- Line Variant (with underline indicator) -->
-<BottomNav {items} variant="line" />
-
-<!-- With Solid Background on Active -->
-<BottomNav {items} isSolid />
-<BottomNav {items} variant="secondary" isSolid />
-
-<!-- With Badge Notifications -->
-<script lang="ts">
-	const itemsWithBadge = [
-		{ id: 'home', label: 'Home', icon: HomeIcon, href: '/' },
-		{ id: 'cart', label: 'Cart', icon: CartIcon, href: '/cart', badge: 3 },
-		{ id: 'profile', label: 'Profile', icon: PersonIcon, href: '/profile' }
-	];
-<\/script>
-
-<BottomNav items={itemsWithBadge} />
-
-<!-- With FAB (Floating Action Button) -->
-<script lang="ts">
-	const itemsWithFab = [
-		{ id: 'home', label: 'Home', icon: HomeIcon, href: '/' },
-		{ id: 'search', label: 'Search', icon: SearchIcon, href: '/search' },
-		{ id: 'add', icon: AddIcon, isFab: true, onclick: () => openModal() },
-		{ id: 'favorites', label: 'Favorites', icon: HeartIcon, href: '/favorites' },
-		{ id: 'profile', label: 'Profile', icon: PersonIcon, href: '/profile' }
-	];
-<\/script>
-
-<BottomNav items={itemsWithFab} />`}
-		/>
-	</Card>
-</Section>
-
-<DocsProps {props} />
-
-<Section>
+	<p class="section-subtitle">Active Styles</p>
 	<Card>
-		{#snippet header()}
-			<h4>BottomNavItem Type</h4>
-		{/snippet}
-		<p class="text-sm">Each item in the items array should follow this structure:</p>
-		<DocsProps props={itemProps} />
+		<div class="wrap gap-4">
+			{#each activeStyleOptions as styleItem}
+				<div style="width: 320px; min-height: 80px;">
+					<p class="text-sm mb-2">{styleItem.label} Style</p>
+					<BottomNav
+						isBlock
+						activeStyle={styleItem.id as any}
+						items={[
+							{ id: '1', label: 'Home', icon: HomeLinearIcon, isActive: true },
+							{ id: '2', label: 'Search', icon: Search24RegularIcon },
+							{ id: '3', label: 'Profile', icon: UserCircleLinearIcon }
+						]}
+					/>
+				</div>
+			{/each}
+		</div>
 	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Sizes</p>
+	<Card>
+		<div class="wrap gap-4">
+			{#each sizeOptions as sizeItem}
+				<div style="width: 320px; min-height: 80px;">
+					<p class="text-sm mb-2">Size: {sizeItem.label}</p>
+					<BottomNav
+						isBlock
+						size={sizeItem.id as any}
+						items={[
+							{ id: '1', label: 'Home', icon: HomeLinearIcon },
+							{ id: '2', label: 'Search', icon: Search24RegularIcon },
+							{ id: '3', label: 'Profile', icon: UserCircleLinearIcon }
+						]}
+					/>
+				</div>
+			{/each}
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Features</p>
+	<Card>
+		<div class="wrap gap-4">
+			<div style="width: 320px;">
+				<p class="text-sm mb-2">With Badges</p>
+				<BottomNav
+					isBlock
+					items={[
+						{ id: '1', label: 'Home', icon: HomeLinearIcon },
+						{ id: '2', label: 'Messages', icon: DocumentLinearIcon, badge: 5 },
+						{ id: '3', label: 'Alerts', icon: SettingsLinearIcon, badge: 'New' }
+					]}
+				/>
+			</div>
+			<div style="width: 320px;">
+				<p class="text-sm mb-2">With FAB Button</p>
+				<BottomNav
+					isBlock
+					items={[
+						{ id: '1', label: 'Home', icon: HomeLinearIcon },
+						{ id: '2', icon: HeartLinearIcon, isFab: true },
+						{ id: '3', label: 'Profile', icon: UserCircleLinearIcon }
+					]}
+				/>
+			</div>
+			<div style="width: 320px;">
+				<p class="text-sm mb-2">Icon Only (no labels)</p>
+				<BottomNav
+					isBlock
+					items={[
+						{ id: '1', icon: HomeLinearIcon },
+						{ id: '2', icon: Search24RegularIcon },
+						{ id: '3', icon: HeartLinearIcon, isFab: true },
+						{ id: '4', icon: UserCircleLinearIcon },
+						{ id: '5', icon: SettingsLinearIcon }
+					]}
+				/>
+			</div>
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
+</Section>
+
+<Section>
+	<p class="section-subtitle">BottomNavItem Type</p>
+	<DocsProps props={itemProps} />
 </Section>

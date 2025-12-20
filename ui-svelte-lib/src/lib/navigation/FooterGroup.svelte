@@ -35,7 +35,7 @@
 					>
 						{link.label}
 						{#if link.external}
-							<span class="sr-only">(abre en nueva ventana)</span>
+							<span class="sr-only">(opens in new window)</span>
 						{/if}
 					</a>
 				</li>

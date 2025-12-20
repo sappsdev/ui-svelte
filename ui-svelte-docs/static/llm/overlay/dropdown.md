@@ -1,124 +1,94 @@
-## Dropdown Component
+# Dropdown Component
 
-Menu of options triggered by a button or element.
+Display a list of actions or options from a trigger element.
+
+## Import
 
 ```svelte
-<Dropdown
-  options={options}
-  variant="primary"
-  header={headerSnippet}
-  footer={footerSnippet}
->
-  <Button>Open Menu</Button>
-</Dropdown>
+import {Dropdown} from 'ui-svelte';
 ```
 
-### Key Props
+## Props
 
-| Prop | Default | Description |
-|------|---------|-------------|
-| `options` | `[]` | Array of Option objects (required) |
-| `children` | - | Trigger element snippet (required) |
-| `variant` | `'primary'` | `primary` `secondary` `muted` |
-| `header` | - | Header snippet |
-| `footer` | - | Footer snippet |
+| Prop       | Type                                                                                  | Default     | Description                |
+| ---------- | ------------------------------------------------------------------------------------- | ----------- | -------------------------- |
+| `options`  | `Option[]`                                                                            | `[]`        | Menu items to display      |
+| `color`    | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'primary'` | Color theme                |
+| `children` | `Snippet`                                                                             | -           | Trigger element (required) |
+| `header`   | `Snippet`                                                                             | -           | Optional header content    |
+| `footer`   | `Snippet`                                                                             | -           | Optional footer content    |
 
-### Option Type
+## Option Type
 
-```typescript
+```ts
 type Option = {
-  id?: string | number;
-  label: string;              // Required
-  description?: string;
-  icon?: IconName;
-  src?: string;               // Avatar image
-  href?: string;              // Renders as link
-  onclick?: (option: Option) => void;
-}
+	id?: string | number;
+	label: string;
+	description?: string;
+	src?: string;
+	icon?: IconData;
+	href?: string;
+	onclick?: (option: Option) => void;
+};
 ```
 
-### Common Patterns
+## Patterns
+
+### Basic Dropdown
+
+```svelte
+<Dropdown {options}>
+	<Button>Open Menu</Button>
+</Dropdown>
+```
+
+### With Icons & Descriptions
 
 ```svelte
 <script>
-  import { Dropdown, Button } from 'ui-svelte';
-  
-  const options = [
-    { id: '1', label: 'Profile', icon: 'User' },
-    { id: '2', label: 'Settings', icon: 'Settings' },
-    { id: '3', label: 'Logout', icon: 'LogOut' }
-  ];
+	const options = [
+		{ id: 1, label: 'Profile', icon: UserIcon },
+		{ id: 2, label: 'Settings', description: 'Manage account' },
+		{ id: 3, label: 'Logout', href: '/logout' }
+	];
 </script>
 
-<!-- Basic -->
-<Dropdown options={options}>
-  <Button>Open Menu</Button>
-</Dropdown>
-
-<!-- With Description -->
-<script>
-  const options = [
-    { id: '1', label: 'Profile', description: 'View your profile' },
-    { id: '2', label: 'Settings', description: 'Manage preferences' }
-  ];
-</script>
-<Dropdown options={options}>
-  <Button>Open Menu</Button>
-</Dropdown>
-
-<!-- With Avatar -->
-<script>
-  const users = [
-    { id: '1', label: 'John', src: '/avatar-1.jpg' },
-    { id: '2', label: 'Jane', src: '/avatar-2.jpg' }
-  ];
-</script>
-<Dropdown options={users}>
-  <Button>Select User</Button>
-</Dropdown>
-
-<!-- With Links -->
-<script>
-  const navOptions = [
-    { id: '1', label: 'Home', href: '/' },
-    { id: '2', label: 'About', href: '/about' }
-  ];
-</script>
-<Dropdown options={navOptions}>
-  <Button>Navigate</Button>
-</Dropdown>
-
-<!-- With Header and Footer -->
-<Dropdown options={options}>
-  {#snippet header()}
-    <div class="px-4 py-2 border-b">
-      <p class="font-semibold">Account</p>
-      <p class="text-sm text-muted-foreground">user@example.com</p>
-    </div>
-  {/snippet}
-  
-  <Button>Open Menu</Button>
-  
-  {#snippet footer()}
-    <div class="px-4 py-2 border-t">
-      <p class="text-xs text-muted-foreground">Version 1.0.0</p>
-    </div>
-  {/snippet}
-</Dropdown>
-
-<!-- With Click Handler -->
-<script>
-  const options = [
-    { 
-      id: '1', 
-      label: 'Delete', 
-      onclick: (opt) => console.log('Delete clicked', opt) 
-    }
-  ];
-</script>
-<Dropdown options={options}>
-  <Button>Actions</Button>
+<Dropdown {options}>
+	<Button>Menu</Button>
 </Dropdown>
 ```
 
-**For LLMs**: Dropdown for menus. Requires `options` array and trigger element in `children` snippet. Options support icons OR avatars (not both). Use `href` for navigation links, `onclick` for actions. Use `header`/`footer` snippets for context. Better than Select for actions/navigation menus.
+### With Header & Footer
+
+```svelte
+<Dropdown {options} color="primary">
+	{#snippet header()}
+		<div class="p-2 border-b font-medium">My Account</div>
+	{/snippet}
+	<Button>Open</Button>
+	{#snippet footer()}
+		<div class="p-2 border-t text-xs text-center">v1.0.0</div>
+	{/snippet}
+</Dropdown>
+```
+
+### Avatar Trigger
+
+```svelte
+<!-- Initials -->
+<Dropdown {options}>
+	<Avatar name="John Doe" />
+</Dropdown>
+
+<!-- Image with status -->
+<Dropdown {options}>
+	<Avatar src="/user.jpg" status="online" />
+</Dropdown>
+```
+
+## Notes
+
+- Trigger element goes in default slot (children)
+- Dropdown auto-positions based on viewport
+- Closes on click outside or option selection
+- Use `onclick` in options for custom handlers

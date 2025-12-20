@@ -1,66 +1,72 @@
-## Avatar Component
+# Avatar Component
 
-Displays user or entity representation with image or initials.
+User representation with images or initials.
 
-```svelte
-<Avatar
-  src="https://example.com/photo.jpg"
-  name="John Doe"
-  alt="Avatar"
-  variant="primary"
-  size="lg"
-  status="online"
-  isBordered={false}
-  href="/profile"
-  onclick={() => {}}
-  target="_blank"
-/>
-```
-
-### Props
-
-| Prop | Default | Description |
-|------|---------|-------------|
-| `src` | - | Image URL |
-| `name` | - | Fallback initials (first letter) |
-| `alt` | `'Avatar'` | Image alt text |
-| `href` | - | Link URL (renders as anchor) |
-| `onclick` | - | Click handler (renders as button) |
-| `target` | - | Link target: `_self` `_blank` `_parent` `_top` |
-| `variant` | `'primary'` | `primary` `secondary` `muted` `success` `warning` `danger` `info` `transparent` |
-| `size` | `'lg'` | `xs` `sm` `md` `lg` `xl` |
-| `status` | - | `online` `offline` `busy` `away` |
-| `isBordered` | `false` | Add ring border around avatar |
-
-### Examples
+## Import
 
 ```svelte
-<!-- With Image -->
-<Avatar src="/user.jpg" alt="User" />
-
-<!-- With Initials -->
-<Avatar name="Alice Brown" />
-
-<!-- With Status -->
-<Avatar src="/user.jpg" status="online" />
-
-<!-- Bordered -->
-<Avatar src="/user.jpg" isBordered variant="success" />
-
-<!-- Clickable Avatar (Link) -->
-<Avatar src="/user.jpg" alt="User" href="/profile/1" target="_blank" />
-
-<!-- Clickable Avatar (Button) -->
-<Avatar src="/user.jpg" alt="User" onclick={() => openModal()} />
-
-<!-- Different Sizes -->
-<div class="row gap-2">
-  <Avatar name="XS" size="xs" />
-  <Avatar name="SM" size="sm" />
-  <Avatar name="MD" size="md" />
-  <Avatar name="LG" size="lg" />
-  <Avatar name="XL" size="xl" />
-</div>
+import {Avatar} from 'ui-svelte';
 ```
 
-**For LLMs**: Use `src` for images, `name` for initials fallback. Use `status` for presence indicators. Use `href` for navigation or `onclick` for actions. When `href` is set, renders as anchor; when `onclick` is set, renders as button.
+## Props
+
+| Prop         | Type                                                                                  | Default     | Description                       |
+| ------------ | ------------------------------------------------------------------------------------- | ----------- | --------------------------------- |
+| `src`        | `string`                                                                              | -           | Image URL                         |
+| `name`       | `string`                                                                              | -           | User name (for initials fallback) |
+| `alt`        | `string`                                                                              | `'Avatar'`  | Image alt text                    |
+| `href`       | `string`                                                                              | -           | Link URL (makes avatar clickable) |
+| `onclick`    | `() => void`                                                                          | -           | Click handler                     |
+| `target`     | `'_self' \| '_blank' \| '_parent' \| '_top'`                                          | -           | Link target                       |
+| `color`      | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'primary'` | Color theme                       |
+| `variant`    | `'solid' \| 'soft'`                                                                   | `'solid'`   | Visual style                      |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                                | `'md'`      | Avatar size                       |
+| `status`     | `'online' \| 'offline' \| 'busy' \| 'away'`                                           | -           | Status indicator                  |
+| `isBordered` | `boolean`                                                                             | `false`     | Show border                       |
+
+## Patterns
+
+### Basic Avatar (Initials)
+
+```svelte
+<Avatar name="John Doe" />
+```
+
+### With Image
+
+```svelte
+<Avatar src="/user.jpg" alt="User profile" />
+```
+
+### Status Indicator
+
+```svelte
+<Avatar name="John Doe" status="online" />
+<Avatar src="/user.jpg" status="busy" />
+```
+
+### Bordered Avatar
+
+```svelte
+<Avatar name="John Doe" color="primary" isBordered />
+```
+
+### Clickable Avatar
+
+```svelte
+<Avatar name="John Doe" href="/profile" />
+<Avatar name="John Doe" onclick={() => openModal()} />
+```
+
+### Size & Color Variants
+
+```svelte
+<Avatar name="XS" size="xs" />
+<Avatar name="LG" size="lg" color="success" variant="soft" />
+```
+
+## Notes
+
+- Uses initials from `name` when `src` is not provided
+- Status indicator appears as a dot on the avatar corner
+- `isBordered` adds a colored border around the avatar

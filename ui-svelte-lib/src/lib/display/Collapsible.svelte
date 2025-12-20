@@ -11,7 +11,17 @@
 		content: Snippet | string;
 		disabled?: boolean;
 		defaultOpen?: boolean;
-		variant?: 'primary' | 'secondary' | 'muted' | 'outline';
+		variant?: 'solid' | 'soft' | 'outlined' | 'ghost';
+		color?:
+			| 'primary'
+			| 'secondary'
+			| 'muted'
+			| 'success'
+			| 'info'
+			| 'warning'
+			| 'danger'
+			| 'surface'
+			| 'default';
 		rootClass?: string;
 		headerClass?: string;
 		contentClass?: string;
@@ -23,19 +33,33 @@
 		content,
 		disabled = false,
 		defaultOpen = false,
-		variant = 'muted',
+		variant = 'ghost',
+		color = 'default',
 		rootClass,
 		headerClass,
 		contentClass
 	}: Props = $props();
 
+	// svelte-ignore state_referenced_locally
 	let isOpen = $state(defaultOpen);
 
 	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
+		outlined: 'is-outlined',
+		ghost: 'is-ghost'
+	};
+
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
-		outline: 'is-outline'
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger',
+		surface: 'is-surface',
+		default: 'is-default'
 	};
 
 	function toggle() {
@@ -44,7 +68,9 @@
 	}
 </script>
 
-<div class={cn('collapsible', variants[variant], rootClass, disabled && 'is-disabled')}>
+<div
+	class={cn('collapsible', variants[variant], colors[color], rootClass, disabled && 'is-disabled')}
+>
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div class={cn('collapsible-header', headerClass, isOpen && 'is-open')} onclick={toggle}>

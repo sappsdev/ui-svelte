@@ -12,12 +12,10 @@
 		Button
 	} from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	const variantOptions = [
-		{ id: 'ghost', label: 'Ghost' },
+	const colorOptions = [
+		{ id: 'default', label: 'Default' },
 		{ id: 'surface', label: 'Surface' },
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
@@ -28,18 +26,18 @@
 		{ id: 'danger', label: 'Danger' }
 	];
 
-	let showStart = $state(true);
-	let showCenter = $state(true);
-	let showEnd = $state(true);
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' }
+	];
+
+	let color: any = $state('default');
+	let variant: any = $state('soft');
+
 	let isBlurred = $state(false);
 	let isBordered = $state(true);
 	let isBoxed = $state(false);
 	let hideOnScroll = $state(false);
-	let variant: any = $state('ghost');
-
-	let hasProps = $derived(
-		[isBlurred, isBordered, isBoxed, hideOnScroll, variant !== 'ghost'].some(Boolean)
-	);
 
 	const navLinks = [
 		{ label: 'About', href: '/about' },
@@ -72,36 +70,44 @@
 		{ label: 'Status', href: '/status' }
 	];
 
+	let hasProps = $derived(
+		[color !== 'default', variant !== 'soft', isBlurred, isBordered, isBoxed, hideOnScroll].some(
+			Boolean
+		)
+	);
+
 	let code = $derived(() => {
 		const scriptLines = [
 			`<script lang="ts">`,
 			`\timport { Footer, FooterNav } from 'ui-svelte';`,
-			showCenter && `\n\tconst navLinks = [`,
-			showCenter && `\t\t{ label: 'About', href: '/about' },`,
-			showCenter && `\t\t{ label: 'Privacy', href: '/privacy' },`,
-			showCenter && `\t\t{ label: 'Terms', href: '/terms' },`,
-			showCenter && `\t\t{ label: 'Contact', href: '/contact' }`,
-			showCenter && `\t];`,
+			`\n\tconst navLinks = [`,
+			`\t\t{ label: 'About', href: '/about' },`,
+			`\t\t{ label: 'Privacy', href: '/privacy' },`,
+			`\t\t{ label: 'Terms', href: '/terms' },`,
+			`\t\t{ label: 'Contact', href: '/contact' }`,
+			`\t];`,
 			`<\/script>`
-		].filter(Boolean);
+		];
 
 		const componentLines = [
-			`\n<Footer`,
-			variant !== 'ghost' && `\tvariant="${variant}"`,
+			hasProps && `\n<Footer`,
+			color !== 'default' && `\tcolor="${color}"`,
+			variant !== 'soft' && `\tvariant="${variant}"`,
 			isBlurred && `\tisBlurred`,
 			isBordered && `\tisBordered`,
 			isBoxed && `\tisBoxed`,
 			hideOnScroll && `\thideOnScroll`,
-			`>`,
-			showStart && `\t{#snippet start()}`,
-			showStart && `\t\t<p class="text-sm text-on-muted">© ${new Date().getFullYear()} Company</p>`,
-			showStart && `\t{/snippet}`,
-			showCenter && `\n\t{#snippet center()}`,
-			showCenter && `\t\t<FooterNav links={navLinks} />`,
-			showCenter && `\t{/snippet}`,
-			showEnd && `\n\t{#snippet end()}`,
-			showEnd && `\t\t<p class="text-sm text-on-muted">Made with ❤️</p>`,
-			showEnd && `\t{/snippet}`,
+			hasProps && `>`,
+			!hasProps && `\n<Footer>`,
+			`\t{#snippet start()}`,
+			`\t\t<p class="text-sm text-on-muted">© ${new Date().getFullYear()} Company</p>`,
+			`\t{/snippet}`,
+			`\t{#snippet center()}`,
+			`\t\t<FooterNav links={navLinks} />`,
+			`\t{/snippet}`,
+			`\t{#snippet end()}`,
+			`\t\t<p class="text-sm text-on-muted">Made with ❤️</p>`,
+			`\t{/snippet}`,
 			`</Footer>`
 		].filter(Boolean);
 
@@ -112,6 +118,16 @@
 		{ prop: 'start', type: 'Snippet', initial: '' },
 		{ prop: 'center', type: 'Snippet', initial: '' },
 		{ prop: 'end', type: 'Snippet', initial: '' },
+		{
+			prop: 'color',
+			type: 'primary | secondary | muted | success | info | warning | danger | surface | default',
+			initial: 'default'
+		},
+		{
+			prop: 'variant',
+			type: 'solid | soft',
+			initial: 'soft'
+		},
 		{ prop: 'rootClass', type: 'string', initial: '' },
 		{ prop: 'contentClass', type: 'string', initial: '' },
 		{ prop: 'startClass', type: 'string', initial: '' },
@@ -120,12 +136,7 @@
 		{ prop: 'isBlurred', type: 'boolean', initial: 'false' },
 		{ prop: 'isBordered', type: 'boolean', initial: 'false' },
 		{ prop: 'isBoxed', type: 'boolean', initial: 'false' },
-		{ prop: 'hideOnScroll', type: 'boolean', initial: 'false' },
-		{
-			prop: 'variant',
-			type: 'primary | secondary | muted | success | info | warning | danger | surface | ghost',
-			initial: 'ghost'
-		}
+		{ prop: 'hideOnScroll', type: 'boolean', initial: 'false' }
 	];
 
 	const footerNavProps = [
@@ -141,86 +152,104 @@
 	];
 </script>
 
-{#snippet startSnippet()}
-	<p class="text-sm text-on-muted">© {new Date().getFullYear()} Company</p>
-{/snippet}
-
-{#snippet centerSnippet()}
-	<FooterNav links={navLinks} />
-{/snippet}
-
-{#snippet endSnippet()}
-	<p class="text-sm text-on-muted">Made with ❤️</p>
-{/snippet}
-
 <DocsHeader title="Footer" llmUrl="https://ui-svelte.sappsdev.com/llm/layout/footer.md">
 	Display copyright notices, navigation links, and secondary actions at the bottom of a screen.
 	Supports multi-column layouts, blur effects, and different variants.
 </DocsHeader>
 
-{#snippet preview()}
-	<div
-		class="w-full min-h-[200px] border border-border rounded-lg overflow-hidden bg-background relative"
-	>
-		<div class="p-6 pb-20">
-			<p class="text-sm text-on-muted">Page content above the Footer</p>
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				bind:value={variant}
+			/>
 		</div>
-		<Footer
-			start={showStart ? startSnippet : undefined}
-			center={showCenter ? centerSnippet : undefined}
-			end={showEnd ? endSnippet : undefined}
-			{isBlurred}
-			{isBordered}
-			{isBoxed}
-			{hideOnScroll}
-			{variant}
-		/>
-	</div>
-{/snippet}
-
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		{@render preview()}
-	</DocsPreview>
-	<Card>
-		<div class="grid-3 gap-2">
-			<Checkbox bind:checked={showStart} label="Start" />
-			<Checkbox bind:checked={showCenter} label="Center" />
-			<Checkbox bind:checked={showEnd} label="End" />
-		</div>
-		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-		<div class="grid-2 gap-2 mt-2">
+		<div class="grid-2 md:grid-4 gap-2">
 			<Checkbox bind:checked={isBlurred} label="Blurred" />
 			<Checkbox bind:checked={isBordered} label="Bordered" />
 			<Checkbox bind:checked={isBoxed} label="Boxed" />
 			<Checkbox bind:checked={hideOnScroll} label="Hide on Scroll" />
 		</div>
+
+		<div class="doc-preview">
+			<div
+				class="w-full min-h-[150px] border border-border rounded-lg overflow-hidden bg-background relative"
+			>
+				<div class="p-4 pb-16">
+					<p class="text-sm text-on-muted">Page content</p>
+				</div>
+				<Footer {color} {variant} {isBlurred} {isBordered} {isBoxed} {hideOnScroll}>
+					{#snippet start()}
+						<p class="text-sm text-on-muted">© {new Date().getFullYear()} Company</p>
+					{/snippet}
+					{#snippet center()}
+						<FooterNav links={navLinks} />
+					{/snippet}
+					{#snippet end()}
+						<p class="text-sm text-on-muted">Made with ❤️</p>
+					{/snippet}
+				</Footer>
+			</div>
+		</div>
+		<Code lang="svelte" code={code()} />
 	</Card>
-	<DocsCode code={code()} />
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Snippets Structure</h4>
-		{/snippet}
-		<p>The Footer uses three snippet slots for content placement:</p>
-		<ul class="list-disc pl-6 space-y-2 text-sm">
-			<li><strong>start</strong> - Left section, typically for copyright or branding</li>
-			<li><strong>center</strong> - Middle section, for navigation links</li>
-			<li><strong>end</strong> - Right section, for additional info or social links</li>
-		</ul>
+	<p class="section-subtitle">Variants & Colors</p>
+	<Card>
+		{#each variantOptions as item}
+			<div class="wrap gap-4 center">
+				{#each colorOptions as c}
+					<Footer variant={item.id as any} color={c.id as any} rootClass="w-full max-w-xs">
+						{#snippet center()}
+							<span class="text-xs">{item.label} {c.label}</span>
+						{/snippet}
+					</Footer>
+				{/each}
+			</div>
+		{/each}
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">With FooterNav (Horizontal Links)</p>
+	<Card>
+		<div class="w-full border border-border rounded-lg overflow-hidden bg-background relative">
+			<Footer isBordered>
+				{#snippet start()}
+					<p class="text-sm text-on-muted">© {new Date().getFullYear()} Company</p>
+				{/snippet}
+				{#snippet center()}
+					<FooterNav links={navLinks} />
+				{/snippet}
+				{#snippet end()}
+					<p class="text-sm text-on-muted">Made with ❤️</p>
+				{/snippet}
+			</Footer>
+		</div>
 		<Code
 			lang="svelte"
 			code={`<Footer isBordered>
   {#snippet start()}
     <p>© ${new Date().getFullYear()} Company</p>
   {/snippet}
-
   {#snippet center()}
     <FooterNav links={navLinks} />
   {/snippet}
-
   {#snippet end()}
     <p>Made with ❤️</p>
   {/snippet}
@@ -230,13 +259,8 @@
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Multi-Column Footer</h4>
-		{/snippet}
-		<p class="text-sm">
-			Use FooterGroup components to create organized sections with categorized links:
-		</p>
+	<p class="section-subtitle">Multi-Column Footer with FooterGroup</p>
+	<Card>
 		<div class="w-full border border-border rounded-lg overflow-hidden bg-background relative">
 			<Footer isBordered>
 				{#snippet center()}
@@ -257,23 +281,7 @@
 		</div>
 		<Code
 			lang="svelte"
-			code={`<script lang="ts">
-  import { Footer, FooterGroup, Divider } from 'ui-svelte';
-
-  const productLinks = [
-    { label: 'Features', href: '/features' },
-    { label: 'Pricing', href: '/pricing' },
-    { label: 'Documentation', href: '/docs' }
-  ];
-
-  const companyLinks = [
-    { label: 'About Us', href: '/about' },
-    { label: 'Blog', href: '/blog' },
-    { label: 'Careers', href: '/careers' }
-  ];
-<\/script>
-
-<Footer isBordered>
+			code={`<Footer isBordered>
   {#snippet center()}
     <div class="column gap-8 w-full max-w-6xl py-4">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -284,7 +292,7 @@
       </div>
       <Divider />
       <p class="text-sm text-on-muted text-center">
-        © {new Date().getFullYear()} Company. All rights reserved.
+        © ${new Date().getFullYear()} Company. All rights reserved.
       </p>
     </div>
   {/snippet}
@@ -294,13 +302,8 @@
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Footer with Social Links</h4>
-		{/snippet}
-		<p class="text-sm">
-			Combine branding, navigation, and social media links in a comprehensive footer:
-		</p>
+	<p class="section-subtitle">Footer with Social Links</p>
+	<Card>
 		<div class="w-full border border-border rounded-lg overflow-hidden bg-background relative">
 			<Footer isBordered>
 				{#snippet center()}
@@ -348,46 +351,12 @@
 				{/snippet}
 			</Footer>
 		</div>
-		<Code
-			lang="svelte"
-			code={`<Footer isBordered>
-  {#snippet center()}
-    <div class="column gap-6 w-full max-w-6xl py-4">
-      <div class="row items-center justify-between gap-4 flex-wrap">
-        <div class="column gap-2">
-          <h3 class="font-semibold">Company Name</h3>
-          <p class="text-sm text-on-muted">Building amazing products</p>
-        </div>
-        <div class="row gap-4">
-          <!-- Social media icons -->
-          <a href="#" class="text-on-muted hover:text-foreground">
-            <TwitterIcon />
-          </a>
-          <a href="#" class="text-on-muted hover:text-foreground">
-            <GitHubIcon />
-          </a>
-        </div>
-      </div>
-      <Divider />
-      <div class="row items-center justify-between gap-4 flex-wrap">
-        <FooterNav links={navLinks} />
-        <p class="text-sm text-on-muted">
-          © ${new Date().getFullYear()} Company. All rights reserved.
-        </p>
-      </div>
-    </div>
-  {/snippet}
-</Footer>`}
-		/>
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Newsletter Footer</h4>
-		{/snippet}
-		<p class="text-sm">Include a newsletter signup form alongside navigation links:</p>
+	<p class="section-subtitle">Newsletter Footer</p>
+	<Card>
 		<div class="w-full border border-border rounded-lg overflow-hidden bg-background relative">
 			<Footer isBordered>
 				{#snippet center()}
@@ -395,16 +364,14 @@
 						<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
 							<div class="column gap-4 md:col-span-1">
 								<h3 class="font-semibold">Stay Updated</h3>
-								<p class="text-sm text-on-muted">
-									Subscribe to our newsletter for the latest updates.
-								</p>
+								<p class="text-sm text-on-muted">Subscribe to our newsletter.</p>
 								<div class="column gap-2">
 									<input
 										type="email"
 										placeholder="Enter your email"
 										class="px-3 py-2 text-sm border border-border rounded-md bg-background"
 									/>
-									<Button size="sm" variant="primary">Subscribe</Button>
+									<Button size="sm" color="primary">Subscribe</Button>
 								</div>
 							</div>
 							<FooterGroup title="Product" links={productLinks} />
@@ -419,94 +386,20 @@
 				{/snippet}
 			</Footer>
 		</div>
-		<Code
-			lang="svelte"
-			code={`<script lang="ts">
-  import { Footer, FooterGroup, Divider, Button } from 'ui-svelte';
-<\/script>
-
-<Footer isBordered>
-  {#snippet center()}
-    <div class="column gap-8 w-full max-w-6xl py-4">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div class="column gap-4">
-          <h3 class="font-semibold">Stay Updated</h3>
-          <p class="text-sm text-on-muted">
-            Subscribe to our newsletter.
-          </p>
-          <div class="column gap-2">
-            <input type="email" placeholder="Enter your email" />
-            <Button size="sm" variant="primary">Subscribe</Button>
-          </div>
-        </div>
-        <FooterGroup title="Product" links={productLinks} />
-        <FooterGroup title="Company" links={companyLinks} />
-        <FooterGroup title="Legal" links={legalLinks} />
-      </div>
-      <Divider />
-      <p class="text-sm text-on-muted text-center">
-        © ${new Date().getFullYear()} Company. All rights reserved.
-      </p>
-    </div>
-  {/snippet}
-</Footer>`}
-		/>
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>FooterNav Component</h4>
-		{/snippet}
-		<p class="text-sm">
-			<code>FooterNav</code> provides horizontal navigation links that are responsive and support active
-			state detection. Perfect for simple footer navigation.
-		</p>
-		<Code
-			lang="svelte"
-			code={`<script lang="ts">
-  import { FooterNav } from 'ui-svelte';
-
-  const navLinks = [
-    { label: 'About', href: '/about' },
-    { label: 'Privacy', href: '/privacy' },
-    { label: 'Terms', href: '/terms' },
-    { label: 'Contact', href: '/contact' }
-  ];
-<\/script>
-
-<FooterNav links={navLinks} />`}
-		/>
-		<DocsProps props={footerNavProps} />
-	</Card>
+	<p class="section-subtitle">Footer Props</p>
+	<DocsProps {props} />
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>FooterGroup Component</h4>
-		{/snippet}
-		<p class="text-sm">
-			<code>FooterGroup</code> creates organized sections with a title and vertical list of links. Ideal
-			for advanced footers with multiple categories. Supports external links.
-		</p>
-		<Code
-			lang="svelte"
-			code={`<script lang="ts">
-  import { FooterGroup } from 'ui-svelte';
-
-  const links = [
-    { label: 'Features', href: '/features' },
-    { label: 'Documentation', href: '/docs' },
-    { label: 'GitHub', href: 'https://github.com', external: true }
-  ];
-<\/script>
-
-<FooterGroup title="Product" links={links} />`}
-		/>
-		<DocsProps props={footerGroupProps} />
-	</Card>
+	<p class="section-subtitle">FooterNav Props</p>
+	<DocsProps props={footerNavProps} />
 </Section>
 
-<DocsProps {props} />
+<Section>
+	<p class="section-subtitle">FooterGroup Props</p>
+	<DocsProps props={footerGroupProps} />
+</Section>

@@ -1,46 +1,6 @@
 @layer components {
 	.collapsible {
-		@apply w-full transition-all duration-300;
-
-		&.is-primary {
-			@apply border border-primary/20 rounded-lg overflow-hidden;
-			.collapsible-header {
-				@apply bg-primary/5 hover:bg-primary/10;
-				&.is-open {
-					@apply bg-primary/10 text-primary;
-				}
-			}
-		}
-
-		&.is-secondary {
-			@apply border border-secondary/20 rounded-lg overflow-hidden;
-			.collapsible-header {
-				@apply bg-secondary/5 hover:bg-secondary/10;
-				&.is-open {
-					@apply bg-secondary/10 text-secondary;
-				}
-			}
-		}
-
-		&.is-muted {
-			@apply border border-muted rounded-lg overflow-hidden;
-			.collapsible-header {
-				@apply bg-muted/30 hover:bg-muted/50;
-				&.is-open {
-					@apply bg-muted text-on-muted;
-				}
-			}
-		}
-
-		&.is-outline {
-			@apply border border-muted rounded-lg overflow-hidden;
-			.collapsible-header {
-				@apply hover:bg-muted/30;
-				&.is-open {
-					@apply bg-muted/20;
-				}
-			}
-		}
+		@apply w-full transition-all duration-300 rounded-lg overflow-hidden;
 
 		&.is-disabled {
 			@apply opacity-50 pointer-events-none;
@@ -65,22 +25,352 @@
 				@apply flex items-center;
 
 				.collapsible-arrow {
-					@apply size-5 transition-transform duration-300 text-on-muted;
+					@apply size-5 transition-all duration-300 text-on-muted;
 					&.is-active {
-						@apply rotate-180;
+						@apply rotate-180 text-current;
 					}
 				}
 			}
 
 			&:hover:not(.is-disabled) {
 				.collapsible-arrow {
-					@apply text-on-surface;
+					@apply text-current;
+				}
+			}
+
+			&.is-open {
+				.collapsible-arrow {
+					@apply text-current;
 				}
 			}
 		}
 
 		.collapsible-content {
 			@apply px-4 py-3 text-sm text-on-surface/80;
+		}
+
+		&.is-ghost {
+			@apply border border-transparent;
+
+			&.is-primary {
+				.collapsible-header:hover {
+					@apply bg-primary/10;
+				}
+				.collapsible-header.is-open {
+					@apply bg-primary/20 text-primary;
+				}
+			}
+			&.is-secondary {
+				.collapsible-header:hover {
+					@apply bg-secondary/10;
+				}
+				.collapsible-header.is-open {
+					@apply bg-secondary/20 text-secondary;
+				}
+			}
+			&.is-muted {
+				.collapsible-header:hover {
+					@apply bg-muted/50;
+				}
+				.collapsible-header.is-open {
+					@apply bg-muted text-on-muted;
+				}
+			}
+			&.is-success {
+				.collapsible-header:hover {
+					@apply bg-success/10;
+				}
+				.collapsible-header.is-open {
+					@apply bg-success/20 text-success;
+				}
+			}
+			&.is-info {
+				.collapsible-header:hover {
+					@apply bg-info/10;
+				}
+				.collapsible-header.is-open {
+					@apply bg-info/20 text-info;
+				}
+			}
+			&.is-warning {
+				.collapsible-header:hover {
+					@apply bg-warning/10;
+				}
+				.collapsible-header.is-open {
+					@apply bg-warning/20 text-warning;
+				}
+			}
+			&.is-danger {
+				.collapsible-header:hover {
+					@apply bg-danger/10;
+				}
+				.collapsible-header.is-open {
+					@apply bg-danger/20 text-danger;
+				}
+			}
+			&.is-surface {
+				.collapsible-header:hover {
+					@apply bg-surface/50;
+				}
+				.collapsible-header.is-open {
+					@apply bg-surface text-on-surface;
+				}
+			}
+			&.is-default {
+				.collapsible-header:hover {
+					@apply bg-muted/30;
+				}
+				.collapsible-header.is-open {
+					@apply bg-muted/50;
+				}
+			}
+		}
+
+		&.is-soft {
+			@apply border border-transparent;
+
+			&.is-primary {
+				@apply bg-on-primary/50;
+				.collapsible-header:hover {
+					@apply bg-on-primary/80;
+				}
+				.collapsible-header.is-open {
+					@apply bg-on-primary text-primary;
+				}
+			}
+			&.is-secondary {
+				@apply bg-on-secondary/50;
+				.collapsible-header:hover {
+					@apply bg-on-secondary/80;
+				}
+				.collapsible-header.is-open {
+					@apply bg-on-secondary text-secondary;
+				}
+			}
+			&.is-muted {
+				@apply bg-muted/30;
+				.collapsible-header:hover {
+					@apply bg-muted/50;
+				}
+				.collapsible-header.is-open {
+					@apply bg-muted text-on-muted;
+				}
+			}
+			&.is-success {
+				@apply bg-on-success/50;
+				.collapsible-header:hover {
+					@apply bg-on-success/80;
+				}
+				.collapsible-header.is-open {
+					@apply bg-on-success text-success;
+				}
+			}
+			&.is-info {
+				@apply bg-on-info/50;
+				.collapsible-header:hover {
+					@apply bg-on-info/80;
+				}
+				.collapsible-header.is-open {
+					@apply bg-on-info text-info;
+				}
+			}
+			&.is-warning {
+				@apply bg-on-warning/50;
+				.collapsible-header:hover {
+					@apply bg-on-warning/80;
+				}
+				.collapsible-header.is-open {
+					@apply bg-on-warning text-warning;
+				}
+			}
+			&.is-danger {
+				@apply bg-on-danger/50;
+				.collapsible-header:hover {
+					@apply bg-on-danger/80;
+				}
+				.collapsible-header.is-open {
+					@apply bg-on-danger text-danger;
+				}
+			}
+			&.is-surface {
+				@apply bg-surface/50;
+				.collapsible-header:hover {
+					@apply bg-surface/80;
+				}
+				.collapsible-header.is-open {
+					@apply bg-surface text-on-surface;
+				}
+			}
+			&.is-default {
+				@apply bg-muted/20;
+				.collapsible-header:hover {
+					@apply bg-muted/30;
+				}
+				.collapsible-header.is-open {
+					@apply bg-muted/50;
+				}
+			}
+		}
+
+		&.is-solid {
+			@apply border border-transparent;
+
+			&.is-primary {
+				.collapsible-header:hover {
+					@apply bg-primary/20;
+				}
+				.collapsible-header.is-open {
+					@apply bg-primary text-on-primary;
+				}
+			}
+			&.is-secondary {
+				.collapsible-header:hover {
+					@apply bg-secondary/20;
+				}
+				.collapsible-header.is-open {
+					@apply bg-secondary text-on-secondary;
+				}
+			}
+			&.is-muted {
+				.collapsible-header:hover {
+					@apply bg-muted/50;
+				}
+				.collapsible-header.is-open {
+					@apply bg-on-muted text-muted;
+				}
+			}
+			&.is-success {
+				.collapsible-header:hover {
+					@apply bg-success/20;
+				}
+				.collapsible-header.is-open {
+					@apply bg-success text-on-success;
+				}
+			}
+			&.is-info {
+				.collapsible-header:hover {
+					@apply bg-info/20;
+				}
+				.collapsible-header.is-open {
+					@apply bg-info text-on-info;
+				}
+			}
+			&.is-warning {
+				.collapsible-header:hover {
+					@apply bg-warning/20;
+				}
+				.collapsible-header.is-open {
+					@apply bg-warning text-on-warning;
+				}
+			}
+			&.is-danger {
+				.collapsible-header:hover {
+					@apply bg-danger/20;
+				}
+				.collapsible-header.is-open {
+					@apply bg-danger text-on-danger;
+				}
+			}
+			&.is-surface {
+				.collapsible-header:hover {
+					@apply bg-surface/50;
+				}
+				.collapsible-header.is-open {
+					@apply bg-surface text-on-surface;
+				}
+			}
+			&.is-default {
+				.collapsible-header:hover {
+					@apply bg-muted/50;
+				}
+				.collapsible-header.is-open {
+					@apply bg-on-background text-background;
+				}
+			}
+		}
+
+		&.is-outlined {
+			&.is-primary {
+				@apply border border-primary/30;
+				.collapsible-header:hover {
+					@apply bg-primary/10;
+				}
+				.collapsible-header.is-open {
+					@apply bg-primary/20 text-primary;
+				}
+			}
+			&.is-secondary {
+				@apply border border-secondary/30;
+				.collapsible-header:hover {
+					@apply bg-secondary/10;
+				}
+				.collapsible-header.is-open {
+					@apply bg-secondary/20 text-secondary;
+				}
+			}
+			&.is-muted {
+				@apply border border-muted;
+				.collapsible-header:hover {
+					@apply bg-muted/30;
+				}
+				.collapsible-header.is-open {
+					@apply bg-muted/50 text-on-muted;
+				}
+			}
+			&.is-success {
+				@apply border border-success/30;
+				.collapsible-header:hover {
+					@apply bg-success/10;
+				}
+				.collapsible-header.is-open {
+					@apply bg-success/20 text-success;
+				}
+			}
+			&.is-info {
+				@apply border border-info/30;
+				.collapsible-header:hover {
+					@apply bg-info/10;
+				}
+				.collapsible-header.is-open {
+					@apply bg-info/20 text-info;
+				}
+			}
+			&.is-warning {
+				@apply border border-warning/30;
+				.collapsible-header:hover {
+					@apply bg-warning/10;
+				}
+				.collapsible-header.is-open {
+					@apply bg-warning/20 text-warning;
+				}
+			}
+			&.is-danger {
+				@apply border border-danger/30;
+				.collapsible-header:hover {
+					@apply bg-danger/10;
+				}
+				.collapsible-header.is-open {
+					@apply bg-danger/20 text-danger;
+				}
+			}
+			&.is-surface {
+				@apply border border-on-surface/30;
+				.collapsible-header:hover {
+					@apply bg-surface/50;
+				}
+				.collapsible-header.is-open {
+					@apply bg-surface text-on-surface;
+				}
+			}
+			&.is-default {
+				@apply border border-muted;
+				.collapsible-header:hover {
+					@apply bg-muted/30;
+				}
+				.collapsible-header.is-open {
+					@apply bg-muted/20;
+				}
+			}
 		}
 	}
 }

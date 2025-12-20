@@ -1,89 +1,88 @@
-## Accordion Component
+# Accordion Component
 
-Collapsible sections for organizing related content with expand/collapse functionality.
+Expandable list for showing/hiding content sections.
+
+## Import
+
+```svelte
+import {Accordion} from 'ui-svelte';
+```
+
+## Props
+
+| Prop           | Type                                                                                                            | Default     | Description               |
+| -------------- | --------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------- |
+| `items`        | `AccordionItem[]`                                                                                               | `[]`        | Array of accordion items  |
+| `variant`      | `'solid' \| 'soft' \| 'outlined' \| 'ghost'`                                                                    | `'ghost'`   | Visual style              |
+| `color`        | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger' \| 'surface' \| 'default'` | `'default'` | Color theme               |
+| `multiple`     | `boolean`                                                                                                       | `false`     | Allow multiple open items |
+| `rootClass`    | `string`                                                                                                        | -           | Container classes         |
+| `itemClass`    | `string`                                                                                                        | -           | Item classes              |
+| `headerClass`  | `string`                                                                                                        | -           | Header classes            |
+| `contentClass` | `string`                                                                                                        | -           | Content classes           |
+
+## AccordionItem Type
+
+| Property      | Type                | Default | Description       |
+| ------------- | ------------------- | ------- | ----------------- |
+| `id`          | `string`            | -       | Unique identifier |
+| `label`       | `string`            | -       | Header text       |
+| `content`     | `Snippet \| string` | -       | Body content      |
+| `disabled`    | `boolean`           | `false` | Prevent toggling  |
+| `defaultOpen` | `boolean`           | `false` | Start expanded    |
+
+## Patterns
+
+### Basic FAQ
 
 ```svelte
 <Accordion
-  items={items}
-  variant="muted"
-  multiple={false}
+	items={[
+		{ id: '1', label: 'What is this?', content: 'Answer here.' },
+		{ id: '2', label: 'How to use?', content: 'Instructions here.' }
+	]}
 />
 ```
 
-### Key Props
-
-| Prop | Default | Description |
-|------|---------|-------------|
-| `items` | `[]` | Array of accordion items (required) |
-| `variant` | `'muted'` | `primary` `secondary` `muted` `outline` |
-| `multiple` | `false` | Allow multiple items open |
-| `class` | - | Custom CSS classes |
-| `itemClass` | - | Classes for items |
-| `headerClass` | - | Classes for headers |
-| `contentClass` | - | Classes for content |
-
-### AccordionItem Type
-
-| Prop | Type | Required |
-|------|------|----------|
-| `id` | `string` | Yes |
-| `label` | `string` | Yes |
-| `content` | `Snippet \| string` | Yes |
-| `icon` | `IconName` | No |
-| `disabled` | `boolean` | No |
-| `defaultOpen` | `boolean` | No |
-
-### Common Patterns
+### Multiple Open
 
 ```svelte
-<!-- Basic Accordion -->
-<Accordion items={[
-  { id: '1', label: 'Section 1', content: 'Content here' },
-  { id: '2', label: 'Section 2', content: 'More content' }
-]} />
-
-<!-- With Icons -->
-<Accordion items={[
-  { id: '1', label: 'Info', icon: 'fluent:info-24-regular', content: 'Details' }
-]} />
-
-<!-- Multiple Open -->
-<Accordion items={items} multiple />
-
-<!-- With Snippet Content -->
-{#snippet richContent()}
-  <div>
-    <p><strong>Rich</strong> content with HTML</p>
-    <ul><li>Item 1</li><li>Item 2</li></ul>
-  </div>
-{/snippet}
-
-<Accordion items={[
-  { id: '1', label: 'Rich Content', content: richContent }
-]} />
-
-<!-- Default Open -->
-<Accordion items={[
-  { id: '1', label: 'Open by default', content: 'Text', defaultOpen: true }
-]} />
+<Accordion
+	multiple
+	items={[
+		{ id: '1', label: 'Section 1', content: 'Content 1', defaultOpen: true },
+		{ id: '2', label: 'Section 2', content: 'Content 2', defaultOpen: true }
+	]}
+/>
 ```
 
-**For LLMs**: Accordion organizes content in collapsible sections. Use `multiple` to allow multiple sections open simultaneously. Items can have `icon`, `disabled`, or `defaultOpen` states. Content can be string or Snippet for rich HTML.
+### Styled Accordion
 
----
-
-## Quick Hierarchy Reference
+```svelte
+<Accordion
+	color="primary"
+	variant="soft"
+	items={[
+		{ id: '1', label: 'Feature 1', content: 'Details about feature 1.' },
+		{ id: '2', label: 'Feature 2', content: 'Details about feature 2.' }
+	]}
+/>
 ```
-Page
-|-- Section (page structure, bodyClass for layout)
-    |-- Card (content container, bodyClass for layout)
-        |-- Content (Accordion, text, images, etc.)
+
+### With Disabled Items
+
+```svelte
+<Accordion
+	items={[
+		{ id: '1', label: 'Active', content: 'Toggleable content.' },
+		{ id: '2', label: 'Locked', content: 'Cannot access.', disabled: true }
+	]}
+/>
 ```
 
-**Key Rule**: Section → Card → Content. Never nest Sections.
+## Notes
 
-**Shared Variants**: `primary` `secondary` `muted` `success` `info` `warning` `danger` `surface` `ghost` `outlined`
-
-**Layout System**: Apply flex/grid utilities via `bodyClass` on Section/Card. Always use `gap` utilities.
-
-**Mobile-First**: Start with `column`, expand with `md:row`. Use responsive grid: `grid-1 md:grid-3`.
+- Use `multiple` prop to allow multiple sections open at once
+- Use `defaultOpen` on items to expand them initially
+- Use `disabled` on items to prevent user interaction
+- Content can be a string or Svelte snippet for complex content

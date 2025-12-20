@@ -12,11 +12,7 @@
 		startClass?: string;
 		centerClass?: string;
 		endClass?: string;
-		isBlurred?: boolean;
-		isBordered?: boolean;
-		isBoxed?: boolean;
-		hideOnScroll?: boolean;
-		variant?:
+		color?:
 			| 'primary'
 			| 'secondary'
 			| 'muted'
@@ -25,7 +21,12 @@
 			| 'warning'
 			| 'danger'
 			| 'surface'
-			| 'ghost';
+			| 'default';
+		variant?: 'solid' | 'soft';
+		isBlurred?: boolean;
+		isBordered?: boolean;
+		isBoxed?: boolean;
+		hideOnScroll?: boolean;
 	};
 
 	const {
@@ -37,11 +38,12 @@
 		startClass,
 		centerClass,
 		endClass,
+		color = 'default',
+		variant = 'soft',
 		isBordered,
 		isBlurred,
 		isBoxed,
-		hideOnScroll,
-		variant = 'ghost'
+		hideOnScroll
 	}: Props = $props();
 
 	let footerElement = $state<HTMLElement | null>(null);
@@ -51,7 +53,7 @@
 
 	const scroll = useScroll();
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
@@ -60,7 +62,12 @@
 		warning: 'is-warning',
 		danger: 'is-danger',
 		surface: 'is-surface',
-		ghost: 'is-ghost'
+		default: 'is-default'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft'
 	};
 
 	$effect(() => {
@@ -93,7 +100,8 @@
 	bind:this={footerElement}
 	class={cn(
 		'footer',
-		variantClasses[variant],
+		colors[color],
+		variants[variant],
 		isBordered && 'is-bordered',
 		shouldBlur && 'is-blurred',
 		isHidden && 'is-hidden',

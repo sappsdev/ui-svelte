@@ -1,90 +1,147 @@
-## Footer Component
+# Footer Component
 
-Bottom section with slots for copyright, navigation, and secondary actions.
+Bottom section for copyright, navigation, and secondary actions.
+
+## Import
 
 ```svelte
-<Footer
-  variant="ghost"
-  isBlurred={false}
-  isBordered={false}
-  isBoxed={false}
-  hideOnScroll={false}
->
-  {#snippet start()}...{/snippet}
-  {#snippet center()}...{/snippet}
-  {#snippet end()}...{/snippet}
+import {(Footer, FooterNav, FooterGroup)} from 'ui-svelte';
+```
+
+## Props
+
+| Prop           | Type                                                                                                            | Default     | Description                        |
+| -------------- | --------------------------------------------------------------------------------------------------------------- | ----------- | ---------------------------------- |
+| `start`        | `Snippet`                                                                                                       | -           | Left section (copyright, branding) |
+| `center`       | `Snippet`                                                                                                       | -           | Middle section (navigation)        |
+| `end`          | `Snippet`                                                                                                       | -           | Right section (social, info)       |
+| `color`        | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger' \| 'surface' \| 'default'` | `'default'` | Color theme                        |
+| `variant`      | `'solid' \| 'soft'`                                                                                             | `'soft'`    | Visual style                       |
+| `isBlurred`    | `boolean`                                                                                                       | `false`     | Backdrop blur effect               |
+| `isBordered`   | `boolean`                                                                                                       | `false`     | Top border                         |
+| `isBoxed`      | `boolean`                                                                                                       | `false`     | Constrain width                    |
+| `hideOnScroll` | `boolean`                                                                                                       | `false`     | Hide on scroll down                |
+
+## Patterns
+
+### Simple Footer
+
+```svelte
+<Footer isBordered>
+	{#snippet start()}
+		<p class="text-sm text-on-muted">© 2025 Company</p>
+	{/snippet}
+	{#snippet center()}
+		<FooterNav links={navLinks} />
+	{/snippet}
+	{#snippet end()}
+		<p class="text-sm text-on-muted">Made with ❤️</p>
+	{/snippet}
 </Footer>
 ```
 
-### Props
-
-| Prop | Default | Description |
-|------|---------|-------------|
-| `start` | - | Snippet for left section (copyright, branding) |
-| `center` | - | Snippet for middle section (navigation links) |
-| `end` | - | Snippet for right section (social links, info) |
-| `variant` | `'ghost'` | `primary` `secondary` `muted` `success` `info` `warning` `danger` `surface` `ghost` |
-| `isBlurred` | `false` | Adds backdrop blur effect |
-| `isBordered` | `false` | Shows top border |
-| `isBoxed` | `false` | Constrains content width |
-| `hideOnScroll` | `false` | Hides on scroll down, shows on scroll up |
-| `rootClass` | - | Custom class for root element |
-| `contentClass` | - | Custom class for content wrapper |
-
-### Sub-Components
-
-#### FooterNav
-Horizontal navigation links with active state detection.
+### Multi-Column Footer
 
 ```svelte
-<FooterNav links={[
-  { label: 'About', href: '/about' },
-  { label: 'Privacy', href: '/privacy' }
-]} />
+<Footer isBordered>
+	{#snippet center()}
+		<div class="grid grid-cols-4 gap-8">
+			<FooterGroup title="Product" links={productLinks} />
+			<FooterGroup title="Company" links={companyLinks} />
+			<FooterGroup title="Support" links={supportLinks} />
+			<FooterGroup title="Legal" links={legalLinks} />
+		</div>
+	{/snippet}
+</Footer>
 ```
 
-#### FooterGroup
-Vertical link sections with title for multi-column layouts.
+---
+
+# FooterNav Component
+
+Horizontal navigation links with active state.
+
+## Props
+
+| Prop    | Type           | Default | Description      |
+| ------- | -------------- | ------- | ---------------- |
+| `links` | `FooterLink[]` | `[]`    | Navigation links |
+| `class` | `string`       | -       | Custom classes   |
+
+## FooterLink Type
+
+```typescript
+type FooterLink = {
+	label: string;
+	href: string;
+};
+```
+
+## Pattern
 
 ```svelte
-<FooterGroup 
-  title="Product" 
-  links={[
-    { label: 'Features', href: '/features' },
-    { label: 'Docs', href: '/docs', external: true }
-  ]} 
+<FooterNav
+	links={[
+		{ label: 'About', href: '/about' },
+		{ label: 'Privacy', href: '/privacy' },
+		{ label: 'Terms', href: '/terms' }
+	]}
 />
 ```
 
-### Examples
+---
 
-```svelte
-<!-- Simple footer -->
-<Footer isBordered>
-  {#snippet start()}
-    <p class="text-sm text-muted-foreground">© 2024 Company</p>
-  {/snippet}
+# FooterGroup Component
 
-  {#snippet center()}
-    <FooterNav links={navLinks} />
-  {/snippet}
+Vertical link section with title for multi-column layouts.
 
-  {#snippet end()}
-    <p class="text-sm text-muted-foreground">Made with ❤️</p>
-  {/snippet}
-</Footer>
+## Props
 
-<!-- Multi-column footer -->
-<Footer isBordered>
-  {#snippet center()}
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-      <FooterGroup title="Product" links={productLinks} />
-      <FooterGroup title="Company" links={companyLinks} />
-      <FooterGroup title="Support" links={supportLinks} />
-      <FooterGroup title="Legal" links={legalLinks} />
-    </div>
-  {/snippet}
-</Footer>
+| Prop       | Type           | Default | Description      |
+| ---------- | -------------- | ------- | ---------------- |
+| `title`    | `string`       | -       | Section heading  |
+| `links`    | `FooterLink[]` | `[]`    | Navigation links |
+| `children` | `Snippet`      | -       | Custom content   |
+| `class`    | `string`       | -       | Custom classes   |
+
+## FooterLink Type
+
+```typescript
+type FooterLink = {
+	label: string;
+	href: string;
+	external?: boolean; // Opens in new tab
+};
 ```
 
-**For LLMs**: Footer uses three snippet slots: `start` (left), `center` (middle), `end` (right). Use `FooterNav` for simple horizontal links. Use `FooterGroup` for multi-column layouts with categorized links. Combine with `Divider` for visual separation.
+## Patterns
+
+### With Links
+
+```svelte
+<FooterGroup
+	title="Product"
+	links={[
+		{ label: 'Features', href: '/features' },
+		{ label: 'Docs', href: 'https://docs.example.com', external: true }
+	]}
+/>
+```
+
+### With Custom Content
+
+```svelte
+<FooterGroup title="Newsletter">
+	<p class="text-sm text-on-muted mb-2">Subscribe for updates</p>
+	<div class="flex gap-2">
+		<TextField placeholder="Email" size="sm" />
+		<Button size="sm">Subscribe</Button>
+	</div>
+</FooterGroup>
+```
+
+## Component References
+
+- **@see text-field.md** - Input for newsletter forms
+- **@see button.md** - Action buttons
+- **@see divider.md** - Visual separation between sections

@@ -1,85 +1,116 @@
 <script lang="ts">
-	import { Card, Checkbox, Code, NavMenu, Section, Select } from 'ui-svelte';
+	import { NavMenu, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
+	import {
+		HomeLinearIcon,
+		DocumentLinearIcon,
+		SettingsLinearIcon,
+		ChartLinearIcon,
+		FolderLinearIcon,
+		UserCircleLinearIcon
+	} from '$lib/icons';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	const sizeOptions = [
-		{ id: 'sm', label: 'Small' },
-		{ id: 'md', label: 'Medium' },
-		{ id: 'lg', label: 'Large' }
-	];
-
-	const variantOptions = [
+	const colorOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
 		{ id: 'success', label: 'Success' },
 		{ id: 'info', label: 'Info' },
-		{ id: 'warning', label: 'Warning' },
-		{ id: 'danger', label: 'Danger' }
+		{ id: 'danger', label: 'Danger' },
+		{ id: 'warning', label: 'Warning' }
 	];
 
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' },
+		{ id: 'ghost', label: 'Ghost' }
+	];
+
+	const sizeOptions = [
+		{ id: 'sm', label: 'sm' },
+		{ id: 'md', label: 'md' },
+		{ id: 'lg', label: 'lg' }
+	];
+
+	let color: any = $state('muted');
+	let variant: any = $state('ghost');
 	let size: any = $state('md');
-	let isSolid = $state(false);
-	let variant: any = $state('muted');
+
+	let withIcons = $state(true);
 	let withSubmenu = $state(true);
 	let withMegamenu = $state(false);
 
-	let hasProps = $derived([size !== 'md', isSolid, variant !== 'muted'].some(Boolean));
-
-	let navMenuItems = $derived.by(() => {
-		const baseItems: {
-			label: string;
-			href?: string;
-			type?: 'item' | 'submenu' | 'megamenu';
-			subitems?: { label: string; description?: string; href: string }[];
-			megamenu?: typeof megamenuSnippet;
-		}[] = [
-			{ label: 'Home', href: '#home' },
-			{ label: 'About', href: '#about' }
+	const sampleItems: any[] = $derived.by(() => {
+		const items: any[] = [
+			{
+				label: 'Home',
+				href: '#home',
+				icon: withIcons ? HomeLinearIcon : undefined
+			},
+			{
+				label: 'Documents',
+				href: '#documents',
+				icon: withIcons ? DocumentLinearIcon : undefined
+			}
 		];
 
-		let result = [...baseItems];
-
 		if (withSubmenu) {
-			result.push({
+			items.push({
 				label: 'Products',
-				type: 'submenu' as const,
+				type: 'submenu',
+				icon: withIcons ? FolderLinearIcon : undefined,
 				subitems: [
-					{ label: 'All Products', description: 'Browse our catalog', href: '#products' },
-					{ label: 'New Arrivals', description: 'Latest additions', href: '#products/new' },
-					{ label: 'Best Sellers', description: 'Most popular items', href: '#products/best' }
+					{
+						label: 'All Products',
+						description: 'Browse catalog',
+						href: '#products',
+						icon: withIcons ? FolderLinearIcon : undefined
+					},
+					{
+						label: 'Categories',
+						href: '#categories',
+						icon: withIcons ? ChartLinearIcon : undefined
+					},
+					{ label: 'Inventory', href: '#inventory' }
 				]
 			});
 		}
 
 		if (withMegamenu) {
-			result.push({
+			items.push({
 				label: 'Resources',
-				type: 'megamenu' as const,
+				type: 'megamenu',
+				icon: withIcons ? DocumentLinearIcon : undefined,
 				megamenu: megamenuSnippet
 			} as any);
 		}
 
-		result.push({ label: 'Contact', href: '#contact' });
+		items.push({
+			label: 'Settings',
+			href: '#settings',
+			icon: withIcons ? SettingsLinearIcon : undefined
+		});
 
-		return result;
+		return items;
 	});
+
+	let hasProps = $derived([color !== 'muted', variant !== 'ghost', size !== 'md'].some(Boolean));
 
 	let code = $derived(() => {
 		const scriptLines = [
 			`<script lang="ts">`,
-			`\timport { NavMenu } from 'ui-svelte';`,
+			`\timport { NavMenu, type NavMenuItem } from 'ui-svelte';`,
+			withIcons && `\timport { HomeLinearIcon, DocumentLinearIcon } from '$lib/icons';`,
 			``,
-			`\tconst items = [`
+			`\tconst items: NavMenuItem[] = [`,
+			withIcons
+				? `\t\t{ label: 'Home', href: '/home', icon: HomeLinearIcon },`
+				: `\t\t{ label: 'Home', href: '/home' },`,
+			withIcons
+				? `\t\t{ label: 'Documents', href: '/documents', icon: DocumentLinearIcon },`
+				: `\t\t{ label: 'Documents', href: '/documents' },`
 		];
-
-		scriptLines.push(
-			`\t\t{ label: 'Home', href: '/home' },`,
-			`\t\t{ label: 'About', href: '/about' },`
-		);
 
 		if (withSubmenu) {
 			scriptLines.push(
@@ -88,7 +119,7 @@
 				`\t\t\ttype: 'submenu',`,
 				`\t\t\tsubitems: [`,
 				`\t\t\t\t{ label: 'All Products', description: 'Browse catalog', href: '/products' },`,
-				`\t\t\t\t{ label: 'New Arrivals', href: '/products/new' }`,
+				`\t\t\t\t{ label: 'Categories', href: '/categories' }`,
 				`\t\t\t]`,
 				`\t\t},`
 			);
@@ -104,7 +135,7 @@
 			);
 		}
 
-		scriptLines.push(`\t\t{ label: 'Contact', href: '/contact' }`, `\t];`, `<\/script>`);
+		scriptLines.push(`\t\t{ label: 'Settings', href: '/settings' }`, `\t];`, `<\/script>`);
 
 		if (withMegamenu) {
 			scriptLines.push(
@@ -117,45 +148,52 @@
 			);
 		}
 
-		const componentLine = hasProps
-			? `\n<NavMenu {items} ${[
-					size !== 'md' && `size="${size}"`,
-					isSolid && `isSolid`,
-					variant !== 'muted' && `variant="${variant}"`
-				]
-					.filter(Boolean)
-					.join(' ')} />`
-			: '\n<NavMenu {items} />';
+		const componentLines = [
+			hasProps && `<NavMenu`,
+			hasProps && `\t{items}`,
+			color !== 'muted' && `\tcolor="${color}"`,
+			variant !== 'ghost' && `\tvariant="${variant}"`,
+			size !== 'md' && `\tsize="${size}"`,
+			hasProps && `/>`,
+			!hasProps && `<NavMenu {items} />`
+		].filter(Boolean);
 
-		return [...scriptLines, componentLine].join('\n');
+		return [...scriptLines.filter(Boolean), ...componentLines].join('\n');
 	});
 
 	const props = [
-		{ prop: 'items', type: 'MenuItem[]', initial: '[]', required: true },
+		{ prop: 'items', type: 'NavMenuItem[]', initial: '[]' },
 		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
-		{ prop: 'isSolid', type: 'boolean', initial: 'false' },
 		{
 			prop: 'variant',
+			type: 'solid | soft | ghost',
+			initial: 'ghost'
+		},
+		{
+			prop: 'color',
 			type: 'primary | secondary | muted | success | info | warning | danger',
 			initial: 'muted'
 		},
 		{ prop: 'class', type: 'string', initial: '' }
 	];
 
-	const menuItemProps = [
+	const itemProps = [
 		{ prop: 'label', type: 'string', initial: '', required: true },
 		{ prop: 'href', type: 'string', initial: '' },
-		{ prop: 'onclick', type: '(item: MenuItem) => void', initial: '' },
-		{ prop: 'subitems', type: 'SubmenuItem[]', initial: '' },
+		{ prop: 'onclick', type: '(item: NavMenuItem) => void', initial: '' },
+		{ prop: 'description', type: 'string', initial: '' },
+		{ prop: 'icon', type: 'IconData', initial: '' },
+		{ prop: 'subitems', type: 'NavMenuSubItem[]', initial: '' },
 		{ prop: 'megamenu', type: 'Snippet', initial: '' },
-		{ prop: 'type', type: 'item | submenu | megamenu', initial: 'item' }
+		{ prop: 'type', type: "'item' | 'submenu' | 'megamenu'", initial: "'item'" }
 	];
 
-	const submenuItemProps = [
+	const subItemProps = [
 		{ prop: 'label', type: 'string', initial: '', required: true },
-		{ prop: 'description', type: 'string', initial: '' },
 		{ prop: 'href', type: 'string', initial: '' },
-		{ prop: 'onclick', type: '(item: SubmenuItem) => void', initial: '' }
+		{ prop: 'onclick', type: '(item: NavMenuSubItem) => void', initial: '' },
+		{ prop: 'description', type: 'string', initial: '' },
+		{ prop: 'icon', type: 'IconData', initial: '' }
 	];
 </script>
 
@@ -215,89 +253,176 @@
 	</div>
 {/snippet}
 
-<DocsHeader title="Nav Menu" llmUrl="https://ui-svelte.sappsdev.com/llm/navigation/nav-menu.md">
-	Horizontal navigation menu with support for links, submenus, and megamenus.
+<DocsHeader title="NavMenu">
+	A horizontal navigation menu with support for links, submenus with dropdowns, megamenus, and
+	icons.
 </DocsHeader>
 
-{#snippet preview()}
-	<NavMenu items={navMenuItems} {size} {isSolid} {variant} />
-{/snippet}
-
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		{@render preview()}
-	</DocsPreview>
-	<Card>
-		<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
-		<Checkbox bind:checked={isSolid} label="Solid" />
-		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-		<div class="grid-2 gap-2 mt-2">
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				bind:value={variant}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Size"
+				size="sm"
+				options={sizeOptions}
+				bind:value={size}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={withIcons} label="Icons" />
 			<Checkbox bind:checked={withSubmenu} label="Submenu" />
 			<Checkbox bind:checked={withMegamenu} label="Megamenu" />
 		</div>
-	</Card>
-	<DocsCode code={code()} />
-</Section>
 
-<Section>
-	<Card bodyClass="grid-2 center">
-		{#snippet header()}
-			<h4>Solid Style</h4>
-		{/snippet}
-		{@const items = [
-			{ label: 'Home', href: '#home' },
-			{ label: 'About', href: '#about' },
-			{ label: 'Contact', href: '#contact' }
-		]}
-		<div class="column gap-1">
-			<p class="text-xs center">Default</p>
-			<NavMenu {items} />
+		<div class="doc-preview" style="min-height: 100px;">
+			<NavMenu items={sampleItems} {color} {variant} {size} />
 		</div>
-		<div class="column gap-1">
-			<p class="text-xs center">Solid</p>
-			<NavMenu {items} isSolid />
-		</div>
+		<Code lang="svelte" code={code()} />
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="grid-1 xl:grid-3 center">
-		{#snippet header()}
-			<h4>Sizes</h4>
-		{/snippet}
-		{#each sizeOptions as item}
-			{@const items = [
-				{ label: 'Home', href: '#home' },
-				{ label: 'About', href: '#about' },
-				{ label: 'Contact', href: '#contact' }
-			]}
-			<div class="column gap-1">
-				<p class="text-xs center">{item.label}</p>
-				<NavMenu {items} size={item.id as any} />
+	<p class="section-subtitle">Variants & Colors</p>
+	<Card>
+		{#each variantOptions as item}
+			<p class="text-sm mb-2 font-semibold">{item.label} Variant</p>
+			<div class="wrap gap-4 mb-6">
+				{#each colorOptions as colorItem}
+					<div class="column gap-1">
+						<p class="text-xs center">{colorItem.label}</p>
+						<NavMenu
+							variant={item.id as any}
+							color={colorItem.id as any}
+							items={[
+								{ label: 'Active', href: '/docs/navigation/nav-menu' },
+								{ label: 'Hover Me', onclick: () => {} },
+								{ label: 'Link', href: '#link' }
+							]}
+						/>
+					</div>
+				{/each}
 			</div>
 		{/each}
 	</Card>
 </Section>
 
 <Section>
+	<p class="section-subtitle">Sizes</p>
 	<Card>
-		{#snippet header()}
-			<h4>Menu Types</h4>
-		{/snippet}
-		<ul class="list-disc pl-6 space-y-2 text-sm">
-			<li><strong>item</strong> - Standard navigation link</li>
-			<li><strong>submenu</strong> - Dropdown menu with list of navigation items</li>
-			<li><strong>megamenu</strong> - Large dropdown with custom content using Svelte snippets</li>
-		</ul>
+		<div class="column gap-6">
+			{#each sizeOptions as sizeItem}
+				<div class="column gap-2">
+					<p class="text-sm font-medium">Size: {sizeItem.label}</p>
+					<NavMenu
+						size={sizeItem.id as any}
+						items={[
+							{ label: 'Home', href: '#', icon: HomeLinearIcon },
+							{ label: 'Documents', href: '#', icon: DocumentLinearIcon },
+							{ label: 'Settings', href: '#', icon: SettingsLinearIcon }
+						]}
+					/>
+				</div>
+			{/each}
+		</div>
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Megamenu Example</h4>
-		{/snippet}
-		<p>Megamenus use Svelte snippets for completely custom content:</p>
+	<p class="section-subtitle">Menu Types</p>
+	<Card>
+		<div class="column gap-6">
+			<div>
+				<p class="text-sm mb-2 font-medium">Simple Links</p>
+				<NavMenu
+					items={[
+						{ label: 'Home', href: '#home', icon: HomeLinearIcon },
+						{ label: 'About', href: '#about', icon: UserCircleLinearIcon },
+						{ label: 'Contact', href: '#contact' }
+					]}
+				/>
+			</div>
+			<div>
+				<p class="text-sm mb-2 font-medium">With Submenu Dropdown</p>
+				<NavMenu
+					items={[
+						{ label: 'Home', href: '#home' },
+						{
+							label: 'Products',
+							type: 'submenu',
+							icon: FolderLinearIcon,
+							subitems: [
+								{ label: 'All Products', description: 'Browse our catalog', href: '#products' },
+								{ label: 'New Arrivals', description: 'Latest additions', href: '#new' },
+								{ label: 'Best Sellers', href: '#best' }
+							]
+						},
+						{ label: 'Contact', href: '#contact' }
+					]}
+				/>
+			</div>
+			<div>
+				<p class="text-sm mb-2 font-medium">With Megamenu</p>
+				<NavMenu
+					items={[
+						{ label: 'Home', href: '#home' },
+						{
+							label: 'Resources',
+							type: 'megamenu',
+							megamenu: megamenuSnippet
+						} as any,
+						{ label: 'Contact', href: '#contact' }
+					]}
+				/>
+			</div>
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">With Icons</p>
+	<Card>
+		<div class="column gap-4">
+			<NavMenu
+				items={[
+					{ label: 'Dashboard', href: '#', icon: ChartLinearIcon },
+					{ label: 'Documents', href: '#', icon: DocumentLinearIcon },
+					{
+						label: 'Settings',
+						type: 'submenu',
+						icon: SettingsLinearIcon,
+						subitems: [
+							{ label: 'General', href: '#', icon: SettingsLinearIcon },
+							{ label: 'Profile', href: '#', icon: UserCircleLinearIcon }
+						]
+					}
+				]}
+			/>
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Megamenu Example</p>
+	<Card>
+		<p class="text-sm mb-4">Megamenus use Svelte snippets for completely custom content:</p>
 		<Code
 			lang="svelte"
 			code={`{#snippet megamenuContent()}
@@ -308,7 +433,7 @@
         <a href="/docs" class="navmenu-submenu-item">
           <div class="navmenu-submenu-content">
             <div class="navmenu-submenu-label">Getting Started</div>
-            <div class="navmenu-submenu-description">Quick start</div>
+            <div class="navmenu-submenu-description">Quick start guide</div>
           </div>
         </a>
       </div>
@@ -318,26 +443,19 @@
 {/snippet}
 
 <script lang="ts">
-  const items = [
+  const items: NavMenuItem[] = [
     {
       label: 'Resources',
       type: 'megamenu',
-      megamenu: megamenuContent  // Pass the snippet reference
+      megamenu: megamenuContent
     }
   ];
 <\/script>
 
 <NavMenu {items} />`}
 		/>
-	</Card>
-</Section>
-
-<Section>
-	<Card>
-		{#snippet header()}
-			<h4>Available CSS Classes for Megamenus</h4>
-		{/snippet}
-		<ul class="list-disc pl-6 space-y-1 text-sm">
+		<p class="text-sm mt-4">Available CSS classes for megamenu content:</p>
+		<ul class="list-disc pl-6 space-y-1 text-sm mt-2">
 			<li><code>.navmenu-header</code> - Section header styling</li>
 			<li><code>.navmenu-submenu-item</code> - Individual menu item</li>
 			<li><code>.navmenu-submenu-content</code> - Content wrapper</li>
@@ -348,24 +466,17 @@
 	</Card>
 </Section>
 
-<DocsProps {props} />
-
 <Section>
-	<Card>
-		{#snippet header()}
-			<h4>MenuItem Type</h4>
-		{/snippet}
-		<p class="text-sm">Each item in the items array should follow this structure:</p>
-		<DocsProps props={menuItemProps} />
-	</Card>
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
 </Section>
 
 <Section>
-	<Card>
-		{#snippet header()}
-			<h4>SubmenuItem Type</h4>
-		{/snippet}
-		<p class="text-sm">Subitems in a MenuItem's subitems array should follow this structure:</p>
-		<DocsProps props={submenuItemProps} />
-	</Card>
+	<p class="section-subtitle">NavMenuItem Type</p>
+	<DocsProps props={itemProps} />
+</Section>
+
+<Section>
+	<p class="section-subtitle">NavMenuSubItem Type</p>
+	<DocsProps props={subItemProps} />
 </Section>

@@ -1,329 +1,363 @@
 <script lang="ts">
-	import { Card, Checkbox, Code, Section, Select, SideNav } from 'ui-svelte';
-	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
-	import DocsProps from '$lib/components/DocsProps.svelte';
+	import { SideNav, Card, Checkbox, Code, Section, Select, type SideNavItem } from 'ui-svelte';
 	import {
-		LayoutDashboardIcon,
-		Person24RegularIcon,
-		Settings24RegularIcon,
-		FileDocumentIcon,
-		Heart24RegularIcon,
-		SignOut24RegularIcon
+		HomeLinearIcon,
+		DocumentLinearIcon,
+		SettingsLinearIcon,
+		UserCircleLinearIcon,
+		ChartLinearIcon,
+		FolderLinearIcon
 	} from '$lib/icons';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	const sizeOptions = [
-		{ id: 'sm', label: 'Small' },
-		{ id: 'md', label: 'Medium' },
-		{ id: 'lg', label: 'Large' }
-	];
-
-	const variantOptions = [
+	const colorOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
 		{ id: 'success', label: 'Success' },
 		{ id: 'info', label: 'Info' },
-		{ id: 'warning', label: 'Warning' },
-		{ id: 'danger', label: 'Danger' }
+		{ id: 'danger', label: 'Danger' },
+		{ id: 'warning', label: 'Warning' }
 	];
 
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' },
+		{ id: 'ghost', label: 'Ghost' }
+	];
+
+	const sizeOptions = [
+		{ id: 'sm', label: 'sm' },
+		{ id: 'md', label: 'md' },
+		{ id: 'lg', label: 'lg' }
+	];
+
+	let color: any = $state('muted');
+	let variant: any = $state('ghost');
 	let size: any = $state('md');
-	let isSolid = $state(false);
-	let variant: any = $state('muted');
-	let isWide = $state(true);
-	let isCompact = $state(false);
-	let withIcons = $state(true);
-	let withSubmenu = $state(true);
+
+	let isWide = $state(false);
+	let isCollapsible = $state(false);
+
+	const sampleItems: SideNavItem[] = [
+		{ type: 'header', label: 'Menu', icon: HomeLinearIcon },
+		{ type: 'divider' },
+		{ label: 'Home', href: '#home', icon: HomeLinearIcon },
+		{
+			label: 'Documents',
+			href: '#documents',
+			icon: DocumentLinearIcon,
+			description: 'Manage files'
+		},
+		{
+			type: 'submenu',
+			label: 'Analytics',
+			icon: ChartLinearIcon,
+			open: true,
+			subitems: [
+				{ label: 'Overview', href: '#overview' },
+				{ label: 'Reports', href: '#reports' },
+				{ label: 'Statistics', href: '#statistics', status: 'New' }
+			]
+		},
+		{
+			type: 'submenu',
+			label: 'Projects',
+			icon: FolderLinearIcon,
+			subitems: [
+				{ label: 'Active', href: '#active' },
+				{ label: 'Archived', href: '#archived' }
+			]
+		},
+		{ type: 'divider' },
+		{ label: 'Profile', href: '#profile', icon: UserCircleLinearIcon },
+		{ label: 'Settings', href: '#settings', icon: SettingsLinearIcon }
+	];
 
 	let hasProps = $derived(
-		[size !== 'md', isSolid, variant !== 'muted', !isWide, isCompact].some(Boolean)
+		[color !== 'muted', variant !== 'ghost', size !== 'md', isWide, isCollapsible].some(Boolean)
 	);
-
-	let sideNavItems = $derived.by(() => {
-		const items: {
-			type?: 'item' | 'header' | 'divider' | 'submenu';
-			label?: string;
-			href?: string;
-			icon?: any;
-			subitems?: { label: string; href: string }[];
-			open?: boolean;
-		}[] = [
-			{ type: 'header', label: 'Main', icon: withIcons ? LayoutDashboardIcon : undefined },
-			{ label: 'Dashboard', href: '#dashboard', icon: withIcons ? LayoutDashboardIcon : undefined },
-			{ label: 'Profile', href: '#profile', icon: withIcons ? Person24RegularIcon : undefined }
-		];
-
-		if (withSubmenu) {
-			items.push({
-				type: 'submenu',
-				label: 'Documents',
-				icon: withIcons ? FileDocumentIcon : undefined,
-				subitems: [
-					{ label: 'All Documents', href: '#docs' },
-					{ label: 'Recent', href: '#docs/recent' },
-					{ label: 'Favorites', href: '#docs/favorites' }
-				],
-				open: true
-			});
-		}
-
-		items.push(
-			{ type: 'divider' },
-			{ label: 'Settings', href: '#settings', icon: withIcons ? Settings24RegularIcon : undefined },
-			{ label: 'Favorites', href: '#favorites', icon: withIcons ? Heart24RegularIcon : undefined },
-			{ label: 'Logout', href: '#logout', icon: withIcons ? SignOut24RegularIcon : undefined }
-		);
-
-		return items;
-	});
 
 	let code = $derived(() => {
 		const scriptLines = [
 			`<script lang="ts">`,
-			`\timport { SideNav } from 'ui-svelte';`,
-			withIcons && `\timport { LayoutDashboardIcon, PersonIcon, SettingsIcon } from '$lib/icons';`,
+			`\timport { SideNav, type SideNavItem } from 'ui-svelte';`,
+			`\timport { HomeLinearIcon, DocumentLinearIcon } from '$lib/icons';`,
 			``,
-			`\tconst items = [`,
-			`\t\t{ type: 'header', label: 'Main' },`,
-			withIcons
-				? `\t\t{ label: 'Dashboard', href: '/dashboard', icon: LayoutDashboardIcon },`
-				: `\t\t{ label: 'Dashboard', href: '/dashboard' },`,
-			withIcons
-				? `\t\t{ label: 'Profile', href: '/profile', icon: PersonIcon },`
-				: `\t\t{ label: 'Profile', href: '/profile' },`
-		];
-
-		if (withSubmenu) {
-			scriptLines.push(
-				`\t\t{`,
-				`\t\t\ttype: 'submenu',`,
-				`\t\t\tlabel: 'Documents',`,
-				`\t\t\tsubitems: [`,
-				`\t\t\t\t{ label: 'All Documents', href: '/docs' },`,
-				`\t\t\t\t{ label: 'Recent', href: '/docs/recent' }`,
-				`\t\t\t],`,
-				`\t\t\topen: true`,
-				`\t\t},`
-			);
-		}
-
-		scriptLines.push(
+			`\tconst items: SideNavItem[] = [`,
+			`\t\t{ type: 'header', label: 'Menu', icon: HomeLinearIcon },`,
 			`\t\t{ type: 'divider' },`,
-			withIcons
-				? `\t\t{ label: 'Settings', href: '/settings', icon: SettingsIcon }`
-				: `\t\t{ label: 'Settings', href: '/settings' }`,
+			`\t\t{ label: 'Home', href: '/home', icon: HomeLinearIcon },`,
+			`\t\t{ label: 'Documents', href: '/documents', icon: DocumentLinearIcon },`,
+			`\t\t{`,
+			`\t\t\ttype: 'submenu',`,
+			`\t\t\tlabel: 'Analytics',`,
+			`\t\t\tsubitems: [`,
+			`\t\t\t\t{ label: 'Overview', href: '/analytics/overview' },`,
+			`\t\t\t\t{ label: 'Reports', href: '/analytics/reports' }`,
+			`\t\t\t]`,
+			`\t\t}`,
 			`\t];`,
 			`<\/script>`
-		);
+		].filter(Boolean);
 
-		const componentLine = hasProps
-			? `\n<SideNav {items} ${[
-					size !== 'md' && `size="${size}"`,
-					isSolid && `isSolid`,
-					variant !== 'muted' && `variant="${variant}"`,
-					!isWide && `isWide={false}`,
-					isCompact && `isCompact`
-				]
-					.filter(Boolean)
-					.join(' ')} />`
-			: '\n<SideNav {items} />';
+		const componentLines = [
+			hasProps && `<SideNav`,
+			hasProps && `\t{items}`,
+			color !== 'muted' && `\tcolor="${color}"`,
+			variant !== 'ghost' && `\tvariant="${variant}"`,
+			size !== 'md' && `\tsize="${size}"`,
+			isWide && `\tisWide`,
+			isCollapsible && `\tisCollapsible`,
+			hasProps && `/>`,
+			!hasProps && `<SideNav {items} />`
+		].filter(Boolean);
 
-		return [...scriptLines, componentLine].filter(Boolean).join('\n');
+		return [...scriptLines, ...componentLines].join('\n');
 	});
 
 	const props = [
-		{ prop: 'items', type: 'SideNavItem[]', initial: '[]', required: true },
+		{ prop: 'items', type: 'SideNavItem[]', initial: '[]' },
 		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
-		{ prop: 'isSolid', type: 'boolean', initial: 'false' },
 		{
 			prop: 'variant',
+			type: 'solid | soft | ghost',
+			initial: 'ghost'
+		},
+		{
+			prop: 'color',
 			type: 'primary | secondary | muted | success | info | warning | danger',
 			initial: 'muted'
 		},
+		{ prop: 'class', type: 'string', initial: '' },
 		{ prop: 'isWide', type: 'boolean', initial: 'false' },
-		{ prop: 'isCompact', type: 'boolean', initial: 'false' },
-		{ prop: 'isCollapsible', type: 'boolean', initial: 'false' },
-		{ prop: 'class', type: 'string', initial: '' }
+		{ prop: 'isCollapsible', type: 'boolean', initial: 'false' }
 	];
 
 	const itemProps = [
-		{ prop: 'type', type: 'item | header | divider | submenu', initial: 'item' },
+		{ prop: 'type', type: "'item' | 'divider' | 'header' | 'submenu'", initial: "'item'" },
 		{ prop: 'label', type: 'string', initial: '' },
-		{ prop: 'href', type: 'string', initial: '' },
-		{ prop: 'icon', type: 'IconData', initial: '' },
 		{ prop: 'description', type: 'string', initial: '' },
-		{ prop: 'status', type: 'string | Snippet', initial: '' },
+		{ prop: 'href', type: 'string', initial: '' },
 		{ prop: 'onclick', type: '(item: SideNavItem) => void', initial: '' },
+		{ prop: 'status', type: 'string | Snippet', initial: '' },
+		{ prop: 'icon', type: 'IconData', initial: '' },
 		{ prop: 'subitems', type: 'SideNavSubItem[]', initial: '' },
 		{ prop: 'open', type: 'boolean', initial: 'false' }
 	];
 
-	const subitemProps = [
-		{ prop: 'label', type: 'string', initial: '', required: true },
+	const subItemProps = [
+		{ prop: 'label', type: 'string', initial: '' },
 		{ prop: 'href', type: 'string', initial: '' },
+		{ prop: 'onclick', type: '(item: SideNavSubItem) => void', initial: '' },
 		{ prop: 'description', type: 'string', initial: '' },
 		{ prop: 'status', type: 'string | Snippet', initial: '' },
-		{ prop: 'icon', type: 'IconData', initial: '' },
-		{ prop: 'onclick', type: '(item: SideNavSubItem) => void', initial: '' }
+		{ prop: 'icon', type: 'IconData', initial: '' }
 	];
 </script>
 
-<DocsHeader title="Side Nav" llmUrl="https://ui-svelte.sappsdev.com/llm/navigation/sidenav.md">
-	Vertical sidebar navigation for applications with support for headers, dividers, and collapsible
-	submenus.
+<DocsHeader title="SideNav">
+	A vertical navigation component for sidebars with support for headers, dividers, submenus, icons,
+	and collapsible behavior.
 </DocsHeader>
 
-{#snippet preview()}
-	<div class="w-64 bg-surface rounded-ui p-2">
-		<SideNav items={sideNavItems} {size} {isSolid} {variant} {isWide} {isCompact} />
-	</div>
-{/snippet}
-
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		{@render preview()}
-	</DocsPreview>
-	<Card>
-		<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
-		<Checkbox bind:checked={isSolid} label="Solid" />
-		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-		<div class="grid-2 gap-2 mt-2">
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				bind:value={variant}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Size"
+				size="sm"
+				options={sizeOptions}
+				bind:value={size}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
 			<Checkbox bind:checked={isWide} label="Wide" />
-			<Checkbox bind:checked={isCompact} label="Compact" />
-			<Checkbox bind:checked={withIcons} label="Icons" />
-			<Checkbox bind:checked={withSubmenu} label="Submenu" />
+			<Checkbox bind:checked={isCollapsible} label="Collapsible" />
 		</div>
-	</Card>
-	<DocsCode code={code()} />
-</Section>
 
-<Section>
-	<Card bodyClass="grid-2 center">
-		{#snippet header()}
-			<h4>Solid Style</h4>
-		{/snippet}
-		{@const items = [
-			{ label: 'Dashboard', href: '#dashboard' },
-			{ label: 'Profile', href: '#profile' },
-			{ label: 'Settings', href: '#settings' }
-		]}
-		<div class="column gap-1">
-			<p class="text-xs center">Default</p>
-			<div class="w-48 bg-surface rounded-ui p-2">
-				<SideNav {items} isWide />
-			</div>
+		<div class="doc-preview" style="min-height: 400px;">
+			<SideNav
+				class="max-w-64"
+				items={sampleItems}
+				{color}
+				{variant}
+				{size}
+				{isWide}
+				{isCollapsible}
+			/>
 		</div>
-		<div class="column gap-1">
-			<p class="text-xs center">Solid</p>
-			<div class="w-48 bg-surface rounded-ui p-2">
-				<SideNav {items} isWide isSolid />
-			</div>
-		</div>
+		<Code lang="svelte" code={code()} />
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="grid-1 xl:grid-3 center">
-		{#snippet header()}
-			<h4>Sizes</h4>
-		{/snippet}
-		{#each sizeOptions as item}
-			{@const items = [
-				{ label: 'Dashboard', href: '#dashboard' },
-				{ label: 'Profile', href: '#profile' },
-				{ label: 'Settings', href: '#settings' }
-			]}
-			<div class="column gap-1">
-				<p class="text-xs center">{item.label}</p>
-				<div class="w-48 bg-surface rounded-ui p-2">
-					<SideNav {items} size={item.id as any} isWide />
-				</div>
+	<p class="section-subtitle">Variants & Colors</p>
+	<Card>
+		{#each variantOptions as item}
+			<p class="text-sm mb-2 font-semibold">{item.label} Variant</p>
+			<div class="wrap gap-4 mb-6">
+				{#each colorOptions as colorItem}
+					<div style="width: 180px; min-height: 120px;">
+						<SideNav
+							variant={item.id as any}
+							color={colorItem.id as any}
+							items={[
+								{ type: 'header', label: colorItem.label },
+								{ label: 'Active Item', href: '/docs/navigation/sidenav' },
+								{ label: 'Hover Me', onclick: () => {} }
+							]}
+						/>
+					</div>
+				{/each}
 			</div>
 		{/each}
 	</Card>
 </Section>
 
 <Section>
+	<p class="section-subtitle">Sizes</p>
 	<Card>
-		{#snippet header()}
-			<h4>Item Types</h4>
-		{/snippet}
-		<ul class="list-disc pl-6 space-y-2 text-sm">
-			<li><strong>item</strong> - Standard navigation link (default)</li>
-			<li><strong>header</strong> - Section header with optional icon</li>
-			<li><strong>divider</strong> - Horizontal separator line</li>
-			<li><strong>submenu</strong> - Collapsible group with subitems</li>
-		</ul>
+		<div class="wrap gap-4">
+			{#each sizeOptions as sizeItem}
+				<div style="width: 220px; min-height: 180px;">
+					<SideNav
+						size={sizeItem.id as any}
+						items={[
+							{ type: 'header', label: 'Size: ' + sizeItem.label },
+							{ label: 'Home', href: '#', icon: HomeLinearIcon },
+							{ label: 'Documents', href: '#', icon: DocumentLinearIcon },
+							{ label: 'Settings', href: '#', icon: SettingsLinearIcon }
+						]}
+					/>
+				</div>
+			{/each}
+		</div>
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Usage Examples</h4>
-		{/snippet}
-		<Code
-			lang="svelte"
-			code={`<script lang="ts">
-  import { SideNav } from 'ui-svelte';
-  import { DashboardIcon, SettingsIcon, DocsIcon } from '$lib/icons';
-
-  const items = [
-    { type: 'header', label: 'Main Menu' },
-    { label: 'Dashboard', href: '/dashboard', icon: DashboardIcon },
-    { label: 'Settings', href: '/settings', icon: SettingsIcon },
-    { type: 'divider' },
-    {
-      type: 'submenu',
-      label: 'Documents',
-      icon: DocsIcon,
-      subitems: [
-        { label: 'All Files', href: '/docs' },
-        { label: 'Recent', href: '/docs/recent' }
-      ],
-      open: true
-    }
-  ];
-<\/script>
-
-<!-- Basic SideNav -->
-<SideNav {items} />
-
-<!-- Wide items (full width) -->
-<SideNav {items} isWide />
-
-<!-- Solid style with variant -->
-<SideNav {items} isSolid variant="primary" />
-
-<!-- Compact spacing -->
-<SideNav {items} isCompact />
-
-<!-- Collapsible sidebar (hover to expand) -->
-<SideNav {items} isCollapsible />`}
-		/>
+	<p class="section-subtitle">Item Types</p>
+	<Card>
+		<div class="wrap gap-4">
+			<div style="width: 280px;">
+				<p class="text-sm mb-2">Headers & Dividers</p>
+				<SideNav
+					items={[
+						{ type: 'header', label: 'Main Menu', icon: HomeLinearIcon },
+						{ type: 'divider' },
+						{ label: 'Dashboard', href: '#' },
+						{ label: 'Analytics', href: '#' },
+						{ type: 'header', label: 'Settings' },
+						{ type: 'divider' },
+						{ label: 'Profile', href: '#' },
+						{ label: 'Preferences', href: '#' }
+					]}
+				/>
+			</div>
+			<div style="width: 280px;">
+				<p class="text-sm mb-2">With Submenus</p>
+				<SideNav
+					items={[
+						{
+							type: 'submenu',
+							label: 'Products',
+							icon: FolderLinearIcon,
+							open: true,
+							subitems: [
+								{ label: 'All Products', href: '#' },
+								{ label: 'Categories', href: '#' },
+								{ label: 'Inventory', href: '#' }
+							]
+						},
+						{
+							type: 'submenu',
+							label: 'Orders',
+							icon: DocumentLinearIcon,
+							subitems: [
+								{ label: 'Pending', href: '#' },
+								{ label: 'Completed', href: '#' }
+							]
+						}
+					]}
+				/>
+			</div>
+			<div style="width: 280px;">
+				<p class="text-sm mb-2">With Descriptions & Status</p>
+				<SideNav
+					items={[
+						{ label: 'Dashboard', href: '#', description: 'View analytics', icon: ChartLinearIcon },
+						{
+							label: 'Messages',
+							href: '#',
+							description: 'Check inbox',
+							status: '5',
+							icon: DocumentLinearIcon
+						},
+						{
+							label: 'Settings',
+							href: '#',
+							description: 'Configure app',
+							status: 'New',
+							icon: SettingsLinearIcon
+						}
+					]}
+				/>
+			</div>
+		</div>
 	</Card>
 </Section>
 
-<DocsProps {props} />
-
 <Section>
+	<p class="section-subtitle">Collapsible Mode</p>
 	<Card>
-		{#snippet header()}
-			<h4>SideNavItem Type</h4>
-		{/snippet}
-		<p class="text-sm">Each item in the items array should follow this structure:</p>
-		<DocsProps props={itemProps} />
+		<p class="text-sm mb-4">Hover over the navigation to expand it.</p>
+		<div style="width: 60px; min-height: 300px;">
+			<SideNav
+				isCollapsible
+				items={[
+					{ type: 'header', label: 'App', icon: HomeLinearIcon },
+					{ type: 'divider' },
+					{ label: 'Home', href: '#', icon: HomeLinearIcon },
+					{ label: 'Documents', href: '#', icon: DocumentLinearIcon },
+					{ label: 'Analytics', href: '#', icon: ChartLinearIcon },
+					{ label: 'Settings', href: '#', icon: SettingsLinearIcon }
+				]}
+			/>
+		</div>
 	</Card>
 </Section>
 
 <Section>
-	<Card>
-		{#snippet header()}
-			<h4>SideNavSubItem Type</h4>
-		{/snippet}
-		<p class="text-sm">Subitems in a submenu should follow this structure:</p>
-		<DocsProps props={subitemProps} />
-	</Card>
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
+</Section>
+
+<Section>
+	<p class="section-subtitle">SideNavItem Type</p>
+	<DocsProps props={itemProps} />
+</Section>
+
+<Section>
+	<p class="section-subtitle">SideNavSubItem Type</p>
+	<DocsProps props={subItemProps} />
 </Section>
