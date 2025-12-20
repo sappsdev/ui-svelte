@@ -1,12 +1,18 @@
 <script lang="ts">
 	import { cn } from '$lib/utils/class-names.js';
-	import { onMount } from 'svelte';
+	import { onMount, untrack, type Snippet } from 'svelte';
+
+	type Color = 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'muted';
+	type Size = 'sm' | 'md' | 'lg' | 'xl';
+	type LegendPosition = 'top' | 'right' | 'bottom' | 'left' | 'none';
+	type Palette = 'default' | 'rainbow' | 'ocean' | 'sunset' | 'forest' | 'neon';
 
 	type TooltipData = {
 		value: number;
 		label: string;
 		seriesName: string;
 		color: Color;
+		index: number;
 	};
 
 	type LinearScale = {
@@ -22,8 +28,6 @@
 		domain: (string | number)[];
 		range: [number, number];
 	};
-
-	type Color = 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'muted';
 
 	type DataPoint = {
 		label: string;
@@ -51,7 +55,7 @@
 		colors?: Color[];
 		grouped?: boolean;
 		stacked?: boolean;
-		showGrid?: boolean;
+		hideGrid?: boolean;
 		showLegend?: boolean;
 		showValues?: boolean;
 		barPadding?: number;
@@ -61,6 +65,18 @@
 		empty?: boolean;
 		emptyText?: string;
 		rootClass?: string;
+		chartClass?: string;
+		size?: Size;
+		palette?: Palette;
+		legendPosition?: LegendPosition;
+		disableAnimation?: boolean;
+		animationDuration?: number;
+		showGradient?: boolean;
+		showGlow?: boolean;
+		valueFormatter?: (value: number) => string;
+		onClick?: (bar: DataPoint, seriesIndex: number, dataIndex: number) => void;
+		onHover?: (bar: DataPoint | null, seriesIndex: number, dataIndex: number) => void;
+		tooltipContent?: Snippet<[{ data: TooltipData }]>;
 	};
 
 	let {
@@ -71,23 +87,84 @@
 		colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger'] as Color[],
 		grouped = false,
 		stacked = false,
-		showGrid = true,
+		hideGrid = false,
 		showLegend = false,
 		showValues = false,
 		barPadding = 0.2,
 		groupPadding = 0.1,
-		barRadius = 0,
+		barRadius = 4,
 		loading = false,
 		empty = false,
 		emptyText = 'No data available',
-		rootClass
+		rootClass,
+		chartClass,
+		size = 'md' as Size,
+		palette,
+		legendPosition = 'bottom' as LegendPosition,
+		disableAnimation = false,
+		animationDuration = 800,
+		showGradient = false,
+		showGlow = false,
+		valueFormatter,
+		onClick,
+		onHover,
+		tooltipContent
 	}: Props = $props();
+
+	const sizePresets: Record<Size, { height: number }> = {
+		sm: { height: 200 },
+		md: { height: 300 },
+		lg: { height: 400 },
+		xl: { height: 500 }
+	};
+
+	const colorPalettes: Record<Palette, Color[]> = {
+		default: ['primary', 'secondary', 'success', 'info', 'warning', 'danger', 'muted'],
+		rainbow: ['danger', 'warning', 'success', 'info', 'primary', 'secondary', 'muted'],
+		ocean: ['info', 'primary', 'secondary', 'success', 'muted', 'warning', 'danger'],
+		sunset: ['warning', 'danger', 'secondary', 'primary', 'info', 'success', 'muted'],
+		forest: ['success', 'primary', 'info', 'secondary', 'muted', 'warning', 'danger'],
+		neon: ['secondary', 'primary', 'success', 'warning', 'danger', 'info', 'muted']
+	};
+
+	const colorClass: Record<Color, string> = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger',
+		muted: 'is-muted'
+	};
+
+	function getSeriesColor(seriesIndex: number, seriesColor?: Color): Color {
+		if (seriesColor) return seriesColor;
+		if (palette) {
+			const paletteColors = colorPalettes[palette];
+			return paletteColors[seriesIndex % paletteColors.length];
+		}
+		return colors[seriesIndex % colors.length];
+	}
+
+	function formatValue(value: number): string {
+		if (valueFormatter) return valueFormatter(value);
+		if (value === 0) return '0';
+		const abs = Math.abs(value);
+		if (abs >= 1e9) return `${(value / 1e9).toFixed(1)}B`;
+		if (abs >= 1e6) return `${(value / 1e6).toFixed(1)}M`;
+		if (abs >= 1e3) return `${(value / 1e3).toFixed(1)}K`;
+		if (abs < 1) return value.toFixed(2);
+		return value.toFixed(0);
+	}
 
 	let containerEl: HTMLDivElement | undefined = $state();
 	let containerSize = $state({ width: 0, height: 0 });
+	// svelte-ignore state_referenced_locally
+	let animationProgress = $state(disableAnimation ? 1 : 0);
+	let animationFrameId: number | null = null;
 
 	let width = $derived(containerSize.width || 600);
-	let height = $derived(containerSize.height || 400);
+	let height = $derived(containerSize.height || sizePresets[size].height);
 
 	function createLinearScale(domain: [number, number], range: [number, number]): LinearScale {
 		const [d0, d1] = domain;
@@ -130,16 +207,6 @@
 		return scale;
 	}
 
-	function formatNumber(value: number): string {
-		if (value === 0) return '0';
-		const abs = Math.abs(value);
-		if (abs >= 1e9) return `${(value / 1e9).toFixed(1)}B`;
-		if (abs >= 1e6) return `${(value / 1e6).toFixed(1)}M`;
-		if (abs >= 1e3) return `${(value / 1e3).toFixed(1)}K`;
-		if (abs < 1) return value.toFixed(2);
-		return value.toFixed(0);
-	}
-
 	let innerWidth = $derived(width - margin.left - margin.right);
 	let innerHeight = $derived(height - margin.top - margin.bottom);
 
@@ -148,7 +215,7 @@
 			return series.map((s, i) => ({
 				name: s.name,
 				data: s.data,
-				color: s.color || colors[i % colors.length]
+				color: getSeriesColor(i, s.color)
 			}));
 		}
 
@@ -234,33 +301,82 @@
 	let tooltipData = $state<TooltipData | null>(null);
 	let tooltipPosition = $state<{ x: number; y: number }>({ x: 0, y: 0 });
 	let isTooltipActive = $state(false);
+	let hoveredBar = $state<{ seriesIndex: number; dataIndex: number } | null>(null);
+
+	let gradientIds = $derived(
+		normalizedSeries.map((_, i) => `bar-gradient-${i}-${Math.random().toString(36).slice(2, 9)}`)
+	);
 
 	function handleBarHover(
 		value: number,
 		label: string,
 		seriesName: string,
 		event: MouseEvent,
-		barColor: Color
+		barColor: Color,
+		seriesIndex: number,
+		dataIndex: number
 	): void {
 		const target = event.target as SVGRectElement;
 		const rect = target.getBoundingClientRect();
 
-		tooltipData = { value, label, seriesName, color: barColor };
+		tooltipData = { value, label, seriesName, color: barColor, index: dataIndex };
 		tooltipPosition = {
 			x: rect.right + 8,
 			y: rect.top + rect.height / 2
 		};
 		isTooltipActive = true;
+		hoveredBar = { seriesIndex, dataIndex };
+
+		if (onHover) {
+			onHover({ label, value }, seriesIndex, dataIndex);
+		}
 	}
 
 	function handleBarLeave(): void {
 		isTooltipActive = false;
+		hoveredBar = null;
+
+		if (onHover) {
+			onHover(null, -1, -1);
+		}
+
 		setTimeout(() => {
 			if (!isTooltipActive) {
 				tooltipData = null;
 			}
 		}, 100);
 	}
+
+	function handleBarClick(bar: DataPoint, seriesIndex: number, dataIndex: number): void {
+		if (onClick) {
+			onClick(bar, seriesIndex, dataIndex);
+		}
+	}
+
+	let containerLayoutClass = $derived(() => {
+		switch (legendPosition) {
+			case 'top':
+				return 'flex-col-reverse';
+			case 'bottom':
+				return 'flex-col';
+			case 'left':
+				return 'flex-row-reverse';
+			case 'right':
+				return 'flex-row';
+			default:
+				return 'flex-col';
+		}
+	});
+
+	let legendLayoutClass = $derived(() => {
+		switch (legendPosition) {
+			case 'top':
+			case 'bottom':
+				return 'flex-row flex-wrap';
+			default:
+				return 'flex-col';
+		}
+	});
 
 	onMount(() => {
 		const updateSize = () => {
@@ -270,19 +386,63 @@
 			}
 		};
 
+		const handleScroll = () => {
+			if (isTooltipActive) {
+				isTooltipActive = false;
+				hoveredBar = null;
+				tooltipData = null;
+			}
+		};
+
 		updateSize();
 		const resizeObserver = new ResizeObserver(updateSize);
 		if (containerEl) {
 			resizeObserver.observe(containerEl);
 		}
 
+		window.addEventListener('scroll', handleScroll, true);
+
 		return () => {
+			if (animationFrameId !== null) {
+				cancelAnimationFrame(animationFrameId);
+			}
 			resizeObserver.disconnect();
+			window.removeEventListener('scroll', handleScroll, true);
 		};
+	});
+
+	$effect(() => {
+		if (animationFrameId !== null) {
+			cancelAnimationFrame(animationFrameId);
+			animationFrameId = null;
+		}
+
+		if (!disableAnimation && normalizedSeries.length > 0) {
+			const startTime = Date.now();
+			const startProgress = untrack(() => animationProgress);
+
+			const animate = () => {
+				const now = Date.now();
+				const progress = Math.min((now - startTime) / animationDuration, 1);
+				const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+				animationProgress = startProgress + (1 - startProgress) * easeProgress;
+
+				if (progress < 1) {
+					animationFrameId = requestAnimationFrame(animate);
+				} else {
+					animationFrameId = null;
+				}
+			};
+
+			animationFrameId = requestAnimationFrame(animate);
+		} else {
+			animationProgress = 1;
+		}
 	});
 </script>
 
-<div bind:this={containerEl} class={cn('bar-chart-container', rootClass)}>
+<div class={cn('bar-chart-container', `is-${size}`, containerLayoutClass(), rootClass)}>
 	{#if loading}
 		<div class="bar-chart-loading">
 			<svg class="bar-chart-loading-spinner" viewBox="0 0 24 24">
@@ -314,15 +474,30 @@
 			<span>{emptyText}</span>
 		</div>
 	{:else}
-		<div class="bar-chart">
+		<div bind:this={containerEl} class={cn('bar-chart', `is-${size}`, chartClass)}>
 			<svg class="bar-chart-svg" {width} {height}>
+				{#if showGradient}
+					<defs>
+						{#each normalizedSeries as s, i}
+							{@const barColor = s.color || 'primary'}
+							<linearGradient id={gradientIds[i]} x1="0%" y1="100%" x2="0%" y2="0%">
+								<stop offset="0%" style="stop-color:var(--color-{barColor})" />
+								<stop
+									offset="100%"
+									style="stop-color:var(--color-{barColor}-dark, var(--color-{barColor}))"
+								/>
+							</linearGradient>
+						{/each}
+					</defs>
+				{/if}
+
 				<g transform="translate({margin.left}, {margin.top})">
 					{#if normalizedSeries.length > 0 && categories.length > 0}
 						{@const grid = createGridLines()}
 						{@const xScale = createBandScale(categories, [0, innerWidth], barPadding)}
 						{@const yScale = createLinearScale(yDomain, [innerHeight, 0])}
 
-						{#if showGrid}
+						{#if !hideGrid}
 							<g class="bar-chart-grid">
 								{#each grid as line}
 									<line x1={0} y1={line.y} x2={line.x} y2={line.y} class="bar-chart-grid-line" />
@@ -348,7 +523,7 @@
 									text-anchor="end"
 									dominant-baseline="middle"
 								>
-									{formatNumber(line.value)}
+									{formatValue(line.value)}
 								</text>
 							{/each}
 
@@ -372,98 +547,134 @@
 							)}
 
 							{#each normalizedSeries as s, seriesIndex}
-								{#each s.data as d}
+								{#each s.data as d, dataIndex}
 									{@const categoryX = xScale(d.label)}
 									{@const barX = categoryX + groupScale(seriesIndex)}
 									{@const barWidth = groupScale.bandwidth()}
-									{@const barHeight = innerHeight - yScale(d.value)}
-									{@const barY = yScale(d.value)}
+									{@const fullBarHeight = innerHeight - yScale(d.value)}
+									{@const barHeight = fullBarHeight * animationProgress}
+									{@const barY = innerHeight - barHeight}
+									{@const isHovered =
+										hoveredBar?.seriesIndex === seriesIndex && hoveredBar?.dataIndex === dataIndex}
 
 									<!-- svelte-ignore a11y_no_static_element_interactions -->
+									<!-- svelte-ignore a11y_click_events_have_key_events -->
 									<rect
 										x={barX}
 										y={barY}
 										width={barWidth}
-										height={barHeight}
+										height={Math.max(0, barHeight)}
 										rx={barRadius}
 										ry={barRadius}
-										class="bar-chart-bar is-{s.color}"
-										onmouseenter={(e) => handleBarHover(d.value, d.label, s.name, e, s.color!)}
+										class={cn(
+											'bar-chart-bar',
+											colorClass[s.color!],
+											showGlow && 'has-glow',
+											isHovered && 'is-hovered'
+										)}
+										style={showGradient ? `fill: url(#${gradientIds[seriesIndex]});` : ''}
+										onmouseenter={(e) =>
+											handleBarHover(d.value, d.label, s.name, e, s.color!, seriesIndex, dataIndex)}
 										onmouseleave={handleBarLeave}
+										onclick={() => handleBarClick(d, seriesIndex, dataIndex)}
 									/>
 
-									{#if showValues}
+									{#if showValues && animationProgress === 1}
 										<text
 											x={barX + barWidth / 2}
 											y={barY - 5}
-											class="bar-chart-axis-label"
+											class="bar-chart-value-label"
 											text-anchor="middle"
-											font-size="10"
 										>
-											{d.value}
+											{formatValue(d.value)}
 										</text>
 									{/if}
 								{/each}
 							{/each}
 						{:else if stacked && normalizedSeries.length > 1}
-							{#each stackedData as s}
-								{#each s.data as d}
+							{#each stackedData as s, seriesIndex}
+								{#each s.data as d, dataIndex}
 									{@const barX = xScale(d.label)}
 									{@const barWidth = xScale.bandwidth()}
-									{@const barY = yScale((d as StackedDataPoint).y1)}
-									{@const barHeight =
-										yScale((d as StackedDataPoint).y0) - yScale((d as StackedDataPoint).y1)}
+									{@const fullY0 = yScale((d as StackedDataPoint).y0)}
+									{@const fullY1 = yScale((d as StackedDataPoint).y1)}
+									{@const fullBarHeight = fullY0 - fullY1}
+									{@const barHeight = fullBarHeight * animationProgress}
+									{@const barY = innerHeight - (innerHeight - fullY1) * animationProgress}
+									{@const isHovered =
+										hoveredBar?.seriesIndex === seriesIndex && hoveredBar?.dataIndex === dataIndex}
 
 									<!-- svelte-ignore a11y_no_static_element_interactions -->
+									<!-- svelte-ignore a11y_click_events_have_key_events -->
 									<rect
 										x={barX}
 										y={barY}
 										width={barWidth}
-										height={barHeight}
+										height={Math.max(0, barHeight)}
 										rx={barRadius}
 										ry={barRadius}
-										class="bar-chart-bar is-{s.color}"
-										onmouseenter={(e) => handleBarHover(d.value, d.label, s.name, e, s.color!)}
+										class={cn(
+											'bar-chart-bar',
+											colorClass[s.color!],
+											showGlow && 'has-glow',
+											isHovered && 'is-hovered'
+										)}
+										style={showGradient ? `fill: url(#${gradientIds[seriesIndex]});` : ''}
+										onmouseenter={(e) =>
+											handleBarHover(d.value, d.label, s.name, e, s.color!, seriesIndex, dataIndex)}
 										onmouseleave={handleBarLeave}
+										onclick={() => handleBarClick(d, seriesIndex, dataIndex)}
 									/>
 								{/each}
 							{/each}
 						{:else}
-							{#each normalizedSeries[0].data as d}
+							{#each normalizedSeries[0].data as d, dataIndex}
 								{@const barX = xScale(d.label)}
 								{@const barWidth = xScale.bandwidth()}
-								{@const barHeight = innerHeight - yScale(d.value)}
-								{@const barY = yScale(d.value)}
+								{@const fullBarHeight = innerHeight - yScale(d.value)}
+								{@const barHeight = fullBarHeight * animationProgress}
+								{@const barY = innerHeight - barHeight}
+								{@const isHovered =
+									hoveredBar?.seriesIndex === 0 && hoveredBar?.dataIndex === dataIndex}
 
 								<!-- svelte-ignore a11y_no_static_element_interactions -->
+								<!-- svelte-ignore a11y_click_events_have_key_events -->
 								<rect
 									x={barX}
 									y={barY}
 									width={barWidth}
-									height={barHeight}
+									height={Math.max(0, barHeight)}
 									rx={barRadius}
 									ry={barRadius}
-									class="bar-chart-bar is-{normalizedSeries[0].color}"
+									class={cn(
+										'bar-chart-bar',
+										colorClass[normalizedSeries[0].color!],
+										showGlow && 'has-glow',
+										isHovered && 'is-hovered'
+									)}
+									style={showGradient ? `fill: url(#${gradientIds[0]});` : ''}
 									onmouseenter={(e) =>
 										handleBarHover(
 											d.value,
 											d.label,
 											normalizedSeries[0].name,
 											e,
-											normalizedSeries[0].color!
+											normalizedSeries[0].color!,
+											0,
+											dataIndex
 										)}
 									onmouseleave={handleBarLeave}
+									onclick={() => handleBarClick(d, 0, dataIndex)}
 								/>
 
-								{#if showValues}
+								{#if showValues && animationProgress === 1}
 									<text
 										x={barX + barWidth / 2}
 										y={barY - 5}
-										class="bar-chart-axis-label"
+										class="bar-chart-value-label"
 										text-anchor="middle"
-										font-size="10"
 									>
-										{d.value}
+										{formatValue(d.value)}
 									</text>
 								{/if}
 							{/each}
@@ -478,23 +689,34 @@
 				class="bar-chart-tooltip"
 				style="top: {tooltipPosition.y}px; left: {tooltipPosition.x}px;"
 			>
-				<div class="bar-chart-tooltip-content">
-					{#if tooltipData.seriesName !== 'Data'}
-						<div class="bar-chart-tooltip-title">{tooltipData.seriesName}</div>
-					{/if}
-					<div class="bar-chart-tooltip-row">
-						<span class="bar-chart-tooltip-label">{tooltipData.label}:</span>
-						<span class="bar-chart-tooltip-value">{tooltipData.value}</span>
+				{#if tooltipContent}
+					{@render tooltipContent({ data: tooltipData })}
+				{:else}
+					<div class="bar-chart-tooltip-content">
+						{#if tooltipData.seriesName !== 'Data'}
+							<div class="bar-chart-tooltip-title">{tooltipData.seriesName}</div>
+						{/if}
+						<div class="bar-chart-tooltip-row">
+							<div class={cn('bar-chart-tooltip-color', colorClass[tooltipData.color])}></div>
+							<span class="bar-chart-tooltip-label">{tooltipData.label}:</span>
+							<span class="bar-chart-tooltip-value">{formatValue(tooltipData.value)}</span>
+						</div>
 					</div>
-				</div>
+				{/if}
 			</div>
 		{/if}
 
-		{#if showLegend && normalizedSeries.length > 1}
-			<div class="bar-chart-legend">
-				{#each normalizedSeries as s}
-					<div class="bar-chart-legend-item">
-						<div class="bar-chart-legend-color is-{s.color}"></div>
+		{#if showLegend && legendPosition !== 'none' && normalizedSeries.length > 1}
+			<div class={cn('bar-chart-legend', legendLayoutClass())}>
+				{#each normalizedSeries as s, i}
+					<div
+						class="bar-chart-legend-item"
+						onclick={() => onClick && onClick(s.data[0], i, 0)}
+						onkeydown={(e) => e.key === 'Enter' && onClick && onClick(s.data[0], i, 0)}
+						role="button"
+						tabindex="0"
+					>
+						<div class={cn('bar-chart-legend-color', colorClass[s.color!])}></div>
 						<span>{s.name}</span>
 					</div>
 				{/each}

@@ -6,6 +6,7 @@
 @import './css/base.css';
 @import './css/decorations.css';
 @import './css/rich-text.css';
+@import './css/transitions.css';
 @import './css/typography.css';
 
 @import './control/css/btn.css';

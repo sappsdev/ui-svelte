@@ -1,10 +1,42 @@
 @layer components {
 	.area-chart-container {
-		@apply relative w-full flex flex-col md:flex-row justify-center items-center gap-4;
+		@apply relative w-full flex justify-center items-center gap-4;
+	}
+
+	.area-chart-container.flex-row {
+		@apply flex-col md:flex-row;
+	}
+
+	.area-chart-container.flex-row-reverse {
+		@apply flex-col-reverse md:flex-row-reverse;
+	}
+
+	.area-chart-container.flex-col {
+		@apply flex-col;
+	}
+
+	.area-chart-container.flex-col-reverse {
+		@apply flex-col-reverse;
 	}
 
 	.area-chart {
-		@apply relative flex items-center justify-center w-auto h-56 text-on-muted;
+		@apply relative flex items-center justify-center w-full text-on-muted;
+	}
+
+	.area-chart.is-sm {
+		@apply h-[150px];
+	}
+
+	.area-chart.is-md {
+		@apply h-56;
+	}
+
+	.area-chart.is-lg {
+		@apply h-[300px];
+	}
+
+	.area-chart.is-xl {
+		@apply h-[400px];
 	}
 
 	.area-chart-svg {
@@ -17,7 +49,7 @@
 	}
 
 	.area-chart-axis-label {
-		@apply fill-on-muted text-xs;
+		@apply fill-on-muted;
 	}
 
 	.area-chart-grid-line {
@@ -25,6 +57,18 @@
 		stroke-opacity: 0.3;
 		stroke-width: 1;
 		stroke-dasharray: 2, 2;
+	}
+
+	.area-chart-area {
+		@apply transition-all duration-300 ease-in-out;
+	}
+
+	.area-chart-area.is-hovered {
+		opacity: 0.9;
+	}
+
+	.area-chart-area.has-glow {
+		filter: drop-shadow(0 0 6px currentColor);
 	}
 
 	.area-chart-area.is-primary {
@@ -56,79 +100,73 @@
 	}
 
 	.area-chart-gradient-start.is-primary {
-		@apply fill-primary;
 		stop-color: var(--color-primary, #3b82f6);
 	}
 
 	.area-chart-gradient-start.is-secondary {
-		@apply fill-secondary;
 		stop-color: var(--color-secondary, #6366f1);
 	}
 
 	.area-chart-gradient-start.is-success {
-		@apply fill-success;
 		stop-color: var(--color-success, #22c55e);
 	}
 
 	.area-chart-gradient-start.is-info {
-		@apply fill-info;
 		stop-color: var(--color-info, #06b6d4);
 	}
 
 	.area-chart-gradient-start.is-warning {
-		@apply fill-warning;
 		stop-color: var(--color-warning, #f59e0b);
 	}
 
 	.area-chart-gradient-start.is-danger {
-		@apply fill-danger;
 		stop-color: var(--color-danger, #ef4444);
 	}
 
 	.area-chart-gradient-start.is-muted {
-		@apply fill-muted;
 		stop-color: var(--color-muted, #9ca3af);
 	}
 
 	.area-chart-gradient-end.is-primary {
-		@apply fill-primary;
 		stop-color: var(--color-primary, #3b82f6);
 	}
 
 	.area-chart-gradient-end.is-secondary {
-		@apply fill-secondary;
 		stop-color: var(--color-secondary, #6366f1);
 	}
 
 	.area-chart-gradient-end.is-success {
-		@apply fill-success;
 		stop-color: var(--color-success, #22c55e);
 	}
 
 	.area-chart-gradient-end.is-info {
-		@apply fill-info;
 		stop-color: var(--color-info, #06b6d4);
 	}
 
 	.area-chart-gradient-end.is-warning {
-		@apply fill-warning;
 		stop-color: var(--color-warning, #f59e0b);
 	}
 
 	.area-chart-gradient-end.is-danger {
-		@apply fill-danger;
 		stop-color: var(--color-danger, #ef4444);
 	}
 
 	.area-chart-gradient-end.is-muted {
-		@apply fill-muted;
 		stop-color: var(--color-muted, #9ca3af);
 	}
 
 	.area-chart-line {
-		@apply fill-none;
+		@apply fill-none transition-all duration-300 ease-in-out;
 		stroke-linecap: round;
 		stroke-linejoin: round;
+	}
+
+	.area-chart-line.is-hovered {
+		stroke-width: 3;
+	}
+
+	.area-chart-line.has-glow {
+		filter: drop-shadow(0 0 4px currentColor);
 	}
 
 	.area-chart-line.is-primary {
@@ -165,7 +203,12 @@
 	}
 
 	.area-chart-point:hover {
-		r: 5;
+		r: 6;
+		filter: brightness(1.1);
+	}
+
+	.area-chart-point.has-glow:hover {
+		filter: drop-shadow(0 0 6px currentColor) brightness(1.1);
 	}
 
 	.area-chart-point.is-primary {
@@ -197,36 +240,91 @@
 	}
 
 	.area-chart-tooltip {
-		@apply fixed pointer-events-none z-50 bg-on-muted text-muted px-3 py-2 rounded-md shadow-sm text-xs font-medium whitespace-nowrap;
-		transform: translateY(-50%);
+		position: fixed;
+		pointer-events: none;
+		z-index: 50;
+		background: var(--color-on-muted, #1f2937);
+		color: var(--color-muted, #f9fafb);
+		padding: 0.5rem 0.75rem;
+		border-radius: 0.375rem;
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+		font-size: 0.75rem;
+		font-weight: 500;
+		white-space: nowrap;
+		transform: translate(-50%, -100%);
 	}
 
 	.area-chart-tooltip-title {
-		@apply font-semibold mb-1;
+		font-weight: 600;
+		margin-bottom: 0.25rem;
 	}
 
 	.area-chart-tooltip-row {
-		@apply flex items-center gap-2;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 
-	.area-chart-tooltip-label {
-		@apply opacity-80;
+	.area-chart-tooltip-color {
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 50%;
+	}
+
+	.area-chart-tooltip-color.is-primary {
+		background: var(--color-primary, #3b82f6);
+	}
+
+	.area-chart-tooltip-color.is-secondary {
+		background: var(--color-secondary, #6366f1);
+	}
+
+	.area-chart-tooltip-color.is-success {
+		background: var(--color-success, #22c55e);
+	}
+
+	.area-chart-tooltip-color.is-info {
+		background: var(--color-info, #06b6d4);
+	}
+
+	.area-chart-tooltip-color.is-warning {
+		background: var(--color-warning, #f59e0b);
+	}
+
+	.area-chart-tooltip-color.is-danger {
+		background: var(--color-danger, #ef4444);
+	}
+
+	.area-chart-tooltip-color.is-muted {
+		background: var(--color-muted, #9ca3af);
 	}
 
 	.area-chart-tooltip-value {
-		@apply font-semibold;
+		font-weight: 600;
 	}
 
 	.area-chart-legend {
-		@apply flex flex-wrap md:flex-col gap-2 items-center justify-center text-sm text-on-muted text-nowrap;
+		@apply flex gap-3 items-center justify-center text-sm text-on-muted text-nowrap;
+	}
+
+	.area-chart-legend.flex-col {
+		@apply flex-wrap md:flex-col;
+	}
+
+	.area-chart-legend.flex-row {
+		@apply flex-row flex-wrap;
 	}
 
 	.area-chart-legend-item {
-		@apply flex items-center gap-2 cursor-pointer transition-opacity duration-300;
+		@apply flex items-center gap-2 cursor-pointer transition-all duration-300;
 	}
 
 	.area-chart-legend-item:hover {
 		@apply opacity-80;
+	}
+
+	.area-chart-legend-item.is-selected {
+		@apply font-semibold;
 	}
 
 	.area-chart-legend-color {

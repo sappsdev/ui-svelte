@@ -1,8 +1,9 @@
 @layer components {
 	.chip {
 		@apply relative flex items-center justify-center flex-nowrap w-fit;
-		@apply rounded-ui outline-none;
+		@apply rounded-ui outline-none truncate whitespace-nowrap;
 		@apply select-none font-light;
+		@apply transition-all duration-300;
 		@apply disabled:cursor-not-allowed disabled:opacity-50;
 		@apply disabled:transition-none disabled:active:scale-100;
 	}
@@ -10,58 +11,133 @@
 	.chip {
 		&.is-xs {
 			@apply h-5 gap-1 px-3 text-xs;
-			& .icon { @apply h-3 w-auto; }
+			& .icon {
+				@apply h-3 w-auto;
+			}
 		}
 
 		&.is-sm {
 			@apply h-6 gap-2 px-3 text-xs;
-			& .icon { @apply h-4 w-auto; }
+			& .icon {
+				@apply h-4 w-auto;
+			}
 		}
 
 		&.is-md {
 			@apply h-8 gap-2 px-4 text-sm;
-			& .icon { @apply h-5 w-auto; }
+			& .icon {
+				@apply h-5 w-auto;
+			}
 		}
 
 		&.is-lg {
 			@apply h-10 gap-2 px-5 text-lg;
-			& .icon { @apply h-6 w-auto; }
+			& .icon {
+				@apply h-6 w-auto;
+			}
 		}
 
 		&.is-xl {
 			@apply h-12 gap-2 px-6 text-2xl;
-			& .icon { @apply h-8 w-auto; }
+			& .icon {
+				@apply h-8 w-auto;
+			}
 		}
 	}
 
 	.chip.is-soft {
-		&.is-primary { @apply bg-on-primary text-primary; }
-		&.is-secondary { @apply bg-on-secondary text-secondary; }
-		&.is-muted { @apply bg-muted text-on-muted; }
-		&.is-success { @apply bg-on-success text-success; }
-		&.is-info { @apply bg-on-info text-info; }
-		&.is-warning { @apply bg-on-warning text-warning; }
-		&.is-danger { @apply bg-on-danger text-danger; }
+		&.is-primary {
+			@apply bg-on-primary text-primary;
+		}
+		&.is-secondary {
+			@apply bg-on-secondary text-secondary;
+		}
+		&.is-muted {
+			@apply bg-muted text-on-muted;
+		}
+		&.is-success {
+			@apply bg-on-success text-success;
+		}
+		&.is-info {
+			@apply bg-on-info text-info;
+		}
+		&.is-warning {
+			@apply bg-on-warning text-warning;
+		}
+		&.is-danger {
+			@apply bg-on-danger text-danger;
+		}
 	}
 
 	.chip.is-solid {
-		&.is-primary { @apply bg-primary text-on-primary; }
-		&.is-secondary { @apply bg-secondary text-on-secondary; }
-		&.is-muted { @apply bg-on-muted text-muted; }
-		&.is-success { @apply bg-success text-on-success; }
-		&.is-info { @apply bg-info text-on-info; }
-		&.is-warning { @apply bg-warning text-on-warning; }
-		&.is-danger { @apply bg-danger text-on-danger; }
+		&.is-primary {
+			@apply bg-primary text-on-primary;
+		}
+		&.is-secondary {
+			@apply bg-secondary text-on-secondary;
+		}
+		&.is-muted {
+			@apply bg-on-muted text-muted;
+		}
+		&.is-success {
+			@apply bg-success text-on-success;
+		}
+		&.is-info {
+			@apply bg-info text-on-info;
+		}
+		&.is-warning {
+			@apply bg-warning text-on-warning;
+		}
+		&.is-danger {
+			@apply bg-danger text-on-danger;
+		}
 	}
 
 	.chip.is-outlined {
-		&.is-primary { @apply inset-ring-2 inset-ring-primary text-primary; }
-		&.is-secondary { @apply inset-ring-2 inset-ring-secondary text-secondary; }
-		&.is-muted { @apply inset-ring-2 inset-ring-on-muted text-on-muted; }
-		&.is-success { @apply inset-ring-2 inset-ring-success text-success; }
-		&.is-info { @apply inset-ring-2 inset-ring-info text-info; }
-		&.is-warning { @apply inset-ring-2 inset-ring-warning text-warning; }
-		&.is-danger { @apply inset-ring-2 inset-ring-danger text-danger; }
+		&.is-primary {
+			@apply inset-ring-2 inset-ring-primary text-primary;
+		}
+		&.is-secondary {
+			@apply inset-ring-2 inset-ring-secondary text-secondary;
+		}
+		&.is-muted {
+			@apply inset-ring-2 inset-ring-on-muted text-on-muted;
+		}
+		&.is-success {
+			@apply inset-ring-2 inset-ring-success text-success;
+		}
+		&.is-info {
+			@apply inset-ring-2 inset-ring-info text-info;
+		}
+		&.is-warning {
+			@apply inset-ring-2 inset-ring-warning text-warning;
+		}
+		&.is-danger {
+			@apply inset-ring-2 inset-ring-danger text-danger;
+		}
 	}
 
+	.chip.is-overlay {
+		&.is-primary {
+			@apply bg-on-primary/60 text-primary;
+		}
+		&.is-secondary {
+			@apply bg-on-secondary/60 text-secondary;
+		}
+		&.is-muted {
+			@apply bg-muted/60 text-on-muted;
+		}
+		&.is-success {
+			@apply bg-on-success/60 text-success;
+		}
+		&.is-info {
+			@apply bg-on-info/60 text-info;
+		}
+		&.is-warning {
+			@apply bg-on-warning/60 text-warning;
+		}
+		&.is-danger {
+			@apply bg-on-danger/60 text-danger;
+		}
+	}
 }

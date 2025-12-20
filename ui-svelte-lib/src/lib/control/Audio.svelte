@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Pause24RegularIcon, Play24RegularIcon } from '$lib/icons/index.js';
-	import { Button, Icon } from '$lib/index.js';
+	import { PauseFilledIcon, PlayFilledIcon } from '$lib/icons/index.js';
 	import { cn } from '$lib/utils/class-names.js';
+	import IconButton from './IconButton.svelte';
 
 	type Props = {
 		class?: string;
@@ -10,7 +10,7 @@
 		variant?: 'solid' | 'soft';
 	};
 
-	let { class: className, src, color = 'success', variant = 'soft' }: Props = $props();
+	let { class: className, src, color = 'primary', variant = 'soft' }: Props = $props();
 
 	let audio: HTMLAudioElement;
 	let currentTime = $state(0);
@@ -22,7 +22,22 @@
 
 	const BAR_COUNT = 50;
 
-	let baseClasses = $derived(cn('media', variant, className));
+	const colors = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
+		info: 'is-info',
+		success: 'is-success',
+		warning: 'is-warning',
+		danger: 'is-danger'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft'
+	};
+
+	let baseClasses = $derived(cn('media', variants[variant], colors[color], className));
 
 	async function analyzeAudio() {
 		try {
@@ -176,16 +191,16 @@
 <div class={baseClasses}>
 	<audio bind:this={audio} {src}></audio>
 
-	<Button onclick={togglePlay} size="md" {variant}>
-		{#if isPlaying}
-			<Icon icon={Pause24RegularIcon} />
-		{:else}
-			<Icon icon={Play24RegularIcon} />
-		{/if}
-	</Button>
+	<IconButton
+		icon={isPlaying ? PauseFilledIcon : PlayFilledIcon}
+		size="md"
+		variant={variant === 'solid' ? 'soft' : 'solid'}
+		{color}
+		onclick={togglePlay}
+	/>
 
 	<div
-		class="media-waveform clickable"
+		class="media-waveform"
 		onmousedown={handleMouseDown}
 		role="slider"
 		tabindex="0"

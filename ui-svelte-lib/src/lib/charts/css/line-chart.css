@@ -1,6 +1,38 @@
 @layer components {
 	.line-chart-container {
-		@apply relative w-full h-full;
+		@apply relative w-full flex justify-center items-center gap-4;
+	}
+
+	.line-chart-container.flex-row {
+		@apply flex-col md:flex-row;
+	}
+
+	.line-chart-container.flex-row-reverse {
+		@apply flex-col-reverse md:flex-row-reverse;
+	}
+
+	.line-chart-container.flex-col {
+		@apply flex-col;
+	}
+
+	.line-chart-container.flex-col-reverse {
+		@apply flex-col-reverse;
+	}
+
+	.line-chart.is-sm {
+		@apply h-[200px];
+	}
+
+	.line-chart.is-md {
+		@apply h-[300px];
+	}
+
+	.line-chart.is-lg {
+		@apply h-[400px];
+	}
+
+	.line-chart.is-xl {
+		@apply h-[500px];
 	}
 
 	.line-chart {
@@ -17,7 +49,7 @@
 	}
 
 	.line-chart-axis-label {
-		@apply fill-on-muted text-xs;
+		@apply fill-on-muted;
 	}
 
 	.line-chart-grid-line {
@@ -32,6 +64,18 @@
 		stroke-linecap: round;
 		stroke-linejoin: round;
 		@apply transition-all duration-300 ease-in-out;
+	}
+
+	.line-chart-line.is-hovered {
+		stroke-width: 3;
+	}
+
+	.line-chart-line.has-glow {
+		filter: drop-shadow(0 0 6px currentColor);
+	}
+
+	.line-chart-line.has-glow.is-hovered {
+		filter: drop-shadow(0 0 10px currentColor);
 	}
 
 	.line-chart-line.is-primary {
@@ -62,13 +106,26 @@
 		@apply stroke-muted;
 	}
 
+	.line-chart-area {
+		@apply transition-all duration-300 ease-in-out;
+		pointer-events: none;
+	}
+
 	.line-chart-point {
 		stroke-width: 2;
 		@apply cursor-pointer transition-all duration-300 ease-in-out;
 	}
 
-	.line-chart-point:hover {
-		r: 5;
+	.line-chart-point.is-hovered {
+		transform-origin: center;
+	}
+
+	.line-chart-point.has-glow {
+		filter: drop-shadow(0 0 4px currentColor);
+	}
+
+	.line-chart-point.has-glow.is-hovered {
+		filter: drop-shadow(0 0 8px currentColor);
 	}
 
 	.line-chart-point.is-primary {
@@ -111,19 +168,51 @@
 		font-size: 0.75rem;
 		font-weight: 500;
 		white-space: nowrap;
-		transform: translateY(-50%);
+		transform: translate(-50%, -100%);
+	}
+
+	.line-chart-tooltip-content {
+		@apply flex flex-col gap-1;
 	}
 
 	.line-chart-tooltip-title {
-		@apply font-semibold mb-1;
+		@apply font-semibold;
 	}
 
 	.line-chart-tooltip-row {
 		@apply flex items-center gap-2;
 	}
 
-	.line-chart-tooltip-label {
-		opacity: 0.8;
+	.line-chart-tooltip-color {
+		@apply w-2 h-2 rounded-full;
+	}
+
+	.line-chart-tooltip-color.is-primary {
+		background: var(--color-primary, #3b82f6);
+	}
+
+	.line-chart-tooltip-color.is-secondary {
+		background: var(--color-secondary, #6366f1);
+	}
+
+	.line-chart-tooltip-color.is-success {
+		background: var(--color-success, #22c55e);
+	}
+
+	.line-chart-tooltip-color.is-info {
+		background: var(--color-info, #06b6d4);
+	}
+
+	.line-chart-tooltip-color.is-warning {
+		background: var(--color-warning, #f59e0b);
+	}
+
+	.line-chart-tooltip-color.is-danger {
+		background: var(--color-danger, #ef4444);
+	}
+
+	.line-chart-tooltip-color.is-muted {
+		background: var(--color-muted, #9ca3af);
 	}
 
 	.line-chart-tooltip-value {
@@ -131,14 +220,23 @@
 	}
 
 	.line-chart-legend {
-		@apply flex flex-wrap gap-4 items-center justify-center mt-4 text-sm text-on-muted;
+		@apply flex gap-4 items-center justify-center text-sm text-on-muted text-nowrap;
+	}
+
+	.line-chart-legend.flex-col {
+		@apply flex-wrap md:flex-col;
+	}
+
+	.line-chart-legend.flex-row {
+		@apply flex-row flex-wrap;
 	}
 
 	.line-chart-legend-item {
 		@apply flex items-center gap-2 cursor-pointer transition-opacity duration-300;
 	}
 
-	.line-chart-legend-item:hover {
+	.line-chart-legend-item:hover,
+	.line-chart-legend-item.is-active {
 		@apply opacity-80;
 	}
 

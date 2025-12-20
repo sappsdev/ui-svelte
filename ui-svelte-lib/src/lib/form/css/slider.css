@@ -1,6 +1,7 @@
 @layer components {
 	.slider-wrapper {
 		@apply flex flex-col gap-0.5 w-full;
+		@apply transition-all duration-300;
 	}
 	.slider-info {
 		@apply flex justify-between items-center text-sm font-medium leading-none;

@@ -47,8 +47,8 @@
 	type Props = {
 		data?: CandleData[];
 		margin?: Margin;
-		showVolume?: boolean;
-		showGrid?: boolean;
+		hideVolume?: boolean;
+		hideGrid?: boolean;
 		candleWidth?: number;
 		bullishColor?: Color;
 		bearishColor?: Color;
@@ -56,8 +56,8 @@
 		loading?: boolean;
 		empty?: boolean;
 		emptyText?: string;
-		enableZoom?: boolean;
-		enableScroll?: boolean;
+		disableZoom?: boolean;
+		disableScroll?: boolean;
 		initialVisibleCandles?: number;
 		minVisibleCandles?: number;
 		maxVisibleCandles?: number;
@@ -67,11 +67,11 @@
 		theme?: Theme;
 		candleStyle?: CandleStyle;
 		scaleType?: ScaleType;
-		showCrosshair?: boolean;
-		showYAxisLabels?: boolean;
-		showXAxisLabels?: boolean;
+		hideCrosshair?: boolean;
+		hideYAxisLabels?: boolean;
+		hideXAxisLabels?: boolean;
 		gridStyle?: GridStyle;
-		showLastPrice?: boolean;
+		hideLastPrice?: boolean;
 		indicators?: Indicator[];
 		onClick?: (candle: CandleData, index: number) => void;
 		onRangeChange?: (start: number, end: number) => void;
@@ -84,8 +84,8 @@
 	let {
 		data = [],
 		margin = { top: 20, right: 60, bottom: 40, left: 60 },
-		showVolume,
-		showGrid,
+		hideVolume,
+		hideGrid,
 		candleWidth = 8,
 		bullishColor = 'success' as Color,
 		bearishColor = 'danger' as Color,
@@ -93,8 +93,8 @@
 		loading,
 		empty,
 		emptyText = 'No data available',
-		enableZoom,
-		enableScroll,
+		disableZoom,
+		disableScroll,
 		initialVisibleCandles = 50,
 		minVisibleCandles = 10,
 		maxVisibleCandles = 200,
@@ -104,11 +104,11 @@
 		theme = 'default',
 		candleStyle = 'filled',
 		scaleType = 'linear',
-		showCrosshair,
-		showYAxisLabels,
-		showXAxisLabels,
+		hideCrosshair,
+		hideYAxisLabels,
+		hideXAxisLabels,
 		gridStyle = 'dashed',
-		showLastPrice,
+		hideLastPrice,
 		indicators = [],
 		onClick,
 		onRangeChange,
@@ -374,9 +374,9 @@
 	let innerWidth = $derived(width - margin.left - margin.right);
 	let innerHeight = $derived(chartHeight - margin.top - margin.bottom);
 
-	let priceHeight = $derived(showVolume ? innerHeight * 0.75 : innerHeight);
-	let volumeHeight = $derived(showVolume ? innerHeight * 0.2 : 0);
-	let volumeTop = $derived(showVolume ? priceHeight + 10 : 0);
+	let priceHeight = $derived(!hideVolume ? innerHeight * 0.75 : innerHeight);
+	let volumeHeight = $derived(!hideVolume ? innerHeight * 0.2 : 0);
+	let volumeTop = $derived(!hideVolume ? priceHeight + 10 : 0);
 
 	let priceDomain = $derived.by((): [number, number] => {
 		if (processedData.length === 0) return [0, 1];
@@ -399,7 +399,7 @@
 	});
 
 	let volumeDomain = $derived.by((): [number, number] => {
-		if (!showVolume || processedData.length === 0) return [0, 1];
+		if (hideVolume || processedData.length === 0) return [0, 1];
 		const volumes = processedData.map((d) => d.volume || 0);
 		return [0, Math.max(...volumes) * 1.2];
 	});
@@ -419,7 +419,7 @@
 	);
 
 	let volumeScale = $derived(
-		showVolume ? createLinearScale(volumeDomain, [volumeHeight, 0]) : null
+		!hideVolume ? createLinearScale(volumeDomain, [volumeHeight, 0]) : null
 	);
 
 	let grid = $derived(createGridLines(priceHeight));
@@ -437,11 +437,11 @@
 		});
 	}
 
-	let lastCandle = $derived(
-		processedData.length > 0 ? processedData[processedData.length - 1] : null
-	);
+	let lastCandle = $derived(data.length > 0 ? data[data.length - 1] : null);
 	let lastPrice = $derived(lastCandle?.close || 0);
+	let isLastPriceVisible = $derived(lastPrice >= priceDomain[0] && lastPrice <= priceDomain[1]);
 	let lastPriceY = $derived(priceScale(lastPrice));
+	let lastPriceYClamped = $derived(Math.max(10, Math.min(priceHeight - 10, lastPriceY)));
 
 	function getGridDashArray(): string {
 		switch (gridStyle) {
@@ -456,7 +456,7 @@
 	}
 
 	function handleWheel(event: WheelEvent): void {
-		if (!enableZoom || data.length === 0) return;
+		if (disableZoom || data.length === 0) return;
 
 		if (!event.ctrlKey && !event.metaKey) return;
 
@@ -480,14 +480,14 @@
 	}
 
 	function handleMouseDown(event: MouseEvent): void {
-		if (!enableScroll || data.length === 0) return;
+		if (disableScroll || data.length === 0) return;
 		isDragging = true;
 		dragStartX = event.clientX;
 		dragStartOffset = scrollOffset;
 	}
 
 	function handleMouseMove(event: MouseEvent): void {
-		if (isDragging && enableScroll) {
+		if (isDragging && !disableScroll) {
 			const deltaX = event.clientX - dragStartX;
 			const candlesPerPixel = visibleCandles / innerWidth;
 			const candlesDelta = Math.round(-deltaX * candlesPerPixel);
@@ -498,7 +498,7 @@
 			);
 		}
 
-		if (showCrosshair && svgEl && containerEl) {
+		if (!hideCrosshair && svgEl && containerEl) {
 			const rect = svgEl.getBoundingClientRect();
 			const x = event.clientX - rect.left - margin.left;
 			const y = event.clientY - rect.top - margin.top;
@@ -533,13 +533,13 @@
 	let touchStartOffset = $state(0);
 
 	function handleTouchStart(event: TouchEvent): void {
-		if (!enableScroll || data.length === 0) return;
+		if (disableScroll || data.length === 0) return;
 		touchStartX = event.touches[0].clientX;
 		touchStartOffset = scrollOffset;
 	}
 
 	function handleTouchMove(event: TouchEvent): void {
-		if (!enableScroll || data.length === 0) return;
+		if (disableScroll || data.length === 0) return;
 		event.preventDefault();
 
 		const deltaX = event.touches[0].clientX - touchStartX;
@@ -751,7 +751,7 @@
 				ondblclick={handleDoubleClick}
 			>
 				<g transform="translate({margin.left}, {margin.top})">
-					{#if showGrid && gridStyle !== 'none'}
+					{#if !hideGrid && gridStyle !== 'none'}
 						<g class="candlestick-chart-grid">
 							{#each grid as line}
 								<line
@@ -776,7 +776,7 @@
 						/>
 						<line x1={0} y1={0} x2={0} y2={priceHeight} class="candlestick-chart-axis-line" />
 
-						{#if showYAxisLabels && showGrid}
+						{#if !hideYAxisLabels && !hideGrid}
 							{#each grid as line}
 								<text
 									x={-10}
@@ -790,7 +790,7 @@
 							{/each}
 						{/if}
 
-						{#if showXAxisLabels}
+						{#if !hideXAxisLabels}
 							{#each processedData.filter((_, i) => i % Math.ceil(processedData.length / 6) === 0) as d}
 								<text
 									x={xScale(d.date) + xScale.bandwidth() / 2}
@@ -804,7 +804,7 @@
 							{/each}
 						{/if}
 
-						{#if showVolume}
+						{#if !hideVolume}
 							<line
 								x1={0}
 								y1={volumeTop + volumeHeight}
@@ -864,6 +864,7 @@
 									y={bodyTop}
 									width={candleWidth}
 									height={Math.max(bodyHeight, 1)}
+									rx={2}
 									class={cn(
 										'candlestick-chart-candle',
 										`is-${colorClass}`,
@@ -872,7 +873,7 @@
 								/>
 							</g>
 
-							{#if showVolume && d.volume && volumeScale}
+							{#if !hideVolume && d.volume && volumeScale}
 								{@const volumeBarHeight = volumeScale(volumeDomain[1] - d.volume)}
 								<rect
 									x={xScale(d.date)}
@@ -922,20 +923,22 @@
 						{/if}
 					{/each}
 
-					{#if showLastPrice && lastCandle}
-						<line
-							x1={0}
-							y1={lastPriceY}
-							x2={innerWidth}
-							y2={lastPriceY}
-							class="candlestick-chart-last-price is-{lastCandle.close >= lastCandle.open
-								? bullishColor
-								: bearishColor}"
-							stroke-dasharray="4, 2"
-						/>
+					{#if !hideLastPrice && lastCandle}
+						{#if isLastPriceVisible}
+							<line
+								x1={0}
+								y1={lastPriceY}
+								x2={innerWidth}
+								y2={lastPriceY}
+								class="candlestick-chart-last-price is-{lastCandle.close >= lastCandle.open
+									? bullishColor
+									: bearishColor}"
+								stroke-dasharray="4, 2"
+							/>
+						{/if}
 						<rect
 							x={innerWidth + 2}
-							y={lastPriceY - 10}
+							y={lastPriceYClamped - 10}
 							width={50}
 							height={20}
 							rx="3"
@@ -945,7 +948,7 @@
 						/>
 						<text
 							x={innerWidth + 27}
-							y={lastPriceY + 4}
+							y={lastPriceYClamped + 4}
 							class="candlestick-chart-last-price-label"
 							text-anchor="middle"
 							font-size="10"
@@ -954,7 +957,7 @@
 						</text>
 					{/if}
 
-					{#if showCrosshair && isCrosshairActive && crosshairPosition}
+					{#if !hideCrosshair && isCrosshairActive && crosshairPosition}
 						<line
 							x1={0}
 							y1={crosshairPosition.y}
@@ -1058,7 +1061,7 @@
 										: ''}{tooltipChange.percent.toFixed(2)}%)
 								</span>
 							</div>
-							{#if showVolume && tooltipData.volume}
+							{#if !hideVolume && tooltipData.volume}
 								<div class="candlestick-chart-tooltip-row candlestick-chart-tooltip-volume">
 									<span class="candlestick-chart-tooltip-label">Volume:</span>
 									<span class="candlestick-chart-tooltip-value"

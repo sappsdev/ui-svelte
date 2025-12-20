@@ -1,17 +1,22 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
+	import { Button, Card, Checkbox, Code, Section, Select, toast } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 	import { storeApp } from '$lib/store/store.svelte';
-	import { Button, Checkbox, Select, toast } from 'ui-svelte';
 
-	const statusOptions = [
+	const colorOptions = [
+		{ id: 'primary', label: 'Primary' },
+		{ id: 'secondary', label: 'Secondary' },
+		{ id: 'muted', label: 'Muted' },
 		{ id: 'success', label: 'Success' },
-		{ id: 'danger', label: 'Danger' },
 		{ id: 'info', label: 'Info' },
+		{ id: 'danger', label: 'Danger' },
 		{ id: 'warning', label: 'Warning' }
+	];
+
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' }
 	];
 
 	const positionOptions = [
@@ -28,32 +33,31 @@
 		{ id: '5000', label: '5 seconds' }
 	];
 
-	let status: any = $state('info');
-	let position: any = $state('bottom-right');
+	let color: any = $state('info');
 	let duration: any = $state('3000');
 
 	let title = $state('Toast Title');
 	let description = $state('This is a toast notification message.');
-	let icon = $state('');
-
-	let isSolid = $state(false);
 
 	const handleClick = () => {
 		toast.show({
 			title: title || undefined,
 			description,
-			status,
+			color,
 			duration: parseInt(duration),
-			position: position || undefined,
-			icon: icon || (undefined as any),
-			isSolid
+			position: storeApp.toastPosition || undefined,
+			variant: storeApp.toastVariant as any
 		});
 	};
 
 	let hasProps = $derived(
-		[status !== 'info', position !== 'bottom-right', duration !== '0', title, icon, isSolid].some(
-			Boolean
-		)
+		[
+			color !== 'info',
+			storeApp.toastVariant !== 'soft',
+			storeApp.toastPosition !== 'bottom-left',
+			duration !== '0',
+			title
+		].some(Boolean)
 	);
 
 	let code = $derived(() => {
@@ -64,76 +68,167 @@
 			`\t\ttoast.show({`,
 			title && `\t\t\ttitle: '${title}',`,
 			`\t\t\tdescription: '${description}',`,
-			status !== 'info' && `\t\t\tstatus: '${status}',`,
+			color !== 'info' && `\t\t\tcolor: '${color}',`,
+			storeApp.toastVariant !== 'soft' && `\t\t\tvariant: '${storeApp.toastVariant}',`,
 			duration !== '0' && `\t\t\tduration: ${duration},`,
-			position !== 'bottom-right' && `\t\t\tposition: '${position}',`,
-			icon && `\t\t\ticon: '${icon}',`,
-			isSolid && `\t\t\tisSolid`,
+			storeApp.toastPosition !== 'bottom-left' && `\t\t\tposition: '${storeApp.toastPosition}'`,
 			`\t\t});`,
 			`\t};`,
 			`<\/script>`
 		].filter(Boolean);
 
-		const componentLines = [`\n<Button label="Show Toast" onclick={handleClick} />`];
+		const componentLines = [`\n<Button onclick={handleClick}>Show Toast</Button>`];
 
 		return [...scriptLines, ...componentLines].join('\n');
 	});
 
-	const props = [
+	const toastProps = [
 		{ prop: 'description', type: 'string', initial: '', required: true },
 		{ prop: 'title', type: 'string', initial: '' },
-		{ prop: 'status', type: 'success | danger | info | warning', initial: 'info' },
+		{
+			prop: 'color',
+			type: 'primary | secondary | muted | success | info | danger | warning',
+			initial: 'info'
+		},
+		{ prop: 'variant', type: 'solid | soft', initial: 'soft' },
 		{ prop: 'duration', type: 'number', initial: '0' },
 		{
 			prop: 'position',
 			type: 'top-left | top-right | bottom-left | bottom-right',
-			initial: 'bottom-right'
+			initial: 'bottom-left'
 		},
-		{ prop: 'icon', type: 'IconName', initial: '' },
-		{ prop: 'solid', type: 'boolean', initial: 'false' },
+		{ prop: 'icon', type: 'IconData', initial: '' },
 		{ prop: 'id', type: 'string', initial: 'auto-generated' }
+	];
+
+	const componentProps = [
+		{ prop: 'class', type: 'string', initial: '' },
+		{
+			prop: 'position',
+			type: 'top-left | top-right | bottom-left | bottom-right',
+			initial: 'bottom-left'
+		},
+		{ prop: 'variant', type: 'solid | soft', initial: 'soft' },
+		{ prop: 'showIcon', type: 'boolean', initial: 'false' }
+	];
+
+	const storeMethods = [
+		{
+			prop: 'toast.show()',
+			type: '(message: ToastMessage) => string',
+			initial: 'Shows a toast and returns its id'
+		},
+		{
+			prop: 'toast.close()',
+			type: '(id: string) => void',
+			initial: 'Closes a specific toast by id'
+		},
+		{ prop: 'toast.closeAll()', type: '() => void', initial: 'Closes all active toasts' },
+		{ prop: 'toast.messages', type: 'ToastMessage[]', initial: 'Reactive list of active toasts' }
 	];
 </script>
 
-{#snippet preview()}
-	<Button onclick={handleClick}>Show Toast</Button>
-{/snippet}
+<DocsHeader title="Toast" llmUrl="https://ui-svelte.sappsdev.com/llm/overlay/toast.md">
+	Toast is a lightweight notification component that provides brief messages about app processes.
+	They can automatically disappear after a set duration or be manually dismissed.
+</DocsHeader>
 
-{#snippet builder()}
-	<Select label="Status" size="sm" options={statusOptions} bind:value={status} />
-	<Select
-		label="Position"
-		size="sm"
-		options={positionOptions}
-		bind:value={storeApp.toastPosition}
-	/>
-	<Select label="Duration" size="sm" options={durationOptions} bind:value={duration} />
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				value={storeApp.toastVariant}
+				onchange={(v) => (storeApp.toastVariant = v as any)}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Position"
+				size="sm"
+				options={positionOptions}
+				value={storeApp.toastPosition}
+				onchange={(v) => (storeApp.toastPosition = v as any)}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Duration"
+				size="sm"
+				options={durationOptions}
+				bind:value={duration}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox
+				onchange={(v) => (v ? (title = 'Toast Title') : (title = ''))}
+				checked={!!title}
+				label="Title"
+			/>
+			<Checkbox
+				checked={storeApp.toastIcon}
+				onchange={(v) => (storeApp.toastIcon = v)}
+				label="Show Icon"
+			/>
+		</div>
 
-	<DocOptions title="Props">
-		<Checkbox
-			onchange={(v) => (v ? (title = 'Toast Title') : (title = ''))}
-			checked={!!title}
-			label="Title"
-		/>
-		<Checkbox
-			onchange={(v) => (v ? (icon = 'fluent:checkmark-circle-24-regular') : (icon = ''))}
-			label="Icon"
-			bind:checked={storeApp.toastIcon}
-		/>
-		<Checkbox bind:checked={isSolid} name="solid" label="Solid" />
-	</DocOptions>
-{/snippet}
+		<div class="doc-preview">
+			<Button onclick={handleClick}>Show Toast</Button>
+		</div>
+		<Code lang="svelte" code={code()} />
+	</Card>
+</Section>
 
-<DocHeader title="Toast">
-	Toast is a lightweight notification component that provides brief messages about app processes at
-	the bottom of the screen. They automatically disappear after a short duration, ensuring they do
-	not interrupt the user experience.
-</DocHeader>
+<Section>
+	<p class="section-subtitle">Variants</p>
+	<Card>
+		<div class="wrap gap-4 center">
+			{#each variantOptions as variantItem}
+				{#each colorOptions as colorItem}
+					<Button
+						color={colorItem.id as any}
+						variant={variantItem.id as any}
+						onclick={() =>
+							toast.show({
+								title: `${variantItem.label} ${colorItem.label}`,
+								description: `This is a ${variantItem.label.toLowerCase()} toast.`,
+								color: colorItem.id as any,
+								variant: variantItem.id as any,
+								duration: 3000
+							})}
+					>
+						{variantItem.label}
+						{colorItem.label}
+					</Button>
+				{/each}
+			{/each}
+		</div>
+	</Card>
+</Section>
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section>
+	<p class="section-subtitle">Toast Store Methods</p>
+	<DocsProps props={storeMethods} />
+</Section>
 
-<DocCode code={code()} />
+<Section>
+	<p class="section-subtitle">Toast Message Props</p>
+	<DocsProps props={toastProps} />
+</Section>
 
-<DocProps {props} />
+<Section>
+	<p class="section-subtitle">Toast Component Props</p>
+	<DocsProps props={componentProps} />
+</Section>

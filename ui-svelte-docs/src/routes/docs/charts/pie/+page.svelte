@@ -1,61 +1,74 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { PieChart, Select, Checkbox } from 'ui-svelte';
+	import { PieChart, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	const colorOptions = [
-		{ id: 'primary', label: 'Primary' },
-		{ id: 'secondary', label: 'Secondary' },
-		{ id: 'success', label: 'Success' },
-		{ id: 'info', label: 'Info' },
-		{ id: 'warning', label: 'Warning' },
-		{ id: 'danger', label: 'Danger' },
-		{ id: 'muted', label: 'Muted' }
+	const sizeOptions = [
+		{ id: 'sm', label: 'sm' },
+		{ id: 'md', label: 'md' },
+		{ id: 'lg', label: 'lg' },
+		{ id: 'xl', label: 'xl' }
+	];
+
+	const paletteOptions = [
+		{ id: 'default', label: 'Default' },
+		{ id: 'rainbow', label: 'Rainbow' },
+		{ id: 'ocean', label: 'Ocean' },
+		{ id: 'sunset', label: 'Sunset' },
+		{ id: 'forest', label: 'Forest' },
+		{ id: 'neon', label: 'Neon' }
+	];
+
+	const legendPositionOptions = [
+		{ id: 'right', label: 'Right' },
+		{ id: 'left', label: 'Left' },
+		{ id: 'top', label: 'Top' },
+		{ id: 'bottom', label: 'Bottom' },
+		{ id: 'none', label: 'None' }
 	];
 
 	const chartData = [
-		{ label: 'Product A', value: 30, color: 'primary' },
-		{ label: 'Product B', value: 25, color: 'secondary' },
-		{ label: 'Product C', value: 20, color: 'success' },
-		{ label: 'Product D', value: 15, color: 'warning' },
-		{ label: 'Product E', value: 10, color: 'danger' }
+		{ label: 'Product A', value: 30 },
+		{ label: 'Product B', value: 25 },
+		{ label: 'Product C', value: 20 },
+		{ label: 'Product D', value: 15 },
+		{ label: 'Product E', value: 10 }
 	];
 
-	// States
+	let size: any = $state('md');
+	let palette: any = $state('default');
+	let legendPosition: any = $state('right');
 	let donut = $state(false);
-	let showLabels = $state(false);
-	let showValues = $state(false);
-	let showLegend = $state(false);
-	let showPercentages = $state(false);
+	let donutWidth = $state(60);
+
+	let showGlow = $state(false);
+	let showGradient = $state(false);
+	let disableAnimation = $state(false);
+
+	let hideLabels = $state(false);
+	let hideValues = $state(false);
+	let hideLegend = $state(false);
+	let hidePercentages = $state(false);
+
 	let loading = $state(false);
 	let empty = $state(false);
 
-	// Props
-	let centerLabel = $state('');
-	let centerValue = $state('');
-	let emptyText = $state('');
-	let donutWidth = $state(80);
-	let startAngle = $state(0);
-	let padAngle = $state(0);
-
 	let hasProps = $derived(
 		[
+			size !== 'md',
+			palette !== 'default',
+			legendPosition !== 'right',
 			donut,
-			donutWidth !== 80,
-			showLabels !== false,
-			showValues,
-			showLegend !== false,
-			showPercentages,
-			centerLabel,
-			centerValue,
-			startAngle !== 0,
-			padAngle !== 0,
+			donutWidth !== 60,
+			showGlow,
+			showGradient,
+			disableAnimation,
+			hideLabels,
+			hideValues,
+			hideLegend,
+			hidePercentages,
 			loading,
-			empty,
-			emptyText
+			empty
 		].some(Boolean)
 	);
 
@@ -64,11 +77,11 @@
 			`<script lang="ts">`,
 			`\timport { PieChart } from 'ui-svelte';`,
 			`\n\tconst data = [`,
-			`\t\t{ label: 'Product A', value: 30, color: 'primary' },`,
-			`\t\t{ label: 'Product B', value: 25, color: 'secondary' },`,
-			`\t\t{ label: 'Product C', value: 20, color: 'success' },`,
-			`\t\t{ label: 'Product D', value: 15, color: 'warning' },`,
-			`\t\t{ label: 'Product E', value: 10, color: 'danger' }`,
+			`\t\t{ label: 'Product A', value: 30 },`,
+			`\t\t{ label: 'Product B', value: 25 },`,
+			`\t\t{ label: 'Product C', value: 20 },`,
+			`\t\t{ label: 'Product D', value: 15 },`,
+			`\t\t{ label: 'Product E', value: 10 }`,
 			`\t];`,
 			`<\/script>`
 		].filter(Boolean);
@@ -76,19 +89,20 @@
 		const componentLines = [
 			hasProps && `<PieChart`,
 			hasProps && `\tdata={data}`,
+			size !== 'md' && `\tsize="${size}"`,
+			palette !== 'default' && `\tpalette="${palette}"`,
+			legendPosition !== 'right' && `\tlegendPosition="${legendPosition}"`,
 			donut && `\tdonut`,
-			donut && donutWidth !== 80 && `\tdonutWidth={${donutWidth}}`,
-			showLabels !== true && `\tshowLabels={${showLabels}}`,
-			showValues && `\tshowValues`,
-			showLegend !== true && `\tshowLegend={${showLegend}}`,
-			showPercentages && `\tshowPercentages`,
-			centerLabel && `\tcenterLabel="${centerLabel}"`,
-			centerValue && `\tcenterValue="${centerValue}"`,
-			startAngle !== 0 && `\tstartAngle={${startAngle}}`,
-			padAngle !== 0 && `\tpadAngle={${padAngle}}`,
+			donut && donutWidth !== 60 && `\tdonutWidth={${donutWidth}}`,
+			showGlow && `\tshowGlow`,
+			showGradient && `\tshowGradient`,
+			disableAnimation && `\tdisableAnimation`,
+			hideLabels && `\thideLabels`,
+			hideValues && `\thideValues`,
+			hideLegend && `\thideLegend`,
+			hidePercentages && `\thidePercentages`,
 			loading && `\tloading`,
 			empty && `\tempty`,
-			emptyText && `\temptyText="${emptyText}"`,
 			hasProps && `/>`,
 			!hasProps && `<PieChart data={data} />`
 		].filter(Boolean);
@@ -98,35 +112,41 @@
 
 	const props = [
 		{ prop: 'data', type: 'DataPoint[]', initial: '[]' },
-		{ prop: 'margin', type: 'Margin', initial: '{ top: 20, right: 20, bottom: 20, left: 20 }' },
-		{ prop: 'colors', type: 'Color[]', initial: '[]' },
+		{ prop: 'size', type: 'sm | md | lg | xl', initial: 'md' },
+		{ prop: 'palette', type: 'default | rainbow | ocean | sunset | forest | neon', initial: '' },
+		{ prop: 'legendPosition', type: 'top | right | bottom | left | none', initial: 'right' },
 		{ prop: 'donut', type: 'boolean', initial: 'false' },
-		{ prop: 'donutWidth', type: 'number', initial: '80' },
-		{ prop: 'showLabels', type: 'boolean', initial: 'true' },
-		{ prop: 'showValues', type: 'boolean', initial: 'false' },
-		{ prop: 'showLegend', type: 'boolean', initial: 'true' },
-		{ prop: 'showPercentages', type: 'boolean', initial: 'false' },
-		{ prop: 'centerLabel', type: 'string', initial: '' },
+		{ prop: 'donutWidth', type: 'number', initial: '60' },
+		{ prop: 'centerLabel', type: 'string', initial: 'Total' },
 		{ prop: 'centerValue', type: 'string | number', initial: '' },
-		{ prop: 'startAngle', type: 'number', initial: '0' },
+		{ prop: 'startAngle', type: 'number', initial: '-90' },
 		{ prop: 'padAngle', type: 'number', initial: '0' },
+		{ prop: 'disableAnimation', type: 'boolean', initial: 'false' },
+		{ prop: 'animationDuration', type: 'number', initial: '800' },
+		{ prop: 'showGlow', type: 'boolean', initial: 'false' },
+		{ prop: 'showGradient', type: 'boolean', initial: 'false' },
+		{ prop: 'hideLabels', type: 'boolean', initial: 'false' },
+		{ prop: 'hideValues', type: 'boolean', initial: 'false' },
+		{ prop: 'hideLegend', type: 'boolean', initial: 'false' },
+		{ prop: 'hidePercentages', type: 'boolean', initial: 'false' },
 		{ prop: 'loading', type: 'boolean', initial: 'false' },
 		{ prop: 'empty', type: 'boolean', initial: 'false' },
-		{ prop: 'emptyText', type: 'string', initial: '' },
-		{ prop: 'class', type: 'string', initial: '' }
+		{ prop: 'emptyText', type: 'string', initial: 'No data available' },
+		{ prop: 'valueFormatter', type: '(value: number) => string', initial: '' },
+		{ prop: 'onClick', type: '(slice: DataPoint, index: number) => void', initial: '' },
+		{ prop: 'onHover', type: '(slice: DataPoint | null, index: number) => void', initial: '' },
+		{ prop: 'selected', type: 'number[]', initial: '[]' },
+		{ prop: 'centerContent', type: 'Snippet', initial: '' },
+		{ prop: 'tooltipContent', type: 'Snippet<[{ slice, percentage }]>', initial: '' },
+		{ prop: 'rootClass', type: 'string', initial: '' },
+		{ prop: 'chartClass', type: 'string', initial: '' }
 	];
 
 	const dataPointProps = [
 		{ prop: 'label', type: 'string', initial: '', required: true },
 		{ prop: 'value', type: 'number', initial: '', required: true },
-		{ prop: 'color', type: 'Color', initial: '' }
-	];
-
-	const marginProps = [
-		{ prop: 'top', type: 'number', initial: '', required: true },
-		{ prop: 'right', type: 'number', initial: '', required: true },
-		{ prop: 'bottom', type: 'number', initial: '', required: true },
-		{ prop: 'left', type: 'number', initial: '', required: true }
+		{ prop: 'color', type: 'Color', initial: '' },
+		{ prop: 'disabled', type: 'boolean', initial: 'false' }
 	];
 
 	const colorType = [
@@ -138,107 +158,200 @@
 	];
 </script>
 
-{#snippet preview()}
-	<PieChart
-		data={empty ? [] : (chartData as any)}
-		{donut}
-		donutWidth={donut ? donutWidth : undefined}
-		{showLabels}
-		{showValues}
-		{showLegend}
-		{showPercentages}
-		centerLabel={centerLabel || undefined}
-		centerValue={centerValue || undefined}
-		{startAngle}
-		{padAngle}
-		{loading}
-		{empty}
-		emptyText={emptyText || undefined}
-	/>
-{/snippet}
+<DocsHeader title="PieChart">
+	PieChart component displays data as proportional slices of a circle, with support for donut style,
+	animations, and customizable display options.
+</DocsHeader>
 
-{#snippet builder()}
-	<DocOptions title="Chart Type">
-		<Checkbox bind:checked={donut} label="Donut" />
-		{#if donut}
-			<label class="flex flex-col gap-1">
-				<span class="text-sm text-muted-foreground">Donut Width: {donutWidth}</span>
-				<input type="range" min="40" max="120" bind:value={donutWidth} class="w-full" />
-			</label>
-		{/if}
-	</DocOptions>
-
-	<DocOptions title="Display Options">
-		<Checkbox bind:checked={showLabels} label="Show Labels" />
-		<Checkbox bind:checked={showValues} label="Show Values" />
-		<Checkbox bind:checked={showLegend} label="Show Legend" />
-		<Checkbox bind:checked={showPercentages} label="Show Percentages" />
-	</DocOptions>
-
-	<DocOptions title="Center Content">
-		<Checkbox
-			onchange={(v) => (v ? (centerLabel = 'Total') : (centerLabel = ''))}
-			label="Center Label"
-		/>
-		<Checkbox
-			onchange={(v) => (v ? (centerValue = '100') : (centerValue = ''))}
-			label="Center Value"
-		/>
-	</DocOptions>
-
-	<DocOptions title="Advanced">
-		<label class="flex flex-col gap-1">
-			<span class="text-sm text-muted-foreground">Start Angle: {startAngle}°</span>
-			<input type="range" min="0" max="360" bind:value={startAngle} class="w-full" />
-		</label>
-		<label class="flex flex-col gap-1">
-			<span class="text-sm text-muted-foreground">Pad Angle: {padAngle}°</span>
-			<input type="range" min="0" max="10" step="0.5" bind:value={padAngle} class="w-full" />
-		</label>
-	</DocOptions>
-
-	<DocOptions title="States">
-		<Checkbox bind:checked={loading} label="Loading" />
-		<Checkbox bind:checked={empty} label="Empty" />
-		{#if empty}
-			<Checkbox
-				onchange={(v) => (v ? (emptyText = 'No data available') : (emptyText = ''))}
-				label="Empty Text"
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Size"
+				size="sm"
+				options={sizeOptions}
+				bind:value={size}
 			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Palette"
+				size="sm"
+				options={paletteOptions}
+				bind:value={palette}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Legend Position"
+				size="sm"
+				options={legendPositionOptions}
+				bind:value={legendPosition}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={donut} label="Donut" />
+			<Checkbox bind:checked={showGlow} label="Glow" />
+			<Checkbox bind:checked={showGradient} label="Gradient" />
+			<Checkbox bind:checked={disableAnimation} label="No Animation" />
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={hideLabels} label="Hide Labels" />
+			<Checkbox bind:checked={hideValues} label="Hide Values" />
+			<Checkbox bind:checked={hideLegend} label="Hide Legend" />
+			<Checkbox bind:checked={hidePercentages} label="Hide Percentages" />
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={loading} label="Loading" />
+			<Checkbox bind:checked={empty} label="Empty" />
+		</div>
+
+		{#if donut}
+			<div class="grid-2 md:grid-4 gap-2">
+				<label class="flex flex-col gap-1">
+					<span class="text-sm text-muted-foreground">Donut Width: {donutWidth}</span>
+					<input type="range" min="30" max="100" bind:value={donutWidth} class="w-full" />
+				</label>
+			</div>
 		{/if}
-	</DocOptions>
-{/snippet}
 
-<DocHeader title="PieChart">
-	PieChart components visualize data proportions in a circular format, with support for donut style
-	and customizable display options.
-</DocHeader>
+		<div class="doc-preview">
+			<PieChart
+				data={empty ? [] : chartData}
+				{size}
+				palette={palette as any}
+				legendPosition={legendPosition as any}
+				{donut}
+				donutWidth={donut ? donutWidth : undefined}
+				{showGlow}
+				{showGradient}
+				{disableAnimation}
+				{hideLabels}
+				{hideValues}
+				{hideLegend}
+				{hidePercentages}
+				{loading}
+				{empty}
+			/>
+		</div>
+		<Code lang="svelte" code={code()} />
+	</Card>
+</Section>
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section>
+	<p class="section-subtitle">Sizes</p>
+	<Card>
+		<div class="wrap gap-8 center">
+			{#each sizeOptions as sizeOption}
+				<div class="flex flex-col items-center gap-2">
+					<PieChart data={chartData} size={sizeOption.id as any} hideLegend />
+					<span class="text-sm text-muted-foreground">{sizeOption.label}</span>
+				</div>
+			{/each}
+		</div>
+	</Card>
+</Section>
 
-<DocCode code={code()} />
+<Section>
+	<p class="section-subtitle">Color Palettes</p>
+	<Card>
+		<div class="grid-2 md:grid-3 gap-8">
+			{#each paletteOptions as paletteOption}
+				<div class="flex flex-col items-center gap-2">
+					<PieChart
+						data={chartData}
+						size="sm"
+						palette={paletteOption.id as any}
+						legendPosition="bottom"
+					/>
+					<span class="text-sm text-muted-foreground">{paletteOption.label}</span>
+				</div>
+			{/each}
+		</div>
+	</Card>
+</Section>
 
-<DocProps {props} />
+<Section>
+	<p class="section-subtitle">Legend Positions</p>
+	<Card>
+		<div class="grid-2 gap-8">
+			{#each legendPositionOptions.filter((p) => p.id !== 'none') as position}
+				<div class="flex flex-col items-center gap-2">
+					<PieChart data={chartData} size="sm" legendPosition={position.id as any} />
+					<span class="text-sm text-muted-foreground">{position.label}</span>
+				</div>
+			{/each}
+		</div>
+	</Card>
+</Section>
 
-<div class="prose mt-8">
-	<h3>DataPoint Type</h3>
-	<p>Each data point in the data array should follow this structure:</p>
-</div>
+<Section>
+	<p class="section-subtitle">Donut Style</p>
+	<Card>
+		<div class="wrap gap-8 center">
+			<div class="flex flex-col items-center gap-2">
+				<PieChart data={chartData} donut centerLabel="Total" centerValue={100} hideLegend />
+				<span class="text-sm text-muted-foreground">Default Donut</span>
+			</div>
+			<div class="flex flex-col items-center gap-2">
+				<PieChart
+					data={chartData}
+					donut
+					donutWidth={40}
+					centerLabel="Sales"
+					centerValue="$100K"
+					hideLegend
+				/>
+				<span class="text-sm text-muted-foreground">Thin Donut</span>
+			</div>
+			<div class="flex flex-col items-center gap-2">
+				<PieChart
+					data={chartData}
+					donut
+					donutWidth={80}
+					centerLabel="Revenue"
+					centerValue={500}
+					hideLegend
+				/>
+				<span class="text-sm text-muted-foreground">Wide Donut</span>
+			</div>
+		</div>
+	</Card>
+</Section>
 
-<DocProps props={dataPointProps} />
+<Section>
+	<p class="section-subtitle">Effects</p>
+	<Card>
+		<div class="wrap gap-8 center">
+			<div class="flex flex-col items-center gap-2">
+				<PieChart data={chartData} size="sm" showGlow hideLegend />
+				<span class="text-sm text-muted-foreground">Glow Effect</span>
+			</div>
+			<div class="flex flex-col items-center gap-2">
+				<PieChart data={chartData} size="sm" showGradient hideLegend />
+				<span class="text-sm text-muted-foreground">Gradient Effect</span>
+			</div>
+			<div class="flex flex-col items-center gap-2">
+				<PieChart data={chartData} size="sm" showGlow showGradient hideLegend />
+				<span class="text-sm text-muted-foreground">Both Effects</span>
+			</div>
+		</div>
+	</Card>
+</Section>
 
-<div class="prose mt-8">
-	<h3>Margin Type</h3>
-	<p>The margin object defines spacing around the chart:</p>
-</div>
+<Section>
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
+</Section>
 
-<DocProps props={marginProps} />
+<Section>
+	<p class="section-subtitle">DataPoint Type</p>
+	<DocsProps props={dataPointProps} />
+</Section>
 
-<div class="prose mt-8">
-	<h3>Color Type</h3>
-	<p>Available color values for chart segments:</p>
-</div>
-
-<DocProps props={colorType} />
+<Section>
+	<p class="section-subtitle">Color Type</p>
+	<DocsProps props={colorType} />
+</Section>

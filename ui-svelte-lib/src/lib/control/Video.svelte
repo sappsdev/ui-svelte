@@ -1,13 +1,13 @@
 <script lang="ts">
 	import {
 		MaximizeSquareMinimalisticLinearIcon,
-		Pause24RegularIcon,
+		PauseFilledIcon,
 		PictureInPicture24RegularIcon,
-		Play24RegularIcon,
+		PlayFilledIcon,
 		Speaker24RegularIcon,
 		SpeakerMute24RegularIcon
 	} from '$lib/icons/index.js';
-	import { Icon, Slider } from '$lib/index.js';
+	import { Chip, Icon, IconButton, Slider } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
 	import Hls from 'hls.js';
 
@@ -17,15 +17,24 @@
 		poster?: string;
 		aspect?: 'horizontal' | 'vertical' | 'square';
 		class?: string;
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
 	};
 
-	let { src, poster, autoplay, aspect = 'horizontal', class: className }: Props = $props();
+	let {
+		src,
+		poster,
+		autoplay,
+		aspect = 'horizontal',
+		class: className,
+		color = 'primary'
+	}: Props = $props();
 
 	let videoElement: HTMLVideoElement | null = $state(null);
 
 	let showControls = $state(false);
 	let showVolume = $state(false);
 	let videoParams = $state({
+		// svelte-ignore state_referenced_locally
 		src,
 		time: 0,
 		duration: 0,
@@ -36,6 +45,16 @@
 		paused: false,
 		volume: 1
 	});
+
+	const colors = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger'
+	};
 
 	const setSource = () => {
 		if (src.includes('.m3u8')) {
@@ -156,18 +175,17 @@
 		<!-- svelte-ignore a11y_consider_explicit_label -->
 		<div class={cn('video-control-actions', showControls ? 'visible' : 'invisible')}>
 			<div class="video-actions-start">
-				<button class="video-btn" onclick={togglePlay}>
-					{#if videoParams.paused}
-						<Icon icon={Play24RegularIcon} class="video-btn-icon" />
-					{:else}
-						<Icon icon={Pause24RegularIcon} class="video-btn-icon" />
-					{/if}
-				</button>
-				<div class="video-btn">
-					<span class="video-duration-info"
-						>{videoParams.formattedTime} / {videoParams.formattedDuration}</span
-					>
-				</div>
+				<IconButton
+					onclick={togglePlay}
+					icon={videoParams.paused ? PlayFilledIcon : PauseFilledIcon}
+					{color}
+					variant="overlay"
+					size="sm"
+				/>
+
+				<Chip variant="overlay" {color}>
+					{videoParams.formattedTime} / {videoParams.formattedDuration}
+				</Chip>
 			</div>
 			<div class="video-actions-end">
 				<!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -192,20 +210,28 @@
 							/>
 						</div>
 					{/if}
-					<button class="video-btn" onclick={toggleMute}>
-						{#if videoParams.muted}
-							<Icon icon={Speaker24RegularIcon} class="video-btn-icon" />
-						{:else}
-							<Icon icon={SpeakerMute24RegularIcon} class="video-btn-icon" />
-						{/if}
-					</button>
+					<IconButton
+						onclick={toggleMute}
+						icon={videoParams.muted ? Speaker24RegularIcon : SpeakerMute24RegularIcon}
+						{color}
+						variant="overlay"
+						size="sm"
+					/>
 				</div>
-				<button class="video-btn" onclick={handleTogglePip}>
-					<Icon icon={PictureInPicture24RegularIcon} class="video-btn-icon" />
-				</button>
-				<button class="video-btn" onclick={handleToggleMaximize}>
-					<Icon icon={MaximizeSquareMinimalisticLinearIcon} class="video-btn-icon" />
-				</button>
+				<IconButton
+					onclick={handleTogglePip}
+					icon={PictureInPicture24RegularIcon}
+					{color}
+					variant="overlay"
+					size="sm"
+				/>
+				<IconButton
+					onclick={handleToggleMaximize}
+					icon={MaximizeSquareMinimalisticLinearIcon}
+					{color}
+					variant="overlay"
+					size="sm"
+				/>
 			</div>
 		</div>
 		<div class={cn('video-control-progress', showControls ? 'visible' : 'invisible')}>

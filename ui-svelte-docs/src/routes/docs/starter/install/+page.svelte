@@ -106,7 +106,7 @@
 }`}
 			lang="css"
 		/>
-		<Alert status="warning">
+		<Alert color="warning">
 			<strong>Note:</strong> You can customize these color values to match your brand. See the
 			<a href="/docs/starter/theme" class="underline">Theme Colors</a> section for more information.
 		</Alert>
@@ -138,7 +138,7 @@
 </Provider>`}
 			lang="svelte"
 		/>
-		<Alert status="info">
+		<Alert color="info">
 			<strong>Provider Props:</strong>
 			<code>toastPosition</code> ('top-left' | 'top-right' | 'bottom-left' | 'bottom-right'),
 			<code>toastIcon</code> (boolean),
@@ -169,7 +169,7 @@
 		<p class="font-medium mt-6 mb-2">Import the font in your <code>+layout.svelte</code>:</p>
 		<Code code="import '@fontsource-variable/montserrat';" lang="javascript" />
 
-		<Alert status="info">
+		<Alert>
 			Browse available fonts at <a href="https://fontsource.org" target="_blank" class="underline"
 				>fontsource.org</a
 			>. Each font package includes installation and usage instructions.
@@ -199,7 +199,7 @@
 </Card>`}
 			lang="svelte"
 		/>
-		<Alert status="success">
+		<Alert color="success">
 			<strong>Next Steps:</strong>
 			Explore <a href="/docs/starter/theme" class="underline">Theme Colors</a>, learn about
 			<a href="/docs/starter/icons" class="underline">Icons</a> integration, and browse the component

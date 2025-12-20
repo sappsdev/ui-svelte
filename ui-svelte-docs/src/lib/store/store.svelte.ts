@@ -2,7 +2,7 @@ type ToastPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 
 let toastPositionValue = $state<ToastPosition>('bottom-left');
 let toastIconValue = $state(false);
-let toastSolidValue = $state(true);
+let toastVariantValue = $state('soft');
 
 let mainElement = $state<HTMLDivElement>();
 
@@ -55,11 +55,11 @@ export const storeApp = {
 	set toastIcon(value: boolean) {
 		toastIconValue = value;
 	},
-	get toastSolid() {
-		return toastSolidValue;
+	get toastVariant() {
+		return toastVariantValue;
 	},
-	set toastSolid(value: boolean) {
-		toastSolidValue = value;
+	set toastVariant(value: 'soft' | 'solid') {
+		toastVariantValue = value;
 	},
 	get themeColors() {
 		return themeColors;

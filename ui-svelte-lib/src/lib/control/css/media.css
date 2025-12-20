@@ -1,17 +1,32 @@
 @layer components {
-	/* Base styles compartidos */
 	.media {
 		@apply relative flex items-center w-full gap-3 rounded-box;
 		@apply transition-colors duration-300 ease-in-out;
 		@apply p-3 select-none;
+
+		&.is-soft {
+			&.is-primary { @apply bg-on-primary text-primary; }
+			&.is-secondary { @apply bg-on-secondary text-secondary; }
+			&.is-muted { @apply bg-muted text-on-muted; }
+			&.is-success { @apply bg-on-success text-success; }
+			&.is-info { @apply bg-on-info text-info; }
+			&.is-warning { @apply bg-on-warning text-warning; }
+			&.is-danger { @apply bg-on-danger text-danger; }
+		}
+
+		&.is-solid {
+			&.is-primary { @apply bg-primary text-on-primary; }
+			&.is-secondary { @apply bg-secondary text-on-secondary; }
+			&.is-muted { @apply bg-on-muted text-muted; }
+			&.is-success { @apply bg-success text-on-success; }
+			&.is-info { @apply bg-info text-on-info; }
+			&.is-warning { @apply bg-warning text-on-warning; }
+			&.is-danger { @apply bg-danger text-on-danger; }
+		}
 	}
 
 	.media-waveform {
 		@apply flex-1 h-10 flex items-center relative;
-	}
-
-	.media-waveform.clickable {
-		@apply cursor-pointer;
 	}
 
 	.media-loading {
@@ -35,7 +50,6 @@
 		@apply opacity-100 animate-pulse;
 	}
 
-	/* Loading placeholder bars with shimmer animation */
 	.media-bar.loading {
 		animation: shimmer 1.5s ease-in-out infinite;
 	}
@@ -50,12 +64,9 @@
 		}
 	}
 
-	/* Stagger animation for loading bars */
 	.media-bars.loading .media-bar:nth-child(odd) {
 		animation-delay: 0.2s;
 	}
-
-	/* Fade-in animation when waves are loaded */
 	.media-bars.loaded .media-bar {
 		animation: wave-appear 0.4s ease-out forwards;
 	}
@@ -88,42 +99,5 @@
 
 	.media-time {
 		@apply shrink-0 text-sm font-medium min-w-10 text-right;
-	}
-
-	/* Variantes */
-	.media.primary {
-		@apply bg-primary text-on-primary;
-	}
-
-	.media.secondary {
-		@apply bg-secondary text-on-secondary;
-	}
-
-	.media.soft {
-		@apply bg-on-primary text-primary;
-	}
-
-	.media.outlined {
-		@apply inset-ring inset-ring-muted bg-background text-on-background;
-	}
-
-	.media.ghost {
-		@apply bg-transparent text-on-background;
-	}
-
-	.media.success {
-		@apply bg-success text-on-success;
-	}
-
-	.media.warning {
-		@apply bg-warning text-on-warning;
-	}
-
-	.media.info {
-		@apply bg-info text-on-info;
-	}
-
-	.media.danger {
-		@apply bg-danger text-on-danger;
 	}
 }

@@ -2,8 +2,8 @@
 	import {
 		Checkmark24RegularIcon,
 		Delete24RegularIcon,
-		Pause24RegularIcon,
-		Play24RegularIcon,
+		PauseFilledIcon,
+		PlayFilledIcon,
 		Record24RegularIcon,
 		RecordStop24RegularIcon
 	} from '$lib/icons/index.js';
@@ -273,16 +273,24 @@
 			const blockSize = Math.floor(rawData.length / samples);
 			const filteredData: number[] = [];
 
+			const samplesPerBlock = Math.min(blockSize, 500);
+			const stride = Math.max(1, Math.floor(blockSize / samplesPerBlock));
+
 			for (let i = 0; i < samples; i++) {
 				let sum = 0;
-				for (let j = 0; j < blockSize; j++) {
-					sum += Math.abs(rawData[i * blockSize + j]);
+				let count = 0;
+				const blockStart = i * blockSize;
+				const blockEnd = Math.min(blockStart + blockSize, rawData.length);
+
+				for (let j = blockStart; j < blockEnd; j += stride) {
+					sum += Math.abs(rawData[j]);
+					count++;
 				}
-				filteredData.push(sum / blockSize);
+				filteredData.push(count > 0 ? sum / count : 0);
 			}
 
 			const max = Math.max(...filteredData);
-			playbackWaveform = filteredData.map((value) => (value / max) * 0.8 + 0.2);
+			playbackWaveform = filteredData.map((value) => (max > 0 ? (value / max) * 0.8 + 0.2 : 0.5));
 
 			await context.close();
 		} catch (error) {
@@ -352,9 +360,9 @@
 	{#if isReviewing}
 		<Button onclick={togglePlayback} size="md" {variant}>
 			{#if isPlaying}
-				<Icon icon={Pause24RegularIcon} />
+				<Icon icon={PauseFilledIcon} />
 			{:else}
-				<Icon icon={Play24RegularIcon} />
+				<Icon icon={PlayFilledIcon} />
 			{/if}
 		</Button>
 
@@ -399,9 +407,9 @@
 	{:else}
 		<Button onclick={handleToggleRecording} size="md" {variant}>
 			{#if isPaused}
-				<Icon icon={Play24RegularIcon} />
+				<Icon icon={PlayFilledIcon} />
 			{:else}
-				<Icon icon={Pause24RegularIcon} />
+				<Icon icon={PauseFilledIcon} />
 			{/if}
 		</Button>
 

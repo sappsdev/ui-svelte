@@ -10,7 +10,7 @@
 		target?: '_self' | '_blank' | '_parent' | '_top';
 		type?: 'button' | 'submit' | 'reset';
 		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
-		variant?: 'solid' | 'soft' | 'outlined' | 'ghost';
+		variant?: 'solid' | 'soft' | 'outlined' | 'ghost' | 'overlay';
 		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 		class?: string;
 		isLoading?: boolean;
@@ -46,7 +46,8 @@
 		solid: 'is-solid',
 		soft: 'is-soft',
 		outlined: 'is-outlined',
-		ghost: 'is-ghost'
+		ghost: 'is-ghost',
+		overlay: 'is-overlay'
 	};
 
 	const sizes = {

@@ -1,32 +1,30 @@
 <script lang="ts">
-	import { ArcChart, Card, Checkbox, Section, Select, Slider } from 'ui-svelte';
+	import { ArcChart, Card, Checkbox, Code, Section, Select, TextField } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
 
 	const sizeOptions = [
-		{ id: 'sm', label: 'Small' },
-		{ id: 'md', label: 'Medium' },
-		{ id: 'lg', label: 'Large' },
-		{ id: 'xl', label: 'Extra Large' }
-	];
-
-	const legendPositionOptions = [
-		{ id: 'right', label: 'Right' },
-		{ id: 'bottom', label: 'Bottom' },
-		{ id: 'left', label: 'Left' },
-		{ id: 'top', label: 'Top' },
-		{ id: 'none', label: 'None' }
+		{ id: 'sm', label: 'sm' },
+		{ id: 'md', label: 'md' },
+		{ id: 'lg', label: 'lg' },
+		{ id: 'xl', label: 'xl' }
 	];
 
 	const paletteOptions = [
-		{ id: '', label: 'Default' },
+		{ id: 'default', label: 'Default' },
 		{ id: 'rainbow', label: 'Rainbow' },
 		{ id: 'ocean', label: 'Ocean' },
 		{ id: 'sunset', label: 'Sunset' },
 		{ id: 'forest', label: 'Forest' },
 		{ id: 'neon', label: 'Neon' }
+	];
+
+	const legendPositionOptions = [
+		{ id: 'top', label: 'Top' },
+		{ id: 'right', label: 'Right' },
+		{ id: 'bottom', label: 'Bottom' },
+		{ id: 'left', label: 'Left' },
+		{ id: 'none', label: 'None' }
 	];
 
 	const linecapOptions = [
@@ -36,400 +34,236 @@
 	];
 
 	let size: any = $state('md');
+	let palette: any = $state('default');
 	let legendPosition: any = $state('right');
-	let palette: any = $state('');
 	let linecap: any = $state('round');
-	let thickness = $state(16);
-	let gap = $state(8);
 
-	let animated = $state(true);
-	let showLegend = $state(true);
-	let showValues = $state(true);
+	let disableAnimation = $state(false);
+	let hideLegend = $state(false);
+	let hideValues = $state(false);
 	let showGradient = $state(false);
 	let showGlow = $state(false);
 	let showInlineLabels = $state(false);
+	let loading = $state(false);
 
-	let centerText = $state('Total');
-	let centerValue = $state('');
+	let thickness = $state(16);
+	let gap = $state(8);
 
-	// Sample data
-	let sampleData = $state([
+	let sampleData = [
 		{ value: 75, max: 100, label: 'Progress', color: 'primary' as const },
-		{ value: 45, max: 100, label: 'Tasks', color: 'success' as const },
-		{ value: 60, max: 100, label: 'Budget', color: 'warning' as const }
-	]);
+		{ value: 60, max: 100, label: 'Tasks', color: 'success' as const },
+		{ value: 45, max: 100, label: 'Goals', color: 'warning' as const }
+	];
+
+	let hasProps = $derived(
+		[
+			size !== 'md',
+			palette !== 'default',
+			legendPosition !== 'right',
+			linecap !== 'round',
+			disableAnimation,
+			hideLegend,
+			hideValues,
+			showGradient,
+			showGlow,
+			showInlineLabels,
+			loading,
+			thickness !== 16,
+			gap !== 8
+		].some(Boolean)
+	);
 
 	let code = $derived(() => {
-		const dataStr = `[
-		{ value: 75, max: 100, label: 'Progress', color: 'primary' },
-		{ value: 45, max: 100, label: 'Tasks', color: 'success' },
-		{ value: 60, max: 100, label: 'Budget', color: 'warning' }
-	]`;
+		const scriptLines = [
+			`<script lang="ts">`,
+			`\timport { ArcChart } from 'ui-svelte';`,
+			``,
+			`\tconst data = [`,
+			`\t\t{ value: 75, max: 100, label: 'Progress', color: 'primary' },`,
+			`\t\t{ value: 60, max: 100, label: 'Tasks', color: 'success' },`,
+			`\t\t{ value: 45, max: 100, label: 'Goals', color: 'warning' }`,
+			`\t];`,
+			`<\/script>`
+		];
 
-		const propsLines = [
-			`<ArcChart`,
-			`\tdata={${dataStr}}`,
+		const componentLines = [
+			hasProps && `<ArcChart`,
+			hasProps && `\t{data}`,
 			size !== 'md' && `\tsize="${size}"`,
+			palette !== 'default' && `\tpalette="${palette}"`,
+			legendPosition !== 'right' && `\tlegendPosition="${legendPosition}"`,
+			linecap !== 'round' && `\tlinecap="${linecap}"`,
 			thickness !== 16 && `\tthickness={${thickness}}`,
 			gap !== 8 && `\tgap={${gap}}`,
-			legendPosition !== 'right' && `\tlegendPosition="${legendPosition}"`,
-			palette && `\tpalette="${palette}"`,
-			linecap !== 'round' && `\tlinecap="${linecap}"`,
-			centerText && `\tcenterText="${centerText}"`,
-			centerValue && `\tcenterValue="${centerValue}"`,
-			!animated && `\tanimated={false}`,
-			!showLegend && `\tshowLegend={false}`,
-			!showValues && `\tshowValues={false}`,
+			disableAnimation && `\tdisableAnimation`,
+			hideLegend && `\thideLegend`,
+			hideValues && `\thideValues`,
 			showGradient && `\tshowGradient`,
 			showGlow && `\tshowGlow`,
 			showInlineLabels && `\tshowInlineLabels`,
-			`/>`
+			loading && `\tloading`,
+			hasProps && `/>`,
+			!hasProps && `<ArcChart {data} />`
 		].filter(Boolean);
 
-		return propsLines.join('\n');
+		return [...scriptLines, ...componentLines].join('\n');
 	});
 
 	const props = [
 		{ prop: 'data', type: 'ArcData[]', initial: '[]' },
-		{ prop: 'size', type: 'sm | md | lg | xl', initial: 'md' },
-		{ prop: 'thickness', type: 'number', initial: '16' },
-		{ prop: 'gap', type: 'number', initial: '8' },
 		{ prop: 'centerText', type: 'string', initial: '' },
 		{ prop: 'centerValue', type: 'string | number', initial: '' },
-		{ prop: 'animated', type: 'boolean', initial: 'true' },
+		{ prop: 'thickness', type: 'number', initial: '16' },
+		{ prop: 'gap', type: 'number', initial: '8' },
+		{ prop: 'disableAnimation', type: 'boolean', initial: 'false' },
 		{ prop: 'animationDuration', type: 'number', initial: '1000' },
 		{ prop: 'loading', type: 'boolean', initial: 'false' },
 		{ prop: 'empty', type: 'boolean', initial: 'false' },
 		{ prop: 'emptyText', type: 'string', initial: 'No data' },
-		{ prop: 'showLegend', type: 'boolean', initial: 'true' },
-		{ prop: 'showValues', type: 'boolean', initial: 'true' },
-		{ prop: 'legendPosition', type: 'top | right | bottom | left | none', initial: 'right' },
-		{ prop: 'showGradient', type: 'boolean', initial: 'false' },
-		{ prop: 'showGlow', type: 'boolean', initial: 'false' },
-		{ prop: 'linecap', type: 'round | butt | square', initial: 'round' },
-		{ prop: 'palette', type: 'default | rainbow | ocean | sunset | forest | neon', initial: '' },
-		{ prop: 'showInlineLabels', type: 'boolean', initial: 'false' },
-		{ prop: 'valueFormatter', type: '(value: number) => string', initial: '' },
-		{ prop: 'onClick', type: '(arc: ArcData, index: number) => void', initial: '' },
-		{ prop: 'onHover', type: '(arc: ArcData | null, index: number) => void', initial: '' },
-		{ prop: 'selected', type: 'number[]', initial: '[]' },
+		{ prop: 'hideLegend', type: 'boolean', initial: 'false' },
+		{ prop: 'hideValues', type: 'boolean', initial: 'false' },
+		{ prop: 'size', type: 'sm | md | lg | xl', initial: 'md' },
 		{ prop: 'innerRadius', type: 'number', initial: '' },
 		{ prop: 'outerRadius', type: 'number', initial: '' },
 		{ prop: 'startAngle', type: 'number', initial: '-90' },
 		{ prop: 'endAngle', type: 'number', initial: '270' },
+		{ prop: 'showGradient', type: 'boolean', initial: 'false' },
+		{ prop: 'showGlow', type: 'boolean', initial: 'false' },
+		{ prop: 'linecap', type: 'round | butt | square', initial: 'round' },
+		{ prop: 'palette', type: 'default | rainbow | ocean | sunset | forest | neon', initial: '' },
+		{ prop: 'legendPosition', type: 'top | right | bottom | left | none', initial: 'right' },
+		{ prop: 'valueFormatter', type: '(value: number) => string', initial: '' },
+		{ prop: 'onClick', type: '(arc: ArcData, index: number) => void', initial: '' },
+		{ prop: 'onHover', type: '(arc: ArcData | null, index: number) => void', initial: '' },
+		{ prop: 'selected', type: 'number[]', initial: '[]' },
+		{ prop: 'showInlineLabels', type: 'boolean', initial: 'false' },
 		{ prop: 'centerContent', type: 'Snippet', initial: '' },
-		{ prop: 'tooltipContent', type: 'Snippet<[{ arc, percentage }]>', initial: '' },
+		{
+			prop: 'tooltipContent',
+			type: 'Snippet<[{ arc: ArcData; percentage: number }]>',
+			initial: ''
+		},
 		{ prop: 'rootClass', type: 'string', initial: '' },
 		{ prop: 'chartClass', type: 'string', initial: '' }
 	];
 
-	const arcDataProps = [
-		{ prop: 'value', type: 'number', initial: 'required' },
-		{ prop: 'max', type: 'number', initial: 'value' },
-		{ prop: 'label', type: 'string', initial: '' },
-		{
-			prop: 'color',
-			type: 'primary | secondary | success | info | warning | danger | muted',
-			initial: 'auto'
-		},
-		{ prop: 'unit', type: 'string', initial: '' },
-		{ prop: 'gradient', type: '{ from: string; to: string }', initial: '' },
-		{ prop: 'disabled', type: 'boolean', initial: 'false' }
+	const singleArcData = [{ value: 72, max: 100, label: 'Completion', color: 'primary' as const }];
+
+	const multipleArcsData = [
+		{ value: 85, max: 100, label: 'Sales', color: 'primary' as const },
+		{ value: 65, max: 100, label: 'Marketing', color: 'success' as const },
+		{ value: 45, max: 100, label: 'Support', color: 'warning' as const },
+		{ value: 30, max: 100, label: 'Development', color: 'info' as const }
 	];
 
-	// Interactive example state
-	let selectedArcs: number[] = $state([]);
-
-	function handleArcClick(arc: any, index: number) {
-		if (selectedArcs.includes(index)) {
-			selectedArcs = selectedArcs.filter((i) => i !== index);
-		} else {
-			selectedArcs = [...selectedArcs, index];
-		}
-	}
-
-	// Value formatter example
-	function formatK(value: number): string {
-		if (value >= 1000) return `${(value / 1000).toFixed(1)}K`;
-		return String(value);
-	}
+	const gaugeData = [{ value: 67, max: 100, label: 'CPU Usage', unit: '%' }];
 </script>
 
-<DocsHeader title="ArcChart" llmUrl="https://ui-svelte.sappsdev.com/llm/charts/arc-chart.md">
-	A customizable arc chart component for visualizing progress, metrics, and proportional data with
-	multiple arcs, animations, and interactive features.
+<DocsHeader title="Arc Chart">
+	Arc Chart displays progress or proportional data in a circular format with multiple concentric
+	arcs.
 </DocsHeader>
 
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		<ArcChart
-			data={sampleData}
-			{size}
-			{thickness}
-			{gap}
-			{animated}
-			{showLegend}
-			{showValues}
-			{showGradient}
-			{showGlow}
-			{showInlineLabels}
-			{legendPosition}
-			palette={palette || undefined}
-			{linecap}
-			{centerText}
-			centerValue={centerValue || undefined}
-		/>
-	</DocsPreview>
-	<Card>
-		<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
-		<Select
-			label="Legend Position"
-			size="sm"
-			options={legendPositionOptions}
-			bind:value={legendPosition}
-		/>
-		<Select label="Palette" size="sm" options={paletteOptions} bind:value={palette} />
-		<Select label="Linecap" size="sm" options={linecapOptions} bind:value={linecap} />
-		<Slider label="Thickness" min={4} max={32} bind:value={thickness} />
-		<Slider label="Gap" min={0} max={20} bind:value={gap} />
-		<div class="grid-2 gap-2">
-			<Checkbox bind:checked={animated} label="Animated" />
-			<Checkbox bind:checked={showLegend} label="Legend" />
-			<Checkbox bind:checked={showValues} label="Values" />
-			<Checkbox bind:checked={showGradient} label="Gradient" />
-			<Checkbox bind:checked={showGlow} label="Glow" />
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Size"
+				size="sm"
+				options={sizeOptions}
+				bind:value={size}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Palette"
+				size="sm"
+				options={paletteOptions}
+				bind:value={palette}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Legend Position"
+				size="sm"
+				options={legendPositionOptions}
+				bind:value={legendPosition}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Linecap"
+				size="sm"
+				options={linecapOptions}
+				bind:value={linecap}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<TextField
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Thickness"
+				size="sm"
+				type="number"
+				bind:value={thickness}
+			/>
+			<TextField
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Gap"
+				size="sm"
+				type="number"
+				bind:value={gap}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={disableAnimation} label="Disable Animation" />
+			<Checkbox bind:checked={hideLegend} label="Hide Legend" />
+			<Checkbox bind:checked={hideValues} label="Hide Values" />
+			<Checkbox bind:checked={showGradient} label="Show Gradient" />
+			<Checkbox bind:checked={showGlow} label="Show Glow" />
 			<Checkbox bind:checked={showInlineLabels} label="Inline Labels" />
+			<Checkbox bind:checked={loading} label="Loading" />
 		</div>
-	</Card>
-	<DocsCode code={code()} />
-</Section>
 
-<Section>
-	<Card bodyClass="grid-2 md:grid-4 center">
-		{#snippet header()}
-			<h4>Sizes</h4>
-		{/snippet}
-		{#each sizeOptions as sizeOpt}
-			<div class="flex flex-col items-center gap-2">
-				<ArcChart
-					data={[{ value: 75, max: 100, color: 'primary' }]}
-					size={sizeOpt.id as any}
-					showLegend={false}
-					centerText={sizeOpt.label}
-				/>
-				<span class="text-sm text-on-muted">{sizeOpt.id}</span>
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
-	<Card bodyClass="grid-2 md:grid-3 center">
-		{#snippet header()}
-			<h4>Color Palettes</h4>
-		{/snippet}
-		{#each ['default', 'rainbow', 'ocean', 'sunset', 'forest', 'neon'] as pal}
-			<div class="flex flex-col items-center gap-2">
-				<ArcChart
-					data={[
-						{ value: 80, max: 100, label: 'A' },
-						{ value: 60, max: 100, label: 'B' },
-						{ value: 40, max: 100, label: 'C' }
-					]}
-					size="sm"
-					palette={pal as any}
-					showLegend={false}
-					centerText={pal}
-				/>
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
-	<Card bodyClass="grid-2 md:grid-4 center">
-		{#snippet header()}
-			<h4>Visual Effects</h4>
-		{/snippet}
-		<div class="flex flex-col items-center gap-2">
+		<div class="doc-preview">
 			<ArcChart
-				data={[{ value: 70, max: 100, color: 'primary' }]}
-				size="sm"
-				showLegend={false}
-				centerText="Default"
+				data={sampleData}
+				{size}
+				{palette}
+				{legendPosition}
+				{linecap}
+				{thickness}
+				{gap}
+				{disableAnimation}
+				{hideLegend}
+				{hideValues}
+				{showGradient}
+				{showGlow}
+				{showInlineLabels}
+				{loading}
 			/>
-			<span class="text-sm text-on-muted">Default</span>
 		</div>
-		<div class="flex flex-col items-center gap-2">
-			<ArcChart
-				data={[{ value: 70, max: 100, color: 'success' }]}
-				size="sm"
-				showGlow
-				showLegend={false}
-				centerText="Glow"
-			/>
-			<span class="text-sm text-on-muted">With Glow</span>
-		</div>
-		<div class="flex flex-col items-center gap-2">
-			<ArcChart
-				data={[{ value: 70, max: 100, color: 'info' }]}
-				size="sm"
-				showGradient
-				showLegend={false}
-				centerText="Gradient"
-			/>
-			<span class="text-sm text-on-muted">With Gradient</span>
-		</div>
-		<div class="flex flex-col items-center gap-2">
-			<ArcChart
-				data={[{ value: 70, max: 100, color: 'warning' }]}
-				size="sm"
-				showGlow
-				showGradient
-				showLegend={false}
-				centerText="Both"
-			/>
-			<span class="text-sm text-on-muted">Glow + Gradient</span>
-		</div>
+		<Code lang="svelte" code={code()} />
 	</Card>
 </Section>
 
 <Section>
-	<Card bodyClass="grid-2 md:grid-3 center">
-		{#snippet header()}
-			<h4>Linecap Styles</h4>
-		{/snippet}
-		{#each linecapOptions as lineOpt}
-			<div class="flex flex-col items-center gap-2">
-				<ArcChart
-					data={[{ value: 60, max: 100, color: 'secondary' }]}
-					size="sm"
-					linecap={lineOpt.id as any}
-					showLegend={false}
-					centerText={lineOpt.label}
-				/>
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
+	<p class="section-subtitle">Sizes</p>
 	<Card>
-		{#snippet header()}
-			<h4>Interactive Selection</h4>
-		{/snippet}
-		<div class="flex flex-col md:flex-row items-center gap-4">
-			<ArcChart
-				data={[
-					{ value: 85, max: 100, label: 'Downloads', color: 'primary' },
-					{ value: 62, max: 100, label: 'Uploads', color: 'success' },
-					{ value: 45, max: 100, label: 'Shares', color: 'warning' },
-					{ value: 30, max: 100, label: 'Comments', color: 'info' }
-				]}
-				size="lg"
-				onClick={handleArcClick}
-				selected={selectedArcs}
-				centerText="Metrics"
-			/>
-			<div class="text-sm">
-				<p class="font-semibold mb-2">Selected arcs:</p>
-				{#if selectedArcs.length === 0}
-					<p class="text-on-muted">Click on arcs to select them</p>
-				{:else}
-					<p class="text-on-muted">Indices: {selectedArcs.join(', ')}</p>
-				{/if}
-			</div>
-		</div>
-	</Card>
-</Section>
-
-<Section>
-	<Card>
-		{#snippet header()}
-			<h4>Value Formatting</h4>
-		{/snippet}
-		<div class="grid-2 md:grid-3 center">
-			<div class="flex flex-col items-center gap-2">
-				<ArcChart
-					data={[{ value: 5280, max: 10000, label: 'Users', color: 'primary' }]}
-					size="sm"
-					showLegend={false}
-					valueFormatter={formatK}
-				/>
-				<span class="text-sm text-on-muted">K Format (5.3K)</span>
-			</div>
-			<div class="flex flex-col items-center gap-2">
-				<ArcChart
-					data={[{ value: 75, max: 100, label: 'Battery', unit: '%', color: 'success' }]}
-					size="sm"
-					showLegend={false}
-				/>
-				<span class="text-sm text-on-muted">With Unit (%)</span>
-			</div>
-			<div class="flex flex-col items-center gap-2">
-				<ArcChart
-					data={[{ value: 128, max: 256, label: 'Storage', unit: 'GB', color: 'info' }]}
-					size="sm"
-					showLegend={false}
-				/>
-				<span class="text-sm text-on-muted">Custom Unit (GB)</span>
-			</div>
-		</div>
-	</Card>
-</Section>
-
-<Section>
-	<Card>
-		{#snippet header()}
-			<h4>Custom Center Content</h4>
-		{/snippet}
-		<div class="grid-2 md:grid-3 center">
-			<ArcChart data={[{ value: 85, max: 100, color: 'success' }]} size="md" showLegend={false}>
-				{#snippet centerContent()}
-					<div class="text-center">
-						<div class="text-2xl font-bold text-success">✓</div>
-						<div class="text-xs text-on-muted">Complete</div>
-					</div>
-				{/snippet}
-			</ArcChart>
-			<ArcChart data={[{ value: 45, max: 100, color: 'warning' }]} size="md" showLegend={false}>
-				{#snippet centerContent()}
-					<div class="text-center">
-						<div class="text-lg font-bold">45%</div>
-						<div class="text-xs text-on-muted">In Progress</div>
-					</div>
-				{/snippet}
-			</ArcChart>
-			<ArcChart data={[{ value: 20, max: 100, color: 'danger' }]} size="md" showLegend={false}>
-				{#snippet centerContent()}
-					<div class="text-center">
-						<div class="text-2xl">⚠️</div>
-						<div class="text-xs text-on-muted">Low</div>
-					</div>
-				{/snippet}
-			</ArcChart>
-		</div>
-	</Card>
-</Section>
-
-<Section>
-	<Card>
-		{#snippet header()}
-			<h4>Legend Positions</h4>
-		{/snippet}
-		<div class="grid-2 md:grid-4 gap-6">
-			{#each legendPositionOptions.filter((p) => p.id !== 'none') as pos}
+		<div class="wrap gap-4 center">
+			{#each sizeOptions as sizeOpt}
 				<div class="flex flex-col items-center gap-2">
+					<span class="text-sm text-muted">{sizeOpt.label}</span>
 					<ArcChart
-						data={[
-							{ value: 70, max: 100, label: 'A', color: 'primary' },
-							{ value: 50, max: 100, label: 'B', color: 'success' }
-						]}
-						size="sm"
-						legendPosition={pos.id as any}
-						showValues={false}
+						data={singleArcData}
+						size={sizeOpt.id as any}
+						hideLegend
+						centerText="Score"
+						centerValue="72%"
 					/>
-					<span class="text-sm text-on-muted">{pos.label}</span>
 				</div>
 			{/each}
 		</div>
@@ -437,44 +271,120 @@
 </Section>
 
 <Section>
+	<p class="section-subtitle">Palettes</p>
 	<Card>
-		{#snippet header()}
-			<h4>States</h4>
-		{/snippet}
-		<div class="grid-2 md:grid-3 center">
+		<div class="wrap gap-4 center">
+			{#each paletteOptions as paletteOpt}
+				<div class="flex flex-col items-center gap-2">
+					<span class="text-sm text-muted">{paletteOpt.label}</span>
+					<ArcChart data={multipleArcsData} size="sm" palette={paletteOpt.id as any} hideLegend />
+				</div>
+			{/each}
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Legend Positions</p>
+	<Card>
+		<div class="grid-2 gap-4">
+			{#each legendPositionOptions.filter((l) => l.id !== 'none') as legendOpt}
+				<div class="flex flex-col items-center gap-2">
+					<span class="text-sm text-muted">{legendOpt.label}</span>
+					<ArcChart data={sampleData} size="sm" legendPosition={legendOpt.id as any} />
+				</div>
+			{/each}
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Linecap Styles</p>
+	<Card>
+		<div class="wrap gap-4 center">
+			{#each linecapOptions as linecapOpt}
+				<div class="flex flex-col items-center gap-2">
+					<span class="text-sm text-muted">{linecapOpt.label}</span>
+					<ArcChart data={singleArcData} size="sm" linecap={linecapOpt.id as any} hideLegend />
+				</div>
+			{/each}
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Single Arc (Gauge)</p>
+	<Card>
+		<div class="wrap gap-4 center">
+			<ArcChart
+				data={gaugeData}
+				size="md"
+				centerText="CPU"
+				centerValue="67%"
+				showGradient
+				showGlow
+			/>
+			<ArcChart
+				data={[{ value: 85, max: 100, label: 'Memory', unit: '%', color: 'success' }]}
+				size="md"
+				centerText="Memory"
+				centerValue="85%"
+				showGradient
+				showGlow
+			/>
+			<ArcChart
+				data={[{ value: 42, max: 100, label: 'Disk', unit: '%', color: 'warning' }]}
+				size="md"
+				centerText="Disk"
+				centerValue="42%"
+				showGradient
+				showGlow
+			/>
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Visual Effects</p>
+	<Card>
+		<div class="wrap gap-4 center">
 			<div class="flex flex-col items-center gap-2">
-				<ArcChart
-					data={[{ value: 50, max: 100, color: 'primary' }]}
-					size="sm"
-					loading
-					showLegend={false}
-				/>
-				<span class="text-sm text-on-muted">Loading</span>
+				<span class="text-sm text-muted">Default</span>
+				<ArcChart data={multipleArcsData} size="sm" hideLegend />
 			</div>
 			<div class="flex flex-col items-center gap-2">
-				<ArcChart data={[]} size="sm" empty emptyText="No data available" showLegend={false} />
-				<span class="text-sm text-on-muted">Empty</span>
+				<span class="text-sm text-muted">Gradient</span>
+				<ArcChart data={multipleArcsData} size="sm" hideLegend showGradient />
 			</div>
 			<div class="flex flex-col items-center gap-2">
-				<ArcChart
-					data={[
-						{ value: 60, max: 100, label: 'Active', color: 'success' },
-						{ value: 40, max: 100, label: 'Disabled', color: 'muted', disabled: true }
-					]}
-					size="sm"
-				/>
-				<span class="text-sm text-on-muted">Disabled Arc</span>
+				<span class="text-sm text-muted">Glow</span>
+				<ArcChart data={multipleArcsData} size="sm" hideLegend showGlow />
+			</div>
+			<div class="flex flex-col items-center gap-2">
+				<span class="text-sm text-muted">Both</span>
+				<ArcChart data={multipleArcsData} size="sm" hideLegend showGradient showGlow />
 			</div>
 		</div>
 	</Card>
 </Section>
 
 <Section>
-	<h3>ArcChart Props</h3>
-	<DocsProps {props} />
+	<p class="section-subtitle">States</p>
+	<Card>
+		<div class="wrap gap-4 center">
+			<div class="flex flex-col items-center gap-2">
+				<span class="text-sm text-muted">Loading</span>
+				<ArcChart data={sampleData} size="sm" loading />
+			</div>
+			<div class="flex flex-col items-center gap-2">
+				<span class="text-sm text-muted">Empty</span>
+				<ArcChart data={[]} size="sm" empty emptyText="No data available" />
+			</div>
+		</div>
+	</Card>
 </Section>
 
 <Section>
-	<h3>ArcData Type</h3>
-	<DocsProps props={arcDataProps} />
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
 </Section>

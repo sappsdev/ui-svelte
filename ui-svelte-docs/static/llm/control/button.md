@@ -1,48 +1,58 @@
 # Button Component
 
-A versatile button component for user actions and interactions.
+Interactive element for user actions. Supports icons, loading states, and links.
 
-## Basic Usage
+## Import
 
 ```svelte
-<script>
-  import { Button } from 'ui-svelte';
-</script>
-
-<Button onclick={() => console.log('clicked')}>
-  Click Me
-</Button>
+import {Button} from 'ui-svelte'; import {HeartLinearIcon} from '$lib/icons'; // Optional, see icons.md
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `onclick` | `() => void` | - | Click handler function |
-| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Button type attribute |
-| `href` | `string` | - | Renders as link when provided |
-| `target` | `'_self' \| '_blank' \| '_parent' \| '_top'` | - | Link target (when href is set) |
-| `color` | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'primary'` | Button color theme |
-| `variant` | `'solid' \| 'soft' \| 'outlined' \| 'ghost'` | `'solid'` | Visual style variant |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Button size |
-| `startIcon` | `IconData` | - | Icon before label |
-| `endIcon` | `IconData` | - | Icon after label |
-| `isLoading` | `boolean` | `false` | Shows loading state |
-| `isWide` | `boolean` | `false` | Full width button |
-| `isDisabled` | `boolean` | `false` | Disables interaction |
-| `class` | `string` | - | Additional CSS classes (rarely needed) |
+| Prop         | Type                                                                                  | Default     | Description          |
+| ------------ | ------------------------------------------------------------------------------------- | ----------- | -------------------- |
+| `onclick`    | `() => void`                                                                          | -           | Click handler        |
+| `href`       | `string`                                                                              | -           | Makes button a link  |
+| `target`     | `'_self' \| '_blank' \| '_parent' \| '_top'`                                          | -           | Link target          |
+| `type`       | `'button' \| 'submit' \| 'reset'`                                                     | `'button'`  | Button type          |
+| `color`      | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'primary'` | Color theme          |
+| `variant`    | `'solid' \| 'soft' \| 'outlined' \| 'ghost' \| 'overlay'`                             | `'solid'`   | Visual style         |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                                | `'md'`      | Button size          |
+| `startIcon`  | `IconData`                                                                            | -           | Icon before text     |
+| `endIcon`    | `IconData`                                                                            | -           | Icon after text      |
+| `isLoading`  | `boolean`                                                                             | `false`     | Show loading spinner |
+| `isWide`     | `boolean`                                                                             | `false`     | Full-width button    |
+| `isDisabled` | `boolean`                                                                             | `false`     | Disable button       |
+| `class`      | `string`                                                                              | -           | Additional classes   |
 
-## Common Patterns
+## Patterns
 
-### Colors & Variants
+### Basic Button
+
 ```svelte
-<Button color="primary" variant="solid">Primary</Button>
-<Button color="danger" variant="soft">Delete</Button>
-<Button color="success" variant="outlined">Approve</Button>
-<Button color="secondary" variant="ghost">Cancel</Button>
+<Button onclick={() => console.log('clicked')}>Click Me</Button>
+```
+
+### With Icons
+
+```svelte
+<Button startIcon={HeartLinearIcon}>Like</Button>
+<Button endIcon={ArrowRightLinearIcon}>Next</Button>
+<Button startIcon={SaveLinearIcon} endIcon={CheckLinearIcon}>Save</Button>
+```
+
+### Color & Variant Combinations
+
+```svelte
+<Button color="primary" variant="solid">Primary Solid</Button>
+<Button color="success" variant="soft">Success Soft</Button>
+<Button color="danger" variant="outlined">Danger Outlined</Button>
+<Button color="secondary" variant="ghost">Secondary Ghost</Button>
 ```
 
 ### Sizes
+
 ```svelte
 <Button size="xs">Extra Small</Button>
 <Button size="sm">Small</Button>
@@ -51,40 +61,30 @@ A versatile button component for user actions and interactions.
 <Button size="xl">Extra Large</Button>
 ```
 
-### With Icons
-```svelte
-<script>
-  import { Button } from 'ui-svelte';
-  import { HeartIcon, SendIcon } from '$lib/icons';
-</script>
-
-<Button startIcon={HeartIcon}>Like</Button>
-<Button endIcon={SendIcon}>Send</Button>
-```
-
 ### States
+
 ```svelte
-<Button isLoading>Processing...</Button>
+<Button isLoading>Loading...</Button>
 <Button isDisabled>Disabled</Button>
 <Button isWide>Full Width</Button>
 ```
 
-### As Link
+### Link Button
+
 ```svelte
-<Button href="/dashboard">Go to Dashboard</Button>
+<Button href="/about">About</Button>
 <Button href="https://example.com" target="_blank">External Link</Button>
 ```
 
-### Form Buttons
+### Form Submit
+
 ```svelte
-<Button type="submit" color="success">Submit Form</Button>
-<Button type="reset" variant="ghost">Reset</Button>
+<form>
+	<Button type="submit" color="success">Submit Form</Button>
+	<Button type="reset" variant="ghost">Reset</Button>
+</form>
 ```
 
-## Notes
+## Component References
 
-- The component is highly configurable through props
-- Use `class` prop only for rare customizations beyond available props
-- When `href` is provided, button renders as an anchor element
-- Icons accept `IconData` format: `{ body: string, viewbox: string }`
-- **For icon documentation, see:** https://ui-svelte.sappsdev.com/llm/starter/icons.md
+- **@see icons.md** - Icon usage with `startIcon`/`endIcon`

@@ -24,13 +24,13 @@
 		centerValue?: string | number;
 		thickness?: number;
 		gap?: number;
-		animated?: boolean;
+		disableAnimation?: boolean;
 		animationDuration?: number;
 		loading?: boolean;
 		empty?: boolean;
 		emptyText?: string;
-		showLegend?: boolean;
-		showValues?: boolean;
+		hideLegend?: boolean;
+		hideValues?: boolean;
 		rootClass?: string;
 		chartClass?: string;
 		size?: Size;
@@ -58,13 +58,13 @@
 		centerValue = '',
 		thickness = 16,
 		gap = 8,
-		animated = true,
+		disableAnimation = false,
 		animationDuration = 1000,
 		loading = false,
 		empty = false,
 		emptyText = 'No data',
-		showLegend = true,
-		showValues = true,
+		hideLegend = false,
+		hideValues = false,
 		rootClass,
 		chartClass,
 		size = 'md',
@@ -115,7 +115,6 @@
 		muted: 'is-muted'
 	};
 
-	// Get arc color based on palette or individual color
 	function getArcColor(arc: ArcData, index: number): Color {
 		if (arc.color) return arc.color;
 		if (palette) {
@@ -194,10 +193,8 @@
 		return data.reduce((sum, arc) => sum + (arc.max || arc.value), 0);
 	});
 
-	// Arc angle calculations
 	let angleRange = $derived(endAngle - startAngle);
 
-	// Generate gradient IDs
 	let gradientIds = $derived(
 		data.map((_, i) => `arc-gradient-${i}-${Math.random().toString(36).slice(2, 9)}`)
 	);
@@ -247,7 +244,7 @@
 			animationFrameId = null;
 		}
 
-		if (animated) {
+		if (!disableAnimation) {
 			const startTime = Date.now();
 			const startPercentages = untrack(() => [...displayPercentages]);
 
@@ -430,7 +427,6 @@
 						"
 					/>
 
-					<!-- Active arc -->
 					<!-- svelte-ignore a11y_no_static_element_interactions -->
 					<!-- svelte-ignore a11y_click_events_have_key_events -->
 					<circle
@@ -533,7 +529,7 @@
 			</div>
 		{/if}
 
-		{#if showLegend && legendPosition !== 'none'}
+		{#if !hideLegend && legendPosition !== 'none'}
 			<div class={cn('arc-chart-legend', legendLayoutClass())}>
 				{#each data as arc, i}
 					{@const percentage = displayPercentages[i] || 0}
@@ -549,7 +545,7 @@
 					>
 						<div class={cn('arc-chart-legend-color', colorClass[color])}></div>
 						<span>{arc.label || `Arc ${i + 1}`}</span>
-						{#if showValues}
+						{#if !hideValues}
 							<span class="arc-chart-legend-value">
 								({formatValue(arc.value, arc.unit)}{#if max}
 									/ {formatValue(max, arc.unit)}{/if})

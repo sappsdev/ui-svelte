@@ -1,11 +1,17 @@
 <script lang="ts">
 	import { cn } from '$lib/utils/class-names.js';
-	import { onMount } from 'svelte';
+	import { onMount, untrack, type Snippet } from 'svelte';
+
+	type Color = 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'muted';
+	type Size = 'sm' | 'md' | 'lg' | 'xl';
+	type LegendPosition = 'top' | 'right' | 'bottom' | 'left' | 'none';
+	type Palette = 'default' | 'rainbow' | 'ocean' | 'sunset' | 'forest' | 'neon';
 
 	type TooltipData = {
 		point: DataPoint;
 		seriesName: string;
 		color: Color;
+		seriesIndex: number;
 	};
 
 	type LinearScale = {
@@ -14,8 +20,6 @@
 		domain: [number, number];
 		range: [number, number];
 	};
-
-	type Color = 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'muted';
 
 	type DataPoint = {
 		x: number;
@@ -28,24 +32,46 @@
 		color?: Color;
 	};
 
+	type Margin = {
+		top: number;
+		right: number;
+		bottom: number;
+		left: number;
+	};
+
 	type Props = {
 		data?: DataPoint[];
 		series?: Series[];
 		color?: Color;
 		colors?: Color[];
-		showLine?: boolean;
+		margin?: Margin;
+		hideLine?: boolean;
 		showPoints?: boolean;
-		showGrid?: boolean;
-		showLegend?: boolean;
+		hideGrid?: boolean;
+		hideLegend?: boolean;
 		curve?: 'linear' | 'smooth';
 		strokeWidth?: number;
 		fillOpacity?: number;
 		stacked?: boolean;
-		gradient?: boolean;
+		hideGradient?: boolean;
 		loading?: boolean;
 		empty?: boolean;
 		emptyText?: string;
 		rootClass?: string;
+		chartClass?: string;
+		size?: Size;
+		palette?: Palette;
+		legendPosition?: LegendPosition;
+		disableAnimation?: boolean;
+		animationDuration?: number;
+		valueFormatter?: (value: number) => string;
+		xFormatter?: (value: number) => string;
+		onClick?: (point: DataPoint, series: Series, index: number) => void;
+		onHover?: (point: DataPoint | null, series: Series | null, index: number) => void;
+		hideXAxis?: boolean;
+		hideYAxis?: boolean;
+		showGlow?: boolean;
+		tooltipContent?: Snippet<[{ point: DataPoint; series: Series; color: Color }]>;
 	};
 
 	let {
@@ -53,28 +79,53 @@
 		series = [],
 		color = 'primary' as Color,
 		colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger', 'muted'] as Color[],
-		showLine = true,
+		margin = { top: 20, right: 20, bottom: 40, left: 50 },
+		hideLine = false,
 		showPoints = false,
-		showGrid = true,
-		showLegend = false,
+		hideGrid = false,
+		hideLegend = false,
 		curve = 'linear' as 'linear' | 'smooth',
 		strokeWidth = 2,
 		fillOpacity = 0.3,
 		stacked = false,
-		gradient = true,
+		hideGradient = false,
 		loading = false,
 		empty = false,
 		emptyText = 'No data available',
-		rootClass
+		rootClass,
+		chartClass,
+		size = 'md',
+		palette,
+		legendPosition = 'bottom',
+		disableAnimation = false,
+		animationDuration = 800,
+		valueFormatter,
+		xFormatter,
+		onClick,
+		onHover,
+		hideXAxis = false,
+		hideYAxis = false,
+		showGlow = false,
+		tooltipContent
 	}: Props = $props();
 
-	let containerEl: HTMLDivElement | undefined = $state();
-	let containerSize = $state({ width: 0, height: 0 });
+	const sizePresets: Record<Size, { height: number; pointRadius: number; fontSize: number }> = {
+		sm: { height: 200, pointRadius: 2, fontSize: 10 },
+		md: { height: 300, pointRadius: 3, fontSize: 12 },
+		lg: { height: 400, pointRadius: 4, fontSize: 14 },
+		xl: { height: 500, pointRadius: 5, fontSize: 16 }
+	};
 
-	let width = $derived(containerSize.width);
-	let height = $derived(containerSize.height);
+	const colorPalettes: Record<Palette, Color[]> = {
+		default: ['primary', 'secondary', 'success', 'info', 'warning', 'danger', 'muted'],
+		rainbow: ['danger', 'warning', 'success', 'info', 'primary', 'secondary', 'muted'],
+		ocean: ['info', 'primary', 'secondary', 'success', 'muted', 'warning', 'danger'],
+		sunset: ['warning', 'danger', 'secondary', 'primary', 'info', 'success', 'muted'],
+		forest: ['success', 'primary', 'info', 'secondary', 'muted', 'warning', 'danger'],
+		neon: ['secondary', 'primary', 'success', 'warning', 'danger', 'info', 'muted']
+	};
 
-	const colorClass = {
+	const colorClass: Record<Color, string> = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		success: 'is-success',
@@ -83,6 +134,27 @@
 		danger: 'is-danger',
 		muted: 'is-muted'
 	};
+
+	function getSeriesColor(seriesItem: Series, index: number): Color {
+		if (seriesItem.color) return seriesItem.color;
+		if (palette) {
+			const paletteColors = colorPalettes[palette];
+			return paletteColors[index % paletteColors.length];
+		}
+		return colors[index % colors.length];
+	}
+
+	let containerEl: HTMLDivElement | undefined = $state();
+	let containerSize = $state({ width: 0, height: 0 });
+	let animationProgress = $state(0);
+	let animationFrameId: number | null = null;
+
+	let sizeConfig = $derived(sizePresets[size]);
+	let width = $derived(containerSize.width || 600);
+	let height = $derived(containerSize.height || sizeConfig.height);
+
+	let innerWidth = $derived(width - margin.left - margin.right);
+	let innerHeight = $derived(height - margin.top - margin.bottom);
 
 	function createLinearScale(domain: [number, number], range: [number, number]): LinearScale {
 		const [d0, d1] = domain;
@@ -103,6 +175,7 @@
 	}
 
 	function formatNumber(value: number): string {
+		if (valueFormatter) return valueFormatter(value);
 		if (value === 0) return '0';
 		const abs = Math.abs(value);
 		if (abs >= 1e9) return `${(value / 1e9).toFixed(1)}B`;
@@ -112,12 +185,17 @@
 		return value.toFixed(0);
 	}
 
+	function formatX(value: number): string {
+		if (xFormatter) return xFormatter(value);
+		return formatNumber(value);
+	}
+
 	let normalizedSeries = $derived.by((): Series[] => {
 		if (series.length > 0) {
 			return series.map((s, i) => ({
 				name: s.name,
 				data: s.data,
-				color: s.color || colors[i % colors.length]
+				color: getSeriesColor(s, i)
 			}));
 		}
 
@@ -163,28 +241,33 @@
 	function createAreaPath(points: DataPoint[], baselineY: number, smooth: boolean = false): string {
 		if (points.length === 0) return '';
 
-		const xScale = createLinearScale(xDomain, [0, width]);
-		const yScale = createLinearScale(yDomain, [height, 0]);
+		const xScale = createLinearScale(xDomain, [0, innerWidth]);
+		const yScale = createLinearScale(yDomain, [innerHeight, 0]);
 
-		let path = `M ${xScale(points[0].x)} ${baselineY}`;
-		path += ` L ${xScale(points[0].x)} ${yScale(points[0].y)}`;
+		const animatedPoints = points.map((p) => ({
+			x: p.x,
+			y: p.y * animationProgress
+		}));
 
-		if (smooth && points.length > 1) {
-			for (let i = 1; i < points.length; i++) {
-				const x0 = xScale(points[i - 1].x);
-				const y0 = yScale(points[i - 1].y);
-				const x1 = xScale(points[i].x);
-				const y1 = yScale(points[i].y);
+		let path = `M ${xScale(animatedPoints[0].x)} ${baselineY}`;
+		path += ` L ${xScale(animatedPoints[0].x)} ${yScale(animatedPoints[0].y)}`;
+
+		if (smooth && animatedPoints.length > 1) {
+			for (let i = 1; i < animatedPoints.length; i++) {
+				const x0 = xScale(animatedPoints[i - 1].x);
+				const y0 = yScale(animatedPoints[i - 1].y);
+				const x1 = xScale(animatedPoints[i].x);
+				const y1 = yScale(animatedPoints[i].y);
 				const cpx = (x0 + x1) / 2;
 				path += ` C ${cpx} ${y0}, ${cpx} ${y1}, ${x1} ${y1}`;
 			}
 		} else {
-			for (let i = 1; i < points.length; i++) {
-				path += ` L ${xScale(points[i].x)} ${yScale(points[i].y)}`;
+			for (let i = 1; i < animatedPoints.length; i++) {
+				path += ` L ${xScale(animatedPoints[i].x)} ${yScale(animatedPoints[i].y)}`;
 			}
 		}
 
-		path += ` L ${xScale(points[points.length - 1].x)} ${baselineY}`;
+		path += ` L ${xScale(animatedPoints[animatedPoints.length - 1].x)} ${baselineY}`;
 		path += ' Z';
 
 		return path;
@@ -193,23 +276,28 @@
 	function createLinePath(points: DataPoint[], smooth: boolean = false): string {
 		if (points.length === 0) return '';
 
-		const xScale = createLinearScale(xDomain, [0, width]);
-		const yScale = createLinearScale(yDomain, [height, 0]);
+		const xScale = createLinearScale(xDomain, [0, innerWidth]);
+		const yScale = createLinearScale(yDomain, [innerHeight, 0]);
 
-		let path = `M ${xScale(points[0].x)} ${yScale(points[0].y)}`;
+		const animatedPoints = points.map((p) => ({
+			x: p.x,
+			y: p.y * animationProgress
+		}));
 
-		if (smooth && points.length > 1) {
-			for (let i = 1; i < points.length; i++) {
-				const x0 = xScale(points[i - 1].x);
-				const y0 = yScale(points[i - 1].y);
-				const x1 = xScale(points[i].x);
-				const y1 = yScale(points[i].y);
+		let path = `M ${xScale(animatedPoints[0].x)} ${yScale(animatedPoints[0].y)}`;
+
+		if (smooth && animatedPoints.length > 1) {
+			for (let i = 1; i < animatedPoints.length; i++) {
+				const x0 = xScale(animatedPoints[i - 1].x);
+				const y0 = yScale(animatedPoints[i - 1].y);
+				const x1 = xScale(animatedPoints[i].x);
+				const y1 = yScale(animatedPoints[i].y);
 				const cpx = (x0 + x1) / 2;
 				path += ` C ${cpx} ${y0}, ${cpx} ${y1}, ${x1} ${y1}`;
 			}
 		} else {
-			for (let i = 1; i < points.length; i++) {
-				path += ` L ${xScale(points[i].x)} ${yScale(points[i].y)}`;
+			for (let i = 1; i < animatedPoints.length; i++) {
+				path += ` L ${xScale(animatedPoints[i].x)} ${yScale(animatedPoints[i].y)}`;
 			}
 		}
 
@@ -217,19 +305,18 @@
 	}
 
 	function createGridLines(): Array<{ x: number; y: number; value: number }> {
-		const yScale = createLinearScale(yDomain, [height, 0]);
+		const yScale = createLinearScale(yDomain, [innerHeight, 0]);
 		const yTicks = 5;
 
 		return Array.from({ length: yTicks + 1 }, (_, i) => {
 			const value = yDomain[0] + (yDomain[1] - yDomain[0]) * (i / yTicks);
-			return { x: width, y: yScale(value), value };
+			return { x: innerWidth, y: yScale(value), value };
 		});
 	}
 
-	// NUEVA FUNCIÓN: Crear ticks para el eje X
 	function createXAxisTicks(): Array<{ x: number; value: number }> {
-		const xScale = createLinearScale(xDomain, [0, width]);
-		const xTicks = 5;
+		const xScale = createLinearScale(xDomain, [0, innerWidth]);
+		const xTicks = Math.min(6, Math.max(2, Math.floor(innerWidth / 80)));
 
 		return Array.from({ length: xTicks + 1 }, (_, i) => {
 			const value = xDomain[0] + (xDomain[1] - xDomain[0]) * (i / xTicks);
@@ -274,32 +361,79 @@
 	let tooltipData = $state<TooltipData | null>(null);
 	let tooltipPosition = $state<{ x: number; y: number }>({ x: 0, y: 0 });
 	let isTooltipActive = $state(false);
+	let hoveredSeriesIndex = $state<number | null>(null);
 
 	function handlePointHover(
 		point: DataPoint,
-		seriesName: string,
-		event: MouseEvent,
-		pointColor: Color
+		seriesItem: Series,
+		seriesIndex: number,
+		event: MouseEvent
 	): void {
 		const target = event.target as SVGCircleElement;
 		const rect = target.getBoundingClientRect();
 
-		tooltipData = { point, seriesName, color: pointColor };
+		tooltipData = {
+			point,
+			seriesName: seriesItem.name,
+			color: seriesItem.color as Color,
+			seriesIndex
+		};
 		tooltipPosition = {
-			x: rect.right + 8,
-			y: rect.top + rect.height / 2
+			x: rect.left + rect.width / 2,
+			y: rect.top - 10
 		};
 		isTooltipActive = true;
+		hoveredSeriesIndex = seriesIndex;
+
+		if (onHover) {
+			onHover(point, seriesItem, seriesIndex);
+		}
 	}
 
 	function handlePointLeave(): void {
 		isTooltipActive = false;
+		hoveredSeriesIndex = null;
+
+		if (onHover) {
+			onHover(null, null, -1);
+		}
+
 		setTimeout(() => {
 			if (!isTooltipActive) {
 				tooltipData = null;
 			}
 		}, 100);
 	}
+
+	function handlePointClick(point: DataPoint, seriesItem: Series, index: number): void {
+		if (onClick) {
+			onClick(point, seriesItem, index);
+		}
+	}
+
+	let containerLayoutClass = $derived(() => {
+		switch (legendPosition) {
+			case 'top':
+				return 'flex-col-reverse';
+			case 'bottom':
+				return 'flex-col';
+			case 'left':
+				return 'flex-row-reverse';
+			case 'right':
+			default:
+				return 'flex-row';
+		}
+	});
+
+	let legendLayoutClass = $derived(() => {
+		switch (legendPosition) {
+			case 'top':
+			case 'bottom':
+				return 'flex-row flex-wrap';
+			default:
+				return 'flex-col';
+		}
+	});
 
 	onMount(() => {
 		const updateSize = () => {
@@ -309,19 +443,65 @@
 			}
 		};
 
+		const handleScroll = () => {
+			if (isTooltipActive) {
+				isTooltipActive = false;
+				hoveredSeriesIndex = null;
+				tooltipData = null;
+			}
+		};
+
 		updateSize();
 		const resizeObserver = new ResizeObserver(updateSize);
 		if (containerEl) {
 			resizeObserver.observe(containerEl);
 		}
 
+		window.addEventListener('scroll', handleScroll, true);
+
 		return () => {
+			if (animationFrameId !== null) {
+				cancelAnimationFrame(animationFrameId);
+			}
 			resizeObserver.disconnect();
+			window.removeEventListener('scroll', handleScroll, true);
 		};
+	});
+
+	$effect(() => {
+		const _ = normalizedSeries;
+
+		if (animationFrameId !== null) {
+			cancelAnimationFrame(animationFrameId);
+			animationFrameId = null;
+		}
+
+		if (!disableAnimation) {
+			const startTime = Date.now();
+			const startProgress = untrack(() => animationProgress);
+
+			const animate = () => {
+				const now = Date.now();
+				const progress = Math.min((now - startTime) / animationDuration, 1);
+				const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+				animationProgress = startProgress + (1 - startProgress) * easeProgress;
+
+				if (progress < 1) {
+					animationFrameId = requestAnimationFrame(animate);
+				} else {
+					animationFrameId = null;
+				}
+			};
+
+			animationFrameId = requestAnimationFrame(animate);
+		} else {
+			animationProgress = 1;
+		}
 	});
 </script>
 
-<div class={cn('area-chart-container', rootClass)}>
+<div class={cn('area-chart-container', `is-${size}`, containerLayoutClass(), rootClass)}>
 	{#if loading}
 		<div class="area-chart-loading">
 			<svg class="area-chart-loading-spinner" viewBox="0 0 24 24">
@@ -353,11 +533,11 @@
 			<span>{emptyText}</span>
 		</div>
 	{:else}
-		<div bind:this={containerEl} class="area-chart">
-			<svg class="area-chart-svg">
+		<div bind:this={containerEl} class={cn('area-chart', `is-${size}`, chartClass)}>
+			<svg class="area-chart-svg" {width} {height}>
 				<defs>
 					{#each normalizedSeries as s, i}
-						{#if gradient}
+						{#if !hideGradient}
 							<linearGradient id="area-gradient-{i}" x1="0%" y1="0%" x2="0%" y2="100%">
 								<stop
 									offset="0%"
@@ -372,16 +552,28 @@
 							</linearGradient>
 						{/if}
 					{/each}
+
+					{#if showGlow}
+						{#each normalizedSeries as s, i}
+							<filter id="area-glow-{i}" x="-50%" y="-50%" width="200%" height="200%">
+								<feGaussianBlur stdDeviation="3" result="coloredBlur" />
+								<feMerge>
+									<feMergeNode in="coloredBlur" />
+									<feMergeNode in="SourceGraphic" />
+								</feMerge>
+							</filter>
+						{/each}
+					{/if}
 				</defs>
 
-				<g>
+				<g transform="translate({margin.left}, {margin.top})">
 					{#if normalizedSeries.length > 0}
 						{@const grid = createGridLines()}
 						{@const xTicks = createXAxisTicks()}
-						{@const xScale = createLinearScale(xDomain, [0, width])}
-						{@const yScale = createLinearScale(yDomain, [height, 0])}
+						{@const xScale = createLinearScale(xDomain, [0, innerWidth])}
+						{@const yScale = createLinearScale(yDomain, [innerHeight, 0])}
 
-						{#if showGrid}
+						{#if !hideGrid}
 							<g class="area-chart-grid">
 								{#each grid as line}
 									<line x1={0} y1={line.y} x2={line.x} y2={line.y} class="area-chart-grid-line" />
@@ -390,67 +582,90 @@
 						{/if}
 
 						<g class="area-chart-axis">
-							<line x1={0} y1={height} x2={width} y2={height} class="area-chart-axis-line" />
-							<line x1={0} y1={0} x2={0} y2={height} class="area-chart-axis-line" />
+							{#if !hideXAxis}
+								<line
+									x1={0}
+									y1={innerHeight}
+									x2={innerWidth}
+									y2={innerHeight}
+									class="area-chart-axis-line"
+								/>
+								{#each xTicks as tick}
+									<text
+										x={tick.x}
+										y={innerHeight + 20}
+										class="area-chart-axis-label"
+										text-anchor="middle"
+										style="font-size: {sizeConfig.fontSize}px;"
+									>
+										{formatX(tick.value)}
+									</text>
+								{/each}
+							{/if}
 
-							<!-- Etiquetas del eje Y -->
-							{#each grid as line}
-								<text
-									x={-10}
-									y={line.y}
-									class="area-chart-axis-label"
-									text-anchor="end"
-									dominant-baseline="middle"
-								>
-									{formatNumber(line.value)}
-								</text>
-							{/each}
-
-							<!-- NUEVO: Etiquetas del eje X -->
-							{#each xTicks as tick}
-								<text
-									x={tick.x}
-									y={height + 15}
-									class="area-chart-axis-label"
-									text-anchor="middle"
-									dominant-baseline="hanging"
-								>
-									{formatNumber(tick.value)}
-								</text>
-							{/each}
+							{#if !hideYAxis}
+								<line x1={0} y1={0} x2={0} y2={innerHeight} class="area-chart-axis-line" />
+								{#each grid as line}
+									<text
+										x={-10}
+										y={line.y}
+										class="area-chart-axis-label"
+										text-anchor="end"
+										dominant-baseline="middle"
+										style="font-size: {sizeConfig.fontSize}px;"
+									>
+										{formatNumber(line.value)}
+									</text>
+								{/each}
+							{/if}
 						</g>
 
 						{#each stacked ? stackedData : normalizedSeries as s, i}
 							{@const baselineY =
 								stacked && s.data[0]?.y !== undefined
 									? yScale((s.data[0] as StackedDataPoint).y0)
-									: height}
+									: innerHeight}
+							{@const isHovered = hoveredSeriesIndex === i}
 
 							<path
 								d={createAreaPath(s.data, baselineY, curve === 'smooth')}
-								fill={gradient ? `url(#area-gradient-${i})` : undefined}
-								class="area-chart-area is-{s.color}"
-								style={!gradient ? `opacity: ${fillOpacity}` : ''}
+								fill={!hideGradient ? `url(#area-gradient-${i})` : undefined}
+								class={cn(
+									'area-chart-area',
+									colorClass[s.color!],
+									isHovered && 'is-hovered',
+									showGlow && 'has-glow'
+								)}
+								style={hideGradient ? `opacity: ${fillOpacity}` : ''}
+								filter={showGlow ? `url(#area-glow-${i})` : undefined}
 							/>
 
-							{#if showLine}
+							{#if !hideLine}
 								<path
 									d={createLinePath(s.data, curve === 'smooth')}
-									class="area-chart-line is-{s.color}"
+									class={cn(
+										'area-chart-line',
+										colorClass[s.color!],
+										isHovered && 'is-hovered',
+										showGlow && 'has-glow'
+									)}
 									style="stroke-width: {strokeWidth};"
+									filter={showGlow ? `url(#area-glow-${i})` : undefined}
 								/>
 							{/if}
 
 							{#if showPoints}
-								{#each s.data as point}
+								{#each s.data as point, pointIndex}
 									<!-- svelte-ignore a11y_no_static_element_interactions -->
+									<!-- svelte-ignore a11y_click_events_have_key_events -->
 									<circle
 										cx={xScale(point.x)}
-										cy={yScale(point.y)}
-										r={3}
-										class="area-chart-point is-{s.color}"
-										onmouseenter={(e) => handlePointHover(point, s.name, e, s.color!)}
+										cy={yScale(point.y * animationProgress)}
+										r={sizeConfig.pointRadius}
+										class={cn('area-chart-point', colorClass[s.color!], showGlow && 'has-glow')}
+										onmouseenter={(e) => handlePointHover(point, s, i, e)}
 										onmouseleave={handlePointLeave}
+										onclick={() => handlePointClick(point, s, pointIndex)}
 									/>
 								{/each}
 							{/if}
@@ -463,29 +678,43 @@
 		{#if tooltipData && isTooltipActive}
 			<div
 				class="area-chart-tooltip"
-				style="top: {tooltipPosition.y}px; left: {tooltipPosition.x}px;"
+				style="left: {tooltipPosition.x}px; top: {tooltipPosition.y}px;"
 			>
-				<div class="area-chart-tooltip-content">
-					{#if tooltipData.seriesName !== 'Data'}
-						<div class="area-chart-tooltip-title">{tooltipData.seriesName}</div>
-					{/if}
-					<div class="area-chart-tooltip-row">
-						<span class="area-chart-tooltip-label">x:</span>
-						<span class="area-chart-tooltip-value">{tooltipData.point.x}</span>
+				{#if tooltipContent}
+					{@render tooltipContent({
+						point: tooltipData.point,
+						series: normalizedSeries[tooltipData.seriesIndex],
+						color: tooltipData.color
+					})}
+				{:else}
+					<div class="area-chart-tooltip-content">
+						{#if tooltipData.seriesName !== 'Data'}
+							<div class="area-chart-tooltip-title">{tooltipData.seriesName}</div>
+						{/if}
+						<div class="area-chart-tooltip-row">
+							<div class="area-chart-tooltip-color {colorClass[tooltipData.color]}"></div>
+							<span class="area-chart-tooltip-value">
+								{formatX(tooltipData.point.x)}: {formatNumber(tooltipData.point.y)}
+							</span>
+						</div>
 					</div>
-					<div class="area-chart-tooltip-row">
-						<span class="area-chart-tooltip-label">y:</span>
-						<span class="area-chart-tooltip-value">{tooltipData.point.y}</span>
-					</div>
-				</div>
+				{/if}
 			</div>
 		{/if}
 
-		{#if showLegend && normalizedSeries.length > 1}
-			<div class="area-chart-legend">
-				{#each normalizedSeries as s}
-					<div class="area-chart-legend-item">
-						<div class="area-chart-legend-color is-{s.color}"></div>
+		{#if !hideLegend && normalizedSeries.length > 1 && legendPosition !== 'none'}
+			<div class={cn('area-chart-legend', legendLayoutClass())}>
+				{#each normalizedSeries as s, i}
+					{@const isHovered = hoveredSeriesIndex === i}
+					<div
+						class={cn('area-chart-legend-item', isHovered && 'is-selected')}
+						onmouseenter={() => (hoveredSeriesIndex = i)}
+						onmouseleave={() => (hoveredSeriesIndex = null)}
+						role="button"
+						tabindex="0"
+						onkeydown={(e) => e.key === 'Enter' && (hoveredSeriesIndex = i)}
+					>
+						<div class={cn('area-chart-legend-color', colorClass[s.color!])}></div>
 						<span>{s.name}</span>
 					</div>
 				{/each}

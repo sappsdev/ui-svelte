@@ -38,7 +38,7 @@ const initializeTheme = () => {
 
 initializeTheme();
 
-const toggleTheme = () => {
+const switchTheme = () => {
 	themeState = themeState === 'light' ? 'dark' : 'light';
 	isDark = themeState === 'dark';
 
@@ -51,6 +51,34 @@ const toggleTheme = () => {
 
 	if (typeof window !== 'undefined') {
 		localStorage.setItem(THEME_STORAGE_KEY, themeState);
+	}
+};
+
+const toggleTheme = () => {
+	if (!document.startViewTransition) {
+		switchTheme();
+	} else {
+		document.documentElement.classList.add('theme-transitioning');
+		
+		const transition = document.startViewTransition(() => {
+			themeState = themeState === 'light' ? 'dark' : 'light';
+			isDark = themeState === 'dark';
+
+			const htmlElement = document.documentElement;
+			if (isDark) {
+				htmlElement.classList.add(DARK_CLASS);
+			} else {
+				htmlElement.classList.remove(DARK_CLASS);
+			}
+
+			if (typeof window !== 'undefined') {
+				localStorage.setItem(THEME_STORAGE_KEY, themeState);
+			}
+		});
+		
+		transition.finished.finally(() => {
+			document.documentElement.classList.remove('theme-transitioning');
+		});
 	}
 };
 

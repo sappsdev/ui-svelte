@@ -1,0 +1,158 @@
+@layer base {
+	html.theme-transitioning::view-transition-old(root),
+	html.theme-transitioning::view-transition-new(root) {
+		animation: none;
+		mix-blend-mode: normal;
+	}
+
+	html.theme-transitioning[data-theme-transition='circle'].dark::view-transition-old(root) {
+		z-index: 1;
+	}
+
+	html.theme-transitioning[data-theme-transition='circle'].dark::view-transition-new(root) {
+		z-index: 999;
+		animation: circle-expand 0.6s ease-in;
+	}
+
+	html.theme-transitioning[data-theme-transition='circle']:not(.dark)::view-transition-old(root) {
+		z-index: 1;
+	}
+
+	html.theme-transitioning[data-theme-transition='circle']:not(.dark)::view-transition-new(root) {
+		z-index: 999;
+		animation: circle-expand 0.6s ease-in;
+	}
+
+	@keyframes circle-expand {
+		from {
+			clip-path: circle(0% at 50% 50%);
+		}
+		to {
+			clip-path: circle(150% at 50% 50%);
+		}
+	}
+
+	html.theme-transitioning[data-theme-transition='slide']::view-transition-old(root) {
+		animation: slide-out-left 0.3s ease-out;
+	}
+
+	html.theme-transitioning[data-theme-transition='slide']::view-transition-new(root) {
+		animation: slide-in-right 0.3s ease-out;
+	}
+
+	@keyframes slide-out-left {
+		to {
+			transform: translateX(-100%);
+		}
+	}
+
+	@keyframes slide-in-right {
+		from {
+			transform: translateX(100%);
+		}
+	}
+
+	html.theme-transitioning[data-theme-transition='fade']::view-transition-old(root) {
+		animation: fade-out 0.2s ease-out;
+	}
+
+	html.theme-transitioning[data-theme-transition='fade']::view-transition-new(root) {
+		animation: fade-in 0.2s ease-in;
+	}
+
+	@keyframes fade-out {
+		to {
+			opacity: 0;
+		}
+	}
+
+	@keyframes fade-in {
+		from {
+			opacity: 0;
+		}
+	}
+
+	html.theme-transitioning[data-theme-transition='vertical']::view-transition-old(root) {
+		animation: slide-up 0.3s ease-out;
+	}
+
+	html.theme-transitioning[data-theme-transition='vertical']::view-transition-new(root) {
+		animation: slide-down 0.3s ease-out;
+	}
+
+	@keyframes slide-up {
+		to {
+			transform: translateY(-100%);
+		}
+	}
+
+	@keyframes slide-down {
+		from {
+			transform: translateY(100%);
+		}
+	}
+
+	html.page-transitioning[data-page-transition='fade']::view-transition-old(root) {
+		animation: page-fade-out 0.2s ease-out;
+	}
+
+	html.page-transitioning[data-page-transition='fade']::view-transition-new(root) {
+		animation: page-fade-in 0.2s ease-in;
+	}
+
+	@keyframes page-fade-out {
+		to {
+			opacity: 0;
+		}
+	}
+
+	@keyframes page-fade-in {
+		from {
+			opacity: 0;
+		}
+	}
+
+	html.page-transitioning[data-page-transition='slide']::view-transition-old(root) {
+		animation: page-slide-out 0.3s ease-out;
+	}
+
+	html.page-transitioning[data-page-transition='slide']::view-transition-new(root) {
+		animation: page-slide-in 0.3s ease-out;
+	}
+
+	@keyframes page-slide-out {
+		to {
+			transform: translateX(-30%);
+			opacity: 0;
+		}
+	}
+
+	@keyframes page-slide-in {
+		from {
+			transform: translateX(30%);
+			opacity: 0;
+		}
+	}
+
+	html.page-transitioning[data-page-transition='scale']::view-transition-old(root) {
+		animation: page-scale-out 0.3s ease-out;
+	}
+
+	html.page-transitioning[data-page-transition='scale']::view-transition-new(root) {
+		animation: page-scale-in 0.3s ease-out;
+	}
+
+	@keyframes page-scale-out {
+		to {
+			transform: scale(0.9);
+			opacity: 0;
+		}
+	}
+
+	@keyframes page-scale-in {
+		from {
+			transform: scale(1.1);
+			opacity: 0;
+		}
+	}
+}

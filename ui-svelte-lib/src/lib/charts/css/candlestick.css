@@ -105,6 +105,7 @@
 
 	.candlestick-chart-candle {
 		@apply cursor-pointer transition-opacity duration-150;
+		rx: var(--candlestick-candle-radius, 2px);
 	}
 
 	.candlestick-chart-candle:hover {
@@ -174,6 +175,7 @@
 
 	.candlestick-chart-volume {
 		@apply opacity-30;
+		rx: var(--candlestick-volume-radius, 1px);
 	}
 
 	.candlestick-chart-volume.is-primary {

@@ -18,7 +18,8 @@
 		{ id: 'solid', label: 'Solid' },
 		{ id: 'soft', label: 'Soft' },
 		{ id: 'outlined', label: 'Outlined' },
-		{ id: 'ghost', label: 'Ghost' }
+		{ id: 'ghost', label: 'Ghost' },
+		{ id: 'overlay', label: 'Overlay' }
 	];
 
 	const sizeOptions = [

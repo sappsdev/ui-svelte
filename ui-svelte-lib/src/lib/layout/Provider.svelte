@@ -5,21 +5,44 @@
 
 	type Props = {
 		children: Snippet;
-		toastSolid?: boolean;
+		toastVariant?: 'solid' | 'soft';
 		toastIcon?: boolean;
 		toastPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+		themeTransition?: 'circle' | 'slide' | 'fade' | 'vertical' | 'none';
+		pageTransition?: 'fade' | 'slide' | 'scale' | 'none';
 	};
 
-	const { children, toastSolid, toastPosition, toastIcon }: Props = $props();
+	const {
+		children,
+		toastVariant,
+		toastPosition,
+		toastIcon,
+		themeTransition = 'circle',
+		pageTransition = 'fade'
+	}: Props = $props();
 
 	onNavigate((navigation) => {
+		if (pageTransition === 'none') return;
 		if (!document.startViewTransition) return;
 		return new Promise((resolve) => {
-			document.startViewTransition(async () => {
+			document.documentElement.classList.add('page-transitioning');
+			document.documentElement.setAttribute('data-page-transition', pageTransition);
+
+			const transition = document.startViewTransition(async () => {
 				resolve();
 				await navigation.complete;
 			});
+
+			transition.finished.finally(() => {
+				document.documentElement.classList.remove('page-transitioning');
+				document.documentElement.removeAttribute('data-page-transition');
+			});
 		});
+	});
+	$effect(() => {
+		if (typeof document !== 'undefined') {
+			document.documentElement.setAttribute('data-theme-transition', themeTransition);
+		}
 	});
 </script>
 
@@ -49,4 +72,4 @@
 </svelte:head>
 
 {@render children()}
-<Toast position={toastPosition} showIcon={toastIcon} isSolid={toastSolid} />
+<Toast position={toastPosition} showIcon={toastIcon} variant={toastVariant} />
