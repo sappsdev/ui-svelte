@@ -2,15 +2,25 @@
 	import { PauseFilledIcon, PlayFilledIcon } from '$lib/icons/index.js';
 	import { cn } from '$lib/utils/class-names.js';
 	import IconButton from './IconButton.svelte';
+	import Avatar from '$lib/display/Avatar.svelte';
 
 	type Props = {
 		class?: string;
 		src: string;
 		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
 		variant?: 'solid' | 'soft';
+		avatarSrc?: string;
+		subtitle?: string;
 	};
 
-	let { class: className, src, color = 'primary', variant = 'soft' }: Props = $props();
+	let {
+		class: className,
+		src,
+		color = 'primary',
+		variant = 'soft',
+		avatarSrc,
+		subtitle
+	}: Props = $props();
 
 	let audio: HTMLAudioElement;
 	let currentTime = $state(0);
@@ -199,31 +209,42 @@
 		onclick={togglePlay}
 	/>
 
-	<div
-		class="media-waveform"
-		onmousedown={handleMouseDown}
-		role="slider"
-		tabindex="0"
-		aria-valuenow={Math.round((currentTime / duration) * 100) || 0}
-		aria-valuemin="0"
-		aria-valuemax="100"
-	>
-		<div class="media-bars" class:loading={isAnalyzing} class:loaded={!isAnalyzing}>
-			{#if isAnalyzing}
-				{#each Array(BAR_COUNT) as _, i}
-					{@const placeholderHeight = 0.3 + Math.sin(i * 0.3) * 0.2 + Math.random() * 0.1}
-					<div class="media-bar loading" style="height: {placeholderHeight * 100}%"></div>
-				{/each}
-			{:else}
-				{#each waveformData as height, i}
-					{@const progress = duration > 0 ? currentTime / duration : 0}
-					{@const barPosition = (i + 0.5) / waveformData.length}
-					{@const isPlayed = barPosition <= progress}
-					<div class="media-bar" class:active={isPlayed} style="height: {height * 100}%"></div>
-				{/each}
+	<div class="media-content">
+		<div
+			class="media-waveform"
+			onmousedown={handleMouseDown}
+			role="slider"
+			tabindex="0"
+			aria-valuenow={Math.round((currentTime / duration) * 100) || 0}
+			aria-valuemin="0"
+			aria-valuemax="100"
+		>
+			<div class="media-bars" class:loading={isAnalyzing} class:loaded={!isAnalyzing}>
+				{#if isAnalyzing}
+					{#each Array(BAR_COUNT) as _, i}
+						{@const placeholderHeight = 0.3 + Math.sin(i * 0.3) * 0.2 + Math.random() * 0.1}
+						<div class="media-bar loading" style="height: {placeholderHeight * 100}%"></div>
+					{/each}
+				{:else}
+					{#each waveformData as height, i}
+						{@const progress = duration > 0 ? currentTime / duration : 0}
+						{@const barPosition = (i + 0.5) / waveformData.length}
+						{@const isPlayed = barPosition <= progress}
+						<div class="media-bar" class:active={isPlayed} style="height: {height * 100}%"></div>
+					{/each}
+				{/if}
+			</div>
+		</div>
+
+		<div class="media-footer">
+			<span class="media-time">{duration > 0 ? formatTime(duration - currentTime) : '0:00'}</span>
+			{#if subtitle}
+				<span class="media-subtitle">{subtitle}</span>
 			{/if}
 		</div>
 	</div>
 
-	<span class="media-time">{duration > 0 ? formatTime(duration - currentTime) : '0:00'}</span>
+	{#if avatarSrc}
+		<Avatar src={avatarSrc} size="lg" />
+	{/if}
 </div>

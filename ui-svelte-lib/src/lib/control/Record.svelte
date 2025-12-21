@@ -1,37 +1,46 @@
 <script lang="ts">
 	import {
-		Checkmark24RegularIcon,
+		CheckmarkCircle24RegularIcon,
 		Delete24RegularIcon,
+		DismissCircle24RegularIcon,
+		Microphone2LinearIcon,
 		PauseFilledIcon,
 		PlayFilledIcon,
-		Record24RegularIcon,
 		RecordStop24RegularIcon
 	} from '$lib/icons/index.js';
-	import { Button, Icon } from '$lib/index.js';
+	import { IconButton } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
 
 	type Props = {
 		class?: string;
 		name: string;
-		variant?:
-			| 'primary'
-			| 'secondary'
-			| 'muted'
-			| 'outlined'
-			| 'ghost'
-			| 'success'
-			| 'info'
-			| 'danger'
-			| 'warning';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'soft' | 'solid';
 		url?: string;
 		headers?: Record<string, string>;
 		onRecordingComplete?: (blob: Blob, url: string) => void;
 	};
 
+	const colors = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger'
+	};
+
+	const variants = {
+		soft: 'is-soft',
+		solid: 'is-solid'
+	};
+
 	let {
 		class: className,
 		name,
-		variant = 'primary',
+		color = 'primary',
+		variant = 'soft',
 		url,
 		headers,
 		onRecordingComplete
@@ -61,7 +70,7 @@
 
 	const BAR_COUNT = 50;
 
-	let baseClasses = $derived(cn('media', variant, className));
+	let baseClasses = $derived(cn('media', colors[color], variants[variant], className));
 
 	async function startRecording() {
 		try {
@@ -213,16 +222,6 @@
 		return `${mins}:${secs.toString().padStart(2, '0')}`;
 	}
 
-	function handleToggleRecording() {
-		if (!isRecording) {
-			startRecording();
-		} else if (isPaused) {
-			resumeRecording();
-		} else {
-			pauseRecording();
-		}
-	}
-
 	async function confirmRecording() {
 		if (!reviewAudioUrl) return;
 
@@ -254,12 +253,6 @@
 
 	function discardRecording() {
 		cleanup();
-	}
-
-	function continueRecording() {
-		isReviewing = false;
-		isRecording = false;
-		isPaused = false;
 	}
 
 	async function analyzeRecordedAudio(blob: Blob) {
@@ -358,77 +351,122 @@
 
 <div class={baseClasses}>
 	{#if isReviewing}
-		<Button onclick={togglePlayback} size="md" {variant}>
-			{#if isPlaying}
-				<Icon icon={PauseFilledIcon} />
-			{:else}
-				<Icon icon={PlayFilledIcon} />
-			{/if}
-		</Button>
+		<!-- REVIEW STATE: Play/Pause preview, waveform, time, confirm/discard -->
+		<IconButton
+			onclick={togglePlayback}
+			icon={isPlaying ? PauseFilledIcon : PlayFilledIcon}
+			{color}
+			variant={variant === 'solid' ? 'soft' : 'solid'}
+			size="md"
+		/>
 
-		<div class="media-waveform">
-			<div class="media-bars">
-				{#each playbackWaveform as height, i}
-					{@const progress = playbackDuration > 0 ? playbackTime / playbackDuration : 0}
-					{@const barPosition = (i + 0.5) / playbackWaveform.length}
-					{@const isPlayed = barPosition <= progress}
-					<div class="media-bar" class:active={isPlayed} style="height: {height * 100}%"></div>
-				{/each}
+		<div class="media-content">
+			<div class="media-waveform">
+				<div class="media-bars">
+					{#each playbackWaveform as height, i}
+						{@const progress = playbackDuration > 0 ? playbackTime / playbackDuration : 0}
+						{@const barPosition = (i + 0.5) / playbackWaveform.length}
+						{@const isPlayed = barPosition <= progress}
+						<div class="media-bar" class:active={isPlayed} style="height: {height * 100}%"></div>
+					{/each}
+				</div>
+			</div>
+			<div class="media-footer">
+				<span class="media-time">{formatTime(recordingTime)}</span>
 			</div>
 		</div>
 
-		<span class="media-time">{formatTime(recordingTime)}</span>
-
-		<div class="flex gap-2">
-			<Button onclick={discardRecording} size="md" {variant}>
-				<Icon icon={Delete24RegularIcon} />
-			</Button>
-			<Button onclick={continueRecording} size="md" {variant}>
-				<Icon icon={Record24RegularIcon} />
-			</Button>
-			<Button onclick={confirmRecording} size="md" {variant}>
-				<Icon icon={Checkmark24RegularIcon} />
-			</Button>
+		<div class="flex gap-1">
+			<IconButton
+				onclick={discardRecording}
+				icon={DismissCircle24RegularIcon}
+				color="danger"
+				variant="ghost"
+				size="sm"
+			/>
+			<IconButton
+				onclick={confirmRecording}
+				icon={CheckmarkCircle24RegularIcon}
+				color="success"
+				variant="ghost"
+				size="sm"
+				isLoading={isUploading}
+			/>
 		</div>
 	{:else if !isRecording}
-		<Button onclick={startRecording} size="md" {variant}>
-			<Icon icon={Record24RegularIcon} />
-		</Button>
+		<!-- IDLE STATE: Start recording button -->
+		<IconButton
+			onclick={startRecording}
+			icon={Microphone2LinearIcon}
+			{color}
+			variant={variant === 'solid' ? 'soft' : 'solid'}
+			size="md"
+		/>
 
-		<div class="media-waveform">
-			<div class="media-bars">
-				{#each waveformBars as height}
-					<div class="media-bar" style="height: {height * 100}%"></div>
-				{/each}
+		<div class="media-content">
+			<div class="media-waveform">
+				<div class="media-bars">
+					{#each waveformBars as height}
+						<div class="media-bar" style="height: {height * 100}%"></div>
+					{/each}
+				</div>
+			</div>
+			<div class="media-footer">
+				<span class="media-time">{formatTime(recordingTime)}</span>
 			</div>
 		</div>
-
-		<span class="media-time">{formatTime(recordingTime)}</span>
 	{:else}
-		<Button onclick={handleToggleRecording} size="md" {variant}>
-			{#if isPaused}
-				<Icon icon={PlayFilledIcon} />
-			{:else}
-				<Icon icon={PauseFilledIcon} />
-			{/if}
-		</Button>
+		<!-- RECORDING STATE: Pause/Resume, waveform, time, discard, stop -->
+		{#if isPaused}
+			<IconButton
+				onclick={resumeRecording}
+				icon={PlayFilledIcon}
+				{color}
+				variant={variant === 'solid' ? 'soft' : 'solid'}
+				size="md"
+			/>
+		{:else}
+			<IconButton
+				onclick={pauseRecording}
+				icon={PauseFilledIcon}
+				{color}
+				variant={variant === 'solid' ? 'soft' : 'solid'}
+				size="md"
+			/>
+		{/if}
 
-		<div class="media-waveform">
-			<div class="media-bars">
-				{#each waveformBars as height}
-					<div
-						class="media-bar"
-						class:recording={isRecording && !isPaused}
-						style="height: {height * 100}%"
-					></div>
-				{/each}
+		<div class="media-content">
+			<div class="media-waveform">
+				<div class="media-bars">
+					{#each waveformBars as height}
+						<div
+							class="media-bar"
+							class:recording={isRecording && !isPaused}
+							style="height: {height * 100}%"
+						></div>
+					{/each}
+				</div>
+			</div>
+			<div class="media-footer">
+				<span class="media-time">{formatTime(recordingTime)}</span>
 			</div>
 		</div>
 
-		<span class="media-time">{formatTime(recordingTime)}</span>
-
-		<Button onclick={stopRecording} size="md" {variant} isLoading={isUploading}>
-			<Icon icon={RecordStop24RegularIcon} />
-		</Button>
+		<div class="flex gap-1">
+			<IconButton
+				onclick={discardRecording}
+				icon={Delete24RegularIcon}
+				color="danger"
+				variant="ghost"
+				size="sm"
+			/>
+			<IconButton
+				onclick={stopRecording}
+				icon={RecordStop24RegularIcon}
+				{color}
+				variant="ghost"
+				size="sm"
+			/>
+		</div>
 	{/if}
 </div>

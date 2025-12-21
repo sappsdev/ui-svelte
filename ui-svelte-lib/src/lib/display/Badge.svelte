@@ -5,7 +5,8 @@
 	type Props = {
 		text: string;
 		children: Snippet;
-		variant?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
+		variant?: 'solid' | 'soft';
 		position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 		class?: string;
 	};
@@ -13,7 +14,8 @@
 	let {
 		text,
 		children,
-		variant = 'primary',
+		color = 'primary',
+		variant = 'solid',
 		position = 'top-right',
 		class: className
 	}: Props = $props();
@@ -25,7 +27,7 @@
 		'bottom-right': 'is-bottom-right'
 	};
 
-	const variants = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
@@ -34,9 +36,14 @@
 		warning: 'is-warning',
 		danger: 'is-danger'
 	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft'
+	};
 </script>
 
-<div class={cn('badge', positions[position], variants[variant], className)}>
+<div class={cn('badge', positions[position], colors[color], variants[variant], className)}>
 	{@render children()}
 	<div class="badge-content">
 		<span class="badge-text">

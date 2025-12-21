@@ -2,7 +2,7 @@
 	.chip {
 		@apply relative flex items-center justify-center flex-nowrap w-fit;
 		@apply rounded-ui outline-none truncate whitespace-nowrap;
-		@apply select-none font-light;
+		@apply select-none font-medium;
 		@apply transition-all duration-300;
 		@apply disabled:cursor-not-allowed disabled:opacity-50;
 		@apply disabled:transition-none disabled:active:scale-100;

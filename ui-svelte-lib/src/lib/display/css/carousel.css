@@ -1,9 +1,9 @@
 @layer components {
 	.carousel {
-		@apply flex flex-col gap-4 relative w-full overflow-hidden;
+		@apply flex flex-col gap-4 relative w-full;
 
 		&.is-vertical {
-			@apply flex-row;
+			@apply flex-row items-center;
 		}
 	}
 
@@ -50,7 +50,7 @@
 	}
 
 	.carousel-controls {
-		@apply flex items-center justify-center gap-2;
+		@apply flex items-center justify-center gap-2 relative z-10;
 
 		&.is-vertical {
 			@apply flex-col;
@@ -70,7 +70,27 @@
 		@apply bg-muted hover:bg-muted/70;
 
 		&.is-active {
-			@apply bg-primary;
+			&.is-primary {
+				@apply bg-primary;
+			}
+			&.is-secondary {
+				@apply bg-secondary;
+			}
+			&.is-muted {
+				@apply bg-on-muted;
+			}
+			&.is-success {
+				@apply bg-success;
+			}
+			&.is-info {
+				@apply bg-info;
+			}
+			&.is-warning {
+				@apply bg-warning;
+			}
+			&.is-danger {
+				@apply bg-danger;
+			}
 		}
 
 		&.is-sm {

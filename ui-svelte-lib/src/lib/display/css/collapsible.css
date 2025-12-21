@@ -52,76 +52,90 @@
 		&.is-ghost {
 			@apply border border-transparent;
 
+			.collapsible-header {
+				.collapsible-label {
+					@apply font-normal;
+				}
+
+				&:hover .collapsible-label {
+					@apply font-semibold;
+				}
+			}
+
+			.collapsible-header.is-open .collapsible-label {
+				@apply font-semibold;
+			}
+
 			&.is-primary {
 				.collapsible-header:hover {
-					@apply bg-primary/10;
+					@apply text-primary;
 				}
 				.collapsible-header.is-open {
-					@apply bg-primary/20 text-primary;
+					@apply text-primary;
 				}
 			}
 			&.is-secondary {
 				.collapsible-header:hover {
-					@apply bg-secondary/10;
+					@apply text-secondary;
 				}
 				.collapsible-header.is-open {
-					@apply bg-secondary/20 text-secondary;
+					@apply text-secondary;
 				}
 			}
 			&.is-muted {
 				.collapsible-header:hover {
-					@apply bg-muted/50;
+					@apply text-on-muted;
 				}
 				.collapsible-header.is-open {
-					@apply bg-muted text-on-muted;
+					@apply text-on-muted;
 				}
 			}
 			&.is-success {
 				.collapsible-header:hover {
-					@apply bg-success/10;
+					@apply text-success;
 				}
 				.collapsible-header.is-open {
-					@apply bg-success/20 text-success;
+					@apply text-success;
 				}
 			}
 			&.is-info {
 				.collapsible-header:hover {
-					@apply bg-info/10;
+					@apply text-info;
 				}
 				.collapsible-header.is-open {
-					@apply bg-info/20 text-info;
+					@apply text-info;
 				}
 			}
 			&.is-warning {
 				.collapsible-header:hover {
-					@apply bg-warning/10;
+					@apply text-warning;
 				}
 				.collapsible-header.is-open {
-					@apply bg-warning/20 text-warning;
+					@apply text-warning;
 				}
 			}
 			&.is-danger {
 				.collapsible-header:hover {
-					@apply bg-danger/10;
+					@apply text-danger;
 				}
 				.collapsible-header.is-open {
-					@apply bg-danger/20 text-danger;
+					@apply text-danger;
 				}
 			}
 			&.is-surface {
 				.collapsible-header:hover {
-					@apply bg-surface/50;
+					@apply text-on-surface;
 				}
 				.collapsible-header.is-open {
-					@apply bg-surface text-on-surface;
+					@apply text-on-surface;
 				}
 			}
 			&.is-default {
 				.collapsible-header:hover {
-					@apply bg-muted/30;
+					@apply text-on-muted;
 				}
 				.collapsible-header.is-open {
-					@apply bg-muted/50;
+					@apply text-on-muted;
 				}
 			}
 		}

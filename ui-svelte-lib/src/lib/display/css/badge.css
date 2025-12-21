@@ -3,48 +3,71 @@
 		@apply relative w-fit;
 	}
 	.badge-content {
-		@apply absolute flex items-center justify-center rounded-ui;
-		@apply inset-ring inset-ring-muted;
+		@apply absolute flex items-center justify-center rounded-full;
 		@apply h-5 min-w-5 px-1;
 	}
 	.badge-text {
 		@apply text-xs leading-none;
 	}
 
-	/* Position styles */
 	.is-top-left .badge-content {
-		@apply top-0 left-0 translate-x-[-50%] translate-y-[-50%];
+		@apply top-[5%] left-[5%] translate-x-[-50%] translate-y-[-50%];
 	}
 	.is-top-right .badge-content {
-		@apply top-0 right-0 translate-x-[50%] translate-y-[-50%];
+		@apply top-[5%] right-[5%] translate-x-[50%] translate-y-[-50%];
 	}
 	.is-bottom-left .badge-content {
-		@apply bottom-0 left-0 translate-x-[-50%] translate-y-[50%];
+		@apply bottom-[5%] left-[5%] translate-x-[-50%] translate-y-[50%];
 	}
 	.is-bottom-right .badge-content {
-		@apply bottom-0 right-0 translate-x-[50%] translate-y-[50%];
+		@apply bottom-[5%] right-[5%] translate-x-[50%] translate-y-[50%];
 	}
 
-	/* Variant styles */
-	.is-primary .badge-content {
-		@apply bg-primary text-on-primary;
+	.badge.is-solid {
+		&.is-primary .badge-content {
+			@apply bg-primary text-on-primary;
+		}
+		&.is-secondary .badge-content {
+			@apply bg-secondary text-on-secondary;
+		}
+		&.is-muted .badge-content {
+			@apply bg-muted text-on-muted;
+		}
+		&.is-success .badge-content {
+			@apply bg-success text-on-success;
+		}
+		&.is-warning .badge-content {
+			@apply bg-warning text-on-warning;
+		}
+		&.is-danger .badge-content {
+			@apply bg-danger text-on-danger;
+		}
+		&.is-info .badge-content {
+			@apply bg-info text-on-info;
+		}
 	}
-	.is-secondary .badge-content {
-		@apply bg-secondary text-on-secondary;
-	}
-	.is-muted .badge-content {
-		@apply bg-muted text-on-muted;
-	}
-	.is-success .badge-content {
-		@apply bg-success text-on-success;
-	}
-	.is-warning .badge-content {
-		@apply bg-warning text-on-warning;
-	}
-	.is-danger .badge-content {
-		@apply bg-danger text-on-danger;
-	}
-	.is-info .badge-content {
-		@apply bg-info text-on-info;
+
+	.badge.is-soft {
+		&.is-primary .badge-content {
+			@apply bg-on-primary text-primary;
+		}
+		&.is-secondary .badge-content {
+			@apply bg-on-secondary text-secondary;
+		}
+		&.is-muted .badge-content {
+			@apply bg-muted text-on-muted;
+		}
+		&.is-success .badge-content {
+			@apply bg-on-success text-success;
+		}
+		&.is-warning .badge-content {
+			@apply bg-on-warning text-warning;
+		}
+		&.is-danger .badge-content {
+			@apply bg-on-danger text-danger;
+		}
+		&.is-info .badge-content {
+			@apply bg-on-info text-info;
+		}
 	}
 }

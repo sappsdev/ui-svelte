@@ -51,78 +51,92 @@
 		&.is-ghost {
 			.accordion-item {
 				@apply border border-transparent;
+
+				.accordion-header {
+					.accordion-label {
+						@apply font-normal;
+					}
+
+					&:hover .accordion-label {
+						@apply font-semibold;
+					}
+				}
+
+				.accordion-header.is-open .accordion-label {
+					@apply font-semibold;
+				}
 			}
 
 			&.is-primary .accordion-item {
 				.accordion-header:hover {
-					@apply bg-primary/10;
+					@apply text-primary;
 				}
 				.accordion-header.is-open {
-					@apply bg-primary/20 text-primary;
+					@apply text-primary;
 				}
 			}
 			&.is-secondary .accordion-item {
 				.accordion-header:hover {
-					@apply bg-secondary/10;
+					@apply text-secondary;
 				}
 				.accordion-header.is-open {
-					@apply bg-secondary/20 text-secondary;
+					@apply text-secondary;
 				}
 			}
 			&.is-muted .accordion-item {
 				.accordion-header:hover {
-					@apply bg-muted/50;
+					@apply text-on-muted;
 				}
 				.accordion-header.is-open {
-					@apply bg-muted text-on-muted;
+					@apply text-on-muted;
 				}
 			}
 			&.is-success .accordion-item {
 				.accordion-header:hover {
-					@apply bg-success/10;
+					@apply text-success;
 				}
 				.accordion-header.is-open {
-					@apply bg-success/20 text-success;
+					@apply text-success;
 				}
 			}
 			&.is-info .accordion-item {
 				.accordion-header:hover {
-					@apply bg-info/10;
+					@apply text-info;
 				}
 				.accordion-header.is-open {
-					@apply bg-info/20 text-info;
+					@apply text-info;
 				}
 			}
 			&.is-warning .accordion-item {
 				.accordion-header:hover {
-					@apply bg-warning/10;
+					@apply text-warning;
 				}
 				.accordion-header.is-open {
-					@apply bg-warning/20 text-warning;
+					@apply text-warning;
 				}
 			}
 			&.is-danger .accordion-item {
 				.accordion-header:hover {
-					@apply bg-danger/10;
+					@apply text-danger;
 				}
 				.accordion-header.is-open {
-					@apply bg-danger/20 text-danger;
+					@apply text-danger;
 				}
 			}
 			&.is-surface .accordion-item {
 				.accordion-header:hover {
-					@apply bg-surface/50;
+					@apply text-on-surface;
 				}
 				.accordion-header.is-open {
-					@apply bg-surface text-on-surface;
+					@apply text-on-surface;
 				}
 			}
 			&.is-default .accordion-item {
 				.accordion-header:hover {
-					@apply bg-muted/30;
+					@apply text-on-muted;
 				}
 				.accordion-header.is-open {
-					@apply bg-muted/50;
+					@apply text-on-muted;
 				}
 			}
 		}

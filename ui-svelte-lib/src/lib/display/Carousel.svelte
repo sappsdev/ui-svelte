@@ -5,7 +5,7 @@
 		ArrowRight24RegularIcon,
 		ArrowUp24RegularIcon
 	} from '$lib/icons/index.js';
-	import { Button, Icon } from '$lib/index.js';
+	import { IconButton } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
 	import type { Snippet } from 'svelte';
 	import { onMount, tick } from 'svelte';
@@ -19,13 +19,13 @@
 		slides: Slide[];
 		autoplay?: boolean;
 		autoplayInterval?: number;
-		loop?: boolean;
-		showControls?: boolean;
-		showIndicators?: boolean;
+		disableLoop?: boolean;
+		hideControls?: boolean;
+		hideIndicators?: boolean;
 		showNavigation?: boolean;
 		showCounter?: boolean;
 		orientation?: 'horizontal' | 'vertical';
-		variant?: 'primary' | 'secondary' | 'muted' | 'default';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
 		size?: 'sm' | 'md' | 'lg';
 		indicatorType?: 'bar' | 'dot';
 		rootClass?: string;
@@ -33,6 +33,8 @@
 		onSlideChange?: (index: number) => void;
 		title?: string | Snippet;
 		slideWidth?: number;
+		slideHeight?: number;
+		slidesPerView?: number;
 		gap?: number;
 	};
 
@@ -42,18 +44,20 @@
 		slides = [],
 		autoplay = false,
 		autoplayInterval = 3000,
-		loop = true,
-		showControls = true,
-		showIndicators = true,
+		disableLoop = false,
+		hideControls = false,
+		hideIndicators = false,
 		showNavigation = false,
 		showCounter = false,
 		orientation = 'horizontal',
-		variant = 'default',
+		color = 'primary',
 		size = 'md',
 		indicatorType = 'bar',
 		onSlideChange,
 		title,
 		slideWidth: slideWidthProp,
+		slideHeight: slideHeightProp,
+		slidesPerView: slidesPerViewProp,
 		gap = 0
 	}: Props = $props();
 
@@ -66,12 +70,13 @@
 	let prevTranslate = $state(0);
 	let autoplayTimer: ReturnType<typeof setTimeout> | null = $state(null);
 	let computedSlideWidth = $state(0);
+	let computedSlideHeight = $state(0);
 	let computedSlidesPerView = $state(1);
 
 	const isVertical = $derived(orientation === 'vertical');
 	const maxIndex = $derived(Math.max(0, slides.length - Math.floor(computedSlidesPerView)));
-	const canGoPrev = $derived(loop || currentIndex > 0);
-	const canGoNext = $derived(loop || currentIndex < maxIndex);
+	const canGoPrev = $derived(!disableLoop || currentIndex > 0);
+	const canGoNext = $derived(!disableLoop || currentIndex < maxIndex);
 
 	const sizeClasses = {
 		sm: 'is-sm',
@@ -79,30 +84,71 @@
 		lg: 'is-lg'
 	};
 
+	const colorClasses = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger'
+	};
+
 	const updateTransform = () => {
 		if (!containerEl || !viewportEl) return;
-		const viewportSize = isVertical ? viewportEl.offsetHeight : viewportEl.offsetWidth;
-
-		let slideWidth: number;
-
-		if (slideWidthProp) {
-			slideWidth = slideWidthProp;
-			computedSlidesPerView = viewportSize / (slideWidth + gap);
-		} else {
-			slideWidth = viewportSize;
-			computedSlidesPerView = 1;
-		}
-
-		computedSlideWidth = slideWidth;
 
 		const slideElements = containerEl.querySelectorAll('.carousel-slide');
-		slideElements.forEach((el) => {
-			(el as HTMLElement).style.width = `${slideWidth}px`;
-		});
 
-		const offset = -currentIndex * (slideWidth + gap);
-		const property = isVertical ? 'translateY' : 'translateX';
-		containerEl.style.transform = `${property}(${offset}px)`;
+		if (isVertical) {
+			let slideHeight: number;
+
+			if (slideHeightProp) {
+				slideHeight = slideHeightProp;
+			} else {
+				const firstSlide = slideElements[0] as HTMLElement;
+				slideHeight = firstSlide?.offsetHeight || 200;
+			}
+
+			computedSlideHeight = slideHeight;
+			computedSlidesPerView = 1;
+
+			viewportEl.style.height = `${slideHeight}px`;
+
+			slideElements.forEach((el) => {
+				(el as HTMLElement).style.height = `${slideHeight}px`;
+				(el as HTMLElement).style.width = '100%';
+			});
+
+			const offset = -currentIndex * (slideHeight + gap);
+			containerEl.style.transform = `translateY(${offset}px)`;
+		} else {
+			const viewportWidth = viewportEl.offsetWidth;
+			let slideWidth: number;
+
+			if (slidesPerViewProp && slidesPerViewProp > 1) {
+				const totalGap = (slidesPerViewProp - 1) * gap;
+				slideWidth = (viewportWidth - totalGap) / slidesPerViewProp;
+				computedSlidesPerView = slidesPerViewProp;
+			} else if (slideWidthProp) {
+				slideWidth = slideWidthProp;
+				computedSlidesPerView = viewportWidth / (slideWidth + gap);
+			} else {
+				slideWidth = viewportWidth;
+				computedSlidesPerView = 1;
+			}
+
+			computedSlideWidth = slideWidth;
+
+			viewportEl.style.height = '';
+
+			slideElements.forEach((el) => {
+				(el as HTMLElement).style.width = `${slideWidth}px`;
+				(el as HTMLElement).style.height = '';
+			});
+
+			const offset = -currentIndex * (slideWidth + gap);
+			containerEl.style.transform = `translateX(${offset}px)`;
+		}
 	};
 
 	const goToSlide = (index: number) => {
@@ -150,7 +196,7 @@
 	const startAutoplay = () => {
 		if (!autoplay) return;
 		autoplayTimer = setInterval(() => {
-			if (loop || currentIndex < slides.length - 1) {
+			if (!disableLoop || currentIndex < slides.length - 1) {
 				goToNext();
 			} else {
 				stopAutoplay();
@@ -203,14 +249,16 @@
 
 		currentTranslate = prevTranslate + percentageMoved;
 
-		const property = isVertical ? 'translateY' : 'translateX';
-
-		if (slideWidthProp) {
+		if (isVertical) {
+			const slideHeight = computedSlideHeight || slideHeightProp || 200;
+			const baseOffset = -currentIndex * (slideHeight + gap);
+			containerEl.style.transform = `translateY(${baseOffset + diff}px)`;
+		} else if (slideWidthProp) {
 			const slideWidth = computedSlideWidth || slideWidthProp;
 			const baseOffset = -currentIndex * (slideWidth + gap);
-			containerEl.style.transform = `${property}(${baseOffset + diff}px)`;
+			containerEl.style.transform = `translateX(${baseOffset + diff}px)`;
 		} else {
-			containerEl.style.transform = `${property}(calc(-${currentIndex * 100}% + ${diff}px))`;
+			containerEl.style.transform = `translateX(calc(-${currentIndex * 100}% + ${diff}px))`;
 		}
 	};
 
@@ -341,33 +389,22 @@
 					{/if}
 				</div>
 				<div class="carousel-header-controls">
-					<button
-						type="button"
-						class="carousel-header-nav is-prev"
+					<IconButton
 						onclick={goToPrev}
-						disabled={!canGoPrev}
-						aria-label="Previous slide"
-					>
-						{#if isVertical}
-							<Icon icon={ArrowUp24RegularIcon} />
-						{:else}
-							<Icon icon={ArrowLeft24RegularIcon} />
-						{/if}
-					</button>
-
-					<button
-						type="button"
-						class="carousel-header-nav is-next"
+						isDisabled={!canGoPrev}
+						icon={isVertical ? ArrowUp24RegularIcon : ArrowLeft24RegularIcon}
+						{color}
+						variant="ghost"
+						size="sm"
+					/>
+					<IconButton
 						onclick={goToNext}
-						disabled={!canGoNext}
-						aria-label="Next slide"
-					>
-						{#if isVertical}
-							<Icon icon={ArrowDown24RegularIcon} />
-						{:else}
-							<Icon icon={ArrowRight24RegularIcon} />
-						{/if}
-					</button>
+						isDisabled={!canGoNext}
+						icon={isVertical ? ArrowDown24RegularIcon : ArrowRight24RegularIcon}
+						{color}
+						variant="ghost"
+						size="sm"
+					/>
 				</div>
 			</div>
 		{/if}
@@ -385,49 +422,41 @@
 		</div>
 
 		{#if showNavigation}
-			<button
-				type="button"
+			<IconButton
 				class={cn('carousel-nav is-prev', sizeClasses[size])}
 				onclick={goToPrev}
-				disabled={!canGoPrev}
-				aria-label="Previous slide"
-			>
-				{#if isVertical}
-					<Icon icon={ArrowUp24RegularIcon} />
-				{:else}
-					<Icon icon={ArrowLeft24RegularIcon} />
-				{/if}
-			</button>
-
-			<button
-				type="button"
+				isDisabled={!canGoPrev}
+				icon={isVertical ? ArrowUp24RegularIcon : ArrowLeft24RegularIcon}
+				{color}
+				variant="overlay"
+				{size}
+			/>
+			<IconButton
 				class={cn('carousel-nav is-next', sizeClasses[size])}
 				onclick={goToNext}
-				disabled={!canGoNext}
-				aria-label="Next slide"
-			>
-				{#if isVertical}
-					<Icon icon={ArrowDown24RegularIcon} />
-				{:else}
-					<Icon icon={ArrowRight24RegularIcon} />
-				{/if}
-			</button>
+				isDisabled={!canGoNext}
+				icon={isVertical ? ArrowDown24RegularIcon : ArrowRight24RegularIcon}
+				{color}
+				variant="overlay"
+				{size}
+			/>
 		{/if}
 	</div>
 
-	{#if showControls || showIndicators || showCounter}
+	{#if !hideControls || !hideIndicators || showCounter}
 		<div class={cn('carousel-controls', isVertical && 'is-vertical')}>
-			{#if showControls}
-				<Button isDisabled={!canGoPrev} onclick={goToPrev} variant="ghost">
-					{#if isVertical}
-						<Icon icon={ArrowUp24RegularIcon} />
-					{:else}
-						<Icon icon={ArrowLeft24RegularIcon} />
-					{/if}
-				</Button>
+			{#if !hideControls}
+				<IconButton
+					isDisabled={!canGoPrev}
+					onclick={goToPrev}
+					icon={isVertical ? ArrowUp24RegularIcon : ArrowLeft24RegularIcon}
+					{color}
+					variant="ghost"
+					{size}
+				/>
 			{/if}
 
-			{#if showIndicators}
+			{#if !hideIndicators}
 				<div class={cn('carousel-indicators', isVertical && 'is-vertical')}>
 					{#each slides as slide, index (slide.id)}
 						<button
@@ -435,6 +464,7 @@
 							class={cn(
 								'carousel-indicator',
 								sizeClasses[size],
+								colorClasses[color],
 								currentIndex === index && 'is-active',
 								indicatorType === 'dot' && 'is-dot'
 							)}
@@ -451,14 +481,15 @@
 				</div>
 			{/if}
 
-			{#if showControls}
-				<Button isDisabled={!canGoNext} onclick={goToNext} variant="ghost">
-					{#if isVertical}
-						<Icon icon={ArrowDown24RegularIcon} />
-					{:else}
-						<Icon icon={ArrowRight24RegularIcon} />
-					{/if}
-				</Button>
+			{#if !hideControls}
+				<IconButton
+					isDisabled={!canGoNext}
+					onclick={goToNext}
+					icon={isVertical ? ArrowDown24RegularIcon : ArrowRight24RegularIcon}
+					{color}
+					variant="ghost"
+					{size}
+				/>
 			{/if}
 		</div>
 	{/if}
