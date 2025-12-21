@@ -177,7 +177,7 @@
 \t\t\t<p class="text-sm italic mb-4">"{testimonial.quote}"</p>
 \t\t\t<div class="column gap-1">
 \t\t\t\t<p class="font-semibold text-sm">{testimonial.author}</p>
-\t\t\t\t<p class="text-xs text-muted-foreground">{testimonial.role}</p>
+\t\t\t\t<p class="text-xs">{testimonial.role}</p>
 \t\t\t</div>
 \t\t</div>
 \t{/each}
@@ -261,7 +261,7 @@
 					<p class="text-sm italic mb-4">"{testimonial.quote}"</p>
 					<div class="column gap-1">
 						<p class="font-semibold text-sm">{testimonial.author}</p>
-						<p class="text-xs text-muted-foreground">{testimonial.role}</p>
+						<p class="text-xs">{testimonial.role}</p>
 					</div>
 				</div>
 			{/each}

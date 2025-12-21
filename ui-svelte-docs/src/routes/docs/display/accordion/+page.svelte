@@ -140,7 +140,7 @@
 	<p class="section-subtitle">Variants & Colors</p>
 	<Card>
 		{#each variantOptions as item}
-			<p class="text-muted text-sm mb-2">{item.label}</p>
+			<p class="text-sm mb-2">{item.label}</p>
 			<div class="grid gap-4 mb-6">
 				{#each colorOptions as colorItem}
 					<Accordion
@@ -163,7 +163,7 @@
 <Section>
 	<p class="section-subtitle">Multiple Open Items</p>
 	<Card>
-		<p class="text-muted text-sm mb-4">
+		<p class="text-sm mb-4">
 			Use the <code>multiple</code> prop to allow multiple items to be open simultaneously.
 		</p>
 		<Accordion
@@ -190,7 +190,7 @@
 <Section>
 	<p class="section-subtitle">Default Open Items</p>
 	<Card>
-		<p class="text-muted text-sm mb-4">
+		<p class="text-sm mb-4">
 			Use the <code>defaultOpen</code> property on items to have them expanded by default.
 		</p>
 		<Accordion
@@ -215,7 +215,7 @@
 <Section>
 	<p class="section-subtitle">Disabled Items</p>
 	<Card>
-		<p class="text-muted text-sm mb-4">
+		<p class="text-sm mb-4">
 			Use the <code>disabled</code> property on items to prevent them from being toggled.
 		</p>
 		<Accordion

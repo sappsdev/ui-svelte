@@ -59,15 +59,13 @@
 		}
 	});
 
-	const menuItems = [
+	const menuItems: any = [
 		{
 			label: 'Home',
-			icon: 'fluent:home-24-regular',
 			href: '/'
 		},
 		{
 			label: 'Docs',
-			icon: 'fluent:info-24-regular',
 			href: '/docs'
 		}
 	];

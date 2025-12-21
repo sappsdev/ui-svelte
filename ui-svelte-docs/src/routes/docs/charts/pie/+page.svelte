@@ -211,7 +211,7 @@
 		{#if donut}
 			<div class="grid-2 md:grid-4 gap-2">
 				<label class="flex flex-col gap-1">
-					<span class="text-sm text-muted-foreground">Donut Width: {donutWidth}</span>
+					<span class="text-sm">Donut Width: {donutWidth}</span>
 					<input type="range" min="30" max="100" bind:value={donutWidth} class="w-full" />
 				</label>
 			</div>
@@ -247,7 +247,7 @@
 			{#each sizeOptions as sizeOption}
 				<div class="flex flex-col items-center gap-2">
 					<PieChart data={chartData} size={sizeOption.id as any} hideLegend />
-					<span class="text-sm text-muted-foreground">{sizeOption.label}</span>
+					<span class="text-sm">{sizeOption.label}</span>
 				</div>
 			{/each}
 		</div>
@@ -266,7 +266,7 @@
 						palette={paletteOption.id as any}
 						legendPosition="bottom"
 					/>
-					<span class="text-sm text-muted-foreground">{paletteOption.label}</span>
+					<span class="text-sm">{paletteOption.label}</span>
 				</div>
 			{/each}
 		</div>
@@ -280,7 +280,7 @@
 			{#each legendPositionOptions.filter((p) => p.id !== 'none') as position}
 				<div class="flex flex-col items-center gap-2">
 					<PieChart data={chartData} size="sm" legendPosition={position.id as any} />
-					<span class="text-sm text-muted-foreground">{position.label}</span>
+					<span class="text-sm">{position.label}</span>
 				</div>
 			{/each}
 		</div>
@@ -293,7 +293,7 @@
 		<div class="wrap gap-8 center">
 			<div class="flex flex-col items-center gap-2">
 				<PieChart data={chartData} donut centerLabel="Total" centerValue={100} hideLegend />
-				<span class="text-sm text-muted-foreground">Default Donut</span>
+				<span class="text-sm">Default Donut</span>
 			</div>
 			<div class="flex flex-col items-center gap-2">
 				<PieChart
@@ -304,7 +304,7 @@
 					centerValue="$100K"
 					hideLegend
 				/>
-				<span class="text-sm text-muted-foreground">Thin Donut</span>
+				<span class="text-sm">Thin Donut</span>
 			</div>
 			<div class="flex flex-col items-center gap-2">
 				<PieChart
@@ -315,7 +315,7 @@
 					centerValue={500}
 					hideLegend
 				/>
-				<span class="text-sm text-muted-foreground">Wide Donut</span>
+				<span class="text-sm">Wide Donut</span>
 			</div>
 		</div>
 	</Card>
@@ -327,15 +327,15 @@
 		<div class="wrap gap-8 center">
 			<div class="flex flex-col items-center gap-2">
 				<PieChart data={chartData} size="sm" showGlow hideLegend />
-				<span class="text-sm text-muted-foreground">Glow Effect</span>
+				<span class="text-sm">Glow Effect</span>
 			</div>
 			<div class="flex flex-col items-center gap-2">
 				<PieChart data={chartData} size="sm" showGradient hideLegend />
-				<span class="text-sm text-muted-foreground">Gradient Effect</span>
+				<span class="text-sm">Gradient Effect</span>
 			</div>
 			<div class="flex flex-col items-center gap-2">
 				<PieChart data={chartData} size="sm" showGlow showGradient hideLegend />
-				<span class="text-sm text-muted-foreground">Both Effects</span>
+				<span class="text-sm">Both Effects</span>
 			</div>
 		</div>
 	</Card>

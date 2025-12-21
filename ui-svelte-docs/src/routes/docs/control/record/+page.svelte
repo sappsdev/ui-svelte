@@ -72,7 +72,7 @@
 							url={useUploadUrl && uploadUrl ? uploadUrl : undefined}
 							onRecordingComplete={handleRecordingComplete}
 						/>
-						<p class="text-sm text-muted-foreground mt-4">
+						<p class="text-sm mt-4">
 							Click the record button to start recording. Use pause/resume controls while recording,
 							and stop to save the audio.
 						</p>

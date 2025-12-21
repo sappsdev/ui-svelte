@@ -54,7 +54,7 @@
 	};
 </script>
 
-<div class={cn('section', variants[variant], colors[color], rootClass)}>
+<section class={cn('section', variants[variant], colors[color], rootClass)}>
 	{#if cover}
 		<img src={cover} alt="cover" class={cn('section-cover', coverClass)} />
 		<div class={cn('section-overlay', overlayClass)}></div>
@@ -62,4 +62,4 @@
 	<div class={cn('section-body', isBoxed && 'boxed', bodyClass)}>
 		{@render children()}
 	</div>
-</div>
+</section>

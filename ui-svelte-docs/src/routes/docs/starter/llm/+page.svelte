@@ -123,7 +123,7 @@
 </DocsHeader>
 
 <Section>
-	<Card variant="info">
+	<Card color="info">
 		<div class="row gap-3 items-center">
 			<Icon icon={ArtificialIntelligenceIcon} class="size-6 shrink-0" />
 			<p>
@@ -146,7 +146,7 @@
 				<Button
 					onclick={handleCopyPage}
 					startIcon={pageClipboard.copied ? CheckmarkRegularIcon : CopyRegularIcon}
-					variant="muted"
+					color="muted"
 					size="sm">Copy LLM</Button
 				>
 			</div>
@@ -174,7 +174,7 @@
 				<Button
 					onclick={handleCopyLayout}
 					startIcon={layoutClipboard.copied ? CheckmarkRegularIcon : CopyRegularIcon}
-					variant="muted"
+					color="muted"
 					size="sm">Copy LLM</Button
 				>
 			</div>
@@ -231,7 +231,7 @@
 					lang="text"
 					hideLang
 				/>
-				<p class="text-sm text-muted-500">
+				<p class="text-sm">
 					The URL reference tells the AI to use Svelte syntax and ui-svelte components.
 				</p>
 			</div>
@@ -239,9 +239,7 @@
 			<div class="column gap-2">
 				<h5 class="font-semibold text-danger">❌ Bad Prompt (Missing URL)</h5>
 				<Code code={`Create a landing page for a project management tool`} lang="text" hideLang />
-				<p class="text-sm text-muted-500">
-					Without the URL reference, AI will likely generate React/JSX code.
-				</p>
+				<p class="text-sm">Without the URL reference, AI will likely generate React/JSX code.</p>
 			</div>
 
 			<div class="column gap-2">
@@ -269,7 +267,7 @@
 </Section>
 
 <Section>
-	<Card variant="success">
+	<Card color="success">
 		{#snippet header()}
 			<div class="row gap-3 items-center">
 				<Icon icon={CheckmarkCircle24RegularIcon} class="size-5" />
@@ -282,7 +280,7 @@
 					<span class="text-success">✅</span>
 					<div>
 						<strong>{practice.tip}</strong>
-						<p class="text-sm text-muted-500">{practice.description}</p>
+						<p class="text-sm">{practice.description}</p>
 					</div>
 				</div>
 			{/each}

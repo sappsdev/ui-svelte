@@ -138,7 +138,7 @@
 		bind:value
 	/>
 	{#if value}
-		<p class="text-sm text-muted mt-2">
+		<p class="text-sm mt-2">
 			Fecha seleccionada: {value.toLocaleDateString('es-ES', {
 				year: 'numeric',
 				month: 'long',

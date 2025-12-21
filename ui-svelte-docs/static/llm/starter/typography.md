@@ -7,6 +7,7 @@ CSS classes for responsive text styling.
 Use these pre-defined classes for consistent styling:
 
 ### Hero Section
+
 ```html
 <h1 class="hero-title">Main Title</h1>
 <p class="hero-subtitle">Subtitle text</p>
@@ -14,6 +15,7 @@ Use these pre-defined classes for consistent styling:
 ```
 
 ### Page Sections
+
 ```html
 <h2 class="section-title">Section Title</h2>
 <p class="section-subtitle">Subtitle</p>
@@ -21,6 +23,7 @@ Use these pre-defined classes for consistent styling:
 ```
 
 ### Call to Action
+
 ```html
 <h3 class="cta-title">CTA Title</h3>
 <p class="cta-subtitle">CTA subtitle</p>
@@ -28,6 +31,7 @@ Use these pre-defined classes for consistent styling:
 ```
 
 ### Features & Cards
+
 ```html
 <h4 class="feature-title">Feature Title</h4>
 <p class="feature-description">Feature description</p>
@@ -39,34 +43,38 @@ Use these pre-defined classes for consistent styling:
 ## Size Classes
 
 ### Display (Large headlines)
-| Class | Size |
-|-------|------|
-| `display-2xl` | 3rem → 6rem |
-| `display-xl` | 2.5rem → 4.5rem |
-| `display-lg` | 2rem → 3.75rem |
-| `display-md` | 1.75rem → 3rem |
-| `display-sm` | 1.5rem → 2.25rem |
+
+| Class         | Size              |
+| ------------- | ----------------- |
+| `display-2xl` | 3rem -> 6rem      |
+| `display-xl`  | 2.5rem -> 4.5rem  |
+| `display-lg`  | 2rem -> 3.75rem   |
+| `display-md`  | 1.75rem -> 3rem   |
+| `display-sm`  | 1.5rem -> 2.25rem |
 
 ### Heading
-| Class | Size |
-|-------|------|
-| `heading-xl` | 1.75rem → 2.5rem |
-| `heading-lg` | 1.5rem → 2rem |
-| `heading-md` | 1.25rem → 1.5rem |
-| `heading-sm` | 1.125rem → 1.25rem |
+
+| Class        | Size                |
+| ------------ | ------------------- |
+| `heading-xl` | 1.75rem -> 2.5rem   |
+| `heading-lg` | 1.5rem -> 2rem      |
+| `heading-md` | 1.25rem -> 1.5rem   |
+| `heading-sm` | 1.125rem -> 1.25rem |
 
 ### Body
-| Class | Size |
-|-------|------|
-| `body-xl` | 1.125rem → 1.25rem |
-| `body-lg` | 1rem → 1.125rem |
-| `body-md` | 1rem |
-| `body-sm` | 0.875rem |
+
+| Class     | Size                |
+| --------- | ------------------- |
+| `body-xl` | 1.125rem -> 1.25rem |
+| `body-lg` | 1rem -> 1.125rem    |
+| `body-md` | 1rem                |
+| `body-sm` | 0.875rem            |
 
 ### Labels & Captions
-| Class | Description |
-|-------|-------------|
-| `label-lg/md/sm` | Medium weight labels |
+
+| Class              | Description          |
+| ------------------ | -------------------- |
+| `label-lg/md/sm`   | Medium weight labels |
 | `caption-lg/md/sm` | 70% opacity captions |
 
 ## Utility Classes

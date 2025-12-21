@@ -224,7 +224,7 @@
 								{ id: '3', label: 'Profile', icon: UserCircleLinearIcon }
 							]}
 						/>
-						<p class="text-xs text-center mt-1 text-muted-foreground">{colorItem.label}</p>
+						<p class="text-xs text-center mt-1">{colorItem.label}</p>
 					</div>
 				{/each}
 			</div>

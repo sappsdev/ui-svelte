@@ -61,7 +61,7 @@
 	};
 </script>
 
-<div class={cn('card', colors[color], variants[variant], rootClass)}>
+<article class={cn('card', colors[color], variants[variant], rootClass)}>
 	{#if cover}
 		<img src={cover} alt="cover" class={cn('card-cover', coverClass)} />
 		<div class={cn('card-overlay', overlayClass)}></div>
@@ -79,4 +79,4 @@
 			{@render footer()}
 		</div>
 	{/if}
-</div>
+</article>

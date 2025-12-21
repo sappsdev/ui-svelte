@@ -50,7 +50,7 @@
 			`\t\t<div class="p-2 border-b font-medium">My Account</div>`,
 			`\t{/snippet}`,
 			`\t{#snippet footer()}`,
-			`\t\t<div class="p-2 border-t text-xs text-center text-muted-foreground">Version 1.0.0</div>`,
+			`\t\t<div class="p-2 border-t text-xs text-center">Version 1.0.0</div>`,
 			`\t{/snippet}`,
 			`\t<Button>Open Menu</Button>`,
 			`</Dropdown>`
@@ -67,8 +67,7 @@
 			showHeader && `\t{/snippet}`,
 			`\t<Button>Open Menu</Button>`,
 			showFooter && `\t{#snippet footer()}`,
-			showFooter &&
-				`\t\t<div class="p-2 border-t text-xs text-center text-muted-foreground">Version 1.0.0</div>`,
+			showFooter && `\t\t<div class="p-2 border-t text-xs text-center">Version 1.0.0</div>`,
 			showFooter && `\t{/snippet}`,
 			`</Dropdown>`
 		].filter(Boolean);
@@ -120,7 +119,7 @@
 				<Button>Open Menu</Button>
 				{#snippet footer()}
 					{#if showFooter}
-						<div class="p-2 border-t text-xs text-center text-muted-foreground">Version 1.0.0</div>
+						<div class="p-2 border-t text-xs text-center">Version 1.0.0</div>
 					{/if}
 				{/snippet}
 			</Dropdown>

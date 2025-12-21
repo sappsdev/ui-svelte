@@ -79,14 +79,14 @@
 		class="w-full min-h-[400px] border border-border rounded-lg overflow-hidden bg-background relative flex"
 	>
 		<Sidebar
-			class="w-64"
+			rootClass="w-64"
 			header={showHeader ? header : undefined}
 			footer={showFooter ? footer : undefined}
 		>
 			<SideNav items={navItems} />
 		</Sidebar>
 		<div class="flex-1 p-6">
-			<p class="text-sm text-muted-foreground">Main content area</p>
+			<p class="text-sm">Main content area</p>
 		</div>
 	</div>
 {/snippet}
@@ -275,7 +275,7 @@
 </Drawer>`}</code
 			></pre>
 	</div>
-	<p class="mt-4 text-sm text-muted-foreground">
+	<p class="mt-4 text-sm">
 		This pattern shows the Sidebar on desktop screens (lg and above) and uses a Drawer for mobile
 		devices.
 	</p>

@@ -206,7 +206,7 @@
 		{/snippet}
 		<div class="column gap-2">
 			<Checkbox label="Bind checked state" bind:checked={isChecked} />
-			<span class="text-sm text-muted-500">State: {isChecked ? 'Checked' : 'Unchecked'}</span>
+			<span class="text-sm">State: {isChecked ? 'Checked' : 'Unchecked'}</span>
 		</div>
 		{#snippet footer()}
 			<code class="text-xs">bind:checked</code>

@@ -189,7 +189,7 @@
 				priorityCountries={['us', 'mx', 'ca']}
 			/>
 			{#if phoneValue || dialCode}
-				<div class="text-sm text-muted-500">
+				<div class="text-sm">
 					Full number: +{dialCode}
 					{phoneValue}
 				</div>

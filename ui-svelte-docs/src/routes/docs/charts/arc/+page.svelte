@@ -256,7 +256,7 @@
 		<div class="wrap gap-4 center">
 			{#each sizeOptions as sizeOpt}
 				<div class="flex flex-col items-center gap-2">
-					<span class="text-sm text-muted">{sizeOpt.label}</span>
+					<span class="text-sm">{sizeOpt.label}</span>
 					<ArcChart
 						data={singleArcData}
 						size={sizeOpt.id as any}
@@ -276,7 +276,7 @@
 		<div class="wrap gap-4 center">
 			{#each paletteOptions as paletteOpt}
 				<div class="flex flex-col items-center gap-2">
-					<span class="text-sm text-muted">{paletteOpt.label}</span>
+					<span class="text-sm">{paletteOpt.label}</span>
 					<ArcChart data={multipleArcsData} size="sm" palette={paletteOpt.id as any} hideLegend />
 				</div>
 			{/each}
@@ -290,7 +290,7 @@
 		<div class="grid-2 gap-4">
 			{#each legendPositionOptions.filter((l) => l.id !== 'none') as legendOpt}
 				<div class="flex flex-col items-center gap-2">
-					<span class="text-sm text-muted">{legendOpt.label}</span>
+					<span class="text-sm">{legendOpt.label}</span>
 					<ArcChart data={sampleData} size="sm" legendPosition={legendOpt.id as any} />
 				</div>
 			{/each}
@@ -304,7 +304,7 @@
 		<div class="wrap gap-4 center">
 			{#each linecapOptions as linecapOpt}
 				<div class="flex flex-col items-center gap-2">
-					<span class="text-sm text-muted">{linecapOpt.label}</span>
+					<span class="text-sm">{linecapOpt.label}</span>
 					<ArcChart data={singleArcData} size="sm" linecap={linecapOpt.id as any} hideLegend />
 				</div>
 			{/each}
@@ -349,19 +349,19 @@
 	<Card>
 		<div class="wrap gap-4 center">
 			<div class="flex flex-col items-center gap-2">
-				<span class="text-sm text-muted">Default</span>
+				<span class="text-sm">Default</span>
 				<ArcChart data={multipleArcsData} size="sm" hideLegend />
 			</div>
 			<div class="flex flex-col items-center gap-2">
-				<span class="text-sm text-muted">Gradient</span>
+				<span class="text-sm">Gradient</span>
 				<ArcChart data={multipleArcsData} size="sm" hideLegend showGradient />
 			</div>
 			<div class="flex flex-col items-center gap-2">
-				<span class="text-sm text-muted">Glow</span>
+				<span class="text-sm">Glow</span>
 				<ArcChart data={multipleArcsData} size="sm" hideLegend showGlow />
 			</div>
 			<div class="flex flex-col items-center gap-2">
-				<span class="text-sm text-muted">Both</span>
+				<span class="text-sm">Both</span>
 				<ArcChart data={multipleArcsData} size="sm" hideLegend showGradient showGlow />
 			</div>
 		</div>
@@ -373,11 +373,11 @@
 	<Card>
 		<div class="wrap gap-4 center">
 			<div class="flex flex-col items-center gap-2">
-				<span class="text-sm text-muted">Loading</span>
+				<span class="text-sm">Loading</span>
 				<ArcChart data={sampleData} size="sm" loading />
 			</div>
 			<div class="flex flex-col items-center gap-2">
-				<span class="text-sm text-muted">Empty</span>
+				<span class="text-sm">Empty</span>
 				<ArcChart data={[]} size="sm" empty emptyText="No data available" />
 			</div>
 		</div>

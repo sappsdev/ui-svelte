@@ -50,7 +50,7 @@
 	<!-- Footer is placed as a direct child -->
 	<Footer isBoxed>
 		{#snippet start()}
-			<p class="text-sm text-muted-foreground">© 2024 Company</p>
+			<p class="text-sm">© 2024 Company</p>
 		{/snippet}
 	</Footer>
 </Scaffold>`;
@@ -103,7 +103,7 @@
 
 	<Footer isBordered>
 		{#snippet start()}
-			<p class="text-sm text-muted-foreground">© 2024 Company</p>
+			<p class="text-sm">© 2024 Company</p>
 		{/snippet}
 	</Footer>
 </Scaffold>
@@ -203,20 +203,20 @@
 		<div class="h-[calc(100%-8rem)] overflow-auto p-8">
 			<div class="max-w-4xl mx-auto space-y-6">
 				<div class="h-32 bg-primary/10 rounded flex items-center justify-center">
-					<p class="text-sm text-muted-foreground">Hero Section</p>
+					<p class="text-sm">Hero Section</p>
 				</div>
 				<div class="h-48 bg-secondary/10 rounded flex items-center justify-center">
-					<p class="text-sm text-muted-foreground">Features Section</p>
+					<p class="text-sm">Features Section</p>
 				</div>
 				<div class="h-32 bg-muted/30 rounded flex items-center justify-center">
-					<p class="text-sm text-muted-foreground">CTA Section</p>
+					<p class="text-sm">CTA Section</p>
 				</div>
 			</div>
 		</div>
 
 		<!-- Simulated Footer -->
 		<div class="h-16 bg-surface border-t border-border flex items-center justify-center px-4">
-			<p class="text-xs text-muted-foreground">© 2024 Company</p>
+			<p class="text-xs">© 2024 Company</p>
 		</div>
 	</div>
 {/snippet}
@@ -252,16 +252,16 @@
 			<div class="flex-1 overflow-auto p-4">
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div class="h-32 bg-primary/10 rounded flex items-center justify-center">
-						<p class="text-sm text-muted-foreground">Card 1</p>
+						<p class="text-sm">Card 1</p>
 					</div>
 					<div class="h-32 bg-secondary/10 rounded flex items-center justify-center">
-						<p class="text-sm text-muted-foreground">Card 2</p>
+						<p class="text-sm">Card 2</p>
 					</div>
 					<div class="h-32 bg-muted/30 rounded flex items-center justify-center">
-						<p class="text-sm text-muted-foreground">Card 3</p>
+						<p class="text-sm">Card 3</p>
 					</div>
 					<div class="h-32 bg-info/10 rounded flex items-center justify-center">
-						<p class="text-sm text-muted-foreground">Card 4</p>
+						<p class="text-sm">Card 4</p>
 					</div>
 				</div>
 			</div>
@@ -271,7 +271,7 @@
 		<div
 			class="h-12 bg-surface border-t border-border flex items-center justify-center px-4 shrink-0"
 		>
-			<p class="text-xs text-muted-foreground">© 2024 Company</p>
+			<p class="text-xs">© 2024 Company</p>
 		</div>
 	</div>
 {/snippet}
@@ -291,13 +291,13 @@
 		<div class="flex-1 overflow-auto p-4">
 			<div class="space-y-4">
 				<div class="h-48 bg-primary/10 rounded flex items-center justify-center">
-					<p class="text-sm text-muted-foreground">Content Card 1</p>
+					<p class="text-sm">Content Card 1</p>
 				</div>
 				<div class="h-48 bg-secondary/10 rounded flex items-center justify-center">
-					<p class="text-sm text-muted-foreground">Content Card 2</p>
+					<p class="text-sm">Content Card 2</p>
 				</div>
 				<div class="h-48 bg-muted/30 rounded flex items-center justify-center">
-					<p class="text-sm text-muted-foreground">Content Card 3</p>
+					<p class="text-sm">Content Card 3</p>
 				</div>
 			</div>
 		</div>
@@ -312,15 +312,15 @@
 			</div>
 			<div class="flex flex-col items-center gap-1">
 				<div class="w-6 h-6 bg-muted rounded"></div>
-				<span class="text-xs text-muted-foreground">Search</span>
+				<span class="text-xs">Search</span>
 			</div>
 			<div class="flex flex-col items-center gap-1">
 				<div class="w-6 h-6 bg-muted rounded"></div>
-				<span class="text-xs text-muted-foreground">Favorites</span>
+				<span class="text-xs">Favorites</span>
 			</div>
 			<div class="flex flex-col items-center gap-1">
 				<div class="w-6 h-6 bg-muted rounded"></div>
-				<span class="text-xs text-muted-foreground">Profile</span>
+				<span class="text-xs">Profile</span>
 			</div>
 		</div>
 	</div>
@@ -344,7 +344,7 @@
 	</div>
 	<Card>
 		<Select label="Layout Example" size="sm" options={exampleOptions} bind:value={exampleType} />
-		<div class="mt-4 text-sm text-muted-foreground">
+		<div class="mt-4 text-sm">
 			{#if exampleType === 'landing'}
 				Simple landing page layout with AppBar and Footer.
 			{:else if exampleType === 'dashboard'}
@@ -361,7 +361,7 @@
 </Section>
 
 <Section>
-	<Card variant="warning">
+	<Card color="warning">
 		<div class="row gap-3 items-start">
 			<Icon icon={WarningTriangleIcon} class="w-6 h-6 shrink-0 mt-0.5" />
 			<div class="column gap-2">
@@ -379,7 +379,7 @@
 <DocsProps {props} />
 
 <Section bodyClass="grid-1 md:grid-3 gap-4">
-	<Card variant="info">
+	<Card color="info">
 		<div class="column gap-3">
 			<Icon icon={WebLayoutIcon} class="w-8 h-8" />
 			<h4 class="font-semibold">Landing Pages</h4>
@@ -393,7 +393,7 @@
 		</div>
 	</Card>
 
-	<Card variant="info">
+	<Card color="info">
 		<div class="column gap-3">
 			<Icon icon={LayoutDashboardIcon} class="w-8 h-8" />
 			<h4 class="font-semibold">Dashboard</h4>
@@ -409,7 +409,7 @@
 		</div>
 	</Card>
 
-	<Card variant="info">
+	<Card color="info">
 		<div class="column gap-3">
 			<Icon icon={SmartphoneIcon} class="w-8 h-8" />
 			<h4 class="font-semibold">Mobile App</h4>
@@ -431,7 +431,7 @@
 		<div class="column gap-4">
 			<div>
 				<h5 class="font-semibold mb-2">1. Body Class - AppBar Spacing</h5>
-				<p class="text-sm text-muted-foreground mb-2">
+				<p class="text-sm mb-2">
 					When using an AppBar, add top margin to <code>bodyClass</code> to prevent content from being
 					hidden:
 				</p>
@@ -443,7 +443,7 @@
 
 			<div>
 				<h5 class="font-semibold mb-2">2. Start/End Class - Sidebar Width</h5>
-				<p class="text-sm text-muted-foreground mb-2">
+				<p class="text-sm mb-2">
 					Set the width of sidebars using <code>startClass</code> and <code>endClass</code>:
 				</p>
 				<ul class="text-sm list-disc list-inside">
@@ -454,7 +454,7 @@
 
 			<div>
 				<h5 class="font-semibold mb-2">3. vh Utilities - Sidebar Height</h5>
-				<p class="text-sm text-muted-foreground mb-2">
+				<p class="text-sm mb-2">
 					Apply <code>vh-*</code> utilities to Sidebar components for proper height:
 				</p>
 				<ul class="text-sm list-disc list-inside">
@@ -465,7 +465,7 @@
 
 			<div>
 				<h5 class="font-semibold mb-2">4. Main Class - Content Styling</h5>
-				<p class="text-sm text-muted-foreground mb-2">
+				<p class="text-sm mb-2">
 					Use <code>mainClass</code> to style the main content area:
 				</p>
 				<ul class="text-sm list-disc list-inside">
@@ -503,7 +503,7 @@
 	{@render children()}
 	<Footer isBoxed isBordered>
 		{#snippet start()}
-			<p class="text-sm text-muted-foreground">© 2024 UiSvelte</p>
+			<p class="text-sm">© 2024 UiSvelte</p>
 		{/snippet}
 	</Footer>
 </Scaffold>`}
