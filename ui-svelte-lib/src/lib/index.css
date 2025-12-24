@@ -10,6 +10,7 @@
 @import './css/typography.css';
 
 @import './control/css/btn.css';
+@import './control/css/image.css';
 @import './control/css/media.css';
 @import './control/css/video.css';
 @import './control/css/toggle-group.css';
@@ -44,13 +45,16 @@
 @import './form/css/control.css';
 @import './form/css/csv-field.css';
 @import './form/css/date.css';
+@import './form/css/drag-drop.css';
 @import './form/css/dropzone.css';
+@import './form/css/editor.css';
 @import './form/css/field.css';
 @import './form/css/image-cropper.css';
 @import './form/css/password.css';
 @import './form/css/radio-group.css';
 @import './form/css/slider.css';
 @import './form/css/select.css';
+@import './form/css/color-field.css';
 @import './form/css/textarea.css';
 @import './form/css/toggle.css';
 

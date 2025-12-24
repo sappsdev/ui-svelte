@@ -11,7 +11,8 @@
 		controlClass?: string;
 		onchange?: (value: string | number | undefined) => void;
 		oninput?: (value: string | number | undefined) => void;
-		variant?: 'primary' | 'secondary' | 'muted' | 'outlined' | 'line';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft' | 'outlined' | 'line';
 		size?: 'sm' | 'md' | 'lg';
 		name?: string;
 		label?: string;
@@ -24,7 +25,7 @@
 			strong?: string;
 		};
 		isFloatLabel?: boolean;
-		isSolid?: boolean;
+		hideStrength?: boolean;
 	};
 
 	let {
@@ -36,6 +37,7 @@
 		onchange,
 		oninput,
 		variant = 'outlined',
+		color = 'muted',
 		size = 'md',
 		name,
 		label,
@@ -48,21 +50,43 @@
 			medium: 'Medium',
 			strong: 'Strong'
 		},
-		isSolid
+		hideStrength
 	}: Props = $props();
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
 		outlined: 'is-outlined',
 		line: 'is-line'
+	};
+
+	const btnVariants = {
+		solid: 'solid',
+		soft: 'ghost',
+		outlined: 'ghost',
+		line: 'ghost'
 	};
 
 	const sizeClasses = {
 		sm: 'is-sm',
 		md: 'is-md',
 		lg: 'is-lg'
+	};
+
+	const btnSizes = {
+		sm: 'xs',
+		md: 'sm',
+		lg: 'md'
 	};
 
 	const uid = $props.id();
@@ -83,7 +107,8 @@
 		label: string;
 		color: string;
 	} {
-		if (!password) return { score: 0, label: '', color: 'bg-gray-300' };
+		if (hideStrength) return { score: 0, label: '', color: 'bg-muted' };
+		if (!password) return { score: 0, label: '', color: 'bg-muted' };
 
 		let score = 0;
 
@@ -93,17 +118,17 @@
 		if (/[A-Z]/.test(password)) score += 1;
 		if (/\d/.test(password)) score += 1;
 		if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) score += 1;
-		if (score <= 2) return { score, label: labels.weak || 'Weak', color: 'bg-red-500' };
+		if (score <= 2) return { score, label: labels.weak || 'Weak', color: 'bg-danger' };
 		if (score <= 4)
 			return {
 				score,
 				label: labels.medium || 'Medium',
-				color: 'bg-yellow-500'
+				color: 'bg-warning'
 			};
 		return {
 			score,
 			label: labels.strong || 'Strong',
-			color: 'bg-green-500'
+			color: 'bg-success'
 		};
 	}
 </script>
@@ -115,9 +140,9 @@
 	<label
 		class={cn(
 			'control',
-			variantClasses[variant],
+			colors[color],
+			variants[variant],
 			sizeClasses[size],
-			isSolid && 'is-solid',
 			isFloatLabel && 'is-float',
 			(isActive || isFocused) && 'is-active',
 			controlClass
@@ -154,25 +179,34 @@
 			onfocusout={() => (isFocused = false)}
 		/>
 		<IconButton
-			variant="ghost"
-			size="sm"
+			size={btnSizes[size] as any}
 			icon={show ? EyeShowRegularIcon : EyeOffRegularIcon}
+			{color}
+			variant={btnVariants[variant] as any}
 			onclick={() => (show = !show)}
 		/>
 	</label>
-	<div class={cn('field-strength')}>
-		<div class="field-strength-bars">
-			{#each Array(4) as _, i}
-				<div
-					class="field-strength-bar-item"
-					class:active={isBarActive(i, strength.score)}
-					class:weak={strength.score <= 2 && isBarActive(i, strength.score)}
-					class:medium={strength.score > 2 && strength.score <= 4 && isBarActive(i, strength.score)}
-					class:strong={strength.score > 4 && isBarActive(i, strength.score)}
-				></div>
-			{/each}
+	{#if !hideStrength}
+		<div class={cn('field-strength')}>
+			<div class="field-strength-bars">
+				{#each Array(4) as _, i}
+					<div
+						class="field-strength-bar-item"
+						class:active={isBarActive(i, strength.score)}
+						class:weak={strength.score <= 2 && isBarActive(i, strength.score)}
+						class:medium={strength.score > 2 &&
+							strength.score <= 4 &&
+							isBarActive(i, strength.score)}
+						class:strong={strength.score > 4 && isBarActive(i, strength.score)}
+					></div>
+				{/each}
+			</div>
+			{#if strength.label}
+				<span class="field-strength-label">{strength.label}</span>
+			{/if}
 		</div>
-	</div>
+	{/if}
+
 	{#if errorText || helpText}
 		<div class={cn('field-help', errorText && 'is-danger')}>
 			{errorText || helpText}

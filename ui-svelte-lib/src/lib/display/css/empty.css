@@ -4,5 +4,12 @@
 		.empty-icon {
 			@apply max-h-64 w-full;
 		}
+		.empty-action {
+			@apply inline-flex items-center justify-center px-4 py-2 rounded-lg;
+			@apply text-sm font-medium transition-all duration-200;
+			@apply bg-primary/10 text-primary;
+			@apply hover:bg-primary/20 focus:outline-none focus:ring-2 focus:ring-primary/50;
+			@apply cursor-pointer no-underline;
+		}
 	}
 }

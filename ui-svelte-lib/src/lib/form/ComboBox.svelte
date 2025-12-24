@@ -20,7 +20,8 @@
 		loadingText?: string;
 		loadingMoreText?: string;
 		onchange?: (value: string | number | null) => void;
-		variant?: 'primary' | 'secondary' | 'muted' | 'outlined' | 'line';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft' | 'outlined' | 'line';
 		size?: 'sm' | 'md' | 'lg';
 		name?: string;
 		class?: string;
@@ -47,6 +48,7 @@
 		loadingMoreText = 'Loading more...',
 		onchange,
 		variant = 'outlined',
+		color = 'muted',
 		size = 'md',
 		name,
 		label,
@@ -59,11 +61,19 @@
 		isDisabled = false,
 		arrowIcon = ArrowDown24RegularIcon
 	}: Props = $props();
-
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
 		outlined: 'is-outlined',
 		line: 'is-line'
 	};
@@ -335,7 +345,8 @@
 		bind:this={controlElement}
 		class={cn(
 			'control',
-			variantClasses[variant],
+			colors[color],
+			variants[variant],
 			sizeClasses[size],
 			isFloatLabel && 'is-float',
 			isSolid && 'is-solid',
@@ -398,7 +409,7 @@
 	{/if}
 
 	<div class:is-active={isOpen} class="combo-box-popover" bind:this={contentEl} {style}>
-		<div class={cn('combo-box-search', variantClasses[variant])}>
+		<div class={cn('combo-box-search', colors[color], variants[variant])}>
 			<Icon icon={Search24RegularIcon} class="combo-box-search-icon" />
 			<input
 				type="text"
@@ -429,7 +440,7 @@
 							isActive={value === item.id}
 							isFocused={focusedIndex === index}
 							isDisabled={item.disabled}
-							variant={itemVariants[variant]}
+							{color}
 							size="sm"
 							isCompact
 						/>

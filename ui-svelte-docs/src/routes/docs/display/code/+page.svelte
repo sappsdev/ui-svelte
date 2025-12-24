@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { Card, Checkbox, Code, Section, Select } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
 
 	const langOptions = [
@@ -134,27 +132,49 @@ npm run dev`
 	Display syntax-highlighted code blocks with copy functionality.
 </DocsHeader>
 
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		<Code code={sampleCode} {lang} {lightTheme} {darkTheme} {disableCopy} {hideLang} />
-	</DocsPreview>
-	<Card>
-		<Select label="Language" size="sm" options={langOptions} bind:value={lang} />
-		<Select label="Light Theme" size="sm" options={lightThemeOptions} bind:value={lightTheme} />
-		<Select label="Dark Theme" size="sm" options={darkThemeOptions} bind:value={darkTheme} />
-		<div class="grid-2 gap-2">
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Language"
+				size="sm"
+				options={langOptions}
+				bind:value={lang}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Light Theme"
+				size="sm"
+				options={lightThemeOptions}
+				bind:value={lightTheme}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Dark Theme"
+				size="sm"
+				options={darkThemeOptions}
+				bind:value={darkTheme}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
 			<Checkbox bind:checked={disableCopy} label="Disable Copy" />
 			<Checkbox bind:checked={hideLang} label="Hide Lang" />
 		</div>
+
+		<div class="doc-preview">
+			<Code code={sampleCode} {lang} {lightTheme} {darkTheme} {disableCopy} {hideLang} />
+		</div>
+		<Code lang="svelte" code={code()} />
 	</Card>
-	<DocsCode code={code()} />
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Multiple Languages</h4>
-		{/snippet}
+	<p class="section-subtitle">Multiple Languages</p>
+	<Card>
 		<div class="grid-1 md:grid-2 gap-4">
 			<Code code={sampleCodes.typescript} lang="typescript" />
 			<Code code={sampleCodes.python} lang="python" />
@@ -165,33 +185,33 @@ npm run dev`
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Svelte Component Example</h4>
-		{/snippet}
+	<p class="section-subtitle">Svelte Component Example</p>
+	<Card>
 		<Code code={sampleCodes.svelte} lang="svelte" />
 	</Card>
 </Section>
 
-<Section bodyClass="grid-2 md:grid-3">
-	<Card bodyClass="column gap-2">
-		{#snippet header()}
-			<h5>Default</h5>
-		{/snippet}
-		<Code code={`const x = 42;`} lang="typescript" />
-	</Card>
-	<Card bodyClass="column gap-2">
-		{#snippet header()}
-			<h5>No Copy Button</h5>
-		{/snippet}
-		<Code code={`const x = 42;`} lang="typescript" disableCopy />
-	</Card>
-	<Card bodyClass="column gap-2">
-		{#snippet header()}
-			<h5>Hidden Language</h5>
-		{/snippet}
-		<Code code={`const x = 42;`} lang="typescript" hideLang />
+<Section>
+	<p class="section-subtitle">Options</p>
+	<Card>
+		<div class="grid-2 md:grid-3 gap-4">
+			<div class="column gap-2">
+				<p class="text-sm">Default</p>
+				<Code code={`const x = 42;`} lang="typescript" />
+			</div>
+			<div class="column gap-2">
+				<p class="text-sm">No Copy Button</p>
+				<Code code={`const x = 42;`} lang="typescript" disableCopy />
+			</div>
+			<div class="column gap-2">
+				<p class="text-sm">Hidden Language</p>
+				<Code code={`const x = 42;`} lang="typescript" hideLang />
+			</div>
+		</div>
 	</Card>
 </Section>
 
-<DocsProps {props} />
+<Section>
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
+</Section>

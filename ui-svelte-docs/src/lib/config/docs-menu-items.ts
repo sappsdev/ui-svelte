@@ -53,6 +53,10 @@ export const sideMenuItems: SideNavItem[] = [
 		open: true,
 		subitems: [
 			{
+				label: 'Audio',
+				href: '/docs/control/audio'
+			},
+			{
 				label: 'Button',
 				href: '/docs/control/button'
 			},
@@ -61,8 +65,8 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/control/icon-button'
 			},
 			{
-				label: 'Audio',
-				href: '/docs/control/audio'
+				label: 'Image',
+				href: '/docs/control/image'
 			},
 			{
 				label: 'Record',
@@ -177,20 +181,32 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/form/checkbox'
 			},
 			{
-				label: 'CsvField',
-				href: '/docs/form/csv-field'
+				label: 'ColorField',
+				href: '/docs/form/color-field'
 			},
 			{
 				label: 'ComboBox',
 				href: '/docs/form/combo-box'
 			},
 			{
+				label: 'CsvField',
+				href: '/docs/form/csv-field'
+			},
+			{
 				label: 'DateField',
 				href: '/docs/form/date-field'
 			},
 			{
+				label: 'DragDrop',
+				href: '/docs/form/drag-drop'
+			},
+			{
 				label: 'Dropzone',
 				href: '/docs/form/dropzone'
+			},
+			{
+				label: 'Editor',
+				href: '/docs/form/editor'
 			},
 			{
 				label: 'Form',
@@ -201,8 +217,20 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/form/image-cropper'
 			},
 			{
-				label: 'PasswordStrength',
-				href: '/docs/form/password-strength'
+				label: 'PasswordField',
+				href: '/docs/form/password-field'
+			},
+			{
+				label: 'PhoneField',
+				href: '/docs/form/phone-field'
+			},
+			{
+				label: 'PinField',
+				href: '/docs/form/pin-field'
+			},
+			{
+				label: 'RadioGroup',
+				href: '/docs/form/radio-group'
 			},
 			{
 				label: 'Select',
@@ -211,14 +239,6 @@ export const sideMenuItems: SideNavItem[] = [
 			{
 				label: 'Slider',
 				href: '/docs/form/slider'
-			},
-			{
-				label: 'PhoneField',
-				href: '/docs/form/phone-field'
-			},
-			{
-				label: 'RadioGroup',
-				href: '/docs/form/radio-group'
 			},
 			{
 				label: 'Textarea',
@@ -240,6 +260,10 @@ export const sideMenuItems: SideNavItem[] = [
 		label: 'Overlay',
 		open: true,
 		subitems: [
+			{
+				label: 'Command',
+				href: '/docs/overlay/command'
+			},
 			{
 				label: 'Drawer',
 				href: '/docs/overlay/drawer'

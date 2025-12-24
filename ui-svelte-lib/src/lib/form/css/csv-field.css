@@ -1,0 +1,226 @@
+@layer components {
+	.csv-field {
+		@apply relative w-full;
+	}
+
+	.csv-field-input {
+		@apply hidden;
+	}
+
+	/* Error Message */
+	.csv-field-error {
+		@apply mt-2.5 p-2.5 rounded-ui text-sm;
+	}
+
+	.csv-field.is-soft .csv-field-error,
+	.csv-field.is-ghost .csv-field-error {
+		@apply bg-on-danger/20 text-danger;
+	}
+
+	.csv-field.is-solid .csv-field-error {
+		@apply bg-danger text-on-danger;
+	}
+
+	.csv-field.is-outlined .csv-field-error {
+		@apply border border-danger text-danger;
+	}
+
+	/* Modal Styles */
+	.csv-modal-title {
+		@apply m-0 text-xl font-semibold text-on-surface;
+	}
+
+	.csv-modal-body {
+		@apply flex flex-col gap-5;
+	}
+
+	.csv-instructions {
+		@apply m-0 text-on-surface/70 text-sm;
+	}
+
+	.csv-mapping-list {
+		@apply flex flex-col gap-6;
+	}
+
+	.csv-mapping-item {
+		@apply flex flex-col gap-3;
+	}
+
+	.csv-modal-footer {
+		@apply flex justify-end gap-3;
+	}
+
+	/* Preview Container */
+	.csv-preview-container {
+		@apply mt-6 p-5 rounded-ui;
+	}
+
+	.csv-field.is-soft .csv-preview-container {
+		&.is-primary {
+			@apply bg-on-primary/20;
+		}
+		&.is-secondary {
+			@apply bg-on-secondary/20;
+		}
+		&.is-muted {
+			@apply bg-muted/50;
+		}
+		&.is-success {
+			@apply bg-on-success/20;
+		}
+		&.is-info {
+			@apply bg-on-info/20;
+		}
+		&.is-danger {
+			@apply bg-on-danger/20;
+		}
+		&.is-warning {
+			@apply bg-on-warning/20;
+		}
+	}
+
+	.csv-field.is-soft.is-primary .csv-preview-container {
+		@apply bg-on-primary/20;
+	}
+	.csv-field.is-soft.is-secondary .csv-preview-container {
+		@apply bg-on-secondary/20;
+	}
+	.csv-field.is-soft.is-muted .csv-preview-container {
+		@apply bg-muted/50;
+	}
+	.csv-field.is-soft.is-success .csv-preview-container {
+		@apply bg-on-success/20;
+	}
+	.csv-field.is-soft.is-info .csv-preview-container {
+		@apply bg-on-info/20;
+	}
+	.csv-field.is-soft.is-danger .csv-preview-container {
+		@apply bg-on-danger/20;
+	}
+	.csv-field.is-soft.is-warning .csv-preview-container {
+		@apply bg-on-warning/20;
+	}
+
+	.csv-field.is-solid.is-primary .csv-preview-container {
+		@apply bg-primary/10;
+	}
+	.csv-field.is-solid.is-secondary .csv-preview-container {
+		@apply bg-secondary/10;
+	}
+	.csv-field.is-solid.is-muted .csv-preview-container {
+		@apply bg-on-muted/10;
+	}
+	.csv-field.is-solid.is-success .csv-preview-container {
+		@apply bg-success/10;
+	}
+	.csv-field.is-solid.is-info .csv-preview-container {
+		@apply bg-info/10;
+	}
+	.csv-field.is-solid.is-danger .csv-preview-container {
+		@apply bg-danger/10;
+	}
+	.csv-field.is-solid.is-warning .csv-preview-container {
+		@apply bg-warning/10;
+	}
+
+	.csv-field.is-outlined.is-primary .csv-preview-container {
+		@apply border border-primary/30;
+	}
+	.csv-field.is-outlined.is-secondary .csv-preview-container {
+		@apply border border-secondary/30;
+	}
+	.csv-field.is-outlined.is-muted .csv-preview-container {
+		@apply border border-muted;
+	}
+	.csv-field.is-outlined.is-success .csv-preview-container {
+		@apply border border-success/30;
+	}
+	.csv-field.is-outlined.is-info .csv-preview-container {
+		@apply border border-info/30;
+	}
+	.csv-field.is-outlined.is-danger .csv-preview-container {
+		@apply border border-danger/30;
+	}
+	.csv-field.is-outlined.is-warning .csv-preview-container {
+		@apply border border-warning/30;
+	}
+
+	.csv-field.is-ghost .csv-preview-container {
+		@apply bg-surface/50;
+	}
+
+	/* Preview Header */
+	.csv-preview-header {
+		@apply flex justify-between items-start mb-4 gap-4;
+	}
+
+	.csv-preview-info {
+		@apply flex-1 min-w-0;
+	}
+
+	.csv-preview-title {
+		@apply m-0 mb-3 text-base font-semibold text-on-surface;
+		@apply flex items-center gap-2;
+	}
+
+	.csv-preview-count {
+		@apply text-sm font-normal text-on-surface/60;
+	}
+
+	.csv-mapping-summary {
+		@apply flex flex-wrap gap-2;
+	}
+
+	.csv-clear-icon {
+		@apply text-lg leading-none;
+	}
+
+	/* Size Variants */
+	.csv-field.is-xs {
+		.csv-field-error {
+			@apply text-xs p-2;
+		}
+		.csv-preview-container {
+			@apply p-3 mt-4;
+		}
+		.csv-preview-title {
+			@apply text-sm;
+		}
+	}
+
+	.csv-field.is-sm {
+		.csv-field-error {
+			@apply text-xs p-2;
+		}
+		.csv-preview-container {
+			@apply p-4 mt-4;
+		}
+		.csv-preview-title {
+			@apply text-sm;
+		}
+	}
+
+	.csv-field.is-md {
+		.csv-field-error {
+			@apply text-sm p-2.5;
+		}
+		.csv-preview-container {
+			@apply p-5 mt-6;
+		}
+		.csv-preview-title {
+			@apply text-base;
+		}
+	}
+
+	.csv-field.is-lg {
+		.csv-field-error {
+			@apply text-base p-3;
+		}
+		.csv-preview-container {
+			@apply p-6 mt-8;
+		}
+		.csv-preview-title {
+			@apply text-lg;
+		}
+	}
+}

@@ -1,0 +1,367 @@
+@layer components {
+	.editor {
+		@apply relative flex flex-col w-full outline-0 ring-0;
+		@apply transition-all duration-300 ease-in-out;
+	}
+
+	.editor-label {
+		@apply absolute left-3 top-3 pr-6 text-left truncate z-10;
+		@apply transition-all duration-300;
+	}
+
+	.editor-label.is-active {
+		@apply text-xs left-3 top-1 translate-y-px;
+	}
+
+	.editor.is-sm {
+		@apply text-sm;
+
+		.editor-toolbar {
+			@apply p-1 gap-1;
+		}
+
+		.editor-toolbar-btn {
+			@apply size-6;
+		}
+
+		.editor-content {
+			@apply p-2 text-sm;
+		}
+	}
+
+	.editor.is-md {
+		@apply text-base;
+
+		.editor-toolbar {
+			@apply p-1.5 gap-1.5;
+		}
+
+		.editor-toolbar-btn {
+			@apply size-7;
+		}
+
+		.editor-content {
+			@apply p-3 text-base;
+		}
+	}
+
+	.editor.is-lg {
+		@apply text-lg;
+
+		.editor-toolbar {
+			@apply p-2 gap-2;
+		}
+
+		.editor-toolbar-btn {
+			@apply size-8;
+		}
+
+		.editor-content {
+			@apply p-4 text-lg;
+		}
+
+		.editor-label.is-active {
+			@apply text-sm;
+		}
+	}
+
+	.editor.is-float {
+		.editor-content {
+			@apply pt-8;
+		}
+	}
+
+	.editor.is-soft {
+		@apply rounded-ui;
+
+		&.is-primary {
+			@apply bg-on-primary text-primary;
+			&.is-active {
+				@apply bg-on-primary/90;
+			}
+		}
+
+		&.is-secondary {
+			@apply bg-on-secondary text-secondary;
+			&.is-active {
+				@apply bg-on-secondary/90;
+			}
+		}
+
+		&.is-muted {
+			@apply bg-muted text-on-muted;
+			&.is-active {
+				@apply bg-muted/90;
+			}
+		}
+
+		&.is-success {
+			@apply bg-on-success text-success;
+			&.is-active {
+				@apply bg-on-success/90;
+			}
+		}
+
+		&.is-info {
+			@apply bg-on-info text-info;
+			&.is-active {
+				@apply bg-on-info/90;
+			}
+		}
+
+		&.is-danger {
+			@apply bg-on-danger text-danger;
+			&.is-active {
+				@apply bg-on-danger/90;
+			}
+		}
+
+		&.is-warning {
+			@apply bg-on-warning text-warning;
+			&.is-active {
+				@apply bg-on-warning/90;
+			}
+		}
+	}
+
+	.editor.is-solid {
+		@apply rounded-ui;
+
+		&.is-primary {
+			@apply bg-primary text-on-primary;
+			&.is-active {
+				@apply bg-primary/90;
+			}
+		}
+
+		&.is-secondary {
+			@apply bg-secondary text-on-secondary;
+			&.is-active {
+				@apply bg-secondary/90;
+			}
+		}
+
+		&.is-muted {
+			@apply bg-on-muted text-muted;
+			&.is-active {
+				@apply bg-on-muted/90;
+			}
+		}
+
+		&.is-success {
+			@apply bg-success text-on-success;
+			&.is-active {
+				@apply bg-success/90;
+			}
+		}
+
+		&.is-info {
+			@apply bg-info text-on-info;
+			&.is-active {
+				@apply bg-info/90;
+			}
+		}
+
+		&.is-danger {
+			@apply bg-danger text-on-danger;
+			&.is-active {
+				@apply bg-danger/90;
+			}
+		}
+
+		&.is-warning {
+			@apply bg-warning text-on-warning;
+			&.is-active {
+				@apply bg-warning/90;
+			}
+		}
+	}
+
+	.editor.is-outlined {
+		@apply rounded-ui inset-ring;
+
+		&.is-active {
+			@apply inset-ring-2;
+		}
+
+		&.is-primary {
+			@apply inset-ring-primary;
+		}
+		&.is-secondary {
+			@apply inset-ring-secondary;
+		}
+		&.is-muted {
+			@apply inset-ring-muted;
+		}
+		&.is-success {
+			@apply inset-ring-success;
+		}
+		&.is-info {
+			@apply inset-ring-info;
+		}
+		&.is-danger {
+			@apply inset-ring-danger;
+		}
+		&.is-warning {
+			@apply inset-ring-warning;
+		}
+	}
+
+	.editor.is-line {
+		@apply box-border border-b;
+
+		.editor-label {
+			@apply left-0;
+		}
+
+		&.is-active {
+			@apply border-b-2;
+		}
+
+		&.is-primary {
+			@apply border-primary text-primary;
+		}
+		&.is-secondary {
+			@apply border-secondary text-secondary;
+		}
+		&.is-muted {
+			@apply border-on-muted text-on-muted;
+		}
+		&.is-success {
+			@apply border-success text-success;
+		}
+		&.is-info {
+			@apply border-info text-info;
+		}
+		&.is-danger {
+			@apply border-danger text-danger;
+		}
+		&.is-warning {
+			@apply border-warning text-warning;
+		}
+
+		.editor-toolbar {
+			@apply px-0;
+		}
+
+		.editor-content {
+			@apply px-0;
+		}
+	}
+
+	.editor.is-disabled {
+		@apply opacity-50 cursor-not-allowed;
+
+		.editor-content {
+			@apply pointer-events-none;
+		}
+	}
+
+	.editor.is-readonly {
+		.editor-content {
+			@apply cursor-default;
+		}
+	}
+
+	.editor.is-error {
+		@apply inset-ring-danger;
+	}
+
+	.editor-toolbar {
+		@apply flex flex-wrap items-center border-b border-current/10;
+	}
+
+	.editor-toolbar-group {
+		@apply flex items-center gap-0.5;
+	}
+
+	.editor-toolbar-divider {
+		@apply w-px h-5 bg-current/20 mx-1;
+	}
+
+	.editor-toolbar-btn {
+		@apply flex items-center justify-center;
+		@apply rounded transition-all duration-200;
+		@apply hover:bg-current/10 active:scale-95;
+		@apply disabled:opacity-40 disabled:pointer-events-none;
+		@apply cursor-pointer;
+	}
+
+	.editor-toolbar-btn.is-active {
+		@apply bg-current/20;
+	}
+
+	.editor-toolbar-btn svg {
+		@apply size-4;
+	}
+
+	.editor-content-wrapper {
+		@apply relative flex-1;
+	}
+
+	.editor-placeholder {
+		@apply absolute top-0 left-0 right-0 p-3 pointer-events-none opacity-50;
+	}
+
+	.editor-content {
+		@apply w-full outline-none;
+		@apply overflow-y-auto;
+	}
+
+	.editor-content h1 {
+		@apply text-3xl font-bold mb-4;
+	}
+
+	.editor-content h2 {
+		@apply text-2xl font-bold mb-3;
+	}
+
+	.editor-content h3 {
+		@apply text-xl font-bold mb-2;
+	}
+
+	.editor-content p {
+		@apply mb-2;
+	}
+
+	.editor-content ul,
+	.editor-content ol {
+		@apply pl-6 mb-2;
+	}
+
+	.editor-content ul {
+		@apply list-disc;
+	}
+
+	.editor-content ol {
+		@apply list-decimal;
+	}
+
+	.editor-content li {
+		@apply mb-1;
+	}
+
+	.editor-content blockquote {
+		@apply border-l-4 border-current/30 pl-4 italic my-4 opacity-80;
+	}
+
+	.editor-content pre {
+		@apply bg-current/5 p-3 rounded font-mono text-sm overflow-x-auto my-4;
+	}
+
+	.editor-content code {
+		@apply bg-current/10 px-1.5 py-0.5 rounded font-mono text-sm;
+	}
+
+	.editor-content a {
+		@apply underline text-primary;
+	}
+
+	.editor-content img {
+		@apply max-w-full h-auto rounded my-4;
+	}
+
+	.editor-content hr {
+		@apply border-current/20 my-4;
+	}
+}

@@ -1,6 +1,6 @@
 @layer components {
 	.checkbox {
-		@apply relative flex justify-start items-center w-full gap-2 cursor-pointer flex-nowrap;
+		@apply relative flex justify-start items-center w-fit gap-2 cursor-pointer flex-nowrap;
 
 		.checkbox-input {
 			@apply relative appearance-none min-w-5 w-5 h-5 border-2 border-muted rounded-lg;

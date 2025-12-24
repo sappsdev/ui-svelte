@@ -1,7 +1,7 @@
 <script lang="ts">
+	import { ArrowUploadRegularIcon } from '$lib/icons/index.js';
 	import { Button, Modal, Select, TextField, Table, useTable, Chip } from '$lib/index.js';
-	import type { Snippet } from 'svelte';
-
+	import { cn } from '$lib/utils/class-names.js';
 	type Props = {
 		requiredColumns?: string[];
 		onMappingComplete?: (data: {
@@ -11,20 +11,11 @@
 			originalData: any[];
 		}) => void;
 		acceptMultipleFiles?: boolean;
-		variant?:
-			| 'primary'
-			| 'secondary'
-			| 'muted'
-			| 'success'
-			| 'info'
-			| 'danger'
-			| 'warning'
-			| 'outlined'
-			| 'ghost';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft' | 'outlined' | 'ghost';
 		size?: 'xs' | 'sm' | 'md' | 'lg';
 		class?: string;
 		buttonText?: string;
-		isSolid?: boolean;
 		showPreview?: boolean;
 		previewRows?: number;
 		previewPageSize?: number;
@@ -34,15 +25,39 @@
 		requiredColumns = [],
 		onMappingComplete = () => {},
 		acceptMultipleFiles = false,
-		variant = 'primary',
+		color = 'muted',
+		variant = 'soft',
 		size = 'md',
 		class: className,
-		buttonText = 'Seleccionar archivo CSV',
-		isSolid = false,
+		buttonText = 'Select CSV file',
 		showPreview = true,
 		previewRows = 5,
 		previewPageSize = 10
 	}: Props = $props();
+
+	const colors = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
+		outlined: 'is-outlined',
+		ghost: 'is-ghost'
+	};
+
+	const sizes = {
+		xs: 'is-xs',
+		sm: 'is-sm',
+		md: 'is-md',
+		lg: 'is-lg'
+	};
 
 	let fileInput = $state<HTMLInputElement | null>(null);
 	let selectedFile = $state<File | null>(null);
@@ -60,7 +75,7 @@
 		if (!file) return;
 
 		if (!file.name.endsWith('.csv')) {
-			parseError = 'Por favor selecciona un archivo CSV válido';
+			parseError = 'Please select a valid CSV file';
 			return;
 		}
 
@@ -78,7 +93,7 @@
 				const lines = text.split('\n').filter((line) => line.trim());
 
 				if (lines.length === 0) {
-					parseError = 'El archivo CSV está vacío';
+					parseError = 'The CSV file is empty';
 					return;
 				}
 
@@ -104,12 +119,12 @@
 
 				showModal = true;
 			} catch (error: any) {
-				parseError = 'Error al parsear el archivo CSV: ' + error.message;
+				parseError = 'Error parsing CSV file: ' + error.message;
 			}
 		};
 
 		reader.onerror = () => {
-			parseError = 'Error al leer el archivo';
+			parseError = 'Error reading file';
 		};
 
 		reader.readAsText(file);
@@ -119,7 +134,7 @@
 		const unmappedColumns = requiredColumns.filter((col) => !columnMapping[col]);
 
 		if (unmappedColumns.length > 0) {
-			parseError = `Por favor mapea las siguientes columnas: ${unmappedColumns.join(', ')}`;
+			parseError = `Please map the following columns: ${unmappedColumns.join(', ')}`;
 			return;
 		}
 
@@ -185,22 +200,26 @@
 				})
 			: null
 	);
+
+	const baseClasses = $derived(
+		cn('csv-field', colors[color], variants[variant], sizes[size], className)
+	);
 </script>
 
-<div class={className}>
+<div class={baseClasses}>
 	<input
 		type="file"
 		accept=".csv"
 		bind:this={fileInput}
 		onchange={handleFileSelect}
-		style="display: none;"
+		class="csv-field-input"
 	/>
 
 	<Button
+		{color}
 		{variant}
 		{size}
-		{isSolid}
-		startIcon="fluent:document-arrow-up-24-regular"
+		startIcon={ArrowUploadRegularIcon}
 		onclick={() => fileInput?.click()}
 	>
 		{selectedFile ? selectedFile.name : buttonText}
@@ -217,27 +236,27 @@
 			<div class="csv-preview-header">
 				<div class="csv-preview-info">
 					<h4 class="csv-preview-title">
-						Datos Importados
-						<span class="csv-preview-count">({mappedData.length} registros)</span>
+						Imported Data
+						<span class="csv-preview-count">({mappedData.length} records)</span>
 					</h4>
 					<div class="csv-mapping-summary">
 						{#each Object.entries(columnMapping) as [required, csv], index}
 							{#if index < 3}
-								<Chip size="sm" variant="muted">
+								<Chip size="sm" {color} variant="soft">
 									{required} → {csv}
 								</Chip>
 							{/if}
 						{/each}
 						{#if Object.entries(columnMapping).length > 3}
-							<Chip size="sm" variant="muted">
-								+{Object.entries(columnMapping).length - 3} más
+							<Chip size="sm" {color} variant="soft">
+								+{Object.entries(columnMapping).length - 3} more
 							</Chip>
 						{/if}
 					</div>
 				</div>
-				<Button variant="ghost" size="sm" onclick={clearImport}>
+				<Button {color} variant="ghost" size="sm" onclick={clearImport}>
 					<span class="csv-clear-icon">✕</span>
-					Limpiar
+					Clear
 				</Button>
 			</div>
 
@@ -246,14 +265,14 @@
 	{/if}
 </div>
 
-<Modal bind:open={showModal} onclose={closeModal} variant="surface" closeOnOverlay>
+<Modal bind:open={showModal} onclose={closeModal} color="surface">
 	{#snippet header()}
-		<h2 class="csv-modal-title">Mapear Columnas del CSV</h2>
+		<h2 class="csv-modal-title">Map CSV Columns</h2>
 	{/snippet}
 
 	<div class="csv-modal-body">
 		<p class="csv-instructions">
-			Asocia cada columna requerida con la columna correspondiente del archivo CSV:
+			Map each required column to the corresponding column from the CSV file:
 		</p>
 
 		<div class="csv-mapping-list">
@@ -263,7 +282,7 @@
 						label={requiredCol}
 						options={selectOptions}
 						bind:value={columnMapping[requiredCol]}
-						placeholder="-- Seleccionar columna --"
+						placeholder="-- Select column --"
 						variant="outlined"
 						size="md"
 						isFloatLabel
@@ -272,8 +291,9 @@
 					{#if columnMapping[requiredCol]}
 						<TextField
 							value={getPreviewData(requiredCol)}
-							label="Vista previa"
-							variant="muted"
+							label="Preview"
+							variant="soft"
+							color="muted"
 							size="sm"
 							isFloatLabel
 							islabelActive
@@ -286,104 +306,10 @@
 
 	{#snippet footer()}
 		<div class="csv-modal-footer">
-			<Button variant="ghost" size="md" onclick={closeModal}>Cancelar</Button>
-			<Button variant="primary" size="md" isSolid onclick={confirmMapping}>Confirmar mapeo</Button>
+			<Button color="muted" variant="ghost" size="md" onclick={closeModal}>Cancel</Button>
+			<Button color="primary" variant="solid" size="md" onclick={confirmMapping}
+				>Confirm mapping</Button
+			>
 		</div>
 	{/snippet}
 </Modal>
-
-<style>
-	.csv-field-error {
-		margin-top: 0.625rem;
-		padding: 0.625rem;
-		background: rgb(254 226 226);
-		color: rgb(220 38 38);
-		border-radius: 0.375rem;
-		font-size: 0.875rem;
-	}
-
-	.csv-modal-title {
-		margin: 0;
-		font-size: 1.25rem;
-		font-weight: 600;
-		color: rgb(17 24 39);
-	}
-
-	.csv-modal-body {
-		display: flex;
-		flex-direction: column;
-		gap: 1.25rem;
-	}
-
-	.csv-instructions {
-		margin: 0;
-		color: rgb(107 114 128);
-		font-size: 0.875rem;
-	}
-
-	.csv-mapping-list {
-		display: flex;
-		flex-direction: column;
-		gap: 1.5rem;
-	}
-
-	.csv-mapping-item {
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
-	}
-
-	.csv-modal-footer {
-		display: flex;
-		justify-content: flex-end;
-		gap: 0.75rem;
-	}
-
-	.csv-preview-container {
-		margin-top: 1.5rem;
-		padding: 1.25rem;
-		background: rgb(249 250 251);
-		border: 1px solid rgb(229 231 235);
-		border-radius: 0.75rem;
-	}
-
-	.csv-preview-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-start;
-		margin-bottom: 1rem;
-		gap: 1rem;
-	}
-
-	.csv-preview-info {
-		flex: 1;
-		min-width: 0;
-	}
-
-	.csv-preview-title {
-		margin: 0 0 0.75rem 0;
-		font-size: 1rem;
-		font-weight: 600;
-		color: rgb(17 24 39);
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.csv-preview-count {
-		font-size: 0.875rem;
-		font-weight: 400;
-		color: rgb(107 114 128);
-	}
-
-	.csv-mapping-summary {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-	}
-
-	.csv-clear-icon {
-		font-size: 1.125rem;
-		line-height: 1;
-	}
-</style>

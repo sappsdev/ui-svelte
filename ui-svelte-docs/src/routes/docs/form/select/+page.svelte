@@ -145,7 +145,7 @@
 
 <Section>
 	<Card headerClass="grid-2 md:grid-4 gap-2">
-		<div class="grid-2 md:grid-4 gap-2">
+		<div class="wrap gap-2">
 			<Select
 				isFloatLabel
 				rootClass="max-w-xs"
@@ -171,7 +171,7 @@
 				bind:value={size}
 			/>
 		</div>
-		<div class="grid-2 md:grid-4 gap-2">
+		<div class="wrap gap-2">
 			<Checkbox bind:checked={hasLabel} label="Label" />
 			<Checkbox bind:checked={isFloatLabel} label="Float Label" />
 			<Checkbox bind:checked={isSolid} label="Solid" />
@@ -191,6 +191,7 @@
 				label={hasLabel ? 'Label' : undefined}
 				helpText={hasHelpText ? 'This is help text' : undefined}
 				errorText={hasErrorText ? 'This is an error' : undefined}
+				rootClass="w-48"
 			/>
 		</div>
 		<Code lang="svelte" code={code()} />
@@ -208,7 +209,6 @@
 						color={colorItem.id as any}
 						options={demoOptions}
 						placeholder={item.label + ' ' + colorItem.label}
-						rootClass="w-48"
 					/>
 				{/each}
 			</div>

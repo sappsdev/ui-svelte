@@ -7,6 +7,7 @@ import PieChart from '$lib/charts/PieChart.svelte';
 
 import Audio from '$lib/control/Audio.svelte';
 import Button from '$lib/control/Button.svelte';
+import Image from '$lib/control/Image.svelte';
 import IconButton from '$lib/control/IconButton.svelte';
 import Record from '$lib/control/Record.svelte';
 import ToggleTheme from '$lib/control/ToggleTheme.svelte';
@@ -33,13 +34,16 @@ import Section from '$lib/display/Section.svelte';
 import Table from '$lib/display/Table.svelte';
 
 import Checkbox from '$lib/form/Checkbox.svelte';
+import ColorField from '$lib/form/ColorField.svelte';
 import ComboBox from '$lib/form/ComboBox.svelte';
 import CsvField from '$lib/form/CsvField.svelte';
 import DateField from '$lib/form/DateField.svelte';
+import DragDrop, { type DragDropItem, type DragDropGroup } from '$lib/form/DragDrop.svelte';
 import Dropzone from '$lib/form/Dropzone.svelte';
+import Editor from '$lib/form/Editor.svelte';
 import ImageCropper from '$lib/form/ImageCropper.svelte';
 import TextField from '$lib/form/TextField.svelte';
-import PasswordStrength from '$lib/form/PasswordStrength.svelte';
+import PasswordField from '$lib/form/PasswordField.svelte';
 import PinField from '$lib/form/PinField.svelte';
 import RadioGroup from '$lib/form/RadioGroup.svelte';
 import PhoneField from '$lib/form/PhoneField.svelte';
@@ -120,6 +124,7 @@ export {
 	Checkbox,
 	Chip,
 	Code,
+	ColorField,
 	Collapsible,
 	Command,
 	ComboBox,
@@ -128,7 +133,9 @@ export {
 	Drawer,
 	Dropzone,
 	Divider,
+	DragDrop,
 	Dropdown,
+	Editor,
 	Empty,
 	Footer,
 	FooterNav,
@@ -140,6 +147,7 @@ export {
 	i18n,
 	Icon,
 	IconButton,
+	Image,
 	ImageCropper,
 	Item,
 	initLanguage,
@@ -147,7 +155,7 @@ export {
 	Marquee,
 	NavMenu,
 	Pagination,
-	PasswordStrength,
+	PasswordField,
 	PhoneField,
 	PinField,
 	plural,
@@ -187,4 +195,4 @@ export {
 	Video
 };
 
-export type { IconData, SideNavItem, SideNavSubItem };
+export type { IconData, SideNavItem, SideNavSubItem, DragDropItem, DragDropGroup };

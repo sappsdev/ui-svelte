@@ -1,13 +1,28 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
+
 	type Props = {
 		type?: 'playlist' | 'result' | 'data' | 'template';
 		class?: string;
 		title?: string;
 		description?: string;
 		href?: string;
+		target?: '_self' | '_blank' | '_parent' | '_top';
 		onclick?: () => void;
+		action?: Snippet;
 	};
-	let { type = 'template', class: className, title, description }: Props = $props();
+	let {
+		type = 'template',
+		class: className,
+		title,
+		description,
+		href,
+		target,
+		onclick,
+		action
+	}: Props = $props();
+
+	const isClickable = $derived(!!href || !!onclick);
 </script>
 
 <div class="empty">
@@ -458,11 +473,30 @@
 	{#if title || description}
 		<div class="column center">
 			{#if title}
-				<h6>{title}</h6>
+				<h6 class="feature-title">{title}</h6>
 			{/if}
 			{#if description}
-				<p>{description}</p>
+				<p class="feature-description">{description}</p>
 			{/if}
 		</div>
+	{/if}
+	{#if isClickable}
+		{#if href}
+			<a {href} {target} class="empty-action">
+				{#if action}
+					{@render action()}
+				{:else}
+					Ver más
+				{/if}
+			</a>
+		{:else}
+			<button type="button" class="empty-action" {onclick}>
+				{#if action}
+					{@render action()}
+				{:else}
+					Ver más
+				{/if}
+			</button>
+		{/if}
 	{/if}
 </div>

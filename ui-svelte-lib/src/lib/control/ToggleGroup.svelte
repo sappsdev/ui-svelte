@@ -13,7 +13,8 @@
 		items: ToggleGroupItem[];
 		value?: string;
 		onchange?: (value: string) => void;
-		variant?: 'default' | 'primary' | 'secondary' | 'outlined';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft' | 'outlined' | 'ghost';
 		size?: 'xs' | 'sm' | 'md' | 'lg';
 		class?: string;
 		isWide?: boolean;
@@ -25,7 +26,8 @@
 		items,
 		value = $bindable(items[0]?.id ?? ''),
 		onchange,
-		variant = 'default',
+		color = 'muted',
+		variant = 'soft',
 		size = 'md',
 		class: className,
 		isWide,
@@ -33,14 +35,24 @@
 		isDisabled
 	}: Props = $props();
 
-	const variantClasses: Record<string, string> = {
-		default: '',
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
-		outlined: 'is-outlined'
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning'
 	};
 
-	const sizeClasses: Record<string, string> = {
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
+		outlined: 'is-outlined',
+		ghost: 'is-ghost'
+	};
+
+	const sizes = {
 		xs: 'is-xs',
 		sm: 'is-sm',
 		md: 'is-md',
@@ -50,7 +62,8 @@
 	let groupClasses = $derived(
 		cn(
 			'toggle-group',
-			variantClasses[variant],
+			variants[variant],
+			colors[color],
 			isWide && 'is-wide',
 			isVertical && 'is-vertical',
 			className
@@ -68,7 +81,7 @@
 	{#each items as item}
 		<button
 			type="button"
-			class={cn('toggle-group-item', sizeClasses[size], value === item.id && 'is-active')}
+			class={cn('toggle-group-item', sizes[size], value === item.id && 'is-active')}
 			onclick={() => handleClick(item.id)}
 			disabled={isDisabled}
 			aria-pressed={value === item.id}

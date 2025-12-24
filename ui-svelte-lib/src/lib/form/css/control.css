@@ -1,5 +1,4 @@
 @layer components {
-
 	.control {
 		@apply relative flex items-center justify-between w-full gap-2 px-3 outline-0 ring-0;
 		@apply transition-all duration-300 ease-in-out;
@@ -61,37 +60,51 @@
 
 		&.is-primary {
 			@apply bg-on-primary text-primary;
-			&.is-active { @apply bg-on-primary/90; }
+			&.is-active {
+				@apply bg-on-primary/90;
+			}
 		}
 
 		&.is-secondary {
 			@apply bg-on-secondary text-secondary;
-			&.is-active { @apply bg-on-secondary/90; }
+			&.is-active {
+				@apply bg-on-secondary/90;
+			}
 		}
 
 		&.is-muted {
 			@apply bg-muted text-on-muted;
-			&.is-active { @apply bg-muted/90; }
+			&.is-active {
+				@apply bg-muted/90;
+			}
 		}
 
 		&.is-success {
 			@apply bg-on-success text-success;
-			&.is-active { @apply bg-on-success/90; }
+			&.is-active {
+				@apply bg-on-success/90;
+			}
 		}
 
 		&.is-info {
 			@apply bg-on-info text-info;
-			&.is-active { @apply bg-on-info/90; }
+			&.is-active {
+				@apply bg-on-info/90;
+			}
 		}
 
 		&.is-danger {
 			@apply bg-on-danger text-danger;
-			&.is-active { @apply bg-on-danger/90; }
+			&.is-active {
+				@apply bg-on-danger/90;
+			}
 		}
 
 		&.is-warning {
 			@apply bg-on-warning text-warning;
-			&.is-active { @apply bg-on-warning/90; }
+			&.is-active {
+				@apply bg-on-warning/90;
+			}
 		}
 	}
 
@@ -100,37 +113,51 @@
 
 		&.is-primary {
 			@apply bg-primary text-on-primary;
-			&.is-active { @apply bg-primary/90; }
+			&.is-active {
+				@apply bg-primary/90;
+			}
 		}
 
 		&.is-secondary {
 			@apply bg-secondary text-on-secondary;
-			&.is-active { @apply bg-secondary/90; }
+			&.is-active {
+				@apply bg-secondary/90;
+			}
 		}
 
 		&.is-muted {
 			@apply bg-on-muted text-muted;
-			&.is-active { @apply bg-on-muted/90; }
+			&.is-active {
+				@apply bg-on-muted/90;
+			}
 		}
 
 		&.is-success {
 			@apply bg-success text-on-success;
-			&.is-active { @apply bg-success/90; }
+			&.is-active {
+				@apply bg-success/90;
+			}
 		}
 
 		&.is-info {
 			@apply bg-info text-on-info;
-			&.is-active { @apply bg-info/90; }
+			&.is-active {
+				@apply bg-info/90;
+			}
 		}
 
 		&.is-danger {
 			@apply bg-danger text-on-danger;
-			&.is-active { @apply bg-danger/90; }
+			&.is-active {
+				@apply bg-danger/90;
+			}
 		}
 
 		&.is-warning {
 			@apply bg-warning text-on-warning;
-			&.is-active { @apply bg-warning/90; }
+			&.is-active {
+				@apply bg-warning/90;
+			}
 		}
 	}
 
@@ -141,13 +168,27 @@
 			@apply inset-ring-2;
 		}
 
-		&.is-primary { @apply inset-ring-primary; }
-		&.is-secondary { @apply inset-ring-secondary; }
-		&.is-muted { @apply inset-ring-muted; }
-		&.is-success { @apply inset-ring-success; }
-		&.is-info { @apply inset-ring-info; }
-		&.is-danger { @apply inset-ring-danger; }
-		&.is-warning { @apply inset-ring-warning; }
+		&.is-primary {
+			@apply inset-ring-primary;
+		}
+		&.is-secondary {
+			@apply inset-ring-secondary;
+		}
+		&.is-muted {
+			@apply inset-ring-muted;
+		}
+		&.is-success {
+			@apply inset-ring-success;
+		}
+		&.is-info {
+			@apply inset-ring-info;
+		}
+		&.is-danger {
+			@apply inset-ring-danger;
+		}
+		&.is-warning {
+			@apply inset-ring-warning;
+		}
 	}
 
 	.control.is-line {
@@ -161,13 +202,27 @@
 			@apply border-b-2;
 		}
 
-		&.is-primary { @apply border-primary text-primary; }
-		&.is-secondary { @apply border-secondary text-secondary; }
-		&.is-muted { @apply border-on-muted text-on-muted; }
-		&.is-success { @apply border-success text-success; }
-		&.is-info { @apply border-info text-info; }
-		&.is-danger { @apply border-danger text-danger; }
-		&.is-warning { @apply border-warning text-warning; }
+		&.is-primary {
+			@apply border-primary text-primary;
+		}
+		&.is-secondary {
+			@apply border-secondary text-secondary;
+		}
+		&.is-muted {
+			@apply border-on-muted text-on-muted;
+		}
+		&.is-success {
+			@apply border-success text-success;
+		}
+		&.is-info {
+			@apply border-info text-info;
+		}
+		&.is-danger {
+			@apply border-danger text-danger;
+		}
+		&.is-warning {
+			@apply border-warning text-warning;
+		}
 	}
 
 	.control-btn {
@@ -187,13 +242,21 @@
 	}
 
 	.control-selected {
-		@apply flex-1 text-left truncate;
+		@apply flex-1 text-left truncate w-full;
+	}
+
+	.control-pin {
+		@apply appearance-none border-none outline-none truncate text-center w-6;
+		@apply placeholder:transition-opacity placeholder:duration-300;
 	}
 
 	.control-input {
 		@apply appearance-none flex-1 border-none outline-none truncate;
 		@apply placeholder:transition-opacity placeholder:duration-300;
+	}
 
+	.control-input,
+	.control-pin {
 		&::-webkit-outer-spin-button,
 		&::-webkit-inner-spin-button {
 			-webkit-appearance: none;

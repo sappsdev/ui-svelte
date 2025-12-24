@@ -1,6 +1,6 @@
 @layer components {
 	.select-popover {
-		@apply max-h-56 flex flex-col gap-2 p-2 my-1 overflow-hidden;
+		@apply max-h-56 flex flex-col gap-2 p-2 my-1 overflow-hidden w-full;
 		@apply bg-background text-on-background rounded-box;
 		@apply invisible opacity-0 transition-opacity duration-300 ease-in-out;
 		@apply shadow shadow-muted;

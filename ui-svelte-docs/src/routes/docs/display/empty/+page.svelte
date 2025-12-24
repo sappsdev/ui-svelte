@@ -1,10 +1,7 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { Select, Checkbox, Empty } from 'ui-svelte';
+	import { Empty, Card, Checkbox, Code, Section, Select, TextField } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
 	const typeOptions = [
 		{ id: 'playlist', label: 'Playlist' },
@@ -13,38 +10,47 @@
 		{ id: 'template', label: 'Template' }
 	];
 
-	// Selects
-	let type: any = $state('result');
+	const targetOptions = [
+		{ id: '', label: 'Default' },
+		{ id: '_self', label: '_self' },
+		{ id: '_blank', label: '_blank' },
+		{ id: '_parent', label: '_parent' },
+		{ id: '_top', label: '_top' }
+	];
 
-	// Props
+	let type: any = $state('template');
+	let target: any = $state('');
+
 	let title = $state('');
 	let description = $state('');
 	let href = $state('');
 
-	// States
 	let withTitle = $state(false);
 	let withDescription = $state(false);
 	let withHref = $state(false);
 	let withOnclick = $state(false);
 
-	let hasProps = $derived([type !== 'result', title, description, href, withOnclick].some(Boolean));
+	let hasProps = $derived(
+		[type !== 'template', title, description, href, withOnclick, target].some(Boolean)
+	);
 
 	let code = $derived(() => {
 		const scriptLines = [
 			`<script lang="ts">`,
 			`\timport { Empty } from 'ui-svelte';`,
 			withOnclick && `\n\tfunction handleClick() {`,
-			withOnclick && `\t\tconsole.log('Empty state clicked');`,
+			withOnclick && `\t\tconsole.log('Empty action clicked');`,
 			withOnclick && `\t}`,
 			`<\/script>`
 		].filter(Boolean);
 
 		const componentLines = [
 			hasProps && `<Empty`,
-			type !== 'result' && `\ttype="${type}"`,
+			type !== 'template' && `\ttype="${type}"`,
 			title && `\ttitle="${title}"`,
 			description && `\tdescription="${description}"`,
 			href && `\thref="${href}"`,
+			target && `\ttarget="${target}"`,
 			withOnclick && `\tonclick={handleClick}`,
 			hasProps && `/>`,
 			!hasProps && `<Empty />`
@@ -54,76 +60,163 @@
 	});
 
 	const props = [
-		{ prop: 'type', type: 'playlist | result | data | template', initial: 'result' },
+		{ prop: 'type', type: 'playlist | result | data | template', initial: 'template' },
 		{ prop: 'class', type: 'string', initial: '' },
 		{ prop: 'title', type: 'string', initial: '' },
 		{ prop: 'description', type: 'string', initial: '' },
 		{ prop: 'href', type: 'string', initial: '' },
-		{ prop: 'onclick', type: '() => void', initial: '' }
+		{ prop: 'target', type: '_self | _blank | _parent | _top', initial: '' },
+		{ prop: 'onclick', type: '() => void', initial: '' },
+		{ prop: 'action', type: 'Snippet', initial: '' }
 	];
 
 	function handleClick() {
-		alert('Empty state clicked!');
+		alert('Empty action clicked!');
 	}
 </script>
 
-{#snippet preview()}
-	<Empty
-		{type}
-		title={title || undefined}
-		description={description || undefined}
-		href={href || undefined}
-		onclick={withOnclick ? handleClick : undefined}
-	/>
-{/snippet}
-
-{#snippet builder()}
-	<Select label="Type" size="sm" options={typeOptions} bind:value={type} />
-
-	<DocOptions title="Content">
-		<Checkbox onchange={(v) => (v ? (title = 'No items found') : (title = ''))} label="title" />
-		<Checkbox
-			onchange={(v) =>
-				v ? (description = 'Try adjusting your search or filters') : (description = '')}
-			label="description"
-		/>
-	</DocOptions>
-
-	<DocOptions title="Actions">
-		<Checkbox
-			onchange={(v) => {
-				if (v) {
-					href = '/create';
-					withHref = true;
-				} else {
-					href = '';
-					withHref = false;
-				}
-			}}
-			label="href"
-		/>
-		<Checkbox bind:checked={withOnclick} label="onclick" />
-	</DocOptions>
-{/snippet}
-
-<DocHeader title="Empty">
+<DocsHeader title="Empty" llmUrl="https://ui-svelte.sappsdev.com/llm/display/empty.md">
 	Empty state components display a message when there's no content to show, guiding users on what to
 	do next.
-</DocHeader>
+</DocsHeader>
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Type"
+				size="sm"
+				options={typeOptions}
+				bind:value={type}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Target"
+				size="sm"
+				options={targetOptions}
+				bind:value={target}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox
+				bind:checked={withTitle}
+				onchange={(v) => (v ? (title = 'No items found') : (title = ''))}
+				label="title"
+			/>
+			<Checkbox
+				bind:checked={withDescription}
+				onchange={(v) =>
+					v ? (description = 'Try adjusting your search or filters') : (description = '')}
+				label="description"
+			/>
+			<Checkbox
+				bind:checked={withHref}
+				onchange={(v) => {
+					if (v) {
+						href = '/create';
+					} else {
+						href = '';
+						target = '';
+					}
+				}}
+				label="href"
+			/>
+			<Checkbox bind:checked={withOnclick} label="onclick" />
+		</div>
 
-<DocCode code={code()} />
+		<div class="doc-preview">
+			<Empty
+				{type}
+				title={title || undefined}
+				description={description || undefined}
+				href={href || undefined}
+				target={target || undefined}
+				onclick={withOnclick ? handleClick : undefined}
+			/>
+		</div>
+		<Code lang="svelte" code={code()} />
+	</Card>
+</Section>
 
-<DocProps {props} />
+<Section>
+	<p class="section-subtitle">Types</p>
+	<Card>
+		<div class="grid-2 md:grid-4 gap-4">
+			{#each typeOptions as item}
+				<div class="column center gap-2">
+					<Empty type={item.id as any} />
+					<p class="caption-md">{item.label}</p>
+				</div>
+			{/each}
+		</div>
+	</Card>
+</Section>
 
-<div class="prose mt-8">
-	<h3>Usage</h3>
-	<p>
-		The Empty component is used to communicate empty states in your application. It can display
-		different visual styles based on the type prop, and can include optional actions through either
-		a link (href) or a click handler (onclick).
-	</p>
-</div>
+<Section>
+	<p class="section-subtitle">With Content</p>
+	<Card>
+		<div class="grid-2 gap-4">
+			<Empty type="result" title="No results found" />
+			<Empty type="data" description="Start by creating your first item" />
+			<Empty
+				type="playlist"
+				title="Your playlist is empty"
+				description="Add songs to get started"
+			/>
+			<Empty
+				type="template"
+				title="No templates yet"
+				description="Create or import a template to begin"
+			/>
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">With Actions</p>
+	<Card>
+		<div class="grid-2 gap-4">
+			<Empty
+				type="data"
+				title="No data available"
+				description="Click below to create your first entry"
+				href="/create"
+			/>
+			<Empty
+				type="result"
+				title="No results found"
+				description="Try a different search term"
+				onclick={() => alert('Search clicked!')}
+			/>
+			<Empty
+				type="template"
+				title="No templates"
+				description="Import a template to get started"
+				href="https://example.com"
+				target="_blank"
+			>
+				{#snippet action()}
+					Browse Templates
+				{/snippet}
+			</Empty>
+			<Empty
+				type="playlist"
+				title="Empty playlist"
+				description="Add your favorite songs"
+				onclick={() => alert('Add songs clicked!')}
+			>
+				{#snippet action()}
+					Add Songs
+				{/snippet}
+			</Empty>
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
+</Section>

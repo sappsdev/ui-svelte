@@ -14,4 +14,8 @@
 	.field-help.is-danger {
 		@apply text-danger;
 	}
+
+	.field-pin-wrapper {
+		@apply flex gap-2 w-fit;
+	}
 }

@@ -5,9 +5,9 @@
 		length?: number;
 		values?: string[];
 		class?: string;
-		variant?: 'solid' | 'outlined' | 'soft' | 'line';
-		color?: 'primary' | 'secondary' | 'muted';
-		inputSize?: 'small' | 'medium' | 'large';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft' | 'outlined' | 'line';
+		size?: 'sm' | 'md' | 'lg';
 		type?: 'text' | 'password' | 'number';
 		name?: string;
 		label?: string;
@@ -18,35 +18,41 @@
 
 	let {
 		class: className,
-		variant = 'soft',
-		color = 'primary',
-		inputSize = 'medium',
+		variant = 'outlined',
+		color = 'muted',
+		size = 'md',
 		label,
 		name,
 		type = 'text',
 		helpText,
 		errorText,
 		length = 6,
+		// svelte-ignore state_referenced_locally
 		values = Array.from({ length }).map(() => ''),
 		oncomplete
 	}: Props = $props();
 
-	const variants = {
-		solid: 'field-solid',
-		outlined: 'field-outlined',
-		soft: 'field-soft',
-		line: 'field-line'
-	};
 	const colors = {
-		primary: 'field-primary',
-		secondary: 'field-secondary',
-		muted: 'field-muted'
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning'
 	};
 
-	const sizes = {
-		small: 'field-small',
-		medium: 'field-medium',
-		large: 'field-large'
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
+		outlined: 'is-outlined',
+		line: 'is-line'
+	};
+
+	const sizeClasses = {
+		sm: 'is-sm',
+		md: 'is-md',
+		lg: 'is-lg'
 	};
 
 	const uid = $props.id();
@@ -63,7 +69,7 @@
 		values = [...values];
 
 		if (index < length - 1 && target.value) {
-			const nextInput = document.getElementById(`input-${index + 1}`) as HTMLInputElement;
+			const nextInput = document.getElementById(`${uid}-${name}-${index + 1}`) as HTMLInputElement;
 			if (nextInput) {
 				nextInput.focus();
 			}
@@ -72,7 +78,7 @@
 
 	const handleKeydown = (event: KeyboardEvent, index: number) => {
 		if (event.key === 'Backspace' && index > 0 && !values[index]) {
-			const prevInput = document.getElementById(`input-${index - 1}`) as HTMLInputElement;
+			const prevInput = document.getElementById(`${uid}-${name}-${index - 1}`) as HTMLInputElement;
 			if (prevInput) {
 				prevInput.focus();
 			}
@@ -87,7 +93,7 @@
 		let lastUpdatedIndex = 0;
 		pasteValues.forEach((char, i) => {
 			values[i] = char;
-			const input = document.getElementById(`input-${i}`) as HTMLInputElement;
+			const input = document.getElementById(`${uid}-${name}-${i}`) as HTMLInputElement;
 			if (input) {
 				input.value = char;
 			}
@@ -95,7 +101,9 @@
 		});
 		values = [...values];
 
-		const lastInput = document.getElementById(`input-${lastUpdatedIndex}`) as HTMLInputElement;
+		const lastInput = document.getElementById(
+			`${uid}-${name}-${lastUpdatedIndex}`
+		) as HTMLInputElement;
 		if (lastInput) {
 			lastInput.focus();
 		}
@@ -112,25 +120,25 @@
 <div class={cn('field', className)}>
 	<input type="hidden" {name} value={values.join('')} />
 	{#if label}
-		<label for={`${uid}-{name}`} class="label">{label}</label>
+		<span class="field-label">{label}</span>
 	{/if}
-	<div class="pin-wrapper">
+	<div class="field-pin-wrapper">
 		{#each Array.from({ length }) as _, i}
-			<div
-				class={cn('field-control', variants[variant], colors[color], sizes[inputSize])}
-				class:is-error={errorText}
+			<label
+				class={cn('control', colors[color], variants[variant], sizeClasses[size])}
+				for={`${uid}-${name}-${i}`}
 			>
 				<input
 					{type}
-					id={`input-${i}`}
-					class="field-pin"
+					id={`${uid}-${name}-${i}`}
+					class="control-pin"
 					maxlength="1"
 					oninput={(e) => handleInput(e, i)}
 					onkeydown={(e) => handleKeydown(e, i)}
 					onpaste={handlePaste}
 					bind:value={values[i]}
 				/>
-			</div>
+			</label>
 		{/each}
 	</div>
 	{#if errorText || helpText}

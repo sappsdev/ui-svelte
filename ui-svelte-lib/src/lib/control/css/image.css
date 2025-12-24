@@ -1,0 +1,56 @@
+@layer components {
+	.image {
+		@apply relative overflow-hidden rounded-box;
+	}
+
+	.image.horizontal {
+		@apply aspect-video;
+	}
+	.image.vertical {
+		@apply aspect-9/16;
+	}
+	.image.square {
+		@apply aspect-square;
+	}
+	.image.auto {
+		@apply aspect-auto;
+	}
+
+	.image.fit-cover .image-element {
+		@apply object-cover;
+	}
+	.image.fit-contain .image-element {
+		@apply object-contain;
+	}
+	.image.fit-fill .image-element {
+		@apply object-fill;
+	}
+	.image.fit-none .image-element {
+		@apply object-none;
+	}
+
+	.image-element {
+		@apply h-full w-full;
+	}
+
+	.image-skeleton {
+		@apply absolute inset-0 animate-pulse bg-muted/20;
+	}
+	.image-error {
+		@apply absolute inset-0 flex items-center justify-center bg-muted/10 text-on-muted text-sm;
+	}
+
+	.image-controls {
+		@apply absolute inset-x-0 bottom-0 z-20 flex flex-col p-2 transition-opacity duration-200;
+	}
+	.image-controls.visible {
+		@apply opacity-100;
+	}
+	.image-controls.invisible {
+		@apply opacity-0;
+	}
+
+	.image-actions {
+		@apply flex justify-end items-center gap-2;
+	}
+}

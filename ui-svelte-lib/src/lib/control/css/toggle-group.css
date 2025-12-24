@@ -1,85 +1,270 @@
 @layer components {
-    .toggle-group {
-        @apply flex w-fit rounded-ui bg-muted p-1;
-    }
+	.toggle-group {
+		@apply flex w-fit rounded-ui p-1;
+	}
 
-    .toggle-group.is-vertical {
-        @apply flex-col;
-    }
+	.toggle-group.is-vertical {
+		@apply flex-col;
+	}
 
-    .toggle-group-item {
-        @apply relative flex items-center justify-center flex-nowrap;
-        @apply font-medium whitespace-nowrap;
-        @apply rounded-ui outline-none;
-        @apply cursor-pointer select-none;
-        @apply transition-all duration-300;
-        @apply disabled:cursor-not-allowed disabled:opacity-50;
-    }
+	.toggle-group-item {
+		@apply relative flex items-center justify-center flex-nowrap;
+		@apply font-medium whitespace-nowrap;
+		@apply rounded-ui outline-none;
+		@apply cursor-pointer select-none;
+		@apply transition-all duration-300;
+		@apply disabled:cursor-not-allowed disabled:opacity-50;
+	}
 
-    .toggle-group-item.is-xs {
-        @apply h-6 gap-2 px-2 text-xs;
+	.toggle-group-item.is-xs {
+		@apply h-6 gap-2 px-2 text-xs;
 
-        .icon {
-            @apply h-4 w-auto;
-        }
-    }
+		.icon {
+			@apply h-4 w-auto;
+		}
+	}
 
-    .toggle-group-item.is-sm {
-        @apply h-8 gap-2 px-2 text-xs;
+	.toggle-group-item.is-sm {
+		@apply h-8 gap-2 px-2 text-xs;
 
-        .icon {
-            @apply h-4 w-auto;
-        }
-    }
+		.icon {
+			@apply h-4 w-auto;
+		}
+	}
 
-    .toggle-group-item.is-md {
-        @apply h-10 gap-3 px-3 text-sm;
+	.toggle-group-item.is-md {
+		@apply h-10 gap-3 px-3 text-sm;
 
-        .icon {
-            @apply h-5 w-auto;
-        }
-    }
+		.icon {
+			@apply h-5 w-auto;
+		}
+	}
 
-    .toggle-group-item.is-lg {
-        @apply h-12 gap-3 px-4 text-lg;
+	.toggle-group-item.is-lg {
+		@apply h-12 gap-3 px-4 text-lg;
 
-        .icon {
-            @apply h-6 w-auto;
-        }
-    }
+		.icon {
+			@apply h-6 w-auto;
+		}
+	}
 
-    .toggle-group-item.is-active {
-        @apply bg-background text-on-background shadow-sm;
-    }
+	.toggle-group.is-wide {
+		@apply w-full;
+	}
 
-    .toggle-group-item:not(.is-active) {
-        @apply text-on-muted hover:text-on-background;
-    }
+	.toggle-group.is-wide .toggle-group-item {
+		@apply flex-1;
+	}
 
-    .toggle-group.is-wide {
-        @apply w-full;
-    }
+	/* ===================== */
+	/* Soft Variant (default) */
+	/* ===================== */
 
-    .toggle-group.is-wide .toggle-group-item {
-        @apply flex-1;
-    }
+	.toggle-group.is-soft {
+		@apply bg-muted;
+	}
 
-    /* Primary variant */
-    .toggle-group.is-primary .toggle-group-item.is-active {
-        @apply bg-primary text-on-primary;
-    }
+	.toggle-group.is-soft .toggle-group-item:not(.is-active) {
+		@apply text-on-muted hover:text-on-background;
+	}
 
-    /* Secondary variant */
-    .toggle-group.is-secondary .toggle-group-item.is-active {
-        @apply bg-secondary text-on-secondary;
-    }
+	.toggle-group.is-soft .toggle-group-item.is-active {
+		@apply bg-background text-on-background shadow-sm;
+	}
 
-    /* Outlined variant */
-    .toggle-group.is-outlined {
-        @apply bg-transparent inset-ring inset-ring-muted;
-    }
+	.toggle-group.is-soft.is-primary .toggle-group-item.is-active {
+		@apply bg-primary text-on-primary;
+	}
 
-    .toggle-group.is-outlined .toggle-group-item.is-active {
-        @apply bg-muted text-on-muted;
-    }
+	.toggle-group.is-soft.is-secondary .toggle-group-item.is-active {
+		@apply bg-secondary text-on-secondary;
+	}
+
+	.toggle-group.is-soft.is-muted .toggle-group-item.is-active {
+		@apply bg-background text-on-background;
+	}
+
+	.toggle-group.is-soft.is-success .toggle-group-item.is-active {
+		@apply bg-success text-on-success;
+	}
+
+	.toggle-group.is-soft.is-info .toggle-group-item.is-active {
+		@apply bg-info text-on-info;
+	}
+
+	.toggle-group.is-soft.is-warning .toggle-group-item.is-active {
+		@apply bg-warning text-on-warning;
+	}
+
+	.toggle-group.is-soft.is-danger .toggle-group-item.is-active {
+		@apply bg-danger text-on-danger;
+	}
+
+	/* ===================== */
+	/* Solid Variant */
+	/* ===================== */
+
+	.toggle-group.is-solid.is-primary {
+		@apply bg-on-primary;
+	}
+
+	.toggle-group.is-solid.is-primary .toggle-group-item:not(.is-active) {
+		@apply text-primary hover:text-primary/80;
+	}
+
+	.toggle-group.is-solid.is-primary .toggle-group-item.is-active {
+		@apply bg-primary text-on-primary;
+	}
+
+	.toggle-group.is-solid.is-secondary {
+		@apply bg-on-secondary;
+	}
+
+	.toggle-group.is-solid.is-secondary .toggle-group-item:not(.is-active) {
+		@apply text-secondary hover:text-secondary/80;
+	}
+
+	.toggle-group.is-solid.is-secondary .toggle-group-item.is-active {
+		@apply bg-secondary text-on-secondary;
+	}
+
+	.toggle-group.is-solid.is-muted {
+		@apply bg-muted;
+	}
+
+	.toggle-group.is-solid.is-muted .toggle-group-item:not(.is-active) {
+		@apply text-on-muted hover:text-on-background;
+	}
+
+	.toggle-group.is-solid.is-muted .toggle-group-item.is-active {
+		@apply bg-on-muted text-muted;
+	}
+
+	.toggle-group.is-solid.is-success {
+		@apply bg-on-success;
+	}
+
+	.toggle-group.is-solid.is-success .toggle-group-item:not(.is-active) {
+		@apply text-success hover:text-success/80;
+	}
+
+	.toggle-group.is-solid.is-success .toggle-group-item.is-active {
+		@apply bg-success text-on-success;
+	}
+
+	.toggle-group.is-solid.is-info {
+		@apply bg-on-info;
+	}
+
+	.toggle-group.is-solid.is-info .toggle-group-item:not(.is-active) {
+		@apply text-info hover:text-info/80;
+	}
+
+	.toggle-group.is-solid.is-info .toggle-group-item.is-active {
+		@apply bg-info text-on-info;
+	}
+
+	.toggle-group.is-solid.is-warning {
+		@apply bg-on-warning;
+	}
+
+	.toggle-group.is-solid.is-warning .toggle-group-item:not(.is-active) {
+		@apply text-warning hover:text-warning/80;
+	}
+
+	.toggle-group.is-solid.is-warning .toggle-group-item.is-active {
+		@apply bg-warning text-on-warning;
+	}
+
+	.toggle-group.is-solid.is-danger {
+		@apply bg-on-danger;
+	}
+
+	.toggle-group.is-solid.is-danger .toggle-group-item:not(.is-active) {
+		@apply text-danger hover:text-danger/80;
+	}
+
+	.toggle-group.is-solid.is-danger .toggle-group-item.is-active {
+		@apply bg-danger text-on-danger;
+	}
+
+	/* ===================== */
+	/* Outlined Variant */
+	/* ===================== */
+
+	.toggle-group.is-outlined {
+		@apply bg-transparent inset-ring inset-ring-muted;
+	}
+
+	.toggle-group.is-outlined .toggle-group-item:not(.is-active) {
+		@apply text-on-muted hover:text-on-background;
+	}
+
+	.toggle-group.is-outlined.is-primary .toggle-group-item.is-active {
+		@apply bg-primary text-on-primary;
+	}
+
+	.toggle-group.is-outlined.is-secondary .toggle-group-item.is-active {
+		@apply bg-secondary text-on-secondary;
+	}
+
+	.toggle-group.is-outlined.is-muted .toggle-group-item.is-active {
+		@apply bg-muted text-on-muted;
+	}
+
+	.toggle-group.is-outlined.is-success .toggle-group-item.is-active {
+		@apply bg-success text-on-success;
+	}
+
+	.toggle-group.is-outlined.is-info .toggle-group-item.is-active {
+		@apply bg-info text-on-info;
+	}
+
+	.toggle-group.is-outlined.is-warning .toggle-group-item.is-active {
+		@apply bg-warning text-on-warning;
+	}
+
+	.toggle-group.is-outlined.is-danger .toggle-group-item.is-active {
+		@apply bg-danger text-on-danger;
+	}
+
+	/* ===================== */
+	/* Ghost Variant */
+	/* ===================== */
+
+	.toggle-group.is-ghost {
+		@apply bg-transparent p-0;
+	}
+
+	.toggle-group.is-ghost .toggle-group-item:not(.is-active) {
+		@apply text-on-muted hover:text-on-background;
+	}
+
+	.toggle-group.is-ghost.is-primary .toggle-group-item.is-active {
+		@apply bg-on-primary text-primary;
+	}
+
+	.toggle-group.is-ghost.is-secondary .toggle-group-item.is-active {
+		@apply bg-on-secondary text-secondary;
+	}
+
+	.toggle-group.is-ghost.is-muted .toggle-group-item.is-active {
+		@apply bg-muted text-on-muted;
+	}
+
+	.toggle-group.is-ghost.is-success .toggle-group-item.is-active {
+		@apply bg-on-success text-success;
+	}
+
+	.toggle-group.is-ghost.is-info .toggle-group-item.is-active {
+		@apply bg-on-info text-info;
+	}
+
+	.toggle-group.is-ghost.is-warning .toggle-group-item.is-active {
+		@apply bg-on-warning text-warning;
+	}
+
+	.toggle-group.is-ghost.is-danger .toggle-group-item.is-active {
+		@apply bg-on-danger text-danger;
+	}
 }
