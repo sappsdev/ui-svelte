@@ -19,12 +19,10 @@
 	const menuItems = [
 		{
 			label: 'Home',
-			icon: 'fluent:home-24-regular',
 			href: '/'
 		},
 		{
 			label: 'Docs',
-			icon: 'fluent:info-24-regular',
 			href: '/docs'
 		}
 	];
@@ -117,7 +115,7 @@
 					onclick={() => (openMenu = true)}
 				/>
 				<a href="/">
-					<h4>UiSvelte</h4>
+					<h4 class="heading-lg">UiSvelte</h4>
 				</a>
 			{/snippet}
 			{#snippet center()}

@@ -5,7 +5,7 @@
 	import { fade } from 'svelte/transition';
 	import { afterNavigate } from '$app/navigation';
 	import { Dismiss24RegularIcon } from '$lib/icons/index.js';
-	import { Icon, IconButton } from '$lib/index.js';
+	import { IconButton } from '$lib/index.js';
 
 	type Props = {
 		open: boolean;
@@ -18,10 +18,19 @@
 		headerClass?: string;
 		footerClass?: string;
 		bodyClass?: string;
-		variant?: 'ghost' | 'surface' | 'primary' | 'secondary' | 'muted';
+		color?:
+			| 'primary'
+			| 'secondary'
+			| 'muted'
+			| 'success'
+			| 'info'
+			| 'warning'
+			| 'danger'
+			| 'surface'
+			| 'default';
+		variant?: 'solid' | 'soft';
 		disableOverlayClose?: boolean;
 		hideCloseButton?: boolean;
-		isSolid?: boolean;
 	};
 
 	let {
@@ -35,10 +44,10 @@
 		headerClass,
 		bodyClass,
 		footerClass,
-		variant = 'ghost',
+		color = 'default',
+		variant = 'solid',
 		disableOverlayClose,
-		hideCloseButton,
-		isSolid
+		hideCloseButton
 	}: Props = $props();
 
 	const positionClasses = {
@@ -48,12 +57,33 @@
 		bottom: 'is-bottom'
 	};
 
-	const variants = {
-		ghost: 'is-ghost',
-		surface: 'is-surface',
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
-		muted: 'is-muted'
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning',
+		surface: 'is-surface',
+		default: 'is-default'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft'
+	};
+
+	const closeColors = {
+		primary: 'primary',
+		secondary: 'secondary',
+		muted: 'muted',
+		success: 'success',
+		info: 'info',
+		warning: 'warning',
+		danger: 'danger',
+		surface: 'muted',
+		default: 'muted'
 	};
 
 	let openDrawer = $state(false);
@@ -95,13 +125,7 @@
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div class="drawer-overlay" onclick={handleOverlayClick}></div>
 		<div
-			class={cn(
-				'drawer',
-				positionClasses[position],
-				variants[variant],
-				isSolid && 'is-solid',
-				className
-			)}
+			class={cn('drawer', positionClasses[position], variants[variant], colors[color], className)}
 			class:is-active={openContent}
 		>
 			{#if header}
@@ -118,10 +142,11 @@
 				</div>
 			{/if}
 			{#if !hideCloseButton}
-				<div class="btn-close">
+				<div class="drawer-btn-close">
 					<IconButton
 						icon={Dismiss24RegularIcon}
-						variant="ghost"
+						variant={variant === 'solid' ? 'soft' : 'solid'}
+						color={closeColors[color] as any}
 						size="xs"
 						onclick={() => (open = false)}
 					/>

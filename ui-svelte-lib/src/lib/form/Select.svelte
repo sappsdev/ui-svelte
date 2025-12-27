@@ -93,14 +93,6 @@
 		lg: 'is-lg'
 	};
 
-	const itemVariants = {
-		primary: 'primary',
-		secondary: 'secondary',
-		muted: 'muted',
-		outlined: 'primary',
-		line: 'primary'
-	} as const;
-
 	const avatarSizes: any = {
 		sm: 'xs',
 		md: 'sm',

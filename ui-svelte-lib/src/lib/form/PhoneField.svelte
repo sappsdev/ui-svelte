@@ -12,7 +12,8 @@
 		dialCode?: string;
 		placeholder?: string;
 		onchange?: (value: string) => void;
-		variant?: 'primary' | 'secondary' | 'muted' | 'outlined' | 'line';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft' | 'outlined' | 'line';
 		size?: 'sm' | 'md' | 'lg';
 		name?: string;
 		dialCodeName?: string;
@@ -37,6 +38,7 @@
 		placeholder = 'Enter phone number',
 		onchange,
 		variant = 'outlined',
+		color = 'muted',
 		size = 'md',
 		name,
 		dialCodeName = 'dialCode',
@@ -52,10 +54,19 @@
 		loadingText = 'Loading...'
 	}: Props = $props();
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
 		outlined: 'is-outlined',
 		line: 'is-line'
 	};
@@ -66,11 +77,11 @@
 		lg: 'is-lg'
 	};
 
-	const avatarSizes = {
+	const avatarSizes: any = {
 		sm: 'xs',
 		md: 'sm',
 		lg: 'md'
-	} as const;
+	};
 
 	let displayedCountries = $state<Country[]>([]);
 	let allSortedCountries = $state<Country[]>([]);
@@ -371,7 +382,8 @@
 		bind:this={controlElement}
 		class={cn(
 			'control',
-			variantClasses[variant],
+			colors[color],
+			variants[variant],
 			sizeClasses[size],
 			isFloatLabel && 'is-float',
 			isSolid && 'is-solid',
@@ -433,7 +445,7 @@
 	{/if}
 
 	<div class:is-active={isOpen} class="combo-box-popover" bind:this={contentEl} {style}>
-		<div class={cn('combo-box-search', variantClasses[variant])}>
+		<div class={cn('combo-box-search', variants[variant])}>
 			<Icon icon={Search24RegularIcon} class="combo-box-search-icon" />
 			<input
 				bind:this={searchInputEl}
@@ -459,7 +471,7 @@
 							onclick={() => handleSelect(item)}
 							isActive={countryCode === item.id}
 							isFocused={focusedIndex === index}
-							variant="primary"
+							{color}
 							size="sm"
 							isCompact
 						/>

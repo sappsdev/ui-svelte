@@ -5,7 +5,7 @@
 
 	.dropzone-input {
 		@apply flex justify-center items-center border-2 border-dashed h-48 w-full;
-		@apply border-muted p-6 transition-all rounded-box cursor-pointer;
+		@apply p-6 transition-all rounded-box cursor-pointer;
 	}
 
 	.dropzone-input.is-active {
@@ -20,44 +20,163 @@
 		@apply border-danger;
 	}
 
-	.dropzone-input.is-primary {
-		@apply bg-on-primary border-primary;
+	.dropzone-input.is-soft {
+		&.is-primary {
+			@apply bg-on-primary text-primary border-primary;
+		}
+		&.is-secondary {
+			@apply bg-on-secondary text-secondary border-secondary;
+		}
+		&.is-muted {
+			@apply bg-muted text-on-muted border-muted;
+		}
+		&.is-success {
+			@apply bg-on-success text-success border-success;
+		}
+		&.is-info {
+			@apply bg-on-info text-info border-info;
+		}
+		&.is-warning {
+			@apply bg-on-warning text-warning border-warning;
+		}
+		&.is-danger {
+			@apply bg-on-danger text-danger border-danger;
+		}
+		&.is-default {
+			@apply bg-background text-on-background border-muted;
+		}
+		&.is-surface {
+			@apply bg-surface text-on-surface border-muted;
+		}
 	}
 
-	.dropzone-input.is-solid.is-primary {
-		@apply bg-primary border-primary;
-	}
-
-	.dropzone-input.is-secondary {
-		@apply bg-on-secondary border-secondary;
-	}
-
-	.dropzone-input.is-solid.is-secondary {
-		@apply bg-secondary border-secondary;
-	}
-
-	.dropzone-input.is-muted {
-		@apply bg-muted border-muted;
-	}
-
-	.dropzone-input.is-solid.is-muted {
-		@apply bg-on-muted border-on-muted;
+	.dropzone-input.is-solid {
+		&.is-primary {
+			@apply bg-primary text-on-primary border-primary;
+		}
+		&.is-secondary {
+			@apply bg-secondary text-on-secondary border-secondary;
+		}
+		&.is-muted {
+			@apply bg-on-muted text-muted border-on-muted;
+		}
+		&.is-success {
+			@apply bg-success text-on-success border-success;
+		}
+		&.is-info {
+			@apply bg-info text-on-info border-info;
+		}
+		&.is-warning {
+			@apply bg-warning text-on-warning border-warning;
+		}
+		&.is-danger {
+			@apply bg-danger text-on-danger border-danger;
+		}
+		&.is-default {
+			@apply bg-background text-on-background border-on-background;
+		}
+		&.is-surface {
+			@apply bg-surface text-on-surface border-on-surface;
+		}
 	}
 
 	.dropzone-input.is-outlined {
-		@apply border-muted;
+		@apply bg-transparent;
+
+		&.is-primary {
+			@apply border-primary text-primary;
+		}
+		&.is-secondary {
+			@apply border-secondary text-secondary;
+		}
+		&.is-muted {
+			@apply border-on-muted text-on-muted;
+		}
+		&.is-success {
+			@apply border-success text-success;
+		}
+		&.is-info {
+			@apply border-info text-info;
+		}
+		&.is-warning {
+			@apply border-warning text-warning;
+		}
+		&.is-danger {
+			@apply border-danger text-danger;
+		}
+		&.is-default {
+			@apply border-muted text-on-background;
+		}
+		&.is-surface {
+			@apply border-on-surface text-on-surface;
+		}
 	}
 
-	.dropzone-input.is-outlined.is-active {
-		@apply border-primary;
+	.dropzone-input.is-ghost {
+		@apply bg-transparent border-transparent;
+
+		&.is-primary {
+			@apply text-primary;
+		}
+		&.is-secondary {
+			@apply text-secondary;
+		}
+		&.is-muted {
+			@apply text-on-muted;
+		}
+		&.is-success {
+			@apply text-success;
+		}
+		&.is-info {
+			@apply text-info;
+		}
+		&.is-warning {
+			@apply text-warning;
+		}
+		&.is-danger {
+			@apply text-danger;
+		}
+		&.is-default {
+			@apply text-on-background;
+		}
+		&.is-surface {
+			@apply text-on-surface;
+		}
+
+		&:hover,
+		&.is-active {
+			@apply bg-muted/20;
+		}
 	}
 
-	.dropzone-input.is-line {
-		@apply border-0 border-b-2 border-muted rounded-none;
-	}
-
-	.dropzone-input.is-line.is-active {
-		@apply border-primary;
+	.dropzone-input.is-active {
+		&.is-primary {
+			@apply border-primary bg-primary/10;
+		}
+		&.is-secondary {
+			@apply border-secondary bg-secondary/10;
+		}
+		&.is-muted {
+			@apply border-on-muted bg-muted/10;
+		}
+		&.is-success {
+			@apply border-success bg-success/10;
+		}
+		&.is-info {
+			@apply border-info bg-info/10;
+		}
+		&.is-warning {
+			@apply border-warning bg-warning/10;
+		}
+		&.is-danger {
+			@apply border-danger bg-danger/10;
+		}
+		&.is-default {
+			@apply border-primary bg-primary/5;
+		}
+		&.is-surface {
+			@apply border-primary bg-primary/5;
+		}
 	}
 
 	.dropzone-input.is-sm {

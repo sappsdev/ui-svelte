@@ -16,15 +16,8 @@
 		rootClass?: string;
 		chat: ChatState;
 		currentUserId: string;
-		variant?:
-			| 'primary'
-			| 'secondary'
-			| 'success'
-			| 'info'
-			| 'warning'
-			| 'danger'
-			| 'muted'
-			| 'outlined';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
+		variant?: 'solid' | 'soft' | 'outlined';
 		userName: string;
 		userAvatar?: string;
 		userStatus?: string;
@@ -38,7 +31,8 @@
 		rootClass,
 		chat,
 		currentUserId,
-		variant = 'primary',
+		color = 'primary',
+		variant = 'solid',
 		userName,
 		userAvatar,
 		userStatus = 'Online',
@@ -47,6 +41,22 @@
 		onFileAttach,
 		onCameraCapture
 	}: Props = $props();
+
+	const colors = {
+		primary: 'is-primary',
+		secondary: 'is-secondary',
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
+		outlined: 'is-outlined'
+	};
 
 	let messageInput = $state('');
 	let messagesContainer: HTMLDivElement;
@@ -124,8 +134,7 @@
 	});
 </script>
 
-<div class={cn('chatbox', `chatbox-${variant}`, rootClass)}>
-	<!-- Header -->
+<div class={cn('chatbox', colors[color], variants[variant], rootClass)}>
 	<div class="chatbox-header">
 		<div class="chatbox-header-start">
 			<Avatar src={userAvatar} alt={userName} size="sm" />
@@ -138,17 +147,16 @@
 			{#if headerActions}
 				{@render headerActions()}
 			{:else}
-				<Button size="sm" variant="ghost">
+				<Button size="sm" {color} variant="ghost">
 					<Icon icon={Search24RegularIcon} />
 				</Button>
-				<Button size="sm" variant="ghost">
+				<Button size="sm" {color} variant="ghost">
 					<Icon icon={MoreVertical24RegularIcon} />
 				</Button>
 			{/if}
 		</div>
 	</div>
 
-	<!-- Messages -->
 	<div class="chatbox-messages" bind:this={messagesContainer}>
 		{#if chat.hasMore}
 			<button class="load-more-btn" onclick={() => chat.loadMore()} disabled={chat.isLoading}>
@@ -164,10 +172,7 @@
 						<!-- svelte-ignore a11y_img_redundant_alt -->
 						<img src={message.metadata?.fileUrl} alt="Shared image" class="message-image" />
 					{:else if message.type === ('voice' as any)}
-						<Audio
-							src={message.metadata?.fileUrl || ''}
-							variant={isOwn ? variant : ('muted' as any)}
-						/>
+						<Audio src={message.metadata?.fileUrl || ''} color={isOwn ? color : 'muted'} />
 					{:else if message.type === 'file'}
 						<div class="message-file">
 							<span class="message-file-icon">📎</span>
@@ -196,14 +201,12 @@
 		{/each}
 	</div>
 
-	<!-- Recording Overlay -->
 	{#if isRecording}
 		<div class="chatbox-record-overlay">
-			<Record name="voice-note" {variant} onRecordingComplete={handleRecordingComplete} />
+			<Record name="voice-note" {color} onRecordingComplete={handleRecordingComplete} />
 		</div>
 	{/if}
 
-	<!-- Footer -->
 	<div class="chatbox-footer">
 		<label class="chatbox-input-wrapper">
 			<label class="flex-1">
@@ -217,10 +220,10 @@
 			</label>
 
 			<div class="chatbox-input-actions">
-				<Button size="sm" variant="ghost" onclick={toggleRecording}>
+				<Button size="sm" {color} variant="ghost" onclick={toggleRecording}>
 					<Icon icon={Microphone2LinearIcon} />
 				</Button>
-				<Button size="sm" variant="ghost" onclick={() => fileInput.click()}>
+				<Button size="sm" {color} variant="ghost" onclick={() => fileInput.click()}>
 					<Icon icon={Attach24RegularIcon} />
 				</Button>
 				<input
@@ -230,7 +233,7 @@
 					style="display: none"
 				/>
 				{#if onCameraCapture}
-					<Button size="sm" variant="ghost" onclick={onCameraCapture}>
+					<Button size="sm" {color} variant="ghost" onclick={onCameraCapture}>
 						<Icon icon={Camera24RegularIcon} />
 					</Button>
 				{/if}
@@ -238,7 +241,8 @@
 
 			<Button
 				size="sm"
-				{variant}
+				{color}
+				variant={variant === 'outlined' ? 'outlined' : 'solid'}
 				onclick={handleSend}
 				isDisabled={chat.isSending || !messageInput.trim()}
 			>

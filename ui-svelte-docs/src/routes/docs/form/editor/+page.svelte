@@ -31,15 +31,14 @@
 	let size: any = $state('md');
 
 	let editorValue = $state(
-		'<p>Este es un <strong>editor de texto enriquecido</strong> con soporte para <em>formato</em>, <u>subrayado</u>, listas y más.</p>'
+		'<p>This is a <strong>rich text editor</strong> with support for <em>formatting</em>, <u>underline</u>, lists and more.</p>'
 	);
-	let placeholder = $state('Escribe aquí...');
-	let label = $state('Contenido');
+	let placeholder = $state('Write here...');
+	let label = $state('Content');
 	let helpText = $state('');
 	let errorText = $state('');
 	let minHeight = $state('200px');
 
-	let isFloatLabel = $state(false);
 	let isDisabled = $state(false);
 	let isReadonly = $state(false);
 	let hideToolbar = $state(false);
@@ -49,7 +48,6 @@
 			color !== 'muted',
 			variant !== 'outlined',
 			size !== 'md',
-			isFloatLabel,
 			isDisabled,
 			isReadonly,
 			hideToolbar,
@@ -76,7 +74,6 @@
 			size !== 'md' && `\tsize="${size}"`,
 			placeholder && `\tplaceholder="${placeholder}"`,
 			label && `\tlabel="${label}"`,
-			isFloatLabel && `\tisFloatLabel`,
 			helpText && `\thelpText="${helpText}"`,
 			errorText && `\terrorText="${errorText}"`,
 			minHeight !== '200px' && `\tminHeight="${minHeight}"`,
@@ -84,7 +81,7 @@
 			isReadonly && `\tisReadonly`,
 			hideToolbar && `\thideToolbar`,
 			hasProps && `/>`,
-			!hasProps && `<Editor bind:value={content} placeholder="Escribe aquí..." />`
+			!hasProps && `<Editor bind:value={content} placeholder="Write here..." />`
 		].filter(Boolean);
 
 		return [...scriptLines, ...componentLines].join('\n');
@@ -110,13 +107,18 @@
 		},
 		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
 		{ prop: 'label', type: 'string', initial: '' },
-		{ prop: 'isFloatLabel', type: 'boolean', initial: 'false' },
 		{ prop: 'helpText', type: 'string', initial: '' },
 		{ prop: 'errorText', type: 'string', initial: '' },
 		{ prop: 'minHeight', type: 'string', initial: '200px' },
 		{ prop: 'isDisabled', type: 'boolean', initial: 'false' },
 		{ prop: 'isReadonly', type: 'boolean', initial: 'false' },
 		{ prop: 'hideToolbar', type: 'boolean', initial: 'false' },
+		{
+			prop: 'labels',
+			type: 'EditorLabels',
+			initial: '{}',
+			description: 'Custom labels for i18n support'
+		},
 		{ prop: 'onchange', type: '(value: string) => void', initial: '' },
 		{ prop: 'oninput', type: '(value: string) => void', initial: '' },
 		{ prop: 'class', type: 'string', initial: '' },
@@ -166,7 +168,6 @@
 		</div>
 		<div class="grid-2 md:grid-4 gap-2">
 			<TextField isFloatLabel rootClass="max-w-xs" label="Label" size="sm" bind:value={label} />
-			<Checkbox bind:checked={isFloatLabel} label="Float Label" />
 			<Checkbox bind:checked={isDisabled} label="Disabled" />
 			<Checkbox bind:checked={isReadonly} label="Readonly" />
 			<Checkbox bind:checked={hideToolbar} label="Hide Toolbar" />
@@ -180,7 +181,6 @@
 				{size}
 				{placeholder}
 				{label}
-				{isFloatLabel}
 				{helpText}
 				{errorText}
 				{minHeight}
@@ -222,28 +222,6 @@
 </Section>
 
 <Section>
-	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
-		{#each variantOptions as item}
-			<div class="mb-8">
-				<p class="text-sm font-semibold mb-2 opacity-60">{item.label}</p>
-				<div class="grid md:grid-2 gap-4">
-					{#each colorOptions.slice(0, 4) as colorItem}
-						<Editor
-							variant={item.id as any}
-							color={colorItem.id as any}
-							placeholder={`${item.label} ${colorItem.label}`}
-							minHeight="100px"
-							hideToolbar
-						/>
-					{/each}
-				</div>
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
 	<p class="section-subtitle">Sizes</p>
 	<Card>
 		<div class="stack gap-6">
@@ -257,10 +235,46 @@
 <Section>
 	<p class="section-subtitle">With Label</p>
 	<Card>
-		<div class="grid md:grid-2 gap-4">
-			<Editor label="Standard Label" placeholder="Content..." minHeight="100px" />
-			<Editor label="Float Label" isFloatLabel placeholder="Content..." minHeight="100px" />
-		</div>
+		<Editor label="Content" placeholder="Write your content here..." minHeight="100px" />
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Internacionalización (i18n)</p>
+	<Card>
+		<p class="mb-4 opacity-70">
+			Usa la prop <code>labels</code> para personalizar todos los tooltips y prompts de la barra de herramientas:
+		</p>
+		<Code
+			lang="svelte"
+			code={`<Editor
+  labels={{
+    bold: 'Negrita (Ctrl+B)',
+    italic: 'Cursiva (Ctrl+I)',
+    underline: 'Subrayado (Ctrl+U)',
+    strikethrough: 'Tachado',
+    alignLeft: 'Alinear izquierda',
+    alignCenter: 'Alinear centro',
+    alignRight: 'Alinear derecha',
+    justify: 'Justificar',
+    orderedList: 'Lista ordenada',
+    unorderedList: 'Lista desordenada',
+    heading1: 'Encabezado 1',
+    heading2: 'Encabezado 2',
+    heading3: 'Encabezado 3',
+    insertLink: 'Insertar enlace',
+    insertImage: 'Insertar imagen',
+    quote: 'Cita',
+    code: 'Código',
+    horizontalRule: 'Línea horizontal',
+    undo: 'Deshacer (Ctrl+Z)',
+    redo: 'Rehacer (Ctrl+Shift+Z)',
+    clearFormatting: 'Limpiar formato',
+    linkPrompt: 'Ingresa la URL del enlace:',
+    imagePrompt: 'Ingresa la URL de la imagen:'
+  }}
+/>`}
+		/>
 	</Card>
 </Section>
 
@@ -329,18 +343,3 @@
 	<p class="section-subtitle">Props</p>
 	<DocsProps {props} />
 </Section>
-
-<style>
-	.kbd {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0.25rem 0.5rem;
-		font-size: 0.75rem;
-		font-family: monospace;
-		border-radius: 0.25rem;
-		background-color: var(--muted);
-		color: var(--on-muted);
-		border: 1px solid var(--on-muted);
-	}
-</style>

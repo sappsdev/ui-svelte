@@ -37,6 +37,10 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/starter/llm'
 			},
 			{
+				label: 'Provider',
+				href: '/docs/starter/provider'
+			},
+			{
 				label: 'Typography',
 				href: '/docs/starter/typography'
 			},

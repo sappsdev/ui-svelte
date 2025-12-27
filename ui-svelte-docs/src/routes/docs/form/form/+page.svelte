@@ -1,10 +1,8 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { TextField, Button, Checkbox, Select, useForm } from 'ui-svelte';
+	import { Button, Card, Checkbox, Code, Section, Select, TextField } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
+	import { useForm } from 'ui-svelte';
 
 	const exampleOptions = [
 		{ id: 'basic', label: 'Basic Form' },
@@ -13,7 +11,7 @@
 		{ id: 'edit', label: 'Create/Edit Mode' }
 	];
 
-	let exampleMode: string = $state('basic');
+	let exampleMode: any = $state('basic');
 	let showValidation = $state(true);
 	let showTransform = $state(false);
 	let showCallbacks = $state(false);
@@ -96,11 +94,10 @@
 
 	let form = $derived(useForm(formConfig));
 
-	let code = $derived.by(() => {
+	let code = $derived(() => {
 		const scriptLines = [
 			`<script lang="ts">`,
-			`\timport { useForm } from 'ui-svelte';`,
-			`\timport { TextField, Button } from 'ui-svelte';`,
+			`\timport { useForm, TextField, Button } from 'ui-svelte';`,
 			``
 		];
 
@@ -126,7 +123,7 @@
 					`\t\t\t],`,
 					`\t\t\tpassword: [`,
 					`\t\t\t\t{ rule: 'required', message: 'Password is required' },`,
-					`\t\t\t\t{ rule: 'min:8', message: 'Password must be at least 8 characters' }`,
+					`\t\t\t\t{ rule: 'min:8', message: 'Min 8 characters' }`,
 					`\t\t\t]`
 				);
 			} else if (exampleMode === 'register') {
@@ -137,12 +134,12 @@
 					`\t\t\t],`,
 					`\t\t\tpassword: [`,
 					`\t\t\t\t{ rule: 'required', message: 'Password is required' },`,
-					`\t\t\t\t{ rule: 'min:8', message: 'Password must be at least 8 characters' },`,
-					`\t\t\t\t{ rule: 'strongPassword', message: 'Password must be strong' }`,
+					`\t\t\t\t{ rule: 'min:8', message: 'Min 8 characters' },`,
+					`\t\t\t\t{ rule: 'strongPassword', message: 'Must be strong' }`,
 					`\t\t\t],`,
 					`\t\t\tconfirmPassword: [`,
-					`\t\t\t\t{ rule: 'required', message: 'Please confirm your password' },`,
-					`\t\t\t\t{ rule: 'matches:password', message: 'Passwords do not match' }`,
+					`\t\t\t\t{ rule: 'required', message: 'Confirm password' },`,
+					`\t\t\t\t{ rule: 'matches:password', message: 'Must match' }`,
 					`\t\t\t]`
 				);
 			} else {
@@ -160,29 +157,18 @@
 
 		if (exampleMode === 'edit' || isEditing) {
 			scriptLines.push(
-				`\t\turl: isEditing ? \`https://api.example.com/users/\${userId}\` : 'https://api.example.com/users',`,
+				`\t\turl: isEditing ? \`/api/users/\${userId}\` : '/api/users',`,
 				`\t\tmethod: isEditing ? 'PUT' : 'POST'`
 			);
 		} else {
 			scriptLines.push(
-				`\t\turl: 'https://api.example.com/${exampleMode === 'login' ? 'login' : exampleMode === 'register' ? 'register' : 'users'}',`,
+				`\t\turl: '/api/${exampleMode === 'login' ? 'login' : exampleMode === 'register' ? 'register' : 'users'}',`,
 				`\t\tmethod: 'POST'`
 			);
 		}
 
 		if (showToast) {
 			scriptLines.push(`,\t\tshowToast: true`);
-		}
-
-		if (exampleMode === 'edit' || isEditing) {
-			scriptLines.push(
-				`,\t\tsuccessDescription: isEditing ? 'User updated successfully' : 'User created successfully'`
-			);
-		} else if (exampleMode === 'register') {
-			scriptLines.push(
-				`,\t\tsuccessTitle: 'Registration Successful'`,
-				`,\t\tsuccessDescription: 'Your account has been created.'`
-			);
 		}
 
 		if (resetOnSuccess) {
@@ -217,7 +203,6 @@
 			componentLines.push(
 				`\t<TextField`,
 				`\t\tname="name"`,
-				`\t\tplaceholder="Enter your name"`,
 				`\t\tlabel="Name"`,
 				showValidation && `\t\terrorText={form.errors.name}`,
 				`\t/>`
@@ -228,7 +213,6 @@
 			`\n\t<TextField`,
 			`\t\tname="email"`,
 			`\t\ttype="email"`,
-			`\t\tplaceholder="Enter your email"`,
 			`\t\tlabel="Email"`,
 			showValidation && `\t\terrorText={form.errors.email}`,
 			`\t/>`
@@ -238,7 +222,6 @@
 			`\n\t<TextField`,
 			`\t\tname="password"`,
 			`\t\ttype="password"`,
-			`\t\tplaceholder="Enter your password"`,
 			`\t\tlabel="Password"`,
 			showValidation && `\t\terrorText={form.errors.password}`,
 			`\t/>`
@@ -249,7 +232,6 @@
 				`\n\t<TextField`,
 				`\t\tname="confirmPassword"`,
 				`\t\ttype="password"`,
-				`\t\tplaceholder="Confirm your password"`,
 				`\t\tlabel="Confirm Password"`,
 				showValidation && `\t\terrorText={form.errors.confirmPassword}`,
 				`\t/>`
@@ -258,29 +240,31 @@
 
 		const buttonLabel =
 			exampleMode === 'login'
-				? 'Login'
+				? "'Login'"
 				: exampleMode === 'register'
-					? 'Register'
+					? "'Register'"
 					: exampleMode === 'edit'
-						? "(isEditing ? 'Update' : 'Create')"
-						: 'Submit';
+						? "isEditing ? 'Update' : 'Create'"
+						: "'Submit'";
 
 		componentLines.push(
 			`\n\t<Button`,
-			`\t\tlabel={form.isSubmitting ? 'Submitting...' : ${buttonLabel}}`,
 			`\t\ttype="submit"`,
 			`\t\tisDisabled={form.isSubmitting}`,
-			`\t/>`,
+			`\t\tisLoading={form.isSubmitting}`,
+			`\t>`,
+			`\t\t{${buttonLabel}}`,
+			`\t</Button>`,
 			`</form>`
 		);
 
 		return [...scriptLines, ...componentLines.filter(Boolean)].join('\n');
 	});
 
-	const props = [
-		{ prop: 'validationRules', type: 'ValidationRules', initial: '{}', required: true },
-		{ prop: 'url', type: 'string', initial: '', required: true },
-		{ prop: 'method', type: "'POST' | 'PUT' | 'PATCH' | 'DELETE'", initial: '', required: true },
+	const configProps = [
+		{ prop: 'validationRules', type: 'ValidationRules', initial: '{}' },
+		{ prop: 'url', type: 'string', initial: '' },
+		{ prop: 'method', type: "'POST' | 'PUT' | 'PATCH'", initial: '' },
 		{ prop: 'headers', type: 'Record<string, string>', initial: '{}' },
 		{ prop: 'onError', type: '(errors: Record<string, string>) => void', initial: '' },
 		{ prop: 'onSuccess', type: '(response: any) => void', initial: '' },
@@ -288,143 +272,148 @@
 		{ prop: 'showToast', type: 'boolean', initial: 'false' },
 		{ prop: 'errorTitle', type: 'string', initial: "'Error'" },
 		{ prop: 'errorDescription', type: 'string', initial: '' },
-		{ prop: 'errorIcon', type: 'string', initial: '' },
 		{ prop: 'successTitle', type: 'string', initial: "'Success'" },
 		{ prop: 'successDescription', type: 'string', initial: '' },
-		{ prop: 'successIcon', type: 'string', initial: '' },
 		{ prop: 'resetOnSuccess', type: 'boolean', initial: 'false' }
 	];
 
-	const validationRuleProps = [
-		{ prop: 'rule', type: 'ValidationRuleType', initial: '', required: true },
-		{ prop: 'message', type: 'string', initial: '', required: true }
+	const returnProps = [
+		{ prop: 'state', type: 'HTMLFormElement', initial: '' },
+		{ prop: 'errors', type: 'Record<string, string>', initial: '{}' },
+		{ prop: 'isSubmitting', type: 'boolean', initial: 'false' },
+		{ prop: 'reset', type: '() => void', initial: '' }
 	];
 
-	const returnProps = [
-		{ prop: 'state', type: 'HTMLFormElement', initial: '', required: false },
-		{ prop: 'errors', type: 'Record<string, string>', initial: '{}', required: false },
-		{ prop: 'isSubmitting', type: 'boolean', initial: 'false', required: false },
-		{ prop: 'reset', type: '() => void', initial: '', required: false }
+	const validationRules = [
+		{ rule: 'required', description: 'Field is required' },
+		{ rule: 'email', description: 'Valid email format' },
+		{ rule: 'url', description: 'Valid URL format' },
+		{ rule: 'phone', description: 'Valid phone number' },
+		{ rule: 'numeric', description: 'Only numeric characters' },
+		{ rule: 'alpha', description: 'Only alphabetic characters' },
+		{ rule: 'alphanumeric', description: 'Only alphanumeric characters' },
+		{ rule: 'strongPassword', description: 'Strong password requirements' },
+		{ rule: 'creditCard', description: 'Valid credit card number' },
+		{ rule: 'date', description: 'Valid date format' },
+		{ rule: 'min:N', description: 'Minimum length (e.g., min:8)' },
+		{ rule: 'max:N', description: 'Maximum length (e.g., max:50)' },
+		{ rule: 'minWords:N', description: 'Minimum word count' },
+		{ rule: 'maxWords:N', description: 'Maximum word count' },
+		{ rule: 'pattern:regex', description: 'Custom regex pattern' },
+		{ rule: 'matches:field', description: 'Match another field' },
+		{ rule: 'custom:fn', description: 'Custom validation function' }
 	];
 </script>
 
-{#snippet preview()}
-	<form bind:this={form.state} class="space-y-4 w-full max-w-md">
-		{#if exampleMode === 'basic' || exampleMode === 'edit'}
-			<TextField
-				name="name"
-				placeholder="Enter your name"
-				label="Name"
-				errorText={form.errors.name}
-			/>
-		{/if}
-
-		<TextField
-			name="email"
-			type="email"
-			placeholder="Enter your email"
-			label="Email"
-			errorText={form.errors.email}
-		/>
-
-		<TextField
-			name="password"
-			type="password"
-			placeholder="Enter your password"
-			label="Password"
-			errorText={form.errors.password}
-		/>
-
-		{#if exampleMode === 'register'}
-			<TextField
-				name="confirmPassword"
-				type="password"
-				placeholder="Confirm your password"
-				label="Confirm Password"
-				errorText={form.errors.confirmPassword}
-			/>
-		{/if}
-
-		<Button type="submit" isDisabled={form.isSubmitting} isLoading={form.isSubmitting}>
-			{form.isSubmitting
-				? 'Submitting...'
-				: exampleMode === 'login'
-					? 'Login'
-					: exampleMode === 'register'
-						? 'Register'
-						: exampleMode === 'edit' && isEditing
-							? 'Update'
-							: 'Submit'}
-		</Button>
-	</form>
-{/snippet}
-
-{#snippet builder()}
-	<Select label="Example Mode" size="sm" options={exampleOptions} bind:value={exampleMode} />
-
-	<DocOptions title="Configuration">
-		<Checkbox bind:checked={showValidation} label="Validation Rules" />
-		<Checkbox bind:checked={showTransform} label="Transform Data" />
-		<Checkbox bind:checked={showCallbacks} label="Callbacks" />
-		<Checkbox bind:checked={showToast} label="Show Toast" />
-		<Checkbox bind:checked={resetOnSuccess} label="Reset on Success" />
-		{#if exampleMode === 'edit'}
-			<Checkbox bind:checked={isEditing} label="Edit Mode (PUT)" />
-		{/if}
-	</DocOptions>
-{/snippet}
-
-<DocHeader title="Form & useForm">
+<DocsHeader title="useForm" llmUrl="https://ui-svelte.sappsdev.com/llm/form/form.md">
 	A powerful form handling hook that manages form state, validation, submission, and error handling.
 	Supports both create (POST) and edit (PUT/PATCH) modes dynamically.
-</DocHeader>
+</DocsHeader>
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Example"
+				size="sm"
+				options={exampleOptions}
+				bind:value={exampleMode}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={showValidation} label="Validation" />
+			<Checkbox bind:checked={showTransform} label="Transform" />
+			<Checkbox bind:checked={showCallbacks} label="Callbacks" />
+			<Checkbox bind:checked={showToast} label="Toast" />
+			<Checkbox bind:checked={resetOnSuccess} label="Reset" />
+			{#if exampleMode === 'edit'}
+				<Checkbox bind:checked={isEditing} label="Edit Mode" />
+			{/if}
+		</div>
 
-<DocCode {code} />
+		<div class="doc-preview">
+			<form bind:this={form.state} class="flex flex-col gap-4 w-full max-w-sm">
+				{#if exampleMode === 'basic' || exampleMode === 'edit'}
+					<TextField
+						name="name"
+						placeholder="Enter your name"
+						label="Name"
+						isFloatLabel
+						errorText={form.errors.name}
+					/>
+				{/if}
 
-<div class="prose mt-8">
-	<h3>Configuration</h3>
-	<p>The useForm hook accepts a configuration object with the following properties:</p>
-</div>
+				<TextField
+					name="email"
+					type="email"
+					placeholder="Enter your email"
+					label="Email"
+					isFloatLabel
+					errorText={form.errors.email}
+				/>
 
-<DocProps {props} />
+				<TextField
+					name="password"
+					type="password"
+					placeholder="Enter your password"
+					label="Password"
+					isFloatLabel
+					errorText={form.errors.password}
+				/>
 
-<div class="prose mt-8">
-	<h3>Validation Rule Type</h3>
-	<p>Each validation rule in the validationRules object should follow this structure:</p>
-</div>
+				{#if exampleMode === 'register'}
+					<TextField
+						name="confirmPassword"
+						type="password"
+						placeholder="Confirm your password"
+						label="Confirm Password"
+						isFloatLabel
+						errorText={form.errors.confirmPassword}
+					/>
+				{/if}
 
-<DocProps props={validationRuleProps} />
+				<Button type="submit" isDisabled={form.isSubmitting} isLoading={form.isSubmitting}>
+					{form.isSubmitting
+						? 'Submitting...'
+						: exampleMode === 'login'
+							? 'Login'
+							: exampleMode === 'register'
+								? 'Register'
+								: exampleMode === 'edit' && isEditing
+									? 'Update'
+									: 'Submit'}
+				</Button>
+			</form>
+		</div>
+		<Code lang="svelte" code={code()} />
+	</Card>
+</Section>
 
-<div class="prose mt-8">
-	<h3>Available Validation Rules</h3>
-	<ul>
-		<li><code>required</code> - Field is required</li>
-		<li><code>email</code> - Valid email format</li>
-		<li><code>url</code> - Valid URL format</li>
-		<li><code>phone</code> - Valid phone number</li>
-		<li><code>numeric</code> - Only numeric characters</li>
-		<li><code>alpha</code> - Only alphabetic characters</li>
-		<li><code>alphanumeric</code> - Only alphanumeric characters</li>
-		<li><code>strongPassword</code> - Strong password requirements</li>
-		<li><code>creditCard</code> - Valid credit card number</li>
-		<li><code>date</code> - Valid date format</li>
-		<li><code>min:number</code> - Minimum length (e.g., <code>min:5</code>)</li>
-		<li><code>max:number</code> - Maximum length (e.g., <code>max:50</code>)</li>
-		<li><code>minWords:number</code> - Minimum word count</li>
-		<li><code>maxWords:number</code> - Maximum word count</li>
-		<li><code>pattern:regex</code> - Custom regex pattern</li>
-		<li><code>matches:fieldName</code> - Match another field</li>
-		<li><code>custom:functionName</code> - Custom validation function</li>
-	</ul>
-</div>
+<Section>
+	<p class="section-subtitle">Configuration Props</p>
+	<DocsProps props={configProps} />
+</Section>
 
-<div class="prose mt-8">
-	<h3>Return Value</h3>
-	<p>The useForm hook returns an object with the following properties:</p>
-</div>
+<Section>
+	<p class="section-subtitle">Return Value</p>
+	<Card>
+		<p class="mb-4">The useForm hook returns an object with the following properties:</p>
+		<DocsProps props={returnProps} />
+	</Card>
+</Section>
 
-<DocProps props={returnProps} />
+<Section>
+	<p class="section-subtitle">Validation Rules</p>
+	<Card>
+		<div class="grid-2 md:grid-3 gap-4">
+			{#each validationRules as { rule, description }}
+				<div class="flex flex-col gap-1">
+					<code class="text-sm font-mono text-primary">{rule}</code>
+					<span class="text-xs text-muted">{description}</span>
+				</div>
+			{/each}
+		</div>
+	</Card>
+</Section>

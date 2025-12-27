@@ -123,37 +123,76 @@
 		@apply text-sm;
 	}
 
-	/* Variantes de color para mensajes propios */
-	.chatbox-primary .message.own {
-		@apply bg-primary text-on-primary;
+	.chatbox.is-solid {
+		&.is-primary .message.own {
+			@apply bg-primary text-on-primary;
+		}
+		&.is-secondary .message.own {
+			@apply bg-secondary text-on-secondary;
+		}
+		&.is-muted .message.own {
+			@apply bg-on-muted text-muted;
+		}
+		&.is-success .message.own {
+			@apply bg-success text-on-success;
+		}
+		&.is-info .message.own {
+			@apply bg-info text-on-info;
+		}
+		&.is-warning .message.own {
+			@apply bg-warning text-on-warning;
+		}
+		&.is-danger .message.own {
+			@apply bg-danger text-on-danger;
+		}
 	}
 
-	.chatbox-secondary .message.own {
-		@apply bg-secondary text-on-secondary;
+	.chatbox.is-soft {
+		&.is-primary .message.own {
+			@apply bg-on-primary text-primary;
+		}
+		&.is-secondary .message.own {
+			@apply bg-on-secondary text-secondary;
+		}
+		&.is-muted .message.own {
+			@apply bg-muted text-on-muted;
+		}
+		&.is-success .message.own {
+			@apply bg-on-success text-success;
+		}
+		&.is-info .message.own {
+			@apply bg-on-info text-info;
+		}
+		&.is-warning .message.own {
+			@apply bg-on-warning text-warning;
+		}
+		&.is-danger .message.own {
+			@apply bg-on-danger text-danger;
+		}
 	}
 
-	.chatbox-success .message.own {
-		@apply bg-success text-on-success;
-	}
-
-	.chatbox-info .message.own {
-		@apply bg-info text-on-info;
-	}
-
-	.chatbox-warning .message.own {
-		@apply bg-warning text-on-warning;
-	}
-
-	.chatbox-danger .message.own {
-		@apply bg-danger text-on-danger;
-	}
-
-	.chatbox-soft .message.own {
-		@apply bg-primary/10 text-primary;
-	}
-
-	.chatbox-outlined .message.own {
-		@apply border border-primary bg-transparent text-primary;
+	.chatbox.is-outlined {
+		&.is-primary .message.own {
+			@apply border border-primary bg-transparent text-primary;
+		}
+		&.is-secondary .message.own {
+			@apply border border-secondary bg-transparent text-secondary;
+		}
+		&.is-muted .message.own {
+			@apply border border-on-muted bg-transparent text-on-muted;
+		}
+		&.is-success .message.own {
+			@apply border border-success bg-transparent text-success;
+		}
+		&.is-info .message.own {
+			@apply border border-info bg-transparent text-info;
+		}
+		&.is-warning .message.own {
+			@apply border border-warning bg-transparent text-warning;
+		}
+		&.is-danger .message.own {
+			@apply border border-danger bg-transparent text-danger;
+		}
 	}
 
 	.chatbox-footer {

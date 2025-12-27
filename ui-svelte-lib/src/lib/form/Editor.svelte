@@ -107,6 +107,58 @@
 		viewbox: '0 0 24 24'
 	};
 
+	type EditorLabels = {
+		bold?: string;
+		italic?: string;
+		underline?: string;
+		strikethrough?: string;
+		alignLeft?: string;
+		alignCenter?: string;
+		alignRight?: string;
+		justify?: string;
+		orderedList?: string;
+		unorderedList?: string;
+		heading1?: string;
+		heading2?: string;
+		heading3?: string;
+		insertLink?: string;
+		insertImage?: string;
+		quote?: string;
+		code?: string;
+		horizontalRule?: string;
+		undo?: string;
+		redo?: string;
+		clearFormatting?: string;
+		linkPrompt?: string;
+		imagePrompt?: string;
+	};
+
+	const defaultLabels: EditorLabels = {
+		bold: 'Bold (Ctrl+B)',
+		italic: 'Italic (Ctrl+I)',
+		underline: 'Underline (Ctrl+U)',
+		strikethrough: 'Strikethrough',
+		alignLeft: 'Align left',
+		alignCenter: 'Align center',
+		alignRight: 'Align right',
+		justify: 'Justify',
+		orderedList: 'Ordered list',
+		unorderedList: 'Unordered list',
+		heading1: 'Heading 1',
+		heading2: 'Heading 2',
+		heading3: 'Heading 3',
+		insertLink: 'Insert link',
+		insertImage: 'Insert image',
+		quote: 'Quote',
+		code: 'Code',
+		horizontalRule: 'Horizontal rule',
+		undo: 'Undo (Ctrl+Z)',
+		redo: 'Redo (Ctrl+Shift+Z)',
+		clearFormatting: 'Clear formatting',
+		linkPrompt: 'Enter the link URL:',
+		imagePrompt: 'Enter the image URL:'
+	};
+
 	type Props = {
 		el?: HTMLDivElement;
 		value?: string;
@@ -124,10 +176,10 @@
 		helpText?: string;
 		errorText?: string;
 		minHeight?: string;
-		isFloatLabel?: boolean;
 		isDisabled?: boolean;
 		isReadonly?: boolean;
 		hideToolbar?: boolean;
+		labels?: EditorLabels;
 	};
 
 	let {
@@ -143,15 +195,17 @@
 		size = 'md',
 		name,
 		label,
-		isFloatLabel,
 		islabelActive,
 		helpText,
 		errorText,
 		minHeight = '200px',
 		isDisabled = false,
 		isReadonly = false,
-		hideToolbar = false
+		hideToolbar = false,
+		labels: userLabels = {}
 	}: Props = $props();
+
+	const labels = $derived({ ...defaultLabels, ...userLabels });
 
 	const uid = $props.id();
 
@@ -235,14 +289,14 @@
 	}
 
 	function handleLink() {
-		const url = prompt('Ingresa la URL del enlace:');
+		const url = prompt(labels.linkPrompt);
 		if (url) {
 			execCommand('createLink', url);
 		}
 	}
 
 	function handleImage() {
-		const url = prompt('Ingresa la URL de la imagen:');
+		const url = prompt(labels.imagePrompt);
 		if (url) {
 			execCommand('insertImage', url);
 		}
@@ -347,70 +401,70 @@
 		formatKey?: string;
 	};
 
-	const formattingButtons: ToolbarButton[] = [
-		{ icon: BoldIcon, action: handleBold, title: 'Negrita (Ctrl+B)', formatKey: 'bold' },
-		{ icon: ItalicIcon, action: handleItalic, title: 'Cursiva (Ctrl+I)', formatKey: 'italic' },
+	const formattingButtons = $derived<ToolbarButton[]>([
+		{ icon: BoldIcon, action: handleBold, title: labels.bold!, formatKey: 'bold' },
+		{ icon: ItalicIcon, action: handleItalic, title: labels.italic!, formatKey: 'italic' },
 		{
 			icon: UnderlineIcon,
 			action: handleUnderline,
-			title: 'Subrayado (Ctrl+U)',
+			title: labels.underline!,
 			formatKey: 'underline'
 		},
 		{
 			icon: StrikethroughIcon,
 			action: handleStrikethrough,
-			title: 'Tachado',
+			title: labels.strikethrough!,
 			formatKey: 'strikethrough'
 		}
-	];
+	]);
 
-	const alignmentButtons: ToolbarButton[] = [
-		{ icon: AlignLeftIcon, action: handleAlignLeft, title: 'Alinear izquierda' },
-		{ icon: AlignCenterIcon, action: handleAlignCenter, title: 'Alinear centro' },
-		{ icon: AlignRightIcon, action: handleAlignRight, title: 'Alinear derecha' },
-		{ icon: AlignJustifyIcon, action: handleAlignJustify, title: 'Justificar' }
-	];
+	const alignmentButtons = $derived<ToolbarButton[]>([
+		{ icon: AlignLeftIcon, action: handleAlignLeft, title: labels.alignLeft! },
+		{ icon: AlignCenterIcon, action: handleAlignCenter, title: labels.alignCenter! },
+		{ icon: AlignRightIcon, action: handleAlignRight, title: labels.alignRight! },
+		{ icon: AlignJustifyIcon, action: handleAlignJustify, title: labels.justify! }
+	]);
 
-	const listButtons: ToolbarButton[] = [
+	const listButtons = $derived<ToolbarButton[]>([
 		{
 			icon: ListOrderedIcon,
 			action: handleOrderedList,
-			title: 'Lista ordenada',
+			title: labels.orderedList!,
 			formatKey: 'orderedList'
 		},
 		{
 			icon: ListUnorderedIcon,
 			action: handleUnorderedList,
-			title: 'Lista desordenada',
+			title: labels.unorderedList!,
 			formatKey: 'unorderedList'
 		}
-	];
+	]);
 
-	const headingButtons: ToolbarButton[] = [
-		{ icon: Heading1Icon, action: () => handleHeading(1), title: 'Encabezado 1' },
-		{ icon: Heading2Icon, action: () => handleHeading(2), title: 'Encabezado 2' },
-		{ icon: Heading3Icon, action: () => handleHeading(3), title: 'Encabezado 3' }
-	];
+	const headingButtons = $derived<ToolbarButton[]>([
+		{ icon: Heading1Icon, action: () => handleHeading(1), title: labels.heading1! },
+		{ icon: Heading2Icon, action: () => handleHeading(2), title: labels.heading2! },
+		{ icon: Heading3Icon, action: () => handleHeading(3), title: labels.heading3! }
+	]);
 
-	const insertButtons: ToolbarButton[] = [
-		{ icon: LinkIcon, action: handleLink, title: 'Insertar enlace' },
-		{ icon: ImageIcon, action: handleImage, title: 'Insertar imagen' },
-		{ icon: QuoteIcon, action: handleQuote, title: 'Cita' },
-		{ icon: CodeIcon, action: handleCode, title: 'Código' },
-		{ icon: HorizontalRuleIcon, action: handleHorizontalRule, title: 'Línea horizontal' }
-	];
+	const insertButtons = $derived<ToolbarButton[]>([
+		{ icon: LinkIcon, action: handleLink, title: labels.insertLink! },
+		{ icon: ImageIcon, action: handleImage, title: labels.insertImage! },
+		{ icon: QuoteIcon, action: handleQuote, title: labels.quote! },
+		{ icon: CodeIcon, action: handleCode, title: labels.code! },
+		{ icon: HorizontalRuleIcon, action: handleHorizontalRule, title: labels.horizontalRule! }
+	]);
 
-	const historyButtons: ToolbarButton[] = [
-		{ icon: UndoIcon, action: handleUndo, title: 'Deshacer (Ctrl+Z)' },
-		{ icon: RedoIcon, action: handleRedo, title: 'Rehacer (Ctrl+Shift+Z)' },
-		{ icon: ClearFormattingIcon, action: handleClearFormatting, title: 'Limpiar formato' }
-	];
+	const historyButtons = $derived<ToolbarButton[]>([
+		{ icon: UndoIcon, action: handleUndo, title: labels.undo! },
+		{ icon: RedoIcon, action: handleRedo, title: labels.redo! },
+		{ icon: ClearFormattingIcon, action: handleClearFormatting, title: labels.clearFormatting! }
+	]);
 
 	const showPlaceholder = $derived(!value || value === '' || value === '<br>');
 </script>
 
 <div class={cn('field', className)}>
-	{#if !isFloatLabel && label}
+	{#if label}
 		<span class="field-label">{label}</span>
 	{/if}
 
@@ -422,7 +476,6 @@
 			colors[color],
 			variants[variant],
 			sizeClasses[size],
-			isFloatLabel && 'is-float',
 			(isActive || isFocused) && 'is-active',
 			isDisabled && 'is-disabled',
 			isReadonly && 'is-readonly',
@@ -432,17 +485,6 @@
 		onmouseenter={() => (isActive = true)}
 		onmouseleave={() => (isActive = false)}
 	>
-		{#if isFloatLabel && label}
-			<span
-				class={cn(
-					'editor-label',
-					(isActive || isFocused || islabelActive || value !== '') && 'is-active'
-				)}
-			>
-				{label}
-			</span>
-		{/if}
-
 		{#if !hideToolbar && !isReadonly}
 			<div class="editor-toolbar">
 				<div class="editor-toolbar-group">

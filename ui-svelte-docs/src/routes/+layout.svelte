@@ -9,7 +9,9 @@
 <Provider
 	toastPosition={storeApp.toastPosition}
 	toastIcon={storeApp.toastIcon}
-	toastSolid={storeApp.toastSolid}
+	toastVariant={storeApp.toastVariant}
+	themeTransition={storeApp.themeTransition}
+	pageTransition={storeApp.pageTransition}
 >
 	{@render children()}
 </Provider>

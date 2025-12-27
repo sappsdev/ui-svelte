@@ -20,7 +20,17 @@
 		class?: string;
 		controlClass?: string;
 		icon?: IconData;
-		variant?: 'primary' | 'secondary' | 'muted' | 'outlined' | 'line';
+		color?:
+			| 'primary'
+			| 'secondary'
+			| 'muted'
+			| 'success'
+			| 'info'
+			| 'warning'
+			| 'danger'
+			| 'surface'
+			| 'default';
+		variant?: 'solid' | 'soft' | 'outlined' | 'ghost';
 		size?: 'sm' | 'md' | 'lg';
 		name?: string;
 		label?: string;
@@ -29,7 +39,6 @@
 		placeholder?: string;
 		disabled?: boolean;
 		onchange?: (files: FileWithUrl[]) => void;
-		isSolid?: boolean;
 	};
 
 	let {
@@ -40,6 +49,7 @@
 		class: className,
 		controlClass,
 		icon,
+		color = 'default',
 		variant = 'outlined',
 		size = 'md',
 		name,
@@ -48,8 +58,7 @@
 		errorText,
 		placeholder = 'Drag & drop files here or click to select',
 		disabled = false,
-		onchange,
-		isSolid
+		onchange
 	}: Props = $props();
 
 	const uid = $props.id();
@@ -57,12 +66,23 @@
 	let isActive = $state(false);
 	let isDragging = $state(false);
 
-	const variantClasses = {
+	const colorClasses = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning',
+		surface: 'is-surface',
+		default: 'is-default'
+	};
+
+	const variantClasses = {
+		solid: 'is-solid',
+		soft: 'is-soft',
 		outlined: 'is-outlined',
-		line: 'is-line'
+		ghost: 'is-ghost'
 	};
 
 	const sizeClasses = {
@@ -118,9 +138,9 @@
 		for={`${uid}-${name}`}
 		class={cn(
 			'dropzone-input',
+			colorClasses[color],
 			variantClasses[variant],
 			sizeClasses[size],
-			isSolid && 'is-solid',
 			(isActive || isDragging) && 'is-active',
 			disabled && 'is-disabled',
 			controlClass
@@ -179,7 +199,7 @@
 						type="button"
 						class="dropzone-file-remove"
 						onclick={() => removeFile(i)}
-						aria-label="Eliminar archivo"
+						aria-label="Remove file"
 					>
 						<Icon icon={Dismiss24RegularIcon} />
 					</button>

@@ -8,43 +8,43 @@
 		Form24RegularIcon,
 		LayoutColumnOneThirdRight24RegularIcon
 	} from '$lib/icons';
-	import { Chip, Section, Card, Button, Icon, Accordion } from 'ui-svelte';
+	import { Chip, Section, Card, Button, Icon } from 'ui-svelte';
 
 	const features = [
 		{
 			icon: Rocket24RegularIcon,
-			variant: 'success',
+			color: 'success',
 			title: 'Lightning Fast',
 			description: `Optimized components that don't sacrifice performance. Built with Svelte for maximum speed.`
 		},
 		{
 			icon: Code24RegularIcon,
-			variant: 'warning',
+			color: 'warning',
 			title: 'Developer First',
 			description: `Intuitive API, excellent TypeScript support, and semantic component names you'll remember.`
 		},
 		{
 			icon: SparkleAction24RegularIcon,
-			variant: 'danger',
+			color: 'danger',
 			title: 'AI-Optimized',
 			description:
 				'Documentation structured for AI code generation. Build faster with Claude, GPT, and more.'
 		},
 		{
 			icon: Settings24RegularIcon,
-			variant: 'secondary',
+			color: 'secondary',
 			title: 'Fully Customizable',
 			description: `Built on top of Tailwind CSS. Easily customize themes, colors, and styles to match your brand.`
 		},
 		{
 			icon: Form24RegularIcon,
-			variant: 'primary',
+			color: 'primary',
 			title: 'Robust Forms',
 			description: `Complete set of form components with built-in validation, accessibility, and keyboard support.`
 		},
 		{
 			icon: LayoutColumnOneThirdRight24RegularIcon,
-			variant: 'secondary',
+			color: 'secondary',
 			title: 'Modern Layouts',
 			description: `Flexible layout components like Split, Grid, and Stack to build complex responsive interfaces.`
 		}
@@ -75,60 +75,59 @@
 		{
 			label: 'Get Started',
 			href: '/docs/starter/install',
-			variant: 'secondary',
+			color: 'muted',
 			isSolid: true
 		},
 		{
 			label: 'View Components',
 			href: '/docs/display/card',
-			variant: 'outlined',
+			color: 'primary',
 			isSolid: false
 		}
 	] as const;
 </script>
 
-<Section bodyClass="items-center gap-6 text-center px-4 pt-6 md:pt-10 xl:pt-16">
+<Section bodyClass="items-center gap-6 text-center px-4 pt-6 md:pt-10 xl:pt-16" isBoxed>
 	<Chip startIcon={StarsMinimalisticLinearIcon} size="md" isSolid>Modern UI Component Library</Chip>
 
-	<h1 class="hero-title max-w-4xl">
+	<h1 class="hero-title">
 		Build beautiful web apps
-		<span class="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
-			faster
-		</span>
+		<span class="grad"> faster </span>
 		with UiSvelte
 	</h1>
 
-	<p class="hero-subtitle max-w-2xl">
+	<p class="hero-subtitle">
 		A comprehensive Svelte component library that handles the complexity, so you can focus on
 		building great products. Optimized for AI code generation and mobile-first design.
 	</p>
 
 	<div class="row gap-4 flex-wrap justify-center">
-		{#each ctas as { label, href, variant, isSolid }}
-			<Button {variant} size="lg" {href} {isSolid}>
+		{#each ctas as { label, href, color }}
+			<Button {color} variant="solid" size="lg" {href}>
 				{label}
 			</Button>
 		{/each}
 	</div>
 
-	<p class="text-sm opacity-70">Open source • Powered by SappsDes</p>
+	<p class="text-sm">Open source • Powered by SappsDev</p>
 </Section>
 
 <Section isBoxed bodyClass="gap-12 py-20 center">
 	<h2 class="text-3xl md:text-4xl font-bold">Key Features</h2>
 	<div class="grid-1 md:grid-3 gap-6">
-		{#each features as { icon, variant, title, description }}
+		{#each features as { icon, color, title, description }}
 			<Card
-				{variant}
+				{color}
+				variant="solid"
 				rootClass="hover:-translate-y-2 transition-transform duration-300"
 				headerClass="justify-start"
 				bodyClass="center gap-4"
 			>
 				{#snippet header()}
 					<Icon {icon} class="w-12 h-12" />
-					<h3>{title}</h3>
+					<h3 class="card-title">{title}</h3>
 				{/snippet}
-				<p class="opacity-80">{description}</p>
+				<p class="card-description">{description}</p>
 			</Card>
 		{/each}
 	</div>
@@ -140,8 +139,10 @@
 		Join the growing community of developers building faster, better web applications with UiSvelte.
 	</p>
 	<div class="row gap-4 flex-wrap justify-center">
-		<Button variant="primary" size="lg" href="/docs/starter/install" isSolid>Get Started</Button>
-		<Button variant="secondary" size="lg" href="https://github.com/sappsdev/ui-svelte">
+		<Button color="primary" size="lg" href="/docs/starter/install" variant="solid"
+			>Get Started</Button
+		>
+		<Button color="secondary" size="lg" href="https://github.com/sappsdev/ui-svelte">
 			View on GitHub
 		</Button>
 	</div>

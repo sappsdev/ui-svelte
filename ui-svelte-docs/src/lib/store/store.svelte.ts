@@ -1,8 +1,12 @@
 type ToastPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+type ThemeTransition = 'circle' | 'slide' | 'fade' | 'vertical' | 'none';
+type PageTransition = 'fade' | 'slide' | 'scale' | 'none';
 
 let toastPositionValue = $state<ToastPosition>('bottom-left');
 let toastIconValue = $state(false);
-let toastVariantValue = $state('soft');
+let toastVariantValue = $state<'soft' | 'solid'>('soft');
+let themeTransitionValue = $state<ThemeTransition>('circle');
+let pageTransitionValue = $state<PageTransition>('fade');
 
 let mainElement = $state<HTMLDivElement>();
 
@@ -60,6 +64,21 @@ export const storeApp = {
 	},
 	set toastVariant(value: 'soft' | 'solid') {
 		toastVariantValue = value;
+	},
+	get themeTransition() {
+		return themeTransitionValue;
+	},
+	set themeTransition(value: ThemeTransition) {
+		themeTransitionValue = value;
+		if (typeof document !== 'undefined') {
+			document.documentElement.setAttribute('data-theme-transition', value);
+		}
+	},
+	get pageTransition() {
+		return pageTransitionValue;
+	},
+	set pageTransition(value: PageTransition) {
+		pageTransitionValue = value;
 	},
 	get themeColors() {
 		return themeColors;
