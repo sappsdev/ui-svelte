@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { Card, Code, Divider, Section, Select } from 'ui-svelte';
+	import { Card, Checkbox, Code, Divider, Section, Select } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsPreview from '$lib/components/DocsPreview.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
 	const colorOptions = [
 		{ id: 'default', label: 'Default' },
@@ -19,40 +18,42 @@
 
 	let color: any = $state('default');
 	let orientation: any = $state('horizontal');
+	let hasContent = $state(false);
+
+	let hasProps = $derived(
+		[color !== 'default', orientation === 'vertical', hasContent].some(Boolean)
+	);
 
 	let code = $derived(() => {
-		const props = [];
-		if (orientation === 'vertical') props.push('vertical');
-		if (color !== 'default') props.push(`color="${color}"`);
-		const propsString = props.length > 0 ? ' ' + props.join(' ') : '';
-		return `<Divider${propsString} />`;
+		const scriptLines = [
+			`<script lang="ts">`,
+			`\timport { Divider } from 'ui-svelte';`,
+			`<\/script>`
+		];
+
+		const componentLines = [
+			hasProps && `<Divider`,
+			orientation === 'vertical' && `\tvertical`,
+			color !== 'default' && `\tcolor="${color}"`,
+			hasProps && hasContent && `>`,
+			hasProps && hasContent && `\tOR`,
+			hasProps && hasContent && `</Divider>`,
+			hasProps && !hasContent && `/>`,
+			!hasProps && `<Divider />`
+		].filter(Boolean);
+
+		return [...scriptLines, ...componentLines].join('\n');
 	});
 
 	const props = [
+		{ prop: 'vertical', type: 'boolean', initial: 'false' },
 		{
-			name: 'vertical',
-			type: 'boolean',
-			default: 'false',
-			description: 'Renders divider vertically instead of horizontally'
+			prop: 'color',
+			type: 'default | surface | primary | secondary | muted',
+			initial: 'default'
 		},
-		{
-			name: 'color',
-			type: "'default' | 'surface' | 'primary' | 'secondary' | 'muted'",
-			default: "'default'",
-			description: 'Color theme for the divider line'
-		},
-		{
-			name: 'children',
-			type: 'Snippet',
-			default: '-',
-			description: 'Optional content to display in the center of the divider'
-		},
-		{
-			name: 'class',
-			type: 'string',
-			default: '-',
-			description: 'Additional CSS classes to apply'
-		}
+		{ prop: 'children', type: 'Snippet', initial: '' },
+		{ prop: 'class', type: 'string', initial: '' }
 	];
 </script>
 
@@ -61,183 +62,128 @@
 	optional centered content and color variants.
 </DocsHeader>
 
-<Section bodyClass="md:grid-3">
-	<DocsPreview>
-		<div
-			class="min-h-[200px] w-full border-2 border-dashed border-muted-300 rounded-lg p-4 {orientation ===
-			'vertical'
-				? 'row'
-				: 'column'} gap-4"
-		>
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Orientation"
+				size="sm"
+				options={orientationOptions}
+				bind:value={orientation}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={hasContent} label="With Content" />
+		</div>
+
+		<div class="doc-preview min-h-[150px] {orientation === 'vertical' ? 'row' : 'column'} gap-4">
 			<div class="p-4 bg-primary text-on-primary rounded">Content Before</div>
-			<Divider vertical={orientation === 'vertical'} {color} />
+			{#if hasContent}
+				<Divider vertical={orientation === 'vertical'} {color}>OR</Divider>
+			{:else}
+				<Divider vertical={orientation === 'vertical'} {color} />
+			{/if}
 			<div class="p-4 bg-secondary text-on-secondary rounded">Content After</div>
 		</div>
-	</DocsPreview>
-	<Card>
-		<Select label="Orientation" size="sm" options={orientationOptions} bind:value={orientation} />
-		<Select label="Color" size="sm" options={colorOptions} bind:value={color} />
+		<Code lang="svelte" code={code()} />
 	</Card>
-	<DocsCode code={code()} />
 </Section>
 
-<!-- Props Table -->
 <Section>
+	<p class="section-subtitle">Colors</p>
 	<Card>
-		{#snippet header()}
-			<h4>Props</h4>
-		{/snippet}
-		<div class="overflow-x-auto">
-			<table class="w-full border-collapse">
-				<thead>
-					<tr class="border-b border-muted-200">
-						<th class="text-left p-3 font-semibold">Prop</th>
-						<th class="text-left p-3 font-semibold">Type</th>
-						<th class="text-left p-3 font-semibold">Default</th>
-						<th class="text-left p-3 font-semibold">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each props as prop}
-						<tr class="border-b border-muted-100">
-							<td class="p-3"><code class="px-2 py-1 rounded text-sm">{prop.name}</code></td>
-							<td class="p-3"><code class="px-2 py-1 rounded text-xs">{prop.type}</code></td>
-							<td class="p-3"><code class="px-2 py-1 rounded text-sm">{prop.default}</code></td>
-							<td class="p-3 text-sm">{prop.description}</td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
+		<div class="column gap-6">
+			{#each colorOptions as colorItem}
+				<div class="column gap-2">
+					<span class="text-sm font-medium">{colorItem.label}</span>
+					<Divider color={colorItem.id as any} />
+				</div>
+			{/each}
 		</div>
 	</Card>
 </Section>
 
-<!-- Examples Section -->
-<Section bodyClass="grid-2 md:grid-3">
-	<!-- Horizontal Divider -->
-	<Card>
-		{#snippet header()}
-			<h4>Horizontal</h4>
-		{/snippet}
+<Section>
+	<p class="section-subtitle">Orientations</p>
+	<Card bodyClass="grid-2 gap-4">
 		<div class="column gap-2">
-			<div class="p-2 bg-muted text-on-muted rounded text-sm center">Above</div>
-			<Divider />
-			<div class="p-2 bg-muted text-on-muted rounded text-sm center">Below</div>
+			<span class="text-sm font-medium">Horizontal</span>
+			<div class="column gap-2 p-4 border border-muted-200 rounded">
+				<div class="p-2 bg-muted text-on-muted rounded text-sm center">Above</div>
+				<Divider />
+				<div class="p-2 bg-muted text-on-muted rounded text-sm center">Below</div>
+			</div>
 		</div>
-		{#snippet footer()}
-			<code class="text-xs">&lt;Divider /&gt;</code>
-		{/snippet}
-	</Card>
-
-	<!-- Vertical Divider -->
-	<Card>
-		{#snippet header()}
-			<h4>Vertical</h4>
-		{/snippet}
-		<div class="row gap-2 min-h-[80px]">
-			<div class="p-2 bg-muted text-on-muted rounded text-sm center flex-1">Left</div>
-			<Divider vertical />
-			<div class="p-2 bg-muted text-on-muted rounded text-sm center flex-1">Right</div>
-		</div>
-		{#snippet footer()}
-			<code class="text-xs">&lt;Divider vertical /&gt;</code>
-		{/snippet}
-	</Card>
-
-	<!-- With Content -->
-	<Card>
-		{#snippet header()}
-			<h4>With Content</h4>
-		{/snippet}
 		<div class="column gap-2">
-			<div class="p-2 bg-muted text-on-muted rounded text-sm center">Above</div>
-			<Divider>OR</Divider>
-			<div class="p-2 bg-muted text-on-muted rounded text-sm center">Below</div>
+			<span class="text-sm font-medium">Vertical</span>
+			<div class="row gap-2 min-h-[100px] p-4 border border-muted-200 rounded">
+				<div class="p-2 bg-muted text-on-muted rounded text-sm center flex-1">Left</div>
+				<Divider vertical />
+				<div class="p-2 bg-muted text-on-muted rounded text-sm center flex-1">Right</div>
+			</div>
 		</div>
-		{#snippet footer()}
-			<code class="text-xs">&lt;Divider&gt;OR&lt;/Divider&gt;</code>
-		{/snippet}
 	</Card>
+</Section>
 
-	<!-- Primary Color -->
-	<Card>
-		{#snippet header()}
-			<h4>Primary Color</h4>
-		{/snippet}
+<Section>
+	<p class="section-subtitle">With Content</p>
+	<Card bodyClass="grid-2 gap-4">
 		<div class="column gap-2">
-			<div class="p-2 bg-primary text-on-primary rounded text-sm center">Above</div>
-			<Divider color="primary" />
-			<div class="p-2 bg-primary text-on-primary rounded text-sm center">Below</div>
+			<span class="text-sm font-medium">Text Label</span>
+			<div class="column gap-2 p-4 border border-muted-200 rounded">
+				<div class="p-2 bg-muted text-on-muted rounded text-sm center">Above</div>
+				<Divider>OR</Divider>
+				<div class="p-2 bg-muted text-on-muted rounded text-sm center">Below</div>
+			</div>
 		</div>
-		{#snippet footer()}
-			<code class="text-xs">&lt;Divider color="primary" /&gt;</code>
-		{/snippet}
-	</Card>
-
-	<!-- Secondary Color -->
-	<Card>
-		{#snippet header()}
-			<h4>Secondary Color</h4>
-		{/snippet}
 		<div class="column gap-2">
-			<div class="p-2 bg-secondary text-on-secondary rounded text-sm center">Above</div>
-			<Divider color="secondary" />
-			<div class="p-2 bg-secondary text-on-secondary rounded text-sm center">Below</div>
+			<span class="text-sm font-medium">Custom Content</span>
+			<div class="column gap-2 p-4 border border-muted-200 rounded">
+				<div class="p-2 bg-muted text-on-muted rounded text-sm center">Section 1</div>
+				<Divider><span class="text-primary font-semibold">✦</span></Divider>
+				<div class="p-2 bg-muted text-on-muted rounded text-sm center">Section 2</div>
+			</div>
 		</div>
-		{#snippet footer()}
-			<code class="text-xs">&lt;Divider color="secondary" /&gt;</code>
-		{/snippet}
 	</Card>
+</Section>
 
-	<!-- Responsive Divider -->
+<Section>
+	<p class="section-subtitle">Responsive Example</p>
 	<Card>
-		{#snippet header()}
-			<h4>Responsive</h4>
-		{/snippet}
-		<div class="column xl:row gap-2 min-h-[80px]">
-			<div class="p-2 bg-success text-on-success rounded text-sm center flex-1">A</div>
+		<p class="text-sm text-muted-600 mb-4">
+			Use visibility classes to switch between horizontal and vertical orientations responsively.
+		</p>
+		<div class="column xl:row gap-4 min-h-[100px] p-4 border border-muted-200 rounded">
+			<div class="p-4 bg-success text-on-success rounded text-sm center flex-1">Content A</div>
 			<Divider class="invisible xl:visible" vertical />
 			<Divider class="xl:hidden" />
-			<div class="p-2 bg-success text-on-success rounded text-sm center flex-1">B</div>
+			<div class="p-4 bg-success text-on-success rounded text-sm center flex-1">Content B</div>
 		</div>
-		{#snippet footer()}
-			<code class="text-xs">invisible xl:visible / xl:hidden</code>
-		{/snippet}
+		<Code
+			lang="svelte"
+			code={`<div class="column xl:row gap-4">
+	<div>Content A</div>
+	<Divider class="invisible xl:visible" vertical />
+	<Divider class="xl:hidden" />
+	<div>Content B</div>
+</div>`}
+		/>
 	</Card>
 </Section>
 
 <Section>
-	<Card variant="info">
-		<div class="column gap-3">
-			<h4 class="font-semibold">💡 Pro Tips</h4>
-			<ul class="text-sm space-y-2 list-disc list-inside">
-				<li>
-					<strong>Responsive Divider:</strong> Use visibility classes to switch between horizontal
-					and vertical:
-					<code class="px-1 py-0.5 bg-blue rounded">invisible xl:visible</code> for vertical and
-					<code class="px-1 py-0.5 bg-blue rounded">xl:hidden</code> for horizontal
-				</li>
-				<li>
-					<strong>With Content:</strong> Add text or icons as children to create labeled dividers like
-					"OR" separators
-				</li>
-				<li>
-					<strong>Vertical Height:</strong> Vertical dividers need a parent with defined height to display
-					correctly
-				</li>
-				<li>
-					<strong>Colors:</strong> Match divider colors with your content theme for visual consistency
-				</li>
-			</ul>
-		</div>
-	</Card>
-</Section>
-
-<Section>
-	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Usage Examples</h4>
-		{/snippet}
+	<p class="section-subtitle">Usage Examples</p>
+	<Card>
 		<Code
 			lang="svelte"
 			code={`<!-- Basic Horizontal Divider -->
@@ -255,15 +201,12 @@
 
 <!-- Colored Dividers -->
 <Divider color="primary" />
-<Divider color="secondary" />
-
-<!-- Responsive Divider (vertical on xl, horizontal on smaller) -->
-<div class="column xl:row gap-4">
-	<div>Content A</div>
-	<Divider class="invisible xl:visible" vertical />
-	<Divider class="xl:hidden" />
-	<div>Content B</div>
-</div>`}
+<Divider color="secondary" />`}
 		/>
 	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
 </Section>

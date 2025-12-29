@@ -21,7 +21,7 @@ import AvatarGroup from '$lib/display/AvatarGroup.svelte';
 import Badge from '$lib/display/Badge.svelte';
 import Carousel from '$lib/display/Carousel.svelte';
 import Card from '$lib/display/Card.svelte';
-import ChatBox from '$lib/display/ChatBox.svelte';
+import ChatBox, { type PromptMessage, type PromptState } from '$lib/display/ChatBox.svelte';
 import Chip from '$lib/display/Chip.svelte';
 import Code from '$lib/display/Code.svelte';
 import Collapsible from '$lib/display/Collapsible.svelte';
@@ -31,6 +31,7 @@ import Icon, { type IconData } from '$lib/display/Icon.svelte';
 import Item from '$lib/display/Item.svelte';
 import Marquee from '$lib/display/Marquee.svelte';
 import Section from '$lib/display/Section.svelte';
+import Map, { type LatLng, type MapMarker, type RouteInfo } from '$lib/display/Map.svelte';
 import Table from '$lib/display/Table.svelte';
 
 import Checkbox from '$lib/form/Checkbox.svelte';
@@ -152,6 +153,7 @@ export {
 	Item,
 	initLanguage,
 	Modal,
+	Map,
 	Marquee,
 	NavMenu,
 	Pagination,
@@ -195,4 +197,4 @@ export {
 	Video
 };
 
-export type { IconData, SideNavItem, SideNavSubItem, DragDropItem, DragDropGroup };
+export type { IconData, SideNavItem, SideNavSubItem, DragDropItem, DragDropGroup, PromptMessage, PromptState, LatLng, MapMarker, RouteInfo };

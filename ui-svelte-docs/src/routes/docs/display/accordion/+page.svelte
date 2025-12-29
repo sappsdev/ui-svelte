@@ -137,30 +137,6 @@
 </Section>
 
 <Section>
-	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
-		{#each variantOptions as item}
-			<p class="text-sm mb-2">{item.label}</p>
-			<div class="grid gap-4 mb-6">
-				{#each colorOptions as colorItem}
-					<Accordion
-						variant={item.id as any}
-						color={colorItem.id as any}
-						items={[
-							{
-								id: `${item.id}-${colorItem.id}`,
-								label: `${item.label} ${colorItem.label}`,
-								content: `This is a ${item.label.toLowerCase()} accordion with ${colorItem.label.toLowerCase()} color.`
-							}
-						]}
-					/>
-				{/each}
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
 	<p class="section-subtitle">Multiple Open Items</p>
 	<Card>
 		<p class="text-sm mb-4">

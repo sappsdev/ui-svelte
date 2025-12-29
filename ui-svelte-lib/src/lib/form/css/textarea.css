@@ -7,106 +7,212 @@
 	.textarea-control-label {
 		@apply absolute left-3 top-3;
 		@apply transition-all duration-300;
-	}
 
-	.textarea-control-label.is-active {
-		@apply text-xs left-3 top-1 translate-y-px!;
-	}
-
-	.textarea-control.is-sm {
-		@apply text-sm py-2;
-	}
-
-	.textarea-control.is-md {
-		@apply text-base py-2.5;
-	}
-
-	.textarea-control.is-lg {
-		@apply text-xl py-3;
-
-		.textarea-control-label.is-active {
-			@apply text-sm;
+		&.is-active {
+			@apply text-xs left-3 top-1 translate-y-px!;
 		}
 	}
 
-	.textarea-control.is-float.is-sm {
-		@apply pt-5 pb-2;
+	.textarea-control {
+		&.is-sm {
+			@apply text-sm py-2;
+		}
+
+		&.is-md {
+			@apply text-base py-2.5;
+		}
+
+		&.is-lg {
+			@apply text-xl py-3;
+
+			.textarea-control-label.is-active {
+				@apply text-sm;
+			}
+		}
+
+		&.is-float {
+			&.is-sm {
+				@apply pt-5 pb-2;
+			}
+
+			&.is-md {
+				@apply pt-6 pb-2.5;
+			}
+
+			&.is-lg {
+				@apply pt-7 pb-3;
+			}
+		}
 	}
 
-	.textarea-control.is-float.is-md {
-		@apply pt-6 pb-2.5;
+	.textarea-control.is-soft {
+		@apply rounded-ui;
+
+		&.is-primary {
+			@apply bg-on-primary text-primary;
+			&.is-active {
+				@apply bg-on-primary/90;
+			}
+		}
+
+		&.is-secondary {
+			@apply bg-on-secondary text-secondary;
+			&.is-active {
+				@apply bg-on-secondary/90;
+			}
+		}
+
+		&.is-muted {
+			@apply bg-muted text-on-muted;
+			&.is-active {
+				@apply bg-muted/90;
+			}
+		}
+
+		&.is-success {
+			@apply bg-on-success text-success;
+			&.is-active {
+				@apply bg-on-success/90;
+			}
+		}
+
+		&.is-info {
+			@apply bg-on-info text-info;
+			&.is-active {
+				@apply bg-on-info/90;
+			}
+		}
+
+		&.is-danger {
+			@apply bg-on-danger text-danger;
+			&.is-active {
+				@apply bg-on-danger/90;
+			}
+		}
+
+		&.is-warning {
+			@apply bg-on-warning text-warning;
+			&.is-active {
+				@apply bg-on-warning/90;
+			}
+		}
 	}
 
-	.textarea-control.is-float.is-lg {
-		@apply pt-7 pb-3;
-	}
+	.textarea-control.is-solid {
+		@apply rounded-ui;
 
-	.textarea-control.is-primary {
-		@apply bg-on-primary text-primary rounded-ui;
-	}
+		&.is-primary {
+			@apply bg-primary text-on-primary;
+			&.is-active {
+				@apply bg-primary/90;
+			}
+		}
 
-	.textarea-control.is-solid.is-primary {
-		@apply bg-primary text-on-primary;
-	}
+		&.is-secondary {
+			@apply bg-secondary text-on-secondary;
+			&.is-active {
+				@apply bg-secondary/90;
+			}
+		}
 
-	.textarea-control.is-primary.is-active {
-		@apply bg-on-primary/90;
-	}
+		&.is-muted {
+			@apply bg-on-muted text-muted;
+			&.is-active {
+				@apply bg-on-muted/90;
+			}
+		}
 
-	.textarea-control.is-solid.is-primary.is-active {
-		@apply bg-primary/90;
-	}
+		&.is-success {
+			@apply bg-success text-on-success;
+			&.is-active {
+				@apply bg-success/90;
+			}
+		}
 
-	.textarea-control.is-secondary {
-		@apply bg-on-secondary text-secondary rounded-ui;
-	}
+		&.is-info {
+			@apply bg-info text-on-info;
+			&.is-active {
+				@apply bg-info/90;
+			}
+		}
 
-	.textarea-control.is-solid.is-secondary {
-		@apply bg-secondary text-on-secondary;
-	}
+		&.is-danger {
+			@apply bg-danger text-on-danger;
+			&.is-active {
+				@apply bg-danger/90;
+			}
+		}
 
-	.textarea-control.is-secondary.is-active {
-		@apply bg-on-secondary/90;
-	}
-
-	.textarea-control.is-solid.is-secondary.is-active {
-		@apply bg-secondary/90;
-	}
-
-	.textarea-control.is-muted {
-		@apply bg-muted text-on-muted rounded-ui;
-	}
-
-	.textarea-control.is-solid.is-muted {
-		@apply bg-on-muted text-muted;
-	}
-
-	.textarea-control.is-muted.is-active {
-		@apply bg-muted/90;
-	}
-
-	.textarea-control.is-solid.is-muted.is-active {
-		@apply bg-on-muted/90;
+		&.is-warning {
+			@apply bg-warning text-on-warning;
+			&.is-active {
+				@apply bg-warning/90;
+			}
+		}
 	}
 
 	.textarea-control.is-outlined {
-		@apply inset-ring-2 inset-ring-muted rounded-ui;
-	}
+		@apply rounded-ui inset-ring;
 
-	.textarea-control.is-outlined.is-active {
-		@apply inset-ring-2 inset-ring-primary;
+		&.is-active {
+			@apply inset-ring-2;
+		}
+
+		&.is-primary {
+			@apply inset-ring-primary;
+		}
+		&.is-secondary {
+			@apply inset-ring-secondary;
+		}
+		&.is-muted {
+			@apply inset-ring-muted;
+		}
+		&.is-success {
+			@apply inset-ring-success;
+		}
+		&.is-info {
+			@apply inset-ring-info;
+		}
+		&.is-danger {
+			@apply inset-ring-danger;
+		}
+		&.is-warning {
+			@apply inset-ring-warning;
+		}
 	}
 
 	.textarea-control.is-line {
-		@apply box-border border-b-2 border-muted text-on-muted px-0;
+		@apply box-border border-b px-0;
 
 		.textarea-control-label {
 			@apply left-0!;
 		}
-	}
 
-	.textarea-control.is-line.is-active {
-		@apply border-primary;
+		&.is-active {
+			@apply border-b-2;
+		}
+
+		&.is-primary {
+			@apply border-primary text-primary;
+		}
+		&.is-secondary {
+			@apply border-secondary text-secondary;
+		}
+		&.is-muted {
+			@apply border-on-muted text-on-muted;
+		}
+		&.is-success {
+			@apply border-success text-success;
+		}
+		&.is-info {
+			@apply border-info text-info;
+		}
+		&.is-danger {
+			@apply border-danger text-danger;
+		}
+		&.is-warning {
+			@apply border-warning text-warning;
+		}
 	}
 
 	.textarea-control-input {
@@ -114,17 +220,14 @@
 		@apply placeholder:transition-opacity placeholder:duration-300;
 		@apply bg-transparent;
 		@apply min-h-12;
-	}
-
-	.textarea-control-input.invisible {
-		@apply opacity-0;
-	}
-
-	.textarea-control-input {
 		resize: none;
-	}
 
-	.textarea-control-input.is-resizable {
-		resize: both;
+		&.invisible {
+			@apply opacity-0;
+		}
+
+		&.is-resizable {
+			resize: both;
+		}
 	}
 }

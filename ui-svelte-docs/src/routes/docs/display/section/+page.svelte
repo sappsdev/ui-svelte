@@ -40,8 +40,8 @@
 			isBoxed && `\tisBoxed`,
 			hasCover && `\tcover="/path/to/image.jpg"`,
 			`>`,
-			`\t<h2>Section Title</h2>`,
-			`\t<p>Section content goes here.</p>`,
+			`\t<h2 class="section-title">Section Title</h2>`,
+			`\t<p class="section-description">Section content goes here.</p>`,
 			`</Section>`
 		].filter(Boolean);
 
@@ -106,27 +106,14 @@
 				cover={hasCover ? 'https://picsum.photos/seed/section/1200/400' : undefined}
 				rootClass="min-h-48"
 			>
-				<h3>Section Title</h3>
-				<p>This is the section content. You can place any content here.</p>
+				<h3 class="section-title">Section Title</h3>
+				<p class="section-description">
+					This is the section content. You can place any content here.
+				</p>
 			</Section>
 		</div>
 
 		<Code lang="svelte" code={code()} />
-	</Card>
-</Section>
-
-<Section>
-	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
-		{#each variantOptions as item}
-			<div class="wrap gap-4 center">
-				{#each colorOptions as colorItem}
-					<Section variant={item.id as any} color={colorItem.id as any} rootClass="p-4 min-w-32">
-						<span class="text-sm">{item.label} {colorItem.label}</span>
-					</Section>
-				{/each}
-			</div>
-		{/each}
 	</Card>
 </Section>
 
@@ -138,11 +125,11 @@
 		</p>
 		<div class="column gap-4">
 			<Section color="surface" variant="soft" isBoxed rootClass="min-h-32">
-				<h4>Boxed Section</h4>
+				<h4 class="section-title">Boxed Section</h4>
 				<p>Content is centered and constrained to a maximum width.</p>
 			</Section>
 			<Section color="primary" variant="soft" rootClass="min-h-32">
-				<h4>Full Width Section</h4>
+				<h4 class="section-title">Full Width Section</h4>
 				<p>Content spans the full width of the section.</p>
 			</Section>
 		</div>
@@ -160,7 +147,7 @@
 					rootClass="min-h-48"
 				>
 					<div class="stack gap-2 center text-white">
-						<h4>{item.label} with Cover</h4>
+						<h4 class="section-title">{item.label} with Cover</h4>
 						<p>Section with a background cover image.</p>
 					</div>
 				</Section>

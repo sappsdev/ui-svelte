@@ -46,7 +46,29 @@
 		@apply flex items-center justify-center w-8 h-8 text-sm transition-colors;
 
 		&.selected {
-			@apply bg-primary text-on-primary rounded-ui;
+			@apply rounded-ui;
+		}
+
+		&.selected.is-primary {
+			@apply bg-primary text-on-primary;
+		}
+		&.selected.is-secondary {
+			@apply bg-secondary text-on-secondary;
+		}
+		&.selected.is-muted {
+			@apply bg-muted text-on-muted;
+		}
+		&.selected.is-success {
+			@apply bg-success text-on-success;
+		}
+		&.selected.is-info {
+			@apply bg-info text-on-info;
+		}
+		&.selected.is-danger {
+			@apply bg-danger text-on-danger;
+		}
+		&.selected.is-warning {
+			@apply bg-warning text-on-warning;
 		}
 
 		&.today {

@@ -119,18 +119,37 @@
 				bind:value={loading}
 			/>
 		</div>
-		<div class="col gap-2">
+		<div class="wrap gap-2">
 			<TextField
 				label="Image Source (URL)"
 				size="sm"
 				bind:value={imageSrc}
+				isFloatLabel
 				placeholder="Enter image URL"
 			/>
-			<TextField label="Alt Text" size="sm" bind:value={alt} placeholder="Enter alt text" />
+			<TextField
+				label="Alt Text"
+				size="sm"
+				bind:value={alt}
+				isFloatLabel
+				placeholder="Enter alt text"
+				rootClass="max-w-xs"
+			/>
 			<Checkbox label="Hide Controls" bind:checked={hideControls} />
 		</div>
 
-		<Image src={imageSrc} {alt} {color} {aspect} {objectFit} {loading} {hideControls} />
+		<div class="doc-preview">
+			<Image
+				src={imageSrc}
+				{alt}
+				{color}
+				{aspect}
+				{objectFit}
+				{loading}
+				{hideControls}
+				class="max-w-xs"
+			/>
+		</div>
 
 		<Code lang="svelte" code={code()} />
 	</Card>
@@ -166,25 +185,6 @@
 						alt="Mountain landscape"
 						aspect="square"
 						objectFit={item.id as any}
-					/>
-				</div>
-			{/each}
-		</div>
-	</Card>
-</Section>
-
-<Section>
-	<p class="section-subtitle">Colors</p>
-	<Card>
-		<div class="grid-1 md:grid-2 gap-4">
-			{#each colorOptions as item}
-				<div class="col gap-2">
-					<p class="text-sm">{item.label}</p>
-					<Image
-						src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400"
-						alt="Mountain landscape"
-						aspect="horizontal"
-						color={item.id as any}
 					/>
 				</div>
 			{/each}

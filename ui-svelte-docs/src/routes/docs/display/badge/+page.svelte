@@ -248,7 +248,7 @@
 			</Badge>
 
 			<!-- Pricing card with Most Popular badge -->
-			<Badge text="Most Popular" color="primary" variant="soft">
+			<Badge text="Most Popular" color="primary" variant="solid">
 				<Card variant="soft" color="primary">
 					<p class="text-2xl font-bold">$29<span class="text-sm">/mo</span></p>
 					<p class="text-sm">Pro Plan</p>

@@ -13,6 +13,7 @@
 		darkTheme?: string;
 		disableCopy?: boolean;
 		hideLang?: boolean;
+		copyContent?: string;
 		class?: string;
 	};
 
@@ -23,6 +24,7 @@
 		darkTheme = 'catppuccin-frappe',
 		disableCopy,
 		hideLang,
+		copyContent,
 		class: className
 	}: Props = $props();
 
@@ -46,7 +48,7 @@
 	const clipboard = useClipboard();
 
 	const handleCopy = () => {
-		clipboard.copy(code);
+		clipboard.copy(copyContent ?? code);
 	};
 </script>
 

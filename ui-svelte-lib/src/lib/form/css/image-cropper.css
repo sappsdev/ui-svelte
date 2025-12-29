@@ -1,14 +1,217 @@
 @layer components {
-	.image-cropper {
-		@apply flex flex-col gap-4 w-full;
+	.image-cropper-wrapper {
+		@apply relative inline-flex flex-col items-center gap-2;
+	}
+
+	.image-cropper-avatar {
+		@apply relative flex flex-col items-center justify-center;
+		@apply border-2 border-dashed cursor-pointer;
+		@apply transition-all duration-300;
+		@apply overflow-hidden;
+	}
+
+	.image-cropper-avatar.is-circle {
+		@apply rounded-full;
+	}
+
+	.image-cropper-avatar:not(.is-circle) {
+		@apply rounded-ui;
+	}
+
+	.image-cropper-avatar.is-xs {
+		@apply size-12;
+	}
+
+	.image-cropper-avatar.is-sm {
+		@apply size-16;
+	}
+
+	.image-cropper-avatar.is-md {
+		@apply size-24;
+	}
+
+	.image-cropper-avatar.is-lg {
+		@apply size-32;
+	}
+
+	.image-cropper-avatar.is-xl {
+		@apply size-40;
+	}
+
+	.image-cropper-avatar.is-soft {
+		&.is-primary {
+			@apply bg-on-primary/10 text-primary border-primary/30;
+		}
+		&.is-secondary {
+			@apply bg-on-secondary/10 text-secondary border-secondary/30;
+		}
+		&.is-muted {
+			@apply bg-muted/50 text-on-muted border-muted;
+		}
+		&.is-success {
+			@apply bg-on-success/10 text-success border-success/30;
+		}
+		&.is-info {
+			@apply bg-on-info/10 text-info border-info/30;
+		}
+		&.is-warning {
+			@apply bg-on-warning/10 text-warning border-warning/30;
+		}
+		&.is-danger {
+			@apply bg-on-danger/10 text-danger border-danger/30;
+		}
+	}
+
+	.image-cropper-avatar.is-outlined {
+		@apply bg-transparent;
+
+		&.is-primary {
+			@apply border-primary text-primary;
+		}
+		&.is-secondary {
+			@apply border-secondary text-secondary;
+		}
+		&.is-muted {
+			@apply border-muted text-on-muted;
+		}
+		&.is-success {
+			@apply border-success text-success;
+		}
+		&.is-info {
+			@apply border-info text-info;
+		}
+		&.is-warning {
+			@apply border-warning text-warning;
+		}
+		&.is-danger {
+			@apply border-danger text-danger;
+		}
+	}
+
+	.image-cropper-avatar.is-solid {
+		&.is-primary {
+			@apply bg-primary text-on-primary border-primary;
+		}
+		&.is-secondary {
+			@apply bg-secondary text-on-secondary border-secondary;
+		}
+		&.is-muted {
+			@apply bg-muted text-on-muted border-muted;
+		}
+		&.is-success {
+			@apply bg-success text-on-success border-success;
+		}
+		&.is-info {
+			@apply bg-info text-on-info border-info;
+		}
+		&.is-warning {
+			@apply bg-warning text-on-warning border-warning;
+		}
+		&.is-danger {
+			@apply bg-danger text-on-danger border-danger;
+		}
+	}
+
+	.image-cropper-avatar.is-ghost {
+		@apply bg-transparent border-transparent;
+
+		&.is-primary {
+			@apply text-primary;
+		}
+		&.is-secondary {
+			@apply text-secondary;
+		}
+		&.is-muted {
+			@apply text-on-muted;
+		}
+		&.is-success {
+			@apply text-success;
+		}
+		&.is-info {
+			@apply text-info;
+		}
+		&.is-warning {
+			@apply text-warning;
+		}
+		&.is-danger {
+			@apply text-danger;
+		}
+	}
+
+	.image-cropper-avatar:hover:not(.is-disabled) {
+		@apply border-solid;
+		@apply scale-105;
+	}
+
+	.image-cropper-avatar.is-disabled {
+		@apply opacity-50 cursor-not-allowed;
+	}
+
+	.image-cropper-avatar.is-error {
+		@apply border-danger;
+	}
+
+	.image-cropper-icon {
+		@apply size-6 opacity-70;
+	}
+
+	.image-cropper-avatar.is-xs .image-cropper-icon,
+	.image-cropper-avatar.is-sm .image-cropper-icon {
+		@apply size-4;
+	}
+
+	.image-cropper-avatar.is-lg .image-cropper-icon,
+	.image-cropper-avatar.is-xl .image-cropper-icon {
+		@apply size-8;
+	}
+
+	.image-cropper-placeholder {
+		@apply text-xs opacity-70 text-center mt-1;
+	}
+
+	.image-cropper-avatar.is-xs .image-cropper-placeholder,
+	.image-cropper-avatar.is-sm .image-cropper-placeholder {
+		@apply hidden;
+	}
+
+	.image-cropper-preview {
+		@apply absolute inset-0 w-full h-full object-cover;
+	}
+	.image-cropper-overlay-edit {
+		@apply absolute inset-0 flex items-center justify-center;
+		@apply bg-black/50 opacity-0 transition-opacity duration-300;
+		@apply text-white;
+	}
+
+	.image-cropper-avatar:hover .image-cropper-overlay-edit {
+		@apply opacity-100;
+	}
+
+	.image-cropper-actions {
+		@apply flex gap-1;
+	}
+	.image-cropper-modal {
+		@apply max-w-2xl w-full;
+	}
+
+	.image-cropper-modal-title {
+		@apply text-lg font-semibold;
+	}
+
+	.image-cropper-modal-body {
+		@apply flex flex-col gap-4;
+	}
+
+	.image-cropper-modal-footer {
+		@apply flex items-center justify-end gap-2;
 	}
 
 	.image-cropper-container {
 		@apply relative w-full overflow-hidden;
 		@apply bg-muted rounded-ui;
 		@apply flex items-center justify-center;
-		min-height: 400px;
-		max-height: 600px;
+		min-height: 300px;
+		max-height: 500px;
 	}
 
 	.image-cropper-image {
@@ -17,8 +220,11 @@
 		-webkit-user-drag: none;
 	}
 
-	.image-cropper-overlay {
-		@apply absolute inset-0 pointer-events-none;
+	.image-cropper-crop-overlay {
+		@apply absolute pointer-events-none;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 	}
 
 	.overlay-top,
@@ -33,7 +239,7 @@
 	}
 
 	.overlay-bottom {
-		@apply left-0 right-0 bottom-0;
+		@apply left-0 right-0;
 	}
 
 	.overlay-middle {
@@ -55,6 +261,10 @@
 		@apply cursor-move;
 		@apply transition-shadow duration-300;
 		box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+	}
+
+	.crop-area.is-circle {
+		@apply rounded-full;
 	}
 
 	.crop-area:hover {
@@ -130,26 +340,17 @@
 		@apply scale-125 bg-primary/90;
 	}
 
-	.image-cropper-controls {
-		@apply flex items-center justify-end gap-2;
-	}
-
 	.image-cropper-canvas {
 		@apply hidden;
 	}
 
-	/* Responsive */
 	@media (max-width: 640px) {
 		.image-cropper-container {
-			min-height: 300px;
+			min-height: 250px;
 		}
 
-		.image-cropper-controls {
-			@apply flex-col w-full;
-		}
-
-		.image-cropper-controls .btn {
-			@apply w-full;
+		.image-cropper-modal-footer {
+			@apply flex-wrap justify-center;
 		}
 	}
 }

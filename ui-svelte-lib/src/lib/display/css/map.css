@@ -1,0 +1,164 @@
+@layer components {
+	.map {
+		@apply relative overflow-hidden;
+		border-radius: var(--radius-box);
+		width: var(--map-width, 100%);
+		height: var(--map-height, 400px);
+		min-height: var(--map-height, 400px);
+
+		&.is-primary {
+			--map-color: theme('colors.primary');
+		}
+		&.is-secondary {
+			--map-color: theme('colors.secondary');
+		}
+		&.is-muted {
+			--map-color: theme('colors.muted');
+		}
+		&.is-success {
+			--map-color: theme('colors.success');
+		}
+		&.is-info {
+			--map-color: theme('colors.info');
+		}
+		&.is-warning {
+			--map-color: theme('colors.warning');
+		}
+		&.is-danger {
+			--map-color: theme('colors.danger');
+		}
+	}
+
+	.map-container {
+		position: absolute !important;
+		top: 0 !important;
+		left: 0 !important;
+		right: 0 !important;
+		bottom: 0 !important;
+		width: 100% !important;
+		height: 100% !important;
+	}
+
+	.map-loading {
+		@apply absolute inset-0 z-50 flex items-center justify-center bg-surface/80;
+	}
+
+	.map-spinner {
+		@apply size-10 rounded-full border-4 border-muted border-t-primary animate-spin;
+	}
+
+	.map :global(.leaflet-container) {
+		@apply size-full;
+	}
+
+	.map :global(.leaflet-control-zoom) {
+		@apply border-none shadow-md rounded-ui overflow-hidden;
+	}
+
+	.map :global(.leaflet-control-zoom a) {
+		@apply bg-surface text-on-surface border-none;
+		@apply hover:bg-muted transition-colors duration-200;
+	}
+
+	.map :global(.leaflet-control-zoom-in) {
+		@apply border-b border-muted!;
+	}
+
+	.map :global(.leaflet-control-attribution) {
+		@apply hidden;
+	}
+
+	.map :global(.leaflet-control-scale-line) {
+		@apply bg-surface/80 border-on-surface/50 text-on-surface text-xs;
+	}
+
+	.map :global(.leaflet-popup-content-wrapper) {
+		@apply bg-surface text-on-surface rounded-ui shadow-lg;
+	}
+
+	.map :global(.leaflet-popup-tip) {
+		@apply bg-surface;
+	}
+
+	.map :global(.leaflet-popup-close-button) {
+		@apply text-on-surface/60 hover:text-on-surface;
+	}
+
+	.map :global(.leaflet-tooltip) {
+		@apply bg-surface text-on-surface border-none shadow-md rounded-ui px-2 py-1 text-sm;
+	}
+
+	.map :global(.leaflet-tooltip::before) {
+		@apply border-t-surface;
+	}
+
+	.map-location-btn {
+		@apply absolute z-1000 flex items-center justify-center;
+		@apply size-10 rounded-ui bg-surface shadow-md;
+		@apply border-none cursor-pointer;
+		@apply text-on-surface/70 hover:text-on-surface;
+		@apply transition-all duration-200;
+		bottom: 1rem;
+		right: 1rem;
+
+		svg {
+			@apply size-5;
+		}
+
+		&:hover {
+			@apply bg-surface shadow-lg;
+		}
+
+		&:disabled {
+			@apply cursor-wait;
+		}
+
+		&.is-locating {
+			@apply text-primary;
+		}
+	}
+
+	.map-location-spinner {
+		@apply animate-spin;
+	}
+
+	.map :global(.map-location-marker) {
+		background: transparent !important;
+		border: none !important;
+		width: 24px !important;
+		height: 24px !important;
+		display: flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+	}
+
+	.map :global(.map-location-dot) {
+		width: 16px;
+		height: 16px;
+		border-radius: 50%;
+		background-color: var(--location-color, theme('colors.primary'));
+		border: 3px solid white;
+		box-shadow:
+			0 0 0 2px var(--location-color, theme('colors.primary')),
+			0 2px 8px rgba(0, 0, 0, 0.4);
+		animation: location-pulse 2s ease-out infinite;
+	}
+
+	@keyframes location-pulse {
+		0% {
+			box-shadow:
+				0 0 0 2px var(--location-color, theme('colors.primary')),
+				0 2px 8px rgba(0, 0, 0, 0.3);
+		}
+		50% {
+			box-shadow:
+				0 0 0 6px transparent,
+				0 2px 8px rgba(0, 0, 0, 0.3);
+		}
+		100% {
+			box-shadow:
+				0 0 0 2px var(--location-color, theme('colors.primary')),
+				0 2px 8px rgba(0, 0, 0, 0.3);
+		}
+	}
+}

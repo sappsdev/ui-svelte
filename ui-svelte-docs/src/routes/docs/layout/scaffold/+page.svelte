@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { Card, Code, Icon, Section, Select } from 'ui-svelte';
+	import { Card, Checkbox, Code, Icon, Section, Select } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
-	import DocsCode from '$lib/components/DocsCode.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
 	import {
 		WebLayoutIcon,
@@ -12,6 +11,7 @@
 
 	type ExampleType = 'landing' | 'dashboard' | 'mobile';
 	let exampleType = $state<ExampleType>('landing');
+	let isBoxed = $state(false);
 
 	const exampleOptions = [
 		{ id: 'landing', label: 'Landing Page' },
@@ -19,7 +19,9 @@
 		{ id: 'mobile', label: 'Mobile with BottomNav' }
 	];
 
-	const landingCode = `<script lang="ts">
+	let code = $derived(() => {
+		if (exampleType === 'landing') {
+			return `<script lang="ts">
 	import { Scaffold, AppBar, Footer, NavMenu } from 'ui-svelte';
 	let { children } = $props();
 
@@ -29,7 +31,7 @@
 	];
 <\/script>
 
-<Scaffold mainClass="vh-16 mt-16">
+<Scaffold mainClass="vh-16 mt-16"${isBoxed ? ' isBoxed' : ''}>
 	{#snippet appBar()}
 		<AppBar class="h-16" isBoxed isSticky>
 			{#snippet start()}
@@ -54,8 +56,10 @@
 		{/snippet}
 	</Footer>
 </Scaffold>`;
+		}
 
-	const dashboardCode = `<script lang="ts">
+		if (exampleType === 'dashboard') {
+			return `<script lang="ts">
 	import { Scaffold, AppBar, Sidebar, SideNav, Footer, IconButton, Drawer } from 'ui-svelte';
 	let { children } = $props();
 	let drawerOpen = $state(false);
@@ -70,8 +74,7 @@
 <Scaffold
 	mainClass="lg:p-4 pb-16"
 	startClass="invisible lg:visible lg:w-56"
-	bodyClass="bg-background mt-16"
-	isBoxed
+	bodyClass="bg-background mt-16"${isBoxed ? '\n\tisBoxed' : ''}
 >
 	{#snippet appBar()}
 		<AppBar class="h-16" isSticky isBoxed>
@@ -112,8 +115,9 @@
 <Drawer bind:open={drawerOpen}>
 	<SideNav items={navItems} />
 </Drawer>`;
+		}
 
-	const mobileCode = `<script lang="ts">
+		return `<script lang="ts">
 	import { Scaffold, AppBar, BottomNav } from 'ui-svelte';
 	let { children } = $props();
 
@@ -125,7 +129,7 @@
 	];
 <\/script>
 
-<Scaffold mainClass="mt-16 pb-16" bodyClass="mt-16">
+<Scaffold mainClass="mt-16 pb-16" bodyClass="mt-16"${isBoxed ? ' isBoxed' : ''}>
 	{#snippet appBar()}
 		<AppBar class="h-16">
 			{#snippet center()}
@@ -141,15 +145,10 @@
 		<BottomNav items={bottomNavItems} />
 	{/snippet}
 </Scaffold>`;
-
-	let code = $derived(() => {
-		if (exampleType === 'landing') return landingCode;
-		if (exampleType === 'dashboard') return dashboardCode;
-		return mobileCode;
 	});
 
 	const props = [
-		{ prop: 'children', type: 'Snippet', initial: '', required: true, description: 'Main content' },
+		{ prop: 'children', type: 'Snippet', initial: '', description: 'Main content' },
 		{ prop: 'appBar', type: 'Snippet', initial: '', description: 'Fixed top navigation bar' },
 		{ prop: 'start', type: 'Snippet', initial: '', description: 'Left sidebar content' },
 		{ prop: 'end', type: 'Snippet', initial: '', description: 'Right sidebar content' },
@@ -332,32 +331,33 @@
 	responsive layouts. <strong>It should only be used in layout files (+layout.svelte).</strong>
 </DocsHeader>
 
-<Section bodyClass="md:grid-3">
-	<div class="md:col-span-2">
-		{#if exampleType === 'landing'}
-			{@render landingPreview()}
-		{:else if exampleType === 'dashboard'}
-			{@render dashboardPreview()}
-		{:else if exampleType === 'mobile'}
-			{@render mobilePreview()}
-		{/if}
-	</div>
-	<Card>
-		<Select label="Layout Example" size="sm" options={exampleOptions} bind:value={exampleType} />
-		<div class="mt-4 text-sm">
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Layout Example"
+				size="sm"
+				options={exampleOptions}
+				bind:value={exampleType}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={isBoxed} label="isBoxed" />
+		</div>
+
+		<div class="doc-preview">
 			{#if exampleType === 'landing'}
-				Simple landing page layout with AppBar and Footer.
+				{@render landingPreview()}
 			{:else if exampleType === 'dashboard'}
-				Dashboard with sidebar navigation and responsive layout.
-			{:else}
-				Mobile-first layout with BottomNav navigation.
+				{@render dashboardPreview()}
+			{:else if exampleType === 'mobile'}
+				{@render mobilePreview()}
 			{/if}
 		</div>
+		<Code lang="svelte" code={code()} />
 	</Card>
-</Section>
-
-<Section>
-	<DocsCode code={code()} />
 </Section>
 
 <Section>
@@ -376,58 +376,59 @@
 	</Card>
 </Section>
 
-<DocsProps {props} />
+<Section>
+	<p class="section-subtitle">Layout Patterns</p>
+	<Card bodyClass="grid-1 md:grid-3 gap-4">
+		<Card color="info">
+			<div class="column gap-3">
+				<Icon icon={WebLayoutIcon} class="w-8 h-8" />
+				<h4 class="font-semibold">Landing Pages</h4>
+				<ul class="text-sm space-y-1 list-disc list-inside">
+					<li>AppBar at top (fixed)</li>
+					<li>Full-width content</li>
+					<li>Footer at bottom</li>
+					<li>No sidebars</li>
+					<li><code class="px-1 py-0.5 bg-blue rounded">mainClass="vh-16 mt-16"</code></li>
+				</ul>
+			</div>
+		</Card>
 
-<Section bodyClass="grid-1 md:grid-3 gap-4">
-	<Card color="info">
-		<div class="column gap-3">
-			<Icon icon={WebLayoutIcon} class="w-8 h-8" />
-			<h4 class="font-semibold">Landing Pages</h4>
-			<ul class="text-sm space-y-1 list-disc list-inside">
-				<li>AppBar at top (fixed)</li>
-				<li>Full-width content</li>
-				<li>Footer at bottom</li>
-				<li>No sidebars</li>
-				<li><code class="px-1 py-0.5 bg-blue rounded">mainClass="vh-16 mt-16"</code></li>
-			</ul>
-		</div>
-	</Card>
+		<Card color="info">
+			<div class="column gap-3">
+				<Icon icon={LayoutDashboardIcon} class="w-8 h-8" />
+				<h4 class="font-semibold">Dashboard</h4>
+				<ul class="text-sm space-y-1 list-disc list-inside">
+					<li>AppBar at top (fixed)</li>
+					<li>Left/right sidebars</li>
+					<li>Responsive (hidden on mobile)</li>
+					<li>
+						<code class="px-1 py-0.5 bg-blue rounded"
+							>startClass="invisible lg:visible lg:w-56"</code
+						>
+					</li>
+					<li>Use Drawer for mobile nav</li>
+				</ul>
+			</div>
+		</Card>
 
-	<Card color="info">
-		<div class="column gap-3">
-			<Icon icon={LayoutDashboardIcon} class="w-8 h-8" />
-			<h4 class="font-semibold">Dashboard</h4>
-			<ul class="text-sm space-y-1 list-disc list-inside">
-				<li>AppBar at top (fixed)</li>
-				<li>Left/right sidebars</li>
-				<li>Responsive (hidden on mobile)</li>
-				<li>
-					<code class="px-1 py-0.5 bg-blue rounded">startClass="invisible lg:visible lg:w-56"</code>
-				</li>
-				<li>Use Drawer for mobile nav</li>
-			</ul>
-		</div>
-	</Card>
-
-	<Card color="info">
-		<div class="column gap-3">
-			<Icon icon={SmartphoneIcon} class="w-8 h-8" />
-			<h4 class="font-semibold">Mobile App</h4>
-			<ul class="text-sm space-y-1 list-disc list-inside">
-				<li>AppBar at top</li>
-				<li>BottomNav for navigation</li>
-				<li>No sidebars</li>
-				<li><code class="px-1 py-0.5 bg-blue rounded">mainClass="mt-16 pb-16"</code></li>
-			</ul>
-		</div>
+		<Card color="info">
+			<div class="column gap-3">
+				<Icon icon={SmartphoneIcon} class="w-8 h-8" />
+				<h4 class="font-semibold">Mobile App</h4>
+				<ul class="text-sm space-y-1 list-disc list-inside">
+					<li>AppBar at top</li>
+					<li>BottomNav for navigation</li>
+					<li>No sidebars</li>
+					<li><code class="px-1 py-0.5 bg-blue rounded">mainClass="mt-16 pb-16"</code></li>
+				</ul>
+			</div>
+		</Card>
 	</Card>
 </Section>
 
 <Section>
+	<p class="section-subtitle">Key Concepts</p>
 	<Card>
-		{#snippet header()}
-			<h4>Key Concepts</h4>
-		{/snippet}
 		<div class="column gap-4">
 			<div>
 				<h5 class="font-semibold mb-2">1. Body Class - AppBar Spacing</h5>
@@ -479,10 +480,8 @@
 </Section>
 
 <Section>
+	<p class="section-subtitle">Real-World Examples</p>
 	<Card bodyClass="column gap-4">
-		{#snippet header()}
-			<h4>Real-World Examples</h4>
-		{/snippet}
 		<Code
 			lang="svelte"
 			code={`<!-- Landing Layout Example (src/routes/(landing)/+layout.svelte) -->
@@ -547,4 +546,9 @@
 </Drawer>`}
 		/>
 	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
 </Section>

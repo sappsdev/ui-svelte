@@ -24,6 +24,7 @@
 
 	let {
 		items,
+		// svelte-ignore state_referenced_locally
 		value = $bindable(items[0]?.id ?? ''),
 		onchange,
 		color = 'muted',

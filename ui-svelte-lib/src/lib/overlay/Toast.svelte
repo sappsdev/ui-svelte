@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
 
-	import { Icon, toast } from '$lib/index.js';
+	import { Icon, IconButton, toast } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
 	import { popover } from '$lib/utils/popover.js';
 	import {
@@ -48,11 +48,14 @@
 		soft: 'is-soft'
 	};
 
-	const icons = {
-		info: 'fluent:error-circle-24-regular',
-		success: 'fluent:checkmark-circle-24-regular',
-		warning: 'fluent:warning-24-regular',
-		danger: 'fluent:block-24-regular'
+	const closeColors = {
+		primary: 'primary',
+		secondary: 'secondary',
+		muted: 'muted',
+		success: 'success',
+		info: 'info',
+		warning: 'warning',
+		danger: 'danger'
 	};
 </script>
 
@@ -90,9 +93,13 @@
 					<div class="toast-description">{message.description}</div>
 				</div>
 				<div class="btn-close">
-					<button onclick={() => toast.close(message.id)}>
-						<Icon icon={Dismiss24RegularIcon} class="btn-close-icon" />
-					</button>
+					<IconButton
+						icon={Dismiss24RegularIcon}
+						variant={variant === 'solid' ? 'soft' : 'solid'}
+						color={closeColors[message.color] as any}
+						size="xs"
+						onclick={() => toast.close(message.id)}
+					/>
 				</div>
 			</div>
 		{/each}

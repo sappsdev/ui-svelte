@@ -30,7 +30,6 @@
 		helpText?: string;
 		errorText?: string;
 		isFloatLabel?: boolean;
-		isSolid?: boolean;
 		isClearable?: boolean;
 		isDisabled?: boolean;
 		arrowIcon?: IconData;
@@ -56,7 +55,6 @@
 		helpText,
 		errorText,
 		isFloatLabel,
-		isSolid,
 		isClearable = false,
 		isDisabled = false,
 		arrowIcon = ArrowDown24RegularIcon
@@ -102,6 +100,7 @@
 	let controlElement = $state<HTMLElement>();
 	let contentEl = $state<HTMLElement>();
 	let optionsEl = $state<HTMLElement>();
+	let searchInputEl = $state<HTMLInputElement>();
 	let focusedIndex = $state(-1);
 	let searchTerm = $state('');
 	let searchTimeout: ReturnType<typeof setTimeout> | null = $state(null);
@@ -249,6 +248,7 @@
 		if (isDisabled) return;
 
 		if (!isOpen) {
+			search.setSearch('');
 			startEventListeners();
 			await initializeFocusedIndex();
 			await scrollToSelectedItem();
@@ -256,6 +256,10 @@
 			await updatePosition();
 			isOpen = true;
 			hasSearched = false;
+			await tick();
+			setTimeout(() => {
+				searchInputEl?.focus();
+			}, 100);
 		} else {
 			stopEventListeners();
 			focusedIndex = -1;
@@ -349,7 +353,6 @@
 			variants[variant],
 			sizeClasses[size],
 			isFloatLabel && 'is-float',
-			isSolid && 'is-solid',
 			(isActive || isFocused || isOpen) && 'is-active',
 			isDisabled && 'opacity-50 cursor-not-allowed'
 		)}
@@ -412,6 +415,7 @@
 		<div class={cn('combo-box-search', colors[color], variants[variant])}>
 			<Icon icon={Search24RegularIcon} class="combo-box-search-icon" />
 			<input
+				bind:this={searchInputEl}
 				type="text"
 				class="combo-box-search-input"
 				placeholder={searchPlaceholder}

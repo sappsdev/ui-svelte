@@ -161,6 +161,14 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/display/marquee'
 			},
 			{
+				label: 'Map',
+				href: '/docs/display/map'
+			},
+			{
+				label: 'RichText',
+				href: '/docs/display/rich-text'
+			},
+			{
 				label: 'Section',
 				href: '/docs/display/section'
 			},
@@ -168,10 +176,6 @@ export const sideMenuItems: SideNavItem[] = [
 				label: 'Table',
 				href: '/docs/display/table'
 			},
-			{
-				label: 'RichText',
-				href: '/docs/display/rich-text'
-			}
 		]
 	},
 	{

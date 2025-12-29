@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ArrowLeft24RegularIcon, ArrowRight24RegularIcon } from '$lib/icons/index.js';
-	import { Button, formatDate, getWeekdays, Icon } from '$lib/index.js';
+	import { Button, formatDate, getWeekdays, IconButton } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
 	import { onMount } from 'svelte';
 
@@ -8,7 +8,8 @@
 		value?: unknown;
 		placeholder?: string;
 		onchange?: (value: unknown) => void;
-		variant?: 'primary' | 'secondary' | 'muted' | 'outlined' | 'line';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft' | 'outlined' | 'line';
 		size?: 'sm' | 'md' | 'lg';
 		name?: string;
 		class?: string;
@@ -25,6 +26,7 @@
 		placeholder = 'Select an option',
 		onchange,
 		variant = 'outlined',
+		color = 'muted',
 		size = 'md',
 		name,
 		label,
@@ -32,8 +34,7 @@
 		helpText,
 		errorText,
 		class: className,
-		isFloatLabel,
-		isSolid
+		isFloatLabel
 	}: Props = $props();
 
 	let selectedDate = $state<Date>(new Date());
@@ -55,10 +56,19 @@
 		isBottomHalf: false
 	});
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
 		outlined: 'is-outlined',
 		line: 'is-line'
 	};
@@ -139,7 +149,7 @@
 	);
 
 	const days = $derived(getDaysInMonth(currentMonth, currentYear));
-	const weekdays = $derived(getWeekdays('short'));
+	const weekdays = $derived(getWeekdays('narrow'));
 
 	const formattedSelectedDate = $derived(
 		formatDate(selectedDate, {
@@ -216,10 +226,10 @@
 		bind:this={controlElement}
 		class={cn(
 			'control',
-			variantClasses[variant],
+			colors[color],
+			variants[variant],
 			sizeClasses[size],
 			isFloatLabel && 'is-float',
-			isSolid && 'is-solid',
 			(isActive || isFocused) && 'is-active'
 		)}
 		class:is-error={errorText}
@@ -256,15 +266,23 @@
 
 	<div class:is-open={isOpen} class="date-popover" {style} bind:this={contentEl}>
 		<div class="date-picker-header">
-			<Button variant="ghost" onclick={() => changeMonth('prev')}>
-				<Icon icon={ArrowLeft24RegularIcon} />
-			</Button>
+			<IconButton
+				onclick={() => changeMonth('prev')}
+				icon={ArrowLeft24RegularIcon}
+				{color}
+				variant="ghost"
+				size="sm"
+			/>
 
 			<span>{monthName} {currentYear}</span>
 
-			<Button variant="ghost" onclick={() => changeMonth('next')}>
-				<Icon icon={ArrowRight24RegularIcon} />
-			</Button>
+			<IconButton
+				onclick={() => changeMonth('next')}
+				icon={ArrowRight24RegularIcon}
+				{color}
+				variant="ghost"
+				size="sm"
+			/>
 		</div>
 		<div class="date-picker-weekdays">
 			{#each weekdays as weekday}
@@ -275,7 +293,7 @@
 			{#each days as day}
 				{#if day}
 					<button
-						class="date-picker-day-button"
+						class={cn('date-picker-day-button', colors[color])}
 						class:today={isToday(day)}
 						class:selected={isSelected(day)}
 						onclick={() => selectDate(day)}

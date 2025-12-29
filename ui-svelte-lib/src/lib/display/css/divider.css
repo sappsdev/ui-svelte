@@ -1,24 +1,26 @@
 @layer components {
 	.divider-horizontal {
+		--divider-gap: 1rem;
 		@apply flex items-center w-full;
+		gap: var(--divider-gap);
 		&:before,
 		&:after {
 			@apply content-[''] h-px flex-1 bg-muted;
 		}
-		& > * {
-			@apply px-4;
+		&:empty {
+			gap: 0;
 		}
 	}
 	.divider-vertical {
+		--divider-gap: 1rem;
 		@apply flex flex-col items-center h-full;
-
+		gap: var(--divider-gap);
 		&:before,
 		&:after {
 			@apply content-[''] w-px flex-1 bg-muted;
 		}
-
-		& > * {
-			@apply py-4;
+		&:empty {
+			gap: 0;
 		}
 	}
 

@@ -33,6 +33,12 @@
 	let isFloatLabel = $state(false);
 	let label = $state('');
 
+	// Show format props
+	let showHex = $state(false);
+	let showRgb = $state(false);
+	let showCmyk = $state(false);
+	let showOklch = $state(false);
+
 	// Bindable color values
 	let hex = $state('#3b82f6');
 	let rgb = $state('');
@@ -41,7 +47,17 @@
 	let foreground = $state('');
 
 	let hasProps = $derived(
-		[color !== 'muted', variant !== 'outlined', size !== 'md', isFloatLabel, label].some(Boolean)
+		[
+			color !== 'muted',
+			variant !== 'outlined',
+			size !== 'md',
+			isFloatLabel,
+			label,
+			showHex,
+			showRgb,
+			showCmyk,
+			showOklch
+		].some(Boolean)
 	);
 
 	let code = $derived(() => {
@@ -69,6 +85,10 @@
 			size !== 'md' && `\tsize="${size}"`,
 			isFloatLabel && `\tisFloatLabel`,
 			label && `\tlabel="${label}"`,
+			showHex && `\tshowHex`,
+			showRgb && `\tshowRgb`,
+			showCmyk && `\tshowCmyk`,
+			showOklch && `\tshowOklch`,
 			`/>`
 		].filter(Boolean);
 
@@ -86,6 +106,20 @@
 		{ prop: 'onCmyk', type: '(value: string) => void', initial: '' },
 		{ prop: 'onOklch', type: '(value: string) => void', initial: '' },
 		{ prop: 'onForeground', type: '(value: string) => void', initial: '' },
+		{ prop: 'showHex', type: 'boolean', initial: 'false', description: 'Show HEX value in picker' },
+		{ prop: 'showRgb', type: 'boolean', initial: 'false', description: 'Show RGB value in picker' },
+		{
+			prop: 'showCmyk',
+			type: 'boolean',
+			initial: 'false',
+			description: 'Show CMYK value in picker'
+		},
+		{
+			prop: 'showOklch',
+			type: 'boolean',
+			initial: 'false',
+			description: 'Show OKLCH value in picker'
+		},
 		{
 			prop: 'color',
 			type: 'primary | secondary | muted | success | info | danger | warning',
@@ -147,6 +181,10 @@
 				name="label"
 				label="Label"
 			/>
+			<Checkbox bind:checked={showHex} label="showHex" />
+			<Checkbox bind:checked={showRgb} label="showRgb" />
+			<Checkbox bind:checked={showCmyk} label="showCmyk" />
+			<Checkbox bind:checked={showOklch} label="showOklch" />
 		</div>
 
 		<div class="doc-preview">
@@ -156,6 +194,10 @@
 				{size}
 				{isFloatLabel}
 				label={label || undefined}
+				{showHex}
+				{showRgb}
+				{showCmyk}
+				{showOklch}
 				bind:hex
 				bind:rgb
 				bind:cmyk

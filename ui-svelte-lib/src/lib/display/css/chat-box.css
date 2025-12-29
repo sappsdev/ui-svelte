@@ -4,6 +4,10 @@
 		@apply bg-surface;
 	}
 
+	.chatbox.is-prompt {
+		@apply bg-background;
+	}
+
 	.chatbox-header {
 		@apply flex items-center justify-between gap-3 border-b border-muted px-4 py-3;
 		@apply bg-background text-on-background;
@@ -32,6 +36,10 @@
 	.chatbox-messages {
 		@apply flex flex-1 flex-col gap-2 overflow-y-auto px-4 py-4;
 		@apply bg-surface;
+	}
+
+	.chatbox.is-prompt .chatbox-messages {
+		@apply gap-4 bg-background;
 	}
 
 	.chatbox-messages::-webkit-scrollbar {
@@ -63,6 +71,26 @@
 		@apply justify-start;
 	}
 
+	.chatbox.is-prompt .message-wrapper {
+		@apply gap-3;
+	}
+
+	.chatbox.is-prompt .message-wrapper.assistant {
+		@apply justify-start;
+	}
+
+	.chatbox.is-prompt .message-wrapper.own {
+		@apply flex-row-reverse;
+	}
+
+	.chatbox.is-prompt .message-wrapper.system {
+		@apply justify-center;
+	}
+
+	.message-avatar {
+		@apply shrink-0;
+	}
+
 	@keyframes messageSlideIn {
 		from {
 			opacity: 0;
@@ -87,8 +115,57 @@
 		@apply rounded-br-md;
 	}
 
+	.chatbox.is-prompt .message {
+		@apply max-w-none flex-1 rounded-2xl px-4 py-3;
+	}
+
+	.chatbox.is-prompt .message.assistant {
+		@apply rounded-tl-md bg-surface;
+	}
+
+	.chatbox.is-prompt .message.own {
+		@apply rounded-tr-md;
+	}
+
+	.chatbox.is-prompt .message.system {
+		@apply max-w-fit rounded-full bg-muted/20 px-4 py-2 text-xs text-on-muted;
+	}
+
 	.message-content {
 		@apply mb-1 whitespace-pre-wrap wrap-break-word leading-relaxed;
+	}
+
+	.streaming-cursor {
+		@apply ml-0.5 inline-block animate-pulse text-primary;
+	}
+	.typing-indicator {
+		@apply flex items-center gap-1 py-1;
+	}
+
+	.typing-indicator span {
+		@apply h-2 w-2 rounded-full bg-on-muted/50;
+		animation: typingBounce 1.4s infinite ease-in-out both;
+	}
+
+	.typing-indicator span:nth-child(1) {
+		animation-delay: -0.32s;
+	}
+
+	.typing-indicator span:nth-child(2) {
+		animation-delay: -0.16s;
+	}
+
+	@keyframes typingBounce {
+		0%,
+		80%,
+		100% {
+			transform: scale(0.8);
+			opacity: 0.5;
+		}
+		40% {
+			transform: scale(1);
+			opacity: 1;
+		}
 	}
 
 	.message-meta {
@@ -195,17 +272,33 @@
 		}
 	}
 
+	.chatbox.is-prompt.is-solid,
+	.chatbox.is-prompt.is-soft,
+	.chatbox.is-prompt.is-outlined {
+		& .message.assistant {
+			@apply bg-surface text-on-surface;
+		}
+	}
+
 	.chatbox-footer {
 		@apply border-t border-surface text-on-background p-2;
 	}
 
+	.chatbox.is-prompt .chatbox-footer {
+		@apply border-t border-muted/30 bg-background;
+	}
+
 	.chatbox-input {
-		@apply appearance-none w-full h-full outline-none;
+		@apply appearance-none w-full h-full outline-none bg-transparent;
 	}
 
 	.chatbox-input-wrapper {
 		@apply flex items-center gap-2 bg-background rounded-ui p-2;
 		box-shadow: 0 0 3px 0 var(--color-muted);
+	}
+
+	.chatbox.is-prompt .chatbox-input-wrapper {
+		@apply bg-surface;
 	}
 
 	.chatbox-input-actions {

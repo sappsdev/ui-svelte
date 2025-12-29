@@ -187,32 +187,6 @@
 </Section>
 
 <Section>
-	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
-		{#each variantOptions as item}
-			<div class="wrap gap-4 center">
-				{#each colorOptions as colorItem}
-					<PinField variant={item.id as any} color={colorItem.id as any} length={4} />
-				{/each}
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
-	<p class="section-subtitle">Sizes</p>
-	<Card>
-		{#each variantOptions as item}
-			<div class="wrap gap-4 center">
-				{#each sizeOptions as sizeItem}
-					<PinField variant={item.id as any} size={sizeItem.id as any} length={4} />
-				{/each}
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
 	<p class="section-subtitle">Input Types</p>
 	<Card>
 		<div class="wrap gap-4 center">

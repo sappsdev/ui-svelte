@@ -227,42 +227,6 @@
 </Section>
 
 <Section>
-	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
-		{#each variantOptions as item}
-			<div class="wrap gap-4 center">
-				{#each colorOptions as colorItem}
-					<Item
-						id={colorItem.id}
-						label={item.label + ' ' + colorItem.label}
-						variant={item.id as any}
-						color={colorItem.id as any}
-					/>
-				{/each}
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
-	<p class="section-subtitle">Sizes</p>
-	<Card>
-		{#each variantOptions as item}
-			<div class="wrap gap-4 center">
-				{#each sizeOptions as sizeItem}
-					<Item
-						id={sizeItem.id}
-						label={item.label + ' ' + sizeItem.label}
-						variant={item.id as any}
-						size={sizeItem.id as any}
-					/>
-				{/each}
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
 	<p class="section-subtitle">With Avatar & Description</p>
 	<Card>
 		<div class="col gap-2">
@@ -294,7 +258,7 @@
 <Section>
 	<p class="section-subtitle">With Icon</p>
 	<Card>
-		<div class="col gap-2">
+		<div class="column gap-2">
 			<Item
 				id="1"
 				label="Favorites"
@@ -314,7 +278,7 @@
 <Section>
 	<p class="section-subtitle">With Actions</p>
 	<Card>
-		<div class="col gap-2">
+		<div class="column gap-2">
 			<Item
 				id="1"
 				label="John Doe"
@@ -344,7 +308,7 @@
 <Section>
 	<p class="section-subtitle">Interactive States</p>
 	<Card>
-		<div class="col gap-2">
+		<div class="column gap-2">
 			<Item
 				id="1"
 				label="Clickable Item"

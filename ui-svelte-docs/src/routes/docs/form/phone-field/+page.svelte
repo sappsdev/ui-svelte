@@ -36,7 +36,6 @@
 	let placeholder = $state('Enter phone number');
 
 	let isFloatLabel = $state(false);
-	let isSolid = $state(false);
 	let hasLabel = $state(true);
 	let hasHelpText = $state(false);
 	let hasErrorText = $state(false);
@@ -47,7 +46,6 @@
 			variant !== 'outlined',
 			size !== 'md',
 			isFloatLabel,
-			isSolid,
 			hasLabel,
 			hasHelpText,
 			hasErrorText
@@ -79,7 +77,6 @@
 			size !== 'md' && `\tsize="${size}"`,
 			hasLabel && `\tlabel="Phone Number"`,
 			isFloatLabel && `\tisFloatLabel`,
-			isSolid && `\tisSolid`,
 			hasHelpText && `\thelpText="We'll never share your phone"`,
 			hasErrorText && `\terrorText="Invalid phone number"`,
 			`\tplaceholder="${placeholder}"`,
@@ -128,7 +125,6 @@
 		{ prop: 'helpText', type: 'string', initial: '' },
 		{ prop: 'errorText', type: 'string', initial: '' },
 		{ prop: 'isFloatLabel', type: 'boolean', initial: 'false' },
-		{ prop: 'isSolid', type: 'boolean', initial: 'false' },
 		{ prop: 'priorityCountries', type: 'string[]', initial: '[]' },
 		{ prop: 'searchPlaceholder', type: 'string', initial: "'Search country...'" },
 		{ prop: 'emptyText', type: 'string', initial: "'No countries found'" },
@@ -172,7 +168,6 @@
 		<div class="grid-2 md:grid-4 gap-2">
 			<Checkbox bind:checked={hasLabel} label="Label" />
 			<Checkbox bind:checked={isFloatLabel} label="Float Label" />
-			<Checkbox bind:checked={isSolid} label="Solid" />
 			<Checkbox bind:checked={hasHelpText} label="Help Text" />
 			<Checkbox bind:checked={hasErrorText} label="Error Text" />
 		</div>
@@ -187,33 +182,14 @@
 				{size}
 				{placeholder}
 				{isFloatLabel}
-				{isSolid}
 				label={hasLabel ? 'Phone Number' : ''}
 				helpText={hasHelpText ? "We'll never share your phone" : ''}
 				errorText={hasErrorText ? 'Invalid phone number' : ''}
 				priorityCountries={['us', 'gb', 'ca']}
+				rootClass="max-w-xs"
 			/>
 		</div>
 		<Code lang="svelte" code={code()} />
-	</Card>
-</Section>
-
-<Section>
-	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
-		{#each variantOptions as item}
-			<div class="wrap gap-4 center">
-				{#each colorOptions as colorOpt}
-					<PhoneField
-						variant={item.id as any}
-						color={colorOpt.id as any}
-						label={item.label + ' ' + colorOpt.label}
-						isFloatLabel
-						priorityCountries={['us']}
-					/>
-				{/each}
-			</div>
-		{/each}
 	</Card>
 </Section>
 
@@ -236,7 +212,7 @@
 <Section>
 	<p class="section-subtitle">Priority Countries</p>
 	<Card>
-		<p class="mb-4 text-muted">
+		<p class="mb-4">
 			Use the <code>priorityCountries</code> prop to display specific countries at the top of the
 			dropdown. The first priority country will be selected by default if no
 			<code>countryCode</code> is provided.
@@ -251,7 +227,7 @@
 <Section>
 	<p class="section-subtitle">Form Integration</p>
 	<Card>
-		<p class="mb-4 text-muted">
+		<p class="mb-4">
 			The component exposes two hidden inputs: one for the phone number (<code>name</code>) and one
 			for the dial code (<code>dialCodeName</code>). Both values are included when the form is
 			submitted.

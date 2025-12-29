@@ -1,12 +1,9 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { RadioGroup, Select, Checkbox } from 'ui-svelte';
+	import { RadioGroup, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	const variantOptions = [
+	const colorOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' }
@@ -18,120 +15,165 @@
 		{ id: 'lg', label: 'lg' }
 	];
 
-	const radioOptions = [
-		{ id: '1', label: 'Option 1' },
-		{ id: '2', label: 'Option 2' },
-		{ id: '3', label: 'Option 3' },
-		{ id: '4', label: 'Option 4' }
+	const demoOptions = [
+		{ id: 'option1', label: 'Option 1' },
+		{ id: 'option2', label: 'Option 2' },
+		{ id: 'option3', label: 'Option 3' }
 	];
 
-	// Selects
-	let variant: any = $state('primary');
+	let color: any = $state('primary');
 	let size: any = $state('md');
-
-	// Props
-	let label = $state('');
-	let info = $state('');
-	let error = $state('');
-
-	let hasProps = $derived([variant !== 'primary', size !== 'md', label, info, error].some(Boolean));
+	let showLabel = $state(true);
+	let showInfo = $state(false);
+	let showError = $state(false);
+	let selectedValue: any = $state('option1');
 
 	let code = $derived(() => {
 		const scriptLines = [
 			`<script lang="ts">`,
 			`\timport { RadioGroup } from 'ui-svelte';`,
-			`\n\tconst options = [`,
-			`\t\t{ id: '1', label: 'Option 1' },`,
-			`\t\t{ id: '2', label: 'Option 2' },`,
-			`\t\t{ id: '3', label: 'Option 3' }`,
+			``,
+			`\tconst options = [`,
+			`\t\t{ id: 'option1', label: 'Option 1' },`,
+			`\t\t{ id: 'option2', label: 'Option 2' },`,
+			`\t\t{ id: 'option3', label: 'Option 3' }`,
 			`\t];`,
-			`\n\tlet value = $state('');`,
+			``,
+			`\tlet value = $state('option1');`,
 			`<\/script>`
-		].filter(Boolean);
+		];
 
 		const componentLines = [
-			hasProps && `<RadioGroup`,
-			hasProps && `\tname="radio-group"`,
-			hasProps && `\toptions={options}`,
-			label && `\tlabel="${label}"`,
-			variant !== 'primary' && `\tvariant="${variant}"`,
+			`<RadioGroup`,
+			`\toptions={options}`,
+			`\tbind:value`,
+			color !== 'primary' && `\tcolor="${color}"`,
 			size !== 'md' && `\tsize="${size}"`,
-			info && `\tinfo="${info}"`,
-			error && `\terror="${error}"`,
-			hasProps && `\tbind:value`,
-			hasProps && `/>`,
-			!hasProps && `<RadioGroup name="radio-group" options={options} bind:value />`
+			showLabel && `\tlabel="Select an option"`,
+			showInfo && `\tinfo="This is a helper text"`,
+			showError && `\terror="This field is required"`,
+			`/>`
 		].filter(Boolean);
 
 		return [...scriptLines, ...componentLines].join('\n');
 	});
 
 	const props = [
-		{ prop: 'name', type: 'string', initial: '', required: true },
-		{ prop: 'options', type: 'Option[]', initial: '[]', required: true },
+		{ prop: 'options', type: 'Option[]', initial: '[]' },
 		{ prop: 'value', type: 'string | number', initial: '' },
-		{ prop: 'onchange', type: '(value: string | number) => void', initial: '' },
-		{ prop: 'variant', type: 'primary | secondary | muted', initial: 'primary' },
-		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
-		{ prop: 'class', type: 'string', initial: '' },
+		{ prop: 'name', type: 'string', initial: '' },
 		{ prop: 'label', type: 'string', initial: '' },
 		{ prop: 'info', type: 'string', initial: '' },
-		{ prop: 'error', type: 'string', initial: '' }
+		{ prop: 'error', type: 'string', initial: '' },
+		{
+			prop: 'color',
+			type: 'primary | secondary | muted',
+			initial: 'primary'
+		},
+		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
+		{ prop: 'class', type: 'string', initial: '' },
+		{ prop: 'onchange', type: '(value: string | number) => void', initial: '' }
 	];
-
-	const optionProps = [
-		{ prop: 'id', type: 'string | number', initial: '', required: true },
-		{ prop: 'label', type: 'string', initial: '', required: true }
-	];
-
-	let value = $state('');
 </script>
 
-{#snippet preview()}
-	<RadioGroup
-		name="radio-group"
-		options={radioOptions}
-		{variant}
-		{size}
-		label={label || undefined}
-		info={info || undefined}
-		error={error || undefined}
-		bind:value
-	/>
-{/snippet}
+<DocsHeader title="RadioGroup" llmUrl="https://ui-svelte.sappsdev.com/llm/form/radio-group.md">
+	RadioGroup allows users to select one option from a set of mutually exclusive choices.
+</DocsHeader>
 
-{#snippet builder()}
-	<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-	<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Size"
+				size="sm"
+				options={sizeOptions}
+				bind:value={size}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={showLabel} label="Label" />
+			<Checkbox bind:checked={showInfo} label="Info" />
+			<Checkbox bind:checked={showError} label="Error" />
+		</div>
 
-	<DocOptions title="Labels & Messages">
-		<Checkbox onchange={(v) => (v ? (label = 'Label') : (label = ''))} label="Label" />
-		<Checkbox
-			onchange={(v) => (v ? (info = 'This is an info message') : (info = ''))}
-			label="info"
-		/>
-		<Checkbox
-			onchange={(v) => (v ? (error = 'This field is required') : (error = ''))}
-			label="error"
-		/>
-	</DocOptions>
-{/snippet}
+		<div class="doc-preview">
+			<RadioGroup
+				options={demoOptions}
+				bind:value={selectedValue}
+				{color}
+				{size}
+				label={showLabel ? 'Select an option' : undefined}
+				info={showInfo ? 'This is a helper text' : undefined}
+				error={showError ? 'This field is required' : undefined}
+			/>
+		</div>
+		<Code lang="svelte" code={code()} />
+	</Card>
+</Section>
 
-<DocHeader title="RadioGroup">
-	RadioGroup components allow users to select one option from a set of mutually exclusive choices.
-</DocHeader>
+<Section>
+	<p class="section-subtitle">Colors</p>
+	<Card>
+		<div class="wrap gap-8">
+			{#each colorOptions as colorItem}
+				<RadioGroup
+					options={demoOptions}
+					value="option1"
+					color={colorItem.id as any}
+					label={colorItem.label}
+				/>
+			{/each}
+		</div>
+	</Card>
+</Section>
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section>
+	<p class="section-subtitle">Sizes</p>
+	<Card>
+		<div class="wrap gap-8">
+			{#each sizeOptions as sizeItem}
+				<RadioGroup
+					options={demoOptions}
+					value="option1"
+					size={sizeItem.id as any}
+					label={'Size: ' + sizeItem.label}
+				/>
+			{/each}
+		</div>
+	</Card>
+</Section>
 
-<DocCode code={code()} />
+<Section>
+	<p class="section-subtitle">States</p>
+	<Card>
+		<div class="wrap gap-8">
+			<RadioGroup
+				options={demoOptions}
+				value="option1"
+				label="With Info"
+				info="Choose one of the options above"
+			/>
+			<RadioGroup
+				options={demoOptions}
+				value="option1"
+				label="With Error"
+				error="This field is required"
+			/>
+		</div>
+	</Card>
+</Section>
 
-<DocProps {props} />
-
-<div class="prose mt-8">
-	<h3>Option Type</h3>
-	<p>Each option in the options array should follow this structure:</p>
-</div>
-
-<DocProps props={optionProps} />
+<Section>
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
+</Section>

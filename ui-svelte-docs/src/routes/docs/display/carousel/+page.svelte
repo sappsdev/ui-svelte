@@ -255,25 +255,6 @@
 </Section>
 
 <Section>
-	<p class="section-subtitle">Colors</p>
-	<Card>
-		{#each colorOptions as colorItem}
-			<div class="wrap gap-4 center">
-				<Carousel
-					slides={[
-						{ id: '1', content: slide1 },
-						{ id: '2', content: slide2 },
-						{ id: '3', content: slide3 }
-					]}
-					color={colorItem.id as any}
-					rootClass="max-w-md"
-				/>
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
 	<p class="section-subtitle">Sizes</p>
 	<Card>
 		{#each sizeOptions as sizeItem}
@@ -374,7 +355,7 @@
 			</div>
 			<div class="column gap-2">
 				<h4 class="font-bold text-lg">Marketing Services</h4>
-				<p class="text-sm text-on-surface/70">
+				<p class="text-sm text-on-surface/70 h-16">
 					Professional marketing solutions for your business.
 				</p>
 			</div>
@@ -390,7 +371,7 @@
 			</div>
 			<div class="column gap-2">
 				<h4 class="font-bold text-lg">Expert Support</h4>
-				<p class="text-sm text-on-surface/70">Get help from our team of professionals.</p>
+				<p class="text-sm text-on-surface/70 h-16">Get help from our team of professionals.</p>
 			</div>
 		</div>
 	</Card>
@@ -404,7 +385,7 @@
 			</div>
 			<div class="column gap-2">
 				<h4 class="font-bold text-lg">SEO Services</h4>
-				<p class="text-sm text-on-surface/70">Optimize your online presence effectively.</p>
+				<p class="text-sm text-on-surface/70 h-16">Optimize your online presence effectively.</p>
 			</div>
 		</div>
 	</Card>
@@ -418,7 +399,7 @@
 			</div>
 			<div class="column gap-2">
 				<h4 class="font-bold text-lg">UI/UX Design</h4>
-				<p class="text-sm text-on-surface/70">World-class design for your products.</p>
+				<p class="text-sm text-on-surface/70 h-16">World-class design for your products.</p>
 			</div>
 		</div>
 	</Card>

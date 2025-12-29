@@ -107,9 +107,9 @@
 </Section>
 
 <Section>
-	<p class="section-subtitle">Status Variants</p>
+	<p class="section-subtitle">Color Variants</p>
 	<Card>
-		<div class="stack gap-4">
+		<div class="column gap-4">
 			{#each colorOptions as item}
 				<Alert
 					color={item.id as any}
@@ -126,42 +126,15 @@
 <Section>
 	<p class="section-subtitle">Solid Variants</p>
 	<Card>
-		<div class="stack gap-4">
+		<div class="column gap-4">
 			{#each colorOptions as item}
 				<Alert
 					color={item.id as any}
-					{variant}
+					variant="solid"
 					title={item.label + ' Alert'}
 					description="This is a solid {item.label.toLowerCase()} alert message."
 					showIcon
 				/>
-			{/each}
-		</div>
-	</Card>
-</Section>
-
-<Section>
-	<p class="section-subtitle">Without Icon</p>
-	<Card>
-		<div class="stack gap-4">
-			{#each colorOptions as item}
-				<Alert
-					color={item.id as any}
-					{variant}
-					title={item.label + ' Alert'}
-					description="This alert does not display an icon."
-				/>
-			{/each}
-		</div>
-	</Card>
-</Section>
-
-<Section>
-	<p class="section-subtitle">Title Only</p>
-	<Card>
-		<div class="stack gap-4">
-			{#each colorOptions as item}
-				<Alert color={item.id as any} {variant} title={item.label + ' Alert'} showIcon />
 			{/each}
 		</div>
 	</Card>

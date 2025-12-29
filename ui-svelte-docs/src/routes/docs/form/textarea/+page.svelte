@@ -1,15 +1,21 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { Textarea, Checkbox, Select } from 'ui-svelte';
+	import { Textarea, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	const variantOptions = [
+	const colorOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
+		{ id: 'success', label: 'Success' },
+		{ id: 'info', label: 'Info' },
+		{ id: 'danger', label: 'Danger' },
+		{ id: 'warning', label: 'Warning' }
+	];
+
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' },
 		{ id: 'outlined', label: 'Outlined' },
 		{ id: 'line', label: 'Line' }
 	];
@@ -20,32 +26,30 @@
 		{ id: 'lg', label: 'lg' }
 	];
 
-	// Selects
+	let color: any = $state('muted');
 	let variant: any = $state('outlined');
 	let size: any = $state('md');
+	let rows: number = $state(4);
 
-	// Props
-	let label = $state('');
-	let helpText = $state('');
-	let errorText = $state('');
-	let rows = $state(4);
-
-	// States
 	let isFloatLabel = $state(false);
-	let isSolid = $state(false);
+	let hasLabel = $state(true);
+	let hasHelpText = $state(false);
+	let hasErrorText = $state(false);
 	let isResize = $state(false);
+
+	let value = $state('');
 
 	let hasProps = $derived(
 		[
-			variant !== 'primary',
+			color !== 'muted',
+			variant !== 'outlined',
 			size !== 'md',
-			isResize,
-			label,
-			helpText,
-			errorText,
 			rows !== 4,
 			isFloatLabel,
-			isSolid
+			hasLabel,
+			hasHelpText,
+			hasErrorText,
+			isResize
 		].some(Boolean)
 	);
 
@@ -53,103 +57,202 @@
 		const scriptLines = [
 			`<script lang="ts">`,
 			`\timport { Textarea } from 'ui-svelte';`,
-			`\n\tlet value = $state('');`,
+			``,
+			`\tlet value = $state('');`,
 			`<\/script>`
 		].filter(Boolean);
 
 		const componentLines = [
 			hasProps && `<Textarea`,
-			hasProps && `\tname="textarea"`,
-			hasProps && `\tplaceholder="Enter text..."`,
-			label && `\tlabel="${label}"`,
-			variant !== 'primary' && `\tvariant="${variant}"`,
-			size !== 'md' && `\tsize="${size}"`,
-			isResize && `\tisResize`,
-			rows !== 4 && `\trows={${rows}}`,
-			helpText && `\thelpText="This is a help text"`,
-			errorText && `\terrorText="This field is required"`,
-			isFloatLabel && `\tisFloatLabel`,
-			isSolid && `\tisSolid`,
 			hasProps && `\tbind:value`,
+			hasLabel && !isFloatLabel && `\tlabel="Label"`,
+			hasLabel && isFloatLabel && `\tlabel="Label"`,
+			isFloatLabel && `\tisFloatLabel`,
+			color !== 'muted' && `\tcolor="${color}"`,
+			variant !== 'outlined' && `\tvariant="${variant}"`,
+			size !== 'md' && `\tsize="${size}"`,
+			rows !== 4 && `\trows={${rows}}`,
+			isResize && `\tisResize`,
+			hasHelpText && `\thelpText="This is a help text"`,
+			hasErrorText && `\terrorText="This field is required"`,
+			hasProps && `\tplaceholder="Placeholder"`,
 			hasProps && `/>`,
-			!hasProps && `<Textarea name="textarea" placeholder="Enter text..." bind:value />`
+			!hasProps && `<Textarea bind:value placeholder="Placeholder" />`
 		].filter(Boolean);
 
 		return [...scriptLines, ...componentLines].join('\n');
 	});
 
 	const props = [
-		{ prop: 'name', type: 'string', initial: '', required: true },
-		{ prop: 'el', type: 'HTMLTextAreaElement', initial: '' },
 		{ prop: 'value', type: 'string', initial: '' },
 		{ prop: 'defaultValue', type: 'string', initial: '' },
 		{ prop: 'placeholder', type: 'string', initial: '' },
+		{ prop: 'name', type: 'string', initial: '' },
+		{ prop: 'label', type: 'string', initial: '' },
+		{ prop: 'isFloatLabel', type: 'boolean', initial: 'false' },
+		{ prop: 'helpText', type: 'string', initial: '' },
+		{ prop: 'errorText', type: 'string', initial: '' },
+		{
+			prop: 'color',
+			type: 'primary | secondary | muted | success | info | danger | warning',
+			initial: 'muted'
+		},
+		{
+			prop: 'variant',
+			type: 'solid | soft | outlined | line',
+			initial: 'outlined'
+		},
+		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
+		{ prop: 'rows', type: 'number', initial: '4' },
+		{ prop: 'cols', type: 'number', initial: '' },
+		{ prop: 'isResize', type: 'boolean', initial: 'false' },
 		{ prop: 'class', type: 'string', initial: '' },
 		{ prop: 'controlClass', type: 'string', initial: '' },
 		{ prop: 'onchange', type: '(value: string) => void', initial: '' },
 		{ prop: 'oninput', type: '(value: string) => void', initial: '' },
-		{ prop: 'variant', type: 'primary | secondary | muted | outlined | line', initial: 'outlined' },
-		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
-		{ prop: 'label', type: 'string', initial: '' },
-		{ prop: 'islabelActive', type: 'boolean', initial: 'false' },
-		{ prop: 'helpText', type: 'string', initial: '' },
-		{ prop: 'errorText', type: 'string', initial: '' },
-		{ prop: 'maxlength', type: "HTMLTextareaAttributes['maxlength']", initial: '' },
-		{ prop: 'rows', type: 'number', initial: '4' },
-		{ prop: 'cols', type: 'number', initial: '' },
-		{ prop: 'isFloatLabel', type: 'boolean', initial: 'false' },
-		{ prop: 'isSolid', type: 'boolean', initial: 'false' },
-		{ prop: 'isResize', type: 'boolean', initial: 'false' }
+		{ prop: 'maxlength', type: 'HTMLTextareaAttributes[maxlength]', initial: '' }
 	];
-
-	let value = $state('');
 </script>
 
-{#snippet preview()}
-	<Textarea
-		name="textarea"
-		placeholder="Enter text..."
-		{variant}
-		{size}
-		{isResize}
-		{rows}
-		{isSolid}
-		label={label || undefined}
-		helpText={helpText || undefined}
-		errorText={errorText || undefined}
-		isFloatLabel={label && isFloatLabel ? isFloatLabel : undefined}
-		bind:value
-	/>
-{/snippet}
+<DocsHeader title="Textarea" llmUrl="https://ui-svelte.sappsdev.com/llm/form/textarea.md">
+	Textarea allows users to enter and edit multi-line text data.
+</DocsHeader>
 
-{#snippet builder()}
-	<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-	<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
+<Section>
+	<Card>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				bind:value={variant}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Size"
+				size="sm"
+				options={sizeOptions}
+				bind:value={size}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={hasLabel} label="Label" />
+			<Checkbox bind:checked={isFloatLabel} label="Float Label" />
+			<Checkbox bind:checked={hasHelpText} label="Help Text" />
+			<Checkbox bind:checked={hasErrorText} label="Error Text" />
+			<Checkbox bind:checked={isResize} label="Resizable" />
+		</div>
 
-	<DocOptions title="Props">
-		<Checkbox onchange={(v) => (v ? (label = 'Label') : (label = ''))} label="Label" />
-		{#if label}
-			<Checkbox bind:checked={isFloatLabel} label="floatLabel" />
-		{/if}
-		<Checkbox
-			onchange={(v) => (v ? (helpText = 'This is a help text') : (helpText = ''))}
-			label="helpText"
-		/>
-		<Checkbox
-			onchange={(v) => (v ? (errorText = 'This field is required') : (errorText = ''))}
-			label="errorText"
-		/>
-		<Checkbox bind:checked={isSolid} label="solid" />
-		<Checkbox bind:checked={isResize} label="isResize" />
-	</DocOptions>
-{/snippet}
+		<div class="doc-preview">
+			<Textarea
+				bind:value
+				label={hasLabel ? 'Label' : undefined}
+				{isFloatLabel}
+				{color}
+				{variant}
+				{size}
+				{rows}
+				{isResize}
+				helpText={hasHelpText ? 'This is a help text' : undefined}
+				errorText={hasErrorText ? 'This field is required' : undefined}
+				placeholder="Placeholder"
+				class="max-w-md"
+			/>
+		</div>
+		<Code lang="svelte" code={code()} />
+	</Card>
+</Section>
 
-<DocHeader title="Textarea">Textareas allow users to enter and edit multi-line text.</DocHeader>
+<Section>
+	<p class="section-subtitle">Sizes</p>
+	<Card>
+		{#each variantOptions as item}
+			<div class="wrap gap-4 center">
+				{#each sizeOptions as sizeItem}
+					<Textarea
+						variant={item.id as any}
+						size={sizeItem.id as any}
+						placeholder={item.label + ' ' + sizeItem.label}
+						class="max-w-xs"
+						rows={2}
+					/>
+				{/each}
+			</div>
+		{/each}
+	</Card>
+</Section>
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section>
+	<p class="section-subtitle">Labels</p>
+	<Card>
+		<div class="wrap gap-4 center">
+			<Textarea label="Standard Label" placeholder="Enter text..." class="max-w-xs" rows={3} />
+			<Textarea
+				label="Float Label"
+				isFloatLabel
+				placeholder="Enter text..."
+				class="max-w-xs"
+				rows={3}
+			/>
+		</div>
+	</Card>
+</Section>
 
-<DocCode code={code()} />
+<Section>
+	<p class="section-subtitle">Help & Error Text</p>
+	<Card>
+		<div class="wrap gap-4 center">
+			<Textarea
+				label="With Help Text"
+				helpText="This is helpful information"
+				placeholder="Enter text..."
+				class="max-w-xs"
+				rows={3}
+			/>
+			<Textarea
+				label="With Error Text"
+				errorText="This field is required"
+				placeholder="Enter text..."
+				class="max-w-xs"
+				rows={3}
+			/>
+		</div>
+	</Card>
+</Section>
 
-<DocProps {props} />
+<Section>
+	<p class="section-subtitle">Resizable</p>
+	<Card>
+		<div class="wrap gap-4 center">
+			<Textarea
+				label="Not Resizable (default)"
+				placeholder="Cannot resize..."
+				class="max-w-xs"
+				rows={3}
+			/>
+			<Textarea
+				label="Resizable"
+				isResize
+				placeholder="Drag corner to resize..."
+				class="max-w-xs"
+				rows={3}
+			/>
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
+</Section>

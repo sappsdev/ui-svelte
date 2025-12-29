@@ -51,7 +51,6 @@
 	let value: any = $state(undefined);
 
 	let isFloatLabel = $state(false);
-	let isSolid = $state(false);
 	let hasLabel = $state(true);
 	let hasHelpText = $state(false);
 	let hasErrorText = $state(false);
@@ -62,7 +61,6 @@
 			variant !== 'outlined',
 			size !== 'md',
 			isFloatLabel,
-			isSolid,
 			hasLabel,
 			hasHelpText,
 			hasErrorText
@@ -94,7 +92,6 @@
 			hasLabel && !isFloatLabel && `\tlabel="Label"`,
 			isFloatLabel && `\tisFloatLabel`,
 			isFloatLabel && hasLabel && `\tlabel="Label"`,
-			isSolid && `\tisSolid`,
 			hasHelpText && `\thelpText="This is help text"`,
 			hasErrorText && `\terrorText="This is an error"`,
 			hasProps && `/>`,
@@ -127,8 +124,7 @@
 		{ prop: 'isLabelActive', type: 'boolean', initial: 'false' },
 		{ prop: 'helpText', type: 'string', initial: '' },
 		{ prop: 'errorText', type: 'string', initial: '' },
-		{ prop: 'isFloatLabel', type: 'boolean', initial: 'false' },
-		{ prop: 'isSolid', type: 'boolean', initial: 'false' }
+		{ prop: 'isFloatLabel', type: 'boolean', initial: 'false' }
 	];
 
 	const optionProps = [
@@ -174,7 +170,6 @@
 		<div class="wrap gap-2">
 			<Checkbox bind:checked={hasLabel} label="Label" />
 			<Checkbox bind:checked={isFloatLabel} label="Float Label" />
-			<Checkbox bind:checked={isSolid} label="Solid" />
 			<Checkbox bind:checked={hasHelpText} label="Help Text" />
 			<Checkbox bind:checked={hasErrorText} label="Error Text" />
 		</div>
@@ -185,7 +180,6 @@
 				{variant}
 				{size}
 				{isFloatLabel}
-				{isSolid}
 				options={demoOptions}
 				bind:value
 				label={hasLabel ? 'Label' : undefined}

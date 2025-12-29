@@ -1,5 +1,16 @@
 <script lang="ts">
-	import { ChatBox, Card, Checkbox, Code, Section, Select, TextField, useChat } from 'ui-svelte';
+	import {
+		ChatBox,
+		Card,
+		Checkbox,
+		Code,
+		Section,
+		Select,
+		TextField,
+		useChat,
+		type PromptMessage,
+		type PromptState
+	} from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
 
@@ -19,8 +30,14 @@
 		{ id: 'outlined', label: 'Outlined' }
 	];
 
+	const modeOptions = [
+		{ id: 'conversation', label: 'Conversation' },
+		{ id: 'prompt', label: 'Prompt (LLM)' }
+	];
+
 	let color: any = $state('primary');
 	let variant: any = $state('solid');
+	let mode: 'conversation' | 'prompt' = $state('conversation');
 	let userName = $state('John Doe');
 	let userStatus = $state('Online');
 
@@ -29,7 +46,7 @@
 	let hasFileAttach = $state(false);
 	let hasCameraCapture = $state(false);
 
-	// Mock chat state for preview
+	// Mock chat state for conversation mode preview
 	const mockChat = useChat({
 		chatId: 'preview-chat',
 		userId: 'user-456',
@@ -38,10 +55,83 @@
 		autoConnect: false
 	});
 
+	// Mock prompt state for prompt mode preview
+	let promptMessages = $state<PromptMessage[]>([
+		{
+			id: '1',
+			role: 'system',
+			content: 'You are a helpful assistant.',
+			timestamp: new Date()
+		},
+		{
+			id: '2',
+			role: 'user',
+			content: 'Hello! Can you help me with some code?',
+			timestamp: new Date()
+		},
+		{
+			id: '3',
+			role: 'assistant',
+			content:
+				"Of course! I'd be happy to help you with your code. What programming language are you working with, and what would you like to accomplish?",
+			timestamp: new Date()
+		}
+	]);
+	let isPromptLoading = $state(false);
+	let isPromptStreaming = $state(false);
+
+	const mockPrompt: PromptState = {
+		get messages() {
+			return promptMessages;
+		},
+		get isLoading() {
+			return isPromptLoading;
+		},
+		get isStreaming() {
+			return isPromptStreaming;
+		},
+		error: null,
+		sendMessage: async (content: string) => {
+			isPromptLoading = true;
+			promptMessages = [
+				...promptMessages,
+				{
+					id: Date.now().toString(),
+					role: 'user',
+					content,
+					timestamp: new Date()
+				}
+			];
+			// Simulate AI response
+			setTimeout(() => {
+				isPromptStreaming = true;
+				setTimeout(() => {
+					promptMessages = [
+						...promptMessages,
+						{
+							id: (Date.now() + 1).toString(),
+							role: 'assistant',
+							content:
+								'This is a simulated AI response. In a real implementation, this would come from your LLM API.',
+							timestamp: new Date()
+						}
+					];
+					isPromptLoading = false;
+					isPromptStreaming = false;
+				}, 1000);
+			}, 500);
+		},
+		stopGeneration: () => {
+			isPromptStreaming = false;
+			isPromptLoading = false;
+		}
+	};
+
 	let hasProps = $derived(
 		[
 			color !== 'primary',
 			variant !== 'solid',
+			mode !== 'conversation',
 			userName !== 'John Doe',
 			userStatus !== 'Online',
 			hasHeaderActions,
@@ -52,6 +142,58 @@
 	);
 
 	let code = $derived(() => {
+		if (mode === 'prompt') {
+			return `<script lang="ts">
+	import { ChatBox, type PromptMessage, type PromptState } from 'ui-svelte';
+
+	let messages = $state<PromptMessage[]>([]);
+	let isLoading = $state(false);
+	let isStreaming = $state(false);
+
+	const prompt: PromptState = {
+		get messages() { return messages; },
+		get isLoading() { return isLoading; },
+		get isStreaming() { return isStreaming; },
+		error: null,
+		sendMessage: async (content) => {
+			isLoading = true;
+			messages = [...messages, {
+				id: Date.now().toString(),
+				role: 'user',
+				content,
+				timestamp: new Date()
+			}];
+			
+			// Call your LLM API here
+			const response = await fetch('/api/chat', {
+				method: 'POST',
+				body: JSON.stringify({ messages })
+			});
+			
+			const data = await response.json();
+			messages = [...messages, {
+				id: (Date.now() + 1).toString(),
+				role: 'assistant',
+				content: data.response,
+				timestamp: new Date()
+			}];
+			isLoading = false;
+		},
+		stopGeneration: () => {
+			isStreaming = false;
+			isLoading = false;
+		}
+	};
+<\/script>
+
+<ChatBox
+	mode="prompt"
+	{prompt}${color !== 'primary' ? `\n\tcolor="${color}"` : ''}${variant !== 'solid' ? `\n\tvariant="${variant}"` : ''}
+	placeholder="Ask me anything..."
+	assistantName="AI Assistant"
+/>`;
+		}
+
 		const scriptLines = [
 			`<script lang="ts">`,
 			`\timport { ChatBox, useChat } from 'ui-svelte';`,
@@ -102,9 +244,11 @@
 	});
 
 	const props = [
-		{ prop: 'chat', type: 'ChatState', initial: 'required' },
-		{ prop: 'currentUserId', type: 'string', initial: 'required' },
-		{ prop: 'userName', type: 'string', initial: 'required' },
+		{ prop: 'mode', type: "'conversation' | 'prompt'", initial: 'conversation' },
+		{ prop: 'chat', type: 'ChatState', initial: 'required (conversation mode)' },
+		{ prop: 'prompt', type: 'PromptState', initial: 'required (prompt mode)' },
+		{ prop: 'currentUserId', type: 'string', initial: '' },
+		{ prop: 'userName', type: 'string', initial: '' },
 		{ prop: 'userAvatar', type: 'string', initial: '' },
 		{ prop: 'userStatus', type: 'string', initial: 'Online' },
 		{
@@ -117,6 +261,14 @@
 			type: 'solid | soft | outlined',
 			initial: 'solid'
 		},
+		{ prop: 'showHeader', type: 'boolean', initial: 'true' },
+		{ prop: 'placeholder', type: 'string', initial: 'Type a message...' },
+		{ prop: 'showAttachments', type: 'boolean', initial: 'true' },
+		{ prop: 'showVoiceNote', type: 'boolean', initial: 'true' },
+		{ prop: 'showCamera', type: 'boolean', initial: 'false' },
+		{ prop: 'assistantName', type: 'string', initial: 'Assistant' },
+		{ prop: 'assistantAvatar', type: 'string', initial: '' },
+		{ prop: 'messageRenderer', type: 'Snippet<[Message]>', initial: '' },
 		{ prop: 'rootClass', type: 'string', initial: '' },
 		{ prop: 'headerActions', type: 'Snippet', initial: '' },
 		{ prop: 'onVoiceNote', type: '(blob: Blob, url: string) => void', initial: '' },
@@ -130,13 +282,21 @@
 {/snippet}
 
 <DocsHeader title="ChatBox" llmUrl="https://ui-svelte.sappsdev.com/llm/display/chat-box.md">
-	A complete chat interface component with real-time messaging, file sharing, voice notes, and
-	WebSocket support.
+	A versatile chat interface component supporting both traditional conversation mode with real-time
+	messaging, and LLM prompt mode for AI chatbot interfaces.
 </DocsHeader>
 
 <Section>
 	<Card headerClass="grid-2 md:grid-4 gap-2">
 		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Mode"
+				size="sm"
+				options={modeOptions}
+				bind:value={mode}
+			/>
 			<Select
 				isFloatLabel
 				rootClass="max-w-xs"
@@ -153,46 +313,189 @@
 				options={variantOptions}
 				bind:value={variant}
 			/>
-			<TextField
-				isFloatLabel
-				rootClass="max-w-xs"
-				label="User Name"
-				size="sm"
-				bind:value={userName}
-			/>
-			<TextField
-				isFloatLabel
-				rootClass="max-w-xs"
-				label="User Status"
-				size="sm"
-				bind:value={userStatus}
-			/>
+			{#if mode === 'conversation'}
+				<TextField
+					isFloatLabel
+					rootClass="max-w-xs"
+					label="User Name"
+					size="sm"
+					bind:value={userName}
+				/>
+			{/if}
 		</div>
-		<div class="grid-2 md:grid-4 gap-2">
-			<Checkbox bind:checked={hasHeaderActions} label="Custom Header" />
-			<Checkbox bind:checked={hasVoiceNote} label="Voice Note" />
-			<Checkbox bind:checked={hasFileAttach} label="File Attach" />
-			<Checkbox bind:checked={hasCameraCapture} label="Camera" />
-		</div>
+		{#if mode === 'conversation'}
+			<div class="grid-2 md:grid-4 gap-2">
+				<Checkbox bind:checked={hasHeaderActions} label="Custom Header" />
+				<Checkbox bind:checked={hasVoiceNote} label="Voice Note" />
+				<Checkbox bind:checked={hasFileAttach} label="File Attach" />
+				<Checkbox bind:checked={hasCameraCapture} label="Camera" />
+			</div>
+		{/if}
 
 		<div class="doc-preview">
 			<div class="w-full max-w-2xl h-[500px] overflow-hidden">
-				<ChatBox
-					chat={mockChat}
-					currentUserId="user-456"
-					{userName}
-					{userStatus}
-					{color}
-					{variant}
-					headerActions={hasHeaderActions ? headerActions : undefined}
-					userAvatar="https://api.dicebear.com/7.x/avataaars/svg?seed=John"
-					onVoiceNote={hasVoiceNote ? (blob, url) => console.log('Voice note:', url) : undefined}
-					onFileAttach={hasFileAttach ? (file) => console.log('File:', file.name) : undefined}
-					onCameraCapture={hasCameraCapture ? () => console.log('Camera') : undefined}
-				/>
+				{#if mode === 'conversation'}
+					<ChatBox
+						mode="conversation"
+						chat={mockChat}
+						currentUserId="user-456"
+						{userName}
+						{userStatus}
+						{color}
+						{variant}
+						headerActions={hasHeaderActions ? headerActions : undefined}
+						userAvatar="https://api.dicebear.com/7.x/avataaars/svg?seed=John"
+						showVoiceNote={hasVoiceNote}
+						showAttachments={hasFileAttach}
+						showCamera={hasCameraCapture}
+						onVoiceNote={hasVoiceNote ? (blob, url) => console.log('Voice note:', url) : undefined}
+						onFileAttach={hasFileAttach ? (file) => console.log('File:', file.name) : undefined}
+						onCameraCapture={hasCameraCapture ? () => console.log('Camera') : undefined}
+					/>
+				{:else}
+					<ChatBox
+						mode="prompt"
+						prompt={mockPrompt}
+						{color}
+						{variant}
+						placeholder="Ask me anything..."
+						assistantName="AI Assistant"
+						assistantAvatar="https://api.dicebear.com/7.x/bottts/svg?seed=AI"
+						userAvatar="https://api.dicebear.com/7.x/avataaars/svg?seed=User"
+					/>
+				{/if}
 			</div>
 		</div>
 		<Code lang="svelte" code={code()} />
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Modes</p>
+	<Card>
+		<div class="prose">
+			<p>The ChatBox component supports two distinct modes:</p>
+			<ul>
+				<li>
+					<code>conversation</code> - Traditional chat interface with WebSocket support, file attachments,
+					voice notes, and message status tracking. Ideal for real-time messaging between users.
+				</li>
+				<li>
+					<code>prompt</code> - LLM-style chat interface with role-based messages (user, assistant, system),
+					streaming indicators, and stop generation support. Ideal for AI chatbot interfaces.
+				</li>
+			</ul>
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Prompt Mode (LLM)</p>
+	<Card>
+		<div class="prose">
+			<p>
+				The prompt mode is designed for AI chat interfaces. It uses role-based messages instead of
+				sender IDs and provides features specific to LLM interactions:
+			</p>
+			<ul>
+				<li>Role-based messages: <code>user</code>, <code>assistant</code>, <code>system</code></li>
+				<li>Streaming indicator for ongoing AI responses</li>
+				<li>Stop generation button to cancel streaming</li>
+				<li>No header (cleaner interface for chat prompts)</li>
+				<li>Simplified input (no attachments, voice notes by default)</li>
+			</ul>
+		</div>
+		<Code
+			lang="typescript"
+			code={`interface PromptMessage {
+	id: string;
+	role: 'user' | 'assistant' | 'system';
+	content: string;
+	timestamp?: Date | string;
+	isStreaming?: boolean;
+	metadata?: Record<string, any>;
+}
+
+interface PromptState {
+	messages: PromptMessage[];
+	isLoading: boolean;
+	isStreaming: boolean;
+	error: any;
+	sendMessage: (content: string) => Promise<void>;
+	stopGeneration?: () => void;
+}`}
+		/>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Prompt Mode Example</p>
+	<Card>
+		<Code
+			lang="svelte"
+			code={`<script lang="ts">
+	import { ChatBox, type PromptMessage, type PromptState } from 'ui-svelte';
+
+	let messages = $state<PromptMessage[]>([
+		{ id: '1', role: 'system', content: 'You are a helpful assistant.' }
+	]);
+	let isLoading = $state(false);
+	let isStreaming = $state(false);
+
+	const prompt: PromptState = {
+		get messages() { return messages; },
+		get isLoading() { return isLoading; },
+		get isStreaming() { return isStreaming; },
+		error: null,
+		sendMessage: async (content) => {
+			// Add user message
+			messages = [...messages, {
+				id: Date.now().toString(),
+				role: 'user',
+				content,
+				timestamp: new Date()
+			}];
+			
+			isLoading = true;
+			isStreaming = true;
+			
+			// Stream response from your LLM API
+			const response = await fetch('/api/chat', {
+				method: 'POST',
+				body: JSON.stringify({ messages })
+			});
+			
+			// Handle streaming response...
+			const data = await response.json();
+			
+			messages = [...messages, {
+				id: (Date.now() + 1).toString(),
+				role: 'assistant',
+				content: data.response,
+				timestamp: new Date()
+			}];
+			
+			isLoading = false;
+			isStreaming = false;
+		},
+		stopGeneration: () => {
+			// Abort the fetch request
+			isStreaming = false;
+			isLoading = false;
+		}
+	};
+<\/script>
+
+<ChatBox
+	mode="prompt"
+	{prompt}
+	color="info"
+	variant="soft"
+	placeholder="Ask me anything..."
+	assistantName="Claude"
+	assistantAvatar="/claude-avatar.png"
+/>`}
+		/>
 	</Card>
 </Section>
 
@@ -222,7 +525,7 @@
 </Section>
 
 <Section>
-	<p class="section-subtitle">useChat Hook</p>
+	<p class="section-subtitle">useChat Hook (Conversation Mode)</p>
 	<Card>
 		<Code
 			lang="typescript"
@@ -272,10 +575,10 @@
 </Section>
 
 <Section>
-	<p class="section-subtitle">Message Types</p>
+	<p class="section-subtitle">Message Types (Conversation Mode)</p>
 	<Card>
 		<div class="prose">
-			<p>The ChatBox supports multiple message types:</p>
+			<p>The conversation mode supports multiple message types:</p>
 			<ul>
 				<li><code>text</code> - Standard text messages (default)</li>
 				<li><code>image</code> - Image attachments with preview</li>
@@ -342,9 +645,36 @@
 </Section>
 
 <Section>
+	<p class="section-subtitle">Custom Message Renderer</p>
+	<Card>
+		<div class="prose">
+			<p>
+				Use the <code>messageRenderer</code> snippet to customize how messages are displayed:
+			</p>
+		</div>
+		<Code
+			lang="svelte"
+			code={`<ChatBox mode="prompt" {prompt}>
+	{#snippet messageRenderer(message)}
+		{#if message.role === 'assistant'}
+			<!-- Render markdown for AI responses -->
+			<div class="prose">
+				{@html marked(message.content)}
+			</div>
+		{:else}
+			<p>{message.content}</p>
+		{/if}
+	{/snippet}
+</ChatBox>`}
+		/>
+	</Card>
+</Section>
+
+<Section>
 	<p class="section-subtitle">Features</p>
 	<Card>
 		<div class="prose">
+			<h4>Conversation Mode</h4>
 			<ul>
 				<li>Real-time messaging via WebSocket with automatic reconnection</li>
 				<li>REST API fallback when WebSocket is unavailable</li>
@@ -352,19 +682,31 @@
 				<li>Voice note recording with audio player</li>
 				<li>File and image attachment support</li>
 				<li>Infinite scroll with "Load more" pagination</li>
+				<li>Customizable header actions via snippets</li>
+				<li>Token-based authentication support</li>
+			</ul>
+			<h4>Prompt Mode</h4>
+			<ul>
+				<li>Role-based messages (user, assistant, system)</li>
+				<li>Streaming indicator with animated typing dots</li>
+				<li>Stop generation button for canceling responses</li>
+				<li>Clean, minimal interface without distractions</li>
+				<li>Custom message rendering via snippet</li>
+				<li>Support for system messages</li>
+			</ul>
+			<h4>Shared Features</h4>
+			<ul>
 				<li>Automatic scrolling to latest messages</li>
 				<li>Message timestamps in local time format</li>
 				<li>Visual distinction between own and received messages</li>
-				<li>Customizable header actions via snippets</li>
-				<li>Support for custom message transformers</li>
-				<li>Token-based authentication support</li>
+				<li>Multiple color and variant options</li>
 			</ul>
 		</div>
 	</Card>
 </Section>
 
 <Section>
-	<p class="section-subtitle">API Requirements</p>
+	<p class="section-subtitle">API Requirements (Conversation Mode)</p>
 	<Card>
 		<div class="prose">
 			<h4>REST API</h4>

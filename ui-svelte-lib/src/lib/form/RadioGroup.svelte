@@ -15,7 +15,7 @@
 		name?: string;
 		info?: string;
 		error?: string;
-		variant?: 'primary' | 'secondary' | 'muted';
+		color?: 'primary' | 'secondary' | 'muted';
 		size?: 'sm' | 'md' | 'lg';
 	};
 	let {
@@ -26,12 +26,12 @@
 		name,
 		info,
 		error,
-		variant = 'primary',
+		color = 'primary',
 		size = 'md',
 		value = $bindable()
 	}: Props = $props();
 
-	const variantClases = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted'
@@ -57,7 +57,7 @@
 					type="radio"
 					value={item.id}
 					bind:group={value}
-					class={cn('radio', variantClases[variant], sizes[size])}
+					class={cn('radio', colors[color], sizes[size])}
 				/>
 				<span class="label">{item.label}</span>
 			</label>

@@ -11,7 +11,8 @@
 		controlClass?: string;
 		onchange?: (value: string) => void;
 		oninput?: (value: string) => void;
-		variant?: 'primary' | 'secondary' | 'muted' | 'outlined' | 'line';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		variant?: 'solid' | 'soft' | 'outlined' | 'line';
 		size?: 'sm' | 'md' | 'lg';
 		name?: string;
 		label?: string;
@@ -22,7 +23,6 @@
 		rows?: number;
 		cols?: number;
 		isFloatLabel?: boolean;
-		isSolid?: boolean;
 		isResize?: boolean;
 	};
 
@@ -36,6 +36,7 @@
 		onchange,
 		oninput,
 		variant = 'outlined',
+		color = 'muted',
 		size = 'md',
 		name,
 		label,
@@ -46,7 +47,6 @@
 		maxlength,
 		rows = 4,
 		cols,
-		isSolid,
 		isResize = false
 	}: Props = $props();
 
@@ -55,10 +55,19 @@
 	let isActive = $state(false);
 	let isFocused = $state(false);
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
 		outlined: 'is-outlined',
 		line: 'is-line'
 	};
@@ -83,9 +92,9 @@
 	<label
 		class={cn(
 			'textarea-control',
-			variantClasses[variant],
+			colors[color],
+			variants[variant],
 			sizeClasses[size],
-			isSolid && 'is-solid',
 			isFloatLabel && 'is-float',
 			(isActive || isFocused) && 'is-active',
 			controlClass

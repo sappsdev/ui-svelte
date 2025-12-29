@@ -12,6 +12,7 @@
 		color?: 'primary' | 'secondary' | 'muted';
 		name?: string;
 		hideLabel?: boolean;
+		class?: string;
 	};
 	let {
 		value = $bindable(),
@@ -23,7 +24,8 @@
 		size = 'md',
 		color = 'primary',
 		name,
-		hideLabel
+		hideLabel,
+		class: className
 	}: Props = $props();
 
 	let progressPercentage = $derived(((value! - min) / (max - min)) * 100);
@@ -41,7 +43,7 @@
 	};
 </script>
 
-<div class="slider-wrapper">
+<div class={cn('slider-wrapper', className)}>
 	<div class="slider-info" hidden={hideLabel}>
 		<span>{label}</span>
 		<span>{value}</span>

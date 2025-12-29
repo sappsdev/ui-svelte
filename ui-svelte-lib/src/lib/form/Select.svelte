@@ -27,7 +27,6 @@
 		helpText?: string;
 		errorText?: string;
 		isFloatLabel?: boolean;
-		isSolid?: boolean;
 	};
 
 	let {
@@ -45,8 +44,7 @@
 		isLabelActive,
 		helpText,
 		errorText,
-		isFloatLabel,
-		isSolid
+		isFloatLabel
 	}: Props = $props();
 
 	let isOpen = $state(false);
@@ -287,7 +285,6 @@
 			variants[variant],
 			sizeClasses[size],
 			isFloatLabel && 'is-float',
-			isSolid && 'is-solid',
 			(isActive || isFocused) && 'is-active'
 		)}
 		class:is-error={errorText}

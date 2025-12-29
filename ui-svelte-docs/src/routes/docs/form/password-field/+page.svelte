@@ -177,25 +177,6 @@
 </Section>
 
 <Section>
-	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
-		{#each variantOptions as item}
-			<div class="wrap gap-4 center">
-				{#each colorOptions as colorItem}
-					<PasswordField
-						variant={item.id as any}
-						color={colorItem.id as any}
-						placeholder={item.label + ' ' + colorItem.label}
-						hideStrength
-						rootClass="max-w-xs"
-					/>
-				{/each}
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
 	<p class="section-subtitle">Sizes</p>
 	<Card>
 		{#each variantOptions as item}

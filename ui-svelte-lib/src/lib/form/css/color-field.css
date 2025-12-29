@@ -17,7 +17,7 @@
 	}
 
 	.color-picker-popover {
-		@apply flex flex-col gap-4 p-4 w-80;
+		@apply flex flex-col gap-4 p-4 w-80 my-1;
 		@apply bg-background text-on-background rounded-box;
 		@apply invisible opacity-0 transition-opacity duration-300 ease-in-out;
 		@apply shadow shadow-muted;
@@ -30,7 +30,7 @@
 	}
 
 	.color-picker-canvas-wrapper {
-		@apply relative w-full aspect-square rounded-ui overflow-hidden cursor-crosshair;
+		@apply relative w-full h-36 rounded-ui overflow-hidden cursor-crosshair;
 	}
 
 	.color-picker-canvas {

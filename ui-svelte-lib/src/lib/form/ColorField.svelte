@@ -14,6 +14,10 @@
 		onCmyk?: (value: string) => void;
 		onOklch?: (value: string) => void;
 		onForeground?: (value: string) => void;
+		showHex?: boolean;
+		showRgb?: boolean;
+		showCmyk?: boolean;
+		showOklch?: boolean;
 		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
 		variant?: 'solid' | 'soft' | 'outlined' | 'line';
 		size?: 'sm' | 'md' | 'lg';
@@ -37,6 +41,10 @@
 		onCmyk,
 		onOklch,
 		onForeground,
+		showHex = false,
+		showRgb = false,
+		showCmyk = false,
+		showOklch = false,
 		variant = 'outlined',
 		color = 'muted',
 		size = 'md',
@@ -295,10 +303,10 @@
 
 		const rect = controlElement.getBoundingClientRect();
 		const windowHeight = window.innerHeight;
-		const popoverHeight = 420;
+		const popoverHeight = popoverEl.getBoundingClientRect().height;
 		const isBottomHalf = rect.top + rect.height / 2 > windowHeight / 2;
 
-		const top = isBottomHalf ? rect.top - popoverHeight - 8 : rect.top + rect.height + 8;
+		const top = isBottomHalf ? rect.top - popoverHeight - 8 : rect.top + rect.height;
 		position = {
 			top: top,
 			left: rect.left + window.scrollX,
@@ -485,7 +493,7 @@
 			onmousemove={handleCanvasMouseMove}
 			onmouseup={handleCanvasMouseUp}
 		>
-			<canvas bind:this={canvasEl} class="color-picker-canvas" width="280" height="180"></canvas>
+			<canvas bind:this={canvasEl} class="color-picker-canvas" width="240" height="140"></canvas>
 			<div
 				class="color-picker-cursor"
 				style="left: {cursorX}%; top: {cursorY}%; background-color: {hex};"
@@ -515,11 +523,21 @@
 			</div>
 		</div>
 
-		<div class="color-picker-values">
-			<Code code={`hex: "${hex}"`} lang="css" disableCopy hideLang />
-			<Code code={`rgb: "${rgb}"`} lang="css" disableCopy hideLang />
-			<Code code={`cmyk: "${cmyk}"`} lang="css" disableCopy hideLang />
-			<Code code={`oklch: "${oklch}"`} lang="css" disableCopy hideLang />
-		</div>
+		{#if showHex || showRgb || showCmyk || showOklch}
+			<div class="color-picker-values">
+				{#if showHex}
+					<Code code={`hex: ${hex}`} copyContent={hex} lang="css" hideLang />
+				{/if}
+				{#if showRgb}
+					<Code code={`rgb: ${rgb}`} copyContent={rgb} lang="css" hideLang />
+				{/if}
+				{#if showCmyk}
+					<Code code={`cmyk: ${cmyk}`} copyContent={cmyk} lang="css" hideLang />
+				{/if}
+				{#if showOklch}
+					<Code code={`oklch: ${oklch}`} copyContent={oklch} lang="css" hideLang />
+				{/if}
+			</div>
+		{/if}
 	</div>
 </div>

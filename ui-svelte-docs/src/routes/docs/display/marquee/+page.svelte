@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Marquee, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
+	import { Marquee, Card, Checkbox, Code, ColorField, Section, Select } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
 
@@ -271,16 +271,7 @@
 			<Checkbox bind:checked={fade} label="Fade Edges" />
 		</div>
 		{#if fade}
-			<div class="flex items-center gap-2">
-				<label class="text-sm font-medium">
-					Fade Color
-					<input
-						type="color"
-						bind:value={fadeColor}
-						class="ml-2 h-8 w-16 rounded border cursor-pointer"
-					/>
-				</label>
-			</div>
+			<ColorField label="Fade Color" size="sm" bind:hex={fadeColor} rootClass="max-w-xs" />
 		{/if}
 
 		<div class="doc-preview" class:h-[300px]={orientation === 'vertical'}>

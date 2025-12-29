@@ -56,7 +56,16 @@
 	};
 </script>
 
-<div class={cn('chip', variants[variant], sizes[size], colors[color], className)}>
+<div
+	class={cn(
+		'chip',
+		variants[variant],
+		sizes[size],
+		colors[color],
+		onclose && 'has-close',
+		className
+	)}
+>
 	{#if startIcon}
 		<Icon icon={startIcon} />
 	{/if}
@@ -65,6 +74,8 @@
 		<Icon icon={endIcon} />
 	{/if}
 	{#if onclose}
-		<IconButton icon={Dismiss24RegularIcon} size="xs" onclick={() => onclose?.()} />
+		<button class="chip-close" onclick={() => onclose?.()}>
+			<Icon icon={Dismiss24RegularIcon} />
+		</button>
 	{/if}
 </div>

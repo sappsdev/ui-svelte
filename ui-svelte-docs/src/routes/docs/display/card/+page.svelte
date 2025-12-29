@@ -140,21 +140,6 @@
 </Section>
 
 <Section>
-	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
-		{#each variantOptions as item}
-			<div class="wrap gap-4 center">
-				{#each colorOptions as colorItem}
-					<Card variant={item.id as any} color={colorItem.id as any} rootClass="p-4">
-						<span class="card-description">{item.label} {colorItem.label}</span>
-					</Card>
-				{/each}
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
 	<p class="section-subtitle">With Header & Footer</p>
 	<Card>
 		<div class="wrap gap-4 center">
@@ -165,7 +150,7 @@
 					{/snippet}
 					<p class="card-description">Card content with header and footer snippets.</p>
 					{#snippet footer()}
-						<Button size="sm" color="muted">Action</Button>
+						<Button color="secondary" variant="solid">Action</Button>
 					{/snippet}
 				</Card>
 			{/each}

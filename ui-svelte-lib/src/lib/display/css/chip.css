@@ -14,12 +14,18 @@
 			& .icon {
 				@apply h-3 w-auto;
 			}
+			&.has-close {
+				@apply pr-1;
+			}
 		}
 
 		&.is-sm {
 			@apply h-6 gap-2 px-3 text-xs;
 			& .icon {
 				@apply h-4 w-auto;
+			}
+			&.has-close {
+				@apply pr-1;
 			}
 		}
 
@@ -28,12 +34,18 @@
 			& .icon {
 				@apply h-5 w-auto;
 			}
+			&.has-close {
+				@apply pr-1.5;
+			}
 		}
 
 		&.is-lg {
 			@apply h-10 gap-2 px-5 text-lg;
 			& .icon {
 				@apply h-6 w-auto;
+			}
+			&.has-close {
+				@apply pr-2;
 			}
 		}
 
@@ -42,7 +54,17 @@
 			& .icon {
 				@apply h-8 w-auto;
 			}
+			&.has-close {
+				@apply pr-2;
+			}
 		}
+	}
+
+	.chip-close {
+		@apply flex items-center justify-center;
+		@apply rounded-full cursor-pointer;
+		@apply opacity-70 hover:opacity-100;
+		@apply transition-opacity duration-200;
 	}
 
 	.chip.is-soft {

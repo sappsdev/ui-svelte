@@ -1,10 +1,7 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { Select, Checkbox, Slider } from 'ui-svelte';
+	import { Card, Checkbox, Code, Section, Select, Slider } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
 	const colorOptions = [
 		{ id: 'primary', label: 'Primary' },
@@ -18,21 +15,16 @@
 		{ id: 'lg', label: 'lg' }
 	];
 
-	// Selects
 	let color: any = $state('primary');
 	let size: any = $state('md');
-
-	// Props
-	let label = $state('');
-	let min = $state(0);
-	let max = $state(100);
-	let step = $state(1);
-
-	// States
+	let value = $state(50);
+	let showLabel = $state(true);
 	let hideLabel = $state(false);
+	let customRange = $state(false);
+	let customStep = $state(false);
 
 	let hasProps = $derived(
-		[color !== 'primary', size !== 'md', label, min !== 0, max !== 100, step !== 1, hideLabel].some(
+		[color !== 'primary', size !== 'md', showLabel, hideLabel, customRange, customStep].some(
 			Boolean
 		)
 	);
@@ -42,83 +34,155 @@
 			`<script lang="ts">`,
 			`\timport { Slider } from 'ui-svelte';`,
 			`\n\tlet value = $state(50);`,
+			`\n\tconst handleChange = (val: number) => {`,
+			`\t\tconsole.log('Slider value:', val);`,
+			`\t};`,
 			`<\/script>`
 		].filter(Boolean);
 
 		const componentLines = [
 			hasProps && `<Slider`,
 			hasProps && `\tname="slider"`,
-			label && `\tlabel="${label}"`,
+			hasProps && `\tbind:value`,
+			showLabel && `\tlabel="Volume"`,
 			color !== 'primary' && `\tcolor="${color}"`,
 			size !== 'md' && `\tsize="${size}"`,
-			min !== 0 && `\tmin={${min}}`,
-			max !== 100 && `\tmax={${max}}`,
-			step !== 1 && `\tstep={${step}}`,
+			customRange && `\tmin={0}`,
+			customRange && `\tmax={200}`,
+			customStep && `\tstep={5}`,
 			hideLabel && `\thideLabel`,
-			hasProps && `\tbind:value`,
+			hasProps && `\tonchange={handleChange}`,
 			hasProps && `/>`,
-			!hasProps && `<Slider name="slider" bind:value />`
+			!hasProps && `<Slider name="slider" bind:value onchange={handleChange} />`
 		].filter(Boolean);
 
 		return [...scriptLines, ...componentLines].join('\n');
 	});
 
 	const props = [
-		{ prop: 'name', type: 'string', initial: '', required: true },
 		{ prop: 'value', type: 'number', initial: '0' },
 		{ prop: 'min', type: 'number', initial: '0' },
 		{ prop: 'max', type: 'number', initial: '100' },
 		{ prop: 'step', type: 'number', initial: '1' },
 		{ prop: 'onchange', type: '(value: number) => void', initial: '' },
-		{ prop: 'color', type: 'primary | secondary | muted', initial: 'primary' },
-		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
+		{ prop: 'name', type: 'string', initial: '' },
 		{ prop: 'label', type: 'string', initial: '' },
-		{ prop: 'hideLabel', type: 'boolean', initial: 'false' }
+		{ prop: 'hideLabel', type: 'boolean', initial: 'false' },
+		{
+			prop: 'color',
+			type: 'primary | secondary | muted',
+			initial: 'primary'
+		},
+		{ prop: 'size', type: 'sm | md | lg', initial: 'md' }
 	];
-
-	let value = $state(50);
 </script>
 
-{#snippet preview()}
-	<Slider
-		name="slider"
-		{color}
-		{size}
-		{min}
-		{max}
-		{step}
-		label={label || undefined}
-		{hideLabel}
-		bind:value
-	/>
-{/snippet}
+<DocsHeader title="Slider" llmUrl="https://ui-svelte.sappsdev.com/llm/form/slider.md">
+	Sliders allow users to select a numeric value within a specified range.
+</DocsHeader>
 
-{#snippet builder()}
-	<Select label="Color" size="sm" options={colorOptions} bind:value={color} />
-	<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Size"
+				size="sm"
+				options={sizeOptions}
+				bind:value={size}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={showLabel} label="Show Label" />
+			<Checkbox bind:checked={hideLabel} label="Hide Label" disabled={!showLabel} />
+			<Checkbox bind:checked={customRange} label="Custom Range (0-200)" />
+			<Checkbox bind:checked={customStep} label="Custom Step (5)" />
+		</div>
 
-	<DocOptions title="Range">
-		<Checkbox onchange={(v) => (min = v ? 10 : 0)} label="Min (10)" />
-		<Checkbox onchange={(v) => (max = v ? 200 : 100)} label="Max (200)" />
-		<Checkbox onchange={(v) => (step = v ? 5 : 1)} label="Step (5)" />
-	</DocOptions>
+		<div class="doc-preview">
+			<Slider
+				name="demo-slider"
+				bind:value
+				{color}
+				{size}
+				label={showLabel ? 'Volume' : undefined}
+				{hideLabel}
+				min={customRange ? 0 : 0}
+				max={customRange ? 200 : 100}
+				step={customStep ? 5 : 1}
+				class="max-w-xs"
+			/>
+		</div>
+		<Code lang="svelte" code={code()} />
+	</Card>
+</Section>
 
-	<DocOptions title="Labels">
-		<Checkbox onchange={(v) => (v ? (label = 'Volume') : (label = ''))} label="Label" />
-		{#if label}
-			<Checkbox bind:checked={hideLabel} label="hideLabel" />
-		{/if}
-	</DocOptions>
-{/snippet}
+<Section>
+	<p class="section-subtitle">Colors</p>
+	<Card>
+		<div class="column gap-4">
+			{#each colorOptions as colorItem}
+				<Slider
+					name={colorItem.id}
+					value={50}
+					color={colorItem.id as any}
+					label={colorItem.label}
+				/>
+			{/each}
+		</div>
+	</Card>
+</Section>
 
-<DocHeader title="Slider"
-	>Slider components allow users to select a numeric value within a specified range.</DocHeader
->
+<Section>
+	<p class="section-subtitle">Sizes</p>
+	<Card>
+		<div class="column gap-4">
+			{#each sizeOptions as sizeItem}
+				<Slider name={sizeItem.id} value={50} size={sizeItem.id as any} label={sizeItem.label} />
+			{/each}
+		</div>
+	</Card>
+</Section>
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section>
+	<p class="section-subtitle">Custom Range & Step</p>
+	<Card>
+		<div class="column gap-4">
+			<Slider name="range-slider" value={25} min={0} max={50} label="Range 0-50" />
+			<Slider name="step-slider" value={50} step={10} label="Step: 10" />
+			<Slider
+				name="custom-slider"
+				value={100}
+				min={50}
+				max={200}
+				step={25}
+				label="Range 50-200, Step 25"
+			/>
+		</div>
+	</Card>
+</Section>
 
-<DocCode code={code()} />
+<Section>
+	<p class="section-subtitle">Without Label</p>
+	<Card>
+		<div class="column gap-4">
+			{#each colorOptions as colorItem}
+				<Slider name={`no-label-${colorItem.id}`} value={50} color={colorItem.id as any} />
+			{/each}
+		</div>
+	</Card>
+</Section>
 
-<DocProps {props} />
+<Section>
+	<p class="section-subtitle">Props</p>
+	<DocsProps {props} />
+</Section>

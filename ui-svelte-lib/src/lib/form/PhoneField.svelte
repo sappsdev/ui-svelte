@@ -17,13 +17,13 @@
 		size?: 'sm' | 'md' | 'lg';
 		name?: string;
 		dialCodeName?: string;
-		class?: string;
+		rootClass?: string;
+		controlClass?: string;
 		label?: string;
 		isLabelActive?: boolean;
 		helpText?: string;
 		errorText?: string;
 		isFloatLabel?: boolean;
-		isSolid?: boolean;
 		priorityCountries?: string[];
 		searchPlaceholder?: string;
 		emptyText?: string;
@@ -31,7 +31,8 @@
 	};
 
 	let {
-		class: className,
+		rootClass,
+		controlClass,
 		value = $bindable(''),
 		countryCode = $bindable(''),
 		dialCode = $bindable(''),
@@ -47,7 +48,6 @@
 		helpText,
 		errorText,
 		isFloatLabel,
-		isSolid,
 		priorityCountries = [],
 		searchPlaceholder = 'Search country...',
 		emptyText = 'No countries found',
@@ -370,7 +370,7 @@
 	});
 </script>
 
-<div class={cn('field', className)}>
+<div class={cn('field', rootClass)}>
 	<input type="hidden" name={dialCodeName} bind:value={dialCode} />
 
 	{#if !isFloatLabel && label}
@@ -386,8 +386,8 @@
 			variants[variant],
 			sizeClasses[size],
 			isFloatLabel && 'is-float',
-			isSolid && 'is-solid',
-			(isActive || isFocused || isOpen) && 'is-active'
+			(isActive || isFocused || isOpen) && 'is-active',
+			controlClass
 		)}
 		class:is-error={errorText}
 		onmouseenter={() => (isActive = true)}

@@ -1,26 +1,21 @@
 <script lang="ts">
-	import DocCode from '$lib/components/doc/DocCode.svelte';
-	import DocHeader from '$lib/components/doc/DocHeader.svelte';
-	import DocOptions from '$lib/components/doc/DocOptions.svelte';
-	import DocPreview from '$lib/components/doc/DocPreview.svelte';
-	import DocProps from '$lib/components/doc/DocProps.svelte';
-	import { ComboBox, useSearch, Checkbox, Select, Section } from 'ui-svelte';
+	import { ComboBox, useSearch, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
+	import DocsHeader from '$lib/components/DocsHeader.svelte';
+	import DocsProps from '$lib/components/DocsProps.svelte';
 
-	type ExampleType = 'basic' | 'server' | 'descriptions' | 'avatars' | 'disabled';
-	let currentExample: ExampleType = $state('basic');
-
-	const exampleOptions = [
-		{ id: 'basic', label: 'Client-Side Basic' },
-		{ id: 'server', label: 'Server-Side (API)' },
-		{ id: 'descriptions', label: 'With Descriptions' },
-		{ id: 'avatars', label: 'With Avatars' },
-		{ id: 'disabled', label: 'Disabled Options' }
-	];
-
-	const variantOptions = [
+	const colorOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
+		{ id: 'success', label: 'Success' },
+		{ id: 'info', label: 'Info' },
+		{ id: 'danger', label: 'Danger' },
+		{ id: 'warning', label: 'Warning' }
+	];
+
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' },
 		{ id: 'outlined', label: 'Outlined' },
 		{ id: 'line', label: 'Line' }
 	];
@@ -29,6 +24,14 @@
 		{ id: 'sm', label: 'sm' },
 		{ id: 'md', label: 'md' },
 		{ id: 'lg', label: 'lg' }
+	];
+
+	const exampleOptions = [
+		{ id: 'basic', label: 'Client-Side Basic' },
+		{ id: 'server', label: 'Server-Side (API)' },
+		{ id: 'descriptions', label: 'With Descriptions' },
+		{ id: 'avatars', label: 'With Avatars' },
+		{ id: 'disabled', label: 'Disabled Options' }
 	];
 
 	const basicOptions = [
@@ -66,13 +69,15 @@
 		{ id: '5', label: 'Available Option 3' }
 	];
 
+	let color: any = $state('muted');
 	let variant: any = $state('outlined');
 	let size: any = $state('md');
+	let currentExample: any = $state('basic');
+
 	let label = $state('');
 	let helpText = $state('');
 	let errorText = $state('');
 	let isFloatLabel = $state(false);
-	let isSolid = $state(false);
 	let isClearable = $state(false);
 	let isDisabled = $state(false);
 
@@ -139,13 +144,13 @@
 
 	let hasProps = $derived(
 		[
+			color !== 'muted',
 			variant !== 'outlined',
 			size !== 'md',
 			label,
 			helpText,
 			errorText,
 			isFloatLabel,
-			isSolid,
 			isClearable,
 			isDisabled
 		].some(Boolean)
@@ -184,7 +189,7 @@
 <ComboBox
 	name="combo"
 	placeholder="Search..."
-	{search}${label ? `\n\tlabel="${label}"` : ''}${variant !== 'outlined' ? `\n\tvariant="${variant}"` : ''}${size !== 'md' ? `\n\tsize="${size}"` : ''}${helpText ? `\n\thelpText="${helpText}"` : ''}${errorText ? `\n\terrorText="${errorText}"` : ''}${isFloatLabel ? `\n\tisFloatLabel` : ''}${isSolid ? `\n\tisSolid` : ''}${isClearable ? `\n\tisClearable` : ''}${isDisabled ? `\n\tisDisabled` : ''}
+	{search}${color !== 'muted' ? `\n\tcolor="${color}"` : ''}${variant !== 'outlined' ? `\n\tvariant="${variant}"` : ''}${size !== 'md' ? `\n\tsize="${size}"` : ''}${label ? `\n\tlabel="${label}"` : ''}${helpText ? `\n\thelpText="${helpText}"` : ''}${errorText ? `\n\terrorText="${errorText}"` : ''}${isFloatLabel ? `\n\tisFloatLabel` : ''}${isClearable ? `\n\tisClearable` : ''}${isDisabled ? `\n\tisDisabled` : ''}
 	bind:value
 />`;
 		}
@@ -230,12 +235,12 @@
 <ComboBox
 	name="combo"
 	placeholder="Search..."
-	{search}${label ? `\n\tlabel="${label}"` : ''}${variant !== 'outlined' ? `\n\tvariant="${variant}"` : ''}${size !== 'md' ? `\n\tsize="${size}"` : ''}${helpText ? `\n\thelpText="${helpText}"` : ''}${errorText ? `\n\terrorText="${errorText}"` : ''}${isFloatLabel ? `\n\tisFloatLabel` : ''}${isSolid ? `\n\tisSolid` : ''}${isClearable ? `\n\tisClearable` : ''}${isDisabled ? `\n\tisDisabled` : ''}
+	{search}${color !== 'muted' ? `\n\tcolor="${color}"` : ''}${variant !== 'outlined' ? `\n\tvariant="${variant}"` : ''}${size !== 'md' ? `\n\tsize="${size}"` : ''}${label ? `\n\tlabel="${label}"` : ''}${helpText ? `\n\thelpText="${helpText}"` : ''}${errorText ? `\n\terrorText="${errorText}"` : ''}${isFloatLabel ? `\n\tisFloatLabel` : ''}${isClearable ? `\n\tisClearable` : ''}${isDisabled ? `\n\tisDisabled` : ''}
 	bind:value
 />`;
 	});
 
-	const comboBoxProps = [
+	const props = [
 		{ prop: 'search', type: 'SearchState', initial: '', required: true },
 		{ prop: 'name', type: 'string', initial: '' },
 		{ prop: 'value', type: 'string | number | null', initial: 'null' },
@@ -246,7 +251,12 @@
 		{ prop: 'loadingText', type: 'string', initial: 'Loading...' },
 		{ prop: 'loadingMoreText', type: 'string', initial: 'Loading more...' },
 		{ prop: 'onchange', type: '(value: string | number | null) => void', initial: '' },
-		{ prop: 'variant', type: 'primary | secondary | muted | outlined | line', initial: 'outlined' },
+		{
+			prop: 'color',
+			type: 'primary | secondary | muted | success | info | danger | warning',
+			initial: 'muted'
+		},
+		{ prop: 'variant', type: 'solid | soft | outlined | line', initial: 'outlined' },
 		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
 		{ prop: 'class', type: 'string', initial: '' },
 		{ prop: 'label', type: 'string', initial: '' },
@@ -254,294 +264,250 @@
 		{ prop: 'helpText', type: 'string', initial: '' },
 		{ prop: 'errorText', type: 'string', initial: '' },
 		{ prop: 'isFloatLabel', type: 'boolean', initial: 'false' },
-		{ prop: 'isSolid', type: 'boolean', initial: 'false' },
 		{ prop: 'isClearable', type: 'boolean', initial: 'false' },
 		{ prop: 'isDisabled', type: 'boolean', initial: 'false' },
-		{ prop: 'arrowIcon', type: 'IconName', initial: 'fluent:arrow-sort-down-24-regular' }
+		{ prop: 'arrowIcon', type: 'IconData', initial: 'ArrowDown24RegularIcon' }
 	];
 
 	const useSearchConfigProps = [
-		{ prop: 'url', type: 'string', initial: '', description: 'API endpoint for remote search' },
-		{
-			prop: 'options',
-			type: 'SearchOption[]',
-			initial: '[]',
-			description: 'Initial options for client-side'
-		},
-		{ prop: 'initialSearch', type: 'string', initial: "''", description: 'Initial search query' },
-		{
-			prop: 'initialValue',
-			type: 'string | number | null',
-			initial: 'null',
-			description: 'Initial selected value'
-		},
-		{
-			prop: 'headers',
-			type: 'Record<string, string>',
-			initial: '{}',
-			description: 'Custom headers for API'
-		},
-		{
-			prop: 'transformData',
-			type: '(data: any, search: string) => SearchResponse',
-			initial: '',
-			description: 'Transform API response'
-		},
-		{ prop: 'onError', type: '(error: any) => void', initial: '', description: 'Error callback' },
-		{
-			prop: 'onSuccess',
-			type: '(response: SearchResponse) => void',
-			initial: '',
-			description: 'Success callback'
-		},
-		{ prop: 'debounceSearch', type: 'number', initial: '0', description: 'Debounce delay in ms' },
-		{
-			prop: 'clientSide',
-			type: 'boolean',
-			initial: 'false',
-			description: 'Enable client-side filtering'
-		},
-		{
-			prop: 'minSearchLength',
-			type: 'number',
-			initial: '0',
-			description: 'Min chars before searching'
-		},
+		{ prop: 'url', type: 'string', initial: '' },
+		{ prop: 'options', type: 'SearchOption[]', initial: '[]' },
+		{ prop: 'initialSearch', type: 'string', initial: "''" },
+		{ prop: 'initialValue', type: 'string | number | null', initial: 'null' },
+		{ prop: 'headers', type: 'Record<string, string>', initial: '{}' },
+		{ prop: 'transformData', type: '(data: any, search: string) => SearchResponse', initial: '' },
+		{ prop: 'onError', type: '(error: any) => void', initial: '' },
+		{ prop: 'onSuccess', type: '(response: SearchResponse) => void', initial: '' },
+		{ prop: 'debounceSearch', type: 'number', initial: '0' },
+		{ prop: 'clientSide', type: 'boolean', initial: 'false' },
+		{ prop: 'minSearchLength', type: 'number', initial: '0' },
 		{
 			prop: 'buildQueryParams',
 			type: '(search: string, page: number) => Record<string, string>',
-			initial: '',
-			description: 'Custom query params builder (now with page param)'
+			initial: ''
 		},
-		{
-			prop: 'pageSize',
-			type: 'number',
-			initial: '20',
-			description: 'Number of results per page'
-		},
-		{
-			prop: 'enablePagination',
-			type: 'boolean',
-			initial: 'true',
-			description: 'Enable infinite scroll pagination'
-		}
+		{ prop: 'pageSize', type: 'number', initial: '20' },
+		{ prop: 'enablePagination', type: 'boolean', initial: 'true' }
 	];
 
 	const searchStateProps = [
-		{
-			prop: 'options',
-			type: 'SearchOption[]',
-			initial: '[]',
-			description: 'Current filtered options'
-		},
-		{ prop: 'isLoading', type: 'boolean', initial: 'false', description: 'Loading state' },
-		{
-			prop: 'isLoadingMore',
-			type: 'boolean',
-			initial: 'false',
-			description: 'Loading more results'
-		},
-		{ prop: 'hasMore', type: 'boolean', initial: 'false', description: 'More results available' },
-		{ prop: 'error', type: 'any', initial: 'null', description: 'Error if request failed' },
-		{
-			prop: 'search',
-			type: 'string',
-			initial: "''",
-			description: 'Current search query (bindable)'
-		},
-		{
-			prop: 'selectedValue',
-			type: 'string | number | null',
-			initial: 'null',
-			description: 'Selected value'
-		},
-		{
-			prop: 'selectedOption',
-			type: 'SearchOption | null',
-			initial: 'null',
-			description: 'Selected option object'
-		},
-		{ prop: 'currentPage', type: 'number', initial: '0', description: 'Current page number' },
-		{ prop: 'totalResults', type: 'number', initial: '0', description: 'Total results count' },
-		{
-			prop: 'setSearch',
-			type: '(query: string) => void',
-			initial: '',
-			description: 'Update search query'
-		},
-		{
-			prop: 'setSelectedValue',
-			type: '(value: string | number | null) => void',
-			initial: '',
-			description: 'Update selected value'
-		},
-		{
-			prop: 'setOptions',
-			type: '(options: SearchOption[]) => void',
-			initial: '',
-			description: 'Update options array'
-		},
-		{
-			prop: 'refresh',
-			type: '() => void',
-			initial: '',
-			description: 'Re-fetch or re-filter options'
-		},
-		{ prop: 'reset', type: '() => void', initial: '', description: 'Reset to initial state' },
-		{
-			prop: 'loadMore',
-			type: '() => Promise<void>',
-			initial: '',
-			description: 'Load next page of results'
-		}
+		{ prop: 'options', type: 'SearchOption[]', initial: '[]' },
+		{ prop: 'isLoading', type: 'boolean', initial: 'false' },
+		{ prop: 'isLoadingMore', type: 'boolean', initial: 'false' },
+		{ prop: 'hasMore', type: 'boolean', initial: 'false' },
+		{ prop: 'error', type: 'any', initial: 'null' },
+		{ prop: 'search', type: 'string', initial: "''" },
+		{ prop: 'selectedValue', type: 'string | number | null', initial: 'null' },
+		{ prop: 'selectedOption', type: 'SearchOption | null', initial: 'null' },
+		{ prop: 'currentPage', type: 'number', initial: '0' },
+		{ prop: 'totalResults', type: 'number', initial: '0' },
+		{ prop: 'setSearch', type: '(query: string) => void', initial: '' },
+		{ prop: 'setSelectedValue', type: '(value: string | number | null) => void', initial: '' },
+		{ prop: 'setOptions', type: '(options: SearchOption[]) => void', initial: '' },
+		{ prop: 'refresh', type: '() => void', initial: '' },
+		{ prop: 'reset', type: '() => void', initial: '' },
+		{ prop: 'loadMore', type: '() => Promise<void>', initial: '' }
 	];
 
 	const optionProps = [
 		{ prop: 'id', type: 'string | number', initial: '', required: true },
 		{ prop: 'label', type: 'string', initial: '', required: true },
 		{ prop: 'description', type: 'string', initial: '' },
-		{ prop: 'icon', type: 'string', initial: '' },
+		{ prop: 'icon', type: 'IconData', initial: '' },
 		{ prop: 'src', type: 'string', initial: '' },
 		{ prop: 'disabled', type: 'boolean', initial: 'false' }
 	];
 </script>
 
-{#snippet preview()}
-	<div class="w-full max-w-sm">
-		{#if currentExample === 'server'}
-			<div class="mb-4 p-3 bg-gray-100 rounded-lg text-sm space-y-1">
-				<p class="text-gray-600">
-					This example uses DummyJSON Products API with infinite scroll pagination.
-				</p>
-				<p class="text-xs text-gray-500">
-					Type to search (min 2 characters). Scroll down to load more results automatically.
-				</p>
-			</div>
-		{/if}
-
-		<ComboBox
-			placeholder={currentExample === 'server' ? 'Search products...' : 'Search...'}
-			search={currentSearch}
-			{variant}
-			{size}
-			{isSolid}
-			{isClearable}
-			{isDisabled}
-			label={label || undefined}
-			helpText={helpText || undefined}
-			errorText={errorText || undefined}
-			isFloatLabel={label && isFloatLabel ? isFloatLabel : undefined}
-			bind:value
-		/>
-	</div>
-{/snippet}
-
-{#snippet builder()}
-	<Select label="Example Type" size="sm" options={exampleOptions} bind:value={currentExample} />
-
-	<DocOptions title="">
-		<Select label="Variant" size="sm" options={variantOptions} bind:value={variant} />
-		<Select label="Size" size="sm" options={sizeOptions} bind:value={size} />
-	</DocOptions>
-
-	<DocOptions title="Labels & Messages">
-		<Checkbox onchange={(v) => (v ? (label = 'Label') : (label = ''))} label="Label" />
-		{#if label}
-			<Checkbox bind:checked={isFloatLabel} label="floatLabel" />
-		{/if}
-		<Checkbox
-			onchange={(v) => (v ? (helpText = 'This is a help text') : (helpText = ''))}
-			label="helpText"
-		/>
-		<Checkbox
-			onchange={(v) => (v ? (errorText = 'This field is required') : (errorText = ''))}
-			label="errorText"
-		/>
-	</DocOptions>
-
-	<DocOptions title="States">
-		<Checkbox bind:checked={isSolid} label="solid" />
-		<Checkbox bind:checked={isClearable} label="clearable" />
-		<Checkbox bind:checked={isDisabled} label="disabled" />
-	</DocOptions>
-{/snippet}
-
-<DocHeader title="ComboBox & useSearch">
+<DocsHeader title="ComboBox" llmUrl="https://ui-svelte.sappsdev.com/llm/form/combo-box.md">
 	A searchable dropdown component that combines text input with a filterable list of options.
 	Supports both client-side filtering and server-side search via API with infinite scroll
-	pagination. Uses the useSearch hook for reactive state management.
-</DocHeader>
+	pagination.
+</DocsHeader>
 
-<DocPreview {builder}>
-	{@render preview()}
-</DocPreview>
+<Section>
+	<Card headerClass="grid-2 md:grid-4 gap-2">
+		<div class="grid-2 md:grid-4 gap-2">
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Example"
+				size="sm"
+				options={exampleOptions}
+				bind:value={currentExample}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={color}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Variant"
+				size="sm"
+				options={variantOptions}
+				bind:value={variant}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
+				label="Size"
+				size="sm"
+				options={sizeOptions}
+				bind:value={size}
+			/>
+		</div>
+		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox onchange={(v) => (v ? (label = 'Label') : (label = ''))} label="Label" />
+			{#if label}
+				<Checkbox bind:checked={isFloatLabel} label="Float Label" />
+			{/if}
+			<Checkbox
+				onchange={(v) => (v ? (helpText = 'This is a help text') : (helpText = ''))}
+				label="Help Text"
+			/>
+			<Checkbox
+				onchange={(v) => (v ? (errorText = 'This field is required') : (errorText = ''))}
+				label="Error Text"
+			/>
+			<Checkbox bind:checked={isClearable} label="Clearable" />
+			<Checkbox bind:checked={isDisabled} label="Disabled" />
+		</div>
 
-<DocCode code={code()} />
-
-<Section bodyClass="prose mt-8">
-	<h3>useSearch Hook Configuration</h3>
-	<p>
-		The useSearch hook accepts a configuration object. When <code>clientSide: true</code> is set
-		with
-		<code>options</code>, it filters locally. When <code>url</code> is provided, it fetches from the API
-		with automatic pagination support.
-	</p>
+		<div class="doc-preview">
+			{#if currentExample === 'server'}
+				<div class="mb-4 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg text-sm space-y-1">
+					<p class="text-gray-600 dark:text-gray-400">
+						This example uses DummyJSON Products API with infinite scroll pagination.
+					</p>
+					<p class="text-xs text-gray-500 dark:text-gray-500">
+						Type to search (min 2 characters). Scroll down to load more results automatically.
+					</p>
+				</div>
+			{/if}
+			<div class="w-full max-w-sm">
+				<ComboBox
+					placeholder={currentExample === 'server' ? 'Search products...' : 'Search...'}
+					search={currentSearch}
+					{color}
+					{variant}
+					{size}
+					{isClearable}
+					{isDisabled}
+					label={label || undefined}
+					helpText={helpText || undefined}
+					errorText={errorText || undefined}
+					isFloatLabel={label && isFloatLabel ? isFloatLabel : undefined}
+					bind:value
+				/>
+			</div>
+		</div>
+		<Code lang="svelte" code={code()} />
+	</Card>
 </Section>
 
-<DocProps props={useSearchConfigProps} />
+<Section>
+	<p class="section-subtitle">Variants & Colors</p>
+	<Card>
+		{#each variantOptions as item}
+			<div class="wrap gap-4 center">
+				{#each colorOptions as colorItem}
+					{@const search = useSearch({ options: basicOptions, clientSide: true })}
+					<div class="w-48">
+						<ComboBox
+							placeholder={item.label + ' ' + colorItem.label}
+							{search}
+							variant={item.id as any}
+							color={colorItem.id as any}
+						/>
+					</div>
+				{/each}
+			</div>
+		{/each}
+	</Card>
+</Section>
 
-<Section bodyClass="prose mt-8">
-	<h3>SearchState (Return Value)</h3>
-	<p>
+<Section>
+	<p class="section-subtitle">Sizes</p>
+	<Card>
+		{#each variantOptions as item}
+			<div class="wrap gap-4 center">
+				{#each sizeOptions as sizeItem}
+					{@const search = useSearch({ options: basicOptions, clientSide: true })}
+					<div class="w-48">
+						<ComboBox
+							placeholder={item.label + ' ' + sizeItem.label}
+							{search}
+							variant={item.id as any}
+							size={sizeItem.id as any}
+						/>
+					</div>
+				{/each}
+			</div>
+		{/each}
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">useSearch Hook Configuration</p>
+	<p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+		The useSearch hook accepts a configuration object. When <code>clientSide: true</code> is set
+		with <code>options</code>, it filters locally. When <code>url</code> is provided, it fetches from
+		the API with automatic pagination support.
+	</p>
+	<DocsProps props={useSearchConfigProps} />
+</Section>
+
+<Section>
+	<p class="section-subtitle">SearchState (Return Value)</p>
+	<p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
 		The useSearch hook returns a reactive state object with the following properties and methods:
 	</p>
+	<DocsProps props={searchStateProps} />
 </Section>
 
-<DocProps props={searchStateProps} />
-
-<Section bodyClass="prose mt-8">
-	<h3>ComboBox Props</h3>
-	<p>The ComboBox component accepts these props for customization:</p>
+<Section>
+	<p class="section-subtitle">ComboBox Props</p>
+	<DocsProps {props} />
 </Section>
 
-<DocProps props={comboBoxProps} />
-
-<Section bodyClass="prose mt-8">
-	<h3>SearchOption Type</h3>
-	<p>Each option should follow this structure:</p>
-</Section>
-
-<DocProps props={optionProps} />
-
-<Section bodyClass="prose mt-8">
-	<h3>Key Features</h3>
-	<ul>
-		<li>
-			<strong>Flexible Data Sources:</strong> Supports both client-side (options + clientSide) and server-side
-			(url) data
-		</li>
-		<li>
-			<strong>Infinite Scroll Pagination:</strong> Automatically loads more results when scrolling to
-			80% of the list
-		</li>
-		<li><strong>Search Filtering:</strong> Built-in search with debouncing support</li>
-		<li><strong>Rich Options:</strong> Support for descriptions, icons, and avatars in options</li>
-		<li><strong>Disabled Options:</strong> Individual options can be disabled</li>
-		<li><strong>Clearable:</strong> Optional clear button to reset selection</li>
-		<li><strong>Loading States:</strong> Separate indicators for initial load and loading more</li>
-		<li><strong>Empty States:</strong> Customizable empty state message</li>
-		<li><strong>Keyboard Navigation:</strong> Arrow keys, Enter, Escape support</li>
-		<li><strong>Float Label:</strong> Animated floating label support</li>
-		<li><strong>Form Integration:</strong> Works with native form submission via hidden input</li>
-	</ul>
-
-	<h3>Pagination Configuration</h3>
-	<p>
-		The pagination system works automatically when <code>enablePagination: true</code> (default).
-		The
-		<code>buildQueryParams</code> function now receives a <code>page</code> parameter to construct proper
-		API queries. The component loads more results when the user scrolls to 80% of the list.
+<Section>
+	<p class="section-subtitle">SearchOption Type</p>
+	<p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+		Each option should follow this structure:
 	</p>
+	<DocsProps props={optionProps} />
+</Section>
 
-	<h4>Example with Custom Pagination:</h4>
+<Section>
+	<p class="section-subtitle">Key Features</p>
+	<Card>
+		<ul class="list-disc list-inside space-y-2 text-sm">
+			<li>
+				<strong>Flexible Data Sources:</strong> Supports both client-side (options + clientSide) and server-side
+				(url) data
+			</li>
+			<li>
+				<strong>Infinite Scroll Pagination:</strong> Automatically loads more results when scrolling to
+				80% of the list
+			</li>
+			<li><strong>Search Filtering:</strong> Built-in search with debouncing support</li>
+			<li>
+				<strong>Rich Options:</strong> Support for descriptions, icons, and avatars in options
+			</li>
+			<li><strong>Disabled Options:</strong> Individual options can be disabled</li>
+			<li><strong>Clearable:</strong> Optional clear button to reset selection</li>
+			<li>
+				<strong>Loading States:</strong> Separate indicators for initial load and loading more
+			</li>
+			<li><strong>Empty States:</strong> Customizable empty state message</li>
+			<li><strong>Keyboard Navigation:</strong> Arrow keys, Enter, Escape support</li>
+			<li><strong>Float Label:</strong> Animated floating label support</li>
+			<li><strong>Form Integration:</strong> Works with native form submission via hidden input</li>
+		</ul>
+	</Card>
 </Section>

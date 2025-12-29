@@ -140,34 +140,13 @@
 </Section>
 
 <Section>
-	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
-		{#each variantOptions as item}
-			<div class="wrap gap-4">
-				{#each colorOptions as colorItem}
-					<Collapsible
-						label={item.label + ' ' + colorItem.label}
-						variant={item.id as any}
-						color={colorItem.id as any}
-					>
-						{#snippet content()}
-							<p>Content for {item.label} {colorItem.label} collapsible.</p>
-						{/snippet}
-					</Collapsible>
-				{/each}
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
 	<p class="section-subtitle">With Start Content</p>
 	<Card>
 		<div class="wrap gap-4">
 			{#each colorOptions.slice(0, 4) as colorItem}
 				<Collapsible label={colorItem.label + ' with Icon'} color={colorItem.id as any}>
 					{#snippet startContent()}
-						<Icon icon={FolderLinearIcon} />
+						<Icon icon={FolderLinearIcon} class="h-5 w-auto" />
 					{/snippet}
 					{#snippet content()}
 						<p>This collapsible has a start icon.</p>
