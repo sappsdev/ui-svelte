@@ -1,83 +1,94 @@
-## Drawer Component
+# Drawer Component
 
-Panel that slides in from the edge of the screen.
+Side panel that slides in from any screen edge for navigation, filters, or supplementary content.
+
+## Import
 
 ```svelte
-<Drawer
-  bind:open
-  onclose={handleClose}
-  position="start"
-  header={headerSnippet}
-  footer={footerSnippet}
-  variant="ghost"
-  isSolid={false}
-  class=""
-  headerClass=""
-  footerClass=""
-  contentClass=""
->
-  <p>Drawer content goes here</p>
-</Drawer>
+import {Drawer} from 'ui-svelte';
 ```
 
-### Key Props
+## Props
 
-| Prop | Default | Description |
-|------|---------|-------------|
-| `open` | `false` | Visibility state (bindable, required) |
-| `children` | - | Content snippet (required) |
-| `onclose` | - | Handler `() => void` |
-| `position` | `'start'` | `start` `end` `top` `bottom` |
-| `header` | - | Header snippet |
-| `footer` | - | Footer snippet |
-| `variant` | `'ghost'` | `ghost` `surface` `primary` `secondary` `muted` |
-| `isSolid` | `false` | Solid background |
-| `class` | - | Custom class |
-| `headerClass` | - | Header custom class |
-| `footerClass` | - | Footer custom class |
-| `contentClass` | - | Content custom class |
+| Prop                  | Type                                                                                                            | Default     | Description                      |
+| --------------------- | --------------------------------------------------------------------------------------------------------------- | ----------- | -------------------------------- |
+| `open`                | `boolean`                                                                                                       | `false`     | Controls visibility              |
+| `position`            | `'start' \| 'end' \| 'top' \| 'bottom'`                                                                         | `'start'`   | Slide direction                  |
+| `color`               | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger' \| 'surface' \| 'default'` | `'default'` | Color theme                      |
+| `variant`             | `'solid' \| 'soft'`                                                                                             | `'solid'`   | Visual style                     |
+| `disableOverlayClose` | `boolean`                                                                                                       | `false`     | Prevent closing on overlay click |
+| `hideCloseButton`     | `boolean`                                                                                                       | `false`     | Hide the X close button          |
+| `onclose`             | `() => void`                                                                                                    | -           | Called when drawer closes        |
+| `header`              | `Snippet`                                                                                                       | -           | Header content slot              |
+| `footer`              | `Snippet`                                                                                                       | -           | Footer content slot              |
+| `class`               | `string`                                                                                                        | -           | Container classes                |
+| `headerClass`         | `string`                                                                                                        | -           | Header classes                   |
+| `bodyClass`           | `string`                                                                                                        | -           | Body classes                     |
+| `footerClass`         | `string`                                                                                                        | -           | Footer classes                   |
 
-### Common Patterns
+## Patterns
+
+### Basic Drawer
 
 ```svelte
-<script>
-  import { Drawer, Button } from 'ui-svelte';
-  let open = $state(false);
+<script lang="ts">
+	import { Button, Drawer } from 'ui-svelte';
+	let open = $state(false);
 </script>
 
-<!-- Basic -->
+<Button onclick={() => (open = true)}>Open Drawer</Button>
+
 <Drawer bind:open>
-  <p>Drawer content</p>
-</Drawer>
-<Button onclick={() => open = true}>Open Drawer</Button>
-
-<!-- With Header and Footer -->
-<Drawer bind:open>
-  {#snippet header()}
-    <h3>Drawer Header</h3>
-  {/snippet}
-  
-  <p>Drawer content</p>
-  
-  {#snippet footer()}
-    <Button onclick={() => open = false}>Close</Button>
-  {/snippet}
-</Drawer>
-
-<!-- From End -->
-<Drawer bind:open position="end">
-  <p>Drawer content</p>
-</Drawer>
-
-<!-- With Variant -->
-<Drawer bind:open variant="surface" isSolid>
-  <p>Drawer content</p>
-</Drawer>
-
-<!-- With Close Handler -->
-<Drawer bind:open onclose={() => console.log('Drawer closed')}>
-  <p>Drawer content</p>
+	<p>Drawer content goes here.</p>
 </Drawer>
 ```
 
-**For LLMs**: Drawer for side panels. Use `bind:open` for state control. `position` controls slide direction (start/end/top/bottom). Use `header` and `footer` snippets for sections. Closes on overlay click or ESC key, triggering `onclose`. Use `isSolid` for opaque background.
+### Positions
+
+```svelte
+<!-- Left (default) -->
+<Drawer bind:open position="start">
+	<p>Slides from left</p>
+</Drawer>
+
+<!-- Right -->
+<Drawer bind:open position="end">
+	<p>Slides from right</p>
+</Drawer>
+
+<!-- Top -->
+<Drawer bind:open position="top">
+	<p>Slides from top</p>
+</Drawer>
+
+<!-- Bottom -->
+<Drawer bind:open position="bottom">
+	<p>Slides from bottom</p>
+</Drawer>
+```
+
+### Navigation Drawer
+
+```svelte
+<Drawer bind:open color="primary">
+	{#snippet header()}
+		<h4 class="card-title">Navigation</h4>
+	{/snippet}
+
+	<nav class="col gap-2">
+		<a href="/home" class="p-2">Home</a>
+		<a href="/settings" class="p-2">Settings</a>
+		<a href="/profile" class="p-2">Profile</a>
+	</nav>
+
+	{#snippet footer()}
+		<Button size="sm" onclick={() => (open = false)}>Close</Button>
+	{/snippet}
+</Drawer>
+```
+
+## Notes
+
+- Use `bind:open` for two-way binding
+- Position `start`/`end` for horizontal, `top`/`bottom` for vertical
+- Closes on Escape key and overlay click by default

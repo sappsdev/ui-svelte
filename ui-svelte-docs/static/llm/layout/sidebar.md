@@ -1,187 +1,123 @@
-## Sidebar Component
+# Sidebar Component
 
-Vertical navigation component with optional header and footer sections.
+Vertical navigation wrapper with optional header and footer sections.
+
+## Import
 
 ```svelte
-<Sidebar
-  class="w-48"
-  contentClass=""
-  headerClass=""
-  footerClass=""
->
-  {#snippet header()}
-    <h3 class="text-lg font-semibold">Menu</h3>
-  {/snippet}
-  
-  <SideNav items={navItems} />
-  
-  {#snippet footer()}
-    <Button variant="ghost" class="w-full">Sign Out</Button>
-  {/snippet}
-</Sidebar>
+import {Sidebar} from 'ui-svelte';
 ```
 
-### Key Props
+## Props
 
-| Prop | Default | Description |
-|------|---------|-------------|
-| `children` | - | Main content (required) |
-| `header` | - | Snippet for header section |
-| `footer` | - | Snippet for footer section |
-| `class` | - | Custom CSS classes (set width here) |
-| `contentClass` | - | Classes for content wrapper |
-| `headerClass` | - | Classes for header section |
-| `footerClass` | - | Classes for footer section |
+| Prop           | Type      | Default | Description             |
+| -------------- | --------- | ------- | ----------------------- |
+| `children`     | `Snippet` | -       | Main content (required) |
+| `header`       | `Snippet` | -       | Header section          |
+| `footer`       | `Snippet` | -       | Footer section          |
+| `class`        | `string`  | -       | Container classes       |
+| `contentClass` | `string`  | -       | Content wrapper classes |
+| `headerClass`  | `string`  | -       | Header classes          |
+| `footerClass`  | `string`  | -       | Footer classes          |
 
-### Usage with Scaffold
+## Patterns
 
-When used in Scaffold's `start` or `end` snippets, Sidebar receives `fixed` positioning automatically.
-
-**Required margin rules:**
-- If Sidebar has `w-48`, use `ml-48` or `mr-48` in Scaffold's `mainClass`
-- If Sidebar has `w-64`, use `ml-64` or `mr-64` in Scaffold's `mainClass`
-- With AppBar (`h-16`), use `vh-16` and `mt-16` in Scaffold's `startClass`/`endClass`
-
-### Common Patterns
+### Basic Sidebar
 
 ```svelte
-<script>
-  const navItems = [
-    { type: 'header', label: 'Navigation' },
-    { label: 'Dashboard', icon: 'fluent:home-24-regular', href: '/dashboard' },
-    { label: 'Projects', icon: 'fluent:folder-24-regular', href: '/projects' },
-    { label: 'Settings', icon: 'fluent:settings-24-regular', href: '/settings' }
-  ];
+<script lang="ts">
+	import { Sidebar, SideNav, Button } from 'ui-svelte';
+
+	const navItems = [
+		{ type: 'header', label: 'Navigation' },
+		{ label: 'Dashboard', icon: HomeLinearIcon, href: '/dashboard' },
+		{ label: 'Projects', icon: FolderLinearIcon, href: '/projects' },
+		{ label: 'Settings', icon: SettingsLinearIcon, href: '/settings' }
+	];
 </script>
 
-<!-- Basic sidebar -->
 <Sidebar class="w-48">
-  <SideNav items={navItems} />
-</Sidebar>
+	{#snippet header()}
+		<h3 class="text-lg font-semibold">Menu</h3>
+	{/snippet}
 
-<!-- With header and footer -->
-<Sidebar class="w-64">
-  {#snippet header()}
-    <h3 class="text-lg font-semibold">Navigation</h3>
-  {/snippet}
-  
-  <SideNav items={navItems} />
-  
-  {#snippet footer()}
-    <Button variant="ghost" class="w-full">Sign Out</Button>
-  {/snippet}
-</Sidebar>
+	<SideNav items={navItems} />
 
-<!-- Within Scaffold (standard pattern) -->
-<Scaffold
-  mainClass="lg:ml-48 vh-16 mt-16"
-  startClass="vh-16 mt-16"
->
-  {#snippet appBar()}
-    <AppBar class="h-16">
-      <!-- AppBar content -->
-    </AppBar>
-  {/snippet}
-  
-  {#snippet start()}
-    <Sidebar class="w-48">
-      {#snippet header()}
-        <h3>Navigation</h3>
-      {/snippet}
-      
-      <SideNav items={navItems} />
-      
-      {#snippet footer()}
-        <Button variant="ghost">Sign Out</Button>
-      {/snippet}
-    </Sidebar>
-  {/snippet}
-  
-  <div class="p-4">Main content</div>
-</Scaffold>
-
-<!-- Responsive: desktop sidebar + mobile drawer -->
-<Scaffold
-  mainClass="lg:ml-48 vh-16 mt-16"
-  startClass="invisible lg:visible vh-16 mt-16"
->
-  {#snippet appBar()}
-    <AppBar class="h-16">
-      {#snippet start()}
-        <IconButton 
-          icon="fluent:navigation-24-regular"
-          onclick={() => drawerOpen = true}
-          class="lg:hidden"
-        />
-      {/snippet}
-    </AppBar>
-  {/snippet}
-  
-  {#snippet start()}
-    <Sidebar class="w-48">
-      <SideNav items={navItems} />
-    </Sidebar>
-  {/snippet}
-  
-  <div class="p-4">Main content</div>
-</Scaffold>
-
-<!-- Mobile drawer -->
-<Drawer bind:open={drawerOpen}>
-  <Sidebar class="w-64">
-    <SideNav items={navItems} />
-  </Sidebar>
-</Drawer>
-
-<!-- Right sidebar (end position) -->
-<Scaffold
-  mainClass="xl:mr-56 vh-16 mt-16"
-  endClass="vh-16 mt-16"
->
-  {#snippet appBar()}
-    <AppBar class="h-16">
-      <!-- AppBar content -->
-    </AppBar>
-  {/snippet}
-  
-  <div class="p-4">Main content</div>
-  
-  {#snippet end()}
-    <Sidebar class="w-56">
-      <!-- Right sidebar content -->
-    </Sidebar>
-  {/snippet}
-</Scaffold>
-
-<!-- Custom content (not just navigation) -->
-<Sidebar class="w-64">
-  {#snippet header()}
-    <div class="flex items-center gap-2">
-      <Avatar src="/user.jpg" />
-      <span>John Doe</span>
-    </div>
-  {/snippet}
-  
-  <div class="space-y-4 p-4">
-    <Card>Quick stats</Card>
-    <Card>Recent activity</Card>
-  </div>
-  
-  {#snippet footer()}
-    <div class="text-xs text-muted-foreground">
-      Version 1.0.0
-    </div>
-  {/snippet}
+	{#snippet footer()}
+		<Button variant="ghost" class="w-full">Sign Out</Button>
+	{/snippet}
 </Sidebar>
 ```
 
-### Related Components
+### Within Scaffold
 
-- [SideNav](https://ui-svelte.sappsdev.com/llm/navigation/sidenav.md): Vertical navigation items for Sidebar content
-- [Drawer](https://ui-svelte.sappsdev.com/llm/overlay/drawer.md): Mobile alternative for responsive layouts
-- [Scaffold](https://ui-svelte.sappsdev.com/llm/layout/scaffold.md): Parent layout component for positioning Sidebar
-- [Avatar](https://ui-svelte.sappsdev.com/llm/display/avatar.md): For user profile in header section
-- [Button](https://ui-svelte.sappsdev.com/llm/control/button.md): For actions in footer section
-- [IconButton](https://ui-svelte.sappsdev.com/llm/control/icon-button.md): For compact action buttons
+```svelte
+<Scaffold mainClass="lg:ml-48 vh-16 mt-16" startClass="vh-16 mt-16">
+	{#snippet appBar()}
+		<AppBar class="h-16">
+			<!-- AppBar content -->
+		</AppBar>
+	{/snippet}
 
-**For LLMs**: Sidebar for vertical navigation. Use `header` and `footer` snippets for optional sections. Main content (usually `SideNav`) goes in children. **MUST** set width via `class` prop (e.g., `w-48`, `w-64`). When used in Scaffold's `start`/`end`, it becomes fixed positioned—apply matching margins to Scaffold's `mainClass`. For responsive layouts, use `invisible lg:visible` in Scaffold's `startClass` and provide mobile Drawer alternative. Commonly paired with `SideNav` component for navigation items.
+	{#snippet start()}
+		<Sidebar class="w-48">
+			{#snippet header()}
+				<h3>Navigation</h3>
+			{/snippet}
+			<SideNav items={navItems} />
+			{#snippet footer()}
+				<Button variant="ghost">Sign Out</Button>
+			{/snippet}
+		</Sidebar>
+	{/snippet}
+
+	<div class="p-4">Main Content</div>
+</Scaffold>
+```
+
+### Responsive with Drawer
+
+```svelte
+<Scaffold mainClass="lg:ml-48 vh-16 mt-16" startClass="invisible lg:visible vh-16 mt-16">
+	{#snippet appBar()}
+		<AppBar class="h-16">
+			{#snippet start()}
+				<IconButton icon={MenuIcon} onclick={() => (drawerOpen = true)} class="lg:hidden" />
+			{/snippet}
+		</AppBar>
+	{/snippet}
+
+	{#snippet start()}
+		<Sidebar class="w-48">
+			<SideNav items={navItems} />
+		</Sidebar>
+	{/snippet}
+
+	<div class="p-4">Main content</div>
+</Scaffold>
+
+<Drawer bind:open={drawerOpen}>
+	<Sidebar class="w-64">
+		<SideNav items={navItems} />
+	</Sidebar>
+</Drawer>
+```
+
+## Width and Height Guidelines
+
+| AppBar Height | Sidebar Class | Main Class    |
+| ------------- | ------------- | ------------- |
+| `h-16`        | `vh-16 mt-16` | `ml-48 mt-16` |
+| `h-20`        | `vh-20 mt-20` | `ml-48 mt-20` |
+
+| Sidebar Width | Main Margin           |
+| ------------- | --------------------- |
+| `w-48`        | `ml-48` or `lg:ml-48` |
+| `w-56`        | `ml-56` or `lg:ml-56` |
+| `w-64`        | `ml-64` or `lg:ml-64` |
+
+## Notes
+
+- Automatically receives `fixed` positioning within Scaffold
+- Use `vh-*` utilities to fill remaining viewport height
+- Combine with Drawer for responsive mobile navigation

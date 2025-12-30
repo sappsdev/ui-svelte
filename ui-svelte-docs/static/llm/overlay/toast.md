@@ -1,133 +1,104 @@
-## Toast Component
+# Toast Component
 
-Lightweight notification that auto-dismisses.
+Lightweight notification for brief messages about app processes.
+
+## Import
 
 ```svelte
-<script>
-  import { toast } from 'ui-svelte';
-  
-  toast.show({
-    description: 'This is a toast notification',
-    title: 'Success',
-    status: 'success',
-    duration: 3000,
-    position: 'bottom-right',
-    icon: 'CheckCircle',
-    isSolid: false,
-    id: 'custom-id'
-  });
-</script>
+import {toast} from 'ui-svelte';
 ```
 
-### Key Props
+## Toast Message Props
 
-| Prop | Default | Description |
-|------|---------|-------------|
-| `description` | - | Message text (required) |
-| `title` | - | Optional title |
-| `status` | `'info'` | `success` `danger` `info` `warning` |
-| `duration` | `0` | Auto-dismiss time in ms (0 = manual) |
-| `position` | `'bottom-right'` | `top-left` `top-right` `bottom-left` `bottom-right` |
-| `icon` | - | Icon name |
-| `isSolid` | `false` | Solid background |
-| `id` | auto | Custom ID |
+| Prop          | Type                                                                                  | Default         | Description                          |
+| ------------- | ------------------------------------------------------------------------------------- | --------------- | ------------------------------------ |
+| `description` | `string`                                                                              | -               | Message text (required)              |
+| `title`       | `string`                                                                              | -               | Optional title                       |
+| `color`       | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'info'`        | Color theme                          |
+| `variant`     | `'solid' \| 'soft'`                                                                   | `'soft'`        | Visual style                         |
+| `duration`    | `number`                                                                              | `0`             | Auto-dismiss time in ms (0 = manual) |
+| `position`    | `'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'`                        | `'bottom-left'` | Screen position                      |
+| `icon`        | `IconData`                                                                            | -               | Custom icon                          |
 
-### Common Patterns
+## Store Methods
+
+| Method             | Type                                | Description                    |
+| ------------------ | ----------------------------------- | ------------------------------ |
+| `toast.show()`     | `(message: ToastMessage) => string` | Shows toast, returns id        |
+| `toast.close()`    | `(id: string) => void`              | Closes specific toast          |
+| `toast.closeAll()` | `() => void`                        | Closes all toasts              |
+| `toast.messages`   | `ToastMessage[]`                    | Reactive list of active toasts |
+
+## Patterns
+
+### Basic Toast
 
 ```svelte
-<script>
-  import { toast } from 'ui-svelte';
+<script lang="ts">
+	import { Button, toast } from 'ui-svelte';
+
+	const showToast = () => {
+		toast.show({
+			description: 'Operation completed successfully.'
+		});
+	};
 </script>
 
-<!-- Basic -->
-<Button onclick={() => toast.show({ description: 'Action completed' })}>
-  Show Toast
-</Button>
+<Button onclick={showToast}>Show Toast</Button>
+```
 
-<!-- Success Toast -->
-<Button onclick={() => toast.show({
+### With Title & Duration
+
+```svelte
+toast.show({
   title: 'Success',
-  description: 'Item saved successfully',
-  status: 'success',
+  description: 'Your changes have been saved.',
+  color: 'success',
   duration: 3000
-})}>
-  Save
-</Button>
+});
+```
 
-<!-- Error Toast -->
-<Button onclick={() => toast.show({
+### Color Variants
+
+```svelte
+// Success notification
+toast.show({
+  title: 'Saved',
+  description: 'Changes saved successfully.',
+  color: 'success',
+  variant: 'solid'
+});
+
+// Error notification
+toast.show({
   title: 'Error',
-  description: 'Failed to save item',
-  status: 'danger',
-  duration: 5000
-})}>
-  Show Error
-</Button>
+  description: 'Something went wrong.',
+  color: 'danger'
+});
 
-<!-- Warning Toast -->
-<Button onclick={() => toast.show({
-  title: 'Warning',
-  description: 'This action cannot be undone',
-  status: 'warning',
-  duration: 4000
-})}>
-  Show Warning
-</Button>
-
-<!-- Info Toast -->
-<Button onclick={() => toast.show({
-  description: 'New updates available',
-  status: 'info',
-  duration: 3000
-})}>
-  Show Info
-</Button>
-
-<!-- Manual Dismiss -->
-<Button onclick={() => toast.show({
-  description: 'Click X to dismiss',
-  duration: 0
-})}>
-  Manual Toast
-</Button>
-
-<!-- With Icon -->
-<Button onclick={() => toast.show({
-  description: 'Task completed',
-  icon: 'CheckCircle',
-  status: 'success'
-})}>
-  With Icon
-</Button>
-
-<!-- Custom Position -->
-<Button onclick={() => toast.show({
-  description: 'Top left notification',
-  position: 'top-left'
-})}>
-  Top Left
-</Button>
-
-<!-- Solid Background -->
-<Button onclick={() => toast.show({
-  description: 'Solid toast',
-  isSolid: true
-})}>
-  Solid Toast
-</Button>
+// Warning notification
+toast.show({
+  description: 'Please complete all fields.',
+  color: 'warning'
+});
 ```
 
-### Toast API
+### Positioned Toasts
 
-```typescript
-// Show toast
-toast.show(options);
+```svelte
+toast.show({
+  description: 'Top right notification',
+  position: 'top-right'
+});
 
-// Dismiss specific toast
-toast.dismiss(id);
-
-// Dismiss all toasts
-toast.dismissAll();
+toast.show({
+  description: 'Bottom right notification',
+  position: 'bottom-right'
+});
 ```
 
-**For LLMs**: Toast for brief notifications. Use `toast.show()` to display. `description` is required. Set `duration` in ms for auto-dismiss (0 for manual). Use `status` for visual feedback (success/danger/info/warning). Position with `position` prop. Use `toast.dismiss(id)` or `toast.dismissAll()` to programmatically close.
+## Notes
+
+- Use `duration: 0` for toasts that require manual dismissal
+- Default position is `bottom-left`
+- Store is reactive - `toast.messages` updates automatically

@@ -14,78 +14,73 @@ import {BottomNav} from 'ui-svelte';
 | ------------- | --------------------------------------------------------------------------------------------------------------- | ----------- | ---------------------- |
 | `items`       | `BottomNavItem[]`                                                                                               | `[]`        | Navigation items       |
 | `size`        | `'sm' \| 'md' \| 'lg'`                                                                                          | `'md'`      | Size                   |
+| `color`       | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger' \| 'surface' \| 'default'` | `'primary'` | Color theme            |
 | `variant`     | `'solid' \| 'soft' \| 'blur'`                                                                                   | `'soft'`    | Visual style           |
-| `color`       | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger' \| 'surface' \| 'default'` | `'primary'` | Active color           |
 | `activeStyle` | `'line' \| 'pill'`                                                                                              | `'line'`    | Active indicator style |
 | `isBlock`     | `boolean`                                                                                                       | `false`     | Non-fixed positioning  |
-| `isBordered`  | `boolean`                                                                                                       | `true`      | Show top border        |
-| `class`       | `string`                                                                                                        | -           | Custom classes         |
+| `isBordered`  | `boolean`                                                                                                       | `true`      | Show border            |
+| `class`       | `string`                                                                                                        | -           | Additional classes     |
 
 ## BottomNavItem Type
 
-| Property   | Type               | Description                  |
-| ---------- | ------------------ | ---------------------------- |
-| `id`       | `string`           | Unique identifier            |
-| `label`    | `string`           | Text label (optional)        |
-| `icon`     | `IconData`         | Icon to display              |
-| `href`     | `string`           | Link destination             |
-| `onclick`  | `function`         | Click handler                |
-| `badge`    | `string \| number` | Badge content                |
-| `isFab`    | `boolean`          | Floating action button style |
-| `isActive` | `boolean`          | Manual active state          |
+```ts
+interface BottomNavItem {
+	id: string;
+	label?: string;
+	icon: IconData;
+	href?: string;
+	onclick?: (item: BottomNavItem) => void;
+	badge?: string | number;
+	isFab?: boolean;
+	isActive?: boolean;
+}
+```
 
 ## Patterns
 
-### Basic Navigation
+### Basic Bottom Nav
 
 ```svelte
-<BottomNav
-	items={[
-		{ id: 'home', label: 'Home', icon: HomeIcon, href: '/' },
-		{ id: 'search', label: 'Search', icon: SearchIcon, href: '/search' },
-		{ id: 'profile', label: 'Profile', icon: UserIcon, href: '/profile' }
-	]}
-/>
+<script lang="ts">
+	import { BottomNav } from 'ui-svelte';
+	import { HomeLinearIcon, Search24RegularIcon, UserCircleLinearIcon } from '$lib/icons';
+
+	const items = [
+		{ id: 'home', label: 'Home', href: '/home', icon: HomeLinearIcon },
+		{ id: 'search', label: 'Search', href: '/search', icon: Search24RegularIcon },
+		{ id: 'profile', label: 'Profile', href: '/profile', icon: UserCircleLinearIcon }
+	];
+</script>
+
+<BottomNav {items} />
 ```
 
 ### With FAB Button
 
 ```svelte
-<BottomNav
-	items={[
-		{ id: 'home', label: 'Home', icon: HomeIcon, href: '/' },
-		{ id: 'add', icon: PlusIcon, isFab: true, onclick: () => openModal() },
-		{ id: 'profile', label: 'Profile', icon: UserIcon, href: '/profile' }
-	]}
-/>
+const items = [
+  { id: 'home', label: 'Home', icon: HomeLinearIcon },
+  { id: 'add', icon: HeartLinearIcon, isFab: true, onclick: () => {} },
+  { id: 'profile', label: 'Profile', icon: UserCircleLinearIcon }
+];
+
+<BottomNav {items} />
 ```
 
 ### With Badges
 
 ```svelte
-<BottomNav
-	items={[
-		{ id: 'home', label: 'Home', icon: HomeIcon, href: '/' },
-		{ id: 'cart', label: 'Cart', icon: CartIcon, href: '/cart', badge: 3 },
-		{ id: 'alerts', label: 'Alerts', icon: BellIcon, badge: 'New' }
-	]}
-/>
-```
+const items = [
+  { id: 'home', label: 'Home', icon: HomeLinearIcon },
+  { id: 'messages', label: 'Messages', icon: MessageIcon, badge: 5 },
+  { id: 'alerts', label: 'Alerts', icon: AlertIcon, badge: 'New' }
+];
 
-### Icon Only
-
-```svelte
-<BottomNav
-	items={[
-		{ id: 'home', icon: HomeIcon, href: '/' },
-		{ id: 'search', icon: SearchIcon, href: '/search' }
-	]}
-/>
+<BottomNav {items} color="primary" />
 ```
 
 ## Notes
 
-- Fixed to bottom by default; use `isBlock` for inline placement
-- Omit `label` for icon-only navigation
-- Use `isFab: true` for elevated center action buttons
-- Use `badge` for notification indicators
+- Use `isFab: true` for floating action button style
+- Items can have `href` for links or `onclick` for actions
+- Active state set via `isActive` or matches current URL

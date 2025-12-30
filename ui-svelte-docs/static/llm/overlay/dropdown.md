@@ -1,6 +1,6 @@
 # Dropdown Component
 
-Display a list of actions or options from a trigger element.
+Displays a list of actions or options when triggered.
 
 ## Import
 
@@ -10,26 +10,25 @@ import {Dropdown} from 'ui-svelte';
 
 ## Props
 
-| Prop       | Type                                                                                  | Default     | Description                |
-| ---------- | ------------------------------------------------------------------------------------- | ----------- | -------------------------- |
-| `options`  | `Option[]`                                                                            | `[]`        | Menu items to display      |
-| `color`    | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'primary'` | Color theme                |
-| `children` | `Snippet`                                                                             | -           | Trigger element (required) |
-| `header`   | `Snippet`                                                                             | -           | Optional header content    |
-| `footer`   | `Snippet`                                                                             | -           | Optional footer content    |
+| Prop       | Type                                                                                  | Default     | Description     |
+| ---------- | ------------------------------------------------------------------------------------- | ----------- | --------------- |
+| `options`  | `Option[]`                                                                            | `[]`        | Menu options    |
+| `color`    | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'primary'` | Color theme     |
+| `children` | `Snippet`                                                                             | -           | Trigger element |
+| `header`   | `Snippet`                                                                             | -           | Header content  |
+| `footer`   | `Snippet`                                                                             | -           | Footer content  |
 
 ## Option Type
 
 ```ts
-type Option = {
-	id?: string | number;
+interface Option {
+	id: string | number;
 	label: string;
 	description?: string;
-	src?: string;
 	icon?: IconData;
 	href?: string;
-	onclick?: (option: Option) => void;
-};
+	onclick?: () => void;
+}
 ```
 
 ## Patterns
@@ -37,35 +36,32 @@ type Option = {
 ### Basic Dropdown
 
 ```svelte
-<Dropdown {options}>
-	<Button>Open Menu</Button>
-</Dropdown>
-```
+<script lang="ts">
+	import { Dropdown, Button } from 'ui-svelte';
+	import { UserCircleLinearIcon } from '$lib/icons';
 
-### With Icons & Descriptions
-
-```svelte
-<script>
 	const options = [
-		{ id: 1, label: 'Profile', icon: UserIcon },
+		{ id: 1, label: 'Profile', icon: UserCircleLinearIcon },
 		{ id: 2, label: 'Settings', description: 'Manage account' },
 		{ id: 3, label: 'Logout', href: '/logout' }
 	];
 </script>
 
 <Dropdown {options}>
-	<Button>Menu</Button>
+	<Button>Open Menu</Button>
 </Dropdown>
 ```
 
 ### With Header & Footer
 
 ```svelte
-<Dropdown {options} color="primary">
+<Dropdown {options}>
 	{#snippet header()}
 		<div class="p-2 border-b font-medium">My Account</div>
 	{/snippet}
-	<Button>Open</Button>
+
+	<Button>Open Menu</Button>
+
 	{#snippet footer()}
 		<div class="p-2 border-t text-xs text-center">v1.0.0</div>
 	{/snippet}
@@ -75,20 +71,29 @@ type Option = {
 ### Avatar Trigger
 
 ```svelte
-<!-- Initials -->
-<Dropdown {options}>
+<Dropdown {options} color="primary">
 	<Avatar name="John Doe" />
 </Dropdown>
 
-<!-- Image with status -->
-<Dropdown {options}>
-	<Avatar src="/user.jpg" status="online" />
+<Dropdown {options} color="success">
+	<Avatar src="/user.jpg" alt="User" status="online" />
+</Dropdown>
+```
+
+### Color Variants
+
+```svelte
+<Dropdown {options} color="primary">
+	<Button color="primary">Primary</Button>
+</Dropdown>
+
+<Dropdown {options} color="danger">
+	<Button color="danger">Danger</Button>
 </Dropdown>
 ```
 
 ## Notes
 
-- Trigger element goes in default slot (children)
-- Dropdown auto-positions based on viewport
-- Closes on click outside or option selection
-- Use `onclick` in options for custom handlers
+- Child element becomes the trigger
+- Options can have `href` for links or `onclick` for actions
+- Use `icon` for visual indicators on options

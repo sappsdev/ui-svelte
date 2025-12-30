@@ -1,135 +1,185 @@
-## ChatBox Component
+# ChatBox Component
 
-Complete chat interface with real-time messaging, WebSocket support, and file sharing.
+Chat interface supporting conversation mode (WebSocket) and prompt mode (LLM).
 
-```svelte
-<ChatBox
-  {chat}
-  currentUserId="user-123"
-  userName="John Doe"
-  userStatus="Online"
-  variant="primary"
-/>
-```
-
-### Key Props
-
-| Prop | Default | Description |
-|------|---------|-------------|
-| `chat` | - | ChatState from useChat hook (required) |
-| `currentUserId` | - | Current user's ID (required) |
-| `userName` | - | Chat recipient name (required) |
-| `variant` | `'solid'` | `primary` `secondary` `soft` `ghost` etc. |
-| `userAvatar` | - | Recipient avatar URL |
-| `userStatus` | `'Online'` | Status text |
-| `headerActions` | - | Snippet for custom header buttons |
-| `onVoiceNote` | - | `(blob, url) => void` |
-| `onFileAttach` | - | `(file) => void` |
-| `onCameraCapture` | - | `() => void` |
-
-### useChat Hook
+## Import
 
 ```svelte
-const chat = useChat({
-  chatId: 'chat-123',
-  userId: 'user-456',
-  apiUrl: 'https://api.example.com',
-  wsUrl: 'ws://localhost:3000/ws/chats',
-  initialLimit: 50,
-  autoConnect: true,
-  reconnectInterval: 3000,
-  maxReconnectAttempts: 5,
-  onMessageReceived: (msg) => {},
-  onMessageSent: (msg) => {},
-  onConnected: () => {},
-  onDisconnected: () => {},
-  onError: (error) => {},
-  transformMessage: (data) => ({ ... })
-});
+import { ChatBox, useChat, type PromptMessage, type PromptState } from 'ui-svelte';
 ```
 
-### Message Interface
+## Props
+
+| Prop              | Type                              | Default               | Description                    |
+| ----------------- | --------------------------------- | --------------------- | ------------------------------ |
+| `mode`            | `'conversation' \| 'prompt'`      | `'conversation'`      | Chat mode                      |
+| `chat`            | `ChatState`                       | -                     | Required for conversation mode |
+| `prompt`          | `PromptState`                     | -                     | Required for prompt mode       |
+| `currentUserId`   | `string`                          | -                     | Current user ID                |
+| `userName`        | `string`                          | -                     | Display name                   |
+| `userAvatar`      | `string`                          | -                     | Avatar URL                     |
+| `userStatus`      | `string`                          | `'Online'`            | Status text                    |
+| `color`           | `Color`                           | `'primary'`           | Color theme                    |
+| `variant`         | `'solid' \| 'soft' \| 'outlined'` | `'solid'`             | Visual style                   |
+| `placeholder`     | `string`                          | `'Type a message...'` | Input placeholder              |
+| `showHeader`      | `boolean`                         | `true`                | Show header                    |
+| `showAttachments` | `boolean`                         | `true`                | Show file attach               |
+| `showVoiceNote`   | `boolean`                         | `true`                | Show voice recording           |
+| `showCamera`      | `boolean`                         | `false`               | Show camera button             |
+| `assistantName`   | `string`                          | `'Assistant'`         | AI assistant name              |
+| `assistantAvatar` | `string`                          | -                     | AI avatar URL                  |
+| `headerActions`   | `Snippet`                         | -                     | Custom header buttons          |
+| `messageRenderer` | `Snippet<[Message]>`              | -                     | Custom message render          |
+
+## Types
 
 ```typescript
+// Conversation Mode
 interface Message {
-  id: string;
-  content: string;
-  senderId: string;
-  timestamp: Date | string;
-  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
-  type?: 'text' | 'image' | 'file' | 'voice';
-  metadata?: Record<string, any>;
+	id: string;
+	content: string;
+	senderId: string;
+	timestamp: Date | string;
+	status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
+	type?: 'text' | 'image' | 'file' | 'voice';
+}
+
+// Prompt Mode (LLM)
+interface PromptMessage {
+	id: string;
+	role: 'user' | 'assistant' | 'system';
+	content: string;
+	timestamp?: Date | string;
+	isStreaming?: boolean;
+}
+
+interface PromptState {
+	messages: PromptMessage[];
+	isLoading: boolean;
+	isStreaming: boolean;
+	error: any;
+	sendMessage: (content: string) => Promise<void>;
+	stopGeneration?: () => void;
 }
 ```
 
-### Chat Methods
+## Patterns
 
-- `sendMessage(content, type?, metadata?)` - Send message
-- `loadMore()` - Load older messages
-- `markAsRead(messageId)` - Mark as read
-- `connect()` - Connect WebSocket
-- `disconnect()` - Disconnect WebSocket
-
-### Common Patterns
+### Conversation Mode (WebSocket)
 
 ```svelte
-<!-- Basic Chat -->
 <script>
-  const chat = useChat({
-    chatId: 'chat-123',
-    userId: 'user-456',
-    apiUrl: 'https://api.example.com',
-    wsUrl: 'ws://localhost:3000/ws/chats'
-  });
+	import { ChatBox, useChat } from 'ui-svelte';
+
+	const chat = useChat({
+		chatId: 'chat-123',
+		userId: 'user-456',
+		apiUrl: 'https://api.example.com',
+		wsUrl: 'ws://localhost:3000/ws/chats',
+		autoConnect: true
+	});
 </script>
 
-<ChatBox {chat} currentUserId="user-456" userName="John Doe" />
+<ChatBox
+	mode="conversation"
+	{chat}
+	currentUserId="user-456"
+	userName="John Doe"
+	userAvatar="/avatar.jpg"
+/>
+```
 
-<!-- With Custom Header Actions -->
-<ChatBox {chat} currentUserId="user-456" userName="Jane">
-  {#snippet headerActions()}
-    <IconButton icon="fluent:call-24-regular" size="sm" variant="ghost" />
-    <IconButton icon="fluent:video-24-regular" size="sm" variant="ghost" />
-  {/snippet}
+### Prompt Mode (LLM)
+
+```svelte
+<script>
+	import { ChatBox, type PromptMessage, type PromptState } from 'ui-svelte';
+
+	let messages = $state<PromptMessage[]>([]);
+	let isLoading = $state(false);
+	let isStreaming = $state(false);
+
+	const prompt: PromptState = {
+		get messages() {
+			return messages;
+		},
+		get isLoading() {
+			return isLoading;
+		},
+		get isStreaming() {
+			return isStreaming;
+		},
+		error: null,
+		sendMessage: async (content) => {
+			isLoading = true;
+			messages = [
+				...messages,
+				{
+					id: Date.now().toString(),
+					role: 'user',
+					content,
+					timestamp: new Date()
+				}
+			];
+
+			// Call LLM API
+			const response = await fetch('/api/chat', {
+				method: 'POST',
+				body: JSON.stringify({ messages })
+			});
+
+			const data = await response.json();
+			messages = [
+				...messages,
+				{
+					id: (Date.now() + 1).toString(),
+					role: 'assistant',
+					content: data.response,
+					timestamp: new Date()
+				}
+			];
+			isLoading = false;
+		},
+		stopGeneration: () => {
+			isStreaming = false;
+			isLoading = false;
+		}
+	};
+</script>
+
+<ChatBox mode="prompt" {prompt} placeholder="Ask me anything..." assistantName="AI Assistant" />
+```
+
+### Custom Header Actions
+
+```svelte
+<ChatBox {chat} currentUserId="user-456" userName="John">
+	{#snippet headerActions()}
+		<IconButton icon={CallIcon} size="sm" variant="ghost" />
+		<IconButton icon={VideoIcon} size="sm" variant="ghost" />
+	{/snippet}
 </ChatBox>
-
-<!-- With File Handlers -->
-<ChatBox
-  {chat}
-  currentUserId="user-456"
-  userName="Bob"
-  onVoiceNote={(blob, url) => console.log('Voice:', url)}
-  onFileAttach={(file) => console.log('File:', file.name)}
-  onCameraCapture={() => console.log('Camera')}
-/>
-
-<!-- Custom Variant -->
-<ChatBox
-  {chat}
-  currentUserId="user-456"
-  userName="Alice"
-  variant="soft"
-  userAvatar="/avatar.jpg"
-  userStatus="Away"
-/>
 ```
 
-**For LLMs**: ChatBox provides complete chat UI with WebSocket real-time messaging. Requires `useChat` hook for state management. Supports text, image, file, and voice messages. Use `headerActions` snippet for custom header buttons. Handlers for voice notes, file attachments, and camera capture are optional. Message status tracking (sending, sent, delivered, read, error). Auto-reconnection on disconnect.
+## Features
 
----
+**Conversation Mode:**
 
-## Quick Hierarchy Reference
-```
-Page
-|-- Section (page structure, bodyClass for layout)
-    |-- Card (content container, bodyClass for layout)
-        |-- Content (ChatBox, text, images, etc.)
-```
+- Real-time WebSocket messaging
+- Auto-reconnection
+- Message status (sending, sent, delivered, read)
+- Voice notes, file/image attachments
+- Infinite scroll pagination
 
-**Key Rule**: Section → Card → Content. Never nest Sections.
+**Prompt Mode:**
 
-**Shared Variants**: `primary` `secondary` `muted` `success` `info` `warning` `danger` `surface` `ghost` `outlined`
+- Role-based messages (user, assistant, system)
+- Streaming indicator
+- Stop generation button
+- Minimal interface
 
-**Layout System**: Apply flex/grid utilities via `bodyClass` on Section/Card. Always use `gap` utilities.
+## Notes
 
-**Mobile-First**: Start with `column`, expand with `md:row`. Use responsive grid: `grid-1 md:grid-3`.
+- Use `useChat` hook for conversation mode
+- Custom `PromptState` object for prompt mode
+- `messageRenderer` snippet for custom message formatting

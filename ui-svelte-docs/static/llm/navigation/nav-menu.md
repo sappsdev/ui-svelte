@@ -1,43 +1,57 @@
 # NavMenu Component
 
-Horizontal navigation menu with links, submenus, and megamenu support.
+Horizontal navigation with links, submenus, and megamenus.
 
 ## Import
 
 ```svelte
-import { NavMenu, type NavMenuItem } from 'ui-svelte';
+import {NavMenu} from 'ui-svelte';
 ```
 
 ## Props
 
-| Prop      | Type                                                                                  | Default   | Description  |
-| --------- | ------------------------------------------------------------------------------------- | --------- | ------------ |
-| `items`   | `NavMenuItem[]`                                                                       | `[]`      | Menu items   |
-| `size`    | `'sm' \| 'md' \| 'lg'`                                                                | `'md'`    | Item size    |
-| `variant` | `'solid' \| 'soft' \| 'ghost'`                                                        | `'ghost'` | Visual style |
-| `color`   | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger'` | `'muted'` | Color theme  |
+| Prop      | Type                                                                                  | Default   | Description        |
+| --------- | ------------------------------------------------------------------------------------- | --------- | ------------------ |
+| `items`   | `NavMenuItem[]`                                                                       | `[]`      | Menu items         |
+| `size`    | `'sm' \| 'md' \| 'lg'`                                                                | `'md'`    | Size               |
+| `color`   | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger'` | `'muted'` | Color theme        |
+| `variant` | `'solid' \| 'soft' \| 'ghost'`                                                        | `'ghost'` | Visual style       |
+| `class`   | `string`                                                                              | -         | Additional classes |
 
 ## NavMenuItem Type
 
-| Prop          | Type                                | Description                                      |
-| ------------- | ----------------------------------- | ------------------------------------------------ |
-| `label`       | `string`                            | Display text (required)                          |
-| `href`        | `string`                            | Link URL                                         |
-| `onclick`     | `(item) => void`                    | Click handler                                    |
-| `icon`        | `IconData`                          | Icon component                                   |
-| `description` | `string`                            | Secondary text                                   |
-| `type`        | `'item' \| 'submenu' \| 'megamenu'` | Menu type (default: `'item'`)                    |
-| `subitems`    | `NavMenuSubItem[]`                  | Dropdown items (for `type: 'submenu'`)           |
-| `megamenu`    | `Snippet`                           | Custom megamenu content (for `type: 'megamenu'`) |
+```ts
+interface NavMenuItem {
+	label: string;
+	href?: string;
+	onclick?: (item: NavMenuItem) => void;
+	description?: string;
+	icon?: IconData;
+	type?: 'item' | 'submenu' | 'megamenu';
+	subitems?: NavMenuSubItem[];
+	megamenu?: Snippet;
+}
+
+interface NavMenuSubItem {
+	label: string;
+	href?: string;
+	onclick?: (item: NavMenuSubItem) => void;
+	description?: string;
+	icon?: IconData;
+}
+```
 
 ## Patterns
 
-### Basic Navigation
+### Simple Links
 
 ```svelte
-<script>
-	const items: NavMenuItem[] = [
-		{ label: 'Home', href: '/home', icon: HomeIcon },
+<script lang="ts">
+	import { NavMenu } from 'ui-svelte';
+	import { HomeLinearIcon, SettingsLinearIcon } from '$lib/icons';
+
+	const items = [
+		{ label: 'Home', href: '/home', icon: HomeLinearIcon },
 		{ label: 'About', href: '/about' },
 		{ label: 'Contact', href: '/contact' }
 	];
@@ -46,23 +60,24 @@ import { NavMenu, type NavMenuItem } from 'ui-svelte';
 <NavMenu {items} />
 ```
 
-### With Submenu Dropdown
+### With Submenu
 
 ```svelte
-<NavMenu
-	items={[
-		{ label: 'Home', href: '/home' },
-		{
-			label: 'Products',
-			type: 'submenu',
-			icon: FolderIcon,
-			subitems: [
-				{ label: 'All Products', description: 'Browse catalog', href: '/products' },
-				{ label: 'Categories', href: '/categories' }
-			]
-		}
-	]}
-/>
+const items = [
+  { label: 'Home', href: '/home' },
+  {
+    label: 'Products',
+    type: 'submenu',
+    icon: FolderLinearIcon,
+    subitems: [
+      { label: 'All Products', description: 'Browse catalog', href: '/products' },
+      { label: 'Categories', href: '/categories' }
+    ]
+  },
+  { label: 'Contact', href: '/contact' }
+];
+
+<NavMenu {items} color="primary" />
 ```
 
 ### With Megamenu
@@ -71,11 +86,11 @@ import { NavMenu, type NavMenuItem } from 'ui-svelte';
 {#snippet megamenuContent()}
 	<div class="grid-3 gap-6 p-4">
 		<div>
-			<div class="navmenu-header">Section</div>
-			<a href="/link" class="navmenu-submenu-item">
+			<div class="navmenu-header">Documentation</div>
+			<a href="/docs" class="navmenu-submenu-item">
 				<div class="navmenu-submenu-content">
-					<div class="navmenu-submenu-label">Label</div>
-					<div class="navmenu-submenu-description">Description</div>
+					<div class="navmenu-submenu-label">Getting Started</div>
+					<div class="navmenu-submenu-description">Quick start guide</div>
 				</div>
 			</a>
 		</div>
@@ -85,17 +100,10 @@ import { NavMenu, type NavMenuItem } from 'ui-svelte';
 <NavMenu items={[{ label: 'Resources', type: 'megamenu', megamenu: megamenuContent }]} />
 ```
 
-### Styled Variants
-
-```svelte
-<NavMenu color="primary" variant="soft" {items} />
-<NavMenu color="success" variant="solid" {items} />
-```
-
 ## Megamenu CSS Classes
 
 - `.navmenu-header` - Section header
-- `.navmenu-submenu-item` - Individual item
+- `.navmenu-submenu-item` - Menu item
 - `.navmenu-submenu-content` - Content wrapper
 - `.navmenu-submenu-label` - Item label
 - `.navmenu-submenu-description` - Item description
@@ -103,11 +111,6 @@ import { NavMenu, type NavMenuItem } from 'ui-svelte';
 
 ## Notes
 
-- Items with `href` render as links; items with `onclick` render as buttons
-- Submenus appear as dropdowns on hover
-- Megamenus use Svelte snippets for custom content
-- Active state auto-detected from current URL path
-
-## Component References
-
-- **@see icons.md** - Icon usage
+- Use `type: 'submenu'` for dropdown menus
+- Use `type: 'megamenu'` with Snippet for custom layouts
+- Active state matches current URL automatically

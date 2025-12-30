@@ -1,6 +1,6 @@
 # Collapsible Component
 
-Single toggleable section for showing/hiding content.
+Expandable/collapsible content section with animated toggle.
 
 ## Import
 
@@ -12,63 +12,61 @@ import {Collapsible} from 'ui-svelte';
 
 | Prop           | Type                                                                                                            | Default     | Description               |
 | -------------- | --------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------- |
-| `label`        | `string`                                                                                                        | -           | Header text               |
-| `content`      | `Snippet \| string`                                                                                             | -           | Body content              |
+| `label`        | `string`                                                                                                        | -           | Header label text         |
+| `content`      | `Snippet \| string`                                                                                             | -           | Collapsible content       |
 | `startContent` | `Snippet`                                                                                                       | -           | Icon/content before label |
+| `color`        | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning' \| 'surface' \| 'default'` | `'default'` | Color theme               |
 | `variant`      | `'solid' \| 'soft' \| 'outlined' \| 'ghost'`                                                                    | `'ghost'`   | Visual style              |
-| `color`        | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger' \| 'surface' \| 'default'` | `'default'` | Color theme               |
-| `disabled`     | `boolean`                                                                                                       | `false`     | Prevent toggling          |
+| `disabled`     | `boolean`                                                                                                       | `false`     | Disable toggle            |
 | `defaultOpen`  | `boolean`                                                                                                       | `false`     | Start expanded            |
-| `rootClass`    | `string`                                                                                                        | -           | Container classes         |
-| `headerClass`  | `string`                                                                                                        | -           | Header classes            |
-| `contentClass` | `string`                                                                                                        | -           | Content classes           |
+| `rootClass`    | `string`                                                                                                        | -           | Root container class      |
+| `headerClass`  | `string`                                                                                                        | -           | Header class              |
+| `contentClass` | `string`                                                                                                        | -           | Content section class     |
 
 ## Patterns
 
-### Basic Collapsible
+### Basic
 
 ```svelte
 <Collapsible label="Click to expand">
 	{#snippet content()}
-		<p>Hidden content here.</p>
+		<p>This is the collapsible content.</p>
 	{/snippet}
 </Collapsible>
 ```
 
-### With String Content
+### With Icon
 
 ```svelte
-<Collapsible label="Simple" content="This is plain text content." />
-```
-
-### With Start Icon
-
-```svelte
-<Collapsible label="Files" color="primary">
+<Collapsible label="Folder Contents">
 	{#snippet startContent()}
 		<Icon icon={FolderIcon} />
 	{/snippet}
 	{#snippet content()}
-		<p>Folder contents here.</p>
+		<p>Files inside this folder...</p>
 	{/snippet}
 </Collapsible>
 ```
 
-### Default Open & Disabled
+### Default Open
 
 ```svelte
-<Collapsible label="Open by default" defaultOpen>
+<Collapsible label="Already Open" defaultOpen>
 	{#snippet content()}
-		<p>Visible on load.</p>
+		<p>This section starts expanded.</p>
 	{/snippet}
 </Collapsible>
+```
 
-<Collapsible label="Locked" disabled content="Cannot toggle." />
+### String Content
+
+```svelte
+<Collapsible label="Simple" content="Plain text content without snippet." />
 ```
 
 ## Notes
 
-- Use for single expandable sections (use Accordion for multiple)
-- `content` accepts string or Snippet for rich content
-- `startContent` snippet adds icon/element before label
-- Use `defaultOpen` to show content initially
+- Header shows chevron indicator for expand/collapse state
+- Smooth animation on toggle
+- Use `startContent` for icons or badges before label
+- `content` accepts both Snippet and string

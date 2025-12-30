@@ -1,119 +1,95 @@
-## Item Component
+# Item Component
 
-Display list items with avatars, icons, descriptions, and actions.
+List item with avatar, icon, label, description, status indicator, and actions.
+
+## Import
+
+```svelte
+import {Item} from 'ui-svelte';
+```
+
+## Props
+
+| Prop          | Type                                                                                                            | Default     | Description           |
+| ------------- | --------------------------------------------------------------------------------------------------------------- | ----------- | --------------------- |
+| `id`          | `string \| number`                                                                                              | -           | Unique identifier     |
+| `label`       | `string`                                                                                                        | -           | Primary text          |
+| `description` | `string`                                                                                                        | -           | Secondary text        |
+| `icon`        | `IconData`                                                                                                      | -           | Leading icon          |
+| `src`         | `string`                                                                                                        | -           | Avatar image URL      |
+| `color`       | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning' \| 'surface' \| 'default'` | `'default'` | Color theme           |
+| `variant`     | `'solid' \| 'soft' \| 'outlined' \| 'ghost'`                                                                    | `'ghost'`   | Visual style          |
+| `size`        | `'sm' \| 'md' \| 'lg'`                                                                                          | `'md'`      | Item size             |
+| `status`      | `'online' \| 'offline' \| 'busy' \| 'away'`                                                                     | -           | Status indicator      |
+| `href`        | `string`                                                                                                        | -           | Link URL              |
+| `onclick`     | `(id: string \| number) => void`                                                                                | -           | Click handler         |
+| `isActive`    | `boolean`                                                                                                       | `false`     | Active/selected state |
+| `isFocused`   | `boolean`                                                                                                       | `false`     | Focused state         |
+| `isDisabled`  | `boolean`                                                                                                       | `false`     | Disabled state        |
+| `isCompact`   | `boolean`                                                                                                       | `false`     | Compact padding       |
+| `hasDivider`  | `boolean`                                                                                                       | `false`     | Bottom divider        |
+| `hasShadow`   | `boolean`                                                                                                       | `false`     | Drop shadow           |
+| `actions`     | `Snippet`                                                                                                       | -           | Right-side actions    |
+
+## Patterns
+
+### With Avatar & Status
 
 ```svelte
 <Item
-  label="John Doe"
-  description="Designer at Company"
-  src="/avatar.jpg"
-  variant="ghost"
-  size="md"
-  status="online"
+	id="1"
+	label="John Doe"
+	description="Software Engineer"
+	src="https://i.pravatar.cc/150?img=1"
+	status="online"
 />
 ```
 
-### Key Props
-
-| Prop | Default | Description |
-|------|---------|-------------|
-| `label` | - | Item label (required) |
-| `id` | - | Unique identifier |
-| `description` | - | Secondary text |
-| `icon` | - | Icon name |
-| `src` | - | Avatar image URL |
-| `variant` | `'ghost'` | `ghost` `outline` `surface` `primary` `secondary` `soft` |
-| `size` | `'md'` | `sm` `md` `lg` |
-| `status` | - | `online` `offline` `busy` `away` |
-| `href` | - | Link URL |
-| `isDisabled` | `false` | Disable interaction |
-| `isActive` | `false` | Selected/active state |
-| `isCompact` | `false` | Compact spacing |
-| `hasDivider` | `false` | Bottom divider |
-| `hasShadow` | `false` | Drop shadow |
-| `isSolid` | `false` | Solid background |
-| `onclick` | - | Click handler `(id) => void` |
-| `actions` | - | Snippet for action buttons |
-
-### Common Patterns
+### With Icon
 
 ```svelte
-<!-- Basic Item -->
-<Item label="John Doe" />
+<Item id="1" label="Favorites" description="View your saved items" icon={HeartIcon} />
+```
 
-<!-- With Avatar -->
-<Item label="Jane Smith" src="/avatar.jpg" />
+### With Actions
 
-<!-- With Icon -->
-<Item label="Settings" icon="fluent:settings-24-regular" />
-
-<!-- With Description -->
-<Item
-  label="John Doe"
-  description="Designer at Company"
-  src="/avatar.jpg"
-/>
-
-<!-- With Status -->
-<Item
-  label="Alice"
-  src="/avatar.jpg"
-  status="online"
-/>
-
-<!-- As Link -->
-<Item
-  label="Profile"
-  description="View your profile"
-  href="/profile"
-/>
-
-<!-- Active/Selected -->
-<Item
-  label="Dashboard"
-  icon="fluent:home-24-regular"
-  isActive
-/>
-
-<!-- With Actions -->
-<Item
-  label="Document.pdf"
-  description="2.5 MB"
-  onclick={(id) => console.log('Clicked:', id)}
->
-  {#snippet actions()}
-    <Button variant="ghost" size="sm">Edit</Button>
-    <Button variant="ghost" size="sm">Delete</Button>
-  {/snippet}
+```svelte
+<Item id="1" label="John Doe" description="Software Engineer" src="/avatar.jpg">
+	{#snippet actions()}
+		<IconButton icon={EditIcon} size="sm" variant="ghost" />
+		<IconButton icon={DeleteIcon} size="sm" variant="ghost" color="danger" />
+	{/snippet}
 </Item>
-
-<!-- Compact List -->
-<Item label="Item 1" isCompact hasDivider />
-<Item label="Item 2" isCompact hasDivider />
-<Item label="Item 3" isCompact />
-
-<!-- Different Sizes -->
-<Item label="Small" size="sm" src="/avatar.jpg" />
-<Item label="Medium" size="md" src="/avatar.jpg" />
-<Item label="Large" size="lg" src="/avatar.jpg" />
 ```
 
-**For LLMs**: Item displays list entries with optional avatar/icon, description, and actions. Use `src` for avatar or `icon` for icon (not both). `status` adds presence indicator. Use `href` for navigation or `onclick` for interactions. `actions` snippet adds custom buttons. `isActive` highlights selected items. `isCompact` reduces spacing. `hasDivider` adds separator. Versatile for lists, navigation, contacts, files, etc.
+### Clickable Item
 
----
-
-## Quick Hierarchy Reference
+```svelte
+<Item
+	id="1"
+	label="Click Me"
+	description="Interactive item"
+	onclick={(id) => console.log('Clicked:', id)}
+/>
 ```
-Page
-|-- Section (page structure, bodyClass for layout)
-    |-- Card (content container, bodyClass for layout)
-        |-- Content (Item, text, images, etc.)
+
+### Interactive States
+
+```svelte
+<Item id="1" label="Active" isActive />
+<Item id="2" label="Focused" isFocused />
+<Item id="3" label="Disabled" isDisabled />
 ```
 
-**Key Rule**: Section → Card → Content. Never nest Sections.
+### As Link
 
-**Shared Variants**: `primary` `secondary` `muted` `success` `info` `warning` `danger` `surface` `ghost` `outlined`
+```svelte
+<Item id="1" label="Settings" href="/settings" icon={SettingsIcon} />
+```
 
-**Layout System**: Apply flex/grid utilities via `bodyClass` on Section/Card. Always use `gap` utilities.
+## Notes
 
-**Mobile-First**: Start with `column`, expand with `md:row`. Use responsive grid: `grid-1 md:grid-3`.
+- Use `src` for avatar, `icon` for icons (mutually exclusive display priority: src > icon)
+- Status indicator appears as colored dot on avatar
+- `actions` slot for buttons, menus, etc.
+- Hover effects enabled when `onclick` or `href` provided

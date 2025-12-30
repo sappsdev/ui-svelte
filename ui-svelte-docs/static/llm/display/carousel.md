@@ -1,128 +1,103 @@
-## Carousel Component
+# Carousel Component
 
-Cycle through slides or content panels with navigation controls.
+Slide carousel with navigation, indicators, and autoplay support.
+
+## Import
 
 ```svelte
-<Carousel
-  slides={slides}
-  variant="default"
-  size="md"
-  orientation="horizontal"
-  autoplay={false}
-  loop={true}
-  showControls={true}
-  showIndicators={true}
-/>
+import {Carousel} from 'ui-svelte';
 ```
 
-### Key Props
+## Props
 
-| Prop | Default | Description |
-|------|---------|-------------|
-| `slides` | `[]` | Array of slides (required) |
-| `title` | `undefined` | Optional title/header layout |
-| `autoplay` | `false` | Auto-advance slides |
-| `autoplayInterval` | `3000` | Interval in ms |
-| `loop` | `true` | Loop back to start |
-| `showControls` | `true` | Show prev/next buttons |
-| `showIndicators` | `true` | Show dot indicators |
-| `showNavigation` | `false` | Show navigation thumbnails |
-| `showCounter` | `false` | Show slide counter |
-| `orientation` | `'horizontal'` | `horizontal` `vertical` |
-| `variant` | `'default'` | `primary` `secondary` `muted` `default` |
-| `size` | `'md'` | `sm` `md` `lg` |
-| `indicatorType` | `'dot'` | `bar` `dot` |
-| `slideWidth` | `undefined` | Fixed width in pixels (auto-calculates visible slides) |
-| `gap` | `0` | Gap between slides in pixels |
-| `onSlideChange` | - | Callback `(index) => void` |
+| Prop               | Type                         | Default        | Description            |
+| ------------------ | ---------------------------- | -------------- | ---------------------- |
+| `slides`           | `Slide[]`                    | `[]`           | Array of slides        |
+| `title`            | `string \| Snippet`          | -              | Header title           |
+| `color`            | `Color`                      | `'primary'`    | Control color          |
+| `size`             | `'sm' \| 'md' \| 'lg'`       | `'md'`         | Carousel size          |
+| `orientation`      | `'horizontal' \| 'vertical'` | `'horizontal'` | Slide direction        |
+| `indicatorType`    | `'bar' \| 'dot'`             | `'bar'`        | Indicator style        |
+| `autoplay`         | `boolean`                    | `false`        | Enable autoplay        |
+| `autoplayInterval` | `number`                     | `3000`         | Autoplay delay ms      |
+| `disableLoop`      | `boolean`                    | `false`        | Disable infinite loop  |
+| `hideControls`     | `boolean`                    | `false`        | Hide prev/next buttons |
+| `hideIndicators`   | `boolean`                    | `false`        | Hide slide indicators  |
+| `showNavigation`   | `boolean`                    | `false`        | Show arrow navigation  |
+| `showCounter`      | `boolean`                    | `false`        | Show slide counter     |
+| `slidesPerView`    | `number`                     | -              | Multi-item view        |
+| `gap`              | `number`                     | `0`            | Gap between slides     |
+| `onSlideChange`    | `(index: number) => void`    | -              | Slide change callback  |
 
-### Slide Type
+## Types
 
-| Prop | Type | Required |
-|------|------|----------|
-| `id` | `string \| number` | Yes |
-| `content` | `Snippet \| string` | Yes |
+```typescript
+type Slide = {
+	id: string | number;
+	content: Snippet;
+};
+```
 
-### Common Patterns
+## Patterns
+
+### Basic
 
 ```svelte
-<!-- Basic Carousel -->
 {#snippet slide1()}
-  <div class="h-64 bg-blue-100 flex items-center justify-center">
-    <h3>Slide 1</h3>
-  </div>
+	<div class="h-64 bg-blue-100 flex items-center justify-center">
+		<h3>Slide 1</h3>
+	</div>
 {/snippet}
 
 {#snippet slide2()}
-  <div class="h-64 bg-purple-100 flex items-center justify-center">
-    <h3>Slide 2</h3>
-  </div>
+	<div class="h-64 bg-purple-100 flex items-center justify-center">
+		<h3>Slide 2</h3>
+	</div>
 {/snippet}
 
-<Carousel slides={[
-  { id: '1', content: slide1 },
-  { id: '2', content: slide2 }
-]} />
-
-<!-- Autoplay -->
-<Carousel slides={slides} autoplay autoplayInterval={5000} />
-
-<!-- Vertical Orientation -->
-<Carousel slides={slides} orientation="vertical" size="lg" />
-
-<!-- With Counter and Navigation -->
-<Carousel 
-  slides={slides}
-  showCounter
-  showNavigation
-  indicatorType="bar"
-/>
-
-<!-- Auto-sized Slides (Infinite Scroll Effect) -->
-<Carousel 
-  slides={slides}
-  slideWidth={280}
-  gap={16}
-  loop={false}
-/>
-
-<!-- Header Layout -->
-<Carousel 
-  slides={slides}
-  title="Featured Items"
-/>
-
-<!-- Minimal (no controls) -->
-<Carousel 
-  slides={slides}
-  showControls={false}
-  showIndicators={false}
-  autoplay
-/>
-
-<!-- With Callback -->
-<Carousel 
-  slides={slides}
-  onSlideChange={(index) => console.log('Slide:', index)}
+<Carousel
+	slides={[
+		{ id: '1', content: slide1 },
+		{ id: '2', content: slide2 }
+	]}
 />
 ```
 
-**For LLMs**: Carousel displays slides with navigation. Use `autoplay` for automatic rotation. `loop` enables infinite scrolling. `showControls`, `showIndicators`, `showNavigation`, `showCounter` control UI elements. Supports both horizontal and vertical orientations. Each slide needs `id` and `content` (Snippet).
+### With Title Header
 
----
-
-## Quick Hierarchy Reference
-```
-Page
-|-- Section (page structure, bodyClass for layout)
-    |-- Card (content container, bodyClass for layout)
-        |-- Content (Carousel, text, images, etc.)
+```svelte
+<Carousel {slides} title="Featured Items" hideControls hideIndicators />
 ```
 
-**Key Rule**: Section → Card → Content. Never nest Sections.
+### Multi-Item Carousel
 
-**Shared Variants**: `primary` `secondary` `muted` `success` `info` `warning` `danger` `surface` `ghost` `outlined`
+```svelte
+<Carousel
+	slides={serviceCards}
+	title="Our Services"
+	slidesPerView={3}
+	gap={16}
+	hideControls
+	hideIndicators
+	disableLoop
+/>
+```
 
-**Layout System**: Apply flex/grid utilities via `bodyClass` on Section/Card. Always use `gap` utilities.
+### Autoplay
 
-**Mobile-First**: Start with `column`, expand with `md:row`. Use responsive grid: `grid-1 md:grid-3`.
+```svelte
+<Carousel {slides} autoplay autoplayInterval={5000} />
+```
+
+### Dot Indicators
+
+```svelte
+<Carousel {slides} indicatorType="dot" />
+```
+
+## Notes
+
+- Each slide uses a Snippet for content
+- Touch/swipe support on mobile
+- Keyboard navigation support
+- Use `slidesPerView` for multi-item layouts

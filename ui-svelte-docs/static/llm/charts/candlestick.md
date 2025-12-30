@@ -1,99 +1,93 @@
-## Candlestick Component
+# Candlestick Component
 
-Professional candlestick chart for financial data with interactive features.
+Financial candlestick chart with zoom, scroll, and technical indicators.
+
+## Import
+
+```svelte
+import {Candlestick} from 'ui-svelte';
+```
+
+## Props
+
+| Prop            | Type                                                       | Default     | Description          |
+| --------------- | ---------------------------------------------------------- | ----------- | -------------------- |
+| `data`          | `CandleData[]`                                             | `[]`        | OHLCV data           |
+| `size`          | `'sm' \| 'md' \| 'lg' \| 'xl'`                             | `'md'`      | Chart size           |
+| `theme`         | `'default' \| 'tradingview' \| 'dark' \| 'light'`          | `'default'` | Visual theme         |
+| `candleStyle`   | `'filled' \| 'hollow' \| 'heikinashi' \| 'line' \| 'area'` | `'filled'`  | Candle style         |
+| `gridStyle`     | `'solid' \| 'dashed' \| 'dotted' \| 'none'`                | `'dashed'`  | Grid line style      |
+| `bullishColor`  | `Color`                                                    | `'success'` | Up candle color      |
+| `bearishColor`  | `Color`                                                    | `'danger'`  | Down candle color    |
+| `indicators`    | `Indicator[]`                                              | `[]`        | Technical indicators |
+| `hideVolume`    | `boolean`                                                  | `false`     | Hide volume bars     |
+| `hideGrid`      | `boolean`                                                  | `false`     | Hide grid            |
+| `hideCrosshair` | `boolean`                                                  | `false`     | Hide crosshair       |
+| `hideLastPrice` | `boolean`                                                  | `false`     | Hide last price line |
+| `disableZoom`   | `boolean`                                                  | `false`     | Disable zoom         |
+| `disableScroll` | `boolean`                                                  | `false`     | Disable scroll       |
+| `loading`       | `boolean`                                                  | `false`     | Loading state        |
+
+## Types
+
+```typescript
+type CandleData = {
+	date: string | Date;
+	open: number;
+	high: number;
+	low: number;
+	close: number;
+	volume?: number;
+};
+
+type Indicator =
+	| { type: 'sma'; period: number; color?: Color }
+	| { type: 'ema'; period: number; color?: Color }
+	| { type: 'bollinger'; period: number; stdDev?: number; color?: Color };
+```
+
+## Patterns
+
+### Basic
+
+```svelte
+<script>
+	const data = [
+		{ date: '2024-01-01', open: 100, high: 105, low: 98, close: 103, volume: 500000 },
+		{ date: '2024-01-02', open: 103, high: 108, low: 102, close: 106, volume: 600000 }
+	];
+</script>
+
+<Candlestick {data} />
+```
+
+### With Indicators
 
 ```svelte
 <Candlestick
-  data={[{ date: '2024-01-01', open: 100, high: 110, low: 95, close: 105, volume: 1000000 }]}
-  size="md"
-  theme="default"
-  candleStyle="filled"
-  scaleType="linear"
-  showVolume
-  showGrid
-  showCrosshair
-  showLastPrice
-  bullishColor="success"
-  bearishColor="danger"
-  indicators={[{ type: 'sma', period: 20, color: 'info' }]}
-  enableZoom
-  enableScroll
-  onClick={(candle, i) => {}}
+	{data}
+	indicators={[
+		{ type: 'sma', period: 20, color: 'primary' },
+		{ type: 'ema', period: 10, color: 'warning' }
+	]}
 />
 ```
 
-### Props
-
-| Prop | Default | Description |
-|------|---------|-------------|
-| `data` | `[]` | Array of `CandleData` objects |
-| `size` | `'md'` | `sm` `md` `lg` `xl` |
-| `theme` | `'default'` | `default` `tradingview` `dark` `light` |
-| `candleStyle` | `'filled'` | `filled` `hollow` `heikinashi` `line` `area` |
-| `scaleType` | `'linear'` | `linear` `log` |
-| `gridStyle` | `'dashed'` | `solid` `dashed` `dotted` `none` |
-| `showVolume` | `false` | Show volume bars |
-| `showGrid` | `false` | Show grid lines |
-| `showCrosshair` | `false` | Show crosshair on hover |
-| `showLastPrice` | `false` | Show current price line |
-| `bullishColor` | `'success'` | Color for up candles |
-| `bearishColor` | `'danger'` | Color for down candles |
-| `indicators` | `[]` | Technical indicators array |
-| `enableZoom` | `false` | Ctrl/Cmd + scroll to zoom |
-| `enableScroll` | `false` | Drag to scroll |
-| `onClick` | - | Click handler `(candle, index) => void` |
-| `priceFormatter` | - | Custom price format |
-
-### CandleData Type
-
-| Prop | Required | Description |
-|------|----------|-------------|
-| `date` | ✓ | Date string or Date object |
-| `open` | ✓ | Opening price |
-| `high` | ✓ | Highest price |
-| `low` | ✓ | Lowest price |
-| `close` | ✓ | Closing price |
-| `volume` | - | Trading volume |
-
-### Indicator Type
-
-| Prop | Required | Description |
-|------|----------|-------------|
-| `type` | ✓ | `sma` `ema` `bollinger` |
-| `period` | ✓ | Calculation period |
-| `color` | - | Line color |
-| `stdDev` | - | Standard deviation (bollinger) |
-
-### Examples
+### Heikin-Ashi Style
 
 ```svelte
-<!-- Basic -->
-<Candlestick data={priceData} />
-
-<!-- With Volume -->
-<Candlestick data={priceData} showVolume />
-
-<!-- Heikin-Ashi -->
-<Candlestick data={priceData} candleStyle="heikinashi" />
-
-<!-- TradingView Theme -->
-<Candlestick data={priceData} theme="tradingview" size="lg" />
-
-<!-- With Indicators -->
-<Candlestick
-  data={priceData}
-  indicators={[
-    { type: 'sma', period: 20, color: 'info' },
-    { type: 'ema', period: 12, color: 'warning' },
-    { type: 'bollinger', period: 20, color: 'secondary' }
-  ]}
-/>
-
-<!-- Line Chart -->
-<Candlestick data={priceData} candleStyle="line" />
-
-<!-- Logarithmic Scale -->
-<Candlestick data={priceData} scaleType="log" />
+<Candlestick {data} candleStyle="heikinashi" />
 ```
 
-**For LLMs**: Use `data` array with OHLCV structure. Use `candleStyle` for presentation (filled, hollow, heikinashi, line, area). Use `indicators` for overlays (SMA, EMA, Bollinger). Use `theme` for color schemes (tradingview for dark trading style).
+### Custom Colors
+
+```svelte
+<Candlestick {data} bullishColor="info" bearishColor="warning" />
+```
+
+## Notes
+
+- Zoom with mouse wheel, scroll by dragging
+- Volume displayed below price chart
+- Crosshair shows OHLCV on hover
+- Supports SMA, EMA, Bollinger Bands indicators
