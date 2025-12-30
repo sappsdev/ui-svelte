@@ -46,9 +46,9 @@
 			hasCover && `\tcover="/path/to/image.jpg"`,
 			`>`,
 			hasHeader && `\t{#snippet header()}`,
-			hasHeader && `\t\t<h4>Card Header</h4>`,
+			hasHeader && `\t\t<h4 class="card-title">Card Header</h4>`,
 			hasHeader && `\t{/snippet}`,
-			`\t<p>Card body content goes here.</p>`,
+			`\t<p class="card-description">Card body content goes here.</p>`,
 			hasFooter && `\t{#snippet footer()}`,
 			hasFooter && `\t\t<Button>Action</Button>`,
 			hasFooter && `\t{/snippet}`,
@@ -143,17 +143,53 @@
 	<p class="section-subtitle">With Header & Footer</p>
 	<Card>
 		<div class="wrap gap-4 center">
-			{#each variantOptions as item}
-				<Card variant={item.id as any} color="primary" rootClass="max-w-xs">
-					{#snippet header()}
-						<h5 class="card-title">{item.label} Header</h5>
-					{/snippet}
-					<p class="card-description">Card content with header and footer snippets.</p>
-					{#snippet footer()}
-						<Button color="secondary" variant="solid">Action</Button>
-					{/snippet}
-				</Card>
-			{/each}
+			<Card variant="solid" color="primary" rootClass="max-w-xs">
+				{#snippet header()}
+					<h5 class="card-title">Premium Plan</h5>
+				{/snippet}
+				<p class="card-description">
+					Unlock all features with our premium subscription. Best value for teams.
+				</p>
+				{#snippet footer()}
+					<Button color="secondary" variant="solid">Upgrade Now</Button>
+				{/snippet}
+			</Card>
+
+			<Card variant="soft" color="success" rootClass="max-w-xs">
+				{#snippet header()}
+					<h5 class="card-title">Payment Complete</h5>
+				{/snippet}
+				<p class="card-description">
+					Your transaction was successful. Check your email for the receipt.
+				</p>
+				{#snippet footer()}
+					<Button color="success" variant="solid">View Receipt</Button>
+				{/snippet}
+			</Card>
+
+			<Card variant="outlined" color="info" rootClass="max-w-xs">
+				{#snippet header()}
+					<h5 class="card-title">New Update</h5>
+				{/snippet}
+				<p class="card-description">
+					Version 2.0 is now available with exciting new features and improvements.
+				</p>
+				{#snippet footer()}
+					<Button color="info" variant="solid">Learn More</Button>
+				{/snippet}
+			</Card>
+
+			<Card variant="ghost" color="warning" rootClass="max-w-xs">
+				{#snippet header()}
+					<h5 class="card-title">Action Required</h5>
+				{/snippet}
+				<p class="card-description">
+					Please verify your email address to continue using all features.
+				</p>
+				{#snippet footer()}
+					<Button color="warning" variant="solid">Verify Email</Button>
+				{/snippet}
+			</Card>
 		</div>
 	</Card>
 </Section>
@@ -175,6 +211,47 @@
 				</Card>
 			{/each}
 		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Typography</p>
+	<Card>
+		<p class="card-description pb-4">
+			Use these typography classes for consistent text styling within cards:
+		</p>
+
+		<div class="wrap gap-4 center">
+			<Card rootClass="max-w-xs">
+				{#snippet header()}
+					<h5 class="card-title">Card Title</h5>
+				{/snippet}
+				<p class="card-description">
+					This is a card description with the <code>card-description</code> class applied.
+				</p>
+			</Card>
+
+			<Card rootClass="max-w-xs">
+				{#snippet header()}
+					<h4 class="feature-title">Feature Title</h4>
+				{/snippet}
+				<p class="feature-description">
+					You can also use <code>feature-title</code> and <code>feature-description</code> for slightly
+					larger typography.
+				</p>
+			</Card>
+		</div>
+
+		<Code
+			lang="html"
+			code={`<!-- Card Typography -->
+<h5 class="card-title">Card Title</h5>
+<p class="card-description">Card description</p>
+
+<!-- Feature Typography (larger) -->
+<h4 class="feature-title">Feature Title</h4>
+<p class="feature-description">Feature description</p>`}
+		/>
 	</Card>
 </Section>
 

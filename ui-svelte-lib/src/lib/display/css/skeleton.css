@@ -1,0 +1,58 @@
+@layer components {
+	.skeleton {
+		@apply bg-muted rounded-md;
+		will-change: background-position;
+
+		&.is-text {
+			@apply h-4 w-full rounded-md;
+		}
+
+		&.is-circular {
+			@apply rounded-full aspect-square;
+		}
+
+		&.is-rectangular {
+			@apply rounded-none;
+		}
+
+		&.is-rounded {
+			@apply rounded-box;
+		}
+
+		&.is-wave {
+			animation: skeleton-wave 1.8s ease-in-out infinite;
+			background-image: linear-gradient(
+				105deg,
+				transparent 0% 40%,
+				var(--color-background) 50%,
+				transparent 60% 100%
+			);
+			background-size: 200% auto;
+			background-repeat: no-repeat;
+			background-position-x: -50%;
+		}
+
+		&.is-pulse {
+			animation: skeleton-pulse 1.5s ease-in-out infinite;
+		}
+	}
+
+	@keyframes skeleton-wave {
+		0% {
+			background-position: 150%;
+		}
+		100% {
+			background-position: -50%;
+		}
+	}
+
+	@keyframes skeleton-pulse {
+		0%,
+		100% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0.4;
+		}
+	}
+}

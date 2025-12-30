@@ -1,0 +1,80 @@
+@layer components {
+	.command-dialog {
+		@apply fixed inset-0 z-50;
+		@apply flex flex-col justify-start items-center pt-[15vh];
+
+		.command-overlay {
+			@apply absolute inset-0 bg-overlay;
+		}
+
+		.command {
+			@apply relative flex flex-col rounded-box max-w-xl w-full max-h-[60vh];
+			@apply shadow-lg overflow-hidden;
+			@apply bg-background text-on-background;
+		}
+	}
+
+	.command-search {
+		@apply relative flex items-center w-full gap-3 px-4 py-3;
+		@apply border-b border-muted;
+	}
+
+	.command-search-icon {
+		@apply h-5 w-auto text-on-muted shrink-0;
+	}
+
+	.command-search-input {
+		@apply flex-1 border-none outline-none bg-transparent text-on-background;
+		@apply placeholder:text-on-muted/70 text-base;
+	}
+
+	.command-kbd {
+		@apply hidden md:flex items-center gap-1 text-xs text-on-muted;
+	}
+
+	.command-kbd kbd {
+		@apply px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono uppercase;
+	}
+
+	.command-results {
+		@apply flex-1 overflow-y-auto p-2;
+		@apply max-h-80;
+	}
+
+	.command-group {
+		@apply mb-2;
+	}
+
+	.command-group-label {
+		@apply px-2 py-1.5 text-xs font-medium text-on-muted uppercase tracking-wide;
+	}
+
+	.command-empty {
+		@apply flex items-center justify-center py-8 text-sm text-on-muted;
+	}
+
+	.command-loading {
+		@apply flex items-center justify-center gap-2 py-8 text-sm text-on-muted;
+	}
+
+	.command-loading-spinner {
+		@apply size-4 animate-spin;
+	}
+
+	.command-footer {
+		@apply flex items-center justify-between px-4 py-2;
+		@apply border-t border-muted/30 text-xs text-on-muted;
+	}
+
+	.command-shortcut {
+		@apply flex items-center gap-2;
+	}
+
+	.command-shortcut-item {
+		@apply flex items-center gap-1;
+	}
+
+	.command-shortcut-item kbd {
+		@apply px-1.5 py-0.5 bg-muted/20 rounded text-[10px] font-mono;
+	}
+}

@@ -31,6 +31,7 @@ import Icon, { type IconData } from '$lib/display/Icon.svelte';
 import Item from '$lib/display/Item.svelte';
 import Marquee from '$lib/display/Marquee.svelte';
 import Section from '$lib/display/Section.svelte';
+import Skeleton from '$lib/display/Skeleton.svelte';
 import Map, { type LatLng, type MapMarker, type RouteInfo } from '$lib/display/Map.svelte';
 import Table from '$lib/display/Table.svelte';
 
@@ -39,6 +40,7 @@ import ColorField from '$lib/form/ColorField.svelte';
 import ComboBox from '$lib/form/ComboBox.svelte';
 import CsvField from '$lib/form/CsvField.svelte';
 import DateField from '$lib/form/DateField.svelte';
+import DateRange from '$lib/form/DateRange.svelte';
 import DragDrop, { type DragDropItem, type DragDropGroup } from '$lib/form/DragDrop.svelte';
 import Dropzone from '$lib/form/Dropzone.svelte';
 import Editor from '$lib/form/Editor.svelte';
@@ -131,6 +133,7 @@ export {
 	ComboBox,
 	CsvField,
 	DateField,
+	DateRange,
 	Drawer,
 	Dropzone,
 	Divider,
@@ -167,6 +170,7 @@ export {
 	Record,
 	Scaffold,
 	Section,
+	Skeleton,
 	Select,
 	setLanguage,
 	Sidebar,

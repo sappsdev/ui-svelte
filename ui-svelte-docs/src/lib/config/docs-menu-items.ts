@@ -173,6 +173,10 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/display/section'
 			},
 			{
+				label: 'Skeleton',
+				href: '/docs/display/skeleton'
+			},
+			{
 				label: 'Table',
 				href: '/docs/display/table'
 			},
@@ -203,6 +207,10 @@ export const sideMenuItems: SideNavItem[] = [
 			{
 				label: 'DateField',
 				href: '/docs/form/date-field'
+			},
+			{
+				label: 'DateRange',
+				href: '/docs/form/date-range'
 			},
 			{
 				label: 'DragDrop',

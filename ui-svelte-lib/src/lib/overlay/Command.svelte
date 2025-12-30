@@ -1,10 +1,16 @@
 <script lang="ts">
 	import type { SearchState, SearchOption } from '$lib/hooks/use-search.svelte.js';
 	import { Search24RegularIcon, DotsMoveIcon } from '$lib/icons/index.js';
-	import { Icon, Item, Modal, TextField, type IconData } from '$lib/index.js';
+	import { Icon, Item, type IconData } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
-	import type { Snippet } from 'svelte';
+	import { popover } from '$lib/utils/popover.js';
 	import { tick } from 'svelte';
+	import { fade, scale } from 'svelte/transition';
+
+	type CommandGroup = {
+		label: string;
+		options: SearchOption[];
+	};
 
 	type Props = {
 		search: SearchState;
@@ -13,20 +19,14 @@
 		emptyText?: string;
 		loadingText?: string;
 		loadingMoreText?: string;
-		color?:
-			| 'primary'
-			| 'secondary'
-			| 'muted'
-			| 'success'
-			| 'info'
-			| 'warning'
-			| 'danger'
-			| 'surface'
-			| 'default';
-		variant?: 'solid' | 'soft';
-		hideCloseButton?: boolean;
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
+		disableOverlayClose?: boolean;
+		disableGlobalShortcut?: boolean;
+		shortcut?: string;
+		showFooter?: boolean;
+		groups?: CommandGroup[];
 		onselect?: (item: SearchOption) => void;
-		trigger?: Snippet;
+		onclose?: () => void;
 		class?: string;
 	};
 
@@ -37,30 +37,30 @@
 		emptyText = 'No results found',
 		loadingText = 'Loading...',
 		loadingMoreText = 'Loading more...',
-		color = 'default',
-		variant = 'solid',
-		hideCloseButton = true,
+		color = 'muted',
+		disableOverlayClose = false,
+		disableGlobalShortcut = false,
+		shortcut = 'k',
+		showFooter = true,
+		groups,
 		onselect,
-		trigger,
+		onclose,
 		class: className
 	}: Props = $props();
 
+	let openContent = $state(false);
 	let optionsEl = $state<HTMLElement>();
 	let searchInputEl = $state<HTMLInputElement>();
 	let focusedIndex = $state(-1);
 	let hasSearched = $state(false);
 
-	const itemVariants = {
-		primary: 'primary',
-		secondary: 'secondary',
-		muted: 'muted',
-		success: 'success',
-		info: 'info',
-		warning: 'warning',
-		danger: 'danger',
-		surface: 'muted',
-		default: 'muted'
-	} as const;
+	// Flatten options for keyboard navigation
+	const flatOptions = $derived(() => {
+		if (groups && groups.length > 0) {
+			return groups.flatMap((g) => g.options);
+		}
+		return search.options;
+	});
 
 	const scrollToItem = (index: number) => {
 		if (!optionsEl) return;
@@ -72,9 +72,7 @@
 	};
 
 	const handleKeyDown = (event: KeyboardEvent) => {
-		if (!open) return;
-
-		const items = search.options;
+		const items = flatOptions();
 		if (!items.length && event.key !== 'Escape') return;
 
 		switch (event.key) {
@@ -97,8 +95,20 @@
 			}
 			case 'Escape':
 				event.preventDefault();
-				open = false;
+				handleClose();
 				break;
+		}
+	};
+
+	const handleGlobalKeyDown = (event: KeyboardEvent) => {
+		if (disableGlobalShortcut) return;
+
+		const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+		const modifier = isMac ? event.metaKey : event.ctrlKey;
+
+		if (modifier && event.key.toLowerCase() === shortcut.toLowerCase()) {
+			event.preventDefault();
+			open = !open;
 		}
 	};
 
@@ -115,7 +125,6 @@
 
 	const handleSelect = (item: SearchOption) => {
 		if (item.href) {
-			// Navigation will happen via the Item's href
 			open = false;
 			search.setSearch('');
 		} else {
@@ -125,19 +134,18 @@
 		}
 	};
 
-	const handleOpen = async () => {
-		open = true;
-		await tick();
-		focusedIndex = -1;
-		hasSearched = false;
-		// Focus the search input
-		searchInputEl?.focus();
+	const handleOverlayClick = () => {
+		if (!disableOverlayClose) {
+			handleClose();
+		}
 	};
 
 	const handleClose = () => {
+		open = false;
 		focusedIndex = -1;
 		hasSearched = false;
 		search.setSearch('');
+		onclose?.();
 	};
 
 	$effect(() => {
@@ -148,8 +156,12 @@
 
 	$effect(() => {
 		if (open) {
+			setTimeout(() => {
+				openContent = true;
+			}, 20);
 			document.addEventListener('keydown', handleKeyDown);
 		} else {
+			openContent = false;
 			document.removeEventListener('keydown', handleKeyDown);
 		}
 
@@ -157,143 +169,172 @@
 			document.removeEventListener('keydown', handleKeyDown);
 		};
 	});
+
+	$effect(() => {
+		if (openContent && searchInputEl) {
+			tick().then(() => {
+				searchInputEl?.focus();
+				focusedIndex = -1;
+				hasSearched = false;
+			});
+		}
+	});
+
+	$effect(() => {
+		if (!disableGlobalShortcut) {
+			document.addEventListener('keydown', handleGlobalKeyDown);
+		}
+
+		return () => {
+			document.removeEventListener('keydown', handleGlobalKeyDown);
+		};
+	});
+
+	const isMac =
+		typeof navigator !== 'undefined' && navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+	const modifierKey = isMac ? '⌘' : 'Ctrl';
 </script>
 
-<div class={cn('command-trigger', className)}>
-	{#if trigger}
+{#if open}
+	<div transition:fade class="command-dialog" use:popover>
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
-		<div onclick={handleOpen}>
-			{@render trigger()}
-		</div>
-	{/if}
-</div>
-
-<Modal
-	bind:open
-	{color}
-	{variant}
-	{hideCloseButton}
-	onclose={handleClose}
-	rootClass="command-modal"
->
-	<div class="command-content">
-		<div class="command-search">
-			<TextField
-				bind:el={searchInputEl}
-				bind:value={search.search}
-				startIcon={Search24RegularIcon}
-				{placeholder}
-				variant="line"
-				color="muted"
-				size="lg"
-			/>
-		</div>
-
-		<div class="command-results" bind:this={optionsEl} onscroll={handleScroll}>
-			{#if search.isLoading}
-				<div class="command-loading">
-					<Icon icon={DotsMoveIcon} class="command-loading-spinner" />
-					<span>{loadingText}</span>
+		<div class="command-overlay" onclick={handleOverlayClick}></div>
+		{#if openContent}
+			<div in:scale={{ duration: 100 }} class={cn('command', className)}>
+				<div class="command-search">
+					<Icon icon={Search24RegularIcon} class="command-search-icon" />
+					<input
+						bind:this={searchInputEl}
+						type="text"
+						class="command-search-input"
+						{placeholder}
+						bind:value={search.search}
+					/>
+					<div class="command-kbd">
+						<kbd>Esc</kbd>
+						<span>to close</span>
+					</div>
 				</div>
-			{:else if search.options.length === 0 && hasSearched}
-				<div class="command-empty">{emptyText}</div>
-			{:else if search.options.length > 0}
-				{#each search.options as item, index}
-					{#if item.href}
-						<Item
-							id={item.id}
-							label={item.label}
-							icon={item.icon as IconData}
-							src={item.src}
-							description={item.description}
-							href={item.href as string}
-							isFocused={focusedIndex === index}
-							isDisabled={item.disabled}
-							variant="ghost"
-							color={itemVariants[color]}
-							size="sm"
-							isCompact
-							onclick={() => handleSelect(item)}
-						/>
-					{:else}
-						<Item
-							id={item.id}
-							label={item.label}
-							icon={item.icon as IconData}
-							src={item.src}
-							description={item.description}
-							isFocused={focusedIndex === index}
-							isDisabled={item.disabled}
-							variant="ghost"
-							color={itemVariants[color]}
-							size="sm"
-							isCompact
-							onclick={() => handleSelect(item)}
-						/>
-					{/if}
-				{/each}
 
-				{#if search.isLoadingMore}
-					<div class="command-loading">
-						<Icon icon={DotsMoveIcon} class="command-loading-spinner" />
-						<span>{loadingMoreText}</span>
+				<div class="command-results" bind:this={optionsEl} onscroll={handleScroll}>
+					{#if search.isLoading}
+						<div class="command-loading">
+							<Icon icon={DotsMoveIcon} class="command-loading-spinner" />
+							<span>{loadingText}</span>
+						</div>
+					{:else if flatOptions().length === 0 && hasSearched}
+						<div class="command-empty">{emptyText}</div>
+					{:else if groups && groups.length > 0}
+						{#each groups as group}
+							{#if group.options.length > 0}
+								<div class="command-group">
+									<div class="command-group-label">{group.label}</div>
+									{#each group.options as item}
+										{@const globalIndex = flatOptions().indexOf(item)}
+										{#if item.href}
+											<Item
+												id={item.id}
+												label={item.label}
+												icon={item.icon as IconData}
+												src={item.src}
+												description={item.description}
+												href={item.href as string}
+												isFocused={focusedIndex === globalIndex}
+												isDisabled={item.disabled}
+												{color}
+												size="sm"
+												isCompact
+												onclick={() => handleSelect(item)}
+											/>
+										{:else}
+											<Item
+												id={item.id}
+												label={item.label}
+												icon={item.icon as IconData}
+												src={item.src}
+												description={item.description}
+												isFocused={focusedIndex === globalIndex}
+												isDisabled={item.disabled}
+												{color}
+												size="sm"
+												isCompact
+												onclick={() => handleSelect(item)}
+											/>
+										{/if}
+									{/each}
+								</div>
+							{/if}
+						{/each}
+
+						{#if search.isLoadingMore}
+							<div class="command-loading">
+								<Icon icon={DotsMoveIcon} class="command-loading-spinner" />
+								<span>{loadingMoreText}</span>
+							</div>
+						{/if}
+					{:else if search.options.length > 0}
+						{#each search.options as item, index}
+							{#if item.href}
+								<Item
+									id={item.id}
+									label={item.label}
+									icon={item.icon as IconData}
+									src={item.src}
+									description={item.description}
+									href={item.href as string}
+									isFocused={focusedIndex === index}
+									isDisabled={item.disabled}
+									{color}
+									size="sm"
+									isCompact
+									onclick={() => handleSelect(item)}
+								/>
+							{:else}
+								<Item
+									id={item.id}
+									label={item.label}
+									icon={item.icon as IconData}
+									src={item.src}
+									description={item.description}
+									isFocused={focusedIndex === index}
+									isDisabled={item.disabled}
+									{color}
+									size="sm"
+									isCompact
+									onclick={() => handleSelect(item)}
+								/>
+							{/if}
+						{/each}
+
+						{#if search.isLoadingMore}
+							<div class="command-loading">
+								<Icon icon={DotsMoveIcon} class="command-loading-spinner" />
+								<span>{loadingMoreText}</span>
+							</div>
+						{/if}
+					{/if}
+				</div>
+
+				{#if showFooter}
+					<div class="command-footer">
+						<div class="command-shortcut">
+							<div class="command-shortcut-item">
+								<kbd>↑</kbd><kbd>↓</kbd>
+								<span>Navigate</span>
+							</div>
+							<div class="command-shortcut-item">
+								<kbd>↵</kbd>
+								<span>Select</span>
+							</div>
+						</div>
+						<div class="command-shortcut-item">
+							<kbd>{modifierKey}</kbd><kbd>{shortcut.toUpperCase()}</kbd>
+							<span>Toggle</span>
+						</div>
 					</div>
 				{/if}
-			{/if}
-		</div>
+			</div>
+		{/if}
 	</div>
-</Modal>
-
-<style>
-	:global(.command-modal) {
-		max-width: 32rem;
-		width: 100%;
-		padding: 0;
-	}
-
-	:global(.command-modal .modal-body) {
-		padding: 0;
-	}
-
-	.command-content {
-		display: flex;
-		flex-direction: column;
-		min-height: 20rem;
-		max-height: 24rem;
-	}
-
-	.command-search {
-		padding: 0.5rem 1rem;
-		border-bottom: 1px solid var(--color-outline);
-	}
-
-	.command-results {
-		flex: 1;
-		overflow-y: auto;
-		padding: 0.5rem;
-	}
-
-	.command-loading,
-	.command-empty {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.5rem;
-		padding: 2rem;
-		color: var(--color-on-muted);
-	}
-
-	:global(.command-loading-spinner) {
-		animation: spin 1s linear infinite;
-	}
-
-	@keyframes spin {
-		from {
-			transform: rotate(0deg);
-		}
-		to {
-			transform: rotate(360deg);
-		}
-	}
-</style>
+{/if}

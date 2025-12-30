@@ -1,0 +1,122 @@
+@layer components {
+	.date-range-popover {
+		@apply h-auto overflow-y-auto drop-shadow-sm flex flex-col gap-2 p-3 my-1 scrollbar-hide;
+		@apply bg-background text-on-background rounded-box;
+		@apply invisible opacity-0 transition-opacity duration-300 ease-in-out;
+		position: fixed;
+		z-index: 9999;
+
+		&.is-active {
+			@apply visible opacity-100;
+		}
+	}
+
+	.date-range-calendars {
+		@apply flex gap-4;
+	}
+
+	.date-range-calendar {
+		@apply flex flex-col gap-1;
+	}
+
+	.date-range-spacer {
+		@apply w-8 h-8;
+	}
+
+	.date-range-day-button {
+		@apply outline-hidden rounded-ui;
+		@apply flex items-center justify-center w-8 h-8 text-sm transition-colors;
+
+		&:not(.is-start):not(.is-end):not(.is-in-range):not(.is-disabled) {
+			@apply hover:bg-muted hover:text-on-muted;
+		}
+
+		&.is-start,
+		&.is-end {
+			@apply rounded-ui;
+		}
+
+		&.is-start.is-primary,
+		&.is-end.is-primary {
+			@apply bg-primary text-on-primary;
+		}
+		&.is-start.is-secondary,
+		&.is-end.is-secondary {
+			@apply bg-secondary text-on-secondary;
+		}
+		&.is-start.is-muted,
+		&.is-end.is-muted {
+			@apply bg-muted text-on-muted;
+		}
+		&.is-start.is-success,
+		&.is-end.is-success {
+			@apply bg-success text-on-success;
+		}
+		&.is-start.is-info,
+		&.is-end.is-info {
+			@apply bg-info text-on-info;
+		}
+		&.is-start.is-danger,
+		&.is-end.is-danger {
+			@apply bg-danger text-on-danger;
+		}
+		&.is-start.is-warning,
+		&.is-end.is-warning {
+			@apply bg-warning text-on-warning;
+		}
+
+		&.is-in-range {
+			@apply rounded-none;
+		}
+
+		&.is-in-range.is-primary {
+			@apply bg-primary/20 text-primary;
+		}
+		&.is-in-range.is-secondary {
+			@apply bg-secondary/20 text-secondary;
+		}
+		&.is-in-range.is-muted {
+			@apply bg-muted/50 text-on-muted;
+		}
+		&.is-in-range.is-success {
+			@apply bg-success/20 text-success;
+		}
+		&.is-in-range.is-info {
+			@apply bg-info/20 text-info;
+		}
+		&.is-in-range.is-danger {
+			@apply bg-danger/20 text-danger;
+		}
+		&.is-in-range.is-warning {
+			@apply bg-warning/20 text-warning;
+		}
+
+		&.is-start {
+			@apply rounded-l-ui rounded-r-none;
+		}
+
+		&.is-end {
+			@apply rounded-r-ui rounded-l-none;
+		}
+
+		&.is-start.is-end {
+			@apply rounded-ui;
+		}
+
+		&.today {
+			@apply font-semibold;
+		}
+
+		&.is-disabled {
+			@apply opacity-50 cursor-not-allowed;
+		}
+	}
+
+	.date-range-footer {
+		@apply flex items-center justify-center pt-2 border-t border-muted;
+	}
+
+	.date-range-selection {
+		@apply text-sm text-on-muted;
+	}
+}
