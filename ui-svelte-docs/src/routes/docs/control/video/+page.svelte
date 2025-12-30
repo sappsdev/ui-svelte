@@ -57,7 +57,7 @@
 	];
 </script>
 
-<DocsHeader title="Video">
+<DocsHeader title="Video" llmUrl="https://ui-svelte.sappsdev.com/llm/control/video.md">
 	A video player component with support for HLS streams and standard video files. Includes custom
 	controls for play/pause, volume, picture-in-picture, and fullscreen.
 </DocsHeader>

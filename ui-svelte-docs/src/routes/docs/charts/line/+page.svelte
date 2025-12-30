@@ -206,7 +206,7 @@
 	];
 </script>
 
-<DocsHeader title="LineChart">
+<DocsHeader title="LineChart" llmUrl="https://ui-svelte.sappsdev.com/llm/charts/line.md">
 	LineChart visualizes data trends over continuous intervals with customizable styling, multiple
 	series support, animations, and interactive tooltips.
 </DocsHeader>

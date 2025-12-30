@@ -1,5 +1,14 @@
 <script lang="ts">
 	import { Avatar, Card, Checkbox, Code, Section, Select } from 'ui-svelte';
+	import {
+		Person24RegularIcon,
+		Heart24RegularIcon,
+		Settings24RegularIcon,
+		Rocket24RegularIcon,
+		Shield24RegularIcon,
+		HomeLinearIcon,
+		GlobalLinearIcon
+	} from '$lib/icons';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
 
@@ -45,18 +54,27 @@
 	let href = $state('');
 
 	let hasImage = $state(false);
+	let hasIcon = $state(false);
 	const sampleImageUrl = 'https://i.pravatar.cc/150?img=3';
 
 	let hasProps = $derived(
-		[color !== 'primary', variant !== 'solid', size !== 'md', status, src, isBordered, href].some(
-			Boolean
-		)
+		[
+			color !== 'primary',
+			variant !== 'solid',
+			size !== 'md',
+			status,
+			src,
+			hasIcon,
+			isBordered,
+			href
+		].some(Boolean)
 	);
 
 	let code = $derived(() => {
 		const scriptLines = [
 			`<script lang="ts">`,
 			`\timport { Avatar } from 'ui-svelte';`,
+			hasIcon && `\timport { UserIcon } from 'ui-svelte/icons';`,
 			`<\/script>`
 		].filter(Boolean);
 
@@ -67,7 +85,8 @@
 			size !== 'md' && `\tsize="${size}"`,
 			status && `\tstatus="${status}"`,
 			src && `\tsrc="${sampleImageUrl}"`,
-			!src && name && `\tname="${name}"`,
+			hasIcon && !src && `\ticon={UserIcon}`,
+			!src && !hasIcon && name && `\tname="${name}"`,
 			isBordered && `\tisBordered`,
 			href && `\thref="/profile"`,
 			hasProps && `/>`,
@@ -97,11 +116,17 @@
 		{ prop: 'size', type: 'xs | sm | md | lg | xl', initial: 'md' },
 		{ prop: 'status', type: 'online | offline | busy | away', initial: '' },
 		{ prop: 'isBordered', type: 'boolean', initial: 'false' },
+		{ prop: 'icon', type: 'IconData', initial: '' },
 		{ prop: 'class', type: 'string', initial: '' }
 	];
 
 	$effect(() => {
 		src = hasImage ? sampleImageUrl : '';
+		if (hasImage) hasIcon = false;
+	});
+
+	$effect(() => {
+		if (hasIcon) hasImage = false;
 	});
 </script>
 
@@ -147,6 +172,7 @@
 		</div>
 		<div class="grid-2 md:grid-4 gap-2">
 			<Checkbox bind:checked={hasImage} label="Image" />
+			<Checkbox bind:checked={hasIcon} label="Icon" />
 			<Checkbox bind:checked={isBordered} label="Bordered" />
 			<Checkbox
 				onchange={(v) => (v ? (href = '/profile') : (href = ''))}
@@ -165,6 +191,7 @@
 				status={status || undefined}
 				{isBordered}
 				href={href || undefined}
+				icon={hasIcon ? Person24RegularIcon : undefined}
 			/>
 		</div>
 		<Code lang="svelte" code={code()} />
@@ -204,6 +231,26 @@
 			{#each sizeOptions as size}
 				<Avatar size={size.id as any} src="https://i.pravatar.cc/150?img=3" alt="User avatar" />
 			{/each}
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">With Icons</p>
+	<Card>
+		<div class="wrap gap-4 center">
+			{#each sizeOptions as size}
+				<Avatar size={size.id as any} icon={Person24RegularIcon} />
+			{/each}
+		</div>
+		<div class="wrap gap-4 center">
+			<Avatar icon={Person24RegularIcon} color="primary" />
+			<Avatar icon={Heart24RegularIcon} color="secondary" />
+			<Avatar icon={Settings24RegularIcon} color="success" />
+			<Avatar icon={Rocket24RegularIcon} color="info" />
+			<Avatar icon={Shield24RegularIcon} color="warning" />
+			<Avatar icon={HomeLinearIcon} color="danger" />
+			<Avatar icon={GlobalLinearIcon} color="muted" />
 		</div>
 	</Card>
 </Section>

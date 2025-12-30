@@ -194,7 +194,7 @@
 	];
 </script>
 
-<DocsHeader title="Candlestick">
+<DocsHeader title="Candlestick" llmUrl="https://ui-svelte.sappsdev.com/llm/charts/candlestick.md">
 	Interactive candlestick chart for financial data visualization with support for multiple styles,
 	themes, technical indicators, and zoom/scroll functionality.
 </DocsHeader>

@@ -243,7 +243,7 @@
 	];
 </script>
 
-<DocsHeader title="AreaChart">
+<DocsHeader title="AreaChart" llmUrl="https://ui-svelte.sappsdev.com/llm/charts/area.md">
 	AreaChart components visualize data as filled areas under lines, ideal for showing trends,
 	comparisons over time, and stacked data visualization.
 </DocsHeader>

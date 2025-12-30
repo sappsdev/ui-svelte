@@ -158,7 +158,7 @@
 	];
 </script>
 
-<DocsHeader title="PieChart">
+<DocsHeader title="PieChart" llmUrl="https://ui-svelte.sappsdev.com/llm/charts/pie.md">
 	PieChart component displays data as proportional slices of a circle, with support for donut style,
 	animations, and customizable display options.
 </DocsHeader>

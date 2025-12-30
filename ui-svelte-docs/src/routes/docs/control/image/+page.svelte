@@ -78,7 +78,7 @@
 	];
 </script>
 
-<DocsHeader title="Image">
+<DocsHeader title="Image" llmUrl="https://ui-svelte.sappsdev.com/llm/control/image.md">
 	An image component with loading states, error handling, and overlay controls for download and
 	fullscreen functionality.
 </DocsHeader>

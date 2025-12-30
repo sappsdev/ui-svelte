@@ -81,7 +81,7 @@
 	];
 </script>
 
-<DocsHeader title="Audio">
+<DocsHeader title="Audio" llmUrl="https://ui-svelte.sappsdev.com/llm/control/audio.md">
 	A custom audio player with waveform visualization, play/pause controls, and seek functionality.
 </DocsHeader>
 

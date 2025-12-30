@@ -56,7 +56,7 @@
 	const colorVariants = ['primary', 'secondary', 'success', 'warning', 'danger', 'info'];
 </script>
 
-<DocsHeader title="Decorations">
+<DocsHeader title="Decorations" llmUrl="https://ui-svelte.sappsdev.com/llm/display/decorations.md">
 	CSS utility classes to add decorative border effects to cards, buttons, avatars and other
 	elements. Includes glowing, gradient, animated, and special effect borders.
 </DocsHeader>

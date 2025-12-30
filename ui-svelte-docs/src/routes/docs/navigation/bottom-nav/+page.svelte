@@ -145,7 +145,7 @@
 	];
 </script>
 
-<DocsHeader title="BottomNav">
+<DocsHeader title="BottomNav" llmUrl="https://ui-svelte.sappsdev.com/llm/navigation/bottom-nav.md">
 	A mobile-friendly bottom navigation bar component with support for icons, badges, FAB buttons, and
 	multiple styling options.
 </DocsHeader>

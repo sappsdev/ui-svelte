@@ -126,7 +126,7 @@
 	];
 </script>
 
-<DocsHeader title="Editor">
+<DocsHeader title="Editor" llmUrl="https://ui-svelte.sappsdev.com/llm/form/editor.md">
 	A rich text editor component with a full-featured toolbar for text formatting, alignment, lists,
 	headings, and media insertion.
 </DocsHeader>

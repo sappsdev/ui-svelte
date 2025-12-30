@@ -125,7 +125,7 @@
 	];
 </script>
 
-<DocsHeader title="Dropzone">
+<DocsHeader title="Dropzone" llmUrl="https://ui-svelte.sappsdev.com/llm/form/dropzone.md">
 	Dropzone components allow users to upload files via drag and drop or file selection.
 </DocsHeader>
 

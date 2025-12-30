@@ -159,7 +159,7 @@
 	const gaugeData = [{ value: 67, max: 100, label: 'CPU Usage', unit: '%' }];
 </script>
 
-<DocsHeader title="Arc Chart">
+<DocsHeader title="Arc Chart" llmUrl="https://ui-svelte.sappsdev.com/llm/charts/arc.md">
 	Arc Chart displays progress or proportional data in a circular format with multiple concentric
 	arcs.
 </DocsHeader>

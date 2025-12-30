@@ -124,7 +124,7 @@
 	</div>
 {/snippet}
 
-<DocsHeader title="Tabs">
+<DocsHeader title="Tabs" llmUrl="https://ui-svelte.sappsdev.com/llm/navigation/tabs.md">
 	Tabs organize content into multiple panels and allow users to switch between them.
 </DocsHeader>
 

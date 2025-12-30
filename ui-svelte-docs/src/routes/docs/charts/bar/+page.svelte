@@ -213,7 +213,7 @@
 	];
 </script>
 
-<DocsHeader title="BarChart">
+<DocsHeader title="BarChart" llmUrl="https://ui-svelte.sappsdev.com/llm/charts/bar.md">
 	BarChart visualizes data with rectangular bars representing values. Supports single series,
 	grouped, and stacked layouts with animations, tooltips, and customizable legends.
 </DocsHeader>

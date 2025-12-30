@@ -253,7 +253,7 @@
 	</div>
 {/snippet}
 
-<DocsHeader title="NavMenu">
+<DocsHeader title="NavMenu" llmUrl="https://ui-svelte.sappsdev.com/llm/navigation/nav-menu.md">
 	A horizontal navigation menu with support for links, submenus with dropdowns, megamenus, and
 	icons.
 </DocsHeader>

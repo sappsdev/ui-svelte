@@ -157,7 +157,7 @@
 	];
 </script>
 
-<DocsHeader title="SideNav">
+<DocsHeader title="SideNav" llmUrl="https://ui-svelte.sappsdev.com/llm/navigation/sidenav.md">
 	A vertical navigation component for sidebars with support for headers, dividers, submenus, icons,
 	and collapsible behavior.
 </DocsHeader>

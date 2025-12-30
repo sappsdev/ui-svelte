@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type { IconData } from '$lib/display/Icon.svelte';
+	import { Icon } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
 
 	type Props = {
@@ -13,6 +15,7 @@
 		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 		status?: 'online' | 'offline' | 'busy' | 'away';
 		isBordered?: boolean;
+		icon?: IconData;
 		class?: string;
 	};
 
@@ -28,6 +31,7 @@
 		size = 'md',
 		status,
 		isBordered,
+		icon,
 		class: className
 	}: Props = $props();
 
@@ -82,6 +86,8 @@
 	{/if}
 	{#if src}
 		<img {src} {alt} class="avatar-image" />
+	{:else if icon}
+		<Icon {icon} class="avatar-icon" />
 	{:else}
 		<span class="avatar-name">{name?.charAt(0).toUpperCase() || alt.charAt(0).toUpperCase()}</span>
 	{/if}

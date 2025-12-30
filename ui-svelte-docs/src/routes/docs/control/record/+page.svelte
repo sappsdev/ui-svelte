@@ -87,7 +87,7 @@
 	];
 </script>
 
-<DocsHeader title="Record">
+<DocsHeader title="Record" llmUrl="https://ui-svelte.sappsdev.com/llm/control/record.md">
 	An audio recording component with real-time waveform visualization, pause/resume controls, and
 	review functionality before saving.
 </DocsHeader>

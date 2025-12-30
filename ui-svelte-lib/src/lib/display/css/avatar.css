@@ -28,58 +28,131 @@
 	.avatar {
 		&.is-xs {
 			@apply size-5;
-			& .avatar-image { @apply size-5 object-cover rounded-avatar; }
-			& .avatar-name { @apply text-xs; }
-			& .avatar-indicator { @apply size-1; }
+			& .avatar-image {
+				@apply size-5 object-cover rounded-avatar;
+			}
+			& .avatar-name {
+				@apply text-xs;
+			}
+			& .avatar-icon {
+				@apply size-3;
+			}
+			& .avatar-indicator {
+				@apply size-1;
+			}
 		}
 
 		&.is-sm {
 			@apply size-6;
-			& .avatar-image { @apply size-6 object-cover rounded-avatar; }
-			& .avatar-name { @apply text-base; }
-			& .avatar-indicator { @apply size-2; }
+			& .avatar-image {
+				@apply size-6 object-cover rounded-avatar;
+			}
+			& .avatar-name {
+				@apply text-base;
+			}
+			& .avatar-icon {
+				@apply size-4;
+			}
+			& .avatar-indicator {
+				@apply size-2;
+			}
 		}
 
 		&.is-md {
 			@apply size-7;
-			& .avatar-image { @apply size-7 object-cover rounded-avatar; }
-			& .avatar-name { @apply text-lg; }
-			& .avatar-indicator { @apply size-2; }
+			& .avatar-image {
+				@apply size-7 object-cover rounded-avatar;
+			}
+			& .avatar-name {
+				@apply text-lg;
+			}
+			& .avatar-icon {
+				@apply size-5;
+			}
+			& .avatar-indicator {
+				@apply size-2;
+			}
 		}
 
 		&.is-lg {
 			@apply size-10;
-			& .avatar-image { @apply size-10 object-cover rounded-avatar; }
-			& .avatar-name { @apply text-xl; }
-			& .avatar-indicator { @apply size-3; }
+			& .avatar-image {
+				@apply size-10 object-cover rounded-avatar;
+			}
+			& .avatar-name {
+				@apply text-xl;
+			}
+			& .avatar-icon {
+				@apply size-6;
+			}
+			& .avatar-indicator {
+				@apply size-3;
+			}
 		}
 
 		&.is-xl {
 			@apply size-14;
-			& .avatar-image { @apply size-14 object-cover rounded-avatar; }
-			& .avatar-name { @apply text-3xl; }
-			& .avatar-indicator { @apply size-3; }
+			& .avatar-image {
+				@apply size-14 object-cover rounded-avatar;
+			}
+			& .avatar-name {
+				@apply text-3xl;
+			}
+			& .avatar-icon {
+				@apply size-8;
+			}
+			& .avatar-indicator {
+				@apply size-3;
+			}
 		}
 	}
 
 	.avatar.is-soft {
-		&.is-primary { @apply bg-on-primary text-primary ring-primary hover:bg-on-primary/80; }
-		&.is-secondary { @apply bg-on-secondary text-secondary ring-secondary hover:bg-on-secondary/80; }
-		&.is-muted { @apply bg-muted text-on-muted ring-muted hover:bg-muted/80; }
-		&.is-success { @apply bg-on-success text-success ring-success hover:bg-on-success/80; }
-		&.is-info { @apply bg-on-info text-info ring-info hover:bg-on-info/80; }
-		&.is-warning { @apply bg-on-warning text-warning ring-warning hover:bg-on-warning/80; }
-		&.is-danger { @apply bg-on-danger text-danger ring-danger hover:bg-on-danger/80; }
+		&.is-primary {
+			@apply bg-on-primary text-primary ring-primary hover:bg-on-primary/80;
+		}
+		&.is-secondary {
+			@apply bg-on-secondary text-secondary ring-secondary hover:bg-on-secondary/80;
+		}
+		&.is-muted {
+			@apply bg-muted text-on-muted ring-muted hover:bg-muted/80;
+		}
+		&.is-success {
+			@apply bg-on-success text-success ring-success hover:bg-on-success/80;
+		}
+		&.is-info {
+			@apply bg-on-info text-info ring-info hover:bg-on-info/80;
+		}
+		&.is-warning {
+			@apply bg-on-warning text-warning ring-warning hover:bg-on-warning/80;
+		}
+		&.is-danger {
+			@apply bg-on-danger text-danger ring-danger hover:bg-on-danger/80;
+		}
 	}
 
 	.avatar.is-solid {
-		&.is-primary { @apply bg-primary text-on-primary ring-primary hover:bg-primary/80; }
-		&.is-secondary { @apply bg-secondary text-on-secondary ring-secondary hover:bg-secondary/80; }
-		&.is-muted { @apply bg-on-muted text-muted ring-muted hover:bg-on-muted/80; }
-		&.is-success { @apply bg-success text-on-success ring-success hover:bg-success/80; }
-		&.is-info { @apply bg-info text-on-info ring-info hover:bg-info/80; }
-		&.is-warning { @apply bg-warning text-on-warning ring-warning hover:bg-warning/80; }
-		&.is-danger { @apply bg-danger text-on-danger ring-danger hover:bg-danger/80; }
+		&.is-primary {
+			@apply bg-primary text-on-primary ring-primary hover:bg-primary/80;
+		}
+		&.is-secondary {
+			@apply bg-secondary text-on-secondary ring-secondary hover:bg-secondary/80;
+		}
+		&.is-muted {
+			@apply bg-on-muted text-muted ring-muted hover:bg-on-muted/80;
+		}
+		&.is-success {
+			@apply bg-success text-on-success ring-success hover:bg-success/80;
+		}
+		&.is-info {
+			@apply bg-info text-on-info ring-info hover:bg-info/80;
+		}
+		&.is-warning {
+			@apply bg-warning text-on-warning ring-warning hover:bg-warning/80;
+		}
+		&.is-danger {
+			@apply bg-danger text-on-danger ring-danger hover:bg-danger/80;
+		}
 	}
 
 	.avatar-status {
@@ -89,9 +162,17 @@
 	.avatar-indicator {
 		@apply ring ring-background rounded-full;
 
-		&.is-online { @apply bg-success; }
-		&.is-busy { @apply bg-warning; }
-		&.is-away { @apply bg-danger; }
-		&.is-offline { @apply bg-muted; }
+		&.is-online {
+			@apply bg-success;
+		}
+		&.is-busy {
+			@apply bg-warning;
+		}
+		&.is-away {
+			@apply bg-danger;
+		}
+		&.is-offline {
+			@apply bg-muted;
+		}
 	}
 }

@@ -345,13 +345,13 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/navigation/pagination'
 			},
 			{
+				label: 'Sidenav',
+				href: '/docs/navigation/sidenav'
+			},
+			{
 				label: 'Tabs',
 				href: '/docs/navigation/tabs'
 			},
-			{
-				label: 'Sidenav',
-				href: '/docs/navigation/sidenav'
-			}
 		]
 	},
 	{

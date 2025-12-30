@@ -148,7 +148,7 @@
 	];
 </script>
 
-<DocsHeader title="DragDrop">
+<DocsHeader title="DragDrop" llmUrl="https://ui-svelte.sappsdev.com/llm/form/drag-drop.md">
 	A drag and drop component for reorderable lists and Kanban-style boards with support for
 	cross-group transfers.
 </DocsHeader>
