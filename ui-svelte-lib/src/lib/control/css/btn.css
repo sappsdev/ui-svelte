@@ -28,7 +28,7 @@
 		}
 
 		&.is-sm {
-			@apply h-8 gap-2 px-3 text-xs;
+			@apply h-8 gap-1 px-3 text-xs;
 			& .icon {
 				@apply h-6 w-auto;
 			}
@@ -38,7 +38,7 @@
 		}
 
 		&.is-md {
-			@apply h-10 gap-2 px-4 text-sm;
+			@apply h-10 gap-1 px-4 text-sm;
 			& .icon {
 				@apply h-8 w-auto;
 			}

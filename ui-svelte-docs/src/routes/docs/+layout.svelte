@@ -82,13 +82,7 @@
 	isBoxed
 >
 	{#snippet appBar()}
-		<AppBar
-			rootClass="bg-background h-16"
-			isSticky
-			isBoxed
-			isBordered
-			centerClass="invisible lg:visible"
-		>
+		<AppBar rootClass="bg-background h-16" isSticky isBoxed isBordered centerClass="hidden lg:flex">
 			{#snippet start()}
 				<IconButton
 					icon={List24RegularIcon}

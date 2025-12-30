@@ -8,50 +8,115 @@
 		Form24RegularIcon,
 		LayoutColumnOneThirdRight24RegularIcon,
 		GithubIconIcon,
-		CheckmarkCircle24RegularIcon,
 		BoltCircleLinearIcon,
 		Flash24RegularIcon
 	} from '$lib/icons';
-	import { Chip, Section, Card, Button, Icon, Code, TextField, PasswordField } from 'ui-svelte';
+	import {
+		Chip,
+		Section,
+		Card,
+		Button,
+		Icon,
+		Code,
+		TextField,
+		PasswordField,
+		Avatar,
+		Skeleton,
+		Divider
+	} from 'ui-svelte';
+
+	const installCode = `bun add ui-svelte`;
+
+	const quickStartCode = `<script>
+  import { Button, Card } from 'ui-svelte';
+<\/script>
+
+<Card color="primary" variant="soft">
+  <h3 class="card-title">Hello UiSvelte!</h3>
+  <Button color="primary" variant="solid">Click Me</Button>
+</Card>`;
+
+	const categories = [
+		{
+			name: 'Charts',
+			count: 6,
+			url: '/docs/charts/bar',
+			skeleton: 'charts'
+		},
+		{
+			name: 'Control',
+			count: 7,
+			url: '/docs/control/button',
+			skeleton: 'control'
+		},
+		{
+			name: 'Display',
+			count: 22,
+			url: '/docs/display/card',
+			skeleton: 'display'
+		},
+		{
+			name: 'Form',
+			count: 20,
+			url: '/docs/form/text-field',
+			skeleton: 'form'
+		},
+		{
+			name: 'Layout',
+			count: 4,
+			url: '/docs/layout/scaffold',
+			skeleton: 'layout'
+		},
+		{
+			name: 'Navigation',
+			count: 5,
+			url: '/docs/navigation/tabs',
+			skeleton: 'navigation'
+		},
+		{
+			name: 'Overlay',
+			count: 6,
+			url: '/docs/overlay/modal',
+			skeleton: 'overlay'
+		}
+	] as const;
 
 	const features = [
 		{
 			icon: Rocket24RegularIcon,
 			color: 'success',
-			title: 'Lightning Fast',
-			description: `Optimized components that don't sacrifice performance. Built with Svelte 5 for maximum speed.`
+			title: 'Zero Runtime Overhead',
+			description: `Components compile to vanilla JS. No virtual DOM, no runtime library. Just pure Svelte 5 performance.`
 		},
 		{
 			icon: Code24RegularIcon,
 			color: 'warning',
-			title: 'Developer First',
-			description: `Intuitive API, excellent TypeScript support, and semantic component names you'll remember.`
+			title: 'TypeScript Everything',
+			description: `Full autocomplete for props like color, variant, size. Catch errors before they happen.`
 		},
 		{
 			icon: SparkleAction24RegularIcon,
 			color: 'danger',
-			title: 'AI-Optimized',
-			description:
-				'Documentation structured for AI code generation. Build faster with Claude, GPT, and more.',
-			badge: 'Most Popular'
+			title: 'AI-Ready Documentation',
+			description: `Markdown docs in /static/llm/ designed for Claude, GPT, and Cursor. Just paste and build.`
 		},
 		{
 			icon: Settings24RegularIcon,
 			color: 'secondary',
-			title: 'Fully Customizable',
-			description: `Built on top of Tailwind CSS. Easily customize themes, colors, and styles to match your brand.`
+			title: 'CSS Variables Only',
+			description: `No CSS-in-JS. Customize colors, spacing, radii with standard CSS. Works with any approach.`
 		},
 		{
 			icon: Form24RegularIcon,
 			color: 'primary',
-			title: 'Robust Forms',
-			description: `Complete set of form components with built-in validation, accessibility, and keyboard support.`
+			title: '20+ Form Components',
+			description: `Text, select, date, color, phone, OTP, rich editor. Built-in validation and accessibility.`
 		},
 		{
 			icon: LayoutColumnOneThirdRight24RegularIcon,
-			color: 'secondary',
-			title: 'Modern Layouts',
-			description: `Flexible layout components like Split, Grid, and Stack to build complex responsive interfaces.`
+			color: 'info',
+			title: 'Complete App Shells',
+			description: `Scaffold, Sidebar, AppBar, Footer, Tabs. Build production layouts in minutes, not hours.`
 		}
 	] as const;
 
@@ -59,76 +124,119 @@
 		{
 			icon: Flash24RegularIcon,
 			title: 'Svelte 5 Native',
-			description: 'Built from the ground up with runes and the latest Svelte 5 features.'
+			description: 'Built from scratch with $state, $derived, and runes. No legacy code.'
 		},
 		{
 			icon: SparkleAction24RegularIcon,
-			title: 'AI-Ready Docs',
-			description: 'LLM-optimized documentation for seamless AI code generation workflows.'
+			title: 'AI-First Docs',
+			description: 'Paste /static/llm/*.md into any LLM and generate components instantly.'
 		},
 		{
 			icon: BoltCircleLinearIcon,
-			title: '60+ Components',
-			description: 'Production-ready components for forms, layouts, overlays, and more.'
+			title: '70+ Components',
+			description: 'Charts, forms, overlays, navigation, layouts. Everything you need.'
 		}
 	] as const;
 
 	const codeExample = `<script>
-  import { Button, Card, TextField } from 'ui-svelte';
+  import { Button, Card, TextField, PasswordField } from 'ui-svelte';
 <\/script>
 
-<Card color="primary" variant="soft">
+<Card color="muted" variant="solid">
   <h3 class="card-title">Welcome Back</h3>
-  <TextField label="Email" type="email" />
-  <TextField label="Password" type="password" />
-  <Button color="primary" variant="solid">
+  <TextField label="Email" type="email" color="muted" variant="soft" />
+  <PasswordField label="Password" color="muted" variant="soft" />
+  <Button color="primary" variant="solid" isWide>
     Sign In
   </Button>
 </Card>`;
 </script>
 
 <!-- Hero Section -->
-<Section bodyClass="items-center gap-6 text-center px-4 pt-6 md:pt-10 xl:pt-16" isBoxed>
+<Section bodyClass="items-center gap-8 text-center px-4 pt-6 md:pt-10 xl:pt-16" isBoxed>
 	<div class="fade-in-up">
-		<Chip startIcon={StarsMinimalisticLinearIcon} size="md" class="pulse-soft"
-			>Modern UI Component Library</Chip
+		<Chip
+			startIcon={StarsMinimalisticLinearIcon}
+			size="md"
+			color="primary"
+			variant="soft"
+			class="pulse-soft">Modern UI Component Library</Chip
 		>
 	</div>
 
 	<h1 class="hero-title fade-in-up delay-100">
 		Build beautiful web apps
-		<span class="grad grad-primary"> faster </span>
+		<span class="grad"> faster </span>
 		with UiSvelte
 	</h1>
 
-	<p class="hero-subtitle fade-in-up delay-200">
+	<p class="hero-description fade-in-up delay-200 max-w-3xl">
 		A comprehensive Svelte 5 component library that handles the complexity, so you can focus on
 		building great products. Optimized for AI code generation and mobile-first design.
 	</p>
 
 	<div class="row gap-4 flex-wrap justify-center fade-in-up delay-300">
 		<Button color="primary" variant="solid" size="lg" href="/docs/starter/install">
-			Install UiSvelte
+			Get Started
 		</Button>
 		<Button color="muted" variant="soft" size="lg" href="/docs/display/card">
 			Browse Components
 		</Button>
+		<Button
+			color="muted"
+			variant="ghost"
+			size="lg"
+			href="https://github.com/sappsdev/ui-svelte"
+			startIcon={GithubIconIcon}
+		>
+			GitHub
+		</Button>
 	</div>
 
-	<p class="text-sm opacity-70 fade-in-up delay-400">Open source • Powered by SappsDev</p>
+	<!-- Metrics Bar -->
+	<div class="row gap-6 md:gap-10 flex-wrap justify-center fade-in-up delay-400">
+		<div class="row gap-2 items-center">
+			<Icon icon={BoltCircleLinearIcon} class="text-primary" />
+			<span class="text-sm font-medium">70+ Components</span>
+		</div>
+		<div class="row gap-2 items-center">
+			<Icon icon={Flash24RegularIcon} class="text-success" />
+			<span class="text-sm font-medium">Svelte 5 Native</span>
+		</div>
+		<div class="row gap-2 items-center">
+			<Icon icon={SparkleAction24RegularIcon} class="text-warning" />
+			<span class="text-sm font-medium">AI-Optimized Docs</span>
+		</div>
+	</div>
+
+	<p class="text-sm opacity-60 fade-in-up delay-500">
+		Open source • MIT License • Powered by SappsDev
+	</p>
 </Section>
 
-<!-- Social Proof Section -->
-<Section isBoxed bodyClass="center gap-4 py-8">
-	<div class="row gap-4 flex-wrap justify-center fade-in-up delay-500">
-		<Chip color="muted" variant="outlined" size="md" startIcon={GithubIconIcon}>Open Source</Chip>
-		<Chip color="muted" variant="outlined" size="md" startIcon={Code24RegularIcon}>
-			60+ Components
-		</Chip>
-		<Chip color="success" variant="soft" size="md" startIcon={CheckmarkCircle24RegularIcon}>
-			Svelte 5 Ready
-		</Chip>
-		<Chip color="primary" variant="outlined" size="md">v1.0 Stable</Chip>
+<!-- Why UiSvelte Section -->
+<Section isBoxed bodyClass="gap-10 py-20 center" color="muted" variant="soft">
+	<div class="column gap-2 text-center">
+		<h2 class="section-title">Why UiSvelte?</h2>
+		<p class="section-subtitle opacity-70 max-w-2xl">
+			Built different from traditional component libraries
+		</p>
+	</div>
+	<div class="grid-1 md:grid-3 gap-8 w-full max-w-5xl">
+		{#each whyUiSvelte as { icon, title, description }, i}
+			<Card
+				color="surface"
+				variant="soft"
+				rootClass="fade-in-up delay-{i * 100}"
+				bodyClass="center gap-4 relative"
+			>
+				<div class="p-4 rounded-full bg-primary/10">
+					<Icon {icon} class="text-primary w-8 h-8" />
+				</div>
+				<h3 class="card-title">{title}</h3>
+				<p class="card-description text-center opacity-70">{description}</p>
+			</Card>
+		{/each}
 	</div>
 </Section>
 
@@ -141,17 +249,14 @@
 	<div class="grid-1 md:grid-3 gap-6">
 		{#each features as { icon, color, title, description }, i}
 			<Card
-				{color}
-				variant="solid"
-				rootClass="hover:-translate-y-2 transition-all duration-300 bd-glow bd-glow-{color} fade-in-up delay-{i *
-					100}"
+				color="muted"
+				variant="soft"
+				rootClass="hover:-translate-y-2 transition-all duration-300 fade-in-up delay-{i * 100}"
 				headerClass="justify-start"
 				bodyClass="center gap-4 relative"
 			>
-				{#snippet header()}
-					<Icon {icon} class="w-12 h-12" />
-					<h3 class="card-title">{title}</h3>
-				{/snippet}
+				<Avatar size="xl" {icon} {color} class="w-16 h-16" />
+				<h3 class="card-title">{title}</h3>
 				<p class="card-description">{description}</p>
 			</Card>
 		{/each}
@@ -172,62 +277,171 @@
 			<Code code={codeExample} lang="svelte" />
 		</div>
 		<Card
-			color="primary"
-			variant="soft"
+			color="muted"
+			variant="solid"
 			rootClass="fade-in-up delay-200"
 			bodyClass="center gap-4 h-full"
 		>
 			<h3 class="card-title">Welcome Back</h3>
 			<div class="column gap-3 w-full max-w-xs">
-				<TextField label="Email" placeholder="you@example.com" type="email" />
-				<PasswordField label="Password" placeholder="••••••••" />
-				<Button color="primary" variant="solid">Sign In</Button>
+				<TextField
+					label="Email"
+					placeholder="you@example.com"
+					type="email"
+					color="muted"
+					variant="soft"
+				/>
+				<PasswordField label="Password" placeholder="••••••••" color="muted" variant="soft" />
+				<Button color="primary" variant="solid" isWide>Sign In</Button>
 			</div>
 		</Card>
 	</div>
 </Section>
-
-<!-- Why UiSvelte Section -->
+<!-- Components Showcase Section -->
 <Section isBoxed bodyClass="gap-12 py-28 center">
-	<div class="column gap-2 text-center">
-		<h2 class="section-title">Why Choose UiSvelte?</h2>
-		<p class="section-subtitle opacity-70">Built for modern Svelte development</p>
+	<div class="row w-full justify-between items-end">
+		<div class="column gap-2">
+			<h2 class="section-title">Components</h2>
+			<p class="section-subtitle opacity-70">
+				The building blocks used to create pages and sections.
+			</p>
+		</div>
+		<p class="text-sm opacity-60">Total 70 components</p>
 	</div>
-
-	<div class="grid-1 md:grid-3 gap-6 w-full">
-		{#each whyUiSvelte as { icon, title, description }, i}
-			<Card
-				variant="outlined"
-				rootClass="fade-in-up delay-{i * 100}"
-				bodyClass="center gap-4 text-center"
-			>
-				<Icon {icon} class="w-10 h-10 text-primary" />
-				<h3 class="font-bold text-lg">{title}</h3>
-				<p class="card-description">{description}</p>
-			</Card>
+	<div class="grid-2 md:grid-3 lg:grid-4 gap-6 w-full">
+		{#each categories as { name, count, url, skeleton }, i}
+			<a href={url} class="no-underline">
+				<Card
+					color="surface"
+					variant="soft"
+					rootClass="hover:-translate-y-1 transition-all duration-300 fade-in-up delay-{i * 50}"
+					bodyClass="center gap-4 p-6 min-h-40"
+				>
+					<!-- Skeleton representation based on category type -->
+					<div class="w-full h-24 center">
+						{#if skeleton === 'charts'}
+							<!-- Bar chart representation -->
+							<div class="row items-end gap-1 w-full h-16">
+								<Skeleton variant="rounded" width="16%" height="40%" />
+								<Skeleton variant="rounded" width="16%" height="70%" />
+								<Skeleton variant="rounded" width="16%" height="55%" />
+								<Skeleton variant="rounded" width="16%" height="85%" />
+								<Skeleton variant="rounded" width="16%" height="45%" />
+								<Skeleton variant="rounded" width="16%" height="65%" />
+							</div>
+						{:else if skeleton === 'control'}
+							<!-- Button and toggle controls -->
+							<div class="column gap-3 w-full items-center">
+								<Skeleton variant="rounded" width="70%" height="28px" />
+								<div class="row gap-3">
+									<Skeleton variant="circular" width="24px" height="24px" />
+									<Skeleton variant="rounded" width="40px" height="20px" />
+								</div>
+							</div>
+						{:else if skeleton === 'display'}
+							<!-- Card with content representation -->
+							<div class="column gap-3 w-full p-3 border border-muted rounded-lg">
+								<Skeleton variant="rounded" width="100%" height="40px" />
+								<div class="column gap-2">
+									<Skeleton variant="text" width="70%" height="10px" />
+									<Skeleton variant="text" width="90%" height="8px" />
+								</div>
+							</div>
+						{:else if skeleton === 'form'}
+							<!-- Form fields representation -->
+							<div class="column gap-3 w-full">
+								<div class="column gap-1">
+									<Skeleton variant="text" width="30%" height="8px" />
+									<Skeleton variant="rounded" width="100%" height="24px" />
+								</div>
+								<div class="column gap-1">
+									<Skeleton variant="text" width="25%" height="8px" />
+									<Skeleton variant="rounded" width="100%" height="24px" />
+								</div>
+							</div>
+						{:else if skeleton === 'layout'}
+							<!-- Layout structure representation -->
+							<div class="row gap-2 w-full h-16">
+								<Skeleton variant="rounded" width="25%" height="100%" />
+								<div class="column gap-2 flex-1">
+									<Skeleton variant="rounded" width="100%" height="20%" />
+									<Skeleton variant="rounded" width="100%" height="80%" />
+								</div>
+							</div>
+						{:else if skeleton === 'navigation'}
+							<!-- Tabs/nav representation -->
+							<div class="column gap-3 w-full">
+								<div class="row gap-2 justify-center">
+									<Skeleton variant="rounded" width="50px" height="20px" />
+									<Skeleton variant="rounded" width="50px" height="20px" />
+									<Skeleton variant="rounded" width="50px" height="20px" />
+								</div>
+								<Skeleton variant="text" width="100%" height="2px" />
+							</div>
+						{:else if skeleton === 'overlay'}
+							<!-- Modal/drawer representation -->
+							<div class="column gap-3 w-full p-3 border border-muted rounded-lg relative">
+								<div class="row justify-between items-center">
+									<Skeleton variant="text" width="50%" height="12px" />
+									<Skeleton variant="text" width="10px" height="10px" class="opacity-50" />
+								</div>
+								<Skeleton variant="text" width="80%" height="8px" />
+								<div class="row gap-2 justify-end">
+									<Skeleton variant="rounded" width="40px" height="16px" />
+									<Skeleton variant="rounded" width="40px" height="16px" />
+								</div>
+							</div>
+						{/if}
+					</div>
+				</Card>
+				<div class="text-center mt-3">
+					<p class="text-sm font-medium">{name}</p>
+					<p class="text-xs opacity-60">{count} component{count > 1 ? 's' : ''}</p>
+				</div>
+			</a>
 		{/each}
 	</div>
 </Section>
 
-<!-- Final CTA Section -->
-<Section bodyClass="items-center gap-6 text-center px-4 py-28" color="primary" variant="soft">
-	<Chip color="success" variant="solid" size="sm">v1.0 Stable Release</Chip>
-	<h2 class="section-title max-w-2xl">Ready to build something amazing?</h2>
-	<p class="text-lg opacity-80 max-w-2xl">
-		Join the growing community of developers building faster, better web applications with UiSvelte.
+<!-- Quick Start Section -->
+<Section isBoxed bodyClass="gap-10 py-24 center" color="muted" variant="soft">
+	<div class="column gap-2 text-center">
+		<h2 class="section-title">Get Started in 60 Seconds</h2>
+		<p class="section-subtitle opacity-70">Copy, paste, and you're ready to build</p>
+	</div>
+	<div class="column gap-6 w-full max-w-2xl">
+		<div class="column gap-2">
+			<p class="text-sm font-medium opacity-80">1. Install the package</p>
+			<Code code={installCode} lang="bash" />
+		</div>
+		<div class="column gap-2">
+			<p class="text-sm font-medium opacity-80">2. Use components</p>
+			<Code code={quickStartCode} lang="svelte" />
+		</div>
+	</div>
+	<Button color="primary" variant="solid" size="lg" href="/docs/starter/install">
+		Full Installation Guide →
+	</Button>
+</Section>
+
+<!-- CTA Section -->
+<Section color="primary" variant="solid" bodyClass="center gap-6 py-24 text-center" isBoxed>
+	<h2 class="cta-title text-white">Ready to Build Something Amazing?</h2>
+	<p class="cta-subtitle text-white opacity-80 max-w-xl">
+		Join developers shipping faster with UiSvelte. Start building beautiful apps today.
 	</p>
 	<div class="row gap-4 flex-wrap justify-center">
-		<Button color="primary" size="lg" href="/docs/starter/install" variant="solid"
-			>Install UiSvelte</Button
-		>
+		<Button color="secondary" variant="solid" size="lg" href="/docs/starter/install">
+			Get Started Free
+		</Button>
 		<Button
-			color="muted"
-			variant="outlined"
+			color="secondary"
+			variant="soft"
 			size="lg"
 			href="https://github.com/sappsdev/ui-svelte"
 			startIcon={GithubIconIcon}
 		>
-			View on GitHub
+			Star on GitHub
 		</Button>
 	</div>
 </Section>

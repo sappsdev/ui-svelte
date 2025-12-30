@@ -11,7 +11,8 @@
 		IconButton,
 		theme,
 		Drawer,
-		Button
+		Button,
+		Icon
 	} from 'ui-svelte';
 
 	let { children } = $props();
@@ -25,6 +26,10 @@
 			label: 'Docs',
 			href: '/docs'
 		}
+		// {
+		// 	label: 'Pro',
+		// 	href: '/pro'
+		// }
 	];
 
 	let openMenu = $state(false);
@@ -132,13 +137,15 @@
 		</AppBar>
 	{/snippet}
 	{@render children()}
-	<Footer isBoxed isBordered>
+	<Footer isBoxed isBordered rootClass="min-h-24">
 		{#snippet start()}
-			<p class="text-sm text-muted-foreground">© {new Date().getFullYear()} UiSvelte</p>
+			<p>© {new Date().getFullYear()} UiSvelte</p>
 		{/snippet}
 
 		{#snippet end()}
-			<IconButton icon={Heart24RegularIcon} variant="ghost" href="https://www.sappsdev.com" />
+			<a class="row center gap-1" href="https://www.sappsdev.com">
+				Made with <Icon icon={Heart24RegularIcon} class="h-6 w-auto" />
+			</a>
 		{/snippet}
 	</Footer>
 </Scaffold>
