@@ -1,4 +1,4 @@
-# SappsUI
+# Ui Svelte
 
 **A modern, accessible UI component library built for Svelte 5**
 
@@ -89,7 +89,7 @@ bun add ui-svelte
 
 ## 📖 Documentation
 
-For detailed documentation, examples, and interactive component previews, visit our [official documentation](https://ui.sappsdev.com).
+For detailed documentation, examples, and interactive component previews, visit our [official documentation](https://ui-svelte.sappsdev.com).
 
 ---
 
