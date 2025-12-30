@@ -13,7 +13,8 @@
 
 	const clipboard = useClipboard();
 	const handleCopy = () => {
-		clipboard.copy(`Read from ${llmUrl} so I can ask questions about it.`);
+		clipboard.copy(llmUrl);
+		// clipboard.copy(`Read from ${llmUrl} so I can ask questions about it.`);
 	};
 </script>
 

@@ -103,7 +103,7 @@
 	};
 </script>
 
-<DocsHeader title="Provider" llmUrl="https://ui-svelte.sappsdev.com/llm/starter/provider.md">
+<DocsHeader title="Provider">
 	The Provider component is a wrapper that provides global configuration for your application. It
 	handles theme transitions, page transitions, and toast notifications.
 </DocsHeader>
