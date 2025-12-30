@@ -10,8 +10,8 @@ Pages are composed of Section components. Never place components directly in pag
 
 ```
 +page.svelte
-└── Section (one or more)
-    └── Card, Button, Typography, etc.
+-> Section (one or more)
+    -> Card, Button, Typography, etc.
 ```
 
 ### Quick Start

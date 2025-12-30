@@ -10,12 +10,12 @@ Layouts are composed using Scaffold as the root. Never place components outside 
 
 ```
 +layout.svelte
-└── Scaffold (root wrapper)
-    ├── appBar → AppBar
-    ├── start → Sidebar + SideNav
-    ├── end → Sidebar (optional)
-    ├── bottomBar → BottomNav
-    └── children → Page content
+-> Scaffold (root wrapper)
+    -> appBar → AppBar
+    -> start → Sidebar + SideNav
+    -> end → Sidebar (optional)
+    -> bottomBar → BottomNav
+    -> children → Page content
 ```
 
 ### Quick Start
