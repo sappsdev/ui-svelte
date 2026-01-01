@@ -1,12 +1,4 @@
 @layer components {
-	/* ==============================================
-	   BORDER DECORATIONS
-	   Clases para decorar bordes de tarjetas y botones
-	   ============================================== */
-
-	/* ------------------------------------------
-	   GLOW BORDERS - Bordes con efecto luminoso
-	   ------------------------------------------ */
 	.bd-glow {
 		position: relative;
 		border: 1px solid transparent;
@@ -23,9 +15,6 @@
 			0 0 40px color-mix(in oklch, var(--bd-color, var(--primary)) 40%, transparent);
 	}
 
-	/* ------------------------------------------
-	   NEON BORDERS - Bordes estilo neón intenso
-	   ------------------------------------------ */
 	.bd-neon {
 		position: relative;
 		border: 2px solid var(--bd-color, var(--secondary));
@@ -38,14 +27,15 @@
 	}
 
 	@keyframes neon-pulse {
-		0%, 100% { 
+		0%,
+		100% {
 			box-shadow:
 				0 0 5px var(--bd-color, var(--secondary)),
 				0 0 10px var(--bd-color, var(--secondary)),
 				0 0 20px var(--bd-color, var(--secondary)),
 				inset 0 0 10px color-mix(in oklch, var(--bd-color, var(--secondary)) 20%, transparent);
 		}
-		50% { 
+		50% {
 			box-shadow:
 				0 0 10px var(--bd-color, var(--secondary)),
 				0 0 20px var(--bd-color, var(--secondary)),
@@ -54,15 +44,13 @@
 		}
 	}
 
-	/* ------------------------------------------
-	   GRADIENT BORDERS - Bordes con gradiente
-	   ------------------------------------------ */
 	.bd-grad {
 		position: relative;
 		border: 2px solid transparent;
-		background: 
+		background:
 			linear-gradient(var(--background), var(--background)) padding-box,
-			linear-gradient(135deg, var(--bd-from, var(--primary)), var(--bd-to, var(--secondary))) border-box;
+			linear-gradient(135deg, var(--bd-from, var(--primary)), var(--bd-to, var(--secondary)))
+				border-box;
 		transition: all 0.3s ease;
 	}
 
@@ -70,39 +58,49 @@
 		box-shadow: 0 4px 20px color-mix(in oklch, var(--bd-from, var(--primary)) 30%, transparent);
 	}
 
-	/* ------------------------------------------
-	   RAINBOW BORDERS - Bordes multicolor animados
-	   ------------------------------------------ */
 	.bd-rainbow {
 		position: relative;
-		border: 2px solid transparent;
-		background: 
-			linear-gradient(var(--background), var(--background)) padding-box,
-			linear-gradient(var(--rainbow-angle, 90deg), 
-				var(--danger) 0%, 
-				var(--warning) 20%, 
-				var(--success) 40%, 
-				var(--info) 60%, 
-				var(--primary) 80%, 
-				var(--secondary) 100%
-			) border-box;
+		border: none;
+		overflow: hidden;
+		background: var(--background);
+	}
+
+	.bd-rainbow::before {
+		content: '';
+		position: absolute;
+		inset: -50%;
+		background: conic-gradient(
+			var(--danger) 0deg,
+			var(--warning) 60deg,
+			var(--success) 120deg,
+			var(--info) 180deg,
+			var(--primary) 240deg,
+			var(--secondary) 300deg,
+			var(--danger) 360deg
+		);
 		animation: rainbow-rotate 3s linear infinite;
+		z-index: -1;
+		border-radius: inherit;
+	}
+
+	.bd-rainbow::after {
+		content: '';
+		position: absolute;
+		inset: 2px;
+		background: var(--background);
+		border-radius: inherit;
+		z-index: -1;
 	}
 
 	@keyframes rainbow-rotate {
-		0% { --rainbow-angle: 0deg; }
-		100% { --rainbow-angle: 360deg; }
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
 	}
 
-	@property --rainbow-angle {
-		syntax: '<angle>';
-		initial-value: 0deg;
-		inherits: false;
-	}
-
-	/* ------------------------------------------
-	   SHIMMER BORDERS - Bordes con brillo desplazándose
-	   ------------------------------------------ */
 	.bd-shimmer {
 		position: relative;
 		overflow: hidden;
@@ -122,22 +120,27 @@
 		background-size: 200% 100%;
 		animation: shimmer-slide 2s linear infinite;
 		pointer-events: none;
-		mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+		mask:
+			linear-gradient(#fff 0 0) content-box,
+			linear-gradient(#fff 0 0);
 		mask-composite: exclude;
-		-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+		-webkit-mask:
+			linear-gradient(#fff 0 0) content-box,
+			linear-gradient(#fff 0 0);
 		-webkit-mask-composite: xor;
 		padding: 2px;
 		border-radius: inherit;
 	}
 
 	@keyframes shimmer-slide {
-		0% { background-position: 200% 0; }
-		100% { background-position: -200% 0; }
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -200% 0;
+		}
 	}
 
-	/* ------------------------------------------
-	   PULSE BORDERS - Bordes con pulso animado
-	   ------------------------------------------ */
 	.bd-pulse {
 		position: relative;
 		border: 2px solid var(--bd-color, var(--primary));
@@ -165,49 +168,47 @@
 		}
 	}
 
-	/* ------------------------------------------
-	   WAVE BORDERS - Bordes con onda animada
-	   ------------------------------------------ */
 	.bd-wave {
 		position: relative;
 		border: none;
 		overflow: hidden;
+		background: var(--background);
 	}
 
 	.bd-wave::before {
 		content: '';
 		position: absolute;
-		inset: 0;
-		padding: 2px;
+		inset: -50%;
 		background: conic-gradient(
-			from var(--wave-angle, 0deg),
 			var(--bd-color, var(--primary)),
-			transparent,
-			var(--bd-color, var(--primary))
+			transparent 90deg,
+			var(--bd-color, var(--primary)) 180deg,
+			transparent 270deg,
+			var(--bd-color, var(--primary)) 360deg
 		);
-		mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-		mask-composite: exclude;
-		-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-		-webkit-mask-composite: xor;
-		border-radius: inherit;
 		animation: wave-spin 2s linear infinite;
-		pointer-events: none;
+		z-index: -1;
+		border-radius: inherit;
+	}
+
+	.bd-wave::after {
+		content: '';
+		position: absolute;
+		inset: 2px;
+		background: var(--background);
+		border-radius: inherit;
+		z-index: -1;
 	}
 
 	@keyframes wave-spin {
-		0% { --wave-angle: 0deg; }
-		100% { --wave-angle: 360deg; }
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
 	}
 
-	@property --wave-angle {
-		syntax: '<angle>';
-		initial-value: 0deg;
-		inherits: false;
-	}
-
-	/* ------------------------------------------
-	   FROST BORDERS - Bordes con efecto escarcha
-	   ------------------------------------------ */
 	.bd-frost {
 		position: relative;
 		border: 1px solid color-mix(in oklch, var(--bd-color, var(--info)) 50%, white);
@@ -224,9 +225,6 @@
 			inset 0 0 30px color-mix(in oklch, var(--bd-color, var(--info)) 15%, white);
 	}
 
-	/* ------------------------------------------
-	   EMBER BORDERS - Bordes con efecto fuego
-	   ------------------------------------------ */
 	.bd-ember {
 		position: relative;
 		border: 2px solid var(--danger);
@@ -253,9 +251,6 @@
 		}
 	}
 
-	/* ------------------------------------------
-	   LASER BORDERS - Bordes con línea láser
-	   ------------------------------------------ */
 	.bd-laser {
 		position: relative;
 		border: 1px solid color-mix(in oklch, var(--bd-color, var(--primary)) 30%, transparent);
@@ -274,129 +269,293 @@
 	}
 
 	@keyframes laser-scan {
-		0% { top: 0; left: -20%; }
-		25% { top: 0; left: 100%; }
-		25.01% { top: 0; left: 100%; transform: rotate(90deg); }
-		50% { top: 100%; left: 100%; transform: rotate(90deg); }
-		50.01% { top: 100%; left: 100%; transform: rotate(180deg); }
-		75% { top: 100%; left: -20%; transform: rotate(180deg); }
-		75.01% { top: 100%; left: -20%; transform: rotate(270deg); }
-		100% { top: 0; left: -20%; transform: rotate(270deg); }
+		0% {
+			top: 0;
+			left: -20%;
+		}
+		25% {
+			top: 0;
+			left: 100%;
+		}
+		25.01% {
+			top: 0;
+			left: 100%;
+			transform: rotate(90deg);
+		}
+		50% {
+			top: 100%;
+			left: 100%;
+			transform: rotate(90deg);
+		}
+		50.01% {
+			top: 100%;
+			left: 100%;
+			transform: rotate(180deg);
+		}
+		75% {
+			top: 100%;
+			left: -20%;
+			transform: rotate(180deg);
+		}
+		75.01% {
+			top: 100%;
+			left: -20%;
+			transform: rotate(270deg);
+		}
+		100% {
+			top: 0;
+			left: -20%;
+			transform: rotate(270deg);
+		}
 	}
 
-	/* ------------------------------------------
-	   SOLID BORDERS - Bordes sólidos simples
-	   ------------------------------------------ */
 	.bd-solid {
 		border: 2px solid var(--bd-color, var(--on-background));
 		transition: all 0.3s ease;
 	}
 
 	.bd-solid:hover {
-		box-shadow: 0 0 0 2px color-mix(in oklch, var(--bd-color, var(--on-background)) 30%, transparent);
+		box-shadow: 0 0 0 2px
+			color-mix(in oklch, var(--bd-color, var(--on-background)) 30%, transparent);
 	}
 
-	/* ------------------------------------------
-	   DASHED BORDERS - Bordes punteados animados
-	   ------------------------------------------ */
 	.bd-dash {
 		border: 2px dashed var(--bd-color, var(--primary));
 		animation: dash-march 1s linear infinite;
-		background: 
-			linear-gradient(90deg, var(--bd-color, var(--primary)) 50%, transparent 50%) top/10px 2px repeat-x,
-			linear-gradient(90deg, var(--bd-color, var(--primary)) 50%, transparent 50%) bottom/10px 2px repeat-x,
-			linear-gradient(0deg, var(--bd-color, var(--primary)) 50%, transparent 50%) left/2px 10px repeat-y,
-			linear-gradient(0deg, var(--bd-color, var(--primary)) 50%, transparent 50%) right/2px 10px repeat-y;
+		background:
+			linear-gradient(90deg, var(--bd-color, var(--primary)) 50%, transparent 50%) top/10px 2px
+				repeat-x,
+			linear-gradient(90deg, var(--bd-color, var(--primary)) 50%, transparent 50%) bottom/10px 2px
+				repeat-x,
+			linear-gradient(0deg, var(--bd-color, var(--primary)) 50%, transparent 50%) left/2px 10px
+				repeat-y,
+			linear-gradient(0deg, var(--bd-color, var(--primary)) 50%, transparent 50%) right/2px 10px
+				repeat-y;
 		border: none;
-		background-size: 20px 2px, 20px 2px, 2px 20px, 2px 20px;
+		background-size:
+			20px 2px,
+			20px 2px,
+			2px 20px,
+			2px 20px;
 		animation: dash-march 0.5s linear infinite;
 	}
 
 	@keyframes dash-march {
-		0% { background-position: 0 0, 0 100%, 0 0, 100% 0; }
-		100% { background-position: 20px 0, -20px 100%, 0 -20px, 100% 20px; }
+		0% {
+			background-position:
+				0 0,
+				0 100%,
+				0 0,
+				100% 0;
+		}
+		100% {
+			background-position:
+				20px 0,
+				-20px 100%,
+				0 -20px,
+				100% 20px;
+		}
 	}
 
-	/* ==============================================
-	   COLOR VARIANTS
-	   ============================================== */
+	.bd-glow-primary {
+		--bd-color: var(--primary);
+	}
+	.bd-neon-primary {
+		--bd-color: var(--primary);
+	}
+	.bd-grad-primary {
+		--bd-from: var(--primary);
+		--bd-to: color-mix(in oklch, var(--primary) 60%, var(--secondary));
+	}
+	.bd-shimmer-primary {
+		--bd-color: var(--primary);
+	}
+	.bd-pulse-primary {
+		--bd-color: var(--primary);
+	}
+	.bd-wave-primary {
+		--bd-color: var(--primary);
+	}
+	.bd-frost-primary {
+		--bd-color: var(--primary);
+	}
+	.bd-laser-primary {
+		--bd-color: var(--primary);
+	}
+	.bd-solid-primary {
+		--bd-color: var(--primary);
+	}
+	.bd-dash-primary {
+		--bd-color: var(--primary);
+	}
 
-	/* Primary */
-	.bd-glow-primary { --bd-color: var(--primary); }
-	.bd-neon-primary { --bd-color: var(--primary); }
-	.bd-grad-primary { --bd-from: var(--primary); --bd-to: color-mix(in oklch, var(--primary) 60%, var(--secondary)); }
-	.bd-shimmer-primary { --bd-color: var(--primary); }
-	.bd-pulse-primary { --bd-color: var(--primary); }
-	.bd-wave-primary { --bd-color: var(--primary); }
-	.bd-frost-primary { --bd-color: var(--primary); }
-	.bd-laser-primary { --bd-color: var(--primary); }
-	.bd-solid-primary { --bd-color: var(--primary); }
-	.bd-dash-primary { --bd-color: var(--primary); }
+	.bd-glow-secondary {
+		--bd-color: var(--secondary);
+	}
+	.bd-neon-secondary {
+		--bd-color: var(--secondary);
+	}
+	.bd-grad-secondary {
+		--bd-from: var(--secondary);
+		--bd-to: color-mix(in oklch, var(--secondary) 60%, var(--primary));
+	}
+	.bd-shimmer-secondary {
+		--bd-color: var(--secondary);
+	}
+	.bd-pulse-secondary {
+		--bd-color: var(--secondary);
+	}
+	.bd-wave-secondary {
+		--bd-color: var(--secondary);
+	}
+	.bd-frost-secondary {
+		--bd-color: var(--secondary);
+	}
+	.bd-laser-secondary {
+		--bd-color: var(--secondary);
+	}
+	.bd-solid-secondary {
+		--bd-color: var(--secondary);
+	}
+	.bd-dash-secondary {
+		--bd-color: var(--secondary);
+	}
 
-	/* Secondary */
-	.bd-glow-secondary { --bd-color: var(--secondary); }
-	.bd-neon-secondary { --bd-color: var(--secondary); }
-	.bd-grad-secondary { --bd-from: var(--secondary); --bd-to: color-mix(in oklch, var(--secondary) 60%, var(--primary)); }
-	.bd-shimmer-secondary { --bd-color: var(--secondary); }
-	.bd-pulse-secondary { --bd-color: var(--secondary); }
-	.bd-wave-secondary { --bd-color: var(--secondary); }
-	.bd-frost-secondary { --bd-color: var(--secondary); }
-	.bd-laser-secondary { --bd-color: var(--secondary); }
-	.bd-solid-secondary { --bd-color: var(--secondary); }
-	.bd-dash-secondary { --bd-color: var(--secondary); }
+	.bd-glow-success {
+		--bd-color: var(--success);
+	}
+	.bd-neon-success {
+		--bd-color: var(--success);
+	}
+	.bd-grad-success {
+		--bd-from: var(--success);
+		--bd-to: color-mix(in oklch, var(--success) 60%, var(--info));
+	}
+	.bd-shimmer-success {
+		--bd-color: var(--success);
+	}
+	.bd-pulse-success {
+		--bd-color: var(--success);
+	}
+	.bd-wave-success {
+		--bd-color: var(--success);
+	}
+	.bd-frost-success {
+		--bd-color: var(--success);
+	}
+	.bd-laser-success {
+		--bd-color: var(--success);
+	}
+	.bd-solid-success {
+		--bd-color: var(--success);
+	}
+	.bd-dash-success {
+		--bd-color: var(--success);
+	}
 
-	/* Success */
-	.bd-glow-success { --bd-color: var(--success); }
-	.bd-neon-success { --bd-color: var(--success); }
-	.bd-grad-success { --bd-from: var(--success); --bd-to: color-mix(in oklch, var(--success) 60%, var(--info)); }
-	.bd-shimmer-success { --bd-color: var(--success); }
-	.bd-pulse-success { --bd-color: var(--success); }
-	.bd-wave-success { --bd-color: var(--success); }
-	.bd-frost-success { --bd-color: var(--success); }
-	.bd-laser-success { --bd-color: var(--success); }
-	.bd-solid-success { --bd-color: var(--success); }
-	.bd-dash-success { --bd-color: var(--success); }
+	.bd-glow-warning {
+		--bd-color: var(--warning);
+	}
+	.bd-neon-warning {
+		--bd-color: var(--warning);
+	}
+	.bd-grad-warning {
+		--bd-from: var(--warning);
+		--bd-to: color-mix(in oklch, var(--warning) 60%, var(--danger));
+	}
+	.bd-shimmer-warning {
+		--bd-color: var(--warning);
+	}
+	.bd-pulse-warning {
+		--bd-color: var(--warning);
+	}
+	.bd-wave-warning {
+		--bd-color: var(--warning);
+	}
+	.bd-frost-warning {
+		--bd-color: var(--warning);
+	}
+	.bd-laser-warning {
+		--bd-color: var(--warning);
+	}
+	.bd-solid-warning {
+		--bd-color: var(--warning);
+	}
+	.bd-dash-warning {
+		--bd-color: var(--warning);
+	}
 
-	/* Warning */
-	.bd-glow-warning { --bd-color: var(--warning); }
-	.bd-neon-warning { --bd-color: var(--warning); }
-	.bd-grad-warning { --bd-from: var(--warning); --bd-to: color-mix(in oklch, var(--warning) 60%, var(--danger)); }
-	.bd-shimmer-warning { --bd-color: var(--warning); }
-	.bd-pulse-warning { --bd-color: var(--warning); }
-	.bd-wave-warning { --bd-color: var(--warning); }
-	.bd-frost-warning { --bd-color: var(--warning); }
-	.bd-laser-warning { --bd-color: var(--warning); }
-	.bd-solid-warning { --bd-color: var(--warning); }
-	.bd-dash-warning { --bd-color: var(--warning); }
+	.bd-glow-danger {
+		--bd-color: var(--danger);
+	}
+	.bd-neon-danger {
+		--bd-color: var(--danger);
+	}
+	.bd-grad-danger {
+		--bd-from: var(--danger);
+		--bd-to: color-mix(in oklch, var(--danger) 60%, var(--warning));
+	}
+	.bd-shimmer-danger {
+		--bd-color: var(--danger);
+	}
+	.bd-pulse-danger {
+		--bd-color: var(--danger);
+	}
+	.bd-wave-danger {
+		--bd-color: var(--danger);
+	}
+	.bd-frost-danger {
+		--bd-color: var(--danger);
+	}
+	.bd-laser-danger {
+		--bd-color: var(--danger);
+	}
+	.bd-solid-danger {
+		--bd-color: var(--danger);
+	}
+	.bd-dash-danger {
+		--bd-color: var(--danger);
+	}
 
-	/* Danger */
-	.bd-glow-danger { --bd-color: var(--danger); }
-	.bd-neon-danger { --bd-color: var(--danger); }
-	.bd-grad-danger { --bd-from: var(--danger); --bd-to: color-mix(in oklch, var(--danger) 60%, var(--warning)); }
-	.bd-shimmer-danger { --bd-color: var(--danger); }
-	.bd-pulse-danger { --bd-color: var(--danger); }
-	.bd-wave-danger { --bd-color: var(--danger); }
-	.bd-frost-danger { --bd-color: var(--danger); }
-	.bd-laser-danger { --bd-color: var(--danger); }
-	.bd-solid-danger { --bd-color: var(--danger); }
-	.bd-dash-danger { --bd-color: var(--danger); }
+	.bd-glow-info {
+		--bd-color: var(--info);
+	}
+	.bd-neon-info {
+		--bd-color: var(--info);
+	}
+	.bd-grad-info {
+		--bd-from: var(--info);
+		--bd-to: color-mix(in oklch, var(--info) 60%, var(--primary));
+	}
+	.bd-shimmer-info {
+		--bd-color: var(--info);
+	}
+	.bd-pulse-info {
+		--bd-color: var(--info);
+	}
+	.bd-wave-info {
+		--bd-color: var(--info);
+	}
+	.bd-frost-info {
+		--bd-color: var(--info);
+	}
+	.bd-laser-info {
+		--bd-color: var(--info);
+	}
+	.bd-solid-info {
+		--bd-color: var(--info);
+	}
+	.bd-dash-info {
+		--bd-color: var(--info);
+	}
 
-	/* Info */
-	.bd-glow-info { --bd-color: var(--info); }
-	.bd-neon-info { --bd-color: var(--info); }
-	.bd-grad-info { --bd-from: var(--info); --bd-to: color-mix(in oklch, var(--info) 60%, var(--primary)); }
-	.bd-shimmer-info { --bd-color: var(--info); }
-	.bd-pulse-info { --bd-color: var(--info); }
-	.bd-wave-info { --bd-color: var(--info); }
-	.bd-frost-info { --bd-color: var(--info); }
-	.bd-laser-info { --bd-color: var(--info); }
-	.bd-solid-info { --bd-color: var(--info); }
-	.bd-dash-info { --bd-color: var(--info); }
-
-	/* ==============================================
-	   BORDER WIDTH MODIFIERS
-	   ============================================== */
-	.bd-thin { --bd-width: 1px; }
-	.bd-thick { --bd-width: 3px; }
-	.bd-bold { --bd-width: 4px; }
+	.bd-thin {
+		--bd-width: 1px;
+	}
+	.bd-thick {
+		--bd-width: 3px;
+	}
+	.bd-bold {
+		--bd-width: 4px;
+	}
 }

@@ -2,6 +2,7 @@
 	"name": "ui-svelte",
 	"main": ".svelte-kit/cloudflare/_worker.js",
 	"compatibility_date": "2025-01-01",
+	"nodejs_compat": true,
 	"assets": {
 		"binding": "ASSETS",
 		"directory": ".svelte-kit/cloudflare"

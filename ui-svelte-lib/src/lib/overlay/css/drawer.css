@@ -86,7 +86,7 @@
 				&.is-danger {
 					@apply bg-danger text-on-danger;
 				}
-				&.is-default {
+				&.is-background {
 					@apply bg-background text-on-background;
 				}
 				&.is-surface {
