@@ -5,7 +5,7 @@ let themeState = $state<'light' | 'dark'>('light');
 let isDark = $state<boolean>(false);
 
 const getInitialTheme = (): 'light' | 'dark' => {
-	if (typeof window === 'undefined') {
+	if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
 		return 'light';
 	}
 
@@ -22,23 +22,29 @@ const getInitialTheme = (): 'light' | 'dark' => {
 };
 
 const initializeTheme = () => {
+	if (typeof document === 'undefined') {
+		return;
+	}
+	
 	const initialTheme = getInitialTheme();
 	themeState = initialTheme;
 	isDark = initialTheme === 'dark';
 
-	if (typeof window !== 'undefined') {
-		const htmlElement = document.documentElement;
-		if (isDark) {
-			htmlElement.classList.add(DARK_CLASS);
-		} else {
-			htmlElement.classList.remove(DARK_CLASS);
-		}
+	const htmlElement = document.documentElement;
+	if (isDark) {
+		htmlElement.classList.add(DARK_CLASS);
+	} else {
+		htmlElement.classList.remove(DARK_CLASS);
 	}
 };
 
-initializeTheme();
+if (typeof document !== 'undefined') {
+	initializeTheme();
+}
 
 const switchTheme = () => {
+	if (typeof document === 'undefined') return;
+	
 	themeState = themeState === 'light' ? 'dark' : 'light';
 	isDark = themeState === 'dark';
 
@@ -49,12 +55,14 @@ const switchTheme = () => {
 		htmlElement.classList.remove(DARK_CLASS);
 	}
 
-	if (typeof window !== 'undefined') {
+	if (typeof localStorage !== 'undefined') {
 		localStorage.setItem(THEME_STORAGE_KEY, themeState);
 	}
 };
 
 const toggleTheme = () => {
+	if (typeof document === 'undefined') return;
+	
 	if (!document.startViewTransition) {
 		switchTheme();
 	} else {
@@ -71,7 +79,7 @@ const toggleTheme = () => {
 				htmlElement.classList.remove(DARK_CLASS);
 			}
 
-			if (typeof window !== 'undefined') {
+			if (typeof localStorage !== 'undefined') {
 				localStorage.setItem(THEME_STORAGE_KEY, themeState);
 			}
 		});

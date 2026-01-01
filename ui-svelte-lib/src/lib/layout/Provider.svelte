@@ -54,19 +54,19 @@
 	<script>
 		let themeState = 'light';
 
-		if (typeof window !== 'undefined' && localStorage) {
+		if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
 			const storedTheme = localStorage.getItem('theme-preference');
 			if (storedTheme) {
 				themeState = storedTheme;
 			} else {
 				const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-				themeState = prefersDark ? '' : 'light';
+				themeState = prefersDark ? 'dark' : 'light';
 				localStorage.setItem('theme-preference', themeState);
 			}
-		}
 
-		if (themeState === 'dark') {
-			document.documentElement.classList.add('dark');
+			if (themeState === 'dark' && typeof document !== 'undefined') {
+				document.documentElement.classList.add('dark');
+			}
 		}
 	</script>
 </svelte:head>

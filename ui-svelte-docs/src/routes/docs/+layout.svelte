@@ -42,32 +42,32 @@
 		clientSide: true
 	});
 
-	// $effect(() => {
-	// 	const root = document.documentElement;
-	// 	const colors = storeApp.themeColors;
-	// 	const darkColors = storeApp.darkThemeColors;
+	$effect(() => {
+		const root = document.documentElement;
+		const colors = storeApp.themeColors;
+		const darkColors = storeApp.darkThemeColors;
 
-	// 	root.style.setProperty('--on-dark', colors.onDark);
-	// 	root.style.setProperty('--on-light', colors.onLight);
+		root.style.setProperty('--on-dark', colors.onDark);
+		root.style.setProperty('--on-light', colors.onLight);
 
-	// 	root.style.setProperty('--primary', colors.primary);
-	// 	root.style.setProperty('--secondary', colors.secondary);
-	// 	root.style.setProperty('--success', colors.success);
-	// 	root.style.setProperty('--info', colors.info);
-	// 	root.style.setProperty('--warning', colors.warning);
-	// 	root.style.setProperty('--danger', colors.danger);
+		root.style.setProperty('--primary', colors.primary);
+		root.style.setProperty('--secondary', colors.secondary);
+		root.style.setProperty('--success', colors.success);
+		root.style.setProperty('--info', colors.info);
+		root.style.setProperty('--warning', colors.warning);
+		root.style.setProperty('--danger', colors.danger);
 
-	// 	if (theme.isDark) {
-	// 		root.style.setProperty('--secondary', darkColors.secondary);
-	// 		root.style.setProperty('--muted', darkColors.muted);
-	// 		root.style.setProperty('--background', darkColors.background);
-	// 		root.style.setProperty('--surface', darkColors.surface);
-	// 	} else {
-	// 		root.style.setProperty('--muted', colors.muted);
-	// 		root.style.setProperty('--background', colors.background);
-	// 		root.style.setProperty('--surface', colors.surface);
-	// 	}
-	// });
+		if (theme.isDark) {
+			root.style.setProperty('--secondary', darkColors.secondary);
+			root.style.setProperty('--muted', darkColors.muted);
+			root.style.setProperty('--background', darkColors.background);
+			root.style.setProperty('--surface', darkColors.surface);
+		} else {
+			root.style.setProperty('--muted', colors.muted);
+			root.style.setProperty('--background', colors.background);
+			root.style.setProperty('--surface', colors.surface);
+		}
+	});
 
 	const menuItems: any = [
 		{

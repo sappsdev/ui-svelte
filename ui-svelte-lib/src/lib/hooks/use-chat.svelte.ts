@@ -88,7 +88,7 @@ export const useChat = (config: ChatConfig): ChatState => {
 				? data.messages.map(config.transformMessage)
 				: data.messages;
 
-			messages = loadedMessages.reverse(); // Asumiendo que vienen del más reciente al más antiguo
+			messages = loadedMessages.reverse();
 			hasMore = data.hasMore ?? false;
 
 			if (messages.length > 0) {

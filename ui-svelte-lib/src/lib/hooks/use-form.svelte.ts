@@ -92,7 +92,7 @@ export const useForm = (config: FormConfig) => {
 					toast.show({
 						title: config.errorTitle || 'Error',
 						description: config.errorDescription || 'An error occurred while submitting the form.',
-						status: 'danger',
+						color: 'danger',
 						duration: 3000
 					});
 				}
@@ -105,7 +105,7 @@ export const useForm = (config: FormConfig) => {
 				toast.show({
 					title: config.successTitle || 'Success',
 					description: config.successDescription || 'Form submitted successfully.',
-					status: 'success',
+					color: 'success',
 					duration: 3000
 				});
 			}
@@ -120,7 +120,7 @@ export const useForm = (config: FormConfig) => {
 				toast.show({
 					title: config.errorTitle || 'Error',
 					description: config.errorDescription || 'An error occurred while submitting the form.',
-					status: 'danger',
+					color: 'danger',
 					duration: 3000
 				});
 			}

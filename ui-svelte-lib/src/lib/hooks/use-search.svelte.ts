@@ -165,14 +165,12 @@ export const useSearch = (config: SearchConfig): SearchState => {
 				options = searchResponse.options;
 			}
 
-			// Determinar si hay más resultados
 			if (searchResponse.hasMore !== undefined) {
 				hasMore = searchResponse.hasMore;
 			} else if (searchResponse.total !== undefined) {
 				totalResults = searchResponse.total;
 				hasMore = options.length < searchResponse.total;
 			} else {
-				// Si no hay info de total, asumimos que hay más si recibimos pageSize resultados
 				hasMore = searchResponse.options.length >= pageSize;
 			}
 
