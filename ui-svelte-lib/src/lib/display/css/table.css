@@ -7,7 +7,7 @@
 		@apply relative w-full overflow-x-auto;
 	}
 
-		.table {
+	.table {
 		@apply relative w-full text-left rtl:text-right;
 
 		.table-header {
@@ -276,17 +276,12 @@
 		}
 	}
 
-	/* ==========================================
-	   Selection Bar Color Variants
-	   ========================================== */
-
 	.table-selection-bar {
 		&.is-primary {
 			@apply bg-primary/10 border-primary/20;
 			.table-selection-count {
 				@apply text-primary;
 			}
-
 		}
 
 		&.is-secondary {
@@ -294,7 +289,6 @@
 			.table-selection-count {
 				@apply text-secondary;
 			}
-
 		}
 
 		&.is-muted {
@@ -302,7 +296,6 @@
 			.table-selection-count {
 				@apply text-on-muted;
 			}
-
 		}
 
 		&.is-success {
@@ -310,7 +303,6 @@
 			.table-selection-count {
 				@apply text-success;
 			}
-
 		}
 
 		&.is-info {
@@ -318,7 +310,6 @@
 			.table-selection-count {
 				@apply text-info;
 			}
-
 		}
 
 		&.is-danger {
@@ -326,7 +317,6 @@
 			.table-selection-count {
 				@apply text-danger;
 			}
-
 		}
 
 		&.is-warning {
@@ -334,7 +324,6 @@
 			.table-selection-count {
 				@apply text-warning;
 			}
-
 		}
 	}
 
@@ -345,7 +334,6 @@
 			@apply bg-muted/40;
 		}
 	}
-
 
 	.table-loading-row {
 		@apply animate-pulse;
@@ -427,8 +415,6 @@
 		@apply text-sm font-medium text-primary;
 	}
 
-
-
 	.table-selection-actions {
 		@apply flex items-center gap-2;
 
@@ -471,7 +457,6 @@
 
 	.table-footer-info {
 		@apply flex items-center justify-between gap-4 px-2 py-3;
-
 	}
 
 	.table-total {

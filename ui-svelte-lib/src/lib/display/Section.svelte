@@ -18,7 +18,7 @@
 			| 'warning'
 			| 'danger'
 			| 'surface'
-			| 'default';
+			| 'background';
 		variant?: 'solid' | 'soft' | 'ghost';
 		isBoxed?: boolean;
 	};
@@ -29,7 +29,7 @@
 		coverClass,
 		overlayClass,
 		cover,
-		color = 'default',
+		color = 'background',
 		variant = 'ghost',
 		children,
 		isBoxed
@@ -44,7 +44,7 @@
 		danger: 'is-danger',
 		warning: 'is-warning',
 		surface: 'is-surface',
-		default: 'is-default'
+		background: 'is-background'
 	};
 
 	const variants = {

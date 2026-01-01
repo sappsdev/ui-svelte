@@ -11,7 +11,7 @@
 		labelLeft?: string;
 		labelRight?: string;
 		name?: string;
-		color?: 'primary' | 'secondary' | 'muted';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
 	};
 	let {
 		checked = $bindable(),
@@ -29,7 +29,11 @@
 	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
-		muted: 'is-muted'
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning'
 	};
 </script>
 

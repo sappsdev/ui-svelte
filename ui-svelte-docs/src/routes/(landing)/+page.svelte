@@ -9,7 +9,9 @@
 		LayoutColumnOneThirdRight24RegularIcon,
 		GithubIconIcon,
 		BoltCircleLinearIcon,
-		Flash24RegularIcon
+		Flash24RegularIcon,
+		BoxMinimalisticLinearIcon,
+		ShieldCheckLinearIcon
 	} from '$lib/icons';
 	import {
 		Chip,
@@ -75,7 +77,7 @@
 		},
 		{
 			name: 'Overlay',
-			count: 6,
+			count: 7,
 			url: '/docs/overlay/modal',
 			skeleton: 'overlay'
 		}
@@ -123,16 +125,19 @@
 	const whyUiSvelte = [
 		{
 			icon: Flash24RegularIcon,
+			color: 'success',
 			title: 'Svelte 5 Native',
 			description: 'Built from scratch with $state, $derived, and runes. No legacy code.'
 		},
 		{
 			icon: SparkleAction24RegularIcon,
+			color: 'warning',
 			title: 'AI-First Docs',
 			description: 'Paste /static/llm/*.md into any LLM and generate components instantly.'
 		},
 		{
 			icon: BoltCircleLinearIcon,
+			color: 'primary',
 			title: '70+ Components',
 			description: 'Charts, forms, overlays, navigation, layouts. Everything you need.'
 		}
@@ -158,15 +163,15 @@
 		<Chip
 			startIcon={StarsMinimalisticLinearIcon}
 			size="md"
-			color="primary"
-			variant="soft"
+			color="secondary"
+			variant="solid"
 			class="pulse-soft">Modern UI Component Library</Chip
 		>
 	</div>
 
 	<h1 class="hero-title fade-in-up delay-100">
 		Build beautiful web apps
-		<span class="grad"> faster </span>
+		<span class="grad grad-primary"> faster </span>
 		with UiSvelte
 	</h1>
 
@@ -176,36 +181,26 @@
 	</p>
 
 	<div class="row gap-4 flex-wrap justify-center fade-in-up delay-300">
-		<Button color="primary" variant="solid" size="lg" href="/docs/starter/install">
+		<Button color="secondary" variant="solid" size="lg" href="/docs/starter/install">
 			Get Started
 		</Button>
-		<Button color="muted" variant="soft" size="lg" href="/docs/display/card">
+		<Button color="primary" variant="solid" size="lg" href="/docs/display/card">
 			Browse Components
-		</Button>
-		<Button
-			color="muted"
-			variant="ghost"
-			size="lg"
-			href="https://github.com/sappsdev/ui-svelte"
-			startIcon={GithubIconIcon}
-		>
-			GitHub
 		</Button>
 	</div>
 
-	<!-- Metrics Bar -->
 	<div class="row gap-6 md:gap-10 flex-wrap justify-center fade-in-up delay-400">
 		<div class="row gap-2 items-center">
-			<Icon icon={BoltCircleLinearIcon} class="text-primary" />
-			<span class="text-sm font-medium">70+ Components</span>
+			<Icon icon={Code24RegularIcon} class="text-info" />
+			<span class="text-sm font-medium">100% TypeScript</span>
 		</div>
 		<div class="row gap-2 items-center">
-			<Icon icon={Flash24RegularIcon} class="text-success" />
-			<span class="text-sm font-medium">Svelte 5 Native</span>
+			<Icon icon={ShieldCheckLinearIcon} class="text-success" />
+			<span class="text-sm font-medium">MIT License</span>
 		</div>
 		<div class="row gap-2 items-center">
-			<Icon icon={SparkleAction24RegularIcon} class="text-warning" />
-			<span class="text-sm font-medium">AI-Optimized Docs</span>
+			<Icon icon={BoxMinimalisticLinearIcon} class="text-secondary" />
+			<span class="text-sm font-medium">Lightweight Bundle</span>
 		</div>
 	</div>
 
@@ -214,7 +209,6 @@
 	</p>
 </Section>
 
-<!-- Why UiSvelte Section -->
 <Section isBoxed bodyClass="gap-10 py-20 center" color="muted" variant="soft">
 	<div class="column gap-2 text-center">
 		<h2 class="section-title">Why UiSvelte?</h2>
@@ -223,15 +217,15 @@
 		</p>
 	</div>
 	<div class="grid-1 md:grid-3 gap-8 w-full max-w-5xl">
-		{#each whyUiSvelte as { icon, title, description }, i}
+		{#each whyUiSvelte as { icon, color, title, description }, i}
 			<Card
 				color="surface"
 				variant="soft"
 				rootClass="fade-in-up delay-{i * 100}"
 				bodyClass="center gap-4 relative"
 			>
-				<div class="p-4 rounded-full bg-primary/10">
-					<Icon {icon} class="text-primary w-8 h-8" />
+				<div class="p-4 rounded-full bg-{color}/10">
+					<Icon {icon} class="text-{color} w-8 h-8" />
 				</div>
 				<h3 class="card-title">{title}</h3>
 				<p class="card-description text-center opacity-70">{description}</p>
@@ -240,7 +234,6 @@
 	</div>
 </Section>
 
-<!-- Key Features Section -->
 <Section isBoxed bodyClass="gap-12 py-28 center">
 	<div class="column gap-2 text-center">
 		<h2 class="section-title">Key Features</h2>
@@ -263,7 +256,6 @@
 	</div>
 </Section>
 
-<!-- See it in Action Section -->
 <Section isBoxed bodyClass="gap-12 py-28 center" color="muted" variant="soft">
 	<div class="column gap-2 text-center">
 		<h2 class="section-title">See it in Action</h2>
@@ -277,7 +269,7 @@
 			<Code code={codeExample} lang="svelte" />
 		</div>
 		<Card
-			color="muted"
+			color="surface"
 			variant="solid"
 			rootClass="fade-in-up delay-200"
 			bodyClass="center gap-4 h-full"
@@ -297,7 +289,7 @@
 		</Card>
 	</div>
 </Section>
-<!-- Components Showcase Section -->
+
 <Section isBoxed bodyClass="gap-12 py-28 center">
 	<div class="row w-full justify-between items-end">
 		<div class="column gap-2">
@@ -313,14 +305,12 @@
 			<a href={url} class="no-underline">
 				<Card
 					color="surface"
-					variant="soft"
+					variant="solid"
 					rootClass="hover:-translate-y-1 transition-all duration-300 fade-in-up delay-{i * 50}"
 					bodyClass="center gap-4 p-6 min-h-40"
 				>
-					<!-- Skeleton representation based on category type -->
 					<div class="w-full h-24 center">
 						{#if skeleton === 'charts'}
-							<!-- Bar chart representation -->
 							<div class="row items-end gap-1 w-full h-16">
 								<Skeleton variant="rounded" width="16%" height="40%" />
 								<Skeleton variant="rounded" width="16%" height="70%" />
@@ -330,7 +320,6 @@
 								<Skeleton variant="rounded" width="16%" height="65%" />
 							</div>
 						{:else if skeleton === 'control'}
-							<!-- Button and toggle controls -->
 							<div class="column gap-3 w-full items-center">
 								<Skeleton variant="rounded" width="70%" height="28px" />
 								<div class="row gap-3">
@@ -339,7 +328,6 @@
 								</div>
 							</div>
 						{:else if skeleton === 'display'}
-							<!-- Card with content representation -->
 							<div class="column gap-3 w-full p-3 border border-muted rounded-lg">
 								<Skeleton variant="rounded" width="100%" height="40px" />
 								<div class="column gap-2">
@@ -348,7 +336,6 @@
 								</div>
 							</div>
 						{:else if skeleton === 'form'}
-							<!-- Form fields representation -->
 							<div class="column gap-3 w-full">
 								<div class="column gap-1">
 									<Skeleton variant="text" width="30%" height="8px" />
@@ -360,7 +347,6 @@
 								</div>
 							</div>
 						{:else if skeleton === 'layout'}
-							<!-- Layout structure representation -->
 							<div class="row gap-2 w-full h-16">
 								<Skeleton variant="rounded" width="25%" height="100%" />
 								<div class="column gap-2 flex-1">
@@ -369,7 +355,6 @@
 								</div>
 							</div>
 						{:else if skeleton === 'navigation'}
-							<!-- Tabs/nav representation -->
 							<div class="column gap-3 w-full">
 								<div class="row gap-2 justify-center">
 									<Skeleton variant="rounded" width="50px" height="20px" />
@@ -379,7 +364,6 @@
 								<Skeleton variant="text" width="100%" height="2px" />
 							</div>
 						{:else if skeleton === 'overlay'}
-							<!-- Modal/drawer representation -->
 							<div class="column gap-3 w-full p-3 border border-muted rounded-lg relative">
 								<div class="row justify-between items-center">
 									<Skeleton variant="text" width="50%" height="12px" />
@@ -403,7 +387,6 @@
 	</div>
 </Section>
 
-<!-- Quick Start Section -->
 <Section isBoxed bodyClass="gap-10 py-24 center" color="muted" variant="soft">
 	<div class="column gap-2 text-center">
 		<h2 class="section-title">Get Started in 60 Seconds</h2>
@@ -424,10 +407,9 @@
 	</Button>
 </Section>
 
-<!-- CTA Section -->
 <Section color="primary" variant="solid" bodyClass="center gap-6 py-24 text-center" isBoxed>
-	<h2 class="cta-title text-white">Ready to Build Something Amazing?</h2>
-	<p class="cta-subtitle text-white opacity-80 max-w-xl">
+	<h2 class="cta-title">Ready to Build Something Amazing?</h2>
+	<p class="cta-subtitle opacity-80 max-w-xl">
 		Join developers shipping faster with UiSvelte. Start building beautiful apps today.
 	</p>
 	<div class="row gap-4 flex-wrap justify-center">

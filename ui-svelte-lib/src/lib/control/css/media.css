@@ -6,25 +6,25 @@
 
 		&.is-soft {
 			&.is-primary {
-				@apply bg-on-primary text-primary;
+				@apply bg-soft-primary text-primary;
 			}
 			&.is-secondary {
-				@apply bg-on-secondary text-secondary;
+				@apply bg-soft-secondary text-secondary;
 			}
 			&.is-muted {
-				@apply bg-muted text-on-muted;
+				@apply bg-soft-muted text-on-muted;
 			}
 			&.is-success {
-				@apply bg-on-success text-success;
+				@apply bg-soft-success text-success;
 			}
 			&.is-info {
-				@apply bg-on-info text-info;
+				@apply bg-soft-info text-info;
 			}
 			&.is-warning {
-				@apply bg-on-warning text-warning;
+				@apply bg-soft-warning text-warning;
 			}
 			&.is-danger {
-				@apply bg-on-danger text-danger;
+				@apply bg-soft-danger text-danger;
 			}
 		}
 

@@ -36,12 +36,12 @@
 
 	onMount(() => {
 		storeApp.setThemeColor('onDark', 'oklch(97% 0.01 90)');
-		storeApp.setThemeColor('onLight', 'oklch(25% 0.01 30)');
+		storeApp.setThemeColor('onLight', 'oklch(15% 0.005 30)');
 		storeApp.setThemeColor('primary', 'oklch(75% 0.15 145)');
-		storeApp.setThemeColor('secondary', 'oklch(28.42% 0.0467 259.99)');
+		storeApp.setThemeColor('secondary', 'oklch(15% 0.005 30)');
 		storeApp.setThemeColor('muted', 'oklch(87.2% 0.01 258.338)');
-		storeApp.setThemeColor('background', 'oklch(96% 0.005 85)');
-		storeApp.setThemeColor('surface', 'oklch(98% 0.003 85)');
+		storeApp.setThemeColor('background', 'oklch(98.5% 0.002 247.839)');
+		storeApp.setThemeColor('surface', 'oklch(96.7% 0.003 264.542)');
 		storeApp.setThemeColor('success', 'oklch(62.7% 0.194 149.214)');
 		storeApp.setThemeColor('info', 'oklch(58.8% 0.158 241.966)');
 		storeApp.setThemeColor('warning', 'oklch(68.1% 0.162 75.834)');
@@ -60,7 +60,6 @@
 
 		root.style.setProperty('--on-dark', colors.onDark);
 		root.style.setProperty('--on-light', colors.onLight);
-
 		root.style.setProperty('--primary', colors.primary);
 		root.style.setProperty('--secondary', colors.secondary);
 		root.style.setProperty('--success', colors.success);
@@ -110,11 +109,10 @@
 				<NavMenu items={menuItems} />
 			{/snippet}
 			{#snippet end()}
-				<ToggleTheme color="secondary" />
+				<ToggleTheme />
 				<IconButton
 					icon={GithubIconIcon}
 					variant="ghost"
-					color="secondary"
 					href="https://github.com/sappsdev/ui-svelte"
 				/>
 			{/snippet}

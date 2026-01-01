@@ -7,14 +7,13 @@
 		@apply hidden;
 	}
 
-	/* Error Message */
 	.csv-field-error {
 		@apply mt-2.5 p-2.5 rounded-ui text-sm;
 	}
 
 	.csv-field.is-soft .csv-field-error,
 	.csv-field.is-ghost .csv-field-error {
-		@apply bg-on-danger/20 text-danger;
+		@apply bg-soft-danger/20 text-danger;
 	}
 
 	.csv-field.is-solid .csv-field-error {
@@ -25,7 +24,6 @@
 		@apply border border-danger text-danger;
 	}
 
-	/* Modal Styles */
 	.csv-modal-title {
 		@apply m-0 text-xl font-semibold text-on-surface;
 	}
@@ -50,7 +48,6 @@
 		@apply flex justify-end gap-3;
 	}
 
-	/* Preview Container */
 	.csv-preview-container {
 		@apply mt-6 p-5 rounded-ui;
 	}
@@ -80,25 +77,25 @@
 	}
 
 	.csv-field.is-soft.is-primary .csv-preview-container {
-		@apply bg-on-primary/20;
+		@apply bg-soft-primary/20;
 	}
 	.csv-field.is-soft.is-secondary .csv-preview-container {
-		@apply bg-on-secondary/20;
+		@apply bg-soft-secondary/20;
 	}
 	.csv-field.is-soft.is-muted .csv-preview-container {
-		@apply bg-muted/50;
+		@apply bg-soft-muted/50;
 	}
 	.csv-field.is-soft.is-success .csv-preview-container {
-		@apply bg-on-success/20;
+		@apply bg-soft-success/20;
 	}
 	.csv-field.is-soft.is-info .csv-preview-container {
-		@apply bg-on-info/20;
+		@apply bg-soft-info/20;
 	}
 	.csv-field.is-soft.is-danger .csv-preview-container {
-		@apply bg-on-danger/20;
+		@apply bg-soft-danger/20;
 	}
 	.csv-field.is-soft.is-warning .csv-preview-container {
-		@apply bg-on-warning/20;
+		@apply bg-soft-warning/20;
 	}
 
 	.csv-field.is-solid.is-primary .csv-preview-container {
@@ -149,7 +146,6 @@
 		@apply bg-surface/50;
 	}
 
-	/* Preview Header */
 	.csv-preview-header {
 		@apply flex justify-between items-start mb-4 gap-4;
 	}
@@ -175,7 +171,6 @@
 		@apply text-lg leading-none;
 	}
 
-	/* Size Variants */
 	.csv-field.is-xs {
 		.csv-field-error {
 			@apply text-xs p-2;

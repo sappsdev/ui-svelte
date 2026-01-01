@@ -26,7 +26,7 @@
 			| 'warning'
 			| 'danger'
 			| 'surface'
-			| 'default';
+			| 'background';
 		variant?: 'solid' | 'soft';
 		disableOverlayClose?: boolean;
 		hideCloseButton?: boolean;
@@ -42,7 +42,7 @@
 		headerClass,
 		contentClass,
 		footerClass,
-		color = 'default',
+		color = 'background',
 		variant = 'solid',
 		disableOverlayClose,
 		hideCloseButton
@@ -59,7 +59,7 @@
 		danger: 'is-danger',
 		warning: 'is-warning',
 		surface: 'is-surface',
-		default: 'is-default'
+		background: 'is-background'
 	};
 
 	const variants = {
@@ -76,7 +76,7 @@
 		warning: 'warning',
 		danger: 'danger',
 		surface: 'muted',
-		default: 'muted'
+		background: 'muted'
 	};
 
 	const handleOverlayClick = () => {

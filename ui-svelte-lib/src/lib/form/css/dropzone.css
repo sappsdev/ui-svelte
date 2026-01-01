@@ -22,27 +22,27 @@
 
 	.dropzone-input.is-soft {
 		&.is-primary {
-			@apply bg-on-primary text-primary border-primary;
+			@apply bg-soft-primary text-primary border-primary;
 		}
 		&.is-secondary {
-			@apply bg-on-secondary text-secondary border-secondary;
+			@apply bg-soft-secondary text-secondary border-secondary;
 		}
 		&.is-muted {
-			@apply bg-muted text-on-muted border-muted;
+			@apply bg-soft-muted text-on-muted border-muted;
 		}
 		&.is-success {
-			@apply bg-on-success text-success border-success;
+			@apply bg-soft-success text-success border-success;
 		}
 		&.is-info {
-			@apply bg-on-info text-info border-info;
+			@apply bg-soft-info text-info border-info;
 		}
 		&.is-warning {
-			@apply bg-on-warning text-warning border-warning;
+			@apply bg-soft-warning text-warning border-warning;
 		}
 		&.is-danger {
-			@apply bg-on-danger text-danger border-danger;
+			@apply bg-soft-danger text-danger border-danger;
 		}
-		&.is-default {
+		&.is-background {
 			@apply bg-background text-on-background border-muted;
 		}
 		&.is-surface {

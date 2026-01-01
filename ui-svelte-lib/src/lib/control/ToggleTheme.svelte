@@ -10,7 +10,7 @@
 		class?: string;
 	};
 
-	let { color = 'muted', variant = 'ghost', size = 'md', class: className }: Props = $props();
+	let { color = 'primary', variant = 'ghost', size = 'md', class: className }: Props = $props();
 </script>
 
 <IconButton

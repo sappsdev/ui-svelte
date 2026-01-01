@@ -232,6 +232,59 @@
 		return [parseFloat(L.toFixed(2)), parseFloat(C.toFixed(2)), Math.round(H)];
 	}
 
+	function oklchToRgb(l: number, c: number, h: number): [number, number, number] {
+		const hRad = (h * Math.PI) / 180;
+		const a = c * Math.cos(hRad);
+		const b = c * Math.sin(hRad);
+
+		const l_ = l + 0.3963377774 * a + 0.2158037573 * b;
+		const m_ = l - 0.1055613458 * a - 0.0638541728 * b;
+		const s_ = l - 0.0894841775 * a - 1.291485548 * b;
+
+		const l3 = l_ * l_ * l_;
+		const m3 = m_ * m_ * m_;
+		const s3 = s_ * s_ * s_;
+
+		const lr = 4.0767416621 * l3 - 3.3077115913 * m3 + 0.2309699292 * s3;
+		const lg = -1.2684380046 * l3 + 2.6097574011 * m3 - 0.3413193965 * s3;
+		const lb = -0.0041960863 * l3 - 0.7034186147 * m3 + 1.707614701 * s3;
+
+		const gammaCorrect = (c: number) => {
+			if (c <= 0.0031308) return c * 12.92;
+			return 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
+		};
+
+		const r = Math.max(0, Math.min(255, Math.round(gammaCorrect(lr) * 255)));
+		const g = Math.max(0, Math.min(255, Math.round(gammaCorrect(lg) * 255)));
+		const bVal = Math.max(0, Math.min(255, Math.round(gammaCorrect(lb) * 255)));
+
+		return [r, g, bVal];
+	}
+
+	function parseOklchString(oklchStr: string): [number, number, number] | null {
+		const match = oklchStr.match(/oklch\(([\d.]+)%?\s+([\d.]+)\s+([\d.]+)\)/);
+		if (!match) return null;
+		let l = parseFloat(match[1]);
+		if (l > 1) l = l / 100;
+		const c = parseFloat(match[2]);
+		const h = parseFloat(match[3]);
+		return [l, c, h];
+	}
+
+	function parseOklchAndUpdateHsv(oklchStr: string) {
+		const parsed = parseOklchString(oklchStr);
+		if (parsed) {
+			const [l, c, h] = parsed;
+			const [r, g, b] = oklchToRgb(l, c, h);
+			const [hsvH, hsvS, hsvV] = rgbToHsv(r, g, b);
+			hue = hsvH;
+			saturation = hsvS;
+			brightness = hsvV;
+			return true;
+		}
+		return false;
+	}
+
 	function getContrastColor(hexColor: string): string {
 		const rgbValues = hexToRgb(hexColor);
 		if (!rgbValues) return '#000000';
@@ -424,8 +477,13 @@
 	});
 
 	onMount(() => {
-		parseHexAndUpdateHsv(hex);
-		updateAllFormats();
+		if (oklch && oklch.startsWith('oklch(')) {
+			parseOklchAndUpdateHsv(oklch);
+			updateAllFormats();
+		} else if (hex && hex.startsWith('#')) {
+			parseHexAndUpdateHsv(hex);
+			updateAllFormats();
+		}
 		return () => stopEventListeners();
 	});
 

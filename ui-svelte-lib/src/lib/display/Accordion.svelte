@@ -26,7 +26,7 @@
 			| 'warning'
 			| 'danger'
 			| 'surface'
-			| 'default';
+			| 'background';
 		multiple?: boolean;
 		rootClass?: string;
 		itemClass?: string;
@@ -37,7 +37,7 @@
 	const {
 		items = [],
 		variant = 'ghost',
-		color = 'default',
+		color = 'background',
 		multiple = false,
 		rootClass,
 		itemClass,
@@ -74,7 +74,7 @@
 		warning: 'is-warning',
 		danger: 'is-danger',
 		surface: 'is-surface',
-		default: 'is-default'
+		background: 'is-background'
 	};
 
 	function toggleItem(itemId: string, disabled?: boolean) {

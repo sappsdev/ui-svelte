@@ -113,7 +113,7 @@
 		{ prop: 'target', type: '_self | _blank | _parent | _top', initial: '' },
 		{
 			prop: 'color',
-			type: 'primary | secondary | muted | success | info | danger | warning',
+			type: 'primary | secondary | success | info | danger | warning',
 			initial: 'primary'
 		},
 		{

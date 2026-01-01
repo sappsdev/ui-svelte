@@ -126,25 +126,25 @@
 
 	.btn.is-soft {
 		&.is-primary {
-			@apply bg-on-primary text-primary hover:bg-on-primary/80;
+			@apply bg-soft-primary text-primary hover:bg-soft-primary/60;
 		}
 		&.is-secondary {
-			@apply bg-on-secondary text-secondary hover:bg-on-secondary/80;
+			@apply bg-soft-secondary text-secondary hover:bg-soft-secondary/60;
 		}
 		&.is-muted {
-			@apply bg-muted text-on-muted hover:bg-muted/80;
+			@apply bg-soft-muted text-on-muted hover:bg-soft-muted/60;
 		}
 		&.is-success {
-			@apply bg-on-success text-success hover:bg-on-success/80;
+			@apply bg-soft-success text-success hover:bg-soft-success/60;
 		}
 		&.is-info {
-			@apply bg-on-info text-info hover:bg-on-info/80;
+			@apply bg-soft-info text-info hover:bg-soft-info/60;
 		}
 		&.is-warning {
-			@apply bg-on-warning text-warning hover:bg-on-warning/80;
+			@apply bg-soft-warning text-warning hover:bg-soft-warning/60;
 		}
 		&.is-danger {
-			@apply bg-on-danger text-danger hover:bg-on-danger/80;
+			@apply bg-soft-danger text-danger hover:bg-soft-danger/60;
 		}
 	}
 
@@ -156,7 +156,7 @@
 			@apply bg-secondary text-on-secondary hover:bg-secondary/80;
 		}
 		&.is-muted {
-			@apply bg-on-muted text-muted hover:bg-on-muted/80;
+			@apply bg-muted text-on-muted hover:bg-muted/80;
 		}
 		&.is-success {
 			@apply bg-success text-on-success hover:bg-success/80;
@@ -180,7 +180,7 @@
 			@apply inset-ring-2 inset-ring-secondary text-secondary hover:bg-secondary hover:text-on-secondary;
 		}
 		&.is-muted {
-			@apply inset-ring-2 inset-ring-on-muted text-on-muted hover:bg-on-muted hover:text-muted;
+			@apply inset-ring-2 inset-ring-muted text-on-muted hover:bg-muted hover:text-on-muted;
 		}
 		&.is-success {
 			@apply inset-ring-2 inset-ring-success text-success hover:bg-success hover:text-on-success;
@@ -204,7 +204,7 @@
 			@apply text-secondary hover:bg-secondary hover:text-on-secondary;
 		}
 		&.is-muted {
-			@apply text-on-muted hover:bg-on-muted hover:text-muted;
+			@apply text-on-muted hover:bg-muted hover:text-on-muted;
 		}
 		&.is-success {
 			@apply text-success hover:bg-success hover:text-on-success;
@@ -222,25 +222,25 @@
 
 	.btn.is-overlay {
 		&.is-primary {
-			@apply bg-on-primary/60 text-primary hover:bg-on-primary/80;
+			@apply bg-overlay text-on-overlay hover:bg-primary hover:text-on-primary;
 		}
 		&.is-secondary {
-			@apply bg-on-secondary/60 text-secondary hover:bg-on-secondary/80;
+			@apply bg-overlay text-on-overlay hover:bg-secondary hover:text-on-secondary;
 		}
 		&.is-muted {
-			@apply bg-muted/60 text-on-muted hover:bg-muted/80;
+			@apply bg-overlay text-on-overlay hover:bg-muted hover:text-on-muted;
 		}
 		&.is-success {
-			@apply bg-on-success/60 text-success hover:bg-on-success/80;
+			@apply bg-overlay text-on-overlay hover:bg-success hover:text-on-success;
 		}
 		&.is-info {
-			@apply bg-on-info/60 text-info hover:bg-on-info/80;
+			@apply bg-overlay text-on-overlay hover:bg-info hover:text-on-info;
 		}
 		&.is-warning {
-			@apply bg-on-warning/60 text-warning hover:bg-on-warning/80;
+			@apply bg-overlay text-on-overlay hover:bg-warning hover:text-on-warning;
 		}
 		&.is-danger {
-			@apply bg-on-danger/60 text-danger hover:bg-on-danger/80;
+			@apply bg-overlay text-on-overlay hover:bg-danger hover:text-on-danger;
 		}
 	}
 

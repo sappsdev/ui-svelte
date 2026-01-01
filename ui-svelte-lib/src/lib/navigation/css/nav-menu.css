@@ -229,7 +229,6 @@
 		.navmenu-item {
 			.navmenu-label {
 				@apply font-normal;
-				/* Prevent width shift when font becomes bold */
 				display: inline-flex;
 				flex-direction: column;
 
@@ -390,64 +389,64 @@
 
 		&.is-primary {
 			.navmenu-item:hover {
-				@apply bg-on-primary/50;
+				@apply bg-soft-primary/50;
 			}
 			.navmenu-item.is-active {
-				@apply bg-on-primary text-primary;
+				@apply bg-soft-primary text-primary;
 			}
 		}
 
 		&.is-secondary {
 			.navmenu-item:hover {
-				@apply bg-on-secondary/50;
+				@apply bg-soft-secondary/50;
 			}
 			.navmenu-item.is-active {
-				@apply bg-on-secondary text-secondary;
+				@apply bg-soft-secondary text-secondary;
 			}
 		}
 
 		&.is-muted {
 			.navmenu-item:hover {
-				@apply bg-muted/50;
+				@apply bg-soft-muted/50;
 			}
 			.navmenu-item.is-active {
-				@apply bg-muted;
+				@apply bg-soft-muted text-on-muted;
 			}
 		}
 
 		&.is-success {
 			.navmenu-item:hover {
-				@apply bg-on-success/50;
+				@apply bg-soft-success/50;
 			}
 			.navmenu-item.is-active {
-				@apply bg-on-success text-success;
+				@apply bg-soft-success text-success;
 			}
 		}
 
 		&.is-info {
 			.navmenu-item:hover {
-				@apply bg-on-info/50;
+				@apply bg-soft-info/50;
 			}
 			.navmenu-item.is-active {
-				@apply bg-on-info text-info;
+				@apply bg-soft-info text-info;
 			}
 		}
 
 		&.is-warning {
 			.navmenu-item:hover {
-				@apply bg-on-warning/50;
+				@apply bg-soft-warning/50;
 			}
 			.navmenu-item.is-active {
-				@apply bg-on-warning text-warning;
+				@apply bg-soft-warning text-warning;
 			}
 		}
 
 		&.is-danger {
 			.navmenu-item:hover {
-				@apply bg-on-danger/50;
+				@apply bg-soft-danger/50;
 			}
 			.navmenu-item.is-active {
-				@apply bg-on-danger text-danger;
+				@apply bg-soft-danger text-danger;
 			}
 		}
 	}

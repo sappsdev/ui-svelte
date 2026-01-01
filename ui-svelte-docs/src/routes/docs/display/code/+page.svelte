@@ -30,7 +30,7 @@
 	];
 
 	let lang: any = $state('typescript');
-	let lightTheme: any = $state('catppuccin-latte');
+	let lightTheme: any = $state('github-light');
 	let darkTheme: any = $state('catppuccin-frappe');
 	let disableCopy = $state(false);
 	let hideLang = $state(false);
@@ -85,15 +85,6 @@ npm run dev`
 
 	let sampleCode = $derived(sampleCodes[lang] || sampleCodes.typescript);
 
-	let hasProps = $derived(
-		[
-			lightTheme !== 'catppuccin-latte',
-			darkTheme !== 'catppuccin-frappe',
-			disableCopy,
-			hideLang
-		].some(Boolean)
-	);
-
 	let code = $derived(() => {
 		const scriptLines = [
 			`<script lang="ts">`,
@@ -107,7 +98,7 @@ npm run dev`
 			`<Code`,
 			`\tcode={code}`,
 			`\tlang="${lang}"`,
-			lightTheme !== 'catppuccin-latte' && `\tlightTheme="${lightTheme}"`,
+			lightTheme !== 'github-light' && `\tlightTheme="${lightTheme}"`,
 			darkTheme !== 'catppuccin-frappe' && `\tdarkTheme="${darkTheme}"`,
 			disableCopy && `\tdisableCopy`,
 			hideLang && `\thideLang`,
@@ -120,7 +111,7 @@ npm run dev`
 	const props = [
 		{ prop: 'code', type: 'string', initial: '' },
 		{ prop: 'lang', type: 'string', initial: '' },
-		{ prop: 'lightTheme', type: 'string', initial: 'catppuccin-latte' },
+		{ prop: 'lightTheme', type: 'string', initial: 'github-light' },
 		{ prop: 'darkTheme', type: 'string', initial: 'catppuccin-frappe' },
 		{ prop: 'disableCopy', type: 'boolean', initial: 'false' },
 		{ prop: 'hideLang', type: 'boolean', initial: 'false' },

@@ -15,7 +15,7 @@
 		name?: string;
 		info?: string;
 		error?: string;
-		color?: 'primary' | 'secondary' | 'muted';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
 		size?: 'sm' | 'md' | 'lg';
 	};
 	let {
@@ -34,7 +34,11 @@
 	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
-		muted: 'is-muted'
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		danger: 'is-danger',
+		warning: 'is-warning'
 	};
 
 	const sizes = {

@@ -6,9 +6,11 @@
 	import { popover } from '$lib/utils/popover.js';
 	import { tick } from 'svelte';
 	import { fade, scale } from 'svelte/transition';
+	import { afterNavigate } from '$app/navigation';
 
 	type CommandGroup = {
 		label: string;
+		icon?: IconData;
 		options: SearchOption[];
 	};
 
@@ -54,10 +56,23 @@
 	let focusedIndex = $state(-1);
 	let hasSearched = $state(false);
 
-	// Flatten options for keyboard navigation
+	const filteredGroups = $derived(() => {
+		if (!groups || groups.length === 0) return [];
+		const query = search.search?.toLowerCase() ?? '';
+		if (!query) return groups;
+
+		return groups
+			.map((group) => ({
+				...group,
+				options: group.options.filter((opt) => opt.label.toLowerCase().includes(query))
+			}))
+			.filter((group) => group.options.length > 0);
+	});
+
 	const flatOptions = $derived(() => {
-		if (groups && groups.length > 0) {
-			return groups.flatMap((g) => g.options);
+		const filtered = filteredGroups();
+		if (filtered.length > 0) {
+			return filtered.flatMap((g) => g.options);
 		}
 		return search.options;
 	});
@@ -124,14 +139,9 @@
 	};
 
 	const handleSelect = (item: SearchOption) => {
-		if (item.href) {
-			open = false;
-			search.setSearch('');
-		} else {
-			onselect?.(item);
-			open = false;
-			search.setSearch('');
-		}
+		onselect?.(item);
+		open = false;
+		search.setSearch('');
 	};
 
 	const handleOverlayClick = () => {
@@ -152,6 +162,17 @@
 		if (search.search && search.search.length > 0) {
 			hasSearched = true;
 		}
+	});
+
+	$effect(() => {
+		afterNavigate(() => {
+			if (open) {
+				open = false;
+				focusedIndex = -1;
+				hasSearched = false;
+				search.setSearch('');
+			}
+		});
 	});
 
 	$effect(() => {
@@ -225,11 +246,16 @@
 						</div>
 					{:else if flatOptions().length === 0 && hasSearched}
 						<div class="command-empty">{emptyText}</div>
-					{:else if groups && groups.length > 0}
-						{#each groups as group}
+					{:else if filteredGroups().length > 0}
+						{#each filteredGroups() as group}
 							{#if group.options.length > 0}
 								<div class="command-group">
-									<div class="command-group-label">{group.label}</div>
+									<div class="command-group-label">
+										{#if group.icon}
+											<Icon icon={group.icon} class="command-group-icon" />
+										{/if}
+										{group.label}
+									</div>
 									{#each group.options as item}
 										{@const globalIndex = flatOptions().indexOf(item)}
 										{#if item.href}

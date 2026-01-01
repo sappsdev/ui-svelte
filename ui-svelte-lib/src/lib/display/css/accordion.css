@@ -131,12 +131,12 @@
 					@apply text-on-surface;
 				}
 			}
-			&.is-default .accordion-item {
+			&.is-background .accordion-item {
 				.accordion-header:hover {
-					@apply text-on-muted;
+					@apply text-on-background;
 				}
 				.accordion-header.is-open {
-					@apply text-on-muted;
+					@apply text-on-background;
 				}
 			}
 		}
@@ -218,13 +218,13 @@
 					@apply bg-surface text-on-surface;
 				}
 			}
-			&.is-default .accordion-item {
-				@apply bg-muted/20;
+			&.is-background .accordion-item {
+				@apply bg-background/20;
 				.accordion-header:hover {
-					@apply bg-muted/30;
+					@apply bg-background/30;
 				}
 				.accordion-header.is-open {
-					@apply bg-muted/50;
+					@apply bg-background;
 				}
 			}
 		}
@@ -298,12 +298,12 @@
 					@apply bg-surface text-on-surface;
 				}
 			}
-			&.is-default .accordion-item {
+			&.is-background .accordion-item {
 				.accordion-header:hover {
-					@apply bg-muted/50;
+					@apply bg-background/50;
 				}
 				.accordion-header.is-open {
-					@apply bg-on-background text-background;
+					@apply bg-background text-on-background;
 				}
 			}
 		}
@@ -381,13 +381,13 @@
 					@apply bg-surface text-on-surface;
 				}
 			}
-			&.is-default .accordion-item {
-				@apply border border-muted;
+			&.is-background .accordion-item {
+				@apply border border-background;
 				.accordion-header:hover {
-					@apply bg-muted/30;
+					@apply bg-background/30;
 				}
 				.accordion-header.is-open {
-					@apply bg-muted/20;
+					@apply bg-background/20;
 				}
 			}
 		}

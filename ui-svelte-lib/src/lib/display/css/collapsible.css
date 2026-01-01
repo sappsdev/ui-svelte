@@ -144,66 +144,66 @@
 			@apply border border-transparent;
 
 			&.is-primary {
-				@apply bg-on-primary/50;
+				@apply bg-soft-primary/50;
 				.collapsible-header:hover {
-					@apply bg-on-primary/80;
+					@apply bg-soft-primary/80;
 				}
 				.collapsible-header.is-open {
-					@apply bg-on-primary text-primary;
+					@apply bg-soft-primary text-primary;
 				}
 			}
 			&.is-secondary {
-				@apply bg-on-secondary/50;
+				@apply bg-soft-secondary/50;
 				.collapsible-header:hover {
-					@apply bg-on-secondary/80;
+					@apply bg-soft-secondary/80;
 				}
 				.collapsible-header.is-open {
-					@apply bg-on-secondary text-secondary;
+					@apply bg-soft-secondary text-secondary;
 				}
 			}
 			&.is-muted {
-				@apply bg-muted/30;
+				@apply bg-soft-muted/30;
 				.collapsible-header:hover {
-					@apply bg-muted/50;
+					@apply bg-soft-muted/50;
 				}
 				.collapsible-header.is-open {
-					@apply bg-muted text-on-muted;
+					@apply bg-soft-muted text-on-muted;
 				}
 			}
 			&.is-success {
-				@apply bg-on-success/50;
+				@apply bg-soft-success/50;
 				.collapsible-header:hover {
-					@apply bg-on-success/80;
+					@apply bg-soft-success/80;
 				}
 				.collapsible-header.is-open {
-					@apply bg-on-success text-success;
+					@apply bg-soft-success text-success;
 				}
 			}
 			&.is-info {
-				@apply bg-on-info/50;
+				@apply bg-soft-info/50;
 				.collapsible-header:hover {
-					@apply bg-on-info/80;
+					@apply bg-soft-info/80;
 				}
 				.collapsible-header.is-open {
-					@apply bg-on-info text-info;
+					@apply bg-soft-info text-info;
 				}
 			}
 			&.is-warning {
-				@apply bg-on-warning/50;
+				@apply bg-soft-warning/50;
 				.collapsible-header:hover {
-					@apply bg-on-warning/80;
+					@apply bg-soft-warning/80;
 				}
 				.collapsible-header.is-open {
-					@apply bg-on-warning text-warning;
+					@apply bg-soft-warning text-warning;
 				}
 			}
 			&.is-danger {
-				@apply bg-on-danger/50;
+				@apply bg-soft-danger/50;
 				.collapsible-header:hover {
-					@apply bg-on-danger/80;
+					@apply bg-soft-danger/80;
 				}
 				.collapsible-header.is-open {
-					@apply bg-on-danger text-danger;
+					@apply bg-soft-danger text-danger;
 				}
 			}
 			&.is-surface {
@@ -215,13 +215,13 @@
 					@apply bg-surface text-on-surface;
 				}
 			}
-			&.is-default {
-				@apply bg-muted/20;
+			&.is-background {
+				@apply bg-background/20;
 				.collapsible-header:hover {
-					@apply bg-muted/30;
+					@apply bg-background/30;
 				}
 				.collapsible-header.is-open {
-					@apply bg-muted/50;
+					@apply bg-background/50;
 				}
 			}
 		}
@@ -293,12 +293,12 @@
 					@apply bg-surface text-on-surface;
 				}
 			}
-			&.is-default {
+			&.is-background {
 				.collapsible-header:hover {
-					@apply bg-muted/50;
+					@apply bg-background/50;
 				}
 				.collapsible-header.is-open {
-					@apply bg-on-background text-background;
+					@apply bg-background text-on-background;
 				}
 			}
 		}
@@ -376,13 +376,13 @@
 					@apply bg-surface text-on-surface;
 				}
 			}
-			&.is-default {
-				@apply border border-muted;
+			&.is-background {
+				@apply border border-background;
 				.collapsible-header:hover {
-					@apply bg-muted/30;
+					@apply bg-background/30;
 				}
 				.collapsible-header.is-open {
-					@apply bg-muted/20;
+					@apply bg-background;
 				}
 			}
 		}

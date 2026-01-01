@@ -1,10 +1,5 @@
 <script lang="ts">
-	import {
-		LineHorizontal324RegularIcon,
-		Heart24RegularIcon,
-		GithubIconIcon,
-		List24RegularIcon
-	} from '$lib/icons';
+	import { GithubIconIcon, List24RegularIcon, Search24RegularIcon } from '$lib/icons';
 	import {
 		Scaffold,
 		Drawer,
@@ -14,48 +9,64 @@
 		SideNav,
 		IconButton,
 		NavMenu,
-		Footer
+		Footer,
+		Command,
+		Button,
+		useSearch
 	} from 'ui-svelte';
 	import { storeApp } from '$lib/store/store.svelte';
 	import { theme } from 'ui-svelte';
 	import { sideMenuItems } from '$lib/config/docs-menu-items';
+	import { goto } from '$app/navigation';
 
 	let { children } = $props();
 
 	let drawerOpen = $state(false);
+	let commandOpen = $state(false);
+
+	const commandGroups = sideMenuItems
+		.filter((item) => item.type === 'submenu' && item.subitems && item.label)
+		.map((group) => ({
+			label: group.label as string,
+			icon: group.icon,
+			options: (group.subitems ?? [])
+				.filter((subitem) => subitem.href)
+				.map((subitem, idx) => ({
+					id: `${group.label}-${idx}`,
+					label: subitem.label,
+					href: subitem.href as string
+				}))
+		}));
+
+	const search = useSearch({
+		options: [],
+		clientSide: true
+	});
 
 	$effect(() => {
 		const root = document.documentElement;
 		const colors = storeApp.themeColors;
 		const darkColors = storeApp.darkThemeColors;
 
+		root.style.setProperty('--on-dark', colors.onDark);
+		root.style.setProperty('--on-light', colors.onLight);
+
 		root.style.setProperty('--primary', colors.primary);
-		root.style.setProperty('--on-primary', colors.onPrimary);
 		root.style.setProperty('--secondary', colors.secondary);
-		root.style.setProperty('--on-secondary', colors.onSecondary);
 		root.style.setProperty('--success', colors.success);
-		root.style.setProperty('--on-success', colors.onSuccess);
 		root.style.setProperty('--info', colors.info);
-		root.style.setProperty('--on-info', colors.onInfo);
 		root.style.setProperty('--warning', colors.warning);
-		root.style.setProperty('--on-warning', colors.onWarning);
 		root.style.setProperty('--danger', colors.danger);
-		root.style.setProperty('--on-danger', colors.onDanger);
 
 		if (theme.isDark) {
+			root.style.setProperty('--secondary', darkColors.secondary);
 			root.style.setProperty('--muted', darkColors.muted);
-			root.style.setProperty('--on-muted', darkColors.onMuted);
 			root.style.setProperty('--background', darkColors.background);
-			root.style.setProperty('--on-background', darkColors.onBackground);
 			root.style.setProperty('--surface', darkColors.surface);
-			root.style.setProperty('--on-surface', darkColors.onSurface);
 		} else {
 			root.style.setProperty('--muted', colors.muted);
-			root.style.setProperty('--on-muted', colors.onMuted);
 			root.style.setProperty('--background', colors.background);
-			root.style.setProperty('--on-background', colors.onBackground);
 			root.style.setProperty('--surface', colors.surface);
-			root.style.setProperty('--on-surface', colors.onSurface);
 		}
 	});
 
@@ -99,10 +110,21 @@
 				<NavMenu items={menuItems} />
 			{/snippet}
 			{#snippet end()}
-				<ToggleTheme />
+				<Button
+					onclick={() => (commandOpen = true)}
+					startIcon={Search24RegularIcon}
+					variant="soft"
+					color="secondary"
+					size="sm"
+				>
+					<span class="hidden md:inline">Search</span>
+					<span class="hidden md:inline text-xs opacity-60 ml-2">⌘K</span>
+				</Button>
+				<ToggleTheme color="secondary" />
 				<IconButton
 					icon={GithubIconIcon}
 					variant="ghost"
+					color="secondary"
 					href="https://github.com/sappsdev/ui-svelte"
 				/>
 			{/snippet}
@@ -122,3 +144,15 @@
 <Drawer bind:open={drawerOpen} onclose={() => (drawerOpen = false)} class="w-56">
 	<SideNav items={sideMenuItems} />
 </Drawer>
+<Command
+	bind:open={commandOpen}
+	{search}
+	groups={commandGroups}
+	placeholder="Search components..."
+	onselect={(item) => {
+		if (item.href) {
+			goto(item.href as string);
+			commandOpen = false;
+		}
+	}}
+/>

@@ -1,5 +1,4 @@
 @layer components {
-
 	.tooltip {
 		@apply relative w-fit;
 	}
@@ -18,7 +17,6 @@
 			@apply visible opacity-100;
 		}
 	}
-
 
 	.tooltip-arrow {
 		@apply absolute w-2 h-2 rotate-45;
@@ -44,63 +42,91 @@
 
 	.tooltip-popover.is-soft {
 		&.is-primary {
-			@apply bg-on-primary text-primary;
-			& .tooltip-arrow { @apply bg-on-primary; }
+			@apply bg-soft-primary text-primary;
+			& .tooltip-arrow {
+				@apply bg-soft-primary;
+			}
 		}
 		&.is-secondary {
-			@apply bg-on-secondary text-secondary;
-			& .tooltip-arrow { @apply bg-on-secondary; }
+			@apply bg-soft-secondary text-secondary;
+			& .tooltip-arrow {
+				@apply bg-soft-secondary;
+			}
 		}
 		&.is-muted {
-			@apply bg-muted text-on-muted;
-			& .tooltip-arrow { @apply bg-muted; }
+			@apply bg-soft-muted text-on-muted;
+			& .tooltip-arrow {
+				@apply bg-soft-muted;
+			}
 		}
 		&.is-success {
-			@apply bg-on-success text-success;
-			& .tooltip-arrow { @apply bg-on-success; }
+			@apply bg-soft-success text-success;
+			& .tooltip-arrow {
+				@apply bg-soft-success;
+			}
 		}
 		&.is-info {
-			@apply bg-on-info text-info;
-			& .tooltip-arrow { @apply bg-on-info; }
+			@apply bg-soft-info text-info;
+			& .tooltip-arrow {
+				@apply bg-soft-info;
+			}
 		}
 		&.is-warning {
-			@apply bg-on-warning text-warning;
-			& .tooltip-arrow { @apply bg-on-warning; }
+			@apply bg-soft-warning text-warning;
+			& .tooltip-arrow {
+				@apply bg-soft-warning;
+			}
 		}
 		&.is-danger {
-			@apply bg-on-danger text-danger;
-			& .tooltip-arrow { @apply bg-on-danger; }
+			@apply bg-soft-danger text-danger;
+			& .tooltip-arrow {
+				@apply bg-soft-danger;
+			}
 		}
 	}
 
 	.tooltip-popover.is-solid {
 		&.is-primary {
 			@apply bg-primary text-on-primary;
-			& .tooltip-arrow { @apply bg-primary; }
+			& .tooltip-arrow {
+				@apply bg-primary;
+			}
 		}
 		&.is-secondary {
 			@apply bg-secondary text-on-secondary;
-			& .tooltip-arrow { @apply bg-secondary; }
+			& .tooltip-arrow {
+				@apply bg-secondary;
+			}
 		}
 		&.is-muted {
 			@apply bg-on-muted text-muted;
-			& .tooltip-arrow { @apply bg-on-muted; }
+			& .tooltip-arrow {
+				@apply bg-on-muted;
+			}
 		}
 		&.is-success {
 			@apply bg-success text-on-success;
-			& .tooltip-arrow { @apply bg-success; }
+			& .tooltip-arrow {
+				@apply bg-success;
+			}
 		}
 		&.is-info {
 			@apply bg-info text-on-info;
-			& .tooltip-arrow { @apply bg-info; }
+			& .tooltip-arrow {
+				@apply bg-info;
+			}
 		}
 		&.is-warning {
 			@apply bg-warning text-on-warning;
-			& .tooltip-arrow { @apply bg-warning; }
+			& .tooltip-arrow {
+				@apply bg-warning;
+			}
 		}
 		&.is-danger {
 			@apply bg-danger text-on-danger;
-			& .tooltip-arrow { @apply bg-danger; }
+			& .tooltip-arrow {
+				@apply bg-danger;
+			}
 		}
 	}
 }

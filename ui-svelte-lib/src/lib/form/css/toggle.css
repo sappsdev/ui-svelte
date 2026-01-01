@@ -22,6 +22,22 @@
 			&.is-muted {
 				@apply bg-on-muted;
 			}
+			,
+			&.is-success {
+				@apply bg-success;
+			}
+			,
+			&.is-info {
+				@apply bg-info;
+			}
+			,
+			&.is-danger {
+				@apply bg-danger;
+			}
+			,
+			&.is-warning {
+				@apply bg-warning;
+			}
 		}
 
 		.toggle-label-left,

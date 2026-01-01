@@ -8,55 +8,127 @@
 		}
 
 		&.is-soft {
-			&.is-primary { @apply bg-on-primary text-primary; }
-			&.is-secondary { @apply bg-on-secondary text-secondary; }
-			&.is-muted { @apply bg-muted text-on-muted; }
-			&.is-success { @apply bg-on-success text-success; }
-			&.is-info { @apply bg-on-info text-info; }
-			&.is-warning { @apply bg-on-warning text-warning; }
-			&.is-danger { @apply bg-on-danger text-danger; }
-			&.is-default { @apply bg-background text-on-background; }
-			&.is-surface { @apply bg-surface text-on-surface; }
+			&.is-primary {
+				@apply bg-soft-primary text-primary;
+			}
+			&.is-secondary {
+				@apply bg-soft-secondary text-secondary;
+			}
+			&.is-muted {
+				@apply bg-soft-muted text-on-muted;
+			}
+			&.is-background {
+				@apply bg-background text-on-background;
+			}
+			&.is-surface {
+				@apply bg-surface text-on-surface;
+			}
+			&.is-success {
+				@apply bg-soft-success text-success;
+			}
+			&.is-info {
+				@apply bg-soft-info text-info;
+			}
+			&.is-warning {
+				@apply bg-soft-warning text-warning;
+			}
+			&.is-danger {
+				@apply bg-soft-danger text-danger;
+			}
 		}
 
 		&.is-solid {
-			&.is-primary { @apply bg-primary text-on-primary; }
-			&.is-secondary { @apply bg-secondary text-on-secondary; }
-			&.is-muted { @apply bg-on-muted text-muted; }
-			&.is-success { @apply bg-success text-on-success; }
-			&.is-info { @apply bg-info text-on-info; }
-			&.is-warning { @apply bg-warning text-on-warning; }
-			&.is-danger { @apply bg-danger text-on-danger; }
-			&.is-default { @apply bg-background text-on-background; }
-			&.is-surface { @apply bg-surface text-on-surface; }
+			&.is-primary {
+				@apply bg-primary text-on-primary;
+			}
+			&.is-secondary {
+				@apply bg-secondary text-on-secondary;
+			}
+			&.is-muted {
+				@apply bg-muted text-on-muted;
+			}
+			&.is-background {
+				@apply bg-background text-on-background;
+			}
+			&.is-surface {
+				@apply bg-surface text-on-surface;
+			}
+			&.is-success {
+				@apply bg-success text-on-success;
+			}
+			&.is-info {
+				@apply bg-info text-on-info;
+			}
+			&.is-warning {
+				@apply bg-warning text-on-warning;
+			}
+			&.is-danger {
+				@apply bg-danger text-on-danger;
+			}
 		}
 
 		&.is-outlined {
 			@apply border;
 
-			&.is-primary { @apply border-primary text-primary; }
-			&.is-secondary { @apply border-secondary text-secondary; }
-			&.is-muted { @apply border-on-muted text-on-muted; }
-			&.is-success { @apply border-success text-success; }
-			&.is-info { @apply border-info text-info; }
-			&.is-warning { @apply border-warning text-warning; }
-			&.is-danger { @apply border-danger text-danger; }
-			&.is-default { @apply border-on-background text-on-background; }
-			&.is-surface { @apply border-on-surface text-on-surface; }
+			&.is-primary {
+				@apply border-primary text-primary;
+			}
+			&.is-secondary {
+				@apply border-secondary text-secondary;
+			}
+			&.is-muted {
+				@apply border-muted text-on-muted;
+			}
+			&.is-background {
+				@apply border-on-background text-on-background;
+			}
+			&.is-surface {
+				@apply border-on-surface text-on-surface;
+			}
+			&.is-success {
+				@apply border-success text-success;
+			}
+			&.is-info {
+				@apply border-info text-info;
+			}
+			&.is-warning {
+				@apply border-warning text-warning;
+			}
+			&.is-danger {
+				@apply border-danger text-danger;
+			}
 		}
 
 		&.is-ghost {
 			@apply bg-transparent;
 
-			&.is-primary { @apply text-primary; }
-			&.is-secondary { @apply text-secondary; }
-			&.is-muted { @apply text-on-muted; }
-			&.is-success { @apply text-success; }
-			&.is-info { @apply text-info; }
-			&.is-warning { @apply text-warning; }
-			&.is-danger { @apply text-danger; }
-			&.is-default { @apply text-on-background; }
-			&.is-surface { @apply text-on-surface; }
+			&.is-primary {
+				@apply text-primary;
+			}
+			&.is-secondary {
+				@apply text-secondary;
+			}
+			&.is-muted {
+				@apply text-on-muted;
+			}
+			&.is-background {
+				@apply text-on-background;
+			}
+			&.is-surface {
+				@apply text-on-surface;
+			}
+			&.is-success {
+				@apply text-success;
+			}
+			&.is-info {
+				@apply text-info;
+			}
+			&.is-warning {
+				@apply text-warning;
+			}
+			&.is-danger {
+				@apply text-danger;
+			}
 		}
 	}
 

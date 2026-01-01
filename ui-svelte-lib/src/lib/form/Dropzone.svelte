@@ -29,7 +29,7 @@
 			| 'warning'
 			| 'danger'
 			| 'surface'
-			| 'default';
+			| 'background';
 		variant?: 'solid' | 'soft' | 'outlined' | 'ghost';
 		size?: 'sm' | 'md' | 'lg';
 		name?: string;
@@ -49,7 +49,7 @@
 		class: className,
 		controlClass,
 		icon,
-		color = 'default',
+		color = 'background',
 		variant = 'outlined',
 		size = 'md',
 		name,
@@ -75,7 +75,7 @@
 		danger: 'is-danger',
 		warning: 'is-warning',
 		surface: 'is-surface',
-		default: 'is-default'
+		background: 'is-background'
 	};
 
 	const variantClasses = {

@@ -21,7 +21,7 @@
 			| 'warning'
 			| 'danger'
 			| 'surface'
-			| 'default';
+			| 'background';
 		rootClass?: string;
 		headerClass?: string;
 		contentClass?: string;
@@ -34,7 +34,7 @@
 		disabled = false,
 		defaultOpen = false,
 		variant = 'ghost',
-		color = 'default',
+		color = 'background',
 		rootClass,
 		headerClass,
 		contentClass
@@ -59,7 +59,7 @@
 		warning: 'is-warning',
 		danger: 'is-danger',
 		surface: 'is-surface',
-		default: 'is-default'
+		background: 'is-background'
 	};
 
 	function toggle() {

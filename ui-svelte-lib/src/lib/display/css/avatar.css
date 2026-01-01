@@ -27,44 +27,28 @@
 
 	.avatar {
 		&.is-xs {
-			@apply size-5;
-			& .avatar-image {
-				@apply size-5 object-cover rounded-avatar;
-			}
-			& .avatar-name {
-				@apply text-xs;
-			}
-			& .avatar-icon {
-				@apply size-3;
-			}
-			& .avatar-indicator {
-				@apply size-1;
-			}
-		}
-
-		&.is-sm {
 			@apply size-6;
 			& .avatar-image {
 				@apply size-6 object-cover rounded-avatar;
 			}
 			& .avatar-name {
-				@apply text-base;
+				@apply text-xs;
 			}
 			& .avatar-icon {
 				@apply size-4;
 			}
 			& .avatar-indicator {
-				@apply size-2;
+				@apply size-1.5;
 			}
 		}
 
-		&.is-md {
-			@apply size-7;
+		&.is-sm {
+			@apply size-8;
 			& .avatar-image {
-				@apply size-7 object-cover rounded-avatar;
+				@apply size-8 object-cover rounded-avatar;
 			}
 			& .avatar-name {
-				@apply text-lg;
+				@apply text-sm;
 			}
 			& .avatar-icon {
 				@apply size-5;
@@ -74,29 +58,29 @@
 			}
 		}
 
-		&.is-lg {
+		&.is-md {
 			@apply size-10;
 			& .avatar-image {
 				@apply size-10 object-cover rounded-avatar;
 			}
 			& .avatar-name {
-				@apply text-xl;
+				@apply text-base;
 			}
 			& .avatar-icon {
 				@apply size-6;
 			}
 			& .avatar-indicator {
-				@apply size-3;
+				@apply size-2.5;
 			}
 		}
 
-		&.is-xl {
-			@apply size-14;
+		&.is-lg {
+			@apply size-12;
 			& .avatar-image {
-				@apply size-14 object-cover rounded-avatar;
+				@apply size-12 object-cover rounded-avatar;
 			}
 			& .avatar-name {
-				@apply text-3xl;
+				@apply text-lg;
 			}
 			& .avatar-icon {
 				@apply size-8;
@@ -105,53 +89,69 @@
 				@apply size-3;
 			}
 		}
+
+		&.is-xl {
+			@apply size-16;
+			& .avatar-image {
+				@apply size-16 object-cover rounded-avatar;
+			}
+			& .avatar-name {
+				@apply text-2xl;
+			}
+			& .avatar-icon {
+				@apply size-10;
+			}
+			& .avatar-indicator {
+				@apply size-4;
+			}
+		}
 	}
 
 	.avatar.is-soft {
 		&.is-primary {
-			@apply bg-on-primary text-primary ring-primary hover:bg-on-primary/80;
+			@apply bg-soft-primary text-primary ring-primary;
 		}
 		&.is-secondary {
-			@apply bg-on-secondary text-secondary ring-secondary hover:bg-on-secondary/80;
+			@apply bg-soft-secondary text-secondary ring-secondary;
 		}
 		&.is-muted {
-			@apply bg-muted text-on-muted ring-muted hover:bg-muted/80;
+			@apply bg-muted text-on-muted ring-muted;
 		}
 		&.is-success {
-			@apply bg-on-success text-success ring-success hover:bg-on-success/80;
+			@apply bg-soft-success text-success ring-success;
 		}
 		&.is-info {
-			@apply bg-on-info text-info ring-info hover:bg-on-info/80;
+			@apply bg-soft-info text-info ring-info;
 		}
 		&.is-warning {
-			@apply bg-on-warning text-warning ring-warning hover:bg-on-warning/80;
+			@apply bg-soft-warning text-warning ring-warning;
 		}
 		&.is-danger {
-			@apply bg-on-danger text-danger ring-danger hover:bg-on-danger/80;
+			@apply bg-soft-danger text-danger ring-danger;
 		}
 	}
 
 	.avatar.is-solid {
 		&.is-primary {
-			@apply bg-primary text-on-primary ring-primary hover:bg-primary/80;
+			@apply bg-primary text-on-primary ring-primary;
 		}
 		&.is-secondary {
-			@apply bg-secondary text-on-secondary ring-secondary hover:bg-secondary/80;
+			@apply bg-secondary text-on-secondary ring-secondary;
 		}
 		&.is-muted {
-			@apply bg-on-muted text-muted ring-muted hover:bg-on-muted/80;
+			@apply bg-muted text-on-muted ring-muted;
 		}
 		&.is-success {
-			@apply bg-success text-on-success ring-success hover:bg-success/80;
+			@apply bg-success text-on-success ring-success;
 		}
 		&.is-info {
-			@apply bg-info text-on-info ring-info hover:bg-info/80;
+			@apply bg-info text-on-info ring-info;
 		}
 		&.is-warning {
-			@apply bg-warning text-on-warning ring-warning hover:bg-warning/80;
+			@apply bg-warning text-on-warning ring-warning;
 		}
 		&.is-danger {
-			@apply bg-danger text-on-danger ring-danger hover:bg-danger/80;
+			@apply bg-danger text-on-danger ring-danger;
 		}
 	}
 

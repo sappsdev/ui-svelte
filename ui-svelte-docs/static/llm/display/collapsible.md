@@ -10,18 +10,18 @@ import {Collapsible} from 'ui-svelte';
 
 ## Props
 
-| Prop           | Type                                                                                                            | Default     | Description               |
-| -------------- | --------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------- |
-| `label`        | `string`                                                                                                        | -           | Header label text         |
-| `content`      | `Snippet \| string`                                                                                             | -           | Collapsible content       |
-| `startContent` | `Snippet`                                                                                                       | -           | Icon/content before label |
-| `color`        | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning' \| 'surface' \| 'default'` | `'default'` | Color theme               |
-| `variant`      | `'solid' \| 'soft' \| 'outlined' \| 'ghost'`                                                                    | `'ghost'`   | Visual style              |
-| `disabled`     | `boolean`                                                                                                       | `false`     | Disable toggle            |
-| `defaultOpen`  | `boolean`                                                                                                       | `false`     | Start expanded            |
-| `rootClass`    | `string`                                                                                                        | -           | Root container class      |
-| `headerClass`  | `string`                                                                                                        | -           | Header class              |
-| `contentClass` | `string`                                                                                                        | -           | Content section class     |
+| Prop           | Type                                                                                                               | Default        | Description               |
+| -------------- | ------------------------------------------------------------------------------------------------------------------ | -------------- | ------------------------- |
+| `label`        | `string`                                                                                                           | -              | Header label text         |
+| `content`      | `Snippet \| string`                                                                                                | -              | Collapsible content       |
+| `startContent` | `Snippet`                                                                                                          | -              | Icon/content before label |
+| `color`        | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning' \| 'surface' \| 'background'` | `'background'` | Color theme               |
+| `variant`      | `'solid' \| 'soft' \| 'outlined' \| 'ghost'`                                                                       | `'ghost'`      | Visual style              |
+| `disabled`     | `boolean`                                                                                                          | `false`        | Disable toggle            |
+| `defaultOpen`  | `boolean`                                                                                                          | `false`        | Start expanded            |
+| `rootClass`    | `string`                                                                                                           | -              | Root container class      |
+| `headerClass`  | `string`                                                                                                           | -              | Header class              |
+| `contentClass` | `string`                                                                                                           | -              | Content section class     |
 
 ## Patterns
 

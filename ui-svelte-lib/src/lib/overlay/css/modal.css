@@ -9,27 +9,63 @@
 			@apply relative flex flex-col rounded-box max-w-[95vw] max-h-[95vh];
 
 			&.is-soft {
-				&.is-primary { @apply bg-on-primary text-primary; }
-				&.is-secondary { @apply bg-on-secondary text-secondary; }
-				&.is-muted { @apply bg-muted text-on-muted; }
-				&.is-success { @apply bg-on-success text-success; }
-				&.is-info { @apply bg-on-info text-info; }
-				&.is-warning { @apply bg-on-warning text-warning; }
-				&.is-danger { @apply bg-on-danger text-danger; }
-				&.is-default { @apply bg-background text-on-background; }
-				&.is-surface { @apply bg-surface text-on-surface; }
+				&.is-primary {
+					@apply bg-soft-primary text-primary;
+				}
+				&.is-secondary {
+					@apply bg-soft-secondary text-secondary;
+				}
+				&.is-muted {
+					@apply bg-soft-muted text-on-muted;
+				}
+				&.is-success {
+					@apply bg-soft-success text-success;
+				}
+				&.is-info {
+					@apply bg-soft-info text-info;
+				}
+				&.is-warning {
+					@apply bg-soft-warning text-warning;
+				}
+				&.is-danger {
+					@apply bg-soft-danger text-danger;
+				}
+				&.is-background {
+					@apply bg-background text-on-background;
+				}
+				&.is-surface {
+					@apply bg-surface text-on-surface;
+				}
 			}
 
 			&.is-solid {
-				&.is-primary { @apply bg-primary text-on-primary; }
-				&.is-secondary { @apply bg-secondary text-on-secondary; }
-				&.is-muted { @apply bg-on-muted text-muted; }
-				&.is-success { @apply bg-success text-on-success; }
-				&.is-info { @apply bg-info text-on-info; }
-				&.is-warning { @apply bg-warning text-on-warning; }
-				&.is-danger { @apply bg-danger text-on-danger; }
-				&.is-default { @apply bg-background text-on-background; }
-				&.is-surface { @apply bg-surface text-on-surface; }
+				&.is-primary {
+					@apply bg-primary text-on-primary;
+				}
+				&.is-secondary {
+					@apply bg-secondary text-on-secondary;
+				}
+				&.is-muted {
+					@apply bg-on-muted text-muted;
+				}
+				&.is-success {
+					@apply bg-success text-on-success;
+				}
+				&.is-info {
+					@apply bg-info text-on-info;
+				}
+				&.is-warning {
+					@apply bg-warning text-on-warning;
+				}
+				&.is-danger {
+					@apply bg-danger text-on-danger;
+				}
+				&.is-background {
+					@apply bg-background text-on-background;
+				}
+				&.is-surface {
+					@apply bg-surface text-on-surface;
+				}
 			}
 
 			.modal-body {
@@ -47,5 +83,21 @@
 		.modal-btn-close {
 			@apply absolute top-1 right-1 float-right z-50 size-6 p-1 hover:bg-muted rounded-full flex items-center justify-center text-on-muted hover:text-danger cursor-pointer;
 		}
+	}
+	.alert-dialog-title {
+		font-size: 1.125rem;
+		font-weight: 600;
+		margin: 0;
+	}
+
+	.alert-dialog-description {
+		color: var(--on-muted);
+		margin: 0;
+	}
+
+	.alert-dialog-actions {
+		display: flex;
+		gap: 0.75rem;
+		justify-content: flex-end;
 	}
 }

@@ -15,7 +15,6 @@
 	const colorOptions = [
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
-		{ id: 'muted', label: 'Muted' },
 		{ id: 'success', label: 'Success' },
 		{ id: 'info', label: 'Info' },
 		{ id: 'danger', label: 'Danger' },
@@ -116,7 +115,7 @@
 		{ prop: 'target', type: '_self | _blank | _parent | _top', initial: '' },
 		{
 			prop: 'color',
-			type: 'primary | secondary | muted | success | info | danger | warning',
+			type: 'primary | secondary | success | info | danger | warning',
 			initial: 'primary'
 		},
 		{
@@ -220,7 +219,6 @@
 	<Card>
 		<div class="wrap gap-4 center">
 			<IconButton icon={HeartAngleLinearIcon} color="danger" />
-			<IconButton icon={Settings24RegularIcon} color="muted" />
 			<IconButton icon={Search24RegularIcon} color="info" />
 			<IconButton icon={TrashLinearIcon} color="danger" variant="soft" />
 			<IconButton icon={DownloadLinearIcon} color="success" variant="outlined" />

@@ -10,15 +10,17 @@ import {Sidebar} from 'ui-svelte';
 
 ## Props
 
-| Prop           | Type      | Default | Description             |
-| -------------- | --------- | ------- | ----------------------- |
-| `children`     | `Snippet` | -       | Main content (required) |
-| `header`       | `Snippet` | -       | Header section          |
-| `footer`       | `Snippet` | -       | Footer section          |
-| `class`        | `string`  | -       | Container classes       |
-| `contentClass` | `string`  | -       | Content wrapper classes |
-| `headerClass`  | `string`  | -       | Header classes          |
-| `footerClass`  | `string`  | -       | Footer classes          |
+| Prop           | Type                                                                                                               | Default     | Description             |
+| -------------- | ------------------------------------------------------------------------------------------------------------------ | ----------- | ----------------------- |
+| `children`     | `Snippet`                                                                                                          | -           | Main content (required) |
+| `header`       | `Snippet`                                                                                                          | -           | Header section          |
+| `footer`       | `Snippet`                                                                                                          | -           | Footer section          |
+| `color`        | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger' \| 'surface' \| 'background'` | `'surface'` | Color theme             |
+| `variant`      | `'solid' \| 'soft' \| 'outlined' \| 'ghost'`                                                                       | `'ghost'`   | Visual style            |
+| `rootClass`    | `string`                                                                                                           | -           | Container classes       |
+| `contentClass` | `string`                                                                                                           | -           | Content wrapper classes |
+| `headerClass`  | `string`                                                                                                           | -           | Header classes          |
+| `footerClass`  | `string`                                                                                                           | -           | Footer classes          |
 
 ## Patterns
 
@@ -49,6 +51,25 @@ import {Sidebar} from 'ui-svelte';
 </Sidebar>
 ```
 
+### With Color and Variant
+
+```svelte
+<!-- Solid primary sidebar -->
+<Sidebar class="w-48" color="primary" variant="solid">
+	<SideNav items={navItems} />
+</Sidebar>
+
+<!-- Soft surface sidebar -->
+<Sidebar class="w-48" color="surface" variant="soft">
+	<SideNav items={navItems} />
+</Sidebar>
+
+<!-- Outlined muted sidebar -->
+<Sidebar class="w-48" color="muted" variant="outlined">
+	<SideNav items={navItems} />
+</Sidebar>
+```
+
 ### Within Scaffold
 
 ```svelte
@@ -60,7 +81,7 @@ import {Sidebar} from 'ui-svelte';
 	{/snippet}
 
 	{#snippet start()}
-		<Sidebar class="w-48">
+		<Sidebar class="w-48" color="surface" variant="soft">
 			{#snippet header()}
 				<h3>Navigation</h3>
 			{/snippet}
@@ -88,7 +109,7 @@ import {Sidebar} from 'ui-svelte';
 	{/snippet}
 
 	{#snippet start()}
-		<Sidebar class="w-48">
+		<Sidebar class="w-48" color="primary" variant="solid">
 			<SideNav items={navItems} />
 		</Sidebar>
 	{/snippet}
@@ -97,11 +118,20 @@ import {Sidebar} from 'ui-svelte';
 </Scaffold>
 
 <Drawer bind:open={drawerOpen}>
-	<Sidebar class="w-64">
+	<Sidebar class="w-64" color="primary" variant="solid">
 		<SideNav items={navItems} />
 	</Sidebar>
 </Drawer>
 ```
+
+## Variant Styles
+
+| Variant    | Description                         |
+| ---------- | ----------------------------------- |
+| `solid`    | Solid background with contrast text |
+| `soft`     | Subtle tinted background            |
+| `outlined` | Border with transparent background  |
+| `ghost`    | Transparent background              |
 
 ## Width and Height Guidelines
 
@@ -121,3 +151,4 @@ import {Sidebar} from 'ui-svelte';
 - Automatically receives `fixed` positioning within Scaffold
 - Use `vh-*` utilities to fill remaining viewport height
 - Combine with Drawer for responsive mobile navigation
+- Default is `color="surface"` and `variant="ghost"` (transparent)

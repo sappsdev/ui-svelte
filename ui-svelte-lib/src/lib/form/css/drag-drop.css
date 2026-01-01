@@ -51,25 +51,25 @@
 		}
 
 		&.is-primary .drag-drop-list {
-			@apply bg-on-primary/50;
+			@apply bg-soft-primary/50;
 		}
 		&.is-secondary .drag-drop-list {
-			@apply bg-on-secondary/50;
+			@apply bg-soft-secondary/50;
 		}
 		&.is-muted .drag-drop-list {
-			@apply bg-muted/50;
+			@apply bg-soft-muted/50;
 		}
 		&.is-success .drag-drop-list {
-			@apply bg-on-success/50;
+			@apply bg-soft-success/50;
 		}
 		&.is-info .drag-drop-list {
-			@apply bg-on-info/50;
+			@apply bg-soft-info/50;
 		}
 		&.is-danger .drag-drop-list {
-			@apply bg-on-danger/50;
+			@apply bg-soft-danger/50;
 		}
 		&.is-warning .drag-drop-list {
-			@apply bg-on-warning/50;
+			@apply bg-soft-warning/50;
 		}
 	}
 

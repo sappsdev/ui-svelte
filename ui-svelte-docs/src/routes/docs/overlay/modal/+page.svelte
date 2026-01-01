@@ -12,7 +12,7 @@
 		{ id: 'danger', label: 'Danger' },
 		{ id: 'warning', label: 'Warning' },
 		{ id: 'surface', label: 'Surface' },
-		{ id: 'default', label: 'Default' }
+		{ id: 'background', label: 'Background' }
 	];
 
 	const variantOptions = [
@@ -20,7 +20,7 @@
 		{ id: 'soft', label: 'Soft' }
 	];
 
-	let color: any = $state('default');
+	let color: any = $state('background');
 	let variant: any = $state('solid');
 	let hasHeader = $state(true);
 	let hasFooter = $state(true);
@@ -59,7 +59,7 @@
 			``,
 			`<Modal`,
 			`\tbind:open`,
-			color !== 'default' && `\tcolor="${color}"`,
+			color !== 'background' && `\tcolor="${color}"`,
 			variant !== 'solid' && `\tvariant="${variant}"`,
 			disableOverlayClose && `\tdisableOverlayClose`,
 			hideCloseButton && `\thideCloseButton`,
@@ -85,8 +85,8 @@
 		{ prop: 'footer', type: 'Snippet', initial: '' },
 		{
 			prop: 'color',
-			type: 'primary | secondary | muted | success | info | warning | danger | surface | default',
-			initial: 'default'
+			type: 'primary | secondary | muted | success | info | warning | danger | surface | background',
+			initial: 'background'
 		},
 		{
 			prop: 'variant',

@@ -11,33 +11,33 @@ let pageTransitionValue = $state<PageTransition>('fade');
 let mainElement = $state<HTMLDivElement>();
 
 let themeColors = $state({
-	primary: 'oklch(54.6% 0.245 262.881)',
-	onPrimary: 'oklch(93.2% 0.032 255.585)',
-	secondary: 'oklch(59.2% 0.249 0.584)',
-	onSecondary: 'oklch(94.8% 0.028 342.258)',
+	onDark: 'oklch(97% 0.01 90)',
+	onLight: 'oklch(25% 0.01 30)',
+	primary: 'oklch(75% 0.15 145)',
+	softPrimary: 'oklch(95% 0.05 145)',
+	secondary: 'oklch(28.42% 0.0467 259.99)',
+	softSecondary: 'oklch(92% 0.005 30)',
 	muted: 'oklch(87.2% 0.01 258.338)',
-	onMuted: 'oklch(37.2% 0.044 257.287)',
-	background: 'oklch(98.5% 0.002 247.839)',
-	onBackground: 'oklch(21% 0.034 264.665)',
+	softMuted: 'oklch(94% 0.005 258.338)',
+	background: 'oklch(96% 0.005 85)',
+	surface: 'oklch(98% 0.003 85)',
 	success: 'oklch(62.7% 0.194 149.214)',
-	onSuccess: 'oklch(96.2% 0.044 156.743)',
+	softSuccess: 'oklch(95% 0.06 149.214)',
 	info: 'oklch(58.8% 0.158 241.966)',
-	onInfo: 'oklch(95.1% 0.026 236.824)',
+	softInfo: 'oklch(95% 0.05 241.966)',
 	warning: 'oklch(68.1% 0.162 75.834)',
-	onWarning: 'oklch(97.3% 0.071 103.193)',
+	softWarning: 'oklch(96% 0.05 75.834)',
 	danger: 'oklch(57.7% 0.245 27.325)',
-	onDanger: 'oklch(93.6% 0.032 17.717)',
-	surface: 'oklch(96.7% 0.003 264.542)',
-	onSurface: 'oklch(27.9% 0.041 260.031)'
+	softDanger: 'oklch(95% 0.07 27.325)'
 });
 
 let darkThemeColors = $state({
+	secondary: 'oklch(97% 0.01 90)',
+	softSecondary: 'oklch(28% 0.015 259.99)',
 	muted: 'oklch(37.3% 0.034 259.733)',
-	onMuted: 'oklch(87.2% 0.01 258.338)',
+	softMuted: 'oklch(28% 0.02 259.733)',
 	background: 'oklch(13% 0.028 261.692)',
-	onBackground: 'oklch(96.7% 0.003 264.542)',
-	surface: 'oklch(21% 0.034 264.665)',
-	onSurface: 'oklch(92.8% 0.006 264.531)'
+	surface: 'oklch(21% 0.034 264.665)'
 });
 
 export const storeApp = {

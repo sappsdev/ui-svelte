@@ -277,6 +277,10 @@ export const sideMenuItems: SideNavItem[] = [
 		open: true,
 		subitems: [
 			{
+				label: 'AlertDialog',
+				href: '/docs/overlay/alert-dialog'
+			},
+			{
 				label: 'Command',
 				href: '/docs/overlay/command'
 			},

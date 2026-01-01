@@ -69,25 +69,25 @@
 
 	.chip.is-soft {
 		&.is-primary {
-			@apply bg-on-primary text-primary;
+			@apply bg-soft-primary text-primary;
 		}
 		&.is-secondary {
-			@apply bg-on-secondary text-secondary;
+			@apply bg-soft-secondary text-secondary;
 		}
 		&.is-muted {
-			@apply bg-muted text-on-muted;
+			@apply bg-soft-muted text-on-muted;
 		}
 		&.is-success {
-			@apply bg-on-success text-success;
+			@apply bg-soft-success text-success;
 		}
 		&.is-info {
-			@apply bg-on-info text-info;
+			@apply bg-soft-info text-info;
 		}
 		&.is-warning {
-			@apply bg-on-warning text-warning;
+			@apply bg-soft-warning text-warning;
 		}
 		&.is-danger {
-			@apply bg-on-danger text-danger;
+			@apply bg-soft-danger text-danger;
 		}
 	}
 
@@ -99,7 +99,7 @@
 			@apply bg-secondary text-on-secondary;
 		}
 		&.is-muted {
-			@apply bg-on-muted text-muted;
+			@apply bg-muted text-on-muted;
 		}
 		&.is-success {
 			@apply bg-success text-on-success;
@@ -123,7 +123,7 @@
 			@apply inset-ring-2 inset-ring-secondary text-secondary;
 		}
 		&.is-muted {
-			@apply inset-ring-2 inset-ring-on-muted text-on-muted;
+			@apply inset-ring-2 inset-ring-muted text-on-muted;
 		}
 		&.is-success {
 			@apply inset-ring-2 inset-ring-success text-success;
@@ -141,25 +141,25 @@
 
 	.chip.is-overlay {
 		&.is-primary {
-			@apply bg-on-primary/60 text-primary;
+			@apply bg-overlay text-on-overlay;
 		}
 		&.is-secondary {
-			@apply bg-on-secondary/60 text-secondary;
+			@apply bg-overlay text-on-overlay;
 		}
 		&.is-muted {
-			@apply bg-muted/60 text-on-muted;
+			@apply bg-overlay text-on-overlay;
 		}
 		&.is-success {
-			@apply bg-on-success/60 text-success;
+			@apply bg-overlay text-on-overlay;
 		}
 		&.is-info {
-			@apply bg-on-info/60 text-info;
+			@apply bg-overlay text-on-overlay;
 		}
 		&.is-warning {
-			@apply bg-on-warning/60 text-warning;
+			@apply bg-overlay text-on-overlay;
 		}
 		&.is-danger {
-			@apply bg-on-danger/60 text-danger;
+			@apply bg-overlay text-on-overlay;
 		}
 	}
 }

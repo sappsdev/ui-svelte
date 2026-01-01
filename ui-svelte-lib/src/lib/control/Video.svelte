@@ -204,6 +204,7 @@
 								min={0}
 								max={1}
 								step={0.1}
+								{color}
 								size="sm"
 								name="video-volume"
 								hideLabel
@@ -241,6 +242,7 @@
 				max={videoParams.duration}
 				bind:value={videoParams.time}
 				name="video-time"
+				{color}
 				hideLabel
 			/>
 		</div>

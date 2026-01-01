@@ -6,7 +6,7 @@
 	import { Icon } from 'ui-svelte';
 
 	const colorOptions = [
-		{ id: 'default', label: 'Default' },
+		{ id: 'background', label: 'Background' },
 		{ id: 'surface', label: 'Surface' },
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
@@ -24,7 +24,7 @@
 		{ id: 'solid', label: 'Solid' }
 	];
 
-	let color: any = $state('default');
+	let color: any = $state('background');
 	let variant: any = $state('ghost');
 
 	let startContent = $state(false);
@@ -32,7 +32,7 @@
 	let defaultOpen = $state(false);
 
 	let hasProps = $derived(
-		[color !== 'default', variant !== 'ghost', startContent, disabled, defaultOpen].some(Boolean)
+		[color !== 'background', variant !== 'ghost', startContent, disabled, defaultOpen].some(Boolean)
 	);
 
 	let code = $derived(() => {
@@ -47,7 +47,7 @@
 		const componentLines = [
 			hasProps && `<Collapsible`,
 			hasProps && `\tlabel="Collapsible Header"`,
-			color !== 'default' && `\tcolor="${color}"`,
+			color !== 'background' && `\tcolor="${color}"`,
 			variant !== 'ghost' && `\tvariant="${variant}"`,
 			disabled && `\tdisabled`,
 			defaultOpen && `\tdefaultOpen`,
@@ -80,8 +80,8 @@
 		},
 		{
 			prop: 'color',
-			type: 'primary | secondary | muted | success | info | danger | warning | surface | default',
-			initial: 'default'
+			type: 'primary | secondary | muted | success | info | danger | warning | surface | background',
+			initial: 'background'
 		},
 		{ prop: 'disabled', type: 'boolean', initial: 'false' },
 		{ prop: 'defaultOpen', type: 'boolean', initial: 'false' },

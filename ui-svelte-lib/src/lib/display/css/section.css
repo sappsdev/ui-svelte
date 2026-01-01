@@ -17,118 +17,97 @@
 		.section-body {
 			@apply column gap-4 md:gap-6 w-full p-4 md:p-6;
 		}
-
 	}
 
-	.section.is-soft.is-primary {
-		@apply bg-on-primary text-primary;
-	}
+	.section {
+		&.is-soft {
+			&.is-primary {
+				@apply bg-soft-primary text-primary;
+			}
+			&.is-secondary {
+				@apply bg-soft-secondary text-secondary;
+			}
+			&.is-muted {
+				@apply bg-soft-muted text-on-muted;
+			}
+			&.is-background {
+				@apply bg-background text-on-background;
+			}
+			&.is-surface {
+				@apply bg-surface text-on-surface;
+			}
+			&.is-success {
+				@apply bg-soft-success text-success;
+			}
+			&.is-info {
+				@apply bg-soft-info text-info;
+			}
+			&.is-warning {
+				@apply bg-soft-warning text-warning;
+			}
+			&.is-danger {
+				@apply bg-soft-danger text-danger;
+			}
+		}
 
-	.section.is-soft.is-secondary {
-		@apply bg-on-secondary text-secondary;
-	}
+		&.is-solid {
+			&.is-primary {
+				@apply bg-primary text-on-primary;
+			}
+			&.is-secondary {
+				@apply bg-secondary text-on-secondary;
+			}
+			&.is-muted {
+				@apply bg-muted text-on-muted;
+			}
+			&.is-background {
+				@apply bg-background text-on-background;
+			}
+			&.is-surface {
+				@apply bg-surface text-on-surface;
+			}
+			&.is-success {
+				@apply bg-success text-on-success;
+			}
+			&.is-info {
+				@apply bg-info text-on-info;
+			}
+			&.is-warning {
+				@apply bg-warning text-on-warning;
+			}
+			&.is-danger {
+				@apply bg-danger text-on-danger;
+			}
+		}
 
-	.section.is-soft.is-muted {
-		@apply bg-muted text-on-muted;
-	}
-
-	.section.is-soft.is-success {
-		@apply bg-on-success text-success;
-	}
-
-	.section.is-soft.is-info {
-		@apply bg-on-info text-info;
-	}
-
-	.section.is-soft.is-warning {
-		@apply bg-on-warning text-warning;
-	}
-
-	.section.is-soft.is-danger {
-		@apply bg-on-danger text-danger;
-	}
-
-	.section.is-soft.is-default {
-		@apply bg-background text-on-background;
-	}
-
-	.section.is-soft.is-surface {
-		@apply bg-surface text-on-surface;
-	}
-
-	.section.is-solid.is-primary {
-		@apply bg-primary text-on-primary;
-	}
-
-
-	.section.is-solid.is-secondary {
-		@apply bg-secondary text-on-secondary;
-	}
-
-	.section.is-solid.is-muted {
-		@apply bg-on-muted text-muted;
-	}
-
-	.section.is-solid.is-success {
-		@apply bg-success text-on-success;
-	}
-
-
-	.section.is-solid.is-info {
-		@apply bg-info text-on-info;
-	}
-
-
-	.section.is-solid.is-warning {
-		@apply bg-warning text-on-warning;
-	}
-
-
-	.section.is-solid.is-danger {
-		@apply bg-danger text-on-danger;
-	}
-
-	.section.is-solid.is-default {
-		@apply bg-background text-on-background;
-	}
-
-	.section.is-solid.is-surface {
-		@apply bg-surface text-on-surface;
-	}
-
-	.section.is-ghost.is-primary {
-		@apply bg-transparent text-primary;
-	}
-
-	.section.is-ghost.is-secondary {
-		@apply bg-transparent text-secondary;
-	}
-
-	.section.is-ghost.is-muted {
-		@apply bg-transparent text-on-muted;
-	}
-
-	.section.is-ghost.is-success {
-		@apply bg-transparent text-success;
-	}
-
-	.section.is-ghost.is-info {
-		@apply bg-transparent text-info;
-	}
-
-	.section.is-ghost.is-warning {
-		@apply bg-transparent text-warning;
-	}
-
-	.section.is-ghost.is-danger {
-		@apply bg-transparent text-danger;
-	}
-
-	.section.is-ghost.is-default {
-		@apply bg-transparent text-on-background;
-	}
-
-	.section.is-ghost.is-surface {
-		@apply bg-transparent text-on-surface;
+		&.is-ghost {
+			&.is-primary {
+				@apply bg-transparent text-primary;
+			}
+			&.is-secondary {
+				@apply bg-transparent text-secondary;
+			}
+			&.is-muted {
+				@apply bg-transparent text-on-muted;
+			}
+			&.is-background {
+				@apply bg-transparent text-on-background;
+			}
+			&.is-surface {
+				@apply bg-transparent text-on-surface;
+			}
+			&.is-success {
+				@apply bg-transparent text-success;
+			}
+			&.is-info {
+				@apply bg-transparent text-info;
+			}
+			&.is-warning {
+				@apply bg-transparent text-warning;
+			}
+			&.is-danger {
+				@apply bg-transparent text-danger;
+			}
+		}
 	}
 }

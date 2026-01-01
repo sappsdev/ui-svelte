@@ -12,7 +12,7 @@
 		{ id: 'danger', label: 'Danger' },
 		{ id: 'warning', label: 'Warning' },
 		{ id: 'surface', label: 'Surface' },
-		{ id: 'default', label: 'Default' }
+		{ id: 'background', label: 'Background' }
 	];
 
 	const variantOptions = [
@@ -27,7 +27,7 @@
 		{ id: 'bottom', label: 'Bottom' }
 	];
 
-	let color: any = $state('default');
+	let color: any = $state('background');
 	let variant: any = $state('solid');
 	let position: any = $state('start');
 	let hasHeader = $state(true);
@@ -41,7 +41,7 @@
 	let openPositions = $state(false);
 	let openHeaderFooter = $state(false);
 	let selectedVariant: any = $state('solid');
-	let selectedColor: any = $state('default');
+	let selectedColor: any = $state('background');
 	let selectedPosition: any = $state('start');
 
 	const handleOpenVariant = (variantId: string) => {
@@ -74,7 +74,7 @@
 			`<Drawer`,
 			`\tbind:open`,
 			position !== 'start' && `\tposition="${position}"`,
-			color !== 'default' && `\tcolor="${color}"`,
+			color !== 'background' && `\tcolor="${color}"`,
 			variant !== 'solid' && `\tvariant="${variant}"`,
 			disableOverlayClose && `\tdisableOverlayClose`,
 			hideCloseButton && `\thideCloseButton`,
@@ -101,8 +101,8 @@
 		{ prop: 'footer', type: 'Snippet', initial: '' },
 		{
 			prop: 'color',
-			type: 'primary | secondary | muted | success | info | warning | danger | surface | default',
-			initial: 'default'
+			type: 'primary | secondary | muted | success | info | warning | danger | surface | background',
+			initial: 'background'
 		},
 		{
 			prop: 'variant',

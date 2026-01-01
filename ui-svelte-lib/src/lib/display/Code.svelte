@@ -20,7 +20,7 @@
 	let {
 		code,
 		lang,
-		lightTheme = 'catppuccin-latte',
+		lightTheme = 'github-light',
 		darkTheme = 'catppuccin-frappe',
 		disableCopy,
 		hideLang,

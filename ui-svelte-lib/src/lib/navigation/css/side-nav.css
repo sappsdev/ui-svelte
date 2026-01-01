@@ -553,10 +553,10 @@
 				}
 			}
 			.sidenav-item:hover {
-				@apply bg-on-primary/50;
+				@apply bg-soft-primary/50;
 			}
 			.sidenav-item.is-active {
-				@apply bg-on-primary text-primary;
+				@apply bg-soft-primary text-primary;
 			}
 		}
 
@@ -571,10 +571,10 @@
 				}
 			}
 			.sidenav-item:hover {
-				@apply bg-on-secondary/50;
+				@apply bg-soft-secondary/50;
 			}
 			.sidenav-item.is-active {
-				@apply bg-on-secondary text-secondary;
+				@apply bg-soft-secondary text-secondary;
 			}
 		}
 
@@ -586,10 +586,10 @@
 				}
 			}
 			.sidenav-item:hover {
-				@apply bg-muted/50;
+				@apply bg-soft-muted/50;
 			}
 			.sidenav-item.is-active {
-				@apply bg-muted;
+				@apply bg-soft-muted text-on-muted;
 			}
 		}
 
@@ -604,10 +604,10 @@
 				}
 			}
 			.sidenav-item:hover {
-				@apply bg-on-success/50;
+				@apply bg-soft-success/50;
 			}
 			.sidenav-item.is-active {
-				@apply bg-on-success text-success;
+				@apply bg-soft-success text-success;
 			}
 		}
 
@@ -622,10 +622,10 @@
 				}
 			}
 			.sidenav-item:hover {
-				@apply bg-on-info/50;
+				@apply bg-soft-info/50;
 			}
 			.sidenav-item.is-active {
-				@apply bg-on-info text-info;
+				@apply bg-soft-info text-info;
 			}
 		}
 
@@ -640,10 +640,10 @@
 				}
 			}
 			.sidenav-item:hover {
-				@apply bg-on-warning/50;
+				@apply bg-soft-warning/50;
 			}
 			.sidenav-item.is-active {
-				@apply bg-on-warning text-warning;
+				@apply bg-soft-warning text-warning;
 			}
 		}
 
@@ -658,10 +658,10 @@
 				}
 			}
 			.sidenav-item:hover {
-				@apply bg-on-danger/50;
+				@apply bg-soft-danger/50;
 			}
 			.sidenav-item.is-active {
-				@apply bg-on-danger text-danger;
+				@apply bg-soft-danger text-danger;
 			}
 		}
 	}

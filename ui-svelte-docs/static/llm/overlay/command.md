@@ -57,11 +57,16 @@ import {(Command, useSearch)} from 'ui-svelte';
 
 ### With Groups
 
+Groups can include an optional `icon` that displays next to the group label.
+
 ```svelte
 <script lang="ts">
+	import { HomeLinearIcon, SettingsLinearIcon } from '$lib/icons';
+
 	const groups = [
 		{
 			label: 'Pages',
+			icon: HomeLinearIcon,
 			options: [
 				{ id: 1, label: 'Dashboard', href: '/dashboard' },
 				{ id: 2, label: 'Settings', href: '/settings' }
@@ -69,6 +74,7 @@ import {(Command, useSearch)} from 'ui-svelte';
 		},
 		{
 			label: 'Actions',
+			icon: SettingsLinearIcon,
 			options: [
 				{ id: 3, label: 'New Project' },
 				{ id: 4, label: 'Search Files' }
@@ -102,5 +108,7 @@ import {(Command, useSearch)} from 'ui-svelte';
 ## Notes
 
 - Requires `useSearch` hook for search functionality
-- Use `groups` for categorized options
+- Use `groups` for categorized options with optional icons
+- Groups are automatically filtered as you type
+- Closes automatically on navigation (SvelteKit)
 - Footer shows keyboard shortcuts by default

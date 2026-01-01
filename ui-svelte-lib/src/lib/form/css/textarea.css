@@ -49,51 +49,51 @@
 		@apply rounded-ui;
 
 		&.is-primary {
-			@apply bg-on-primary text-primary;
+			@apply bg-soft-primary text-primary;
 			&.is-active {
-				@apply bg-on-primary/90;
+				@apply bg-soft-primary/90;
 			}
 		}
 
 		&.is-secondary {
-			@apply bg-on-secondary text-secondary;
+			@apply bg-soft-secondary text-secondary;
 			&.is-active {
-				@apply bg-on-secondary/90;
+				@apply bg-soft-secondary/90;
 			}
 		}
 
 		&.is-muted {
-			@apply bg-muted text-on-muted;
+			@apply bg-soft-muted text-on-muted;
 			&.is-active {
-				@apply bg-muted/90;
+				@apply bg-soft-muted/90;
 			}
 		}
 
 		&.is-success {
-			@apply bg-on-success text-success;
+			@apply bg-soft-success text-success;
 			&.is-active {
-				@apply bg-on-success/90;
+				@apply bg-soft-success/90;
 			}
 		}
 
 		&.is-info {
-			@apply bg-on-info text-info;
+			@apply bg-soft-info text-info;
 			&.is-active {
-				@apply bg-on-info/90;
+				@apply bg-soft-info/90;
 			}
 		}
 
 		&.is-danger {
-			@apply bg-on-danger text-danger;
+			@apply bg-soft-danger text-danger;
 			&.is-active {
-				@apply bg-on-danger/90;
+				@apply bg-soft-danger/90;
 			}
 		}
 
 		&.is-warning {
-			@apply bg-on-warning text-warning;
+			@apply bg-soft-warning text-warning;
 			&.is-active {
-				@apply bg-on-warning/90;
+				@apply bg-soft-warning/90;
 			}
 		}
 	}

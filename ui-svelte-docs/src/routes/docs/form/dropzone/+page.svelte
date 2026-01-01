@@ -5,7 +5,7 @@
 	import DocsProps from '$lib/components/DocsProps.svelte';
 
 	const colorOptions = [
-		{ id: 'default', label: 'Default' },
+		{ id: 'background', label: 'Background' },
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
@@ -29,7 +29,7 @@
 		{ id: 'lg', label: 'lg' }
 	];
 
-	let color: any = $state('default');
+	let color: any = $state('background');
 	let variant: any = $state('outlined');
 	let size: any = $state('md');
 
@@ -45,7 +45,7 @@
 
 	let hasProps = $derived(
 		[
-			color !== 'default',
+			color !== 'background',
 			variant !== 'outlined',
 			size !== 'md',
 			!multiple,
@@ -70,7 +70,7 @@
 		const componentLines = [
 			hasProps && `<Dropzone`,
 			hasProps && `\tname="dropzone"`,
-			color !== 'default' && `\tcolor="${color}"`,
+			color !== 'background' && `\tcolor="${color}"`,
 			variant !== 'outlined' && `\tvariant="${variant}"`,
 			size !== 'md' && `\tsize="${size}"`,
 			!multiple && `\tmultiple={false}`,
@@ -99,8 +99,8 @@
 		{ prop: 'onchange', type: '(files: FileWithUrl[]) => void', initial: '' },
 		{
 			prop: 'color',
-			type: 'primary | secondary | muted | success | info | warning | danger | surface | default',
-			initial: 'default'
+			type: 'primary | secondary | muted | success | info | warning | danger | surface | background',
+			initial: 'background'
 		},
 		{
 			prop: 'variant',

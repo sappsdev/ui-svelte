@@ -4,7 +4,7 @@
 	import DocsProps from '$lib/components/DocsProps.svelte';
 
 	const colorOptions = [
-		{ id: 'default', label: 'Default' },
+		{ id: 'background', label: 'Background' },
 		{ id: 'primary', label: 'Primary' },
 		{ id: 'secondary', label: 'Secondary' },
 		{ id: 'muted', label: 'Muted' },
@@ -22,7 +22,7 @@
 		{ id: 'outlined', label: 'Outlined' }
 	];
 
-	let color: any = $state('default');
+	let color: any = $state('background');
 	let variant: any = $state('ghost');
 	let multiple = $state(false);
 
@@ -47,7 +47,7 @@
 		}
 	];
 
-	let hasProps = $derived([color !== 'default', variant !== 'ghost', multiple].some(Boolean));
+	let hasProps = $derived([color !== 'background', variant !== 'ghost', multiple].some(Boolean));
 
 	let code = $derived(() => {
 		const scriptLines = [
@@ -65,7 +65,7 @@
 		const componentLines = [
 			hasProps && `<Accordion`,
 			hasProps && `\t{items}`,
-			color !== 'default' && `\tcolor="${color}"`,
+			color !== 'background' && `\tcolor="${color}"`,
 			variant !== 'ghost' && `\tvariant="${variant}"`,
 			multiple && `\tmultiple`,
 			hasProps && `/>`,
@@ -84,8 +84,8 @@
 		},
 		{
 			prop: 'color',
-			type: 'primary | secondary | muted | success | info | danger | warning | surface | default',
-			initial: 'default'
+			type: 'primary | secondary | muted | success | info | danger | warning | surface | background',
+			initial: 'background'
 		},
 		{ prop: 'multiple', type: 'boolean', initial: 'false' },
 		{ prop: 'rootClass', type: 'string', initial: '' },

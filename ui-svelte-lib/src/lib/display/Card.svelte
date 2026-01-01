@@ -16,7 +16,7 @@
 			| 'warning'
 			| 'danger'
 			| 'surface'
-			| 'default';
+			| 'background';
 		variant?: 'solid' | 'soft' | 'outlined' | 'ghost';
 		rootClass?: string;
 		headerClass?: string;
@@ -32,7 +32,7 @@
 		footer,
 		rootClass,
 		cover,
-		color = 'default',
+		color = 'surface',
 		variant = 'outlined',
 		headerClass,
 		bodyClass,
@@ -50,7 +50,7 @@
 		danger: 'is-danger',
 		warning: 'is-warning',
 		surface: 'is-surface',
-		default: 'is-default'
+		background: 'is-background'
 	};
 
 	const variants = {

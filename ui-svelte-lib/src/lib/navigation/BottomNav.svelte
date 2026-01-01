@@ -14,18 +14,21 @@
 		isActive?: boolean;
 	};
 
+	type Color =
+		| 'primary'
+		| 'secondary'
+		| 'muted'
+		| 'success'
+		| 'info'
+		| 'warning'
+		| 'danger'
+		| 'surface'
+		| 'background';
+
 	type Props = {
 		items: BottomNavItem[];
-		color?:
-			| 'primary'
-			| 'secondary'
-			| 'muted'
-			| 'success'
-			| 'info'
-			| 'warning'
-			| 'danger'
-			| 'surface'
-			| 'default';
+		color?: Color;
+		fabColor?: Color;
 		variant?: 'solid' | 'soft' | 'blur';
 		activeStyle?: 'line' | 'pill';
 		size?: 'sm' | 'md' | 'lg';
@@ -37,8 +40,9 @@
 	const {
 		items = [],
 		class: className,
-		color = 'primary',
-		variant = 'soft',
+		color = 'surface',
+		fabColor = 'primary',
+		variant = 'solid',
 		activeStyle = 'line',
 		size = 'md',
 		isBlock = false,
@@ -54,7 +58,7 @@
 		warning: 'is-warning',
 		danger: 'is-danger',
 		surface: 'is-surface',
-		default: 'is-default'
+		background: 'is-background'
 	};
 
 	const variants = {
@@ -104,7 +108,12 @@
 >
 	{#each items as item}
 		{@const active = isItemActive(item)}
-		{@const itemClass = cn('bottomnav-item', active && 'is-active', item.isFab && 'is-fab')}
+		{@const itemClass = cn(
+			'bottomnav-item',
+			active && 'is-active',
+			item.isFab && 'is-fab',
+			item.isFab && colors[fabColor]
+		)}
 
 		{#if item.href}
 			<a href={item.href} class={itemClass}>

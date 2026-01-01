@@ -56,12 +56,8 @@
 		@apply flex-1;
 	}
 
-	/* ===================== */
-	/* Soft Variant (default) */
-	/* ===================== */
-
 	.toggle-group.is-soft {
-		@apply bg-muted;
+		@apply bg-soft-muted;
 	}
 
 	.toggle-group.is-soft .toggle-group-item:not(.is-active) {
@@ -99,10 +95,6 @@
 	.toggle-group.is-soft.is-danger .toggle-group-item.is-active {
 		@apply bg-danger text-on-danger;
 	}
-
-	/* ===================== */
-	/* Solid Variant */
-	/* ===================== */
 
 	.toggle-group.is-solid.is-primary {
 		@apply bg-on-primary;
@@ -188,10 +180,6 @@
 		@apply bg-danger text-on-danger;
 	}
 
-	/* ===================== */
-	/* Outlined Variant */
-	/* ===================== */
-
 	.toggle-group.is-outlined {
 		@apply bg-transparent inset-ring inset-ring-muted;
 	}
@@ -227,10 +215,6 @@
 	.toggle-group.is-outlined.is-danger .toggle-group-item.is-active {
 		@apply bg-danger text-on-danger;
 	}
-
-	/* ===================== */
-	/* Ghost Variant */
-	/* ===================== */
 
 	.toggle-group.is-ghost {
 		@apply bg-transparent p-0;

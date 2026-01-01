@@ -10,16 +10,16 @@ import {Accordion} from 'ui-svelte';
 
 ## Props
 
-| Prop           | Type                                                                                                            | Default     | Description               |
-| -------------- | --------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------- |
-| `items`        | `AccordionItem[]`                                                                                               | `[]`        | Array of accordion items  |
-| `variant`      | `'solid' \| 'soft' \| 'outlined' \| 'ghost'`                                                                    | `'ghost'`   | Visual style              |
-| `color`        | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger' \| 'surface' \| 'default'` | `'default'` | Color theme               |
-| `multiple`     | `boolean`                                                                                                       | `false`     | Allow multiple open items |
-| `rootClass`    | `string`                                                                                                        | -           | Container classes         |
-| `itemClass`    | `string`                                                                                                        | -           | Item classes              |
-| `headerClass`  | `string`                                                                                                        | -           | Header classes            |
-| `contentClass` | `string`                                                                                                        | -           | Content classes           |
+| Prop           | Type                                                                                                               | Default        | Description               |
+| -------------- | ------------------------------------------------------------------------------------------------------------------ | -------------- | ------------------------- |
+| `items`        | `AccordionItem[]`                                                                                                  | `[]`           | Array of accordion items  |
+| `variant`      | `'solid' \| 'soft' \| 'outlined' \| 'ghost'`                                                                       | `'ghost'`      | Visual style              |
+| `color`        | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger' \| 'surface' \| 'background'` | `'background'` | Color theme               |
+| `multiple`     | `boolean`                                                                                                          | `false`        | Allow multiple open items |
+| `rootClass`    | `string`                                                                                                           | -              | Container classes         |
+| `itemClass`    | `string`                                                                                                           | -              | Item classes              |
+| `headerClass`  | `string`                                                                                                           | -              | Header classes            |
+| `contentClass` | `string`                                                                                                           | -              | Content classes           |
 
 ## AccordionItem Type
 

@@ -42,11 +42,27 @@
 	}
 
 	.command-group {
-		@apply mb-2;
+		@apply mb-4 pt-2;
+
+		&:first-child {
+			@apply pt-0;
+		}
+
+		&:not(:first-child) {
+			@apply border-t border-muted/20;
+		}
 	}
 
 	.command-group-label {
-		@apply px-2 py-1.5 text-xs font-medium text-on-muted uppercase tracking-wide;
+		@apply flex items-center gap-2 px-3 py-2 text-xs font-semibold text-on-muted uppercase tracking-wider;
+	}
+
+	.command-group-icon {
+		@apply size-4;
+	}
+
+	.command-group .item {
+		@apply ml-2;
 	}
 
 	.command-empty {

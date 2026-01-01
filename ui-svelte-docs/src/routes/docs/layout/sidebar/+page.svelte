@@ -1,10 +1,22 @@
 <script lang="ts">
-	import { Button, Card, Checkbox, Code, Section, Sidebar, SideNav } from 'ui-svelte';
+	import { Button, Card, Checkbox, Code, Section, Select, Sidebar, SideNav } from 'ui-svelte';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
 
 	let showHeader = $state(true);
 	let showFooter = $state(true);
+	let color = $state<
+		| 'primary'
+		| 'secondary'
+		| 'muted'
+		| 'success'
+		| 'info'
+		| 'warning'
+		| 'danger'
+		| 'surface'
+		| 'background'
+	>('surface');
+	let variant = $state<'solid' | 'soft' | 'outlined' | 'ghost'>('ghost');
 
 	let hasProps = $derived([showHeader, showFooter].some(Boolean));
 
@@ -16,6 +28,25 @@
 		{ label: 'Dashboard', icon: 'fluent:home-24-regular', href: '/dashboard' },
 		{ label: 'Projects', icon: 'fluent:folder-24-regular', href: '/projects' },
 		{ label: 'Settings', icon: 'fluent:settings-24-regular', href: '/settings' }
+	];
+
+	const colorOptions = [
+		{ id: 'primary', label: 'Primary' },
+		{ id: 'secondary', label: 'Secondary' },
+		{ id: 'muted', label: 'Muted' },
+		{ id: 'success', label: 'Success' },
+		{ id: 'info', label: 'Info' },
+		{ id: 'warning', label: 'Warning' },
+		{ id: 'danger', label: 'Danger' },
+		{ id: 'surface', label: 'Surface' },
+		{ id: 'background', label: 'Background' }
+	];
+
+	const variantOptions = [
+		{ id: 'solid', label: 'Solid' },
+		{ id: 'soft', label: 'Soft' },
+		{ id: 'outlined', label: 'Outlined' },
+		{ id: 'ghost', label: 'Ghost' }
 	];
 
 	let code = $derived(() => {
@@ -35,6 +66,8 @@
 		const componentLines = [
 			hasProps && `<Sidebar`,
 			`\tclass="w-48"`,
+			color !== 'surface' && `\tcolor="${color}"`,
+			variant !== 'ghost' && `\tvariant="${variant}"`,
 			hasProps && `>`,
 			!hasProps && `<Sidebar class="w-48">`,
 			showHeader && `\t{#snippet header()}`,
@@ -54,7 +87,13 @@
 		{ prop: 'children', type: 'Snippet', initial: '', required: true },
 		{ prop: 'header', type: 'Snippet', initial: '' },
 		{ prop: 'footer', type: 'Snippet', initial: '' },
-		{ prop: 'class', type: 'string', initial: '' },
+		{
+			prop: 'color',
+			type: "'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger' | 'surface' | 'background'",
+			initial: "'surface'"
+		},
+		{ prop: 'variant', type: "'solid' | 'soft' | 'outlined' | 'ghost'", initial: "'ghost'" },
+		{ prop: 'rootClass', type: 'string', initial: '' },
 		{ prop: 'contentClass', type: 'string', initial: '' },
 		{ prop: 'headerClass', type: 'string', initial: '' },
 		{ prop: 'footerClass', type: 'string', initial: '' }
@@ -80,6 +119,10 @@
 			<Checkbox bind:checked={showHeader} label="Header" />
 			<Checkbox bind:checked={showFooter} label="Footer" />
 		</div>
+		<div class="grid-2 gap-2">
+			<Select bind:value={color} options={colorOptions as any} label="Color" />
+			<Select bind:value={variant} options={variantOptions as any} label="Variant" />
+		</div>
 
 		<div class="doc-preview">
 			<div
@@ -87,6 +130,8 @@
 			>
 				<Sidebar
 					rootClass="w-64"
+					{color}
+					{variant}
 					header={showHeader ? header : undefined}
 					footer={showFooter ? footer : undefined}
 				>
@@ -180,7 +225,7 @@
   {/snippet}
 
   {#snippet start()}
-    <Sidebar class="w-48">
+    <Sidebar class="w-48" color="surface" variant="soft">
       {#snippet header()}
         <h3>Navigation</h3>
       {/snippet}
@@ -234,7 +279,7 @@
   {/snippet}
 
   {#snippet start()}
-    <Sidebar class="w-48">
+    <Sidebar class="w-48" color="primary" variant="solid">
       <SideNav items={navItems} />
     </Sidebar>
   {/snippet}
@@ -244,7 +289,7 @@
 
 <!-- Mobile drawer -->
 <Drawer bind:open={drawerOpen}>
-  <Sidebar class="w-64">
+  <Sidebar class="w-64" color="primary" variant="solid">
     <SideNav items={navItems} />
   </Sidebar>
 </Drawer>`}

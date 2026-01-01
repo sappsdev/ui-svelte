@@ -71,8 +71,19 @@ import {ColorField} from 'ui-svelte';
 <ColorField label="Brand Color" isFloatLabel bind:hex />
 ```
 
+### Initialize with OKLCH
+
+```svelte
+<script>
+	let oklch = $state('oklch(0.75 0.15 145)');
+</script>
+
+<ColorField bind:oklch showOklch label="Theme Color" isFloatLabel />
+```
+
 ## Notes
 
 - All color values are bindable for two-way sync
 - `foreground` returns best contrasting text color
 - Popover opens on click with color picker
+- Component can be initialized with OKLCH format (e.g., `oklch(0.75 0.15 145)`) and will parse it correctly

@@ -29,6 +29,31 @@
 					}
 				}
 
+				&.is-success {
+					@apply checked:border-success;
+					&:checked {
+						@apply after:bg-success;
+					}
+				}
+				&.is-info {
+					@apply checked:border-info;
+					&:checked {
+						@apply after:bg-info;
+					}
+				}
+				&.is-danger {
+					@apply checked:border-danger;
+					&:checked {
+						@apply after:bg-danger;
+					}
+				}
+				&.is-warning {
+					@apply checked:border-warning;
+					&:checked {
+						@apply after:bg-warning;
+					}
+				}
+
 				&.is-sm {
 					@apply w-4 h-4;
 					&:checked {

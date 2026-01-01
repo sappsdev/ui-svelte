@@ -51,8 +51,9 @@
 		{ id: 'lg', label: 'lg' }
 	];
 
-	let color: any = $state('primary');
-	let variant: any = $state('soft');
+	let color: any = $state('surface');
+	let fabColor: any = $state('primary');
+	let variant: any = $state('solid');
 	let activeStyle: any = $state('line');
 	let size: any = $state('md');
 
@@ -69,8 +70,9 @@
 
 	let hasProps = $derived(
 		[
-			color !== 'primary',
-			variant !== 'soft',
+			color !== 'surface',
+			fabColor !== 'primary',
+			variant !== 'solid',
 			activeStyle !== 'line',
 			size !== 'md',
 			!isBlock,
@@ -97,8 +99,9 @@
 		const componentLines = [
 			hasProps && `<BottomNav`,
 			hasProps && `\t{items}`,
-			color !== 'primary' && `\tcolor="${color}"`,
-			variant !== 'soft' && `\tvariant="${variant}"`,
+			color !== 'surface' && `\tcolor="${color}"`,
+			fabColor !== 'primary' && `\tfabColor="${fabColor}"`,
+			variant !== 'solid' && `\tvariant="${variant}"`,
 			activeStyle !== 'line' && `\tactiveStyle="${activeStyle}"`,
 			size !== 'md' && `\tsize="${size}"`,
 			!isBlock && `\tisBlock={false}`,
@@ -116,11 +119,16 @@
 		{
 			prop: 'variant',
 			type: 'solid | soft | blur',
-			initial: 'soft'
+			initial: 'solid'
 		},
 		{
 			prop: 'color',
-			type: 'primary | secondary | muted | success | info | warning | danger | surface | default',
+			type: 'primary | secondary | muted | success | info | warning | danger | surface | background',
+			initial: 'surface'
+		},
+		{
+			prop: 'fabColor',
+			type: 'primary | secondary | muted | success | info | warning | danger | surface | background',
 			initial: 'primary'
 		},
 		{
@@ -164,6 +172,14 @@
 			<Select
 				isFloatLabel
 				rootClass="max-w-xs"
+				label="FAB Color"
+				size="sm"
+				options={colorOptions}
+				bind:value={fabColor}
+			/>
+			<Select
+				isFloatLabel
+				rootClass="max-w-xs"
 				label="Variant"
 				size="sm"
 				options={variantOptions}
@@ -195,6 +211,7 @@
 			<BottomNav
 				items={sampleItems}
 				{color}
+				{fabColor}
 				{variant}
 				{activeStyle}
 				{size}

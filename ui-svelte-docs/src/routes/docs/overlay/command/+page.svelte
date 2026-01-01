@@ -28,7 +28,6 @@
 	let disableGlobalShortcut = $state(false);
 	let showFooter = $state(true);
 
-	// Demo search state
 	const demoOptions = [
 		{
 			id: 1,
@@ -69,13 +68,11 @@
 		clientSide: true
 	});
 
-	// Demo for colors - use same search for demo
 	const colorSearch = useSearch({
 		options: demoOptions.slice(0, 4),
 		clientSide: true
 	});
 
-	// Demo for groups
 	const groupSearch = useSearch({
 		options: demoOptions,
 		clientSide: true
@@ -84,15 +81,16 @@
 	const demoGroups = [
 		{
 			label: 'Pages',
+			icon: HomeLinearIcon,
 			options: demoOptions.slice(0, 4)
 		},
 		{
 			label: 'Actions',
+			icon: Rocket24RegularIcon,
 			options: demoOptions.slice(4)
 		}
 	];
 
-	// State for opening commands - simple boolean states like Modal
 	let open = $state(false);
 	let openColors = $state(false);
 	let openGroups = $state(false);
@@ -252,8 +250,8 @@
   bind:open
   {search}
   groups={[
-    { label: 'Pages', options: [...] },
-    { label: 'Actions', options: [...] }
+    { label: 'Pages', icon: HomeLinearIcon, options: [...] },
+    { label: 'Actions', icon: RocketIcon, options: [...] }
   ]}
   placeholder="Search..."
 />`}

@@ -9,7 +9,7 @@
 		onchange?: (value: number) => void;
 		size?: 'sm' | 'md' | 'lg';
 		label?: string;
-		color?: 'primary' | 'secondary' | 'muted';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
 		name?: string;
 		hideLabel?: boolean;
 		class?: string;
@@ -33,7 +33,11 @@
 	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
-		muted: 'is-muted'
+		muted: 'is-muted',
+		success: 'is-success',
+		info: 'is-info',
+		warning: 'is-warning',
+		danger: 'is-danger'
 	};
 
 	const sizes = {

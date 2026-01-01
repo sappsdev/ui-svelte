@@ -10,19 +10,19 @@ import {IconButton} from 'ui-svelte'; import {HeartLinearIcon} from '$lib/icons'
 
 ## Props
 
-| Prop         | Type                                                                                  | Default     | Description                   |
-| ------------ | ------------------------------------------------------------------------------------- | ----------- | ----------------------------- |
-| `icon`       | `IconData`                                                                            | -           | **Required.** Icon to display |
-| `onclick`    | `() => void`                                                                          | -           | Click handler                 |
-| `href`       | `string`                                                                              | -           | Makes button a link           |
-| `target`     | `'_self' \| '_blank' \| '_parent' \| '_top'`                                          | -           | Link target                   |
-| `type`       | `'button' \| 'submit' \| 'reset'`                                                     | `'button'`  | Button type                   |
-| `color`      | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'primary'` | Color theme                   |
-| `variant`    | `'solid' \| 'soft' \| 'outlined' \| 'ghost' \| 'overlay'`                             | `'solid'`   | Visual style                  |
-| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                                | `'md'`      | Button size                   |
-| `isLoading`  | `boolean`                                                                             | `false`     | Show loading spinner          |
-| `isDisabled` | `boolean`                                                                             | `false`     | Disable button                |
-| `class`      | `string`                                                                              | -           | Additional classes            |
+| Prop         | Type                                                                       | Default     | Description                   |
+| ------------ | -------------------------------------------------------------------------- | ----------- | ----------------------------- |
+| `icon`       | `IconData`                                                                 | -           | **Required.** Icon to display |
+| `onclick`    | `() => void`                                                               | -           | Click handler                 |
+| `href`       | `string`                                                                   | -           | Makes button a link           |
+| `target`     | `'_self' \| '_blank' \| '_parent' \| '_top'`                               | -           | Link target                   |
+| `type`       | `'button' \| 'submit' \| 'reset'`                                          | `'button'`  | Button type                   |
+| `color`      | `'primary' \| 'secondary' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'primary'` | Color theme                   |
+| `variant`    | `'solid' \| 'soft' \| 'outlined' \| 'ghost' \| 'overlay'`                  | `'solid'`   | Visual style                  |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                     | `'md'`      | Button size                   |
+| `isLoading`  | `boolean`                                                                  | `false`     | Show loading spinner          |
+| `isDisabled` | `boolean`                                                                  | `false`     | Disable button                |
+| `class`      | `string`                                                                   | -           | Additional classes            |
 
 ## Patterns
 

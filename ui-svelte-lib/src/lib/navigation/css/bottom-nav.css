@@ -1,5 +1,13 @@
 @layer components {
 	.bottomnav {
+		/* CSS Custom Properties for advanced customization */
+		--bn-pill-radius: 9999px;
+		--bn-pill-padding-x: 1rem;
+		--bn-pill-padding-y: 0.25rem;
+		--bn-pill-opacity: 0.15;
+		--bn-fab-size: 3rem;
+		--bn-fab-offset: -1.5rem;
+
 		@apply flex items-center justify-around;
 		@apply shadow-lg;
 
@@ -14,27 +22,27 @@
 
 		&.is-soft {
 			&.is-primary {
-				@apply bg-on-primary text-primary;
+				@apply bg-soft-primary text-primary;
 			}
 			&.is-secondary {
-				@apply bg-on-secondary text-secondary;
+				@apply bg-soft-secondary text-secondary;
 			}
 			&.is-muted {
-				@apply bg-muted text-on-muted;
+				@apply bg-soft-muted text-on-muted;
 			}
 			&.is-success {
-				@apply bg-on-success text-success;
+				@apply bg-soft-success text-success;
 			}
 			&.is-info {
-				@apply bg-on-info text-info;
+				@apply bg-soft-info text-info;
 			}
 			&.is-warning {
-				@apply bg-on-warning text-warning;
+				@apply bg-soft-warning text-warning;
 			}
 			&.is-danger {
-				@apply bg-on-danger text-danger;
+				@apply bg-soft-danger text-danger;
 			}
-			&.is-default {
+			&.is-background {
 				@apply bg-background text-on-background;
 			}
 			&.is-surface {
@@ -117,7 +125,9 @@
 			}
 
 			.bottomnav-icon-wrapper {
-				@apply relative inline-flex;
+				@apply relative inline-flex items-center justify-center;
+				@apply transition-all duration-300;
+				border-radius: var(--bn-pill-radius);
 			}
 
 			.bottomnav-icon {
@@ -143,6 +153,7 @@
 				@apply opacity-80;
 			}
 
+			/* FAB Item Styles */
 			&.is-fab {
 				@apply flex-none opacity-100;
 
@@ -151,19 +162,20 @@
 				}
 
 				.bottomnav-icon-wrapper {
-					@apply w-12 h-12 -mt-6;
+					width: var(--bn-fab-size);
+					height: var(--bn-fab-size);
+					margin-top: var(--bn-fab-offset);
 					@apply flex items-center justify-center;
-					@apply bg-primary text-on-primary;
 					@apply rounded-full shadow-lg;
 					@apply transition-all duration-300;
 				}
 
 				.bottomnav-icon {
-					@apply h-6 w-6 text-on-primary;
+					@apply h-6 w-6;
 				}
 
 				&:hover .bottomnav-icon-wrapper {
-					@apply shadow-xl shadow-primary/30;
+					@apply shadow-xl;
 					transform: translateY(-2px);
 				}
 
@@ -171,9 +183,39 @@
 					transform: translateY(0);
 					@apply shadow-md;
 				}
+
+				/* FAB Color variants */
+				&.is-primary .bottomnav-icon-wrapper {
+					@apply bg-primary text-on-primary shadow-primary/30;
+				}
+				&.is-secondary .bottomnav-icon-wrapper {
+					@apply bg-secondary text-on-secondary shadow-secondary/30;
+				}
+				&.is-muted .bottomnav-icon-wrapper {
+					@apply bg-muted text-on-muted shadow-muted/30;
+				}
+				&.is-success .bottomnav-icon-wrapper {
+					@apply bg-success text-on-success shadow-success/30;
+				}
+				&.is-info .bottomnav-icon-wrapper {
+					@apply bg-info text-on-info shadow-info/30;
+				}
+				&.is-warning .bottomnav-icon-wrapper {
+					@apply bg-warning text-on-warning shadow-warning/30;
+				}
+				&.is-danger .bottomnav-icon-wrapper {
+					@apply bg-danger text-on-danger shadow-danger/30;
+				}
+				&.is-surface .bottomnav-icon-wrapper {
+					@apply bg-surface text-on-surface shadow-black/10;
+				}
+				&.is-background .bottomnav-icon-wrapper {
+					@apply bg-background text-on-background shadow-black/10;
+				}
 			}
 		}
 
+		/* Active Line Style */
 		&.active-line {
 			.bottomnav-item {
 				&::after {
@@ -190,30 +232,36 @@
 			}
 		}
 
+		/* Active Pill Style - Applied to icon-wrapper only */
 		&.active-pill {
 			.bottomnav-item {
-				@apply relative isolate;
-
-				&::before {
-					content: '';
-					@apply absolute inset-x-2 top-1 bottom-1;
-					@apply rounded-xl;
-					@apply bg-transparent;
-					@apply transition-all duration-300;
-					z-index: -1;
+				.bottomnav-icon-wrapper {
+					padding: var(--bn-pill-padding-y) var(--bn-pill-padding-x);
 				}
 
-				&.is-active:not(.is-fab)::before {
-					@apply bg-current/10;
+				/* Badge positioning fix for pill mode */
+				.bottomnav-badge {
+					@apply -top-1 -right-1;
+				}
+
+				&.is-active:not(.is-fab) .bottomnav-icon-wrapper {
+					@apply bg-current/15;
 				}
 			}
 
-			&.is-solid .bottomnav-item.is-active:not(.is-fab)::before {
+			/* Solid variant uses white overlay for pill */
+			&.is-solid .bottomnav-item.is-active:not(.is-fab) .bottomnav-icon-wrapper {
 				@apply bg-white/20;
 			}
 		}
 
+		/* Size Variants */
 		&.is-sm {
+			--bn-fab-size: 2.5rem;
+			--bn-fab-offset: -1.25rem;
+			--bn-pill-padding-x: 0.75rem;
+			--bn-pill-padding-y: 0.125rem;
+
 			.bottomnav-item {
 				@apply gap-0.5 py-2 px-1;
 
@@ -224,14 +272,13 @@
 				.bottomnav-label {
 					@apply text-[10px];
 				}
-
-				&.is-fab .bottomnav-icon-wrapper {
-					@apply w-10 h-10 -mt-5;
-				}
 			}
 		}
 
 		&.is-md {
+			--bn-fab-size: 3rem;
+			--bn-fab-offset: -1.5rem;
+
 			.bottomnav-item {
 				@apply gap-1 py-3 px-2;
 
@@ -246,6 +293,11 @@
 		}
 
 		&.is-lg {
+			--bn-fab-size: 3.5rem;
+			--bn-fab-offset: -1.75rem;
+			--bn-pill-padding-x: 1.25rem;
+			--bn-pill-padding-y: 0.375rem;
+
 			.bottomnav-item {
 				@apply gap-1.5 py-4 px-3;
 
@@ -257,12 +309,8 @@
 					@apply text-sm;
 				}
 
-				&.is-fab .bottomnav-icon-wrapper {
-					@apply w-14 h-14 -mt-7;
-
-					.bottomnav-icon {
-						@apply h-7 w-7;
-					}
+				&.is-fab .bottomnav-icon {
+					@apply h-7 w-7;
 				}
 			}
 		}

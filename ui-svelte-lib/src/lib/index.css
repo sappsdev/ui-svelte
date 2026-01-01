@@ -84,67 +84,45 @@
 @import './overlay/css/tooltip.css';
 
 @theme {
-	--color-primary: var(--primary, oklch(54.6% 0.245 262.881));
-	/* blue-600 */
-	--color-on-primary: var(--on-primary, oklch(93.2% 0.032 255.585));
-	/* blue-100 */
+	--color-on-dark: var(--on-dark, oklch(97% 0.01 90));
+	--color-on-light: var(--on-light, oklch(25% 0.01 30));
 
-	--color-secondary: var(--secondary, oklch(0.592 0.249 0.584));
-	/* pink-600  */
-	--color-on-secondary: var(--on-secondary, oklch(0.948 0.028 342.258));
-	/* pink-100 */
+	--color-primary: var(--primary, oklch(75% 0.15 145));
+	--color-soft-primary: var(--soft-primary, oklch(95% 0.05 145));
+	--color-on-primary: var(--on-primary, var(--on-light));
+
+	--color-secondary: var(--secondary, oklch(28.42% 0.0467 259.99));
+	--color-soft-secondary: var(--soft-secondary, oklch(92% 0.005 30));
+	--color-on-secondary: var(--on-secondary, var(--on-dark));
 
 	--color-muted: var(--muted, oklch(87.2% 0.01 258.338));
-	/* gray-300  */
-	--color-on-muted: var(--on-muted, oklch(27.8% 0.033 256.848));
-	/* gray-700  */
+	--color-soft-muted: var(--soft-muted, oklch(92% 0.005 30));
+	--color-on-muted: var(--on-muted, var(--on-light));
 
-	/* dark */
-	/*--color-muted: var(--muted, oklch(37.3% 0.034 259.733)); /* gray-700  */
-	/*--color-on-muted: var(--on-muted, oklch(87.2% 0.01 258.338)); /* gray-300  */
+	--color-background: var(--background, oklch(96% 0.005 85));
+	--color-on-background: var(--on-background, var(--on-light));
 
-	--color-background: var(--background, oklch(98.5% 0.002 247.839));
-	/* gray-50  */
-	--color-on-background: var(--on-background, oklch(21% 0.034 264.665));
-	/* gray-900  */
-
-	/* dark */
-	/*--color-background: var(--background, oklch(13% 0.028 261.692)); /* gray-950  */
-	/*--color-on-background: var(--on-background, oklch(96.7% 0.003 264.542)); /* gray-100  */
-
-	--color-surface: var(--surface, oklch(96.7% 0.003 264.542));
-	/* gray-100  */
-	--color-on-surface: var(--on-surface, oklch(27.9% 0.041 260.031));
-	/* gray-800  */
-
-	/* dark */
-	/*--color-surface: var(--surface, oklch(21% 0.034 264.665)); /* gray-900  */
-	/*--color-on-surface: var(--on-surface, oklch(92.8% 0.006 264.531)); /* gray-200  */
-
-	--color-overlay: var(--overlay, oklch(0 0 0 / 60%));
-	/* black/60  */
-	--color-on-overlay: var(--on-overlay, oklch(1 0 0));
-	/* white  */
+	--color-surface: var(--surface, oklch(98% 0.003 85));
+	--color-on-surface: var(--on-surface, var(--on-light));
 
 	--color-success: var(--success, oklch(62.7% 0.194 149.214));
-	/* green-600  */
-	--color-on-success: var(--on-success, oklch(96.2% 0.044 156.743));
-	/* green-100  */
+	--color-soft-success: var(--soft-success, oklch(95% 0.06 149.214));
+	--color-on-success: var(--on-success, var(--on-dark));
 
 	--color-info: var(--info, oklch(58.8% 0.158 241.966));
-	/* sky-600  */
-	--color-on-info: var(--on-info, oklch(95.1% 0.026 236.824));
-	/* sky-100  */
+	--color-soft-info: var(--soft-info, oklch(95% 0.05 241.966));
+	--color-on-info: var(--on-info, var(--on-dark));
 
 	--color-warning: var(--warning, oklch(68.1% 0.162 75.834));
-	/* yellow-600  */
-	--color-on-warning: var(--on-warning, oklch(97.3% 0.071 103.193));
-	/* yellow-100  */
+	--color-soft-warning: var(--soft-warning, oklch(96% 0.05 75.834));
+	--color-on-warning: var(--on-warning, var(--on-dark));
 
 	--color-danger: var(--danger, oklch(57.7% 0.245 27.325));
-	/* red-600  */
-	--color-on-danger: var(--on-danger, oklch(93.6% 0.032 17.717));
-	/* red-100  */
+	--color-soft-danger: var(--soft-danger, oklch(95% 0.07 27.325));
+	--color-on-danger: var(--on-danger, var(--on-dark));
+
+	--color-overlay: var(--overlay, oklch(0 0 0 / 60%));
+	--color-on-overlay: var(--on-overlay, var(--on-dark));
 
 	--radius-avatar: calc(infinity * 1px);
 	--radius-box: 0.75rem;

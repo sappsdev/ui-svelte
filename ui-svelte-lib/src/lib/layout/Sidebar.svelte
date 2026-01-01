@@ -6,11 +6,7 @@
 		children: Snippet;
 		header?: Snippet;
 		footer?: Snippet;
-		rootClass?: string;
-		contentClass?: string;
-		headerClass?: string;
-		footerClass?: string;
-		variant?:
+		color?:
 			| 'primary'
 			| 'secondary'
 			| 'muted'
@@ -19,7 +15,12 @@
 			| 'warning'
 			| 'danger'
 			| 'surface'
-			| 'ghost';
+			| 'background';
+		variant?: 'solid' | 'soft' | 'outlined' | 'ghost';
+		rootClass?: string;
+		contentClass?: string;
+		headerClass?: string;
+		footerClass?: string;
 	};
 
 	const {
@@ -30,10 +31,11 @@
 		contentClass,
 		headerClass,
 		footerClass,
+		color = 'surface',
 		variant = 'ghost'
 	}: Props = $props();
 
-	const variantClasses = {
+	const colors = {
 		primary: 'is-primary',
 		secondary: 'is-secondary',
 		muted: 'is-muted',
@@ -42,11 +44,18 @@
 		warning: 'is-warning',
 		danger: 'is-danger',
 		surface: 'is-surface',
+		background: 'is-background'
+	};
+
+	const variants = {
+		solid: 'is-solid',
+		soft: 'is-soft',
+		outlined: 'is-outlined',
 		ghost: 'is-ghost'
 	};
 </script>
 
-<aside class={cn('sidebar', variantClasses[variant], rootClass)}>
+<aside class={cn('sidebar', colors[color], variants[variant], rootClass)}>
 	{#if header}
 		<div class={cn('sidebar-header', headerClass)}>
 			{@render header()}
