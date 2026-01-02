@@ -96,7 +96,7 @@
 	};
 
 	const handlePageTransition = () => {
-		goto('/docs/starter/installation');
+		goto('/docs/starter/install');
 		setTimeout(() => {
 			goto('/docs/starter/provider');
 		}, 500);
