@@ -11,6 +11,8 @@
   },
   "workspaces": [
     "ui-svelte-lib",
-    "ui-svelte-docs"
+    "ui-svelte-docs",
+    "ui-svelte-desktop",
+    "ui-svelte-mobile"
   ]
 }

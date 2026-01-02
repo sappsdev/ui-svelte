@@ -1,0 +1,70 @@
+@import 'tailwindcss';
+@import 'ui-svelte/css';
+
+body {
+	font-family: 'Montserrat Variable', sans-serif;
+}
+
+:root {
+	--on-dark: oklch(97% 0.01 90);
+	--on-light: oklch(25% 0.01 30);
+
+	--primary: oklch(75% 0.15 145);
+	--soft-primary: oklch(95% 0.05 145);
+	--on-primary: var(--on-light);
+
+	--secondary: oklch(28.42% 0.0467 259.99);
+	--soft-secondary: oklch(92% 0.005 30);
+	--on-secondary: var(--on-dark);
+
+	--muted: oklch(87.2% 0.01 258.338);
+	--soft-muted: oklch(94% 0.005 258.338);
+	--on-muted: var(--on-light);
+
+	--background: oklch(96% 0.005 85);
+	--on-background: var(--on-light);
+
+	--surface: oklch(98% 0.003 85);
+	--on-surface: var(--on-light);
+
+	--success: oklch(62.7% 0.194 149.214);
+	--soft-success: oklch(95% 0.06 149.214);
+	--on-success: var(--on-dark);
+
+	--info: oklch(58.8% 0.158 241.966);
+	--soft-info: oklch(95% 0.05 241.966);
+	--on-info: var(--on-dark);
+
+	--warning: oklch(68.1% 0.162 75.834);
+	--soft-warning: oklch(96% 0.05 75.834);
+	--on-warning: var(--on-dark);
+
+	--danger: oklch(57.7% 0.245 27.325);
+	--soft-danger: oklch(95% 0.07 27.325);
+	--on-danger: var(--on-dark);
+
+	--overlay: oklch(0 0 0 / 60%);
+	--on-overlay: var(--on-dark);
+
+	--radius-avatar: calc(infinity * 1px);
+	--radius-box: 0.75rem;
+	--radius-ui: 0.75rem;
+
+	--scrollbar-size: 6px;
+}
+
+.dark {
+	--secondary: oklch(97% 0.01 90);
+	--soft-secondary: oklch(28% 0.015 259.99);
+	--on-secondary: var(--on-light);
+
+	--muted: oklch(37.3% 0.034 259.733);
+	--soft-muted: oklch(28% 0.02 259.733);
+	--on-muted: var(--on-dark);
+
+	--background: oklch(13% 0.028 261.692);
+	--on-background: var(--on-dark);
+
+	--surface: oklch(21% 0.034 264.665);
+	--on-surface: var(--on-dark);
+}

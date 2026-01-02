@@ -47,6 +47,14 @@ export const sideMenuItems: SideNavItem[] = [
 			{
 				label: 'Theme',
 				href: '/docs/starter/theme'
+			},
+			{
+				label: 'Mobile',
+				href: '/docs/starter/mobile'
+			},
+			{
+				label: 'Desktop',
+				href: '/docs/starter/desktop'
 			}
 		]
 	},
