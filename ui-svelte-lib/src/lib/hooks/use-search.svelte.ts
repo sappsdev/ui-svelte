@@ -108,7 +108,6 @@ export const useSearch = (config: SearchConfig): SearchState => {
 			});
 		}
 
-		// Client-side pagination
 		if (enablePagination) {
 			const start = 0;
 			const end = (currentPage + 1) * pageSize;

@@ -47,13 +47,13 @@
 		},
 		{
 			name: 'Control',
-			count: 7,
+			count: 8,
 			url: '/docs/control/button',
 			skeleton: 'control'
 		},
 		{
 			name: 'Display',
-			count: 22,
+			count: 23,
 			url: '/docs/display/card',
 			skeleton: 'display'
 		},
@@ -169,18 +169,18 @@
 		>
 	</div>
 
-	<h1 class="hero-title fade-in-up delay-100">
+	<h1 class="hero-title fade-in-up">
 		Build beautiful web apps
 		<span class="grad grad-primary"> faster </span>
 		with UiSvelte
 	</h1>
 
-	<p class="hero-description fade-in-up delay-200 max-w-3xl">
+	<p class="hero-description fade-in-up max-w-3xl">
 		A comprehensive Svelte 5 component library that handles the complexity, so you can focus on
 		building great products. Optimized for AI code generation and mobile-first design.
 	</p>
 
-	<div class="row gap-4 flex-wrap justify-center fade-in-up delay-300">
+	<div class="row gap-4 flex-wrap justify-center fade-in-up">
 		<Button color="secondary" variant="solid" size="lg" href="/docs/starter/install">
 			Get Started
 		</Button>
@@ -189,7 +189,7 @@
 		</Button>
 	</div>
 
-	<div class="row gap-6 md:gap-10 flex-wrap justify-center fade-in-up delay-400">
+	<div class="row gap-6 md:gap-10 flex-wrap justify-center fade-in-up">
 		<div class="row gap-2 items-center">
 			<Icon icon={Code24RegularIcon} class="text-info" />
 			<span class="text-sm font-medium">100% TypeScript</span>
@@ -204,9 +204,7 @@
 		</div>
 	</div>
 
-	<p class="text-sm opacity-60 fade-in-up delay-500">
-		Open source • MIT License • Powered by SappsDev
-	</p>
+	<p class="text-sm opacity-60 fade-in-up">Open source • Powered by SappsDev</p>
 </Section>
 
 <Section isBoxed bodyClass="gap-10 py-20 center" color="muted" variant="soft">

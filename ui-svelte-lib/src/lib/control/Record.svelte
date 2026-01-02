@@ -351,7 +351,6 @@
 
 <div class={baseClasses}>
 	{#if isReviewing}
-		<!-- REVIEW STATE: Play/Pause preview, waveform, time, confirm/discard -->
 		<IconButton
 			onclick={togglePlayback}
 			icon={isPlaying ? PauseFilledIcon : PlayFilledIcon}
@@ -394,7 +393,6 @@
 			/>
 		</div>
 	{:else if !isRecording}
-		<!-- IDLE STATE: Start recording button -->
 		<IconButton
 			onclick={startRecording}
 			icon={Microphone2LinearIcon}
@@ -416,7 +414,6 @@
 			</div>
 		</div>
 	{:else}
-		<!-- RECORDING STATE: Pause/Resume, waveform, time, discard, stop -->
 		{#if isPaused}
 			<IconButton
 				onclick={resumeRecording}

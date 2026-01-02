@@ -52,6 +52,8 @@
 	let isCompact = $state(false);
 	let hasDivider = $state(false);
 	let hasShadow = $state(false);
+	let hasBullet = $state(false);
+	let hasIndicator = $state(false);
 	let isClickable = $state(false);
 
 	let hasProps = $derived(
@@ -70,6 +72,8 @@
 			isCompact,
 			hasDivider,
 			hasShadow,
+			hasBullet,
+			hasIndicator,
 			isClickable
 		].some(Boolean)
 	);
@@ -103,6 +107,8 @@
 			isCompact && `\tisCompact`,
 			hasDivider && `\thasDivider`,
 			hasShadow && `\thasShadow`,
+			hasBullet && `\thasBullet`,
+			hasIndicator && `\thasIndicator`,
 			hasProps && `/>`,
 			!hasProps && `<Item id="1" label="Item Label" />`
 		].filter(Boolean);
@@ -136,6 +142,8 @@
 		{ prop: 'isCompact', type: 'boolean', initial: 'false' },
 		{ prop: 'hasDivider', type: 'boolean', initial: 'false' },
 		{ prop: 'hasShadow', type: 'boolean', initial: 'false' },
+		{ prop: 'hasBullet', type: 'boolean', initial: 'false' },
+		{ prop: 'hasIndicator', type: 'boolean', initial: 'false' },
 		{ prop: 'actions', type: 'Snippet', initial: '' },
 		{ prop: 'class', type: 'string', initial: '' }
 	];
@@ -193,6 +201,8 @@
 			<Checkbox bind:checked={isCompact} label="Compact" />
 			<Checkbox bind:checked={hasDivider} label="Divider" />
 			<Checkbox bind:checked={hasShadow} label="Shadow" />
+			<Checkbox bind:checked={hasBullet} label="Bullet" />
+			<Checkbox bind:checked={hasIndicator} label="Indicator" />
 		</div>
 
 		<div class="doc-preview">
@@ -213,6 +223,8 @@
 				{isCompact}
 				{hasDivider}
 				{hasShadow}
+				{hasBullet}
+				{hasIndicator}
 			>
 				{#snippet actions()}
 					{#if hasActions}
@@ -338,6 +350,43 @@
 				isDisabled
 			/>
 		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Visual Indicators</p>
+	<Card>
+		<div class="col gap-2">
+			<p class="card-description">
+				Use <code>hasBullet</code> and <code>hasIndicator</code> for items without icons to provide visual
+				feedback.
+			</p>
+			<Item
+				id="1"
+				label="Simple Item with Bullet"
+				onclick={(id) => console.log('Clicked:', id)}
+				hasBullet
+			/>
+			<Item
+				id="2"
+				label="Simple Item with Indicator"
+				onclick={(id) => console.log('Clicked:', id)}
+				hasIndicator
+			/>
+			<Item
+				id="3"
+				label="Item with Both"
+				onclick={(id) => console.log('Clicked:', id)}
+				hasBullet
+				hasIndicator
+			/>
+		</div>
+		<Code
+			lang="svelte"
+			code={`<Item id="1" label="With Bullet" hasBullet onclick={handleClick} />
+<Item id="2" label="With Indicator" hasIndicator onclick={handleClick} />
+<Item id="3" label="With Both" hasBullet hasIndicator onclick={handleClick} />`}
+		/>
 	</Card>
 </Section>
 

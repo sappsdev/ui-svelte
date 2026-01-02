@@ -10,26 +10,28 @@ import {Item} from 'ui-svelte';
 
 ## Props
 
-| Prop          | Type                                                                                                            | Default     | Description           |
-| ------------- | --------------------------------------------------------------------------------------------------------------- | ----------- | --------------------- |
-| `id`          | `string \| number`                                                                                              | -           | Unique identifier     |
-| `label`       | `string`                                                                                                        | -           | Primary text          |
-| `description` | `string`                                                                                                        | -           | Secondary text        |
-| `icon`        | `IconData`                                                                                                      | -           | Leading icon          |
-| `src`         | `string`                                                                                                        | -           | Avatar image URL      |
-| `color`       | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning' \| 'surface' \| 'default'` | `'default'` | Color theme           |
-| `variant`     | `'solid' \| 'soft' \| 'outlined' \| 'ghost'`                                                                    | `'ghost'`   | Visual style          |
-| `size`        | `'sm' \| 'md' \| 'lg'`                                                                                          | `'md'`      | Item size             |
-| `status`      | `'online' \| 'offline' \| 'busy' \| 'away'`                                                                     | -           | Status indicator      |
-| `href`        | `string`                                                                                                        | -           | Link URL              |
-| `onclick`     | `(id: string \| number) => void`                                                                                | -           | Click handler         |
-| `isActive`    | `boolean`                                                                                                       | `false`     | Active/selected state |
-| `isFocused`   | `boolean`                                                                                                       | `false`     | Focused state         |
-| `isDisabled`  | `boolean`                                                                                                       | `false`     | Disabled state        |
-| `isCompact`   | `boolean`                                                                                                       | `false`     | Compact padding       |
-| `hasDivider`  | `boolean`                                                                                                       | `false`     | Bottom divider        |
-| `hasShadow`   | `boolean`                                                                                                       | `false`     | Drop shadow           |
-| `actions`     | `Snippet`                                                                                                       | -           | Right-side actions    |
+| Prop           | Type                                                                                                            | Default     | Description                               |
+| -------------- | --------------------------------------------------------------------------------------------------------------- | ----------- | ----------------------------------------- |
+| `id`           | `string \| number`                                                                                              | -           | Unique identifier                         |
+| `label`        | `string`                                                                                                        | -           | Primary text                              |
+| `description`  | `string`                                                                                                        | -           | Secondary text                            |
+| `icon`         | `IconData`                                                                                                      | -           | Leading icon                              |
+| `src`          | `string`                                                                                                        | -           | Avatar image URL                          |
+| `color`        | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning' \| 'surface' \| 'default'` | `'default'` | Color theme                               |
+| `variant`      | `'solid' \| 'soft' \| 'outlined' \| 'ghost'`                                                                    | `'ghost'`   | Visual style                              |
+| `size`         | `'sm' \| 'md' \| 'lg'`                                                                                          | `'md'`      | Item size                                 |
+| `status`       | `'online' \| 'offline' \| 'busy' \| 'away'`                                                                     | -           | Status indicator                          |
+| `href`         | `string`                                                                                                        | -           | Link URL                                  |
+| `onclick`      | `(id: string \| number) => void`                                                                                | -           | Click handler                             |
+| `isActive`     | `boolean`                                                                                                       | `false`     | Active/selected state                     |
+| `isFocused`    | `boolean`                                                                                                       | `false`     | Focused state                             |
+| `isDisabled`   | `boolean`                                                                                                       | `false`     | Disabled state                            |
+| `isCompact`    | `boolean`                                                                                                       | `false`     | Compact padding                           |
+| `hasDivider`   | `boolean`                                                                                                       | `false`     | Bottom divider                            |
+| `hasShadow`    | `boolean`                                                                                                       | `false`     | Drop shadow                               |
+| `hasBullet`    | `boolean`                                                                                                       | `false`     | Show bullet dot (for items without icons) |
+| `hasIndicator` | `boolean`                                                                                                       | `false`     | Show chevron on hover (for simple items)  |
+| `actions`      | `Snippet`                                                                                                       | -           | Right-side actions                        |
 
 ## Patterns
 
@@ -73,6 +75,21 @@ import {Item} from 'ui-svelte';
 />
 ```
 
+### Visual Indicators
+
+Use `hasBullet` and `hasIndicator` for items without icons to provide visual feedback:
+
+```svelte
+<!-- Bullet dot at the start -->
+<Item id="1" label="With Bullet" hasBullet onclick={handleClick} />
+
+<!-- Chevron arrow on hover -->
+<Item id="2" label="With Indicator" hasIndicator onclick={handleClick} />
+
+<!-- Both bullet and indicator -->
+<Item id="3" label="With Both" hasBullet hasIndicator onclick={handleClick} />
+```
+
 ### Interactive States
 
 ```svelte
@@ -93,3 +110,5 @@ import {Item} from 'ui-svelte';
 - Status indicator appears as colored dot on avatar
 - `actions` slot for buttons, menus, etc.
 - Hover effects enabled when `onclick` or `href` provided
+- `hasBullet` shows a small dot before the label (useful for items without icons)
+- `hasIndicator` shows a chevron that appears on hover (indicates clickable action)

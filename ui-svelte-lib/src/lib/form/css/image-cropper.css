@@ -261,6 +261,10 @@
 		@apply cursor-move;
 		@apply transition-shadow duration-300;
 		box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-webkit-tap-highlight-color: transparent;
+		touch-action: none;
 	}
 
 	.crop-area.is-circle {
@@ -338,6 +342,23 @@
 
 	.resize-handle:hover {
 		@apply scale-125 bg-primary/90;
+	}
+
+	@media (pointer: coarse) {
+		.resize-handle {
+			@apply opacity-100 w-5 h-5;
+			touch-action: none;
+		}
+
+		.resize-handle.handle-n,
+		.resize-handle.handle-s {
+			@apply w-10 h-3;
+		}
+
+		.resize-handle.handle-e,
+		.resize-handle.handle-w {
+			@apply w-3 h-10;
+		}
 	}
 
 	.image-cropper-canvas {

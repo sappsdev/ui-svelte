@@ -1,0 +1,206 @@
+@layer components {
+	.countdown {
+		@apply flex items-center justify-center gap-2;
+		@apply font-bold tabular-nums;
+	}
+
+	.countdown-unit {
+		@apply flex flex-col items-center gap-1;
+	}
+
+	.countdown-box {
+		@apply flex items-center justify-center rounded-ui;
+		@apply transition-all duration-300;
+	}
+
+	.countdown-digit {
+		@apply font-bold tracking-tight;
+	}
+
+	.countdown-label {
+		@apply text-xs font-medium uppercase tracking-wider opacity-70;
+	}
+
+	.countdown-separator {
+		@apply font-bold opacity-50;
+		@apply self-start;
+	}
+
+	.countdown {
+		&.is-sm {
+			@apply gap-1;
+
+			.countdown-box {
+				@apply h-10 w-12 text-xl;
+			}
+
+			.countdown-separator {
+				@apply text-xl mt-2;
+			}
+
+			.countdown-label {
+				@apply text-[10px];
+			}
+		}
+
+		&.is-md {
+			@apply gap-2;
+
+			.countdown-box {
+				@apply h-14 w-16 text-3xl;
+			}
+
+			.countdown-separator {
+				@apply text-3xl mt-3;
+			}
+
+			.countdown-label {
+				@apply text-xs;
+			}
+		}
+
+		&.is-lg {
+			@apply gap-3;
+
+			.countdown-box {
+				@apply h-20 w-24 text-5xl;
+			}
+
+			.countdown-separator {
+				@apply text-5xl mt-5;
+			}
+
+			.countdown-label {
+				@apply text-sm;
+			}
+		}
+
+		&.is-xl {
+			@apply gap-4;
+
+			.countdown-box {
+				@apply h-28 w-32 text-7xl;
+			}
+
+			.countdown-separator {
+				@apply text-7xl mt-7;
+			}
+
+			.countdown-label {
+				@apply text-base;
+			}
+		}
+	}
+
+	.countdown.is-solid {
+		&.is-primary .countdown-box {
+			@apply bg-primary text-on-primary;
+		}
+		&.is-secondary .countdown-box {
+			@apply bg-secondary text-on-secondary;
+		}
+		&.is-muted .countdown-box {
+			@apply bg-muted text-on-muted;
+		}
+		&.is-surface .countdown-box {
+			@apply bg-surface text-on-surface;
+		}
+		&.is-success .countdown-box {
+			@apply bg-success text-on-success;
+		}
+		&.is-info .countdown-box {
+			@apply bg-info text-on-info;
+		}
+		&.is-warning .countdown-box {
+			@apply bg-warning text-on-warning;
+		}
+		&.is-danger .countdown-box {
+			@apply bg-danger text-on-danger;
+		}
+	}
+
+	.countdown.is-soft {
+		&.is-primary .countdown-box {
+			@apply bg-soft-primary text-primary;
+		}
+		&.is-secondary .countdown-box {
+			@apply bg-soft-secondary text-secondary;
+		}
+		&.is-muted .countdown-box {
+			@apply bg-soft-muted text-on-muted;
+		}
+		&.is-surface .countdown-box {
+			@apply bg-surface text-on-surface;
+		}
+		&.is-success .countdown-box {
+			@apply bg-soft-success text-success;
+		}
+		&.is-info .countdown-box {
+			@apply bg-soft-info text-info;
+		}
+		&.is-warning .countdown-box {
+			@apply bg-soft-warning text-warning;
+		}
+		&.is-danger .countdown-box {
+			@apply bg-soft-danger text-danger;
+		}
+	}
+
+	.countdown.is-outlined {
+		.countdown-box {
+			@apply border-2;
+		}
+
+		&.is-primary .countdown-box {
+			@apply border-primary text-primary;
+		}
+		&.is-secondary .countdown-box {
+			@apply border-secondary text-secondary;
+		}
+		&.is-muted .countdown-box {
+			@apply border-muted text-on-muted;
+		}
+		&.is-surface .countdown-box {
+			@apply border-on-surface text-on-surface;
+		}
+		&.is-success .countdown-box {
+			@apply border-success text-success;
+		}
+		&.is-info .countdown-box {
+			@apply border-info text-info;
+		}
+		&.is-warning .countdown-box {
+			@apply border-warning text-warning;
+		}
+		&.is-danger .countdown-box {
+			@apply border-danger text-danger;
+		}
+	}
+
+	.countdown.is-ghost {
+		&.is-primary .countdown-box {
+			@apply text-primary;
+		}
+		&.is-secondary .countdown-box {
+			@apply text-secondary;
+		}
+		&.is-muted .countdown-box {
+			@apply text-on-muted;
+		}
+		&.is-surface .countdown-box {
+			@apply text-on-surface;
+		}
+		&.is-success .countdown-box {
+			@apply text-success;
+		}
+		&.is-info .countdown-box {
+			@apply text-info;
+		}
+		&.is-warning .countdown-box {
+			@apply text-warning;
+		}
+		&.is-danger .countdown-box {
+			@apply text-danger;
+		}
+	}
+}

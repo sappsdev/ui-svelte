@@ -7,7 +7,7 @@
 			@apply absolute inset-0 bg-overlay;
 		}
 		.drawer {
-			@apply absolute flex flex-col;
+			@apply absolute flex flex-col max-w-screen;
 			@apply transition-all duration-300 ease-in-out;
 
 			&.is-start {

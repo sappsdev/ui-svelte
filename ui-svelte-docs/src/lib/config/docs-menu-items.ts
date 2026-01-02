@@ -65,6 +65,10 @@ export const sideMenuItems: SideNavItem[] = [
 				href: '/docs/control/button'
 			},
 			{
+				label: 'Fab',
+				href: '/docs/control/fab'
+			},
+			{
 				label: 'IconButton',
 				href: '/docs/control/icon-button'
 			},
@@ -143,6 +147,10 @@ export const sideMenuItems: SideNavItem[] = [
 			{
 				label: 'Decorations',
 				href: '/docs/display/decorations'
+			},
+			{
+				label: 'Countdown',
+				href: '/docs/display/countdown'
 			},
 			{
 				label: 'Divider',

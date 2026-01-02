@@ -323,7 +323,6 @@
 		.sidenav-item {
 			.sidenav-content .sidenav-label {
 				@apply font-normal;
-				/* Prevent width shift when font becomes bold */
 				display: inline-flex;
 				flex-direction: column;
 

@@ -95,6 +95,8 @@
 	let imageHeight = $state(0);
 	let scale = $state(1);
 
+	let isTouchDevice = $state(false);
+
 	const sizeClasses = {
 		xs: 'is-xs',
 		sm: 'is-sm',
@@ -249,6 +251,114 @@
 		document.removeEventListener('mousemove', handleMouseMove);
 		document.removeEventListener('mouseup', handleMouseUp);
 	}
+
+	function handleTouchStart(e: TouchEvent, handle?: string) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		const touch = e.touches[0];
+
+		if (handle) {
+			isResizing = true;
+			resizeHandle = handle;
+		} else {
+			isCropDragging = true;
+		}
+
+		startX = touch.clientX;
+		startY = touch.clientY;
+		startCropX = cropX;
+		startCropY = cropY;
+		startCropWidth = cropWidth;
+		startCropHeight = cropHeight;
+	}
+
+	function handleTouchMove(e: TouchEvent) {
+		if (!isCropDragging && !isResizing) return;
+
+		e.preventDefault();
+		const touch = e.touches[0];
+		const deltaX = touch.clientX - startX;
+		const deltaY = touch.clientY - startY;
+
+		if (isCropDragging) {
+			cropX = Math.max(0, Math.min(imageWidth - cropWidth, startCropX + deltaX));
+			cropY = Math.max(0, Math.min(imageHeight - cropHeight, startCropY + deltaY));
+		} else if (isResizing) {
+			let newWidth = startCropWidth;
+			let newHeight = startCropHeight;
+			let newX = startCropX;
+			let newY = startCropY;
+
+			if (resizeHandle.includes('e')) {
+				newWidth = Math.max(minWidth, Math.min(imageWidth - startCropX, startCropWidth + deltaX));
+			}
+			if (resizeHandle.includes('w')) {
+				newWidth = Math.max(minWidth, startCropWidth - deltaX);
+				newX = startCropX + (startCropWidth - newWidth);
+			}
+			if (resizeHandle.includes('s')) {
+				newHeight = Math.max(
+					minHeight,
+					Math.min(imageHeight - startCropY, startCropHeight + deltaY)
+				);
+			}
+			if (resizeHandle.includes('n')) {
+				newHeight = Math.max(minHeight, startCropHeight - deltaY);
+				newY = startCropY + (startCropHeight - newHeight);
+			}
+
+			if (aspectRatio) {
+				if (resizeHandle.includes('e') || resizeHandle.includes('w')) {
+					newHeight = newWidth / aspectRatio;
+				} else {
+					newWidth = newHeight * aspectRatio;
+				}
+			}
+
+			if (maxWidth) newWidth = Math.min(newWidth, maxWidth);
+			if (maxHeight) newHeight = Math.min(newHeight, maxHeight);
+
+			cropWidth = newWidth;
+			cropHeight = newHeight;
+			cropX = Math.max(0, Math.min(imageWidth - cropWidth, newX));
+			cropY = Math.max(0, Math.min(imageHeight - cropHeight, newY));
+		}
+	}
+
+	function handleTouchEnd() {
+		isCropDragging = false;
+		isResizing = false;
+		resizeHandle = '';
+	}
+
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+		const onGlobalTouchMove = (e: TouchEvent) => {
+			if (isCropDragging || isResizing) {
+				handleTouchMove(e);
+			}
+		};
+
+		const onGlobalTouchEnd = () => {
+			if (isCropDragging || isResizing) {
+				handleTouchEnd();
+			}
+		};
+
+		document.addEventListener('touchmove', onGlobalTouchMove, { passive: false });
+		document.addEventListener('touchend', onGlobalTouchEnd);
+		document.addEventListener('touchcancel', onGlobalTouchEnd);
+
+		return () => {
+			document.removeEventListener('touchmove', onGlobalTouchMove);
+			document.removeEventListener('touchend', onGlobalTouchEnd);
+			document.removeEventListener('touchcancel', onGlobalTouchEnd);
+		};
+	});
 
 	function handleCrop() {
 		if (!canvas || !image) return;
@@ -422,6 +532,7 @@
 						class:is-circle={shape === 'circle'}
 						style="left: {cropX}px; top: {cropY}px; width: {cropWidth}px; height: {cropHeight}px;"
 						onmousedown={(e) => handleMouseDown(e)}
+						ontouchstart={(e) => handleTouchStart(e)}
 					>
 						<div class="crop-grid">
 							<div class="grid-line grid-line-v" style="left: 33.33%;"></div>
@@ -433,23 +544,43 @@
 						<div
 							class="resize-handle handle-nw"
 							onmousedown={(e) => handleMouseDown(e, 'nw')}
+							ontouchstart={(e) => handleTouchStart(e, 'nw')}
 						></div>
-						<div class="resize-handle handle-n" onmousedown={(e) => handleMouseDown(e, 'n')}></div>
+						<div
+							class="resize-handle handle-n"
+							onmousedown={(e) => handleMouseDown(e, 'n')}
+							ontouchstart={(e) => handleTouchStart(e, 'n')}
+						></div>
 						<div
 							class="resize-handle handle-ne"
 							onmousedown={(e) => handleMouseDown(e, 'ne')}
+							ontouchstart={(e) => handleTouchStart(e, 'ne')}
 						></div>
-						<div class="resize-handle handle-e" onmousedown={(e) => handleMouseDown(e, 'e')}></div>
+						<div
+							class="resize-handle handle-e"
+							onmousedown={(e) => handleMouseDown(e, 'e')}
+							ontouchstart={(e) => handleTouchStart(e, 'e')}
+						></div>
 						<div
 							class="resize-handle handle-se"
 							onmousedown={(e) => handleMouseDown(e, 'se')}
+							ontouchstart={(e) => handleTouchStart(e, 'se')}
 						></div>
-						<div class="resize-handle handle-s" onmousedown={(e) => handleMouseDown(e, 's')}></div>
+						<div
+							class="resize-handle handle-s"
+							onmousedown={(e) => handleMouseDown(e, 's')}
+							ontouchstart={(e) => handleTouchStart(e, 's')}
+						></div>
 						<div
 							class="resize-handle handle-sw"
 							onmousedown={(e) => handleMouseDown(e, 'sw')}
+							ontouchstart={(e) => handleTouchStart(e, 'sw')}
 						></div>
-						<div class="resize-handle handle-w" onmousedown={(e) => handleMouseDown(e, 'w')}></div>
+						<div
+							class="resize-handle handle-w"
+							onmousedown={(e) => handleMouseDown(e, 'w')}
+							ontouchstart={(e) => handleTouchStart(e, 'w')}
+						></div>
 					</div>
 				</div>
 			{/if}

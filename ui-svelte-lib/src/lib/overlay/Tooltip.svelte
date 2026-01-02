@@ -82,10 +82,6 @@
 				break;
 		}
 
-		// Note: Don't add scroll offsets for position: fixed
-		// getBoundingClientRect() returns viewport-relative coordinates
-		// and position: fixed is also relative to the viewport
-
 		const padding = 8;
 		if (left < padding) left = padding;
 		if (left + tooltipRect.width > window.innerWidth - padding) {
@@ -102,7 +98,6 @@
 	const handleMouseEnter = () => {
 		startEventListeners();
 		isOpen = true;
-		// Use requestAnimationFrame to ensure the element is rendered before calculating position
 		requestAnimationFrame(() => {
 			updatePosition();
 		});

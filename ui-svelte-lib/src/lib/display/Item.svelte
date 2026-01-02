@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Avatar, Icon } from '$lib/index.js';
+	import { ChevronRight24RegularIcon } from '$lib/icons/index.js';
 	import { cn } from '$lib/utils/class-names.js';
 	import type { Snippet } from 'svelte';
 	import type { IconData } from './Icon.svelte';
@@ -30,6 +31,8 @@
 		isCompact?: boolean;
 		hasDivider?: boolean;
 		hasShadow?: boolean;
+		hasBullet?: boolean;
+		hasIndicator?: boolean;
 		onclick?: (id: string | number) => void;
 		actions?: Snippet;
 		class?: string;
@@ -52,6 +55,8 @@
 		isCompact,
 		hasDivider,
 		hasShadow,
+		hasBullet,
+		hasIndicator,
 		onclick,
 		actions,
 		class: className
@@ -106,6 +111,8 @@
 {#snippet itemContent()}
 	{#if icon}
 		<Icon {icon} class="h-6 w-auto" />
+	{:else if hasBullet}
+		<span class="item-bullet"></span>
 	{/if}
 	{#if src}
 		<Avatar {src} {status} {size} variant="soft" />
@@ -120,6 +127,11 @@
 		<div class="item-actions">
 			{@render actions()}
 		</div>
+	{/if}
+	{#if hasIndicator}
+		<span class="item-indicator">
+			<Icon icon={ChevronRight24RegularIcon} />
+		</span>
 	{/if}
 {/snippet}
 

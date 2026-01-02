@@ -10,20 +10,22 @@ import { DragDrop, type DragDropItem, type DragDropGroup } from 'ui-svelte';
 
 ## Props
 
-| Prop                 | Type                                                                                  | Default      | Description                           |
-| -------------------- | ------------------------------------------------------------------------------------- | ------------ | ------------------------------------- |
-| `items`              | `DragDropItem[]`                                                                      | `[]`         | Items for single list mode (bindable) |
-| `groups`             | `DragDropGroup[]`                                                                     | `[]`         | Groups for Kanban mode (bindable)     |
-| `color`              | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'muted'`    | Color theme                           |
-| `variant`            | `'soft' \| 'solid' \| 'outlined' \| 'ghost'`                                          | `'soft'`     | Visual style                          |
-| `size`               | `'sm' \| 'md' \| 'lg'`                                                                | `'md'`       | Component size                        |
-| `direction`          | `'horizontal' \| 'vertical'`                                                          | `'vertical'` | Layout direction                      |
-| `isDisabled`         | `boolean`                                                                             | `false`      | Disable dragging                      |
-| `allowGroupTransfer` | `boolean`                                                                             | `true`       | Allow items between groups            |
-| `onReorder`          | `(items, fromGroup?, toGroup?) => void`                                               | -            | Reorder callback                      |
-| `onGroupReorder`     | `(groups) => void`                                                                    | -            | Group reorder callback                |
-| `itemSnippet`        | `Snippet<[DragDropItem, number]>`                                                     | -            | Custom item render                    |
-| `groupHeaderSnippet` | `Snippet<[DragDropGroup, number]>`                                                    | -            | Custom header render                  |
+| Prop                 | Type                                                                                  | Default             | Description                           |
+| -------------------- | ------------------------------------------------------------------------------------- | ------------------- | ------------------------------------- |
+| `items`              | `DragDropItem[]`                                                                      | `[]`                | Items for single list mode (bindable) |
+| `groups`             | `DragDropGroup[]`                                                                     | `[]`                | Groups for Kanban mode (bindable)     |
+| `color`              | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'muted'`           | Color theme                           |
+| `variant`            | `'soft' \| 'solid' \| 'outlined' \| 'ghost'`                                          | `'soft'`            | Visual style                          |
+| `size`               | `'sm' \| 'md' \| 'lg'`                                                                | `'md'`              | Component size                        |
+| `direction`          | `'horizontal' \| 'vertical'`                                                          | `'vertical'`        | Layout direction                      |
+| `isDisabled`         | `boolean`                                                                             | `false`             | Disable dragging                      |
+| `allowGroupTransfer` | `boolean`                                                                             | `true`              | Allow items between groups            |
+| `emptyText`          | `string`                                                                              | `'Drop items here'` | Text shown when list is empty         |
+| `onReorder`          | `(items, fromGroup?, toGroup?) => void`                                               | -                   | Reorder callback                      |
+| `onGroupReorder`     | `(groups) => void`                                                                    | -                   | Group reorder callback                |
+| `itemSnippet`        | `Snippet<[DragDropItem, number]>`                                                     | -                   | Custom item render                    |
+| `groupHeaderSnippet` | `Snippet<[DragDropGroup, number]>`                                                    | -                   | Custom header render                  |
+| `emptySnippet`       | `Snippet<[DragDropGroup?]>`                                                           | -                   | Custom empty state render             |
 
 ## Types
 

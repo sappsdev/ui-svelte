@@ -352,6 +352,30 @@
 		@apply shrink-0;
 	}
 
+	.item-bullet {
+		@apply w-1.5 h-1.5 rounded-full bg-current opacity-30;
+		@apply shrink-0 transition-all duration-200;
+	}
+
+	.item.is-interactive:hover .item-bullet,
+	.item.is-focused .item-bullet {
+		@apply opacity-60 scale-110;
+	}
+
+	.item-indicator {
+		@apply shrink-0 opacity-0 -translate-x-1;
+		@apply transition-all duration-200;
+
+		svg {
+			@apply w-3.5 h-3.5;
+		}
+	}
+
+	.item.is-interactive:hover .item-indicator,
+	.item.is-focused .item-indicator {
+		@apply opacity-50 translate-x-0;
+	}
+
 	.item {
 		&.has-divider {
 			@apply border-b border-muted rounded-none;

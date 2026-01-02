@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Icon, type IconData } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
+	import type { Snippet } from 'svelte';
 	import type { HTMLInputAttributes } from 'svelte/elements';
 
 	type Props = {
@@ -13,8 +14,8 @@
 		controlClass?: string;
 		startIcon?: IconData;
 		endIcon?: IconData;
-		startText?: string;
-		endText?: string;
+		startText?: string | Snippet;
+		endText?: string | Snippet;
 		onchange?: (value: unknown) => void;
 		oninput?: (value: unknown) => void;
 		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
@@ -137,7 +138,11 @@
 		{/if}
 
 		{#if startText}
-			<span class={textClasses}>{startText}</span>
+			{#if typeof startText === 'string'}
+				<span class={textClasses}>{startText}</span>
+			{:else}
+				{@render startText()}
+			{/if}
 		{/if}
 
 		<input
@@ -163,7 +168,11 @@
 		/>
 
 		{#if endText}
-			<span class={textClasses}>{endText}</span>
+			{#if typeof endText === 'string'}
+				<span class={textClasses}>{endText}</span>
+			{:else}
+				{@render endText()}
+			{/if}
 		{/if}
 
 		{#if endIcon}

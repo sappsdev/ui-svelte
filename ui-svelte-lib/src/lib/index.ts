@@ -8,6 +8,7 @@ import PieChart from '$lib/charts/PieChart.svelte';
 import Audio from '$lib/control/Audio.svelte';
 import Button from '$lib/control/Button.svelte';
 import Image from '$lib/control/Image.svelte';
+import Fab, { type FabAction } from '$lib/control/Fab.svelte';
 import IconButton from '$lib/control/IconButton.svelte';
 import Record from '$lib/control/Record.svelte';
 import ToggleTheme from '$lib/control/ToggleTheme.svelte';
@@ -25,6 +26,7 @@ import ChatBox, { type PromptMessage, type PromptState } from '$lib/display/Chat
 import Chip from '$lib/display/Chip.svelte';
 import Code from '$lib/display/Code.svelte';
 import Collapsible from '$lib/display/Collapsible.svelte';
+import Countdown from '$lib/display/Countdown.svelte';
 import Divider from '$lib/display/Divider.svelte';
 import Empty from '$lib/display/Empty.svelte';
 import Icon, { type IconData } from '$lib/display/Icon.svelte';
@@ -127,6 +129,7 @@ export {
 	Checkbox,
 	Chip,
 	Code,
+	Countdown,
 	ColorField,
 	Collapsible,
 	Command,
@@ -141,6 +144,7 @@ export {
 	Dropdown,
 	Editor,
 	Empty,
+	Fab,
 	Footer,
 	FooterNav,
 	FooterGroup,
@@ -201,4 +205,4 @@ export {
 	Video
 };
 
-export type { IconData, SideNavItem, SideNavSubItem, DragDropItem, DragDropGroup, PromptMessage, PromptState, LatLng, MapMarker, RouteInfo };
+export type { IconData, SideNavItem, SideNavSubItem, DragDropItem, DragDropGroup, PromptMessage, PromptState, LatLng, MapMarker, RouteInfo, FabAction };

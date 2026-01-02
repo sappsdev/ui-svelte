@@ -61,7 +61,6 @@
 		}
 	}
 
-	/* Animaciones */
 	@keyframes marquee-scroll {
 		0% {
 			transform: translateX(0);
@@ -80,7 +79,6 @@
 		}
 	}
 
-	/* Variantes de velocidad */
 	.marquee-container {
 		&.is-slow {
 			--marquee-duration: 40s;
@@ -95,7 +93,6 @@
 		}
 	}
 
-	/* Efecto de fade en los bordes */
 	.marquee {
 		&.has-fade {
 			&::before,

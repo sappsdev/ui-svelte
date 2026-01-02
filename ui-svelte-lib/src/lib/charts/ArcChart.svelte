@@ -412,7 +412,6 @@
 					{@const isHovered = hoveredIndex === i}
 					{@const isDisabled = arc.disabled}
 
-					<!-- Background arc -->
 					<circle
 						cx={center}
 						cy={center}

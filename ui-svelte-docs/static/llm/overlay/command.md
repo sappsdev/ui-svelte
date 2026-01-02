@@ -10,20 +10,34 @@ import {(Command, useSearch)} from 'ui-svelte';
 
 ## Props
 
-| Prop                    | Type                                                                                  | Default              | Description                              |
-| ----------------------- | ------------------------------------------------------------------------------------- | -------------------- | ---------------------------------------- |
-| `search`                | `SearchState`                                                                         | -                    | Search state from `useSearch` (required) |
-| `open`                  | `boolean`                                                                             | `false`              | Controls visibility                      |
-| `placeholder`           | `string`                                                                              | `'Search...'`        | Input placeholder                        |
-| `emptyText`             | `string`                                                                              | `'No results found'` | Empty state text                         |
-| `color`                 | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger'` | `'muted'`            | Color theme                              |
-| `disableOverlayClose`   | `boolean`                                                                             | `false`              | Prevent closing on overlay click         |
-| `disableGlobalShortcut` | `boolean`                                                                             | `false`              | Disable Cmd/Ctrl+K                       |
-| `shortcut`              | `string`                                                                              | `'k'`                | Keyboard shortcut key                    |
-| `showFooter`            | `boolean`                                                                             | `true`               | Show keyboard hints                      |
-| `groups`                | `CommandGroup[]`                                                                      | -                    | Grouped options                          |
-| `onselect`              | `(item: SearchOption) => void`                                                        | -                    | Selection callback                       |
-| `onclose`               | `() => void`                                                                          | -                    | Close callback                           |
+| Prop                    | Type                                                                                  | Default   | Description                              |
+| ----------------------- | ------------------------------------------------------------------------------------- | --------- | ---------------------------------------- |
+| `search`                | `SearchState`                                                                         | -         | Search state from `useSearch` (required) |
+| `open`                  | `boolean`                                                                             | `false`   | Controls visibility                      |
+| `labels`                | `CommandLabels`                                                                       | `{}`      | Text labels object (see below)           |
+| `color`                 | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'warning' \| 'danger'` | `'muted'` | Color theme                              |
+| `disableOverlayClose`   | `boolean`                                                                             | `false`   | Prevent closing on overlay click         |
+| `disableGlobalShortcut` | `boolean`                                                                             | `false`   | Disable Cmd/Ctrl+K                       |
+| `shortcut`              | `string`                                                                              | `'k'`     | Keyboard shortcut key                    |
+| `showFooter`            | `boolean`                                                                             | `true`    | Show keyboard hints                      |
+| `groups`                | `CommandGroup[]`                                                                      | -         | Grouped options                          |
+| `onselect`              | `(item: SearchOption) => void`                                                        | -         | Selection callback                       |
+| `onclose`               | `() => void`                                                                          | -         | Close callback                           |
+
+## CommandLabels Type
+
+The `labels` prop accepts an object with the following optional properties for multi-language support:
+
+| Property          | Type     | Default              | Description                  |
+| ----------------- | -------- | -------------------- | ---------------------------- |
+| `placeholder`     | `string` | `'Search...'`        | Input placeholder text       |
+| `emptyText`       | `string` | `'No results found'` | Empty state message          |
+| `loadingText`     | `string` | `'Loading...'`       | Loading state message        |
+| `loadingMoreText` | `string` | `'Loading more...'`  | Infinite scroll loading text |
+| `closeText`       | `string` | `'to close'`         | Esc key hint text            |
+| `navigateText`    | `string` | `'Navigate'`         | Arrow keys hint text         |
+| `selectText`      | `string` | `'Select'`           | Enter key hint text          |
+| `toggleText`      | `string` | `'Toggle'`           | Toggle shortcut hint text    |
 
 ## Patterns
 
@@ -50,7 +64,7 @@ import {(Command, useSearch)} from 'ui-svelte';
 <Command
 	bind:open
 	{search}
-	placeholder="Search commands..."
+	labels={{ placeholder: 'Search commands...' }}
 	onselect={(item) => console.log(item)}
 />
 ```
@@ -83,7 +97,28 @@ Groups can include an optional `icon` that displays next to the group label.
 	];
 </script>
 
-<Command bind:open {search} {groups} placeholder="Search pages and actions..." />
+<Command bind:open {search} {groups} labels={{ placeholder: 'Search pages and actions...' }} />
+```
+
+### Custom Labels (i18n)
+
+Customize all text labels for internationalization:
+
+```svelte
+<Command
+	bind:open
+	{search}
+	labels={{
+		placeholder: 'Buscar...',
+		emptyText: 'No se encontraron resultados',
+		loadingText: 'Cargando...',
+		loadingMoreText: 'Cargando más...',
+		closeText: 'para cerrar',
+		navigateText: 'Navegar',
+		selectText: 'Seleccionar',
+		toggleText: 'Alternar'
+	}}
+/>
 ```
 
 ### Custom Shortcut
@@ -112,3 +147,5 @@ Groups can include an optional `icon` that displays next to the group label.
 - Groups are automatically filtered as you type
 - Closes automatically on navigation (SvelteKit)
 - Footer shows keyboard shortcuts by default
+- All text labels can be customized via the `labels` prop for i18n support
+- Items without icons automatically display a bullet dot and hover indicator for better visual feedback

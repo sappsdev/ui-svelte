@@ -1,0 +1,84 @@
+@layer components {
+	.fab-container {
+		--fab-offset-x: 1rem;
+		--fab-offset-y: 1rem;
+
+		@apply absolute z-50 flex flex-col items-center;
+
+		&.is-fixed {
+			@apply fixed;
+		}
+
+		&.is-top-left {
+			top: var(--fab-offset-y);
+			left: var(--fab-offset-x);
+			@apply flex-col-reverse;
+			.fab-actions {
+				@apply flex-col-reverse mt-3;
+			}
+			.fab-action {
+				@apply flex-row-reverse;
+				.fab-action-label {
+					@apply ml-0 mr-3;
+				}
+			}
+		}
+
+		&.is-top-right {
+			top: var(--fab-offset-y);
+			right: var(--fab-offset-x);
+			@apply flex-col-reverse;
+			.fab-actions {
+				@apply flex-col-reverse mt-3;
+			}
+		}
+
+		&.is-bottom-left {
+			bottom: var(--fab-offset-y);
+			left: var(--fab-offset-x);
+			.fab-action {
+				@apply flex-row-reverse;
+				.fab-action-label {
+					@apply ml-0 mr-3;
+				}
+			}
+		}
+
+		&.is-bottom-right {
+			bottom: var(--fab-offset-y);
+			right: var(--fab-offset-x);
+		}
+	}
+
+	.fab-trigger {
+		@apply transition-transform duration-300;
+
+		&.is-open {
+			@apply rotate-45;
+		}
+	}
+
+	.fab-actions {
+		@apply flex flex-col gap-3 mb-3;
+	}
+
+	.fab-action {
+		@apply flex items-center justify-end;
+		animation: fab-action-appear 0.2s ease-out forwards;
+		animation-delay: var(--fab-action-delay, 0ms);
+		opacity: 0;
+		transform: scale(0.8) translateY(10px);
+	}
+
+	@keyframes fab-action-appear {
+		to {
+			opacity: 1;
+			transform: scale(1) translateY(0);
+		}
+	}
+
+	.fab-action-label {
+		@apply ml-3 px-3 py-1.5 text-sm font-medium whitespace-nowrap;
+		@apply bg-surface text-on-surface rounded-ui shadow-md;
+	}
+}

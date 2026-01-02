@@ -1,11 +1,9 @@
 <script lang="ts">
 	import type { SearchState, SearchOption } from '$lib/hooks/use-search.svelte.js';
 	import { Search24RegularIcon, DotsMoveIcon } from '$lib/icons/index.js';
-	import { Icon, Item, type IconData } from '$lib/index.js';
+	import { Icon, Item, Modal, TextField, type IconData } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
-	import { popover } from '$lib/utils/popover.js';
 	import { tick } from 'svelte';
-	import { fade, scale } from 'svelte/transition';
 	import { afterNavigate } from '$app/navigation';
 
 	type CommandGroup = {
@@ -14,13 +12,21 @@
 		options: SearchOption[];
 	};
 
-	type Props = {
-		search: SearchState;
-		open?: boolean;
+	type CommandLabels = {
 		placeholder?: string;
 		emptyText?: string;
 		loadingText?: string;
 		loadingMoreText?: string;
+		closeText?: string;
+		navigateText?: string;
+		selectText?: string;
+		toggleText?: string;
+	};
+
+	type Props = {
+		search: SearchState;
+		open?: boolean;
+		labels?: CommandLabels;
 		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
 		disableOverlayClose?: boolean;
 		disableGlobalShortcut?: boolean;
@@ -35,10 +41,7 @@
 	let {
 		search,
 		open = $bindable(false),
-		placeholder = 'Search...',
-		emptyText = 'No results found',
-		loadingText = 'Loading...',
-		loadingMoreText = 'Loading more...',
+		labels = {},
 		color = 'muted',
 		disableOverlayClose = false,
 		disableGlobalShortcut = false,
@@ -50,11 +53,24 @@
 		class: className
 	}: Props = $props();
 
-	let openContent = $state(false);
+	const defaultLabels: Required<CommandLabels> = {
+		placeholder: 'Search...',
+		emptyText: 'No results found',
+		loadingText: 'Loading...',
+		loadingMoreText: 'Loading more...',
+		closeText: 'to close',
+		navigateText: 'Navigate',
+		selectText: 'Select',
+		toggleText: 'Toggle'
+	};
+
+	const t = $derived({ ...defaultLabels, ...labels });
+
 	let optionsEl = $state<HTMLElement>();
 	let searchInputEl = $state<HTMLInputElement>();
 	let focusedIndex = $state(-1);
 	let hasSearched = $state(false);
+	let modifierKey = $state('Ctrl');
 
 	const filteredGroups = $derived(() => {
 		if (!groups || groups.length === 0) return [];
@@ -117,6 +133,7 @@
 
 	const handleGlobalKeyDown = (event: KeyboardEvent) => {
 		if (disableGlobalShortcut) return;
+		if (typeof navigator === 'undefined') return;
 
 		const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 		const modifier = isMac ? event.metaKey : event.ctrlKey;
@@ -144,18 +161,16 @@
 		search.setSearch('');
 	};
 
-	const handleOverlayClick = () => {
-		if (!disableOverlayClose) {
-			handleClose();
-		}
-	};
-
 	const handleClose = () => {
 		open = false;
 		focusedIndex = -1;
 		hasSearched = false;
 		search.setSearch('');
 		onclose?.();
+	};
+
+	const handleModalClose = () => {
+		handleClose();
 	};
 
 	$effect(() => {
@@ -177,12 +192,8 @@
 
 	$effect(() => {
 		if (open) {
-			setTimeout(() => {
-				openContent = true;
-			}, 20);
 			document.addEventListener('keydown', handleKeyDown);
 		} else {
-			openContent = false;
 			document.removeEventListener('keydown', handleKeyDown);
 		}
 
@@ -192,7 +203,7 @@
 	});
 
 	$effect(() => {
-		if (openContent && searchInputEl) {
+		if (open && searchInputEl) {
 			tick().then(() => {
 				searchInputEl?.focus();
 				focusedIndex = -1;
@@ -202,165 +213,135 @@
 	});
 
 	$effect(() => {
+		if (typeof document === 'undefined') return;
+
 		if (!disableGlobalShortcut) {
 			document.addEventListener('keydown', handleGlobalKeyDown);
+		}
+
+		if (typeof navigator !== 'undefined') {
+			const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+			modifierKey = isMac ? '⌘' : 'Ctrl';
 		}
 
 		return () => {
 			document.removeEventListener('keydown', handleGlobalKeyDown);
 		};
 	});
-
-	const isMac =
-		typeof navigator !== 'undefined' && navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-	const modifierKey = isMac ? '⌘' : 'Ctrl';
 </script>
 
-{#if open}
-	<div transition:fade class="command-dialog" use:popover>
-		<!-- svelte-ignore a11y_click_events_have_key_events -->
-		<!-- svelte-ignore a11y_no_static_element_interactions -->
-		<div class="command-overlay" onclick={handleOverlayClick}></div>
-		{#if openContent}
-			<div in:scale={{ duration: 100 }} class={cn('command', className)}>
-				<div class="command-search">
-					<Icon icon={Search24RegularIcon} class="command-search-icon" />
-					<input
-						bind:this={searchInputEl}
-						type="text"
-						class="command-search-input"
-						{placeholder}
-						bind:value={search.search}
-					/>
-					<div class="command-kbd">
-						<kbd>Esc</kbd>
-						<span>to close</span>
-					</div>
-				</div>
+{#snippet commandKbd()}
+	<div class="command-kbd">
+		<kbd>Esc</kbd>
+		<span>{t.closeText}</span>
+	</div>
+{/snippet}
 
-				<div class="command-results" bind:this={optionsEl} onscroll={handleScroll}>
-					{#if search.isLoading}
-						<div class="command-loading">
-							<Icon icon={DotsMoveIcon} class="command-loading-spinner" />
-							<span>{loadingText}</span>
-						</div>
-					{:else if flatOptions().length === 0 && hasSearched}
-						<div class="command-empty">{emptyText}</div>
-					{:else if filteredGroups().length > 0}
-						{#each filteredGroups() as group}
-							{#if group.options.length > 0}
-								<div class="command-group">
-									<div class="command-group-label">
-										{#if group.icon}
-											<Icon icon={group.icon} class="command-group-icon" />
-										{/if}
-										{group.label}
-									</div>
-									{#each group.options as item}
-										{@const globalIndex = flatOptions().indexOf(item)}
-										{#if item.href}
-											<Item
-												id={item.id}
-												label={item.label}
-												icon={item.icon as IconData}
-												src={item.src}
-												description={item.description}
-												href={item.href as string}
-												isFocused={focusedIndex === globalIndex}
-												isDisabled={item.disabled}
-												{color}
-												size="sm"
-												isCompact
-												onclick={() => handleSelect(item)}
-											/>
-										{:else}
-											<Item
-												id={item.id}
-												label={item.label}
-												icon={item.icon as IconData}
-												src={item.src}
-												description={item.description}
-												isFocused={focusedIndex === globalIndex}
-												isDisabled={item.disabled}
-												{color}
-												size="sm"
-												isCompact
-												onclick={() => handleSelect(item)}
-											/>
-										{/if}
-									{/each}
-								</div>
-							{/if}
-						{/each}
+{#snippet renderItem(item: SearchOption, index: number)}
+	{@const hasVisualElement = !!item.icon || !!item.src}
+	<Item
+		id={item.id}
+		label={item.label}
+		icon={item.icon as IconData}
+		src={item.src}
+		description={item.description}
+		href={item.href as string | undefined}
+		isFocused={focusedIndex === index}
+		isDisabled={item.disabled}
+		hasBullet={!hasVisualElement}
+		{color}
+		size="sm"
+		isCompact
+		onclick={() => handleSelect(item)}
+	/>
+{/snippet}
 
-						{#if search.isLoadingMore}
-							<div class="command-loading">
-								<Icon icon={DotsMoveIcon} class="command-loading-spinner" />
-								<span>{loadingMoreText}</span>
-							</div>
-						{/if}
-					{:else if search.options.length > 0}
-						{#each search.options as item, index}
-							{#if item.href}
-								<Item
-									id={item.id}
-									label={item.label}
-									icon={item.icon as IconData}
-									src={item.src}
-									description={item.description}
-									href={item.href as string}
-									isFocused={focusedIndex === index}
-									isDisabled={item.disabled}
-									{color}
-									size="sm"
-									isCompact
-									onclick={() => handleSelect(item)}
-								/>
-							{:else}
-								<Item
-									id={item.id}
-									label={item.label}
-									icon={item.icon as IconData}
-									src={item.src}
-									description={item.description}
-									isFocused={focusedIndex === index}
-									isDisabled={item.disabled}
-									{color}
-									size="sm"
-									isCompact
-									onclick={() => handleSelect(item)}
-								/>
-							{/if}
-						{/each}
+<Modal
+	bind:open
+	onclose={handleModalClose}
+	rootClass={cn(className)}
+	color="background"
+	{disableOverlayClose}
+	hideCloseButton
+>
+	{#snippet header()}
+		<TextField
+			bind:el={searchInputEl}
+			bind:value={search.search}
+			placeholder={t.placeholder}
+			startIcon={Search24RegularIcon}
+			variant="line"
+			{color}
+			size="md"
+			endText={commandKbd}
+		/>
+	{/snippet}
 
-						{#if search.isLoadingMore}
-							<div class="command-loading">
-								<Icon icon={DotsMoveIcon} class="command-loading-spinner" />
-								<span>{loadingMoreText}</span>
-							</div>
-						{/if}
-					{/if}
-				</div>
-
-				{#if showFooter}
-					<div class="command-footer">
-						<div class="command-shortcut">
-							<div class="command-shortcut-item">
-								<kbd>↑</kbd><kbd>↓</kbd>
-								<span>Navigate</span>
-							</div>
-							<div class="command-shortcut-item">
-								<kbd>↵</kbd>
-								<span>Select</span>
-							</div>
-						</div>
-						<div class="command-shortcut-item">
-							<kbd>{modifierKey}</kbd><kbd>{shortcut.toUpperCase()}</kbd>
-							<span>Toggle</span>
-						</div>
-					</div>
-				{/if}
+	<div class="command-results" bind:this={optionsEl} onscroll={handleScroll}>
+		{#if search.isLoading}
+			<div class="command-loading">
+				<Icon icon={DotsMoveIcon} class="command-loading-spinner" />
+				<span>{t.loadingText}</span>
 			</div>
+		{:else if flatOptions().length === 0 && hasSearched}
+			<div class="command-empty">{t.emptyText}</div>
+		{:else if filteredGroups().length > 0}
+			{#each filteredGroups() as group}
+				<div class="command-group">
+					<div class="command-group-label">
+						{#if group.icon}
+							<Icon icon={group.icon} class="command-group-icon" />
+						{/if}
+						{group.label}
+					</div>
+					<div class="command-group-items">
+						{#each group.options as item}
+							{@render renderItem(item, flatOptions().indexOf(item))}
+						{/each}
+					</div>
+				</div>
+			{/each}
+
+			{#if search.isLoadingMore}
+				<div class="command-loading">
+					<Icon icon={DotsMoveIcon} class="command-loading-spinner" />
+					<span>{t.loadingMoreText}</span>
+				</div>
+			{/if}
+		{:else if search.options.length > 0}
+			<div class="command-group-items">
+				{#each search.options as item, index}
+					{@render renderItem(item, index)}
+				{/each}
+			</div>
+
+			{#if search.isLoadingMore}
+				<div class="command-loading">
+					<Icon icon={DotsMoveIcon} class="command-loading-spinner" />
+					<span>{t.loadingMoreText}</span>
+				</div>
+			{/if}
 		{/if}
 	</div>
-{/if}
+
+	{#snippet footer()}
+		{#if showFooter}
+			<div class="command-shortcuts">
+				<div class="command-shortcut">
+					<div class="command-shortcut-item">
+						<kbd>↑</kbd><kbd>↓</kbd>
+						<span>{t.navigateText}</span>
+					</div>
+					<div class="command-shortcut-item">
+						<kbd>↵</kbd>
+						<span>{t.selectText}</span>
+					</div>
+				</div>
+				<div class="command-shortcut-item">
+					<kbd>{modifierKey}</kbd><kbd>{shortcut.toUpperCase()}</kbd>
+					<span>{t.toggleText}</span>
+				</div>
+			</div>
+		{/if}
+	{/snippet}
+</Modal>

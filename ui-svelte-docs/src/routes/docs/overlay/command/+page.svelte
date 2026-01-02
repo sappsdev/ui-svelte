@@ -135,7 +135,7 @@
 			disableOverlayClose && `\tdisableOverlayClose`,
 			disableGlobalShortcut && `\tdisableGlobalShortcut`,
 			!showFooter && `\tshowFooter={false}`,
-			`\tplaceholder="Search commands..."`,
+			`\tlabels={{ placeholder: 'Search commands...' }}`,
 			`\tonselect={handleSelect}`,
 			`/>`
 		].filter(Boolean);
@@ -146,10 +146,7 @@
 	const props = [
 		{ prop: 'search', type: 'SearchState', initial: 'required' },
 		{ prop: 'open', type: 'boolean', initial: 'false' },
-		{ prop: 'placeholder', type: 'string', initial: 'Search...' },
-		{ prop: 'emptyText', type: 'string', initial: 'No results found' },
-		{ prop: 'loadingText', type: 'string', initial: 'Loading...' },
-		{ prop: 'loadingMoreText', type: 'string', initial: 'Loading more...' },
+		{ prop: 'labels', type: 'CommandLabels', initial: '{}' },
 		{
 			prop: 'color',
 			type: 'primary | secondary | muted | success | info | warning | danger',
@@ -198,7 +195,7 @@
 				{disableOverlayClose}
 				{disableGlobalShortcut}
 				{showFooter}
-				placeholder="Search commands..."
+				labels={{ placeholder: 'Search commands...' }}
 				onselect={(item) => (selectedItem = item)}
 			/>
 			{#if selectedItem}
@@ -223,7 +220,7 @@
 			bind:open={openColors}
 			search={colorSearch}
 			color={selectedColor}
-			placeholder="Search..."
+			labels={{ placeholder: 'Search...' }}
 		/>
 	</Card>
 </Section>
@@ -233,7 +230,8 @@
 	<Card>
 		<div class="col gap-4">
 			<p class="card-description">
-				Use the <code>groups</code> prop to organize options into labeled categories.
+				Use the <code>groups</code> prop to organize options into labeled categories. Items without icons
+				automatically display a bullet dot and hover indicator for better visual feedback.
 			</p>
 			<div class="wrap gap-4 center">
 				<Button onclick={() => (openGroups = true)}>Open Grouped Command</Button>
@@ -242,7 +240,7 @@
 				bind:open={openGroups}
 				search={groupSearch}
 				groups={demoGroups}
-				placeholder="Search pages and actions..."
+				labels={{ placeholder: 'Search pages and actions...' }}
 			/>
 			<Code
 				lang="svelte"
@@ -253,7 +251,7 @@
     { label: 'Pages', icon: HomeLinearIcon, options: [...] },
     { label: 'Actions', icon: RocketIcon, options: [...] }
   ]}
-  placeholder="Search..."
+  labels={{ placeholder: 'Search...' }}
 />`}
 			/>
 		</div>

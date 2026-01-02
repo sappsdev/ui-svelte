@@ -14,6 +14,7 @@
 @import './control/css/media.css';
 @import './control/css/video.css';
 @import './control/css/toggle-group.css';
+@import './control/css/fab.css';
 
 @import './charts/css/arc-chart.css';
 @import './charts/css/area-chart.css';
@@ -33,6 +34,7 @@
 @import './display/css/chip.css';
 @import './display/css/code.css';
 @import './display/css/collapsible.css';
+@import './display/css/countdown.css';
 @import './display/css/divider.css';
 @import './display/css/empty.css';
 @import './display/css/item.css';

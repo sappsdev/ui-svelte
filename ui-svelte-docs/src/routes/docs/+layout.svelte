@@ -43,6 +43,8 @@
 	});
 
 	$effect(() => {
+		if (typeof document === 'undefined') return;
+
 		const root = document.documentElement;
 		const colors = storeApp.themeColors;
 		const darkColors = storeApp.darkThemeColors;
@@ -118,7 +120,7 @@
 					size="sm"
 				>
 					<span class="hidden md:inline">Search</span>
-					<span class="hidden md:inline text-xs opacity-60 ml-2">⌘K</span>
+					<span class="text-xs opacity-60">⌘K</span>
 				</Button>
 				<ToggleTheme color="secondary" />
 				<IconButton
@@ -148,7 +150,6 @@
 	bind:open={commandOpen}
 	{search}
 	groups={commandGroups}
-	placeholder="Search components..."
 	onselect={(item) => {
 		if (item.href) {
 			goto(item.href as string);

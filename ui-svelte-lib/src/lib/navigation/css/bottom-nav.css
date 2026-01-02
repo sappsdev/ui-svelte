@@ -1,6 +1,5 @@
 @layer components {
 	.bottomnav {
-		/* CSS Custom Properties for advanced customization */
 		--bn-pill-radius: 9999px;
 		--bn-pill-padding-x: 1rem;
 		--bn-pill-padding-y: 0.25rem;
@@ -153,7 +152,6 @@
 				@apply opacity-80;
 			}
 
-			/* FAB Item Styles */
 			&.is-fab {
 				@apply flex-none opacity-100;
 
@@ -184,7 +182,6 @@
 					@apply shadow-md;
 				}
 
-				/* FAB Color variants */
 				&.is-primary .bottomnav-icon-wrapper {
 					@apply bg-primary text-on-primary shadow-primary/30;
 				}
@@ -215,7 +212,6 @@
 			}
 		}
 
-		/* Active Line Style */
 		&.active-line {
 			.bottomnav-item {
 				&::after {
@@ -232,14 +228,12 @@
 			}
 		}
 
-		/* Active Pill Style - Applied to icon-wrapper only */
 		&.active-pill {
 			.bottomnav-item {
 				.bottomnav-icon-wrapper {
 					padding: var(--bn-pill-padding-y) var(--bn-pill-padding-x);
 				}
 
-				/* Badge positioning fix for pill mode */
 				.bottomnav-badge {
 					@apply -top-1 -right-1;
 				}
@@ -249,13 +243,11 @@
 				}
 			}
 
-			/* Solid variant uses white overlay for pill */
 			&.is-solid .bottomnav-item.is-active:not(.is-fab) .bottomnav-icon-wrapper {
 				@apply bg-white/20;
 			}
 		}
 
-		/* Size Variants */
 		&.is-sm {
 			--bn-fab-size: 2.5rem;
 			--bn-fab-offset: -1.25rem;

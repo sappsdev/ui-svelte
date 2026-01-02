@@ -77,7 +77,6 @@
 			checkOverflow();
 		});
 
-		// Observer para detectar cambios en el tamaño
 		const resizeObserver = new ResizeObserver(() => {
 			checkOverflow();
 		});
@@ -142,7 +141,6 @@
 			</div>
 
 			{#if shouldAnimate}
-				<!-- Duplicado para el efecto infinito -->
 				<div
 					class={cn('marquee-content', isVertical && 'is-vertical')}
 					aria-hidden="true"

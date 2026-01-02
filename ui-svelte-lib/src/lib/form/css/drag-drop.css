@@ -1,6 +1,44 @@
 @layer components {
 	.drag-drop {
 		@apply relative w-full;
+		--dd-color: var(--color-muted);
+		--dd-on-color: var(--color-on-muted);
+	}
+
+	.drag-drop.is-primary {
+		--dd-color: var(--color-primary);
+		--dd-on-color: var(--color-on-primary);
+		--dd-soft: var(--color-soft-primary);
+	}
+	.drag-drop.is-secondary {
+		--dd-color: var(--color-secondary);
+		--dd-on-color: var(--color-on-secondary);
+		--dd-soft: var(--color-soft-secondary);
+	}
+	.drag-drop.is-muted {
+		--dd-color: var(--color-muted);
+		--dd-on-color: var(--color-on-muted);
+		--dd-soft: var(--color-soft-muted);
+	}
+	.drag-drop.is-success {
+		--dd-color: var(--color-success);
+		--dd-on-color: var(--color-on-success);
+		--dd-soft: var(--color-soft-success);
+	}
+	.drag-drop.is-info {
+		--dd-color: var(--color-info);
+		--dd-on-color: var(--color-on-info);
+		--dd-soft: var(--color-soft-info);
+	}
+	.drag-drop.is-danger {
+		--dd-color: var(--color-danger);
+		--dd-on-color: var(--color-on-danger);
+		--dd-soft: var(--color-soft-danger);
+	}
+	.drag-drop.is-warning {
+		--dd-color: var(--color-warning);
+		--dd-on-color: var(--color-on-warning);
+		--dd-soft: var(--color-soft-warning);
 	}
 
 	.drag-drop.is-horizontal {
@@ -28,8 +66,7 @@
 	}
 
 	.drag-drop-group-header {
-		@apply flex items-center justify-between gap-2 px-3 py-2 mb-2;
-		@apply font-semibold;
+		@apply flex items-center justify-between gap-2 px-3 py-2 mb-2 font-semibold;
 	}
 
 	.drag-drop-group-title {
@@ -38,129 +75,59 @@
 
 	.drag-drop-group-count {
 		@apply px-2 py-0.5 text-xs rounded-full;
-		@apply bg-current/10;
+		background: oklch(from var(--dd-color) l c h / 0.15);
 	}
 
 	.drag-drop-list {
 		@apply flex flex-col gap-2 min-h-24 p-2 rounded-ui;
 		@apply transition-colors duration-200;
 	}
-	.drag-drop.is-soft {
-		.drag-drop-list {
-			@apply rounded-ui;
-		}
-
-		&.is-primary .drag-drop-list {
-			@apply bg-soft-primary/50;
-		}
-		&.is-secondary .drag-drop-list {
-			@apply bg-soft-secondary/50;
-		}
-		&.is-muted .drag-drop-list {
-			@apply bg-soft-muted/50;
-		}
-		&.is-success .drag-drop-list {
-			@apply bg-soft-success/50;
-		}
-		&.is-info .drag-drop-list {
-			@apply bg-soft-info/50;
-		}
-		&.is-danger .drag-drop-list {
-			@apply bg-soft-danger/50;
-		}
-		&.is-warning .drag-drop-list {
-			@apply bg-soft-warning/50;
-		}
+	.drag-drop.is-soft .drag-drop-list {
+		background: oklch(from var(--dd-soft, var(--dd-color)) l c h / 0.5);
 	}
-
-	.drag-drop.is-solid {
-		.drag-drop-list {
-			@apply rounded-ui;
-		}
-
-		&.is-primary .drag-drop-list {
-			@apply bg-primary/20;
-		}
-		&.is-secondary .drag-drop-list {
-			@apply bg-secondary/20;
-		}
-		&.is-muted .drag-drop-list {
-			@apply bg-on-muted/10;
-		}
-		&.is-success .drag-drop-list {
-			@apply bg-success/20;
-		}
-		&.is-info .drag-drop-list {
-			@apply bg-info/20;
-		}
-		&.is-danger .drag-drop-list {
-			@apply bg-danger/20;
-		}
-		&.is-warning .drag-drop-list {
-			@apply bg-warning/20;
-		}
+	.drag-drop.is-solid .drag-drop-list {
+		background: oklch(from var(--dd-color) l c h / 0.2);
 	}
-
-	.drag-drop.is-outlined {
-		.drag-drop-list {
-			@apply rounded-ui border-2 border-dashed;
-		}
-
-		&.is-primary .drag-drop-list {
-			@apply border-primary/30;
-		}
-		&.is-secondary .drag-drop-list {
-			@apply border-secondary/30;
-		}
-		&.is-muted .drag-drop-list {
-			@apply border-muted;
-		}
-		&.is-success .drag-drop-list {
-			@apply border-success/30;
-		}
-		&.is-info .drag-drop-list {
-			@apply border-info/30;
-		}
-		&.is-danger .drag-drop-list {
-			@apply border-danger/30;
-		}
-		&.is-warning .drag-drop-list {
-			@apply border-warning/30;
-		}
+	.drag-drop.is-outlined .drag-drop-list {
+		@apply border-2 border-dashed;
+		border-color: oklch(from var(--dd-color) l c h / 0.3);
 	}
-
-	.drag-drop.is-ghost {
-		.drag-drop-list {
-			@apply bg-transparent;
-		}
+	.drag-drop.is-ghost .drag-drop-list {
+		@apply bg-transparent;
 	}
-
 	.drag-drop-item {
 		@apply relative flex items-center gap-3 p-3 rounded-ui cursor-grab;
 		@apply bg-surface border border-transparent;
 		@apply transition-all duration-200;
-		@apply hover:border-current/20 hover:shadow-sm;
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.drag-drop-item:hover {
+		border-color: oklch(from var(--dd-color) l c h / 0.2);
+		@apply shadow-sm;
 	}
 
 	.drag-drop-item.is-dragging {
-		@apply opacity-50 cursor-grabbing scale-[1.02];
-		@apply shadow-lg border-current/30;
+		@apply opacity-50 cursor-grabbing scale-[1.02] shadow-lg;
+		border-color: oklch(from var(--dd-color) l c h / 0.3);
 	}
 
 	.drag-drop-item.is-drag-over {
-		@apply border-current/50;
+		border-color: oklch(from var(--dd-color) l c h / 0.5);
 	}
 
-	.drag-drop-item.is-drag-over::before {
+	.drag-drop-item.is-drag-over::before,
+	.drag-drop-item.is-touch-drag-over::before {
 		content: '';
-		@apply absolute -top-1.5 left-0 right-0 h-0.5;
-		@apply bg-current rounded-full;
+		@apply absolute -top-1.5 left-0 right-0 h-0.5 rounded-full;
+		background: var(--dd-color);
 	}
 
 	.drag-drop-item-content {
 		@apply flex-1 min-w-0 truncate;
 	}
-
 	.drag-drop-handle {
 		@apply shrink-0 opacity-30 cursor-grab;
 		@apply transition-opacity duration-200;
@@ -177,31 +144,29 @@
 	.drag-drop-empty {
 		@apply flex items-center justify-center min-h-24 p-4;
 		@apply text-sm opacity-50 text-center;
-		@apply border-2 border-dashed border-current/20 rounded-ui;
+		@apply border-2 border-dashed rounded-ui;
 		@apply transition-all duration-200;
+		border-color: oklch(from var(--dd-color) l c h / 0.2);
 	}
 
 	.drag-drop-empty.is-drag-over {
-		@apply border-current/50 bg-current/5;
+		border-color: oklch(from var(--dd-color) l c h / 0.5);
+		background: oklch(from var(--dd-color) l c h / 0.05);
 	}
 
 	.drag-drop.is-sm {
 		.drag-drop-item {
 			@apply p-2 gap-2 text-sm;
 		}
-
 		.drag-drop-handle svg {
 			@apply size-3;
 		}
-
 		.drag-drop-group-header {
 			@apply text-sm px-2 py-1;
 		}
-
 		.drag-drop-list {
 			@apply gap-1.5 p-1.5;
 		}
-
 		.drag-drop-empty {
 			@apply min-h-16 text-xs;
 		}
@@ -211,15 +176,12 @@
 		.drag-drop-item {
 			@apply p-3 gap-3 text-base;
 		}
-
 		.drag-drop-handle svg {
 			@apply size-4;
 		}
-
 		.drag-drop-group-header {
 			@apply text-base px-3 py-2;
 		}
-
 		.drag-drop-list {
 			@apply gap-2 p-2;
 		}
@@ -229,43 +191,44 @@
 		.drag-drop-item {
 			@apply p-4 gap-4 text-lg;
 		}
-
 		.drag-drop-handle svg {
 			@apply size-5;
 		}
-
 		.drag-drop-group-header {
 			@apply text-lg px-4 py-3;
 		}
-
 		.drag-drop-list {
 			@apply gap-3 p-3;
 		}
-
 		.drag-drop-empty {
 			@apply min-h-32;
 		}
 	}
 
-	.drag-drop.is-primary .drag-drop-item.is-drag-over::before {
-		@apply bg-primary;
+	.drag-drop.is-touch-dragging {
+		@apply select-none touch-none;
 	}
-	.drag-drop.is-secondary .drag-drop-item.is-drag-over::before {
-		@apply bg-secondary;
+
+	.drag-drop-item.is-touch-drag-over {
+		border-color: oklch(from var(--dd-color) l c h / 0.5);
 	}
-	.drag-drop.is-muted .drag-drop-item.is-drag-over::before {
-		@apply bg-on-muted;
+
+	.drag-drop-ghost {
+		@apply rounded-ui bg-surface;
+		border: 1px solid oklch(from var(--dd-color) l c h / 0.3);
 	}
-	.drag-drop.is-success .drag-drop-item.is-drag-over::before {
-		@apply bg-success;
-	}
-	.drag-drop.is-info .drag-drop-item.is-drag-over::before {
-		@apply bg-info;
-	}
-	.drag-drop.is-danger .drag-drop-item.is-drag-over::before {
-		@apply bg-danger;
-	}
-	.drag-drop.is-warning .drag-drop-item.is-drag-over::before {
-		@apply bg-warning;
+
+	@media (pointer: coarse) {
+		.drag-drop-item {
+			touch-action: pan-y;
+		}
+
+		.drag-drop.is-touch-dragging .drag-drop-item {
+			touch-action: none;
+		}
+
+		.drag-drop-handle {
+			@apply opacity-50;
+		}
 	}
 }

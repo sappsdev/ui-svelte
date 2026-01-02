@@ -137,6 +137,7 @@
 		{ prop: 'direction', type: 'horizontal | vertical', initial: 'vertical' },
 		{ prop: 'isDisabled', type: 'boolean', initial: 'false' },
 		{ prop: 'allowGroupTransfer', type: 'boolean', initial: 'true' },
+		{ prop: 'emptyText', type: 'string', initial: "'Drop items here'" },
 		{ prop: 'onReorder', type: '(items, fromGroup?, toGroup?) => void', initial: '' },
 		{ prop: 'onGroupReorder', type: '(groups) => void', initial: '' },
 		{ prop: 'itemSnippet', type: 'Snippet<[DragDropItem, number]>', initial: '' },
