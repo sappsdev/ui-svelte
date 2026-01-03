@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { GithubIconIcon, List24RegularIcon, Search24RegularIcon } from '$lib/icons';
+	import {
+		GithubIconIcon,
+		List24RegularIcon,
+		Search24RegularIcon,
+		HeartLinearIcon
+	} from '$lib/icons';
 	import {
 		Scaffold,
 		Drawer,
@@ -11,12 +16,29 @@
 		NavMenu,
 		Command,
 		Button,
-		useSearch
+		useSearch,
+		Fab,
+		type FabAction
 	} from 'ui-svelte';
 	import { storeApp } from '$lib/store/store.svelte';
 	import { theme } from 'ui-svelte';
 	import { sideMenuItems } from '$lib/config/docs-menu-items';
 	import { goto } from '$app/navigation';
+
+	const fabActions: FabAction[] = [
+		{
+			icon: HeartLinearIcon,
+			label: 'PayPal',
+			color: 'info',
+			onclick: () => window.open('https://www.paypal.com/paypalme/funderideas', '_blank')
+		},
+		{
+			icon: GithubIconIcon,
+			label: 'Sponsor',
+			color: 'secondary',
+			onclick: () => window.open('https://github.com/sponsors/sappsdev', '_blank')
+		}
+	];
 
 	let { children } = $props();
 
@@ -157,3 +179,4 @@
 		}
 	}}
 />
+<Fab icon={HeartLinearIcon} actions={fabActions} color="danger" position="bottom-right" />
