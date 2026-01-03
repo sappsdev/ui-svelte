@@ -4,8 +4,12 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "vite dev --host",
 		"build": "vite build",
+		"dev:android": "CAP_PLATFORM=android bunx cap run android",
+		"dev:ios": "CAP_PLATFORM=ios bunx cap run ios",
+		"build:android": "bun run build:vite && bunx cap sync",
+		"build:ios": "bun run build:vite && bunx cap sync",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -16,16 +20,25 @@
 	"devDependencies": {
 		"@capacitor/cli": "^8.0.0",
 		"@sveltejs/adapter-auto": "^7.0.0",
+		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.49.1",
 		"@sveltejs/vite-plugin-svelte": "^6.2.1",
+		"@tailwindcss/vite": "^4.1.18",
 		"prettier": "^3.7.4",
 		"prettier-plugin-svelte": "^3.4.0",
+		"prettier-plugin-tailwindcss": "^0.7.2",
 		"svelte": "^5.45.6",
 		"svelte-check": "^4.3.4",
+		"tailwindcss": "^4.1.18",
 		"typescript": "^5.9.3",
 		"vite": "^7.2.6"
 	},
 	"dependencies": {
-		"@capacitor/core": "^8.0.0"
+		"@capacitor/android": "^8.0.0",
+		"@capacitor/core": "^8.0.0",
+		"@capacitor/ios": "^8.0.0",
+		"@capacitor/status-bar": "^8.0.0",
+		"@fontsource-variable/montserrat": "^5.2.8",
+		"ui-svelte": "workspace:*"
 	}
 }

@@ -10,9 +10,9 @@
     "typescript": "^5"
   },
   "workspaces": [
-    "ui-svelte-lib",
     "ui-svelte-docs",
     "ui-svelte-desktop",
-    "ui-svelte-mobile"
+    "ui-svelte-mobile",
+    "ui-svelte-lib"
   ]
 }

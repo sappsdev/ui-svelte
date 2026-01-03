@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">UiSvelteMobile</string>
+    <string name="title_activity_main">UiSvelteMobile</string>
+    <string name="package_name">com.uisvelte.mobile</string>
+    <string name="custom_url_scheme">com.uisvelte.mobile</string>
+</resources>

@@ -75,10 +75,8 @@ const config = {
 export default config;`;
 
 	const scriptsCode = `"scripts": {
-	"dev": "electrobun build && NODE_ENV=development concurrently -n vite,bun -c blue,green \\"bun run dev:vite\\" \\"electrobun dev\\"",
-	"build": "bun run build:vite && electrobun build",
-	"dev:vite": "vite dev",
-	"build:vite": "vite build"
+	 "dev:desktop": "electrobun build && electrobun dev",
+	 "build:desktop": "bun run build && electrobun build",
 }`;
 </script>
 
@@ -87,7 +85,7 @@ export default config;`;
 	<a
 		href="https://blackboard.sh/electrobun/docs/"
 		target="_blank"
-		class="text-primary hover:underline">Electrobun</a
+		class="text-primary hover:underline font-bold">Electrobun</a
 	>.
 </DocsHeader>
 
@@ -105,9 +103,8 @@ export default config;`;
 	<h3 class="text-lg font-semibold mb-4">1. Install Dependencies</h3>
 	<div class="column gap-4">
 		<div class="column gap-2">
-			<p class="text-sm">Add Electrobun and concurrently:</p>
+			<p class="text-sm">Add Electrobun:</p>
 			<Code code="bun add electrobun" lang="bash" />
-			<Code code="bun add -d concurrently" lang="bash" />
 		</div>
 		<div class="column gap-2">
 			<p class="text-sm">Add the static adapter:</p>
@@ -154,7 +151,10 @@ export default config;`;
 		<Card bodyClass="column gap-2">
 			<p class="font-medium">Development</p>
 			<Code code="bun dev" lang="bash" />
-			<p class="text-sm">Runs Vite dev server with hot reload inside Electrobun.</p>
+			<Code code="bun dev:desktop" lang="bash" />
+			<p class="text-sm">
+				Runs Vite dev server with hot reload inside and starts the Electrobun dev server.
+			</p>
 		</Card>
 		<Card bodyClass="column gap-2">
 			<p class="font-medium">Production Build</p>

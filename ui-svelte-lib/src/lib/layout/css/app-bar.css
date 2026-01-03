@@ -1,6 +1,7 @@
 @layer components {
 	.appbar {
 		@apply w-full z-30 transition-all duration-300;
+		padding-top: env(safe-area-inset-top, 0px);
 
 		&.is-sticky {
 			@apply fixed top-0;
