@@ -121,7 +121,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2 center">
 			<Select
 				isFloatLabel
@@ -160,7 +160,7 @@
 		One-time animations that play when an element is rendered. Great for page loads and modal
 		appearances.
 	</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-3 lg:grid-4 gap-4">
 			{#each animationOptions as item}
 				{#key animationKey}
@@ -180,7 +180,7 @@
 	<p class="section-description">
 		Looping animations for attention-grabbing elements, loading states, or decorative effects.
 	</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-5 gap-4">
 			{#each continuousOptions as item}
 				<Card rootClass={item.id}>
@@ -204,7 +204,7 @@
 	<p class="section-description">
 		Use delay utilities to create staggered entrance effects for lists and grids.
 	</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-4 md:grid-6 gap-3">
 			{#key animationKey}
 				{#each [0, 75, 150, 200, 300, 400, 500, 600, 700, 800, 1000] as d, i}
@@ -228,7 +228,7 @@
 <Section>
 	<p class="section-subtitle">On Buttons</p>
 	<p class="section-description">Apply animations to buttons for interactive effects.</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#key animationKey}
 				<Button class="fade-in-up delay-0">Fade Up</Button>

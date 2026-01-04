@@ -191,7 +191,7 @@
 		onchange,
 		oninput,
 		variant = 'outlined',
-		color = 'muted',
+		color = 'primary',
 		size = 'md',
 		name,
 		label,

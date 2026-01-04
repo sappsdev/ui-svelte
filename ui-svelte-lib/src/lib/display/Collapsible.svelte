@@ -33,7 +33,7 @@
 		content,
 		disabled = false,
 		defaultOpen = false,
-		variant = 'ghost',
+		variant = 'solid',
 		color = 'background',
 		rootClass,
 		headerClass,

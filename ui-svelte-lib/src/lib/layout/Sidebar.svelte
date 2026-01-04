@@ -32,7 +32,7 @@
 		headerClass,
 		footerClass,
 		color = 'surface',
-		variant = 'ghost'
+		variant = 'solid'
 	}: Props = $props();
 
 	const colors = {

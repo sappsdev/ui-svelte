@@ -22,8 +22,8 @@
 	const {
 		children,
 		onclose,
-		color = 'primary',
-		variant = 'solid',
+		color = 'muted',
+		variant = 'soft',
 		size = 'md',
 		class: className,
 		startIcon,

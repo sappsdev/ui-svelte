@@ -131,7 +131,7 @@ export default config;`;
 <Section>
 	<h3 class="text-lg font-semibold mb-4">6. Run Your App</h3>
 	<div class="column gap-4">
-		<Card bodyClass="column gap-2">
+		<Card bodyClass="column gap-2" color="background" variant="outlined">
 			<p class="font-medium">Development (Android)</p>
 			<Code code="bun dev" lang="bash" />
 			<Code code="bun dev:android" lang="bash" />
@@ -139,7 +139,7 @@ export default config;`;
 				Runs Vite dev server with hot reload and starts the app on an Android emulator or device.
 			</p>
 		</Card>
-		<Card bodyClass="column gap-2">
+		<Card bodyClass="column gap-2" color="background" variant="outlined">
 			<p class="font-medium">Development (iOS)</p>
 			<Code code="bun dev" lang="bash" />
 			<Code code="bun dev:ios" lang="bash" />
@@ -147,7 +147,7 @@ export default config;`;
 				Runs Vite dev server with hot reload and starts the app on an iOS simulator or device.
 			</p>
 		</Card>
-		<Card bodyClass="column gap-2">
+		<Card bodyClass="column gap-2" color="background" variant="outlined">
 			<p class="font-medium">Production Build</p>
 			<Code code="bun run build:android" lang="bash" />
 			<Code code="bun run build:ios" lang="bash" />

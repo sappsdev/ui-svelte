@@ -108,7 +108,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-3 gap-2">
 			<Select
 				isFloatLabel
@@ -138,7 +138,7 @@
 
 <Section>
 	<p class="section-subtitle">Multiple Open Items</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm mb-4">
 			Use the <code>multiple</code> prop to allow multiple items to be open simultaneously.
 		</p>
@@ -165,7 +165,7 @@
 
 <Section>
 	<p class="section-subtitle">Default Open Items</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm mb-4">
 			Use the <code>defaultOpen</code> property on items to have them expanded by default.
 		</p>
@@ -190,7 +190,7 @@
 
 <Section>
 	<p class="section-subtitle">Disabled Items</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm mb-4">
 			Use the <code>disabled</code> property on items to prevent them from being toggled.
 		</p>

@@ -22,7 +22,7 @@
 	const {
 		class: className,
 		position = 'bottom-left',
-		variant = 'soft',
+		variant = 'solid',
 		showIcon
 	}: Props = $props();
 

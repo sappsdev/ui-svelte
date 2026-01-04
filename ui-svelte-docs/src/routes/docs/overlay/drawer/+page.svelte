@@ -132,7 +132,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -190,7 +190,7 @@
 
 <Section>
 	<p class="section-subtitle">Positions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each positionOptions as item}
 				<Button onclick={() => handleOpenPosition(item.id)} size="sm">
@@ -216,7 +216,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each variantOptions as item}
 				<Button onclick={() => handleOpenVariant(item.id)} variant={item.id as any}>
@@ -240,7 +240,7 @@
 
 <Section>
 	<p class="section-subtitle">Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each colorOptions as item}
 				<Button onclick={() => handleOpenColor(item.id)} color={item.id as any} size="sm">
@@ -263,7 +263,7 @@
 
 <Section>
 	<p class="section-subtitle">With Header & Footer</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<Button onclick={() => (openHeaderFooter = true)}>Drawer with Header & Footer</Button>
 		</div>

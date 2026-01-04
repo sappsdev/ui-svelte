@@ -412,7 +412,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="row gap-2 mb-4">
 			<Button variant="outlined" size="sm" onclick={() => (showCssDrawer = true)}
 				>Generate CSS</Button
@@ -489,14 +489,14 @@
 
 <Section>
 	<p class="section-subtitle">Color Guidelines</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Tabs tabs={guidelinesTabs} />
 	</Card>
 </Section>
 
 <Section>
 	<p class="section-subtitle">Light Mode Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid gap-4">
 			{#each themeColorPairs as colorPair}
 				{@const mainKey = colorPair.key as ThemeColorKey}
@@ -527,7 +527,7 @@
 
 <Section>
 	<p class="section-subtitle">Dark Mode Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Alert color="info">
 			Toggle dark mode using the button in the top navigation to see your changes.
 		</Alert>
@@ -561,7 +561,7 @@
 
 <Section>
 	<p class="section-subtitle">CSS Variables Reference</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="overflow-x-auto">
 			<table class="w-full border-collapse">
 				<thead>
@@ -586,7 +586,7 @@
 
 <Section>
 	<p class="section-subtitle">Usage Examples</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Code
 			lang="svelte"
 			code={`<!-- Using Tailwind Classes -->

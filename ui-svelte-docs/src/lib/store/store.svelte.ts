@@ -14,7 +14,7 @@ let themeColors = $state({
 	onDark: 'oklch(97% 0.01 90)',
 	onLight: 'oklch(25% 0.01 30)',
 	primary: 'oklch(75% 0.15 145)',
-	softPrimary: 'oklch(95% 0.05 145)',
+	softPrimary: 'oklch(97% 0.01 145)',
 	secondary: 'oklch(28.42% 0.0467 259.99)',
 	softSecondary: 'oklch(92% 0.005 30)',
 	muted: 'oklch(87.2% 0.01 258.338)',

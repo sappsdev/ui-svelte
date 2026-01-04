@@ -4,7 +4,6 @@
 	import DocsProps from '$lib/components/DocsProps.svelte';
 	import { formatCurrency, formatDate, formatNumber, plural, t, i18n } from 'ui-svelte';
 
-	// Streamline Color Icons
 	const FolderAddIcon = {
 		body: '<g fill="none"><path fill="#ffef5e" d="M19.174 17.26a.957.957 0 0 0 .957-.956V4.826a.956.956 0 0 0-.957-.956H9.722a.96.96 0 0 1-.855-.53L7.96 1.53A.96.96 0 0 0 7.105 1H1.957A.957.957 0 0 0 1 1.957v14.347a.956.956 0 0 0 .957.957z"/><path fill="#fff9bf" d="M9.722 3.87a.96.96 0 0 1-.855-.53L7.96 1.53A.96.96 0 0 0 7.105 1H1.957A.957.957 0 0 0 1 1.957v14.347a.956.956 0 0 0 .957.957h.67L16.017 3.87z"/><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M20.131 8.652V4.826a.956.956 0 0 0-.957-.956H9.722a.96.96 0 0 1-.855-.53L7.96 1.53A.96.96 0 0 0 7.105 1H1.957A.957.957 0 0 0 1 1.957v14.347a.956.956 0 0 0 .957.957h6.696"/><path fill="#78eb7b" d="M17.26 23a5.74 5.74 0 1 0 0-11.478a5.74 5.74 0 0 0 0 11.478"/><path fill="#c9f7ca" d="M17.261 11.522A5.74 5.74 0 0 0 13.49 21.58l8.09-8.09a5.72 5.72 0 0 0-4.319-1.968"/><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M17.26 23a5.74 5.74 0 1 0 0-11.478a5.74 5.74 0 0 0 0 11.478m0-8.609v5.74m2.87-2.871h-5.739"/></g>',
 		viewbox: '0 0 24 24'
@@ -220,7 +219,7 @@ initLanguage({
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -234,7 +233,7 @@ initLanguage({
 		</div>
 
 		<div class="doc-preview">
-			<Card bodyClass="column gap-4">
+			<Card bodyClass="column gap-4" color="background" variant="outlined">
 				<div>
 					<p class="text-xs text-on-muted mb-1">Translation with Parameters</p>
 					<h2 class="text-xl font-semibold">{t('common.welcome', { name: 'John' })}</h2>
@@ -281,14 +280,14 @@ initLanguage({
 
 <Section>
 	<p class="section-subtitle">Setup</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Tabs tabs={setupTabs} />
 	</Card>
 </Section>
 
 <Section>
 	<p class="section-subtitle">Available Functions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="overflow-x-auto">
 			<table class="w-full border-collapse">
 				<thead>
@@ -314,7 +313,7 @@ initLanguage({
 
 <Section>
 	<p class="section-subtitle">Configuration Options</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="overflow-x-auto">
 			<table class="w-full border-collapse">
 				<thead>
@@ -423,7 +422,7 @@ initLanguage({
 
 <Section>
 	<p class="section-subtitle">Usage Examples</p>
-	<Card bodyClass="column gap-4">
+	<Card bodyClass="column gap-4" color="background" variant="outlined">
 		<Code
 			lang="svelte"
 			code={`<!-- Basic Translation -->

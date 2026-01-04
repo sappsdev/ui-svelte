@@ -118,7 +118,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-2">
 			<Select
 				isFloatLabel
@@ -173,7 +173,7 @@
 
 <Section>
 	<p class="section-subtitle">Labels</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<DateRange label="Standard Label" placeholder="Select date range" class="max-w-xs" />
 			<DateRange
@@ -188,7 +188,7 @@
 
 <Section>
 	<p class="section-subtitle">Help & Error Text</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<DateRange
 				label="With Help Text"

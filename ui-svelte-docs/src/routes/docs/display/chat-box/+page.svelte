@@ -287,7 +287,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -372,7 +372,7 @@
 
 <Section>
 	<p class="section-subtitle">Modes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="prose">
 			<p>The ChatBox component supports two distinct modes:</p>
 			<ul>
@@ -391,7 +391,7 @@
 
 <Section>
 	<p class="section-subtitle">Prompt Mode (LLM)</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="prose">
 			<p>
 				The prompt mode is designed for AI chat interfaces. It uses role-based messages instead of
@@ -430,7 +430,7 @@ interface PromptState {
 
 <Section>
 	<p class="section-subtitle">Prompt Mode Example</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Code
 			lang="svelte"
 			code={`<script lang="ts">
@@ -501,7 +501,7 @@ interface PromptState {
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each colorOptions as colorItem}
@@ -526,7 +526,7 @@ interface PromptState {
 
 <Section>
 	<p class="section-subtitle">useChat Hook (Conversation Mode)</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Code
 			lang="typescript"
 			code={`const chat = useChat({
@@ -576,7 +576,7 @@ interface PromptState {
 
 <Section>
 	<p class="section-subtitle">Message Types (Conversation Mode)</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="prose">
 			<p>The conversation mode supports multiple message types:</p>
 			<ul>
@@ -603,7 +603,7 @@ interface PromptState {
 
 <Section>
 	<p class="section-subtitle">ChatState Methods</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="prose">
 			<p>The chat state object provides these methods:</p>
 			<ul>
@@ -621,7 +621,7 @@ interface PromptState {
 
 <Section>
 	<p class="section-subtitle">Custom Header Actions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Code
 			lang="svelte"
 			code={`<ChatBox {chat} currentUserId="user-456" userName="John Doe">
@@ -646,7 +646,7 @@ interface PromptState {
 
 <Section>
 	<p class="section-subtitle">Custom Message Renderer</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="prose">
 			<p>
 				Use the <code>messageRenderer</code> snippet to customize how messages are displayed:
@@ -672,7 +672,7 @@ interface PromptState {
 
 <Section>
 	<p class="section-subtitle">Features</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="prose">
 			<h4>Conversation Mode</h4>
 			<ul>
@@ -707,7 +707,7 @@ interface PromptState {
 
 <Section>
 	<p class="section-subtitle">API Requirements (Conversation Mode)</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="prose">
 			<h4>REST API</h4>
 			<ul>

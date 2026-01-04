@@ -148,7 +148,7 @@ export default config;`;
 <Section>
 	<h3 class="text-lg font-semibold mb-4">6. Run Your App</h3>
 	<div class="column gap-4">
-		<Card bodyClass="column gap-2">
+		<Card bodyClass="column gap-2" color="background" variant="outlined">
 			<p class="font-medium">Development</p>
 			<Code code="bun dev" lang="bash" />
 			<Code code="bun dev:desktop" lang="bash" />
@@ -156,7 +156,7 @@ export default config;`;
 				Runs Vite dev server with hot reload inside and starts the Electrobun dev server.
 			</p>
 		</Card>
-		<Card bodyClass="column gap-2">
+		<Card bodyClass="column gap-2" color="background" variant="outlined">
 			<p class="font-medium">Production Build</p>
 			<Code code="bun run build" lang="bash" />
 			<p class="text-sm">Builds the SvelteKit app and packages it with Electrobun.</p>

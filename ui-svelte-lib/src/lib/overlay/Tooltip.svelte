@@ -15,8 +15,8 @@
 	let {
 		label,
 		children,
-		color = 'primary',
-		variant = 'soft',
+		color = 'muted',
+		variant = 'solid',
 		position = 'top',
 		class: className
 	}: Props = $props();

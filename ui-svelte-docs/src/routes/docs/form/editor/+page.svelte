@@ -132,7 +132,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -195,7 +195,7 @@
 
 <Section>
 	<p class="section-subtitle">Keyboard Shortcuts</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid md:grid-2 lg:grid-3 gap-4">
 			<div class="flex items-center gap-2">
 				<kbd class="kbd">Ctrl+B</kbd>
@@ -223,7 +223,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="stack gap-6">
 			{#each sizeOptions as sizeItem}
 				<Editor size={sizeItem.id as any} placeholder={`Size ${sizeItem.label}`} minHeight="80px" />
@@ -234,14 +234,14 @@
 
 <Section>
 	<p class="section-subtitle">With Label</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Editor label="Content" placeholder="Write your content here..." minHeight="100px" />
 	</Card>
 </Section>
 
 <Section>
 	<p class="section-subtitle">Internacionalización (i18n)</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="mb-4 opacity-70">
 			Usa la prop <code>labels</code> para personalizar todos los tooltips y prompts de la barra de herramientas:
 		</p>
@@ -280,7 +280,7 @@
 
 <Section>
 	<p class="section-subtitle">States</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid md:grid-2 gap-4">
 			<Editor label="Disabled" placeholder="Cannot edit..." isDisabled minHeight="100px" />
 			<Editor
@@ -307,7 +307,7 @@
 
 <Section>
 	<p class="section-subtitle">Toolbar Features</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="mb-4 opacity-70">The editor toolbar includes:</p>
 		<div class="grid md:grid-2 lg:grid-3 gap-4 mb-6">
 			<div>

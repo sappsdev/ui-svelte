@@ -200,7 +200,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -291,7 +291,7 @@
 
 <Section>
 	<p class="section-subtitle">Chart Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="gap-4">
 			{#each sizeOptions as sizeOption}
 				<div class="mb-4">
@@ -305,7 +305,7 @@
 
 <Section>
 	<p class="section-subtitle">Themes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="gap-4">
 			{#each themeOptions as themeOption}
 				<div class="mb-4">
@@ -319,7 +319,7 @@
 
 <Section>
 	<p class="section-subtitle">Candle Styles</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="gap-4">
 			{#each candleStyleOptions as styleOption}
 				<div class="mb-4">
@@ -333,7 +333,7 @@
 
 <Section>
 	<p class="section-subtitle">With Technical Indicators</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="gap-4">
 			<div class="mb-4">
 				<p class="text-sm text-on-muted mb-2">SMA (20) + EMA (10)</p>
@@ -360,7 +360,7 @@
 
 <Section>
 	<p class="section-subtitle">Custom Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4">
 			<div class="flex-1 min-w-[300px]">
 				<p class="text-sm text-on-muted mb-2">Primary / Secondary</p>
@@ -376,7 +376,7 @@
 
 <Section>
 	<p class="section-subtitle">Loading & Empty States</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4">
 			<div class="flex-1 min-w-[300px]">
 				<p class="text-sm text-on-muted mb-2">Loading</p>
@@ -397,7 +397,7 @@
 
 <Section>
 	<p class="section-subtitle">CandleData Type</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Code
 			lang="typescript"
 			code={`type CandleData = {
@@ -414,7 +414,7 @@
 
 <Section>
 	<p class="section-subtitle">Indicator Types</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Code
 			lang="typescript"
 			code={`type Indicator =

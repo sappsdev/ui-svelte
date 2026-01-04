@@ -37,7 +37,7 @@
 		placeholder = 'Select an option',
 		onchange,
 		variant = 'outlined',
-		color = 'muted',
+		color = 'primary',
 		size = 'md',
 		name,
 		label,
@@ -342,6 +342,7 @@
 						isActive={value === item.id}
 						isFocused={focusedIndex === index}
 						size="sm"
+						variant="ghost"
 						isCompact
 					/>
 				</li>

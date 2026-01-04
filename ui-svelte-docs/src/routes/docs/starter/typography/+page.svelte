@@ -95,7 +95,7 @@
 <Section>
 	<p class="section-subtitle">Display Styles</p>
 	<p class="section-description">Large display text for hero sections and major headlines.</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each displayClasses as item}
 			<div class="py-4 border-b border-muted last:border-b-0">
 				<h1 class={item.class}>The quick brown fox</h1>
@@ -109,7 +109,7 @@
 	<p class="section-subtitle">Heading Styles</p>
 	<p class="section-description">Heading styles for section titles and content hierarchies.</p>
 
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each headingClasses as item}
 			<div class="py-4 border-b border-muted last:border-b-0">
 				<h2 class={item.class}>Section heading example</h2>
@@ -122,7 +122,7 @@
 <Section>
 	<p class="section-subtitle">Body Styles</p>
 	<p class="section-description">Body text styles for paragraphs and general content.</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each bodyClasses as item}
 			<div class="py-4 border-b border-muted last:border-b-0">
 				<p class={item.class}>This is body text that demonstrates the styling.</p>
@@ -137,7 +137,7 @@
 
 <Section>
 	<p class="section-subtitle">Label & Caption Styles</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="space-y-6 py-4">
 			<div>
 				<h5 class="text-on-muted mb-2 uppercase">Labels</h5>
@@ -169,7 +169,7 @@
 	<p class="section-description">
 		Pre-defined classes for common UI patterns with balanced typography.
 	</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="space-y-8 py-4">
 			<div class="space-y-2">
 				<h5 class="text-on-muted uppercase">Hero</h5>
@@ -217,7 +217,7 @@
 <Section>
 	<p class="section-subtitle">Utility Classes</p>
 	<p class="section-description">Subheadings, leads, overlines, and quotes.</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="space-y-6 py-4">
 			<div>
 				<span class="subheading">Subheading</span>
@@ -250,7 +250,7 @@
 <Section>
 	<p class="section-subtitle">Component Typography</p>
 	<p class="section-description">Typography classes for features, cards, and navigation.</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 gap-6 py-4">
 			<div class="space-y-2">
 				<h4 class="feature-title">Feature Title</h4>
@@ -287,7 +287,7 @@
 
 <Section>
 	<p class="section-subtitle">Text Wrapping & Truncation</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="space-y-4 py-4">
 			<div class="prose-narrow border-l-2 border-primary pl-4">
 				<p class="text-on-muted text-sm">prose-narrow (45ch)</p>

@@ -75,15 +75,27 @@
 		root.style.setProperty('--on-light', colors.onLight);
 
 		root.style.setProperty('--primary', colors.primary);
+		root.style.setProperty('--soft-primary', colors.softPrimary);
 		root.style.setProperty('--secondary', colors.secondary);
+		root.style.setProperty('--soft-secondary', colors.softSecondary);
+		root.style.setProperty('--muted', colors.muted);
+		root.style.setProperty('--soft-muted', colors.softMuted);
+		root.style.setProperty('--background', colors.background);
+		root.style.setProperty('--surface', colors.surface);
 		root.style.setProperty('--success', colors.success);
+		root.style.setProperty('--soft-success', colors.softSuccess);
 		root.style.setProperty('--info', colors.info);
+		root.style.setProperty('--soft-info', colors.softInfo);
 		root.style.setProperty('--warning', colors.warning);
+		root.style.setProperty('--soft-warning', colors.softWarning);
 		root.style.setProperty('--danger', colors.danger);
+		root.style.setProperty('--soft-danger', colors.softDanger);
 
 		if (theme.isDark) {
 			root.style.setProperty('--secondary', darkColors.secondary);
+			root.style.setProperty('--soft-secondary', darkColors.softSecondary);
 			root.style.setProperty('--muted', darkColors.muted);
+			root.style.setProperty('--soft-muted', darkColors.softMuted);
 			root.style.setProperty('--background', darkColors.background);
 			root.style.setProperty('--surface', darkColors.surface);
 		} else {
@@ -144,7 +156,7 @@
 					<span class="hidden md:inline">Search</span>
 					<span class="text-xs opacity-60">⌘K</span>
 				</Button>
-				<ToggleTheme color="secondary" />
+				<ToggleTheme color="secondary" variant="ghost" />
 				<IconButton
 					icon={GithubIconIcon}
 					variant="ghost"
@@ -155,7 +167,7 @@
 		</AppBar>
 	{/snippet}
 	{#snippet start()}
-		<Sidebar rootClass="pb-8 vh-16">
+		<Sidebar rootClass="pb-8 vh-16" color="background">
 			<SideNav items={sideMenuItems} />
 			{#snippet footer()}
 				<p class="text-sm">© {new Date().getFullYear()} UiSvelte</p>

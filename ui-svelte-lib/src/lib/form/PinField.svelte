@@ -19,7 +19,7 @@
 	let {
 		class: className,
 		variant = 'outlined',
-		color = 'muted',
+		color = 'primary',
 		size = 'md',
 		label,
 		name,

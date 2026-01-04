@@ -386,7 +386,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select isFloatLabel label="Color" size="sm" options={colorOptions} bind:value={color} />
 			<Select isFloatLabel label="Size" size="sm" options={sizeOptions} bind:value={size} />
@@ -429,7 +429,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="flex flex-col gap-6">
 			{#each sizeOptions as sizeOpt}
 				<div>
@@ -443,7 +443,7 @@
 
 <Section>
 	<p class="section-subtitle">Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="flex flex-col gap-6">
 			{#each colorOptions as colorOpt}
 				<div>
@@ -457,7 +457,7 @@
 
 <Section>
 	<p class="section-subtitle">Custom Cell Rendering</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Table table={snippetsTable} hasDividers showPagination />
 		<Code
 			lang="svelte"
@@ -480,7 +480,7 @@ const table = useTable({
 
 <Section>
 	<p class="section-subtitle">Row Selection</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm mb-3">
 			<strong>Selected:</strong>
 			{selectionTable.selectedRows.length} of {selectionTable.total}
@@ -515,7 +515,7 @@ const table = useTable({
 
 <Section>
 	<p class="section-subtitle">Server-Side Data</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Table table={serverTable} hasDividers showPagination />
 		<Code
 			lang="svelte"
@@ -543,7 +543,7 @@ const table = useTable({
 
 <Section>
 	<p class="section-subtitle">Visual Variants</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="flex flex-col gap-6">
 			<div>
 				<p class="text-sm font-medium mb-2">Striped</p>

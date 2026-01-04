@@ -164,7 +164,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -242,7 +242,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-8 center">
 			{#each sizeOptions as sizeOption}
 				<div class="flex flex-col items-center gap-2">
@@ -256,7 +256,7 @@
 
 <Section>
 	<p class="section-subtitle">Color Palettes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-3 gap-8">
 			{#each paletteOptions as paletteOption}
 				<div class="flex flex-col items-center gap-2">
@@ -275,7 +275,7 @@
 
 <Section>
 	<p class="section-subtitle">Legend Positions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 gap-8">
 			{#each legendPositionOptions.filter((p) => p.id !== 'none') as position}
 				<div class="flex flex-col items-center gap-2">
@@ -289,7 +289,7 @@
 
 <Section>
 	<p class="section-subtitle">Donut Style</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-8 center">
 			<div class="flex flex-col items-center gap-2">
 				<PieChart data={chartData} donut centerLabel="Total" centerValue={100} hideLegend />
@@ -323,7 +323,7 @@
 
 <Section>
 	<p class="section-subtitle">Effects</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-8 center">
 			<div class="flex flex-col items-center gap-2">
 				<PieChart data={chartData} size="sm" showGlow hideLegend />

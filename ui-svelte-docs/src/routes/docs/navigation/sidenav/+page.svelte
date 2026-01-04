@@ -163,7 +163,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -212,7 +212,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<p class="text-sm mb-2 font-semibold">{item.label} Variant</p>
 			<div class="wrap gap-4 mb-6">
@@ -236,7 +236,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4">
 			{#each sizeOptions as sizeItem}
 				<div style="width: 220px; min-height: 180px;">
@@ -257,7 +257,7 @@
 
 <Section>
 	<p class="section-subtitle">Item Types</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4">
 			<div style="width: 280px;">
 				<p class="text-sm mb-2">Headers & Dividers</p>
@@ -329,7 +329,7 @@
 
 <Section>
 	<p class="section-subtitle">Collapsible Mode</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm mb-4">Hover over the navigation to expand it.</p>
 		<div style="width: 60px; min-height: 300px;">
 			<SideNav

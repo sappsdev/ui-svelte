@@ -169,7 +169,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -208,7 +208,7 @@
 
 <Section>
 	<p class="section-subtitle">Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each colorOptions as item}
 				<Button color={item.id as any} size="sm" onclick={() => handleOpenColor(item.id)}>
@@ -227,7 +227,7 @@
 
 <Section>
 	<p class="section-subtitle">With Groups</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="col gap-4">
 			<p class="card-description">
 				Use the <code>groups</code> prop to organize options into labeled categories. Items without icons
@@ -260,7 +260,7 @@
 
 <Section>
 	<p class="section-subtitle">Keyboard Navigation</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="col gap-2">
 			<p class="card-description">The Command component supports full keyboard navigation:</p>
 			<ul class="list-disc pl-6 text-sm">

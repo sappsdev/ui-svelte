@@ -19,7 +19,7 @@
 	];
 
 	let color: any = $state('primary');
-	let variant: any = $state('soft');
+	let variant: any = $state('solid');
 	let audioSrc = $state('https://cdn.pixabay.com/audio/2022/04/25/audio_5d61b5204f.mp3');
 	let showAvatar = $state(false);
 	let subtitle = $state('');
@@ -27,7 +27,7 @@
 	let avatarSrc = 'https://i.pravatar.cc/150?img=32';
 
 	let hasProps = $derived(
-		[color !== 'primary', variant !== 'soft', showAvatar, subtitle].some(Boolean)
+		[color !== 'primary', variant !== 'solid', showAvatar, subtitle].some(Boolean)
 	);
 
 	let code = $derived(() => {
@@ -41,7 +41,7 @@
 			hasProps && `<Audio`,
 			hasProps && `\tsrc="https://example.com/audio.mp3"`,
 			color !== 'primary' && `\tcolor="${color}"`,
-			variant !== 'soft' && `\tvariant="${variant}"`,
+			variant !== 'solid' && `\tvariant="${variant}"`,
 			showAvatar && `\tavatarSrc="/user.jpg"`,
 			subtitle && `\tsubtitle="${subtitle}"`,
 			hasProps && `/>`,
@@ -86,7 +86,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -138,7 +138,7 @@
 
 <Section>
 	<p class="section-subtitle">Avatar & Subtitle</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="doc-preview flex-col gap-4">
 			<Audio
 				class="max-w-xs"

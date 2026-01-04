@@ -42,7 +42,7 @@
 		headerClass,
 		contentClass,
 		footerClass,
-		color = 'background',
+		color = 'surface',
 		variant = 'solid',
 		disableOverlayClose,
 		hideCloseButton

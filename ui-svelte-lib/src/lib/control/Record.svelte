@@ -40,7 +40,7 @@
 		class: className,
 		name,
 		color = 'primary',
-		variant = 'soft',
+		variant = 'solid',
 		url,
 		headers,
 		onRecordingComplete

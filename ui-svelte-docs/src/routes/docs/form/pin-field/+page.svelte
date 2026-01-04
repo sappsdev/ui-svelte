@@ -121,7 +121,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -188,7 +188,7 @@
 
 <Section>
 	<p class="section-subtitle">Input Types</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each typeOptions as typeItem}
 				<PinField type={typeItem.id as any} label={typeItem.label} length={4} />
@@ -199,7 +199,7 @@
 
 <Section>
 	<p class="section-subtitle">Different Lengths</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<PinField label="4 Digits" length={4} />
 			<PinField label="6 Digits" length={6} />
@@ -210,7 +210,7 @@
 
 <Section>
 	<p class="section-subtitle">Help & Error Text</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<PinField label="With Help Text" helpText="Enter the code sent to your email" length={6} />
 			<PinField label="With Error Text" errorText="The code you entered is incorrect" length={6} />

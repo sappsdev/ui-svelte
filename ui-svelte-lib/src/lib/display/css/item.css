@@ -117,20 +117,20 @@
 		&.is-primary.is-ghost,
 		&.is-primary.is-soft {
 			&.is-active {
-				@apply bg-primary/20 text-primary;
+				@apply bg-primary text-on-primary;
 			}
 			&.is-interactive {
-				@apply hover:bg-primary/20 hover:text-primary;
+				@apply hover:bg-primary hover:text-on-primary;
 			}
 		}
 
 		&.is-secondary.is-ghost,
 		&.is-secondary.is-soft {
 			&.is-active {
-				@apply bg-secondary/20 text-secondary;
+				@apply bg-secondary text-on-secondary;
 			}
 			&.is-interactive {
-				@apply hover:bg-secondary/20 hover:text-secondary;
+				@apply hover:bg-secondary hover:text-on-secondary;
 			}
 		}
 
@@ -147,40 +147,40 @@
 		&.is-success.is-ghost,
 		&.is-success.is-soft {
 			&.is-active {
-				@apply bg-success/20 text-success;
+				@apply bg-success text-on-success;
 			}
 			&.is-interactive {
-				@apply hover:bg-success/20 hover:text-success;
+				@apply hover:bg-success hover:text-on-success;
 			}
 		}
 
 		&.is-info.is-ghost,
 		&.is-info.is-soft {
 			&.is-active {
-				@apply bg-info/20 text-info;
+				@apply bg-info text-on-info;
 			}
 			&.is-interactive {
-				@apply hover:bg-info/20 hover:text-info;
+				@apply hover:bg-info hover:text-on-info;
 			}
 		}
 
 		&.is-warning.is-ghost,
 		&.is-warning.is-soft {
 			&.is-active {
-				@apply bg-warning/20 text-warning;
+				@apply bg-warning text-on-warning;
 			}
 			&.is-interactive {
-				@apply hover:bg-warning/20 hover:text-warning;
+				@apply hover:bg-warning hover:text-on-warning;
 			}
 		}
 
 		&.is-danger.is-ghost,
 		&.is-danger.is-soft {
 			&.is-active {
-				@apply bg-danger/20 text-danger;
+				@apply bg-danger text-on-danger;
 			}
 			&.is-interactive {
-				@apply hover:bg-danger/20 hover:text-danger;
+				@apply hover:bg-danger hover:text-on-danger;
 			}
 		}
 	}

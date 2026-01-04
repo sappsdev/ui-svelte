@@ -126,7 +126,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -174,7 +174,7 @@
 
 <Section>
 	<p class="section-subtitle">Positions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="doc-preview" style="height: 300px; position: relative;">
 			{#each positionOptions as pos}
 				<Fab position={pos.id as any} color="primary" isBlock />
@@ -185,7 +185,7 @@
 
 <Section>
 	<p class="section-subtitle">Colors & Variants</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each variantOptions as variantItem}
 				{#each colorOptions as colorItem}
@@ -200,7 +200,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-6 center">
 			{#each sizeOptions as sizeItem}
 				<div class="relative" style="width: 56px; height: 56px;">
@@ -213,7 +213,7 @@
 
 <Section>
 	<p class="section-subtitle">With Actions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="doc-preview" style="height: 350px; position: relative;">
 			<Fab {actions} position="bottom-right" isBlock />
 		</div>

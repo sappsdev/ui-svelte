@@ -26,7 +26,7 @@
 		placeholder = 'Select an option',
 		onchange,
 		variant = 'outlined',
-		color = 'muted',
+		color = 'primary',
 		size = 'md',
 		name,
 		label,

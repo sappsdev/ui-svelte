@@ -127,7 +127,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -184,7 +184,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each colorOptions as c}
@@ -203,7 +203,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each sizeOptions as s}
 			<div class="wrap gap-4 center">
 				<Pagination page={2} totalPages={5} size={s.id as any} />
@@ -214,7 +214,7 @@
 
 <Section>
 	<p class="section-subtitle">Alignment</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each alignOptions as a}
 			<div class="wrap gap-4">
 				<Pagination page={2} totalPages={5} align={a.id as any} size="sm" variant="soft" />
@@ -225,7 +225,7 @@
 
 <Section>
 	<p class="section-subtitle">Without Page Numbers</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<Pagination page={3} totalPages={10} hidePageNumbers variant="soft" />
 			<Pagination page={3} totalPages={10} hidePageNumbers variant="outlined" />

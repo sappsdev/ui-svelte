@@ -140,7 +140,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="wrap gap-2">
 			<Select
 				isFloatLabel
@@ -194,7 +194,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each colorOptions as colorItem}
@@ -212,7 +212,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each sizeOptions as sizeItem}
@@ -231,7 +231,7 @@
 
 <Section>
 	<p class="section-subtitle">With Avatar</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<Select options={avatarOptions} placeholder="Select a user" rootClass="w-64" />
 			<Select isFloatLabel label="Select User" options={avatarOptions} rootClass="w-64" />
@@ -241,7 +241,7 @@
 
 <Section>
 	<p class="section-subtitle">With Description</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<Select options={descriptionOptions} placeholder="Select a role" rootClass="w-64" />
 			<Select isFloatLabel label="Select Role" options={descriptionOptions} rootClass="w-64" />
@@ -251,7 +251,7 @@
 
 <Section>
 	<p class="section-subtitle">Float Label</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each variantOptions as item}
 				<Select
@@ -268,7 +268,7 @@
 
 <Section>
 	<p class="section-subtitle">Solid Background</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each variantOptions as item}
 				<Select
@@ -286,7 +286,7 @@
 
 <Section>
 	<p class="section-subtitle">With Help & Error Text</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<Select
 				label="With Help Text"

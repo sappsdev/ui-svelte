@@ -60,7 +60,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -91,7 +91,7 @@
 
 <Section>
 	<p class="section-subtitle">All Styles</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each styleOptions as item}
 			<div class="py-4 border-b border-muted last:border-b-0">
 				<h1 class="heading-xl">
@@ -108,7 +108,7 @@
 	<p class="section-description">
 		Each style supports 6 color variants: primary, secondary, success, warning, danger, info
 	</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each ['mark', 'grad', 'slant', 'glow', 'under', 'neon'] as baseStyle}
 			<div class="py-4 border-b border-muted last:border-b-0">
 				<h5 class="mb-2 uppercase text-on-muted">{baseStyle}</h5>
@@ -126,7 +126,7 @@
 
 <Section>
 	<p class="section-subtitle">Combining with Headings</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="space-y-6">
 			<h1 class="hero-title">Build <span class="grad grad-primary">amazing</span> apps</h1>
 			<h2 class="section-title">The <span class="mark mark-success">best</span> UI library</h2>
@@ -153,7 +153,7 @@
 	<p class="section-description">
 		Add a color suffix to any style class: <code>.style-color</code>
 	</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Code
 			lang="html"
 			code={`<!-- Examples -->

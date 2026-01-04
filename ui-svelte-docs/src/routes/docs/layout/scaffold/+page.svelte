@@ -188,7 +188,6 @@
 
 {#snippet landingPreview()}
 	<div class="w-full h-[500px] border border-border rounded-lg overflow-hidden bg-background">
-		<!-- Simulated AppBar -->
 		<div class="h-16 bg-surface border-b border-border flex items-center justify-between px-4">
 			<div class="font-semibold">Brand</div>
 			<div class="flex gap-4 text-sm">
@@ -198,7 +197,6 @@
 			<div class="w-8 h-8 bg-muted rounded"></div>
 		</div>
 
-		<!-- Main Content -->
 		<div class="h-[calc(100%-8rem)] overflow-auto p-8">
 			<div class="max-w-4xl mx-auto space-y-6">
 				<div class="h-32 bg-primary/10 rounded flex items-center justify-center">
@@ -213,7 +211,6 @@
 			</div>
 		</div>
 
-		<!-- Simulated Footer -->
 		<div class="h-16 bg-surface border-t border-border flex items-center justify-center px-4">
 			<p class="text-xs">© 2024 Company</p>
 		</div>
@@ -224,7 +221,6 @@
 	<div
 		class="w-full h-[500px] border border-border rounded-lg overflow-hidden bg-background flex flex-col"
 	>
-		<!-- Simulated AppBar -->
 		<div
 			class="h-16 bg-surface border-b border-border flex items-center justify-between px-4 shrink-0"
 		>
@@ -235,9 +231,7 @@
 			<div class="w-8 h-8 bg-muted rounded"></div>
 		</div>
 
-		<!-- Body with sidebars -->
 		<div class="flex-1 flex overflow-hidden">
-			<!-- Start Sidebar -->
 			<div class="hidden lg:block w-56 bg-surface border-r border-border overflow-auto">
 				<div class="p-4 space-y-2">
 					<div class="font-semibold mb-4">Navigation</div>
@@ -247,7 +241,6 @@
 				</div>
 			</div>
 
-			<!-- Main Content -->
 			<div class="flex-1 overflow-auto p-4">
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div class="h-32 bg-primary/10 rounded flex items-center justify-center">
@@ -266,7 +259,6 @@
 			</div>
 		</div>
 
-		<!-- Simulated Footer -->
 		<div
 			class="h-12 bg-surface border-t border-border flex items-center justify-center px-4 shrink-0"
 		>
@@ -279,14 +271,12 @@
 	<div
 		class="w-full h-[500px] border border-border rounded-lg overflow-hidden bg-background flex flex-col"
 	>
-		<!-- Simulated AppBar -->
 		<div
 			class="h-16 bg-surface border-b border-border flex items-center justify-center px-4 shrink-0"
 		>
 			<div class="font-semibold">Mobile App</div>
 		</div>
 
-		<!-- Main Content -->
 		<div class="flex-1 overflow-auto p-4">
 			<div class="space-y-4">
 				<div class="h-48 bg-primary/10 rounded flex items-center justify-center">
@@ -301,7 +291,6 @@
 			</div>
 		</div>
 
-		<!-- Simulated BottomNav -->
 		<div
 			class="h-16 bg-surface border-t border-border flex items-center justify-around px-4 shrink-0"
 		>
@@ -332,7 +321,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -378,7 +367,7 @@
 
 <Section>
 	<p class="section-subtitle">Layout Patterns</p>
-	<Card bodyClass="grid-1 md:grid-3 gap-4">
+	<Card bodyClass="grid-1 md:grid-3 gap-4" color="background" variant="outlined">
 		<Card color="info">
 			<div class="column gap-3">
 				<Icon icon={WebLayoutIcon} class="w-8 h-8" />
@@ -428,7 +417,7 @@
 
 <Section>
 	<p class="section-subtitle">Key Concepts</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-4">
 			<div>
 				<h5 class="font-semibold mb-2">1. Body Class - AppBar Spacing</h5>
@@ -481,7 +470,7 @@
 
 <Section>
 	<p class="section-subtitle">Real-World Examples</p>
-	<Card bodyClass="column gap-4">
+	<Card bodyClass="column gap-4" color="background" variant="outlined">
 		<Code
 			lang="svelte"
 			code={`<!-- Landing Layout Example (src/routes/(landing)/+layout.svelte) -->

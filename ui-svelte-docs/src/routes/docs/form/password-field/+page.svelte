@@ -122,7 +122,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-2">
 			<Select
 				isFloatLabel
@@ -178,7 +178,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each sizeOptions as sizeItem}
@@ -197,7 +197,7 @@
 
 <Section>
 	<p class="section-subtitle">Labels</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<PasswordField
 				label="Standard Label"
@@ -218,7 +218,7 @@
 
 <Section>
 	<p class="section-subtitle">Password Strength</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<PasswordField
 				label="With Strength Indicator"
@@ -237,7 +237,7 @@
 
 <Section>
 	<p class="section-subtitle">Custom Strength Labels</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<PasswordField
 				label="Spanish Labels"
@@ -257,7 +257,7 @@
 
 <Section>
 	<p class="section-subtitle">Help & Error Text</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<PasswordField
 				label="With Help Text"
@@ -277,7 +277,7 @@
 
 <Section>
 	<p class="section-subtitle">Login Form Example</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="stack gap-4 max-w-sm mx-auto">
 			<TextField label="Email" type="email" placeholder="you@example.com" />
 			<PasswordField label="Password" placeholder="Enter your password" hideStrength />
@@ -287,7 +287,7 @@
 
 <Section>
 	<p class="section-subtitle">Registration Form Example</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="stack gap-4 max-w-sm mx-auto">
 			<TextField label="Full Name" placeholder="John Doe" />
 			<TextField label="Email" type="email" placeholder="you@example.com" />

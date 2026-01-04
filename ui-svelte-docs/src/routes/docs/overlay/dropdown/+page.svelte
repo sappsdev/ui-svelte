@@ -93,7 +93,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -130,7 +130,7 @@
 
 <Section>
 	<p class="section-subtitle">Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center h-64">
 			{#each colorOptions as item}
 				<Dropdown {options} color={item.id as any}>
@@ -143,7 +143,7 @@
 
 <Section>
 	<p class="section-subtitle">Avatar Trigger</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-8 center h-64">
 			<Dropdown {options} color="primary">
 				<Avatar name="John Doe" size="md" />

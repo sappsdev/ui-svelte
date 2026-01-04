@@ -159,7 +159,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -225,7 +225,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<p class="text-sm mb-2 font-semibold">{item.label} Variant</p>
 			<div class="wrap gap-4 mb-6">
@@ -251,7 +251,7 @@
 
 <Section>
 	<p class="section-subtitle">Active Styles</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4">
 			{#each activeStyleOptions as styleItem}
 				<div style="width: 320px; min-height: 80px;">
@@ -273,7 +273,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4">
 			{#each sizeOptions as sizeItem}
 				<div style="width: 320px; min-height: 80px;">
@@ -295,7 +295,7 @@
 
 <Section>
 	<p class="section-subtitle">Features</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4">
 			<div style="width: 320px;">
 				<p class="text-sm mb-2">With Badges</p>

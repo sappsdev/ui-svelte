@@ -62,7 +62,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -94,10 +94,10 @@
 
 <Section>
 	<p class="section-subtitle">All Styles on Cards</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-3 gap-4">
 			{#each styleOptions as item}
-				<Card variant="ghost" rootClass="{item.id} {item.id}-primary">
+				<Card color="background" variant="outlined" rootClass="{item.id} {item.id}-primary">
 					<p class="card-title">{item.label}</p>
 					<p class="card-description">.{item.id}</p>
 				</Card>
@@ -111,7 +111,7 @@
 	<p class="section-description">
 		Apply border decorations to buttons using the <code>class</code> prop.
 	</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each ['bd-glow', 'bd-neon', 'bd-grad', 'bd-shimmer', 'bd-pulse', 'bd-wave'] as bd}
 				<Button class="{bd} {bd}-primary" variant="ghost">{bd.replace('bd-', '')}</Button>
@@ -131,7 +131,7 @@
 	<p class="section-description">
 		Apply border decorations to avatars using the <code>class</code> prop.
 	</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-6 center">
 			<Avatar class="bd-glow bd-glow-primary" src="https://i.pravatar.cc/150?img=1" size="lg" />
 			<Avatar class="bd-neon bd-neon-secondary" src="https://i.pravatar.cc/150?img=2" size="lg" />
@@ -153,7 +153,7 @@
 	<p class="section-description">
 		Each style supports 6 color variants: primary, secondary, success, warning, danger, info
 	</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each ['bd-glow', 'bd-neon', 'bd-grad', 'bd-shimmer'] as baseStyle}
 			<div class="py-4 border-b border-muted last:border-b-0">
 				<h5 class="mb-2 uppercase text-on-muted">{baseStyle}</h5>
@@ -172,37 +172,37 @@
 <Section>
 	<p class="section-subtitle">Animated Borders</p>
 	<p class="section-description">These styles include animations for dynamic visual effects.</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-4">
-			<Card variant="ghost" rootClass="bd-rainbow">
+			<Card color="background" variant="outlined" rootClass="bd-rainbow">
 				<p class="card-title">Rainbow</p>
 				<p class="caption">Rotating multicolor</p>
 			</Card>
-			<Card variant="ghost" rootClass="bd-shimmer bd-shimmer-primary">
+			<Card color="background" variant="outlined" rootClass="bd-shimmer bd-shimmer-primary">
 				<p class="card-title">Shimmer</p>
 				<p class="caption">Sliding shine</p>
 			</Card>
-			<Card variant="ghost" rootClass="bd-pulse bd-pulse-secondary">
+			<Card color="background" variant="outlined" rootClass="bd-pulse bd-pulse-secondary">
 				<p class="card-title">Pulse</p>
 				<p class="caption">Expanding ring</p>
 			</Card>
-			<Card variant="ghost" rootClass="bd-wave bd-wave-info">
+			<Card color="background" variant="outlined" rootClass="bd-wave bd-wave-info">
 				<p class="card-title">Wave</p>
 				<p class="caption">Rotating wave</p>
 			</Card>
-			<Card variant="ghost" rootClass="bd-neon bd-neon-success">
+			<Card color="background" variant="outlined" rootClass="bd-neon bd-neon-success">
 				<p class="card-title">Neon</p>
 				<p class="caption">Pulsing glow</p>
 			</Card>
-			<Card variant="ghost" rootClass="bd-ember">
+			<Card color="background" variant="outlined" rootClass="bd-ember">
 				<p class="card-title">Ember</p>
 				<p class="caption">Fire flicker</p>
 			</Card>
-			<Card variant="ghost" rootClass="bd-laser bd-laser-danger">
+			<Card color="background" variant="outlined" rootClass="bd-laser bd-laser-danger">
 				<p class="card-title">Laser</p>
 				<p class="caption">Scanning line</p>
 			</Card>
-			<Card variant="ghost" rootClass="bd-dash bd-dash-warning">
+			<Card color="background" variant="outlined" rootClass="bd-dash bd-dash-warning">
 				<p class="card-title">Dash</p>
 				<p class="caption">Marching border</p>
 			</Card>
@@ -212,7 +212,7 @@
 
 <Section>
 	<p class="section-subtitle">Special Effects</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-3 gap-4">
 			<Card variant="ghost" rootClass="bd-frost bd-frost-info">
 				<p class="card-title">Frost</p>
@@ -232,7 +232,7 @@
 
 <Section>
 	<p class="section-subtitle">Combining with Card Variants</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-4">
 			<Card color="surface" variant="solid" rootClass="bd-glow bd-glow-primary">
 				<p class="card-title">Solid + Glow</p>
@@ -266,7 +266,7 @@
 	<p class="section-description">
 		Add a color suffix to any style class: <code>.bd-style-color</code>
 	</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Code
 			lang="html"
 			code={`<!-- Card Examples -->

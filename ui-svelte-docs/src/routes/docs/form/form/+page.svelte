@@ -311,7 +311,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -398,7 +398,7 @@
 
 <Section>
 	<p class="section-subtitle">Return Value</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="mb-4">The useForm hook returns an object with the following properties:</p>
 		<DocsProps props={returnProps} />
 	</Card>
@@ -406,12 +406,12 @@
 
 <Section>
 	<p class="section-subtitle">Validation Rules</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-3 gap-4">
 			{#each validationRules as { rule, description }}
 				<div class="flex flex-col gap-1">
 					<code class="text-sm font-mono text-primary">{rule}</code>
-					<span class="text-xs text-muted">{description}</span>
+					<span class="text-xs">{description}</span>
 				</div>
 			{/each}
 		</div>

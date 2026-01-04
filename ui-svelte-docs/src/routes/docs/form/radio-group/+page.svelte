@@ -81,7 +81,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -123,7 +123,7 @@
 
 <Section>
 	<p class="section-subtitle">Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-8">
 			{#each colorOptions as colorItem}
 				<RadioGroup
@@ -139,7 +139,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-8">
 			{#each sizeOptions as sizeItem}
 				<RadioGroup
@@ -155,7 +155,7 @@
 
 <Section>
 	<p class="section-subtitle">States</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-8">
 			<RadioGroup
 				options={demoOptions}

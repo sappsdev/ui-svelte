@@ -194,7 +194,7 @@
 </Section>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#snippet header()}
 			<div class="row gap-3 items-center">
 				<Icon icon={BulbIcon} class="size-5" />
@@ -216,7 +216,7 @@
 </Section>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#snippet header()}
 			<div class="row gap-3 items-center">
 				<Icon icon={CopyRegularIcon} class="size-5" />
@@ -255,7 +255,7 @@
 </Section>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#snippet header()}
 			<div class="row gap-3 items-center">
 				<Icon icon={WebLayoutIcon} class="size-5" />

@@ -129,7 +129,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -167,7 +167,7 @@
 
 <Section>
 	<p class="section-subtitle">With String Content</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="card-description mb-4">
 			The simplest way to use Tabs is with string content. Just pass an array of tabs with string
 			values for the content property.
@@ -204,7 +204,7 @@
 
 <Section>
 	<p class="section-subtitle">With Snippet Content</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="card-description mb-4">
 			For rich content with components and complex layouts, use Svelte Snippets as the content
 			property.
@@ -245,7 +245,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="space-y-6">
 			{#each variantOptions as item}
 				<div>
@@ -259,7 +259,7 @@
 
 <Section>
 	<p class="section-subtitle">Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="space-y-6">
 			{#each colorOptions as item}
 				<div>
@@ -273,7 +273,7 @@
 
 <Section>
 	<p class="section-subtitle">Positions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 gap-6">
 			{#each positionOptions as item}
 				<div>
@@ -287,7 +287,7 @@
 
 <Section>
 	<p class="section-subtitle">Line Variant with Positions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 gap-6">
 			{#each positionOptions as item}
 				<div>

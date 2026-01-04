@@ -16,7 +16,7 @@
 
 <Section>
 	<p class="section-subtitle">Create a new Svelte project</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm text-on-muted mb-4">
 			Use the Svelte CLI to create a new project. Replace <code>project-name</code> with your desired
 			project name.
@@ -27,7 +27,7 @@
 
 <Section>
 	<p class="section-subtitle">Add Tailwind CSS</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm text-on-muted mb-4">
 			Navigate to your project directory and add Tailwind CSS using the Svelte CLI.
 		</p>
@@ -37,7 +37,7 @@
 
 <Section>
 	<p class="section-subtitle">Install ui-svelte</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm text-on-muted mb-4">
 			Install the ui-svelte component library as a dependency in your project.
 		</p>
@@ -47,7 +47,7 @@
 
 <Section>
 	<p class="section-subtitle">Configure your CSS file</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm text-on-muted mb-4">
 			Create or update your <code>src/app.css</code> file with the following configuration. This includes
 			Tailwind CSS, ui-svelte styles, and theme color variables.
@@ -130,7 +130,7 @@
 
 <Section>
 	<p class="section-subtitle">Setup the Provider</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm text-on-muted mb-4">
 			Update your <code>src/routes/+layout.svelte</code> file to include the Provider component and import
 			your CSS. The Provider component handles toast notifications and view transitions.
@@ -164,7 +164,7 @@
 
 <Section>
 	<p class="section-subtitle">Install custom fonts (Optional)</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm text-on-muted mb-4">
 			You can use <a href="https://fontsource.org" target="_blank" class="underline">Fontsource</a> to
 			easily add custom fonts to your project. Follow these steps to add Montserrat Variable:
@@ -194,7 +194,7 @@
 
 <Section>
 	<p class="section-subtitle">🎉 You're all set!</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm text-on-muted mb-4">
 			Your Svelte project is now configured with ui-svelte. You can start using components in your
 			pages.
@@ -204,7 +204,7 @@
   import { Button, Card } from 'ui-svelte';
 <\/script>
 
-<Card>
+<Card color="background" variant="outlined" >
   <div class="p-6">
     <h1>Welcome to ui-svelte!</h1>
     <Button variant="solid" status="primary">

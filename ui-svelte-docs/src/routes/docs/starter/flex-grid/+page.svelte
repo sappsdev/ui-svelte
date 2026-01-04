@@ -187,7 +187,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -243,16 +243,16 @@
 
 <Section>
 	<p class="section-subtitle">Utility Reference</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Tabs tabs={utilityTabs} />
 	</Card>
 </Section>
 
 <Section>
 	<p class="section-subtitle">Examples</p>
-	<Card bodyClass="grid-2 md:grid-3 gap-4">
+	<Card bodyClass="grid-2 md:grid-3 gap-4" color="background" variant="outlined">
 		<!-- Flex Row Example -->
-		<Card>
+		<Card color="background" variant="outlined">
 			{#snippet header()}
 				<h4>Flex Row</h4>
 			{/snippet}
@@ -267,7 +267,7 @@
 		</Card>
 
 		<!-- Flex Column Example -->
-		<Card>
+		<Card color="background" variant="outlined">
 			{#snippet header()}
 				<h4>Flex Column</h4>
 			{/snippet}
@@ -282,7 +282,7 @@
 		</Card>
 
 		<!-- Grid 3 Example -->
-		<Card>
+		<Card color="background" variant="outlined">
 			{#snippet header()}
 				<h4>Grid 3 Columns</h4>
 			{/snippet}
@@ -300,7 +300,7 @@
 		</Card>
 
 		<!-- Center Example -->
-		<Card>
+		<Card color="background" variant="outlined">
 			{#snippet header()}
 				<h4>Center</h4>
 			{/snippet}
@@ -313,7 +313,7 @@
 		</Card>
 
 		<!-- Responsive Example -->
-		<Card>
+		<Card color="background" variant="outlined">
 			{#snippet header()}
 				<h4>Responsive</h4>
 			{/snippet}
@@ -327,7 +327,7 @@
 		</Card>
 
 		<!-- Auto Fit Example -->
-		<Card>
+		<Card color="background" variant="outlined">
 			{#snippet header()}
 				<h4>Grid Auto Fit</h4>
 			{/snippet}
@@ -372,7 +372,7 @@
 
 <Section>
 	<p class="section-subtitle">Usage Examples</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Code
 			lang="svelte"
 			code={`<!-- Flex Row -->

@@ -67,7 +67,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -101,7 +101,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-6 center">
 			{#each variantOptions as item}
 				<div class="column gap-2 items-center">
@@ -119,7 +119,7 @@
 
 <Section>
 	<p class="section-subtitle">Animations</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-6 center">
 			{#each animationOptions as item}
 				<div class="column gap-2 items-center">
@@ -133,7 +133,7 @@
 
 <Section>
 	<p class="section-subtitle">Content Placeholder Example</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="flex gap-4 items-start">
 			<Skeleton variant="circular" width="48px" height="48px" />
 			<div class="column gap-2 flex-1">
@@ -147,7 +147,7 @@
 
 <Section>
 	<p class="section-subtitle">Card Placeholder Example</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-4 max-w-xs">
 			<Skeleton variant="rounded" width="100%" height="140px" />
 			<div class="column gap-2">

@@ -249,7 +249,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			{#if !useSeries}
 				<Select
@@ -346,7 +346,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="col gap-8">
 			{#each sizeOptions as sizeOption}
 				<div class="col gap-2">
@@ -360,7 +360,7 @@
 
 <Section>
 	<p class="section-subtitle">Color Palettes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="col gap-8">
 			{#each paletteOptions.filter((p) => p.id) as paletteOption}
 				<div class="col gap-2">
@@ -374,7 +374,7 @@
 
 <Section>
 	<p class="section-subtitle">Legend Positions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-1 md:grid-2 gap-8">
 			{#each legendPositionOptions.filter((l) => l.id !== 'none') as legendOption}
 				<div class="col gap-2">
@@ -393,21 +393,21 @@
 
 <Section>
 	<p class="section-subtitle">Stacked Area Chart</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<AreaChart series={sampleSeries} stacked curve="smooth" palette="ocean" />
 	</Card>
 </Section>
 
 <Section>
 	<p class="section-subtitle">With Glow Effect</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<AreaChart series={sampleSeries} showGlow showPoints curve="smooth" palette="neon" />
 	</Card>
 </Section>
 
 <Section>
 	<p class="section-subtitle">Single Color Chart</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each colorOptions as colorOption}
 				<div class="col gap-2 flex-1 min-w-[200px]">

@@ -147,7 +147,7 @@
   import { Button, Card, TextField, PasswordField } from 'ui-svelte';
 <\/script>
 
-<Card color="muted" variant="solid">
+<Card>
   <h3 class="card-title">Welcome Back</h3>
   <TextField label="Email" type="email" color="muted" variant="soft" />
   <PasswordField label="Password" color="muted" variant="soft" />
@@ -266,12 +266,7 @@
 		<div class="fade-in-up">
 			<Code code={codeExample} lang="svelte" />
 		</div>
-		<Card
-			color="surface"
-			variant="solid"
-			rootClass="fade-in-up delay-200"
-			bodyClass="center gap-4 h-full"
-		>
+		<Card rootClass="fade-in-up delay-200" bodyClass="center gap-4 h-full">
 			<h3 class="card-title">Welcome Back</h3>
 			<div class="column gap-3 w-full max-w-xs">
 				<TextField

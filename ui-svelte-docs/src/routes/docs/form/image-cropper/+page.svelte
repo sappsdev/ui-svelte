@@ -135,7 +135,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -213,7 +213,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-6 center">
 			{#each sizeOptions as sizeItem}
 				<div class="flex flex-col items-center gap-2">
@@ -227,7 +227,7 @@
 
 <Section>
 	<p class="section-subtitle">Shapes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-6 center">
 			<div class="flex flex-col items-center gap-2">
 				<ImageCropper shape="circle" size="lg" />
@@ -243,7 +243,7 @@
 
 <Section>
 	<p class="section-subtitle">Features</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<ul>
 			<li><strong>Avatar Style:</strong> Compact button that displays the cropped image</li>
 			<li><strong>Click to Upload:</strong> Click the avatar to select an image file</li>
@@ -261,7 +261,7 @@
 
 <Section>
 	<p class="section-subtitle">Usage Examples</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<h4>Profile Picture Upload</h4>
 		<Code
 			lang="svelte"

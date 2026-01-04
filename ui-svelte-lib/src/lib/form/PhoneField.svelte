@@ -39,7 +39,7 @@
 		placeholder = 'Enter phone number',
 		onchange,
 		variant = 'outlined',
-		color = 'muted',
+		color = 'primary',
 		size = 'md',
 		name,
 		dialCodeName = 'dialCode',

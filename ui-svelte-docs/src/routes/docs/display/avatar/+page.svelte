@@ -135,7 +135,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -200,7 +200,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each colorOptions as color}
@@ -213,7 +213,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each sizeOptions as size}
@@ -226,7 +226,7 @@
 
 <Section>
 	<p class="section-subtitle">With Images</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each sizeOptions as size}
 				<Avatar size={size.id as any} src="https://i.pravatar.cc/150?img=3" alt="User avatar" />
@@ -237,7 +237,7 @@
 
 <Section>
 	<p class="section-subtitle">With Icons</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each sizeOptions as size}
 				<Avatar size={size.id as any} icon={Person24RegularIcon} />
@@ -257,7 +257,7 @@
 
 <Section>
 	<p class="section-subtitle">Status Indicators</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<Avatar name="Online" status="online" />
 			<Avatar name="Offline" status="offline" />
@@ -275,7 +275,7 @@
 
 <Section>
 	<p class="section-subtitle">Bordered</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each colorOptions as color}
 				<Avatar color={color.id as any} name={color.label} isBordered />

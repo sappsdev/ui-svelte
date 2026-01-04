@@ -74,7 +74,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -119,7 +119,7 @@
 
 <Section>
 	<p class="section-subtitle">Boxed Content</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="mb-4">
 			The <code>isBoxed</code> prop constrains the content width for better readability on large screens.
 		</p>
@@ -138,7 +138,7 @@
 
 <Section>
 	<p class="section-subtitle">With Cover Image</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-4">
 			{#each variantOptions as item}
 				<Section

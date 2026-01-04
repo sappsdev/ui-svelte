@@ -165,7 +165,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -252,7 +252,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each sizeOptions as sizeOpt}
 				<div class="flex flex-col items-center gap-2">
@@ -272,7 +272,7 @@
 
 <Section>
 	<p class="section-subtitle">Palettes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each paletteOptions as paletteOpt}
 				<div class="flex flex-col items-center gap-2">
@@ -286,7 +286,7 @@
 
 <Section>
 	<p class="section-subtitle">Legend Positions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 gap-4">
 			{#each legendPositionOptions.filter((l) => l.id !== 'none') as legendOpt}
 				<div class="flex flex-col items-center gap-2">
@@ -300,7 +300,7 @@
 
 <Section>
 	<p class="section-subtitle">Linecap Styles</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each linecapOptions as linecapOpt}
 				<div class="flex flex-col items-center gap-2">
@@ -314,7 +314,7 @@
 
 <Section>
 	<p class="section-subtitle">Single Arc (Gauge)</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<ArcChart
 				data={gaugeData}
@@ -346,7 +346,7 @@
 
 <Section>
 	<p class="section-subtitle">Visual Effects</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<div class="flex flex-col items-center gap-2">
 				<span class="text-sm">Default</span>
@@ -370,7 +370,7 @@
 
 <Section>
 	<p class="section-subtitle">States</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<div class="flex flex-col items-center gap-2">
 				<span class="text-sm">Loading</span>

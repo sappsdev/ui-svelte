@@ -33,7 +33,7 @@
 		rootClass,
 		cover,
 		color = 'surface',
-		variant = 'outlined',
+		variant = 'solid',
 		headerClass,
 		bodyClass,
 		footerClass,

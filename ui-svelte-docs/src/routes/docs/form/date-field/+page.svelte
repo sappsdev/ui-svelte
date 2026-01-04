@@ -107,7 +107,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-2">
 			<Select
 				isFloatLabel
@@ -161,7 +161,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each sizeOptions as sizeItem}
@@ -179,7 +179,7 @@
 
 <Section>
 	<p class="section-subtitle">Labels</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<DateField label="Standard Label" placeholder="Select a date" class="max-w-xs" />
 			<DateField label="Float Label" isFloatLabel placeholder="Select a date" class="max-w-xs" />
@@ -189,7 +189,7 @@
 
 <Section>
 	<p class="section-subtitle">Help & Error Text</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<DateField
 				label="With Help Text"

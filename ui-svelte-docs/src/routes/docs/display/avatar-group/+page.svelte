@@ -130,7 +130,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -187,7 +187,7 @@
 
 <Section>
 	<p class="section-subtitle">Stacked vs Inline</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm mb-4">
 			By default, avatars are stacked with overlap. Use <code>isInline</code> to display them in a row.
 		</p>
@@ -206,7 +206,7 @@
 
 <Section>
 	<p class="section-subtitle">Max Limit</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm mb-4">
 			Use the <code>max</code> prop to limit visible avatars and show a counter for remaining items.
 		</p>
@@ -229,7 +229,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each colorOptions as c}
@@ -242,7 +242,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-6 center">
 			{#each sizeOptions as s}
 				<div class="stack gap-2 center">
@@ -256,7 +256,7 @@
 
 <Section>
 	<p class="section-subtitle">With Initials</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm mb-4">
 			Avatars without images display initials from the <code>name</code> prop.
 		</p>

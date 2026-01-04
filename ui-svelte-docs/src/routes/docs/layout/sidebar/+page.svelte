@@ -25,9 +25,9 @@
 			type: 'header',
 			label: 'Navigation'
 		},
-		{ label: 'Dashboard', icon: 'fluent:home-24-regular', href: '/dashboard' },
-		{ label: 'Projects', icon: 'fluent:folder-24-regular', href: '/projects' },
-		{ label: 'Settings', icon: 'fluent:settings-24-regular', href: '/settings' }
+		{ label: 'Dashboard', icon: 'fluent:home-24-regular', href: '#/' },
+		{ label: 'Projects', icon: 'fluent:folder-24-regular', href: '#/' },
+		{ label: 'Settings', icon: 'fluent:settings-24-regular', href: '#/' }
 	];
 
 	const colorOptions = [
@@ -56,7 +56,7 @@
 			showHeader &&
 				`\n\tconst navItems = [
 \t\t{ type: 'header', label: 'Navigation' },
-\t\t{ label: 'Dashboard', icon: 'fluent:home-24-regular', href: '/dashboard' },
+\t\t{ label: 'Dashboard', icon: 'fluent:home-24-regular', href: '/#' },
 \t\t{ label: 'Projects', icon: 'fluent:folder-24-regular', href: '/projects' },
 \t\t{ label: 'Settings', icon: 'fluent:settings-24-regular', href: '/settings' }
 \t];`,
@@ -114,7 +114,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 gap-2">
 			<Checkbox bind:checked={showHeader} label="Header" />
 			<Checkbox bind:checked={showFooter} label="Footer" />
@@ -148,7 +148,7 @@
 
 <Section>
 	<p class="section-subtitle">Usage with Scaffold</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="space-y-4">
 			<div class="p-4 bg-warning/10 rounded-lg border border-warning/20">
 				<h4 class="font-semibold mb-2 text-warning">⚠️ Fixed Positioning</h4>
@@ -211,7 +211,7 @@
 
 <Section>
 	<p class="section-subtitle">Complete Example with Scaffold</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Code
 			lang="svelte"
 			code={`<Scaffold
@@ -259,7 +259,7 @@
 
 <Section>
 	<p class="section-subtitle">Responsive Layout Example</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Code
 			lang="svelte"
 			code={`<Scaffold

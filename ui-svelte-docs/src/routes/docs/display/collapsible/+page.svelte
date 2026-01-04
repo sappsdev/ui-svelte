@@ -96,7 +96,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -141,7 +141,7 @@
 
 <Section>
 	<p class="section-subtitle">With Start Content</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4">
 			{#each colorOptions.slice(0, 4) as colorItem}
 				<Collapsible label={colorItem.label + ' with Icon'} color={colorItem.id as any}>
@@ -159,7 +159,7 @@
 
 <Section>
 	<p class="section-subtitle">Other Props</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4">
 			<Collapsible label="Default Open" defaultOpen>
 				{#snippet content()}

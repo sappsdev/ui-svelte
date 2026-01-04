@@ -81,7 +81,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -143,7 +143,7 @@
 
 <Section>
 	<p class="section-subtitle">Types</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-4">
 			{#each typeOptions as item}
 				<div class="column center gap-2">
@@ -157,7 +157,7 @@
 
 <Section>
 	<p class="section-subtitle">With Content</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 gap-4">
 			<Empty type="result" title="No results found" />
 			<Empty type="data" description="Start by creating your first item" />
@@ -177,7 +177,7 @@
 
 <Section>
 	<p class="section-subtitle">With Actions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 gap-4">
 			<Empty
 				type="data"

@@ -107,7 +107,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -129,7 +129,7 @@
 
 <Section>
 	<p class="section-subtitle">Use Cases</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4">
 			<Button color="danger" onclick={() => (openDeleteDialog = true)}>Delete Account</Button>
 			<Button color="warning" onclick={() => (openLogoutDialog = true)}>Logout</Button>

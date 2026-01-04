@@ -219,7 +219,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -305,7 +305,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid md:grid-2 gap-8">
 			{#each sizeOptions as sizeItem}
 				<div>
@@ -319,7 +319,7 @@
 
 <Section>
 	<p class="section-subtitle">Color Palettes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid md:grid-2 gap-8">
 			{#each paletteOptions.slice(1) as paletteItem}
 				<div>
@@ -339,7 +339,7 @@
 
 <Section>
 	<p class="section-subtitle">Chart Modes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid md:grid-3 gap-8">
 			<div>
 				<p class="text-sm text-on-muted mb-2">Single Series</p>
@@ -359,7 +359,7 @@
 
 <Section>
 	<p class="section-subtitle">Visual Effects</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid md:grid-2 gap-8">
 			<div>
 				<p class="text-sm text-on-muted mb-2">With Gradient</p>
@@ -375,7 +375,7 @@
 
 <Section>
 	<p class="section-subtitle">Legend Positions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid md:grid-2 gap-8">
 			{#each legendPositionOptions.slice(1) as posItem}
 				<div>

@@ -71,7 +71,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -96,7 +96,7 @@
 
 <Section>
 	<p class="section-subtitle">Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each colorOptions as colorItem}
 				<Checkbox checked color={colorItem.id as any} label={colorItem.label} />
@@ -107,7 +107,7 @@
 
 <Section>
 	<p class="section-subtitle">States</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<Checkbox label="Unchecked" />
 			<Checkbox checked label="Checked" />
@@ -121,7 +121,7 @@
 
 <Section>
 	<p class="section-subtitle">Without Label</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each colorOptions as colorItem}
 				<Checkbox checked color={colorItem.id as any} />

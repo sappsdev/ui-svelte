@@ -63,7 +63,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -101,7 +101,7 @@
 
 <Section>
 	<p class="section-subtitle">Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-6">
 			{#each colorOptions as colorItem}
 				<div class="column gap-2">
@@ -137,7 +137,7 @@
 
 <Section>
 	<p class="section-subtitle">With Content</p>
-	<Card bodyClass="grid-2 gap-4">
+	<Card bodyClass="grid-2 gap-4" color="background" variant="outlined">
 		<div class="column gap-2">
 			<span class="text-sm font-medium">Text Label</span>
 			<div class="column gap-2 p-4 border border-muted-200 rounded">
@@ -159,7 +159,7 @@
 
 <Section>
 	<p class="section-subtitle">Responsive Example</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm text-muted-600 mb-4">
 			Use visibility classes to switch between horizontal and vertical orientations responsively.
 		</p>
@@ -183,7 +183,7 @@
 
 <Section>
 	<p class="section-subtitle">Usage Examples</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Code
 			lang="svelte"
 			code={`<!-- Basic Horizontal Divider -->

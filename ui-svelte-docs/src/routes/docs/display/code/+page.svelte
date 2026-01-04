@@ -124,7 +124,7 @@ npm run dev`
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -165,7 +165,7 @@ npm run dev`
 
 <Section>
 	<p class="section-subtitle">Multiple Languages</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-1 md:grid-2 gap-4">
 			<Code code={sampleCodes.typescript} lang="typescript" />
 			<Code code={sampleCodes.python} lang="python" />
@@ -177,14 +177,14 @@ npm run dev`
 
 <Section>
 	<p class="section-subtitle">Svelte Component Example</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Code code={sampleCodes.svelte} lang="svelte" />
 	</Card>
 </Section>
 
 <Section>
 	<p class="section-subtitle">Options</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-3 gap-4">
 			<div class="column gap-2">
 				<p class="text-sm">Default</p>

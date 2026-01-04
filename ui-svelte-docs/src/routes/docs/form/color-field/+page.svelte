@@ -147,7 +147,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -211,7 +211,7 @@
 
 <Section>
 	<p class="section-subtitle">Color Values Output</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-2">
 			<Code code={`hex: "${hex}"`} lang="css" disableCopy hideLang />
 			<Code code={`rgb: "${rgb}"`} lang="css" disableCopy hideLang />
@@ -224,7 +224,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4">
 				{#each colorOptions as col}
@@ -237,7 +237,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 items-end">
 			{#each sizeOptions as sizeOpt}
 				<ColorField size={sizeOpt.id as any} rootClass="max-w-56" label={sizeOpt.label} />
@@ -248,7 +248,7 @@
 
 <Section>
 	<p class="section-subtitle">With Float Label</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4">
 			{#each variantOptions as item}
 				<ColorField variant={item.id as any} isFloatLabel label={item.label} rootClass="max-w-56" />

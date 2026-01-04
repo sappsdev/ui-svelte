@@ -43,8 +43,8 @@
 
 	let startIcon: any = $state(false);
 	let endIcon: any = $state(false);
-	let startText = $state(false);
-	let endText = $state(false);
+	let startContent = $state(false);
+	let endContent = $state(false);
 	let isFloatLabel = $state(false);
 	let hasLabel = $state(true);
 	let hasHelpText = $state(false);
@@ -60,8 +60,8 @@
 			type !== 'text',
 			startIcon,
 			endIcon,
-			startText,
-			endText,
+			startContent,
+			endContent,
 			isFloatLabel,
 			hasLabel,
 			hasHelpText,
@@ -92,8 +92,8 @@
 			size !== 'md' && `\tsize="${size}"`,
 			startIcon && `\tstartIcon={Search24RegularIcon}`,
 			endIcon && `\tendIcon={Person24RegularIcon}`,
-			startText && `\tstartText="$"`,
-			endText && `\tendText=".00"`,
+			startContent && `\tstartContent="$"`,
+			endContent && `\tendContent=".00"`,
 			hasHelpText && `\thelpText="This is a help text"`,
 			hasErrorText && `\terrorText="This field is required"`,
 			hasProps && `\tplaceholder="Placeholder"`,
@@ -127,8 +127,8 @@
 		{ prop: 'size', type: 'sm | md | lg', initial: 'md' },
 		{ prop: 'startIcon', type: 'IconData', initial: '' },
 		{ prop: 'endIcon', type: 'IconData', initial: '' },
-		{ prop: 'startText', type: 'string', initial: '' },
-		{ prop: 'endText', type: 'string', initial: '' },
+		{ prop: 'startContent', type: 'string', initial: '' },
+		{ prop: 'endContent', type: 'string', initial: '' },
 		{ prop: 'rootClass', type: 'string', initial: '' },
 		{ prop: 'controlClass', type: 'string', initial: '' },
 		{ prop: 'onchange', type: '(value: unknown) => void', initial: '' },
@@ -145,7 +145,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-2">
 			<Select
 				isFloatLabel
@@ -183,8 +183,8 @@
 		<div class="wrap gap-6">
 			<Checkbox bind:checked={startIcon} label="startIcon" />
 			<Checkbox bind:checked={endIcon} label="endIcon" />
-			<Checkbox bind:checked={startText} label="startText" />
-			<Checkbox bind:checked={endText} label="endText" />
+			<Checkbox bind:checked={startContent} label="startContent" />
+			<Checkbox bind:checked={endContent} label="endContent" />
 			<Checkbox bind:checked={hasLabel} label="Label" />
 			<Checkbox bind:checked={isFloatLabel} label="Float Label" />
 			<Checkbox bind:checked={hasHelpText} label="Help Text" />
@@ -196,8 +196,8 @@
 				bind:value
 				startIcon={startIcon ? Search24RegularIcon : undefined}
 				endIcon={endIcon ? Person24RegularIcon : undefined}
-				startText={startText ? '$' : undefined}
-				endText={endText ? '.00' : undefined}
+				startContent={startContent ? '$' : undefined}
+				endContent={endContent ? '.00' : undefined}
 				label={hasLabel ? 'Label' : undefined}
 				{isFloatLabel}
 				{color}
@@ -216,7 +216,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each colorOptions as colorItem}
@@ -234,7 +234,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each sizeOptions as sizeItem}
@@ -252,7 +252,7 @@
 
 <Section>
 	<p class="section-subtitle">With Icons & Text</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<TextField startIcon={Search24RegularIcon} placeholder="Search..." rootClass="max-w-xs" />
 			<TextField endIcon={Person24RegularIcon} placeholder="Username" rootClass="max-w-xs" />
@@ -264,16 +264,21 @@
 			/>
 		</div>
 		<div class="wrap gap-4 center">
-			<TextField startText="$" placeholder="Amount" rootClass="max-w-xs" />
-			<TextField endText=".00" placeholder="Price" rootClass="max-w-xs" />
-			<TextField startText="https://" endText=".com" placeholder="domain" rootClass="max-w-xs" />
+			<TextField startContent="$" placeholder="Amount" rootClass="max-w-xs" />
+			<TextField endContent=".00" placeholder="Price" rootClass="max-w-xs" />
+			<TextField
+				startContent="https://"
+				endContent=".com"
+				placeholder="domain"
+				rootClass="max-w-xs"
+			/>
 		</div>
 	</Card>
 </Section>
 
 <Section>
 	<p class="section-subtitle">Labels</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<TextField label="Standard Label" placeholder="Enter text..." rootClass="max-w-xs" />
 			<TextField
@@ -288,7 +293,7 @@
 
 <Section>
 	<p class="section-subtitle">Help & Error Text</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<TextField
 				label="With Help Text"
@@ -308,7 +313,7 @@
 
 <Section>
 	<p class="section-subtitle">Input Types</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each typeOptions as typeItem}
 				<TextField

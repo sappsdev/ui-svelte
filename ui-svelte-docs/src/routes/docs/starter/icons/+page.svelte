@@ -88,7 +88,7 @@
 			console.error('Error fetching icons:', error);
 			toast.show({
 				description: 'Failed to fetch icons. Please try again later.',
-				status: 'danger',
+				color: 'danger',
 				duration: 3000
 			});
 		} finally {
@@ -152,7 +152,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#snippet header()}
 			<div class="row gap-4 w-full items-end">
 				<div class="flex-1">
@@ -233,7 +233,7 @@
 </Section>
 
 <Section>
-	<Card bodyClass="column gap-4">
+	<Card bodyClass="column gap-4" color="background" variant="outlined">
 		{#snippet header()}
 			<h4>Usage</h4>
 		{/snippet}

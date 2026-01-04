@@ -164,7 +164,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -226,7 +226,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each colorOptions as c}
@@ -249,7 +249,7 @@
 
 <Section>
 	<p class="section-subtitle">With Navigation Menu</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<AppBar color="surface" variant="soft" isBordered>
 			{#snippet start()}
 				<IconButton icon={LayoutDashboardIcon} variant="ghost" color="muted" />

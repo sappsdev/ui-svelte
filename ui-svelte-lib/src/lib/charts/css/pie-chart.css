@@ -74,31 +74,31 @@
 	}
 
 	.pie-chart-slice.is-primary {
-		@apply fill-primary stroke-on-primary;
+		@apply fill-primary stroke-muted;
 	}
 
 	.pie-chart-slice.is-secondary {
-		@apply fill-secondary stroke-on-secondary;
+		@apply fill-secondary stroke-muted;
 	}
 
 	.pie-chart-slice.is-success {
-		@apply fill-success stroke-on-success;
+		@apply fill-success stroke-muted;
 	}
 
 	.pie-chart-slice.is-info {
-		@apply fill-info stroke-on-info;
+		@apply fill-info stroke-muted;
 	}
 
 	.pie-chart-slice.is-warning {
-		@apply fill-warning stroke-on-warning;
+		@apply fill-warning stroke-muted;
 	}
 
 	.pie-chart-slice.is-danger {
-		@apply fill-danger stroke-on-danger;
+		@apply fill-danger stroke-muted;
 	}
 
 	.pie-chart-slice.is-muted {
-		@apply fill-muted stroke-on-muted;
+		@apply fill-muted stroke-muted;
 	}
 
 	.pie-chart-slice-label {

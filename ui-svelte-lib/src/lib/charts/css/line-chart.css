@@ -129,31 +129,31 @@
 	}
 
 	.line-chart-point.is-primary {
-		@apply fill-primary stroke-on-primary;
+		@apply fill-primary stroke-muted;
 	}
 
 	.line-chart-point.is-secondary {
-		@apply fill-secondary stroke-on-secondary;
+		@apply fill-secondary stroke-muted;
 	}
 
 	.line-chart-point.is-success {
-		@apply fill-success stroke-on-success;
+		@apply fill-success stroke-muted;
 	}
 
 	.line-chart-point.is-info {
-		@apply fill-info stroke-on-info;
+		@apply fill-info stroke-muted;
 	}
 
 	.line-chart-point.is-warning {
-		@apply fill-warning stroke-on-warning;
+		@apply fill-warning stroke-muted;
 	}
 
 	.line-chart-point.is-danger {
-		@apply fill-danger stroke-on-danger;
+		@apply fill-danger stroke-muted;
 	}
 
 	.line-chart-point.is-muted {
-		@apply fill-muted stroke-on-muted;
+		@apply fill-muted stroke-muted;
 	}
 
 	.line-chart-tooltip {

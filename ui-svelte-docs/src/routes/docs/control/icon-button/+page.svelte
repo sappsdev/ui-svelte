@@ -136,7 +136,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -190,7 +190,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each colorOptions as c}
@@ -203,7 +203,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each sizeOptions as s}
@@ -216,7 +216,7 @@
 
 <Section>
 	<p class="section-subtitle">Different Icons</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<IconButton icon={HeartAngleLinearIcon} color="danger" />
 			<IconButton icon={Search24RegularIcon} color="info" />
@@ -229,7 +229,7 @@
 
 <Section>
 	<p class="section-subtitle">States</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				<IconButton variant={item.id as any} icon={Heart24RegularIcon} />

@@ -184,7 +184,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -256,7 +256,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each sizeOptions as sizeItem}
 			<div class="wrap gap-4 center">
 				<Carousel
@@ -275,7 +275,7 @@
 
 <Section>
 	<p class="section-subtitle">Indicator Types</p>
-	<Card bodyClass="grid-1 md:grid-2">
+	<Card bodyClass="grid-1 md:grid-2" color="background" variant="outlined">
 		<div class="column gap-2">
 			<p class="text-sm font-medium">Bar Indicators</p>
 			<Carousel
@@ -303,7 +303,7 @@
 
 <Section>
 	<p class="section-subtitle">With Title Header</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Carousel
 			slides={[
 				{ id: '1', content: slide1 },
@@ -320,7 +320,7 @@
 
 <Section>
 	<p class="section-subtitle">Navigation & Counter</p>
-	<Card bodyClass="grid-1 md:grid-2">
+	<Card bodyClass="grid-1 md:grid-2" color="background" variant="outlined">
 		<div class="column gap-2">
 			<p class="text-sm font-medium">With Navigation Arrows</p>
 			<Carousel
@@ -411,7 +411,7 @@
 
 <Section>
 	<p class="section-subtitle">Multi-Item Carousel</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="bg-muted/20 rounded-2xl p-6">
 			<Carousel
 				slides={[

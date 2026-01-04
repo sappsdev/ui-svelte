@@ -47,7 +47,7 @@
 		loadingMoreText = 'Loading more...',
 		onchange,
 		variant = 'outlined',
-		color = 'muted',
+		color = 'primary',
 		size = 'md',
 		name,
 		label,

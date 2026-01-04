@@ -58,7 +58,7 @@
 			&.is-danger {
 				@apply bg-soft-danger text-danger;
 			}
-			&.is-default {
+			&.is-background {
 				@apply bg-background text-on-background;
 			}
 			&.is-surface {
@@ -88,7 +88,7 @@
 			&.is-danger {
 				@apply bg-danger text-on-danger;
 			}
-			&.is-default {
+			&.is-background {
 				@apply bg-background text-on-background;
 			}
 			&.is-surface {

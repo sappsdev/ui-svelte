@@ -138,7 +138,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -195,7 +195,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each sizeOptions as sizeOpt}
 			<div class="wrap gap-4 center">
 				<PhoneField
@@ -211,7 +211,7 @@
 
 <Section>
 	<p class="section-subtitle">Priority Countries</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="mb-4">
 			Use the <code>priorityCountries</code> prop to display specific countries at the top of the
 			dropdown. The first priority country will be selected by default if no
@@ -226,7 +226,7 @@
 
 <Section>
 	<p class="section-subtitle">Form Integration</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="mb-4">
 			The component exposes two hidden inputs: one for the phone number (<code>name</code>) and one
 			for the dial code (<code>dialCodeName</code>). Both values are included when the form is
@@ -245,7 +245,7 @@
 
 <Section>
 	<p class="section-subtitle">Customization</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 gap-4">
 			<PhoneField
 				label="Custom Placeholder"

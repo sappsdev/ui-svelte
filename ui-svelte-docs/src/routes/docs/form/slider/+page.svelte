@@ -82,7 +82,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -128,7 +128,7 @@
 
 <Section>
 	<p class="section-subtitle">Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-4">
 			{#each colorOptions as colorItem}
 				<Slider
@@ -144,7 +144,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-4">
 			{#each sizeOptions as sizeItem}
 				<Slider name={sizeItem.id} value={50} size={sizeItem.id as any} label={sizeItem.label} />
@@ -155,7 +155,7 @@
 
 <Section>
 	<p class="section-subtitle">Custom Range & Step</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-4">
 			<Slider name="range-slider" value={25} min={0} max={50} label="Range 0-50" />
 			<Slider name="step-slider" value={50} step={10} label="Step: 10" />
@@ -173,7 +173,7 @@
 
 <Section>
 	<p class="section-subtitle">Without Label</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-4">
 			{#each colorOptions as colorItem}
 				<Slider name={`no-label-${colorItem.id}`} value={50} color={colorItem.id as any} />

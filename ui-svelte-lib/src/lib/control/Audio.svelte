@@ -17,7 +17,7 @@
 		class: className,
 		src,
 		color = 'primary',
-		variant = 'soft',
+		variant = 'solid',
 		avatarSrc,
 		subtitle
 	}: Props = $props();

@@ -12,7 +12,7 @@
 		{ id: 'danger', label: 'Danger' },
 		{ id: 'warning', label: 'Warning' },
 		{ id: 'surface', label: 'Surface' },
-		{ id: 'default', label: 'Default' }
+		{ id: 'background', label: 'Background' }
 	];
 
 	const variantOptions = [
@@ -22,15 +22,13 @@
 		{ id: 'ghost', label: 'Ghost' }
 	];
 
-	let color: any = $state('default');
-	let variant: any = $state('outlined');
+	let color: any = $state('surface');
+	let variant: any = $state('solid');
 	let hasHeader = $state(true);
 	let hasFooter = $state(true);
 	let hasCover = $state(false);
 
-	let hasProps = $derived(
-		[color !== 'default', variant !== 'outlined', hasHeader, hasFooter, hasCover].some(Boolean)
-	);
+	let hasProps = $derived([color !== 'surface', variant !== 'solid', hasCover].some(Boolean));
 
 	let code = $derived(() => {
 		const scriptLines = [
@@ -40,11 +38,12 @@
 		].filter(Boolean);
 
 		const componentLines = [
-			`<Card`,
-			color !== 'default' && `\tcolor="${color}"`,
-			variant !== 'outlined' && `\tvariant="${variant}"`,
+			!hasProps && `<Card>`,
+			hasProps && `<Card`,
+			color !== 'surface' && `\tcolor="${color}"`,
+			variant !== 'solid' && `\tvariant="${variant}"`,
 			hasCover && `\tcover="/path/to/image.jpg"`,
-			`>`,
+			hasProps && `>`,
 			hasHeader && `\t{#snippet header()}`,
 			hasHeader && `\t\t<h4 class="card-title">Card Header</h4>`,
 			hasHeader && `\t{/snippet}`,
@@ -65,8 +64,8 @@
 		{ prop: 'cover', type: 'string', initial: '' },
 		{
 			prop: 'color',
-			type: 'primary | secondary | muted | success | info | warning | danger | surface | default',
-			initial: 'default'
+			type: 'primary | secondary | muted | success | info | warning | danger | surface | background',
+			initial: 'background'
 		},
 		{
 			prop: 'variant',
@@ -95,7 +94,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -141,7 +140,7 @@
 
 <Section>
 	<p class="section-subtitle">With Header & Footer</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<Card variant="solid" color="primary" rootClass="max-w-xs">
 				{#snippet header()}
@@ -196,7 +195,7 @@
 
 <Section>
 	<p class="section-subtitle">With Cover Image</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			{#each variantOptions as item}
 				<Card
@@ -216,7 +215,7 @@
 
 <Section>
 	<p class="section-subtitle">Typography</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="card-description pb-4">
 			Use these typography classes for consistent text styling within cards:
 		</p>

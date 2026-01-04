@@ -11,16 +11,7 @@
 		description?: string;
 		icon?: IconData;
 		src?: string;
-		color?:
-			| 'primary'
-			| 'secondary'
-			| 'muted'
-			| 'success'
-			| 'info'
-			| 'warning'
-			| 'danger'
-			| 'surface'
-			| 'default';
+		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'warning' | 'danger';
 		variant?: 'solid' | 'soft' | 'outlined' | 'ghost';
 		size?: 'sm' | 'md' | 'lg';
 		status?: 'online' | 'offline' | 'busy' | 'away';
@@ -44,7 +35,7 @@
 		description,
 		src,
 		icon,
-		color = 'default',
+		color = 'muted',
 		variant = 'ghost',
 		size = 'md',
 		status,
@@ -69,9 +60,7 @@
 		success: 'is-success',
 		info: 'is-info',
 		warning: 'is-warning',
-		danger: 'is-danger',
-		surface: 'is-surface',
-		default: 'is-default'
+		danger: 'is-danger'
 	};
 
 	const variantClasses = {

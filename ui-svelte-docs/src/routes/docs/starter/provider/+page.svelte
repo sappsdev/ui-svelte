@@ -109,7 +109,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -165,7 +165,7 @@
 
 <Section>
 	<p class="section-subtitle">Usage</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-muted-foreground mb-4">
 			The Provider component should wrap your entire application, typically in your root layout
 			file. It automatically handles theme detection, stores preferences in localStorage, and sets
@@ -189,7 +189,7 @@
 
 <Section>
 	<p class="section-subtitle">Theme Transitions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-muted-foreground mb-4">
 			The Provider supports four different theme transition animations when switching between light
 			and dark modes. Try toggling the theme switch above with different transitions selected.
@@ -209,7 +209,7 @@
 
 <Section>
 	<p class="section-subtitle">Page Transitions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-muted-foreground mb-4">
 			Page transitions are applied when navigating between routes using the View Transitions API.
 			The effect is visible when using SvelteKit's navigation. Click "Test Page Transition" above to
@@ -230,7 +230,7 @@
 
 <Section>
 	<p class="section-subtitle">Features</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<ul class="stack gap-2 text-muted-foreground">
 			<li>
 				<strong>Automatic Theme Detection</strong> – Detects user's system preference and stores it in

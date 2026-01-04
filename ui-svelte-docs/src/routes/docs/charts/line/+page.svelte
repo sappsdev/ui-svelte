@@ -212,7 +212,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -300,7 +300,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each sizeOptions as sizeItem}
 			<div class="mb-8">
 				<p class="text-sm text-on-muted mb-2">Size: {sizeItem.label}</p>
@@ -312,7 +312,7 @@
 
 <Section>
 	<p class="section-subtitle">Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid md:grid-2 gap-4">
 			{#each colorOptions as colorItem}
 				<div>
@@ -326,7 +326,7 @@
 
 <Section>
 	<p class="section-subtitle">Palettes (Multiple Series)</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each paletteOptions.filter((p) => p.id) as paletteItem}
 			<div class="mb-8">
 				<p class="text-sm text-on-muted mb-2">Palette: {paletteItem.label}</p>
@@ -338,7 +338,7 @@
 
 <Section>
 	<p class="section-subtitle">Curve Types</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid md:grid-2 gap-4">
 			{#each curveOptions as curveItem}
 				<div>
@@ -352,7 +352,7 @@
 
 <Section>
 	<p class="section-subtitle">Legend Positions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each legendPositionOptions.filter((p) => p.id !== 'none') as posItem}
 			<div class="mb-8">
 				<p class="text-sm text-on-muted mb-2">Legend: {posItem.label}</p>
@@ -364,7 +364,7 @@
 
 <Section>
 	<p class="section-subtitle">Visual Effects</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid md:grid-2 gap-4">
 			<div>
 				<p class="text-sm text-on-muted mb-2">Gradient Fill</p>

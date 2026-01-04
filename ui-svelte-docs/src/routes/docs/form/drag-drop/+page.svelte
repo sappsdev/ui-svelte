@@ -155,7 +155,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -207,7 +207,7 @@
 
 <Section>
 	<p class="section-subtitle">Kanban Board</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="mb-4 opacity-70">
 			Use groups prop for multi-column Kanban-style layouts. Try dragging items between columns.
 		</p>
@@ -233,7 +233,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid md:grid-2 gap-6">
 			{#each variantOptions.slice(0, 2) as variantItem}
 				{#each colorOptions.slice(0, 3) as colorItem}
@@ -263,7 +263,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid md:grid-3 gap-6">
 			{#each sizeOptions as sizeItem}
 				<div>
@@ -287,7 +287,7 @@
 
 <Section>
 	<p class="section-subtitle">Custom Item Rendering</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="mb-4 opacity-70">Use the itemSnippet to render custom content for each item.</p>
 		<DragDrop
 			items={[
@@ -313,7 +313,7 @@
 
 <Section>
 	<p class="section-subtitle">Types</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<Code
 			lang="typescript"
 			code={`// Item type
@@ -335,7 +335,7 @@ type DragDropGroup = {
 
 <Section>
 	<p class="section-subtitle">Usage Examples</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="font-semibold mb-2">Single List Mode</p>
 		<Code
 			lang="svelte"

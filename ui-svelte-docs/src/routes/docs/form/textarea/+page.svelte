@@ -119,7 +119,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -176,7 +176,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each sizeOptions as sizeItem}
@@ -195,7 +195,7 @@
 
 <Section>
 	<p class="section-subtitle">Labels</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<Textarea label="Standard Label" placeholder="Enter text..." class="max-w-xs" rows={3} />
 			<Textarea
@@ -211,7 +211,7 @@
 
 <Section>
 	<p class="section-subtitle">Help & Error Text</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<Textarea
 				label="With Help Text"
@@ -233,7 +233,7 @@
 
 <Section>
 	<p class="section-subtitle">Resizable</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">
 			<Textarea
 				label="Not Resizable (default)"

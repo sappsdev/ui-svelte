@@ -14,8 +14,8 @@
 		controlClass?: string;
 		startIcon?: IconData;
 		endIcon?: IconData;
-		startText?: string | Snippet;
-		endText?: string | Snippet;
+		startContent?: string | Snippet;
+		endContent?: string | Snippet;
 		onchange?: (value: unknown) => void;
 		oninput?: (value: unknown) => void;
 		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
@@ -44,12 +44,12 @@
 		controlClass,
 		startIcon,
 		endIcon,
-		startText,
-		endText,
+		startContent,
+		endContent,
 		onchange,
 		oninput,
 		variant = 'outlined',
-		color = 'muted',
+		color = 'primary',
 		size = 'md',
 		name,
 		label,
@@ -137,11 +137,11 @@
 			<Icon icon={startIcon} class={iconClasses} />
 		{/if}
 
-		{#if startText}
-			{#if typeof startText === 'string'}
-				<span class={textClasses}>{startText}</span>
+		{#if startContent}
+			{#if typeof startContent === 'string'}
+				<span class={textClasses}>{startContent}</span>
 			{:else}
-				{@render startText()}
+				{@render startContent()}
 			{/if}
 		{/if}
 
@@ -167,11 +167,11 @@
 			onfocusout={() => (isFocused = false)}
 		/>
 
-		{#if endText}
-			{#if typeof endText === 'string'}
-				<span class={textClasses}>{endText}</span>
+		{#if endContent}
+			{#if typeof endContent === 'string'}
+				<span class={textClasses}>{endContent}</span>
 			{:else}
-				{@render endText()}
+				{@render endContent()}
 			{/if}
 		{/if}
 

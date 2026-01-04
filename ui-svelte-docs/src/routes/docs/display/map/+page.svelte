@@ -141,7 +141,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -195,7 +195,7 @@
 
 <Section>
 	<p class="section-subtitle">Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-3 gap-4">
 			{#each colorOptions as item}
 				<div class="column gap-1">
@@ -216,7 +216,7 @@
 
 <Section>
 	<p class="section-subtitle">Route Calculation</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm text-on-surface/70 mb-4">
 			The Map component uses <a
 				href="https://project-osrm.org/"
@@ -239,7 +239,7 @@
 
 <Section>
 	<p class="section-subtitle">Markers</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm text-on-surface/70 mb-4">
 			Add markers using the <code>markers</code> prop. Each marker can have a label, popup, and custom
 			icon type.
@@ -260,7 +260,7 @@
 
 <Section>
 	<p class="section-subtitle">Geolocation</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm text-on-surface/70 mb-4">
 			Enable the <code>showLocationControl</code> prop to display a "Find my location" button. Click it
 			to center the map on your current location with a pulsing marker and accuracy circle.
@@ -288,7 +288,7 @@
 
 <Section>
 	<p class="section-subtitle">Types</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-4">
 			{#each types as type}
 				<div>

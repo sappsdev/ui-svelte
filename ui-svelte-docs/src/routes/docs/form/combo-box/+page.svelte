@@ -326,7 +326,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -412,7 +412,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each colorOptions as colorItem}
@@ -433,7 +433,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each sizeOptions as sizeItem}
@@ -485,7 +485,7 @@
 
 <Section>
 	<p class="section-subtitle">Key Features</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<ul class="list-disc list-inside space-y-2 text-sm">
 			<li>
 				<strong>Flexible Data Sources:</strong> Supports both client-side (options + clientSide) and server-side

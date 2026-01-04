@@ -28,7 +28,7 @@
 		value = $bindable(items[0]?.id ?? ''),
 		onchange,
 		color = 'muted',
-		variant = 'soft',
+		variant = 'solid',
 		size = 'md',
 		class: className,
 		isWide,

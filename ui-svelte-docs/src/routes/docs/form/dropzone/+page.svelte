@@ -130,7 +130,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -189,7 +189,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each colorOptions as colorItem}
@@ -209,7 +209,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each sizeOptions as sizeItem}
 			<div class="wrap gap-4 center">
 				<Dropzone
@@ -230,13 +230,13 @@
 
 <Section>
 	<p class="section-subtitle">FileWithUrl Type</p>
-	<p class="text-muted mb-4">Each file in the files array follows this structure:</p>
+	<p class="mb-4">Each file in the files array follows this structure:</p>
 	<DocsProps props={fileTypeProps} />
 </Section>
 
 <Section>
 	<p class="section-subtitle">Accept Attribute</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="mb-4">The accept prop allows you to specify which file types are allowed:</p>
 		<ul class="list-disc list-inside space-y-2">
 			<li><code>accept="image/*"</code> - All image types</li>

@@ -44,7 +44,7 @@
 		groupClass,
 		itemClass,
 		color = 'muted',
-		variant = 'soft',
+		variant = 'solid',
 		size = 'md',
 		direction = 'vertical',
 		isDisabled = false,

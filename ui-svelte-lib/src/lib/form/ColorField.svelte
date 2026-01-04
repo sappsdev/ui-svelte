@@ -46,7 +46,7 @@
 		showCmyk = false,
 		showOklch = false,
 		variant = 'outlined',
-		color = 'muted',
+		color = 'primary',
 		size = 'md',
 		name,
 		rootClass,

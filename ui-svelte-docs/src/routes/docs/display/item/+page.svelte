@@ -154,7 +154,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -240,7 +240,7 @@
 
 <Section>
 	<p class="section-subtitle">With Avatar & Description</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="col gap-2">
 			<Item
 				id="1"
@@ -269,7 +269,7 @@
 
 <Section>
 	<p class="section-subtitle">With Icon</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-2">
 			<Item
 				id="1"
@@ -289,7 +289,7 @@
 
 <Section>
 	<p class="section-subtitle">With Actions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-2">
 			<Item
 				id="1"
@@ -319,7 +319,7 @@
 
 <Section>
 	<p class="section-subtitle">Interactive States</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-2">
 			<Item
 				id="1"
@@ -355,7 +355,7 @@
 
 <Section>
 	<p class="section-subtitle">Visual Indicators</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="col gap-2">
 			<p class="card-description">
 				Use <code>hasBullet</code> and <code>hasIndicator</code> for items without icons to provide visual

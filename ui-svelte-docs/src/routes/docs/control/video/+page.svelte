@@ -63,7 +63,7 @@
 </DocsHeader>
 
 <Section>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -105,7 +105,7 @@
 
 <Section>
 	<p class="section-subtitle">Aspect Ratios</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-1 md:grid-3 gap-4">
 			{#each aspectOptions as item}
 				<div class="col gap-2">
@@ -123,7 +123,7 @@
 
 <Section>
 	<p class="section-subtitle">Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="grid-1 md:grid-2 gap-4">
 			{#each colorOptions as item}
 				<div class="col gap-2">

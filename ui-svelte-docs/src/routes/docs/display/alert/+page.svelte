@@ -18,7 +18,7 @@
 		{ id: 'soft', label: 'Soft' }
 	];
 
-	let color: any = $state('primary');
+	let color: any = $state('info');
 	let variant: any = $state('soft');
 	let title = $state('Alert Title');
 	let description = $state('This is an alert description with more details.');
@@ -28,7 +28,7 @@
 	let hasDescription = $state(true);
 
 	let hasProps = $derived(
-		[color !== 'primary', variant !== 'soft', showIcon, hasTitle, hasDescription].some(Boolean)
+		[color !== 'info', variant !== 'soft', showIcon, hasTitle, hasDescription].some(Boolean)
 	);
 
 	let code = $derived(() => {
@@ -40,7 +40,7 @@
 
 		const componentLines = [
 			hasProps && `<Alert`,
-			color !== 'primary' && `\tcolor="${color}"`,
+			color !== 'info' && `\tcolor="${color}"`,
 			variant !== 'soft' && `\tvariant="${variant}"`,
 			hasTitle && `\ttitle="Alert Title"`,
 			hasDescription && `\tdescription="This is an alert description."`,
@@ -68,7 +68,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -108,7 +108,7 @@
 
 <Section>
 	<p class="section-subtitle">Color Variants</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-4">
 			{#each colorOptions as item}
 				<Alert
@@ -125,7 +125,7 @@
 
 <Section>
 	<p class="section-subtitle">Solid Variants</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-4">
 			{#each colorOptions as item}
 				<Alert

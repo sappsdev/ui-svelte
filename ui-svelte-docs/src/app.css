@@ -16,7 +16,7 @@ body {
 	--on-light: oklch(25% 0.01 30);
 
 	--primary: oklch(75% 0.15 145);
-	--soft-primary: oklch(95% 0.05 145);
+	--soft-primary: oklch(97% 0.01 145);
 	--on-primary: var(--on-light);
 
 	--secondary: oklch(28.42% 0.0467 259.99);

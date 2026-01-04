@@ -90,7 +90,7 @@
 	--color-on-light: var(--on-light, oklch(25% 0.01 30));
 
 	--color-primary: var(--primary, oklch(75% 0.15 145));
-	--color-soft-primary: var(--soft-primary, oklch(95% 0.05 145));
+	--color-soft-primary: var(--soft-primary, oklch(97% 0.01 145));
 	--color-on-primary: var(--on-primary, var(--on-light));
 
 	--color-secondary: var(--secondary, oklch(28.42% 0.0467 259.99));

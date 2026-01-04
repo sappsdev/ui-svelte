@@ -259,7 +259,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -301,7 +301,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<p class="text-sm mb-2 font-semibold">{item.label} Variant</p>
 			<div class="wrap gap-4 mb-6">
@@ -326,7 +326,7 @@
 
 <Section>
 	<p class="section-subtitle">Sizes</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-6">
 			{#each sizeOptions as sizeItem}
 				<div class="column gap-2">
@@ -347,7 +347,7 @@
 
 <Section>
 	<p class="section-subtitle">Menu Types</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-6">
 			<div>
 				<p class="text-sm mb-2 font-medium">Simple Links</p>
@@ -398,7 +398,7 @@
 
 <Section>
 	<p class="section-subtitle">With Icons</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="column gap-4">
 			<NavMenu
 				items={[
@@ -421,7 +421,7 @@
 
 <Section>
 	<p class="section-subtitle">Megamenu Example</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<p class="text-sm mb-4">Megamenus use Svelte snippets for completely custom content:</p>
 		<Code
 			lang="svelte"

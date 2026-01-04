@@ -36,7 +36,7 @@
 
 	const {
 		items = [],
-		variant = 'ghost',
+		variant = 'solid',
 		color = 'background',
 		multiple = false,
 		rootClass,

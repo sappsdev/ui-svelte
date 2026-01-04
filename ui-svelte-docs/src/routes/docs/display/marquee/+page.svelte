@@ -238,7 +238,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -289,7 +289,7 @@
 
 <Section>
 	<p class="section-subtitle">Announcements Bar</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="w-full bg-primary/5 py-2">
 			<Marquee speed="slow" pauseOnHover fade>
 				{#each announcements as announcement}
@@ -308,7 +308,7 @@
 
 <Section>
 	<p class="section-subtitle">Testimonials</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="w-full">
 			<Marquee speed="slow" pauseOnHover gap="1rem">
 				{#each testimonials as testimonial}
@@ -328,7 +328,7 @@
 
 <Section>
 	<p class="section-subtitle">Vertical Scroll</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="h-[300px]">
 			<Marquee orientation="vertical" speed="slow" pauseOnHover gap="0.5rem">
 				{#each features as feature}
@@ -344,7 +344,7 @@
 
 <Section>
 	<p class="section-subtitle">Usage</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="prose">
 			<p>The Marquee component can be used in two ways:</p>
 			<ol>

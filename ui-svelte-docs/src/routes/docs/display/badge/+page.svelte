@@ -63,12 +63,12 @@
 					variant !== 'solid' && `\tvariant="${variant}"`,
 					position !== 'top-right' && `\tposition="${position}"`,
 					hasProps && `>`,
-					hasProps && `\t<Card>`,
+					hasProps && `\t<Card color="background" variant="outlined" >`,
 					hasProps && `\t\t<p>Card content</p>`,
 					hasProps && `\t</Card>`,
 					hasProps && `</Badge>`,
 					!hasProps && `<Badge text="${badgeText}">`,
-					!hasProps && `\t<Card>`,
+					!hasProps && `\t<Card color="background" variant="outlined" >`,
 					!hasProps && `\t\t<p>Card content</p>`,
 					!hasProps && `\t</Card>`,
 					!hasProps && `</Badge>`
@@ -105,7 +105,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -155,7 +155,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each colorOptions as colorItem, i}
@@ -174,7 +174,7 @@
 
 <Section>
 	<p class="section-subtitle">Positions</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-8 center">
 			{#each positionOptions as item, i}
 				<div class="column center gap-2">
@@ -190,7 +190,7 @@
 
 <Section>
 	<p class="section-subtitle">Usage Examples</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-8 center">
 			<!-- Badge on Avatar with notification count -->
 			<Badge text="5" color="danger">
@@ -229,7 +229,7 @@
 
 <Section>
 	<p class="section-subtitle">Badge on Cards</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="wrap gap-8 center">
 			<!-- Badge on Card -->
 			<Badge text="3" color="info" position="top-right">

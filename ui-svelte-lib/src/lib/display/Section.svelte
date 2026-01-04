@@ -30,7 +30,7 @@
 		overlayClass,
 		cover,
 		color = 'background',
-		variant = 'ghost',
+		variant = 'solid',
 		children,
 		isBoxed
 	}: Props = $props();

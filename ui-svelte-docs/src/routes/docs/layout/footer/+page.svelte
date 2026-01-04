@@ -158,7 +158,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -210,7 +210,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants & Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		{#each variantOptions as item}
 			<div class="wrap gap-4 center">
 				{#each colorOptions as c}
@@ -227,7 +227,7 @@
 
 <Section>
 	<p class="section-subtitle">With FooterNav (Horizontal Links)</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="w-full border border-border rounded-lg overflow-hidden bg-background relative">
 			<Footer isBordered>
 				{#snippet start()}
@@ -260,7 +260,7 @@
 
 <Section>
 	<p class="section-subtitle">Multi-Column Footer with FooterGroup</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="w-full border border-border rounded-lg overflow-hidden bg-background relative">
 			<Footer isBordered>
 				{#snippet center()}
@@ -303,7 +303,7 @@
 
 <Section>
 	<p class="section-subtitle">Footer with Social Links</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="w-full border border-border rounded-lg overflow-hidden bg-background relative">
 			<Footer isBordered>
 				{#snippet center()}
@@ -356,7 +356,7 @@
 
 <Section>
 	<p class="section-subtitle">Newsletter Footer</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="w-full border border-border rounded-lg overflow-hidden bg-background relative">
 			<Footer isBordered>
 				{#snippet center()}

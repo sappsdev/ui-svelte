@@ -93,7 +93,7 @@
 </DocsHeader>
 
 <Section>
-	<Card headerClass="grid-2 md:grid-4 gap-2">
+	<Card headerClass="grid-2 md:grid-4 gap-2" color="background" variant="outlined">
 		<div class="grid-2 md:grid-4 gap-2">
 			<Select
 				isFloatLabel
@@ -147,7 +147,7 @@
 
 <Section>
 	<p class="section-subtitle">Colors</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="doc-preview flex-col gap-4">
 			<Record class="max-w-md" name="primary-demo" color="primary" />
 			<Record class="max-w-md" name="success-demo" color="success" />
@@ -159,7 +159,7 @@
 
 <Section>
 	<p class="section-subtitle">Variants</p>
-	<Card>
+	<Card color="background" variant="outlined">
 		<div class="doc-preview flex-col gap-4">
 			<Record class="max-w-md" name="soft-demo" variant="soft" color="info" />
 			<Record class="max-w-md" name="solid-demo" variant="solid" color="info" />

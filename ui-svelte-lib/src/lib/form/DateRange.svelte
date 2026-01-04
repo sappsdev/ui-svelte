@@ -29,7 +29,7 @@
 		placeholder = 'Select date range',
 		onchange,
 		variant = 'outlined',
-		color = 'muted',
+		color = 'primary',
 		size = 'md',
 		name,
 		label,
