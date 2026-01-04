@@ -20,6 +20,7 @@
 			| 'surface'
 			| 'background';
 		variant?: 'solid' | 'soft' | 'ghost';
+		id?: string;
 		isBoxed?: boolean;
 	};
 
@@ -32,6 +33,7 @@
 		color = 'background',
 		variant = 'solid',
 		children,
+		id,
 		isBoxed
 	}: Props = $props();
 
@@ -54,7 +56,7 @@
 	};
 </script>
 
-<section class={cn('section', variants[variant], colors[color], rootClass)}>
+<section {id} class={cn('section', variants[variant], colors[color], rootClass)}>
 	{#if cover}
 		<img src={cover} alt="cover" class={cn('section-cover', coverClass)} />
 		<div class={cn('section-overlay', overlayClass)}></div>
