@@ -45,7 +45,7 @@
 		{ id: 'viewer', label: 'Viewer', description: 'Read-only access' }
 	];
 
-	let color: any = $state('muted');
+	let color: any = $state('primary');
 	let variant: any = $state('outlined');
 	let size: any = $state('md');
 	let value: any = $state(undefined);
@@ -57,7 +57,7 @@
 
 	let hasProps = $derived(
 		[
-			color !== 'muted',
+			color !== 'primary',
 			variant !== 'outlined',
 			size !== 'md',
 			isFloatLabel,
@@ -86,7 +86,7 @@
 			hasProps && `<Select`,
 			hasProps && `\toptions={options}`,
 			hasProps && `\tbind:value`,
-			color !== 'muted' && `\tcolor="${color}"`,
+			color !== 'primary' && `\tcolor="${color}"`,
 			variant !== 'outlined' && `\tvariant="${variant}"`,
 			size !== 'md' && `\tsize="${size}"`,
 			hasLabel && !isFloatLabel && `\tlabel="Label"`,
@@ -109,8 +109,8 @@
 		{ prop: 'onchange', type: '(value: unknown) => void', initial: '' },
 		{
 			prop: 'color',
-			type: 'primary | secondary | muted | success | info | danger | warning',
-			initial: 'muted'
+			type: 'primary | secondary | muted | success | info | danger | warning | background',
+			initial: 'primary'
 		},
 		{
 			prop: 'variant',
@@ -272,7 +272,6 @@
 		<div class="wrap gap-4 center">
 			{#each variantOptions as item}
 				<Select
-					isSolid
 					isFloatLabel
 					label={item.label}
 					variant={item.id as any}

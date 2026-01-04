@@ -170,7 +170,7 @@
 		storeApp.setThemeColor('onDark', 'oklch(97% 0.01 90)');
 		storeApp.setThemeColor('onLight', 'oklch(25% 0.01 30)');
 		storeApp.setThemeColor('primary', 'oklch(75% 0.15 145)');
-		storeApp.setThemeColor('softPrimary', 'oklch(95% 0.05 145)');
+		storeApp.setThemeColor('softPrimary', 'oklch(97% 0.01 145)');
 		storeApp.setThemeColor('secondary', 'oklch(28.42% 0.0467 259.99)');
 		storeApp.setThemeColor('softSecondary', 'oklch(92% 0.005 30)');
 		storeApp.setThemeColor('muted', 'oklch(87.2% 0.01 258.338)');

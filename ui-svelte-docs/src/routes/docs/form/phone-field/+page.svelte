@@ -26,7 +26,7 @@
 		{ id: 'lg', label: 'lg' }
 	];
 
-	let color: any = $state('muted');
+	let color: any = $state('primary');
 	let variant: any = $state('outlined');
 	let size: any = $state('md');
 
@@ -42,7 +42,7 @@
 
 	let hasProps = $derived(
 		[
-			color !== 'muted',
+			color !== 'primary',
 			variant !== 'outlined',
 			size !== 'md',
 			isFloatLabel,
@@ -72,7 +72,7 @@
 			hasProps && `\tbind:value`,
 			hasProps && `\tbind:countryCode`,
 			hasProps && `\tbind:dialCode`,
-			color !== 'muted' && `\tcolor="${color}"`,
+			color !== 'primary' && `\tcolor="${color}"`,
 			variant !== 'outlined' && `\tvariant="${variant}"`,
 			size !== 'md' && `\tsize="${size}"`,
 			hasLabel && `\tlabel="Phone Number"`,
@@ -108,8 +108,8 @@
 		{ prop: 'onchange', type: '(value: string) => void', initial: '' },
 		{
 			prop: 'color',
-			type: 'primary | secondary | muted | success | info | danger | warning',
-			initial: 'muted'
+			type: 'primary | secondary | muted | success | info | danger | warning | background',
+			initial: 'primary'
 		},
 		{
 			prop: 'variant',

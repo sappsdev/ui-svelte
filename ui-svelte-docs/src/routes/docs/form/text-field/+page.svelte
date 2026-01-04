@@ -36,7 +36,7 @@
 		{ id: 'url', label: 'URL' }
 	];
 
-	let color: any = $state('muted');
+	let color: any = $state('primary');
 	let variant: any = $state('outlined');
 	let size: any = $state('md');
 	let type: any = $state('text');
@@ -54,7 +54,7 @@
 
 	let hasProps = $derived(
 		[
-			color !== 'muted',
+			color !== 'primary',
 			variant !== 'outlined',
 			size !== 'md',
 			type !== 'text',
@@ -87,7 +87,7 @@
 			hasLabel && isFloatLabel && `\tlabel="Label"`,
 			isFloatLabel && `\tisFloatLabel`,
 			type !== 'text' && `\ttype="${type}"`,
-			color !== 'muted' && `\tcolor="${color}"`,
+			color !== 'primary' && `\tcolor="${color}"`,
 			variant !== 'outlined' && `\tvariant="${variant}"`,
 			size !== 'md' && `\tsize="${size}"`,
 			startIcon && `\tstartIcon={Search24RegularIcon}`,
@@ -116,8 +116,8 @@
 		{ prop: 'errorText', type: 'string', initial: '' },
 		{
 			prop: 'color',
-			type: 'primary | secondary | muted | success | info | danger | warning',
-			initial: 'muted'
+			type: 'primary | secondary | muted | success | info | danger | warning | background',
+			initial: 'primary'
 		},
 		{
 			prop: 'variant',
