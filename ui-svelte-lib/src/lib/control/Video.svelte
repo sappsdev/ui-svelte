@@ -181,6 +181,7 @@
 					{color}
 					variant="overlay"
 					size="sm"
+					ariaLabel={videoParams.paused ? 'Play video' : 'Pause video'}
 				/>
 
 				<Chip variant="overlay" {color}>
@@ -217,6 +218,7 @@
 						{color}
 						variant="overlay"
 						size="sm"
+						ariaLabel={videoParams.muted ? 'Unmute video' : 'Mute video'}
 					/>
 				</div>
 				<IconButton
@@ -225,6 +227,7 @@
 					{color}
 					variant="overlay"
 					size="sm"
+					ariaLabel="Toggle picture-in-picture"
 				/>
 				<IconButton
 					onclick={handleToggleMaximize}
@@ -232,6 +235,7 @@
 					{color}
 					variant="overlay"
 					size="sm"
+					ariaLabel="Toggle fullscreen"
 				/>
 			</div>
 		</div>

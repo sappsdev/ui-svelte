@@ -48,6 +48,8 @@
 	let openSubmenuIndex = $state<number | null>(null);
 	let triggerElements = $state<Record<number, HTMLElement>>({});
 	let popoverElement = $state<HTMLElement>();
+	let activeHash = $state<string | null>(null);
+	let sectionObserver: IntersectionObserver | null = null;
 	let position = $state({
 		top: 0,
 		left: 0,
@@ -84,6 +86,11 @@
 
 	function isItemActive(href?: string): boolean {
 		if (!href) return false;
+
+		if (href.startsWith('#')) {
+			return activeHash === href;
+		}
+
 		return page.url.pathname === href || page.url.pathname.startsWith(href + '/');
 	}
 
@@ -191,7 +198,38 @@
 	}
 
 	onMount(() => {
-		return () => stopEventListeners();
+		const hashLinks = items
+			.flatMap((item) => [item.href, ...(item.subitems?.map((s) => s.href) || [])])
+			.filter((href): href is string => !!href && href.startsWith('#'))
+			.map((href) => href.slice(1));
+
+		if (hashLinks.length > 0) {
+			sectionObserver = new IntersectionObserver(
+				(entries) => {
+					const visibleEntries = entries.filter((e) => e.isIntersecting);
+					if (visibleEntries.length > 0) {
+						const mostVisible = visibleEntries.reduce((prev, curr) =>
+							curr.intersectionRatio > prev.intersectionRatio ? curr : prev
+						);
+						activeHash = '#' + mostVisible.target.id;
+					}
+				},
+				{
+					threshold: [0.1, 0.5, 0.9],
+					rootMargin: '-10% 0px -10% 0px'
+				}
+			);
+
+			hashLinks.forEach((id) => {
+				const el = document.getElementById(id);
+				if (el) sectionObserver!.observe(el);
+			});
+		}
+
+		return () => {
+			sectionObserver?.disconnect();
+			stopEventListeners();
+		};
 	});
 </script>
 
@@ -216,6 +254,9 @@
 				)}
 				bind:this={triggerElements[index]}
 				onclick={() => handleItemClick(item, index)}
+				aria-haspopup={!!(item.subitems || item.megamenu)}
+				aria-expanded={openSubmenuIndex === index}
+				aria-controls={openSubmenuIndex === index ? `navmenu-popover-${index}` : undefined}
 			>
 				{#if item.icon}
 					<Icon icon={item.icon} class="navmenu-icon" />
@@ -235,6 +276,7 @@
 {#if openSubmenuIndex !== null}
 	{@const currentItem = items[openSubmenuIndex]}
 	<div
+		id={`navmenu-popover-${openSubmenuIndex}`}
 		class={cn(
 			'navmenu-popover',
 			sizeClasses[size],
@@ -243,6 +285,7 @@
 		)}
 		bind:this={popoverElement}
 		{style}
+		role="menu"
 	>
 		{#if currentItem?.megamenu}
 			{@render currentItem.megamenu()}
@@ -257,6 +300,7 @@
 								openSubmenuIndex = null;
 								stopEventListeners();
 							}}
+							role="menuitem"
 						>
 							{#if subitem.icon}
 								<Icon icon={subitem.icon} class="navmenu-submenu-icon" />
@@ -273,6 +317,7 @@
 							type="button"
 							class="navmenu-submenu-item"
 							onclick={() => handleSubmenuItemClick(subitem)}
+							role="menuitem"
 						>
 							{#if subitem.icon}
 								<Icon icon={subitem.icon} class="navmenu-submenu-icon" />

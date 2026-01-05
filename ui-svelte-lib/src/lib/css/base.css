@@ -1,4 +1,7 @@
 @layer base {
+	html {
+		scroll-behavior: smooth;
+	}
 	body {
 		@apply h-dvh flex flex-col relative;
 		@apply bg-background text-on-background;

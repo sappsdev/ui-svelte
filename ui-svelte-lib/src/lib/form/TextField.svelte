@@ -165,6 +165,8 @@
 			oninput={(e) => oninput?.((e.target as HTMLInputElement).value)}
 			onfocusin={() => (isFocused = true)}
 			onfocusout={() => (isFocused = false)}
+			aria-describedby={errorText || helpText ? `${uid}-help` : undefined}
+			aria-invalid={!!errorText}
 		/>
 
 		{#if endContent}
@@ -181,7 +183,7 @@
 	</label>
 
 	{#if errorText || helpText}
-		<div class={cn('field-help', errorText && 'is-danger')}>
+		<div id={`${uid}-help`} class={cn('field-help', errorText && 'is-danger')}>
 			{errorText || helpText}
 		</div>
 	{/if}

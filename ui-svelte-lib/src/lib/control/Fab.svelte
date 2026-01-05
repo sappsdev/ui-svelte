@@ -26,6 +26,7 @@
 		offsetY?: string;
 		onclick?: () => void;
 		children?: Snippet;
+		ariaLabel?: string;
 	};
 
 	const {
@@ -40,7 +41,8 @@
 		offsetX,
 		offsetY,
 		onclick,
-		children
+		children,
+		ariaLabel
 	}: Props = $props();
 
 	let isOpen = $state(false);
@@ -97,7 +99,14 @@
 		{#if children}
 			{@render children()}
 		{:else}
-			<IconButton {icon} {color} {variant} {size} onclick={handleTriggerClick} />
+			<IconButton
+				{icon}
+				{color}
+				{variant}
+				{size}
+				onclick={handleTriggerClick}
+				ariaLabel={ariaLabel || (actions.length > 0 ? 'Open actions menu' : undefined)}
+			/>
 		{/if}
 	</div>
 </div>

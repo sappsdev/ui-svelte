@@ -204,13 +204,13 @@
 		</div>
 	</div>
 
-	<p class="text-sm opacity-60 fade-in-up">Open source • Powered by SappsDev</p>
+	<p class="text-sm opacity-80 fade-in-up">Open source • Powered by SappsDev</p>
 </Section>
 
 <Section isBoxed bodyClass="gap-10 py-20 center" color="muted" variant="soft">
 	<div class="column gap-2 text-center">
 		<h2 class="section-title">Why UiSvelte?</h2>
-		<p class="section-subtitle opacity-70 max-w-2xl">
+		<p class="section-subtitle opacity-80 max-w-2xl">
 			Built different from traditional component libraries
 		</p>
 	</div>
@@ -226,7 +226,7 @@
 					<Icon {icon} class="text-{color} w-8 h-8" />
 				</div>
 				<h3 class="card-title">{title}</h3>
-				<p class="card-description text-center opacity-70">{description}</p>
+				<p class="card-description text-center opacity-80">{description}</p>
 			</Card>
 		{/each}
 	</div>
@@ -235,7 +235,7 @@
 <Section isBoxed bodyClass="gap-12 py-28 center">
 	<div class="column gap-2 text-center">
 		<h2 class="section-title">Key Features</h2>
-		<p class="section-subtitle opacity-70">Everything you need to build modern web applications</p>
+		<p class="section-subtitle opacity-80">Everything you need to build modern web applications</p>
 	</div>
 	<div class="grid-1 md:grid-3 gap-6">
 		{#each features as { icon, color, title, description }, i}
@@ -257,7 +257,7 @@
 <Section isBoxed bodyClass="gap-12 py-28 center" color="muted" variant="soft">
 	<div class="column gap-2 text-center">
 		<h2 class="section-title">See it in Action</h2>
-		<p class="section-subtitle opacity-70">
+		<p class="section-subtitle opacity-80">
 			Clean, intuitive API that just works — copy, paste, and customize
 		</p>
 	</div>
@@ -287,11 +287,11 @@
 	<div class="row w-full justify-between items-end">
 		<div class="column gap-2">
 			<h2 class="section-title">Components</h2>
-			<p class="section-subtitle opacity-70">
+			<p class="section-subtitle opacity-80">
 				The building blocks used to create pages and sections.
 			</p>
 		</div>
-		<p class="text-sm opacity-60">Total 70 components</p>
+		<p class="text-sm opacity-80">Total 80 components</p>
 	</div>
 	<div class="grid-2 md:grid-3 lg:grid-4 gap-6 w-full">
 		{#each categories as { name, count, url, skeleton }, i}
@@ -306,7 +306,7 @@
 						{#if skeleton === 'charts'}
 							<div class="row items-end gap-1 w-full h-16">
 								<Skeleton variant="rounded" width="16%" height="40%" />
-								<Skeleton variant="rounded" width="16%" height="70%" />
+								<Skeleton variant="rounded" width="16%" height="80%" />
 								<Skeleton variant="rounded" width="16%" height="55%" />
 								<Skeleton variant="rounded" width="16%" height="85%" />
 								<Skeleton variant="rounded" width="16%" height="45%" />
@@ -314,7 +314,7 @@
 							</div>
 						{:else if skeleton === 'control'}
 							<div class="column gap-3 w-full items-center">
-								<Skeleton variant="rounded" width="70%" height="28px" />
+								<Skeleton variant="rounded" width="80%" height="28px" />
 								<div class="row gap-3">
 									<Skeleton variant="circular" width="24px" height="24px" />
 									<Skeleton variant="rounded" width="40px" height="20px" />
@@ -324,7 +324,7 @@
 							<div class="column gap-3 w-full p-3 border border-muted rounded-lg">
 								<Skeleton variant="rounded" width="100%" height="40px" />
 								<div class="column gap-2">
-									<Skeleton variant="text" width="70%" height="10px" />
+									<Skeleton variant="text" width="80%" height="10px" />
 									<Skeleton variant="text" width="90%" height="8px" />
 								</div>
 							</div>
@@ -373,7 +373,7 @@
 				</Card>
 				<div class="text-center mt-3">
 					<p class="text-sm font-medium">{name}</p>
-					<p class="text-xs opacity-60">{count} component{count > 1 ? 's' : ''}</p>
+					<p class="text-xs opacity-80">{count} component{count > 1 ? 's' : ''}</p>
 				</div>
 			</a>
 		{/each}
@@ -382,8 +382,8 @@
 
 <Section isBoxed bodyClass="gap-10 py-24 center" color="muted" variant="soft">
 	<div class="column gap-2 text-center">
-		<h2 class="section-title">Get Started in 60 Seconds</h2>
-		<p class="section-subtitle opacity-70">Copy, paste, and you're ready to build</p>
+		<h2 class="section-title">Get Started in 80 Seconds</h2>
+		<p class="section-subtitle opacity-80">Copy, paste, and you're ready to build</p>
 	</div>
 	<div class="column gap-6 w-full max-w-2xl">
 		<div class="column gap-2">

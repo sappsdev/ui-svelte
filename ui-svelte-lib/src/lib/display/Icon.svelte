@@ -15,6 +15,11 @@
 	const { icon, class: className }: Props = $props();
 </script>
 
-<svg viewBox={icon.viewbox} class={cn('icon', className)} xmlns="http://www.w3.org/2000/svg">
+<svg
+	viewBox={icon.viewbox}
+	class={cn('icon', className)}
+	xmlns="http://www.w3.org/2000/svg"
+	aria-hidden="true"
+>
 	{@html icon.body}
 </svg>

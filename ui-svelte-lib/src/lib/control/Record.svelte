@@ -357,6 +357,7 @@
 			{color}
 			variant={variant === 'solid' ? 'soft' : 'solid'}
 			size="md"
+			ariaLabel={isPlaying ? 'Pause playback' : 'Play recording'}
 		/>
 
 		<div class="media-content">
@@ -382,6 +383,7 @@
 				color="danger"
 				variant="ghost"
 				size="sm"
+				ariaLabel="Discard recording"
 			/>
 			<IconButton
 				onclick={confirmRecording}
@@ -390,6 +392,7 @@
 				variant="ghost"
 				size="sm"
 				isLoading={isUploading}
+				ariaLabel="Confirm recording"
 			/>
 		</div>
 	{:else if !isRecording}
@@ -399,6 +402,7 @@
 			{color}
 			variant={variant === 'solid' ? 'soft' : 'solid'}
 			size="md"
+			ariaLabel="Start recording"
 		/>
 
 		<div class="media-content">
@@ -421,6 +425,7 @@
 				{color}
 				variant={variant === 'solid' ? 'soft' : 'solid'}
 				size="md"
+				ariaLabel="Resume recording"
 			/>
 		{:else}
 			<IconButton
@@ -429,6 +434,7 @@
 				{color}
 				variant={variant === 'solid' ? 'soft' : 'solid'}
 				size="md"
+				ariaLabel="Pause recording"
 			/>
 		{/if}
 
@@ -456,6 +462,7 @@
 				color="danger"
 				variant="ghost"
 				size="sm"
+				ariaLabel="Discard recording"
 			/>
 			<IconButton
 				onclick={stopRecording}
@@ -463,6 +470,7 @@
 				{color}
 				variant="ghost"
 				size="sm"
+				ariaLabel="Stop recording"
 			/>
 		</div>
 	{/if}

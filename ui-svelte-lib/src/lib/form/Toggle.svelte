@@ -49,6 +49,8 @@
 		{defaultChecked}
 		{disabled}
 		onchange={() => onchange && onchange(checked!)}
+		role="switch"
+		aria-checked={checked}
 	/>
 	{#if labelRight}
 		<span class={cn('toggle-label-right', checked && 'is-active')}>{labelRight}</span>

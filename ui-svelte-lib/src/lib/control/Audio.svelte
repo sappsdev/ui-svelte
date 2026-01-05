@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { PauseFilledIcon, PlayFilledIcon } from '$lib/icons/index.js';
+	import { Avatar, IconButton } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
-	import IconButton from './IconButton.svelte';
-	import Avatar from '$lib/display/Avatar.svelte';
 
 	type Props = {
 		class?: string;
@@ -207,6 +206,7 @@
 		variant={variant === 'solid' ? 'soft' : 'solid'}
 		{color}
 		onclick={togglePlay}
+		ariaLabel={isPlaying ? 'Pause audio' : 'Play audio'}
 	/>
 
 	<div class="media-content">
@@ -218,6 +218,7 @@
 			aria-valuenow={Math.round((currentTime / duration) * 100) || 0}
 			aria-valuemin="0"
 			aria-valuemax="100"
+			aria-label="Audio progress"
 		>
 			<div class="media-bars" class:loading={isAnalyzing} class:loaded={!isAnalyzing}>
 				{#if isAnalyzing}

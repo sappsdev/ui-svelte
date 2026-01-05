@@ -20,6 +20,7 @@
 		isWide?: boolean;
 		isVertical?: boolean;
 		isDisabled?: boolean;
+		ariaLabel?: string;
 	};
 
 	let {
@@ -33,7 +34,8 @@
 		class: className,
 		isWide,
 		isVertical,
-		isDisabled
+		isDisabled,
+		ariaLabel
 	}: Props = $props();
 
 	const colors = {
@@ -78,14 +80,15 @@
 	}
 </script>
 
-<div class={groupClasses} role="group">
+<div class={groupClasses} role="radiogroup" aria-label={ariaLabel}>
 	{#each items as item}
 		<button
 			type="button"
 			class={cn('toggle-group-item', sizes[size], value === item.id && 'is-active')}
 			onclick={() => handleClick(item.id)}
 			disabled={isDisabled}
-			aria-pressed={value === item.id}
+			role="radio"
+			aria-checked={value === item.id}
 		>
 			{#if item.icon}
 				<Icon icon={item.icon} />

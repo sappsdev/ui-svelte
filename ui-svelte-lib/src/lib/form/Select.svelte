@@ -4,6 +4,11 @@
 	import { cn } from '$lib/utils/class-names.js';
 	import { onMount } from 'svelte';
 
+	const instanceId = Math.random().toString(36).substring(2, 9);
+	const listboxId = `select-listbox-${instanceId}`;
+	const labelId = `select-label-${instanceId}`;
+	const helpTextId = `select-help-${instanceId}`;
+
 	type Option = {
 		id: string | number;
 		label: string;
@@ -273,7 +278,7 @@
 	<input type="text" {name} bind:value hidden />
 
 	{#if !isFloatLabel && label}
-		<div class="field-label">{label}</div>
+		<div class="field-label" id={labelId}>{label}</div>
 	{/if}
 
 	<button
@@ -291,6 +296,15 @@
 		onclick={toggleDropdown}
 		onmouseenter={() => (isActive = true)}
 		onmouseleave={() => (isActive = false)}
+		role="combobox"
+		aria-haspopup="listbox"
+		aria-expanded={isOpen}
+		aria-controls={listboxId}
+		aria-activedescendant={isOpen && focusedIndex >= 0
+			? `${listboxId}-option-${focusedIndex}`
+			: undefined}
+		aria-labelledby={label ? labelId : undefined}
+		aria-describedby={errorText || helpText ? helpTextId : undefined}
 	>
 		{#if isFloatLabel && label}
 			<span
@@ -325,13 +339,21 @@
 	</button>
 
 	{#if errorText || helpText}
-		<div class={cn('field-help', errorText && 'is-danger')}>{errorText || helpText}</div>
+		<div id={helpTextId} class={cn('field-help', errorText && 'is-danger')}>
+			{errorText || helpText}
+		</div>
 	{/if}
 
 	<div class:is-active={isOpen} class="select-popover" bind:this={contentEl} {style}>
-		<ul class="select-options" bind:this={optionsEl}>
+		<ul
+			class="select-options"
+			bind:this={optionsEl}
+			role="listbox"
+			id={listboxId}
+			aria-label={label}
+		>
 			{#each options as item, index}
-				<li>
+				<li id={`${listboxId}-option-${index}`} role="option" aria-selected={value === item.id}>
 					<Item
 						label={item.label}
 						src={item.src}

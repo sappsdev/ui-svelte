@@ -20,4 +20,5 @@
 	{variant}
 	class={className}
 	onclick={theme.toggleTheme}
+	ariaLabel={theme.isDark ? 'Switch to light mode' : 'Switch to dark mode'}
 />

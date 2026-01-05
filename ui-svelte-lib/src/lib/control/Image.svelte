@@ -109,6 +109,7 @@
 					{color}
 					variant="overlay"
 					size="sm"
+					ariaLabel="Download image"
 				/>
 				<IconButton
 					onclick={handleToggleMaximize}
@@ -116,6 +117,7 @@
 					{color}
 					variant="overlay"
 					size="sm"
+					ariaLabel="Toggle fullscreen"
 				/>
 			</div>
 		</div>

@@ -16,6 +16,7 @@
 		isLoading?: boolean;
 		icon: IconData;
 		isDisabled?: boolean;
+		ariaLabel?: string;
 	};
 
 	const {
@@ -29,7 +30,8 @@
 		class: className,
 		icon,
 		isLoading,
-		isDisabled
+		isDisabled,
+		ariaLabel
 	}: Props = $props();
 
 	const colors = {
@@ -68,7 +70,7 @@
 {/snippet}
 
 {#if href}
-	<a class={baseClasses} {href} {target}>
+	<a class={baseClasses} {href} {target} aria-label={ariaLabel}>
 		{@render content()}
 	</a>
 {:else}
@@ -78,6 +80,7 @@
 		disabled={isDisabled || isLoading}
 		class={baseClasses}
 		aria-busy={isLoading}
+		aria-label={ariaLabel}
 	>
 		{#if isLoading}
 			<span class="btn-loading">
