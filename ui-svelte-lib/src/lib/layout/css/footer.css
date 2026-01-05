@@ -84,7 +84,7 @@
 			}
 
 			.footer-center {
-				@apply flex flex-1 flex-nowrap justify-center items-center p-2 md:p-3 gap-2 md:gap-3 relative;
+				@apply flex w-full flex-nowrap justify-center items-center p-2 md:p-3 gap-2 md:gap-3 relative;
 			}
 
 			.footer-end {
