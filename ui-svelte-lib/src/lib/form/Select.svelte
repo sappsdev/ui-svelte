@@ -304,6 +304,7 @@
 			? `${listboxId}-option-${focusedIndex}`
 			: undefined}
 		aria-labelledby={label ? labelId : undefined}
+		aria-label={!label ? placeholder : undefined}
 		aria-describedby={errorText || helpText ? helpTextId : undefined}
 	>
 		{#if isFloatLabel && label}
