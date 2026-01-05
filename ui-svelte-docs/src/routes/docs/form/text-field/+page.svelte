@@ -233,24 +233,6 @@
 </Section>
 
 <Section>
-	<p class="section-subtitle">Sizes</p>
-	<Card color="background" variant="outlined">
-		{#each variantOptions as item}
-			<div class="wrap gap-4 center">
-				{#each sizeOptions as sizeItem}
-					<TextField
-						variant={item.id as any}
-						size={sizeItem.id as any}
-						placeholder={item.label + ' ' + sizeItem.label}
-						rootClass="max-w-xs"
-					/>
-				{/each}
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
 	<p class="section-subtitle">With Icons & Text</p>
 	<Card color="background" variant="outlined">
 		<div class="wrap gap-4 center">

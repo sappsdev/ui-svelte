@@ -9,7 +9,7 @@
 	}
 
 	.btn-label {
-		@apply w-full truncate;
+		@apply truncate;
 	}
 
 	.btn-loading {
