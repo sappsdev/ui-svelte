@@ -152,7 +152,7 @@
 			id={`${uid}-{name}`}
 			class={cn(
 				'control-input',
-				isFloatLabel && !isActive && !isFocused && value == '' && 'invisible',
+				isFloatLabel && !isActive && !isFocused && value == '' && 'is-invisible',
 				controlClass
 			)}
 			{placeholder}

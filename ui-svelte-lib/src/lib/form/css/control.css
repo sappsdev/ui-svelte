@@ -253,6 +253,10 @@
 	.control-input {
 		@apply appearance-none flex-1 border-none outline-none truncate;
 		@apply placeholder:transition-opacity placeholder:duration-300;
+
+		&.is-invisible {
+			@apply opacity-0;
+		}
 	}
 
 	.control-input,

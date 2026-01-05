@@ -1,7 +1,7 @@
 @layer components {
 	.bd-glow {
 		position: relative;
-		border: 1px solid transparent;
+		border: 1px solid transparent !important;
 		box-shadow:
 			0 0 8px var(--bd-color, var(--primary)),
 			0 0 16px color-mix(in oklch, var(--bd-color, var(--primary)) 50%, transparent);
@@ -17,7 +17,7 @@
 
 	.bd-neon {
 		position: relative;
-		border: 2px solid var(--bd-color, var(--secondary));
+		border: 2px solid var(--bd-color, var(--secondary)) !important;
 		box-shadow:
 			0 0 5px var(--bd-color, var(--secondary)),
 			0 0 10px var(--bd-color, var(--secondary)),
@@ -46,11 +46,11 @@
 
 	.bd-grad {
 		position: relative;
-		border: 2px solid transparent;
+		border: 2px solid transparent !important;
 		background:
 			linear-gradient(var(--background), var(--background)) padding-box,
 			linear-gradient(135deg, var(--bd-from, var(--primary)), var(--bd-to, var(--secondary)))
-				border-box;
+				border-box !important;
 		transition: all 0.3s ease;
 	}
 
@@ -60,9 +60,10 @@
 
 	.bd-rainbow {
 		position: relative;
-		border: none;
+		border: none !important;
 		overflow: hidden;
 		background: var(--background);
+		isolation: isolate;
 	}
 
 	.bd-rainbow::before {
@@ -104,7 +105,7 @@
 	.bd-shimmer {
 		position: relative;
 		overflow: hidden;
-		border: 2px solid color-mix(in oklch, var(--bd-color, var(--primary)) 40%, transparent);
+		border: 2px solid color-mix(in oklch, var(--bd-color, var(--primary)) 40%, transparent) !important;
 	}
 
 	.bd-shimmer::before {
@@ -143,7 +144,7 @@
 
 	.bd-pulse {
 		position: relative;
-		border: 2px solid var(--bd-color, var(--primary));
+		border: 2px solid var(--bd-color, var(--primary)) !important;
 	}
 
 	.bd-pulse::after {
@@ -170,9 +171,10 @@
 
 	.bd-wave {
 		position: relative;
-		border: none;
+		border: none !important;
 		overflow: hidden;
 		background: var(--background);
+		isolation: isolate;
 	}
 
 	.bd-wave::before {
@@ -211,7 +213,7 @@
 
 	.bd-frost {
 		position: relative;
-		border: 1px solid color-mix(in oklch, var(--bd-color, var(--info)) 50%, white);
+		border: 1px solid color-mix(in oklch, var(--bd-color, var(--info)) 50%, white) !important;
 		box-shadow:
 			0 0 10px color-mix(in oklch, var(--bd-color, var(--info)) 30%, white),
 			inset 0 0 20px color-mix(in oklch, var(--bd-color, var(--info)) 10%, white);
@@ -227,7 +229,7 @@
 
 	.bd-ember {
 		position: relative;
-		border: 2px solid var(--danger);
+		border: 2px solid var(--danger) !important;
 		box-shadow:
 			0 0 10px var(--warning),
 			0 0 20px var(--danger),
@@ -253,7 +255,7 @@
 
 	.bd-laser {
 		position: relative;
-		border: 1px solid color-mix(in oklch, var(--bd-color, var(--primary)) 30%, transparent);
+		border: 1px solid color-mix(in oklch, var(--bd-color, var(--primary)) 30%, transparent) !important;
 		overflow: hidden;
 	}
 
@@ -310,7 +312,7 @@
 	}
 
 	.bd-solid {
-		border: 2px solid var(--bd-color, var(--on-background));
+		border: 2px solid var(--bd-color, var(--on-background)) !important;
 		transition: all 0.3s ease;
 	}
 
@@ -331,7 +333,7 @@
 				repeat-y,
 			linear-gradient(0deg, var(--bd-color, var(--primary)) 50%, transparent 50%) right/2px 10px
 				repeat-y;
-		border: none;
+		border: none !important;
 		background-size:
 			20px 2px,
 			20px 2px,

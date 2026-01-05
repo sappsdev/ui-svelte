@@ -222,7 +222,7 @@
 		@apply min-h-12;
 		resize: none;
 
-		&.invisible {
+		&.is-invisible {
 			@apply opacity-0;
 		}
 

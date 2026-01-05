@@ -122,7 +122,7 @@
 			class={cn(
 				'textarea-control-input',
 				isResize && 'is-resizable',
-				isFloatLabel && !isActive && !isFocused && value == '' && 'invisible',
+				isFloatLabel && !isActive && !isFocused && value == '' && 'is-invisible',
 				controlClass
 			)}
 			{placeholder}
