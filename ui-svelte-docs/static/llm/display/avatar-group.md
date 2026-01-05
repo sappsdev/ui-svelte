@@ -17,6 +17,7 @@ import {AvatarGroup} from 'ui-svelte';
 | `variant`    | `'solid' \| 'soft'`                                                                   | `'solid'`   | Visual style                             |
 | `size`       | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                                | `'md'`      | Avatar size                              |
 | `max`        | `number`                                                                              | -           | Max visible avatars (shows "+N" counter) |
+| `autoFit`    | `boolean`                                                                             | `false`     | Auto-fit avatars to container width      |
 | `isInline`   | `boolean`                                                                             | `false`     | Inline layout (no overlap)               |
 | `isBordered` | `boolean`                                                                             | `false`     | Show border on avatars                   |
 
@@ -57,6 +58,12 @@ import {AvatarGroup} from 'ui-svelte';
 <AvatarGroup items={users} max={4} />
 ```
 
+### Auto Fit (Responsive)
+
+```svelte
+<AvatarGroup items={users} autoFit />
+```
+
 ### Initials Only
 
 ```svelte
@@ -67,6 +74,7 @@ import {AvatarGroup} from 'ui-svelte';
 
 - Default layout is stacked (overlapping avatars)
 - `max` prop shows "+N" counter for hidden avatars
+- `autoFit` uses ResizeObserver to dynamically fit avatars to container width
 - All avatars share the same `color`, `variant`, and `size`
 
 ## Component References

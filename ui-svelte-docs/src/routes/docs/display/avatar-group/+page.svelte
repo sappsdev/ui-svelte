@@ -38,6 +38,7 @@
 	let size: any = $state('md');
 	let max: any = $state('');
 
+	let autoFit = $state(false);
 	let isInline = $state(false);
 	let isBordered = $state(false);
 
@@ -59,9 +60,15 @@
 	];
 
 	let hasProps = $derived(
-		[color !== 'primary', variant !== 'solid', size !== 'md', max, isInline, isBordered].some(
-			Boolean
-		)
+		[
+			color !== 'primary',
+			variant !== 'solid',
+			size !== 'md',
+			max,
+			autoFit,
+			isInline,
+			isBordered
+		].some(Boolean)
 	);
 
 	let code = $derived(() => {
@@ -85,6 +92,7 @@
 			variant !== 'solid' && `\tvariant="${variant}"`,
 			size !== 'md' && `\tsize="${size}"`,
 			max && `\tmax={${max}}`,
+			autoFit && `\tautoFit`,
 			isInline && `\tisInline`,
 			isBordered && `\tisBordered`,
 			`/>`
@@ -107,6 +115,7 @@
 		},
 		{ prop: 'size', type: 'xs | sm | md | lg | xl', initial: 'md' },
 		{ prop: 'max', type: 'number', initial: '' },
+		{ prop: 'autoFit', type: 'boolean', initial: 'false' },
 		{ prop: 'isInline', type: 'boolean', initial: 'false' },
 		{ prop: 'isBordered', type: 'boolean', initial: 'false' },
 		{ prop: 'class', type: 'string', initial: '' }
@@ -166,6 +175,7 @@
 			/>
 		</div>
 		<div class="grid-2 md:grid-4 gap-2">
+			<Checkbox bind:checked={autoFit} label="Auto Fit" />
 			<Checkbox bind:checked={isInline} label="Inline" />
 			<Checkbox bind:checked={isBordered} label="Bordered" />
 		</div>
@@ -177,6 +187,7 @@
 				{variant}
 				{size}
 				max={max ? parseInt(max) : undefined}
+				{autoFit}
 				{isInline}
 				{isBordered}
 			/>
@@ -222,6 +233,27 @@
 			<div class="stack gap-2 center">
 				<AvatarGroup items={sampleItems} max={5} />
 				<span class="text-sm">max=5</span>
+			</div>
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Auto Fit</p>
+	<Card color="background" variant="outlined">
+		<p class="text-sm mb-4">
+			Use the <code>autoFit</code> prop to automatically show only the avatars that fit in the container.
+			Remaining avatars are added to the counter. Resize the container to see it in action.
+		</p>
+		<div class="wrap gap-8 center">
+			<div class="stack gap-2 w-full">
+				<div
+					class="p-4 bd-default rounded-lg resize-x overflow-auto"
+					style="max-width: 300px; min-width: 100px;"
+				>
+					<AvatarGroup items={sampleItems} autoFit />
+				</div>
+				<span class="text-sm">↔ Drag to resize</span>
 			</div>
 		</div>
 	</Card>

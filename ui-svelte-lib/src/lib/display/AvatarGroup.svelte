@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { Avatar } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
-	import Avatar from './Avatar.svelte';
 
 	type AvatarItem = {
 		src?: string;
@@ -17,6 +17,7 @@
 		variant?: 'solid' | 'soft';
 		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 		max?: number;
+		autoFit?: boolean;
 		isInline?: boolean;
 		isBordered?: boolean;
 		classRoot?: string;
@@ -30,6 +31,7 @@
 		color = 'primary',
 		size = 'md',
 		max,
+		autoFit = false,
 		isInline,
 		isBordered,
 		classRoot,
@@ -37,11 +39,83 @@
 		classCounter
 	}: Props = $props();
 
-	const visibleItems = $derived(max && max < items.length ? items.slice(0, max) : items);
-	const remainingCount = $derived(max && max < items.length ? items.length - max : 0);
+	const avatarSizes: Record<string, number> = {
+		xs: 24,
+		sm: 32,
+		md: 40,
+		xl: 64
+	};
+
+	const counterSizes: Record<string, number> = {
+		xs: 20,
+		sm: 24,
+		md: 28,
+		lg: 40,
+		xl: 56
+	};
+
+	const OVERLAP = 12;
+	const GAP_INLINE = 8;
+
+	let containerRef: HTMLDivElement | null = $state(null);
+	let autoFitMax: number | null = $state(null);
+
+	function calculateFitCount(containerWidth: number): number {
+		const avatarSize = avatarSizes[size];
+		const counterSize = counterSizes[size];
+
+		if (isInline) {
+			const gap = GAP_INLINE;
+			const reservedForCounter = counterSize + gap;
+			const availableWidth = containerWidth - reservedForCounter;
+
+			if (availableWidth < avatarSize) return 1;
+
+			const firstAvatar = avatarSize;
+			const subsequentAvatar = avatarSize + gap;
+
+			const count = 1 + Math.floor((availableWidth - firstAvatar) / subsequentAvatar);
+			return Math.max(1, count);
+		} else {
+			const reservedForCounter = counterSize - OVERLAP;
+			const availableWidth = containerWidth - reservedForCounter;
+
+			if (availableWidth < avatarSize) return 1;
+
+			const firstAvatar = avatarSize;
+			const subsequentAvatar = avatarSize - OVERLAP;
+
+			const count = 1 + Math.floor((availableWidth - firstAvatar) / subsequentAvatar);
+			return Math.max(1, count);
+		}
+	}
+
+	$effect(() => {
+		if (!autoFit || !containerRef) return;
+
+		const observer = new ResizeObserver((entries) => {
+			for (const entry of entries) {
+				const width = entry.contentRect.width;
+				const fitCount = calculateFitCount(width);
+				autoFitMax = fitCount < items.length ? fitCount : null;
+			}
+		});
+
+		observer.observe(containerRef);
+
+		return () => observer.disconnect();
+	});
+
+	const effectiveMax = $derived(autoFit && autoFitMax !== null ? autoFitMax : max);
+	const visibleItems = $derived(
+		effectiveMax && effectiveMax < items.length ? items.slice(0, effectiveMax) : items
+	);
+	const remainingCount = $derived(
+		effectiveMax && effectiveMax < items.length ? items.length - effectiveMax : 0
+	);
 </script>
 
-<div class={cn('avatar-group', !isInline && 'is-stacked', classRoot)}>
+<div bind:this={containerRef} class={cn('avatar-group', !isInline && 'is-stacked', classRoot)}>
 	{#each visibleItems as item, i}
 		<Avatar
 			src={item.src}
