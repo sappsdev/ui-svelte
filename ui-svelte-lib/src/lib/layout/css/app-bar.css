@@ -1,6 +1,6 @@
 @layer components {
 	.appbar {
-		@apply w-full z-30 transition-all duration-300;
+		@apply w-full z-30 transition-all duration-300 relative;
 		padding-top: env(safe-area-inset-top, 0px);
 
 		&.is-sticky {
@@ -110,6 +110,26 @@
 
 			.appbar-end {
 				@apply flex flex-nowrap justify-end items-center p-3 gap-3 relative;
+			}
+		}
+
+		.appbar-popover {
+			@apply absolute left-0 right-0 w-full;
+			@apply transition-all duration-300 ease-in-out;
+			@apply flex flex-col gap-2 p-3;
+			@apply bg-inherit;
+			@apply shadow-lg shadow-muted/20;
+			@apply rounded-b-box;
+			top: 100%;
+			z-index: 9999;
+			opacity: 0;
+			visibility: hidden;
+			transform: translateY(-0.5rem);
+
+			&.is-open {
+				opacity: 1;
+				visibility: visible;
+				transform: translateY(0);
 			}
 		}
 	}

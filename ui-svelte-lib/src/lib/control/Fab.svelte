@@ -10,6 +10,8 @@
 		icon: IconData;
 		label?: string;
 		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+		href?: string;
+		target?: '_blank' | '_self' | '_parent' | '_top';
 		onclick?: () => void;
 	};
 
@@ -80,16 +82,30 @@
 					style="--fab-action-index: {index}; --fab-action-delay: {index * 50}ms"
 					transition:slide={{ duration: 150, delay: index * 50 }}
 				>
-					{#if action.label}
-						<span class="fab-action-label">{action.label}</span>
+					{#if action.href}
+						<a
+							href={action.href}
+							target={action.target}
+							class="fab-action-link"
+							onclick={() => handleActionClick(action)}
+						>
+							{#if action.label}
+								<span class="fab-action-label">{action.label}</span>
+							{/if}
+							<IconButton icon={action.icon} color={action.color ?? 'muted'} {variant} size="md" />
+						</a>
+					{:else}
+						{#if action.label}
+							<span class="fab-action-label">{action.label}</span>
+						{/if}
+						<IconButton
+							icon={action.icon}
+							color={action.color ?? 'muted'}
+							{variant}
+							size="md"
+							onclick={() => handleActionClick(action)}
+						/>
 					{/if}
-					<IconButton
-						icon={action.icon}
-						color={action.color ?? 'muted'}
-						{variant}
-						size="md"
-						onclick={() => handleActionClick(action)}
-					/>
 				</div>
 			{/each}
 		</div>

@@ -31,7 +31,7 @@
 		<p class="text-sm text-on-muted mb-4">
 			Navigate to your project directory and add Tailwind CSS using the Svelte CLI.
 		</p>
-		<Code code="cd project-name && bunx sv add tailwind" lang="bash" />
+		<Code code="bunx sv add tailwind" lang="bash" />
 	</Card>
 </Section>
 
@@ -49,7 +49,7 @@
 	<p class="section-subtitle">Configure your CSS file</p>
 	<Card color="background" variant="outlined">
 		<p class="text-sm text-on-muted mb-4">
-			Create or update your <code>src/app.css</code> file with the following configuration. This includes
+			Create or update your <code>src/routes/layout.css</code> file with the following configuration. This includes
 			Tailwind CSS, ui-svelte styles, and theme color variables.
 		</p>
 		<Code
@@ -139,7 +139,7 @@
 			code={`<script lang="ts">
   import { Provider } from 'ui-svelte';
   import '@fontsource-variable/montserrat';
-  import '../app.css';
+  import './layout.css';
 
   let { children } = $props();
 <\/script>
@@ -173,7 +173,7 @@
 		<p class="font-medium mb-2">Install the font package:</p>
 		<Code code="bun add @fontsource-variable/montserrat" lang="bash" />
 
-		<p class="font-medium mt-6 mb-2">Add the font-family to your <code>src/app.css</code>:</p>
+		<p class="font-medium mt-6 mb-2">Add the font-family to your <code>src/routes/layout.css</code>:</p>
 		<Code
 			code={`body {
   font-family: 'Montserrat Variable', sans-serif;

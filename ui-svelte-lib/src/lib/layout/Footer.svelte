@@ -21,7 +21,7 @@
 			| 'warning'
 			| 'danger'
 			| 'surface'
-			| 'default';
+			| 'background';
 		variant?: 'solid' | 'soft';
 		isBlurred?: boolean;
 		isBordered?: boolean;
@@ -38,8 +38,8 @@
 		startClass,
 		centerClass,
 		endClass,
-		color = 'default',
-		variant = 'soft',
+		color = 'surface',
+		variant = 'solid',
 		isBordered,
 		isBlurred,
 		isBoxed,
@@ -62,7 +62,7 @@
 		warning: 'is-warning',
 		danger: 'is-danger',
 		surface: 'is-surface',
-		default: 'is-default'
+		background: 'is-background'
 	};
 
 	const variants = {

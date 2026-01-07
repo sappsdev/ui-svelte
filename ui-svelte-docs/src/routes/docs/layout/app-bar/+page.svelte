@@ -8,7 +8,8 @@
 		Select,
 		NavMenu,
 		Dropdown,
-		IconButton
+		IconButton,
+		SideNav
 	} from 'ui-svelte';
 	import {
 		HomeLinearIcon,
@@ -17,7 +18,9 @@
 		List24RegularIcon,
 		Search24RegularIcon,
 		HeartLinearIcon,
-		LayoutDashboardIcon
+		LayoutDashboardIcon,
+		DocumentLinearIcon,
+		ChartLinearIcon
 	} from '$lib/icons';
 	import DocsHeader from '$lib/components/DocsHeader.svelte';
 	import DocsProps from '$lib/components/DocsProps.svelte';
@@ -49,6 +52,7 @@
 	let isFloating = $state(false);
 	let isBoxed = $state(false);
 	let hideOnScroll = $state(false);
+	let popoverOpen = $state(false);
 	let solidOnScroll = $state(false);
 
 	const navItems = [
@@ -129,10 +133,22 @@
 		return [...scriptLines, ...componentLines].join('\n');
 	});
 
+	const mobileMenuItems: any[] = [
+		{ type: 'header', label: 'Navigation' },
+		{ type: 'divider' },
+		{ label: 'Home', href: '#', icon: HomeLinearIcon },
+		{ label: 'Products', href: '#', icon: DocumentLinearIcon },
+		{ label: 'Analytics', href: '#', icon: ChartLinearIcon },
+		{ label: 'Settings', href: '#', icon: Settings24RegularIcon }
+	];
+
 	const props = [
 		{ prop: 'start', type: 'Snippet', initial: '' },
 		{ prop: 'center', type: 'Snippet', initial: '' },
 		{ prop: 'end', type: 'Snippet', initial: '' },
+		{ prop: 'popoverContent', type: 'Snippet', initial: '' },
+		{ prop: 'popoverOpen', type: 'boolean', initial: 'false' },
+		{ prop: 'popoverClass', type: 'string', initial: '' },
 		{
 			prop: 'color',
 			type: 'primary | secondary | muted | success | info | warning | danger | surface | default',
@@ -225,29 +241,6 @@
 </Section>
 
 <Section>
-	<p class="section-subtitle">Variants & Colors</p>
-	<Card color="background" variant="outlined">
-		{#each variantOptions as item}
-			<div class="wrap gap-4 center">
-				{#each colorOptions as c}
-					<AppBar variant={item.id as any} color={c.id as any} rootClass="w-full max-w-md">
-						{#snippet start()}
-							<IconButton icon={List24RegularIcon} variant="ghost" color="muted" size="sm" />
-						{/snippet}
-						{#snippet center()}
-							<span class="text-sm font-medium">{item.label} {c.label}</span>
-						{/snippet}
-						{#snippet end()}
-							<IconButton icon={Search24RegularIcon} variant="ghost" color="muted" size="sm" />
-						{/snippet}
-					</AppBar>
-				{/each}
-			</div>
-		{/each}
-	</Card>
-</Section>
-
-<Section>
 	<p class="section-subtitle">With Navigation Menu</p>
 	<Card color="background" variant="outlined">
 		<AppBar color="surface" variant="soft" isBordered>
@@ -281,6 +274,33 @@
 			{/snippet}
 		</AppBar>
 	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">Mobile Popover Menu</p>
+	<p class="mb-4">
+		Use the popover feature to show a slide-down menu, ideal for mobile navigation.
+	</p>
+
+	<AppBar color="surface" variant="soft" isBordered bind:popoverOpen>
+		{#snippet start()}
+			<IconButton
+				icon={List24RegularIcon}
+				variant="ghost"
+				color="muted"
+				onclick={() => (popoverOpen = !popoverOpen)}
+			/>
+		{/snippet}
+		{#snippet center()}
+			<span class="text-sm font-semibold">My App</span>
+		{/snippet}
+		{#snippet end()}
+			<IconButton icon={Search24RegularIcon} variant="ghost" color="muted" />
+		{/snippet}
+		{#snippet popoverContent()}
+			<SideNav items={mobileMenuItems} isWide />
+		{/snippet}
+	</AppBar>
 </Section>
 
 <Section>

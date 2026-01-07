@@ -414,10 +414,10 @@
 <Section>
 	<Card color="background" variant="outlined">
 		<div class="row gap-2 mb-4">
-			<Button variant="outlined" size="sm" onclick={() => (showCssDrawer = true)}
+			<Button size="sm" onclick={() => (showCssDrawer = true)}
 				>Generate CSS</Button
 			>
-			<Button variant="outlined" size="sm" onclick={resetColors}>Reset Colors</Button>
+			<Button color="danger" size="sm" onclick={resetColors}>Reset Colors</Button>
 		</div>
 
 		<div class="doc-preview">
@@ -647,9 +647,9 @@
 
 <Drawer bind:open={showCssDrawer} position="end" onclose={() => (showCssDrawer = false)}>
 	{#snippet header()}
-		<h3 class="text-lg font-semibold">Generated app.css</h3>
+		<h3 class="text-lg font-semibold">Generated layout.css</h3>
 		<p class="text-sm text-on-muted mt-1">
-			Copy this CSS file to your <code>src/app.css</code> to apply your custom theme colors
+			Copy this CSS file to your <code>src/routes/layout.css</code> to apply your custom theme colors
 		</p>
 	{/snippet}
 

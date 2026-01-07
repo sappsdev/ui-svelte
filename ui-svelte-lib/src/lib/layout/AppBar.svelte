@@ -2,11 +2,15 @@
 	import { cn } from '$lib/utils/class-names.js';
 	import { useScroll } from '$lib/hooks/use-scroll.svelte.js';
 	import type { Snippet } from 'svelte';
+	import { afterNavigate } from '$app/navigation';
 
 	type Props = {
 		start?: Snippet;
 		center?: Snippet;
 		end?: Snippet;
+		popoverContent?: Snippet;
+		popoverOpen?: boolean;
+		popoverClass?: string;
 		rootClass?: string;
 		contentClass?: string;
 		startClass?: string;
@@ -33,10 +37,13 @@
 		isBoxed?: boolean;
 	};
 
-	const {
+	let {
 		start,
 		center,
 		end,
+		popoverContent,
+		popoverOpen = $bindable(false),
+		popoverClass,
 		rootClass,
 		contentClass,
 		startClass,
@@ -77,6 +84,14 @@
 		solid: 'is-solid',
 		soft: 'is-soft'
 	};
+
+	$effect(() => {
+		afterNavigate(() => {
+			if (popoverOpen) {
+				popoverOpen = false;
+			}
+		});
+	});
 
 	$effect(() => {
 		if (headerElement) {
@@ -124,6 +139,7 @@
 		isSticky && 'is-sticky',
 		isFloating && 'is-floating-enabled',
 		isFloatingActive && 'is-floating',
+		popoverContent && 'has-popover',
 		rootClass
 	)}
 >
@@ -144,4 +160,10 @@
 			</div>
 		{/if}
 	</div>
+
+	{#if popoverContent}
+		<div class={cn('appbar-popover', popoverOpen && 'is-open', popoverClass)}>
+			{@render popoverContent()}
+		</div>
+	{/if}
 </header>

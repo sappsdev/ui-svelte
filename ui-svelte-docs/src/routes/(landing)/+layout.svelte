@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { GithubIconIcon, Heart24RegularIcon, List24RegularIcon } from '$lib/icons';
+	import {
+		CloseRegularIcon,
+		GithubIconIcon,
+		Heart24RegularIcon,
+		List24RegularIcon
+	} from '$lib/icons';
 	import { storeApp } from '$lib/store/store.svelte';
 	import { onMount } from 'svelte';
 	import {
@@ -102,14 +107,15 @@
 			isBordered
 			borderOnScrollOnly
 			centerClass="hidden lg:flex"
+			bind:popoverOpen={openMenu}
 		>
 			{#snippet start()}
 				<IconButton
-					icon={List24RegularIcon}
+					icon={openMenu ? CloseRegularIcon : List24RegularIcon}
 					variant="ghost"
 					color="secondary"
 					class="md:hidden"
-					onclick={() => (openMenu = true)}
+					onclick={() => (openMenu = !openMenu)}
 				/>
 				<a href="/">
 					<h4 class="heading-lg">UiSvelte</h4>
@@ -124,8 +130,12 @@
 					icon={GithubIconIcon}
 					variant="ghost"
 					color="secondary"
+					target="_blank"
 					href="https://github.com/sappsdev/ui-svelte"
 				/>
+			{/snippet}
+			{#snippet popoverContent()}
+				<Button href="/docs" isWide>Go to Docs</Button>
 			{/snippet}
 		</AppBar>
 	{/snippet}
@@ -142,10 +152,3 @@
 		{/snippet}
 	</Footer>
 </Scaffold>
-<Drawer bind:open={openMenu} position="top">
-	{#each menuItems as item}
-		<Button variant="ghost" isWide href={item.href}>
-			{item.label}
-		</Button>
-	{/each}
-</Drawer>

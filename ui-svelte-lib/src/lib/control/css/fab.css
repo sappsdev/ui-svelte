@@ -81,4 +81,8 @@
 		@apply ml-3 px-3 py-1.5 text-sm font-medium whitespace-nowrap;
 		@apply bg-surface text-on-surface rounded-ui shadow-md;
 	}
+
+	.fab-action-link {
+		@apply flex items-center no-underline;
+	}
 }

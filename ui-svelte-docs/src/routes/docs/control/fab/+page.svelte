@@ -117,6 +117,8 @@
 			type: 'primary | secondary | muted | success | info | danger | warning',
 			initial: ''
 		},
+		{ prop: 'href', type: 'string', initial: '' },
+		{ prop: 'target', type: "'_blank' | '_self' | '_parent' | '_top'", initial: '' },
 		{ prop: 'onclick', type: '() => void', initial: '' }
 	];
 </script>

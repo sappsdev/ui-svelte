@@ -1,4 +1,5 @@
 import {
+	ArrowSyncCheckmarkRegularIcon,
 	Form24RegularIcon,
 	HandDraw24RegularIcon,
 	LayoutColumnOneThirdRight24RegularIcon,
@@ -195,7 +196,7 @@ export const sideMenuItems: SideNavItem[] = [
 			{
 				label: 'Table',
 				href: '/docs/display/table'
-			},
+			}
 		]
 	},
 	{
@@ -371,7 +372,7 @@ export const sideMenuItems: SideNavItem[] = [
 			{
 				label: 'Tabs',
 				href: '/docs/navigation/tabs'
-			},
+			}
 		]
 	},
 	{
@@ -403,6 +404,18 @@ export const sideMenuItems: SideNavItem[] = [
 			{
 				label: 'Pie',
 				href: '/docs/charts/pie'
+			}
+		]
+	},
+	{
+		type: 'submenu',
+		icon: ArrowSyncCheckmarkRegularIcon,
+		label: 'Hooks',
+		open: true,
+		subitems: [
+			{
+				label: 'useBreakpoint',
+				href: '/docs/hooks/use-breakpoint'
 			}
 		]
 	}

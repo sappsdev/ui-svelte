@@ -105,6 +105,7 @@ import { useAuth } from './hooks/use-auth.svelte.js';
 import { theme } from './stores/theme.svelte.js';
 import { useSearch } from './hooks/use-search.svelte.js';
 import { useChat } from './hooks/use-chat.svelte.js';
+import { useBreakpoint } from './hooks/use-breakpoint.svelte.js';
 
 export {
 	AreaChart,
@@ -193,6 +194,7 @@ export {
 	ToggleTheme,
 	Tooltip,
 	useAuth,
+	useBreakpoint,
 	useChat,
 	useClipboard,
 	useFetch,
@@ -205,4 +207,16 @@ export {
 	Video
 };
 
-export type { IconData, SideNavItem, SideNavSubItem, DragDropItem, DragDropGroup, PromptMessage, PromptState, LatLng, MapMarker, RouteInfo, FabAction };
+export type {
+	IconData,
+	SideNavItem,
+	SideNavSubItem,
+	DragDropItem,
+	DragDropGroup,
+	PromptMessage,
+	PromptState,
+	LatLng,
+	MapMarker,
+	RouteInfo,
+	FabAction
+};

@@ -30,13 +30,15 @@
 			icon: HeartLinearIcon,
 			label: 'PayPal',
 			color: 'info',
-			onclick: () => window.open('https://www.paypal.com/paypalme/funderideas', '_blank')
+			href: 'https://www.paypal.com/paypalme/funderideas',
+			target: '_blank'
 		},
 		{
 			icon: GithubIconIcon,
 			label: 'Sponsor',
 			color: 'secondary',
-			onclick: () => window.open('https://github.com/sponsors/sappsdev', '_blank')
+			href: 'https://github.com/sponsors/sappsdev',
+			target: '_blank'
 		}
 	];
 
@@ -161,6 +163,7 @@
 					icon={GithubIconIcon}
 					variant="ghost"
 					color="secondary"
+					target="_blank"
 					href="https://github.com/sappsdev/ui-svelte"
 				/>
 			{/snippet}
@@ -177,7 +180,10 @@
 	{@render children()}
 	<div class="pb-24"></div>
 </Scaffold>
-<Drawer bind:open={drawerOpen} onclose={() => (drawerOpen = false)} class="w-56">
+<Drawer bind:open={drawerOpen} onclose={() => (drawerOpen = false)} class="w-64">
+	{#snippet header()}
+		<Button href="/" isWide>Go to Home</Button>
+	{/snippet}
 	<SideNav items={sideMenuItems} />
 </Drawer>
 <Command

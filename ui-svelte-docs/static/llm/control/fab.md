@@ -35,12 +35,14 @@ import { Camera24RegularIcon, Send24RegularIcon } from '$lib/icons'; // Optional
 
 ## FabAction Type
 
-| Prop      | Type                                                                                  | Description         |
-| --------- | ------------------------------------------------------------------------------------- | ------------------- |
-| `icon`    | `IconData`                                                                            | Action button icon  |
-| `label`   | `string`                                                                              | Optional text label |
-| `color`   | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | Action color        |
-| `onclick` | `() => void`                                                                          | Action handler      |
+| Prop      | Type                                                                                  | Description                                       |
+| --------- | ------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| `icon`    | `IconData`                                                                            | Action button icon                                |
+| `label`   | `string`                                                                              | Optional text label                               |
+| `color`   | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | Action color                                      |
+| `href`    | `string`                                                                              | Link URL (makes label and icon clickable as link) |
+| `target`  | `'_blank' \| '_self' \| '_parent' \| '_top'`                                          | Link target attribute                             |
+| `onclick` | `() => void`                                                                          | Action handler                                    |
 
 ## Patterns
 
@@ -120,6 +122,21 @@ Use `isBlock` for inline/static positioning (no `position: fixed`). Useful for d
 <Fab {actions} />
 ```
 
+### Actions as Links
+
+Use `href` to make action items work as links. Both the label and icon become clickable:
+
+````svelte
+<script>
+	const actions: FabAction[] = [
+		{ icon: PayPalIcon, label: 'PayPal', href: 'https://paypal.com', target: '_blank' },
+		{ icon: GitHubIcon, label: 'Sponsor', href: 'https://github.com/sponsors/...', target: '_blank' }
+	];
+</script>
+
+<Fab {actions} />
+```
+
 ### Actions Without Labels
 
 ```svelte
@@ -131,7 +148,7 @@ Use `isBlock` for inline/static positioning (no `position: fixed`). Useful for d
 </script>
 
 <Fab {actions} />
-```
+````
 
 ### Custom Trigger
 
