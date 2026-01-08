@@ -11,20 +11,25 @@ import { Camera24RegularIcon, Send24RegularIcon } from '$lib/icons'; // Optional
 
 ## Props
 
-| Prop       | Type                                                                                  | Default            | Description                   |
-| ---------- | ------------------------------------------------------------------------------------- | ------------------ | ----------------------------- |
-| `onclick`  | `() => void`                                                                          | -                  | Click handler                 |
-| `position` | `'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'`                        | `'bottom-right'`   | Screen corner position        |
-| `icon`     | `IconData`                                                                            | `Add24RegularIcon` | Trigger button icon           |
-| `color`    | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'primary'`        | Color theme                   |
-| `variant`  | `'solid' \| 'soft'`                                                                   | `'solid'`          | Visual style                  |
-| `size`     | `'sm' \| 'md' \| 'lg' \| 'xl'`                                                        | `'lg'`             | Button size                   |
-| `actions`  | `FabAction[]`                                                                         | `[]`               | Expandable action items       |
-| `isBlock`  | `boolean`                                                                             | `false`            | Static positioning (no fixed) |
-| `offsetX`  | `string`                                                                              | `'1rem'`           | Horizontal offset from edge   |
-| `offsetY`  | `string`                                                                              | `'1rem'`           | Vertical offset from edge     |
-| `class`    | `string`                                                                              | -                  | Additional classes            |
-| `children` | `Snippet`                                                                             | -                  | Custom trigger content        |
+| Prop         | Type                                                                                  | Default            | Description                   |
+| ------------ | ------------------------------------------------------------------------------------- | ------------------ | ----------------------------- |
+| `onclick`    | `() => void`                                                                          | -                  | Click handler                 |
+| `position`   | `'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'`                        | `'bottom-right'`   | Screen corner position        |
+| `icon`       | `IconData`                                                                            | `Add24RegularIcon` | Trigger button icon           |
+| `color`      | `'primary' \| 'secondary' \| 'muted' \| 'success' \| 'info' \| 'danger' \| 'warning'` | `'primary'`        | Color theme                   |
+| `variant`    | `'solid' \| 'soft'`                                                                   | `'solid'`          | Visual style                  |
+| `size`       | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                                | `'lg'`             | Button size                   |
+| `actions`    | `FabAction[]`                                                                         | `[]`               | Expandable action items       |
+| `isBlock`    | `boolean`                                                                             | `false`            | Static positioning (no fixed) |
+| `offsetX`    | `string`                                                                              | `'1rem'`           | Horizontal offset from edge   |
+| `offsetY`    | `string`                                                                              | `'1rem'`           | Vertical offset from edge     |
+| `class`      | `string`                                                                              | -                  | Additional classes            |
+| `children`   | `Snippet`                                                                             | -                  | Custom trigger content        |
+| `src`        | `string`                                                                              | -                  | Avatar image URL              |
+| `name`       | `string`                                                                              | -                  | Avatar name (shows initial)   |
+| `alt`        | `string`                                                                              | -                  | Avatar alt text               |
+| `status`     | `'online' \| 'offline' \| 'busy' \| 'away'`                                           | -                  | Avatar status indicator       |
+| `isBordered` | `boolean`                                                                             | `false`            | Avatar border                 |
 
 ## CSS Custom Properties
 
@@ -158,8 +163,55 @@ Use `href` to make action items work as links. Both the label and icon become cl
 </Fab>
 ```
 
+### With Avatar Image
+
+Use `src` to display an avatar image as the FAB trigger:
+
+```svelte
+<Fab src="https://i.pravatar.cc/150?img=32" size="xl" status="online" />
+```
+
+### With Avatar Name (Initial)
+
+Use `name` to display the first letter as the avatar:
+
+```svelte
+<Fab name="John Doe" color="secondary" size="xl" isBordered />
+```
+
+### Avatar with Status
+
+Combine avatar props with status indicators:
+
+```svelte
+<!-- Online status -->
+<Fab src="/avatar.jpg" status="online" size="lg" />
+
+<!-- Busy status with border -->
+<Fab src="/avatar.jpg" status="busy" isBordered size="xl" />
+
+<!-- Away status -->
+<Fab name="Jane" status="away" color="muted" />
+```
+
+### Avatar with Actions
+
+Combine avatar display with expandable actions:
+
+```svelte
+<script>
+	const actions: FabAction[] = [
+		{ icon: SettingsIcon, label: 'Settings', onclick: () => {} },
+		{ icon: LogoutIcon, label: 'Logout', onclick: () => {} }
+	];
+</script>
+
+<Fab src="/user-avatar.jpg" status="online" size="xl" {actions} />
+```
+
 ## Component References
 
 - **@see icons.md** - Icon usage with FAB
-- **@see IconButton** - FAB uses IconButton internally
+- **@see Avatar** - FAB uses Avatar internally for the trigger
+- **@see IconButton** - FAB uses IconButton for action items
 - **@see BottomNav** - Use offsetY to avoid overlapping

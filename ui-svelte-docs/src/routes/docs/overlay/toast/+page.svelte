@@ -98,7 +98,23 @@
 			initial: 'bottom-left'
 		},
 		{ prop: 'icon', type: 'IconData', initial: '' },
-		{ prop: 'id', type: 'string', initial: 'auto-generated' }
+		{ prop: 'id', type: 'string', initial: 'auto-generated' },
+		{ prop: 'src', type: 'string', initial: '', description: 'Avatar image URL' },
+		{ prop: 'name', type: 'string', initial: '', description: 'Avatar name (shows initial)' },
+		{ prop: 'alt', type: 'string', initial: '', description: 'Avatar alt text' },
+		{
+			prop: 'avatarSize',
+			type: 'xs | sm | md | lg | xl',
+			initial: 'md',
+			description: 'Avatar size'
+		},
+		{
+			prop: 'status',
+			type: 'online | offline | busy | away',
+			initial: '',
+			description: 'Avatar status indicator'
+		},
+		{ prop: 'isBordered', type: 'boolean', initial: 'false', description: 'Avatar border' }
 	];
 
 	const componentProps = [
@@ -214,6 +230,57 @@
 					</Button>
 				{/each}
 			{/each}
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">With Avatar</p>
+	<Card color="background" variant="outlined">
+		<div class="wrap gap-4 center">
+			<Button
+				color="info"
+				onclick={() =>
+					toast.show({
+						src: 'https://i.pravatar.cc/150?img=32',
+						title: 'New message',
+						description: 'John sent you a message.',
+						color: 'info',
+						status: 'online',
+						duration: 5000
+					})}
+			>
+				With Image
+			</Button>
+			<Button
+				color="success"
+				onclick={() =>
+					toast.show({
+						name: 'María García',
+						title: 'Friend request',
+						description: 'María wants to connect.',
+						color: 'success',
+						isBordered: true,
+						duration: 5000
+					})}
+			>
+				With Name
+			</Button>
+			<Button
+				color="warning"
+				onclick={() =>
+					toast.show({
+						src: 'https://i.pravatar.cc/150?img=5',
+						title: 'User busy',
+						description: 'This user is currently unavailable.',
+						color: 'warning',
+						status: 'busy',
+						avatarSize: 'lg',
+						duration: 5000
+					})}
+			>
+				With Status
+			</Button>
 		</div>
 	</Card>
 </Section>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import type { IconData } from '$lib/display/Icon.svelte';
-	import { IconButton } from '$lib/index.js';
+	import { Avatar, IconButton } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
 	import { Add24RegularIcon } from '$lib/icons/index.js';
 	import { slide } from 'svelte/transition';
@@ -21,7 +21,7 @@
 		icon?: IconData;
 		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
 		variant?: 'solid' | 'soft';
-		size?: 'sm' | 'md' | 'lg' | 'xl';
+		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 		actions?: FabAction[];
 		isBlock?: boolean;
 		offsetX?: string;
@@ -29,6 +29,11 @@
 		onclick?: () => void;
 		children?: Snippet;
 		ariaLabel?: string;
+		src?: string;
+		name?: string;
+		alt?: string;
+		status?: 'online' | 'offline' | 'busy' | 'away';
+		isBordered?: boolean;
 	};
 
 	const {
@@ -44,7 +49,12 @@
 		offsetY,
 		onclick,
 		children,
-		ariaLabel
+		ariaLabel,
+		src,
+		name,
+		alt,
+		status,
+		isBordered
 	}: Props = $props();
 
 	let isOpen = $state(false);
@@ -115,13 +125,17 @@
 		{#if children}
 			{@render children()}
 		{:else}
-			<IconButton
-				{icon}
+			<Avatar
+				{src}
+				{name}
+				{alt}
 				{color}
 				{variant}
 				{size}
+				{status}
+				{isBordered}
+				{icon}
 				onclick={handleTriggerClick}
-				ariaLabel={ariaLabel || (actions.length > 0 ? 'Open actions menu' : undefined)}
 			/>
 		{/if}
 	</div>

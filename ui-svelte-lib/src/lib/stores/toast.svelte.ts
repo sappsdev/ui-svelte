@@ -1,4 +1,4 @@
-import type { IconData } from "$lib/index.js";
+import type { IconData } from '$lib/index.js';
 
 export interface ToastMessage {
 	id: string;
@@ -9,6 +9,12 @@ export interface ToastMessage {
 	position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 	variant?: 'solid' | 'soft';
 	color: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
+	src?: string;
+	name?: string;
+	alt?: string;
+	avatarSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+	status?: 'online' | 'offline' | 'busy' | 'away';
+	isBordered?: boolean;
 }
 
 let toastMessages = $state<ToastMessage[]>([]);
@@ -28,7 +34,13 @@ const toastShow = (message: Omit<ToastMessage, 'id'> & { id?: string }) => {
 		duration: message.duration || 0,
 		icon: message.icon,
 		position: message.position,
-		variant: message.variant || 'soft'
+		variant: message.variant || 'soft',
+		src: message.src,
+		name: message.name,
+		alt: message.alt,
+		avatarSize: message.avatarSize || 'md',
+		status: message.status,
+		isBordered: message.isBordered
 	};
 
 	toastMessages = [...toastMessages, newMessage];

@@ -20,6 +20,7 @@
 	];
 
 	const sizeOptions = [
+		{ id: 'xs', label: 'xs' },
 		{ id: 'sm', label: 'sm' },
 		{ id: 'md', label: 'md' },
 		{ id: 'lg', label: 'lg' },
@@ -100,13 +101,23 @@
 			type: 'solid | soft',
 			initial: 'solid'
 		},
-		{ prop: 'size', type: 'sm | md | lg | xl', initial: 'lg' },
+		{ prop: 'size', type: 'xs | sm | md | lg | xl', initial: 'lg' },
 		{ prop: 'actions', type: 'FabAction[]', initial: '[]' },
 		{ prop: 'isBlock', type: 'boolean', initial: 'false' },
 		{ prop: 'offsetX', type: 'string', initial: '1rem' },
 		{ prop: 'offsetY', type: 'string', initial: '1rem' },
 		{ prop: 'class', type: 'string', initial: '' },
-		{ prop: 'children', type: 'Snippet', initial: '' }
+		{ prop: 'children', type: 'Snippet', initial: '' },
+		{ prop: 'src', type: 'string', initial: '', description: 'Avatar image URL' },
+		{ prop: 'name', type: 'string', initial: '', description: 'Avatar name (shows initial)' },
+		{ prop: 'alt', type: 'string', initial: '', description: 'Avatar alt text' },
+		{
+			prop: 'status',
+			type: 'online | offline | busy | away',
+			initial: '',
+			description: 'Avatar status indicator'
+		},
+		{ prop: 'isBordered', type: 'boolean', initial: 'false', description: 'Avatar border' }
 	];
 
 	const actionProps = [
@@ -218,6 +229,26 @@
 	<Card color="background" variant="outlined">
 		<div class="doc-preview" style="height: 350px; position: relative;">
 			<Fab {actions} position="bottom-right" isBlock />
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">With Avatar</p>
+	<Card color="background" variant="outlined">
+		<div class="wrap gap-6 center">
+			<!-- With image -->
+			<div class="relative" style="width: 80px; height: 80px;">
+				<Fab src="https://i.pravatar.cc/150?img=32" size="xl" status="online" isBlock />
+			</div>
+			<!-- With name (shows initial) -->
+			<div class="relative" style="width: 80px; height: 80px;">
+				<Fab name="John Doe" color="secondary" size="xl" isBordered isBlock />
+			</div>
+			<!-- With avatar and status -->
+			<div class="relative" style="width: 80px; height: 80px;">
+				<Fab src="https://i.pravatar.cc/150?img=5" size="xl" status="busy" isBordered isBlock />
+			</div>
 		</div>
 	</Card>
 </Section>

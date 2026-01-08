@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
 
-	import { Icon, IconButton, toast } from '$lib/index.js';
+	import { Avatar, IconButton, toast, type IconData } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
 	import { popover } from '$lib/utils/popover.js';
 	import {
@@ -11,6 +11,19 @@
 		Info24RegularIcon,
 		Warning24RegularIcon
 	} from '$lib/icons/index.js';
+
+	const DEFAULT_ICONS: Record<
+		'primary' | 'secondary' | 'muted' | 'info' | 'success' | 'warning' | 'danger',
+		IconData
+	> = {
+		primary: Info24RegularIcon,
+		secondary: Info24RegularIcon,
+		muted: Info24RegularIcon,
+		info: Info24RegularIcon,
+		success: CheckmarkCircle24RegularIcon,
+		warning: Warning24RegularIcon,
+		danger: DismissCircle24RegularIcon
+	};
 
 	type Props = {
 		class?: string;
@@ -75,16 +88,19 @@
 				)}
 				style="--toast-index: {index}; --toast-total: {toast.messages.length}"
 			>
-				{#if showIcon}
-					{#if message.color === 'info'}
-						<Icon icon={Info24RegularIcon} class="toast-icon" />
-					{:else if message.color === 'success'}
-						<Icon icon={CheckmarkCircle24RegularIcon} class="toast-icon" />
-					{:else if message.color === 'warning'}
-						<Icon icon={Warning24RegularIcon} class="toast-icon" />
-					{:else if message.color === 'danger'}
-						<Icon icon={DismissCircle24RegularIcon} class="toast-icon" />
-					{/if}
+				{#if showIcon || message.src || message.name}
+					<Avatar
+						src={message.src}
+						name={message.name}
+						alt={message.alt}
+						icon={message.icon ?? DEFAULT_ICONS[message.color as keyof typeof DEFAULT_ICONS]}
+						size={message.avatarSize || 'md'}
+						status={message.status}
+						isBordered={message.isBordered}
+						color={message.color}
+						variant={message.variant || variant}
+						class="toast-icon"
+					/>
 				{/if}
 				<div class="toast-content">
 					{#if message.title}

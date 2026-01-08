@@ -56,10 +56,30 @@
 		{ prop: 'title', type: 'string', initial: '' },
 		{ prop: 'description', type: 'string', initial: '' },
 		{ prop: 'children', type: 'Snippet', initial: '' },
-		{ prop: 'status', type: 'info | success | warning | danger', initial: 'info' },
+		{
+			prop: 'color',
+			type: 'primary | secondary | muted | success | info | danger | warning',
+			initial: 'info'
+		},
+		{ prop: 'variant', type: 'solid | soft', initial: 'soft' },
 		{ prop: 'showIcon', type: 'boolean', initial: 'false' },
 		{ prop: 'icon', type: 'IconData', initial: '' },
-		{ prop: 'isSolid', type: 'boolean', initial: 'false' }
+		{ prop: 'src', type: 'string', initial: '', description: 'Avatar image URL' },
+		{ prop: 'name', type: 'string', initial: '', description: 'Avatar name (shows initial)' },
+		{ prop: 'alt', type: 'string', initial: '', description: 'Avatar alt text' },
+		{
+			prop: 'avatarSize',
+			type: 'xs | sm | md | lg | xl',
+			initial: 'md',
+			description: 'Avatar size'
+		},
+		{
+			prop: 'status',
+			type: 'online | offline | busy | away',
+			initial: '',
+			description: 'Avatar status indicator'
+		},
+		{ prop: 'isBordered', type: 'boolean', initial: 'false', description: 'Avatar border' }
 	];
 </script>
 
@@ -136,6 +156,37 @@
 					showIcon
 				/>
 			{/each}
+		</div>
+	</Card>
+</Section>
+
+<Section>
+	<p class="section-subtitle">With Avatar</p>
+	<Card color="background" variant="outlined">
+		<div class="column gap-4">
+			<!-- With image -->
+			<Alert
+				src="https://i.pravatar.cc/150?img=32"
+				title="New message from John"
+				description="Hey! Just wanted to check in with you about the project."
+				color="info"
+				status="online"
+			/>
+			<Alert
+				name="María García"
+				title="Friend request"
+				description="María García wants to connect with you."
+				color="success"
+				isBordered
+			/>
+			<Alert
+				src="https://i.pravatar.cc/150?img=5"
+				title="User is busy"
+				description="This user is currently unavailable."
+				color="warning"
+				status="busy"
+				avatarSize="lg"
+			/>
 		</div>
 	</Card>
 </Section>

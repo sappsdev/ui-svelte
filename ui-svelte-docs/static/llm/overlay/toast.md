@@ -19,6 +19,12 @@ import {toast} from 'ui-svelte';
 | `duration`    | `number`                                                                              | `0`             | Auto-dismiss time in ms (0 = manual) |
 | `position`    | `'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'`                        | `'bottom-left'` | Screen position                      |
 | `icon`        | `IconData`                                                                            | -               | Custom icon                          |
+| `src`         | `string`                                                                              | -               | Avatar image URL                     |
+| `name`        | `string`                                                                              | -               | Avatar name (shows initial)          |
+| `alt`         | `string`                                                                              | -               | Avatar alt text                      |
+| `avatarSize`  | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                                | `'md'`          | Avatar size                          |
+| `status`      | `'online' \| 'offline' \| 'busy' \| 'away'`                                           | -               | Avatar status indicator              |
+| `isBordered`  | `boolean`                                                                             | `false`         | Avatar border                        |
 
 ## Store Methods
 
@@ -97,8 +103,72 @@ toast.show({
 });
 ```
 
+### With Avatar Image
+
+Use `src` to display an avatar image with the toast:
+
+```svelte
+toast.show({
+  src: '/user-avatar.jpg',
+  title: 'New message',
+  description: 'John sent you a message.',
+  color: 'info',
+  status: 'online',
+  duration: 5000
+});
+```
+
+### With Avatar Name (Initial)
+
+Use `name` to display the first letter as an avatar:
+
+```svelte
+toast.show({
+  name: 'María García',
+  title: 'Friend request',
+  description: 'María wants to connect with you.',
+  color: 'success',
+  isBordered: true,
+  duration: 5000
+});
+```
+
+### Avatar with Status
+
+Combine avatar props with status indicators:
+
+```svelte
+// Online user notification
+toast.show({
+  src: '/avatar.jpg',
+  title: 'User online',
+  description: 'John is now online.',
+  status: 'online',
+  color: 'success',
+  duration: 3000
+});
+
+// Busy user warning
+toast.show({
+  src: '/avatar.jpg',
+  title: 'User busy',
+  description: 'This user is currently unavailable.',
+  status: 'busy',
+  color: 'warning',
+  avatarSize: 'lg',
+  duration: 5000
+});
+```
+
 ## Notes
 
 - Use `duration: 0` for toasts that require manual dismissal
 - Default position is `bottom-left`
 - Store is reactive - `toast.messages` updates automatically
+- Use `src` or `name` to show an avatar instead of an icon
+- Avatar inherits `color` and `variant` from the toast
+
+## Component References
+
+- **@see Avatar** - Toast uses Avatar internally for the icon/avatar display
+- **@see Provider** - Configure default toast position, variant, and icon visibility

@@ -5,7 +5,7 @@
 		Info24RegularIcon,
 		Warning24RegularIcon
 	} from '$lib/icons/index.js';
-	import { Icon } from '$lib/index.js';
+	import { Avatar } from '$lib/index.js';
 	import { cn } from '$lib/utils/class-names.js';
 	import type { Snippet } from 'svelte';
 	import type { IconData } from './Icon.svelte';
@@ -18,6 +18,12 @@
 		icon?: IconData;
 		color?: 'primary' | 'secondary' | 'muted' | 'success' | 'info' | 'danger' | 'warning';
 		variant?: 'solid' | 'soft';
+		src?: string;
+		name?: string;
+		alt?: string;
+		avatarSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+		status?: 'online' | 'offline' | 'busy' | 'away';
+		isBordered?: boolean;
 	};
 
 	let {
@@ -27,7 +33,13 @@
 		showIcon,
 		icon,
 		color = 'info',
-		variant = 'soft'
+		variant = 'soft',
+		src,
+		name,
+		alt,
+		avatarSize = 'md',
+		status,
+		isBordered
 	}: Props = $props();
 
 	const colors = {
@@ -63,9 +75,20 @@
 </script>
 
 <div class={cn('alert', colors[color], variants[variant])}>
-	{#if showIcon}
+	{#if showIcon || src || name}
 		<div class="alert-start">
-			<Icon icon={currentIcon} class="alert-icon" />
+			<Avatar
+				{src}
+				{name}
+				{alt}
+				icon={currentIcon}
+				size={avatarSize}
+				{status}
+				{isBordered}
+				{color}
+				{variant}
+				class="alert-icon"
+			/>
 		</div>
 	{/if}
 
