@@ -59,7 +59,7 @@
     },
     "ui-svelte-lib": {
       "name": "ui-svelte",
-      "version": "0.2.13",
+      "version": "0.2.25",
       "devDependencies": {
         "@sveltejs/adapter-auto": "^6.1.0",
         "@sveltejs/kit": "^2.43.2",

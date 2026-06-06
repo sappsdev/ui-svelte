@@ -145,7 +145,7 @@
 				</a>
 			{/snippet}
 			{#snippet center()}
-				<NavMenu items={menuItems} />
+				<NavMenu items={menuItems} size="lg" />
 			{/snippet}
 			{#snippet end()}
 				<Button

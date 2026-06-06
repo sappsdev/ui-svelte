@@ -358,11 +358,11 @@
 	transition:
 		opacity 0.6s ease-out,
 		transform 0.6s ease-out;
-}
 
-@utility reveal.is-visible {
-	opacity: 1;
-	transform: translateY(0);
+	&.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 @utility reveal-left {
@@ -371,11 +371,11 @@
 	transition:
 		opacity 0.6s ease-out,
 		transform 0.6s ease-out;
-}
 
-@utility reveal-left.is-visible {
-	opacity: 1;
-	transform: translateX(0);
+	&.is-visible {
+		opacity: 1;
+		transform: translateX(0);
+	}
 }
 
 @utility reveal-right {
@@ -384,11 +384,11 @@
 	transition:
 		opacity 0.6s ease-out,
 		transform 0.6s ease-out;
-}
 
-@utility reveal-right.is-visible {
-	opacity: 1;
-	transform: translateX(0);
+	&.is-visible {
+		opacity: 1;
+		transform: translateX(0);
+	}
 }
 
 @utility reveal-zoom {
@@ -397,11 +397,11 @@
 	transition:
 		opacity 0.6s ease-out,
 		transform 0.6s ease-out;
-}
 
-@utility reveal-zoom.is-visible {
-	opacity: 1;
-	transform: scale(1);
+	&.is-visible {
+		opacity: 1;
+		transform: scale(1);
+	}
 }
 
 @utility shake {
